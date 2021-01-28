@@ -39,7 +39,7 @@ services:
     depends_on:
         - pgsql
     ports:
-      - '0.0.0.0:3000:3000'
+      - '127.0.0.1:3000:3000'
     expose:
       - '3000'
     environment:

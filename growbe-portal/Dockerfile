@@ -13,7 +13,7 @@ RUN echo "//npm.pkg.github.com/:_authToken=$GITHUB_ACCESS_TOKEN" >> .npmrc
 
 RUN npm install --force
 COPY . .
-RUN npm run build -- --prod
+RUN npm run build
 
 ####Stage 1, Build Nginx backend
 FROM nginx:alpine
