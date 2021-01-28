@@ -1,0 +1,8 @@
+{
+    "port": "/dev/ROBOT",
+    "portConfig": {
+        "echo": true
+    },
+    "growbeId": "abc",
+    "mqtt": "mqtt://localhost:1883"
+}

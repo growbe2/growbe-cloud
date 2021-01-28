@@ -1,0 +1,9 @@
+<div fxLayout="row" fxFlex="100" fxLayoutAlign="center center">
+  <alb-auth-dialog
+    *ngIf="!authService.isLogin; else dashboard"
+  ></alb-auth-dialog>
+</div>
+
+<ng-template #dashboard>
+  <h3>Salut</h3>
+</ng-template>

@@ -1,0 +1,96 @@
+version: '3'
+services:
+  pgsql:
+    image: postgres 
+    environment:
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=defaultdb
+      - POSTGRES_HOST_AUTH_METHOD=md5
+    networks:
+      - net
+    ports:
+      - '0.0.0.0:5432:5432'
+  mongo:
+    image: mongo
+    restart: always
+    networks:
+      - net
+    ports:
+      - '0.0.0.0:27017:27017'
+    environment:
+      MONGO_INITDB_DATABASE: "growbe"
+      MONGO_INITDB_ROOT_USERNAME: doadmin
+      MONGO_INITDB_ROOT_PASSWORD: test
+  broker:
+    image: eclipse-mosquitto
+    networks:
+      - net
+    ports:
+      - '0.0.0.0:1883:1883'
+  growbe-cloud:
+    build:
+      context: '../growbe-cloud'
+      dockerfile: './docker/growbe-cloud.Dockerfile'
+      args:
+        - GITHUB_ACCESS_TOKEN
+    networks:
+      - net
+    depends_on:
+        - pgsql
+    ports:
+      - '0.0.0.0:3000:3000'
+    expose:
+      - '3000'
+    environment:
+      PORT: 3000
+      DB_URL: 'postgres://test:test@pgsql:5432/defaultdb'
+      MONGO_URL: 'mongodb://doadmin:test@mongo:27017/growbe?authSource=admin'
+      MQTT_URL: 'mqtt://broker:1883'
+    command: >
+      npm run start
+  sso:
+    build:
+      context: '../sso/'
+      dockerfile: './docker/sso.Dockerfile'
+      args:
+        - GITHUB_ACCESS_TOKEN
+    networks:
+      - net
+    depends_on:
+        - pgsql
+    ports:
+      - '0.0.0.0:3001:3001'
+    expose:
+      - '3001'
+    environment:
+      DB_URL: 'postgres://test:test@pgsql:5432/defaultdb'
+      SSO_SETTINGS: '{}'
+      EMAIL_FROM: '"Growbe" <>'
+      EMAIL_USER: 'apikey'
+      EMAIL_PASSWORD: ''
+      SMS_SID: ''
+      SMS_TOKEN: ''
+      SMS_NUMBER: ''
+      OTP_SECRET: '12445431'
+      JWT_SECRET: '2342tf'
+      JWT_TTL: 9600
+    command: >
+      npm run start
+  frontend:
+    build:
+      context: '../growbe-portal'
+      dockerfile: './Dockerfile'
+      args:
+        - GITHUB_ACCESS_TOKEN
+    networks:
+      - net
+    ports:
+      - '0.0.0.0:8080:80'
+    expose:
+      - '80'
+    
+
+networks:
+  net:
+    driver: bridge
