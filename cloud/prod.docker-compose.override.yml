@@ -1,0 +1,16 @@
+version: '3'
+services:
+  frontend_prod:
+      restart: always
+      image: staticfloat/nginx-certbot
+      networks:
+        - net 
+      ports:
+          - 80:80/tcp
+          - 443:443/tcp
+      environment:
+          CERTBOT_EMAIL: william95quintalwilliam@outlook.com
+      volumes:
+        - /conf.d:/etc/nginx/user.conf.d:ro
+        - /letsencrypt:/etc/letsencrypt
+        - /config:/config
