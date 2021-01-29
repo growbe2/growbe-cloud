@@ -14,3 +14,5 @@ node-editor/model/
 build/
 build-em/
 publish/
+Simple.json
+imgui.ini

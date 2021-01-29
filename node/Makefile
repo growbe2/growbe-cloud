@@ -9,7 +9,7 @@ build_em:
 	@emcmake cmake -Bbuild-em -G "Unix Makefiles" -D OpenGL_GL_PREFERENCE=GLVND
 	@cd build-em && emmake make
 
-build:
+build_pc:
 	@cmake -Bbuild -G "Unix Makefiles"
 	@cd build && make
 
