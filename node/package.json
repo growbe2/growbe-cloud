@@ -1,0 +1,11 @@
+{
+	"name": "@growbe2/node-editor",
+	"version": "0.0.2",
+	"description": "Libraire pour les composantes partagés pour l'authentification",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/growbe2/growbe-cloud/"
+	},
+	"license": "MIT",
+	"keywords": []
+}

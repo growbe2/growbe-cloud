@@ -15,10 +15,16 @@ export const navigation: FuseNavigation[] = [
     icon: 'help',
     url: '/faq'
   },
+  {
+    id: 'node',
+    title: 'Node editor',
+    type: 'item',
+    url: "/editor"
+  },
 ];
 
 export const navigationLogin: FuseNavigation[] = [
-  {
+ {
     id: 'organisation',
     title: 'Organisation',
     type: 'item',

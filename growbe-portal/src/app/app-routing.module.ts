@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { FAQRoutes } from '@berlingoqc/fuse-extra';
 import { HomeComponent } from './home/home.component';
+import { NodeEditorComponent } from './node-editor/node-editor.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'acceuil',
     component: HomeComponent,
+  },
+  {
+    path: 'editor',
+    component: NodeEditorComponent,
   },
   ...FAQRoutes
 ];

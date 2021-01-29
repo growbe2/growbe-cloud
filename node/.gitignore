@@ -1,0 +1,16 @@
+*.TMP
+.vs/
+build/
+debug/
+cmake-*
+.vscode/
+.idea/
+3dparty/
+buildjs/
+build_js/
+.vscode/
+yas_creator/model/
+node-editor/model/
+build/
+build-em/
+publish/

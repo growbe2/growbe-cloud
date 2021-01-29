@@ -47,6 +47,7 @@ import {
   filter,
 } from 'rxjs/operators';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { NodeEditorComponent } from './node-editor/node-editor.component';
 
 
 @Injectable({
@@ -60,7 +61,7 @@ export class NavigationWrapper {
   }
 }
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [HomeComponent, NodeEditorComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -89,13 +90,13 @@ export class NavigationWrapper {
         confirm: '/full/account/validate/account',
       },
       config: {
-        img: 'assets/images/circle-stripe.png',
+        img: 'assets/icons/android-chrome-96x96.png',
         mainContainerClass: 'auth-dialog',
         itemClass: {
           FIRST_BTN: ['btn', 'button', 'btn-lg', 'thm-btn'],
           SECOND_BTN: ['btn', 'button', 'btn-lg', 'thm-btn', 'thm-btn-2'],
         },
-        noProfileImg: '/assets/images/profil.png',
+        noProfileImg: '/assets/icons/android-chrome-96x96.pngg',
       },
     }),
     {
@@ -108,7 +109,7 @@ export class NavigationWrapper {
     },
     {
       provide: SITE_LOGO,
-      useValue: '',
+      useValue: '/assets/icons/android-chrome-96x96.png',
     },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
