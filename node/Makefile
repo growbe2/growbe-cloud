@@ -19,7 +19,7 @@ run_em:
 run:
 	./build/node-editor/node-editor
 
-publish:
+publish_npm:
 	@mkdir -p publish
 	@cp package.json ./publish/
 	@cp build-em/node-editor/node-editor.js build-em/node-editor/node-editor.wasm publish/
