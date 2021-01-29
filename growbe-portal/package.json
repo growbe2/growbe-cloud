@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "NODE_OPTIONS=\"--max-old-space-size=8096\" ng build",
+    "build": "NODE_OPTIONS=\"--max-old-space-size=1024\" ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -24,7 +24,7 @@
     "@angular/router": "~11.1.1",
     "@angular/service-worker": "~11.1.1",
     "@auth0/angular-jwt": "^5.0.2",
-    "@berlingoqc/auth": "^1.1.18",
+    "@berlingoqc/auth": "^1.1.20",
     "@berlingoqc/fuse": "^1.0.1",
     "@berlingoqc/fuse-extra": "^1.0.6",
     "@berlingoqc/ngx-autotable": "^1.0.1",

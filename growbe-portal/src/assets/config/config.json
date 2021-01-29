@@ -1,4 +1,4 @@
 {
   "growbeCloud": "http://localhost:3000",
-  "sso": "http://localhost:3001"
+  "sso": "http://localhost:3001/api/"
 }
