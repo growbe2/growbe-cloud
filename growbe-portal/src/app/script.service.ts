@@ -6,7 +6,7 @@ declare var document: any;
     src: string;
 }
 export const ScriptStore: Scripts[] = [
-    {name: 'node-editor', src: '/assets/node-editor.js'}
+    {name: 'node-editor', src: '/assets/node-editor/node-editor.js'}
 ];
 @Injectable({providedIn: 'root'})
 export class ScriptService {

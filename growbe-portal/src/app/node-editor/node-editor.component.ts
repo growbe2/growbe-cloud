@@ -57,12 +57,11 @@ export class NodeEditorComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    //if(this.element)
-    //  this.element.remove();
+    if(this.element)
+      this.element.remove();
     if((window as any).Module) {
       console.log((window as any).Module);
-      (window as any).Module.abort();
-      //delete (window as any).Module;
+      delete (window as any).Module;
     }
   }
 

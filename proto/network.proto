@@ -1,0 +1,83 @@
+syntax = "proto3";
+/* Fichier contenant les structures lié au network
+* 
+*/
+
+// Type de network
+enum NetworkType {
+    AP = 0;
+    WIFI = 1;
+    ETH = 2;
+}
+
+// Type de connection pour un adresse Wifi ou Eth
+enum EthType {
+    STATIC = 0;
+    DHCP = 1;
+}
+
+// Security pour le wifi AP
+enum WifiSecurity {
+    OPEN = 0;
+    WEP = 1;
+    WPA = 2;
+    WPA2 = 3;
+    WPA2_ent = 4;
+    WS_NOT_SUPPORTED = 5;
+}
+
+enum NetworkStatus {
+    CONNECTED = 0;
+    CONNECTING = 1;
+    DISCONNECTED = 2;
+}
+
+enum NetworkError {
+    SUCCESS = 0;
+    FAILURE = 1;
+    TIMEOUT = 2;
+    NE_NOT_SUPPORTED = 3;
+}
+
+message IPConfig {
+    string ip = 2;
+    string mask = 3;
+    string gateway = 4;
+    string dns = 5;
+}
+
+message APConfig {
+    string ssid = 1;
+    string password = 2;
+    WifiSecurity security = 3;
+    int32 channel = 4;
+}
+
+message WifiConfig {
+    string ssid = 1;
+    string password = 2;
+}
+
+message EthConfig {
+    EthType type = 1;
+    IPConfig config = 2;
+}
+
+
+message NetworkConfig {
+    NetworkType type = 1;
+    oneof config {
+        APConfig ap = 2;
+        WifiConfig wifi = 3;
+        EthConfig eth = 4;
+    }
+}
+
+message ActiveNetworkStatus {
+    NetworkConfig config = 1;
+    NetworkStatus status = 2;
+    bool internet = 3;
+    IPConfig ipConfig = 4;
+}
+
+

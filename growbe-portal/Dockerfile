@@ -9,6 +9,7 @@ RUN test -n "$GITHUB_ACCESS_TOKEN"
 ENV GITHUB_ACCESS_TOKEN=$GITHUB_ACCESS_TOKEN
 
 RUN echo "@berlingoqc:registry=https://npm.pkg.github.com/" > .npmrc
+RUN echo "@growbe2:registry=https://npm.pkg.github.com/" > .npmrc
 RUN echo "//npm.pkg.github.com/:_authToken=$GITHUB_ACCESS_TOKEN" >> .npmrc
 
 RUN npm install --force

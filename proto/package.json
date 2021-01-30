@@ -1,0 +1,14 @@
+{
+	"name": "@growbe2/growbe-pb",
+	"version": "0.0.4",
+	"description": "Libraire avec les définitions protobuf",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/growbe2/growbe-cloud/"
+	},
+	"license": "MIT",
+    "keywords": [],
+    "dependencies": {
+        "protobuf-typescript": "6.8.8"
+    }
+}

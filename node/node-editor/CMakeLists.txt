@@ -2,7 +2,9 @@
 include_directories ("${PROJECT_SOURCE_DIR}/imgui")
 include_directories ("${PROJECT_SOURCE_DIR}/imgui-node-editor")
 
-add_executable(node-editor main.cpp)
+include_directories("./utilities")
+
+add_executable(node-editor main.cpp utilities/builders.cpp utilities/drawing.cpp utilities/widgets.cpp)
 
 target_link_libraries(node-editor
 	imgui

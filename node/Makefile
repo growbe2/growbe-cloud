@@ -1,6 +1,6 @@
 
 
-lean:
+clean:
 	@rm -rf build/
 	@rm -rf build_em
 	@rm -rf publish/
@@ -22,8 +22,8 @@ run:
 publish_npm:
 	@mkdir -p publish
 	@cp package.json ./publish/
-	@cp build-em/node-editor/node-editor.js build-em/node-editor/node-editor.wasm publish/
-	@cd publish && npm publish
+	@cp build-em/node-editor/node-editor.js build-em/node-editor/node-editor.wasm ../growbe-portal/src/assets/node-editor
+	# @cd publish && npm publish
 
 
 

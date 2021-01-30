@@ -1495,7 +1495,7 @@ function getBinaryPromise() {
       }
     }
   }
-
+    
   // Otherwise, getBinary should be able to get it synchronously
   return Promise.resolve().then(function() { return getBinary(wasmBinaryFile); });
 }
@@ -1604,7 +1604,7 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-
+  
 };
 
 
@@ -1695,45 +1695,45 @@ var ASM_CONSTS = {
   function ExceptionInfo(excPtr) {
       this.excPtr = excPtr;
       this.ptr = excPtr - ExceptionInfoAttrs.SIZE;
-
+  
       this.set_type = function(type) {
         HEAP32[(((this.ptr)+(ExceptionInfoAttrs.TYPE_OFFSET))>>2)]=type;
       };
-
+  
       this.get_type = function() {
         return HEAP32[(((this.ptr)+(ExceptionInfoAttrs.TYPE_OFFSET))>>2)];
       };
-
+  
       this.set_destructor = function(destructor) {
         HEAP32[(((this.ptr)+(ExceptionInfoAttrs.DESTRUCTOR_OFFSET))>>2)]=destructor;
       };
-
+  
       this.get_destructor = function() {
         return HEAP32[(((this.ptr)+(ExceptionInfoAttrs.DESTRUCTOR_OFFSET))>>2)];
       };
-
+  
       this.set_refcount = function(refcount) {
         HEAP32[(((this.ptr)+(ExceptionInfoAttrs.REFCOUNT_OFFSET))>>2)]=refcount;
       };
-
+  
       this.set_caught = function (caught) {
         caught = caught ? 1 : 0;
         HEAP8[(((this.ptr)+(ExceptionInfoAttrs.CAUGHT_OFFSET))>>0)]=caught;
       };
-
+  
       this.get_caught = function () {
         return HEAP8[(((this.ptr)+(ExceptionInfoAttrs.CAUGHT_OFFSET))>>0)] != 0;
       };
-
+  
       this.set_rethrown = function (rethrown) {
         rethrown = rethrown ? 1 : 0;
         HEAP8[(((this.ptr)+(ExceptionInfoAttrs.RETHROWN_OFFSET))>>0)]=rethrown;
       };
-
+  
       this.get_rethrown = function () {
         return HEAP8[(((this.ptr)+(ExceptionInfoAttrs.RETHROWN_OFFSET))>>0)] != 0;
       };
-
+  
       // Initialize native structure fields. Should be called once after allocated.
       this.init = function(type, destructor) {
         this.set_type(type);
@@ -1742,12 +1742,12 @@ var ASM_CONSTS = {
         this.set_caught(false);
         this.set_rethrown(false);
       }
-
+  
       this.add_ref = function() {
         var value = HEAP32[(((this.ptr)+(ExceptionInfoAttrs.REFCOUNT_OFFSET))>>2)];
         HEAP32[(((this.ptr)+(ExceptionInfoAttrs.REFCOUNT_OFFSET))>>2)]=value + 1;
       };
-
+  
       // Returns true if last reference released.
       this.release_ref = function() {
         var prev = HEAP32[(((this.ptr)+(ExceptionInfoAttrs.REFCOUNT_OFFSET))>>2)];
@@ -1757,30 +1757,30 @@ var ASM_CONSTS = {
       };
     }
   function CatchInfo(ptr) {
-
+  
       this.free = function() {
         _free(this.ptr);
         this.ptr = 0;
       };
-
+  
       this.set_base_ptr = function(basePtr) {
         HEAP32[((this.ptr)>>2)]=basePtr;
       };
-
+  
       this.get_base_ptr = function() {
         return HEAP32[((this.ptr)>>2)];
       };
-
+  
       this.set_adjusted_ptr = function(adjustedPtr) {
         var ptrSize = 4;
         HEAP32[(((this.ptr)+(ptrSize))>>2)]=adjustedPtr;
       };
-
+  
       this.get_adjusted_ptr = function() {
         var ptrSize = 4;
         return HEAP32[(((this.ptr)+(ptrSize))>>2)];
       };
-
+  
       // Get pointer which is expected to be received by catch clause in C++ code. It may be adjusted
       // when the pointer is casted to some of the exception object base classes (e.g. when virtual
       // inheritance is used). When a pointer is thrown this method should return the thrown pointer
@@ -1797,11 +1797,11 @@ var ASM_CONSTS = {
         if (adjusted !== 0) return adjusted;
         return this.get_base_ptr();
       };
-
+  
       this.get_exception_info = function() {
         return new ExceptionInfo(this.get_base_ptr());
       };
-
+  
       if (ptr === undefined) {
         this.ptr = _malloc(8);
         this.set_adjusted_ptr(0);
@@ -1809,13 +1809,13 @@ var ASM_CONSTS = {
         this.ptr = ptr;
       }
     }
-
+  
   var exceptionCaught= [];
-
+  
   function exception_addRef(info) {
       info.add_ref();
     }
-
+  
   var uncaughtExceptionCount=0;
   function ___cxa_begin_catch(ptr) {
       var catchInfo = new CatchInfo(ptr);
@@ -1831,7 +1831,7 @@ var ASM_CONSTS = {
     }
 
   var exceptionLast=0;
-
+  
   function ___cxa_free_exception(ptr) {
       try {
         return _free(new ExceptionInfo(ptr).ptr);
@@ -1858,7 +1858,7 @@ var ASM_CONSTS = {
       assert(exceptionCaught.length > 0);
       // Call destructor if one is registered then clear it.
       var catchInfo = exceptionCaught.pop();
-
+  
       exception_decRef(catchInfo.get_exception_info());
       catchInfo.free();
       exceptionLast = 0; // XXX in decRef?
@@ -1886,7 +1886,7 @@ var ASM_CONSTS = {
         setTempRet0((0) | 0); return ((catchInfo.ptr)|0);
       }
       var typeArray = Array.prototype.slice.call(arguments);
-
+  
       // can_catch receives a **, add indirection
       var stackTop = stackSave();
       var exceptionThrowBuf = stackAlloc(4);
@@ -1928,7 +1928,7 @@ var ASM_CONSTS = {
         setTempRet0((0) | 0); return ((catchInfo.ptr)|0);
       }
       var typeArray = Array.prototype.slice.call(arguments);
-
+  
       // can_catch receives a **, add indirection
       var stackTop = stackSave();
       var exceptionThrowBuf = stackAlloc(4);
@@ -1994,7 +1994,7 @@ var ASM_CONSTS = {
       HEAP32[((___errno_location())>>2)]=value;
       return value;
     }
-
+  
   var PATH={splitPath:function(filename) {
         var splitPathRe = /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
         return splitPathRe.exec(filename).slice(1);
@@ -2063,7 +2063,7 @@ var ASM_CONSTS = {
       },join2:function(l, r) {
         return PATH.normalize(l + '/' + r);
       }};
-
+  
   function getRandomDevice() {
       if (typeof crypto === 'object' && typeof crypto['getRandomValues'] === 'function') {
         // for modern web browsers
@@ -2083,7 +2083,7 @@ var ASM_CONSTS = {
       // we couldn't find a proper implementation, as Math.random() is not suitable for /dev/random, see emscripten-core/emscripten/pull/7096
       return function() { abort("no cryptographic support found for randomDevice. consider polyfilling it if you want to use something insecure like Math.random(), e.g. put this in a --pre-js: var crypto = { getRandomValues: function(array) { for (var i = 0; i < array.length; i++) array[i] = (Math.random()*256)|0 } };"); };
     }
-
+  
   var PATH_FS={resolve:function() {
         var resolvedPath = '',
           resolvedAbsolute = false;
@@ -2136,7 +2136,7 @@ var ASM_CONSTS = {
         outputParts = outputParts.concat(toParts.slice(samePartsLength));
         return outputParts.join('/');
       }};
-
+  
   var TTY={ttys:[],init:function () {
         // https://github.com/emscripten-core/emscripten/pull/1555
         // if (ENVIRONMENT_IS_NODE) {
@@ -2217,7 +2217,7 @@ var ASM_CONSTS = {
               var BUFSIZE = 256;
               var buf = Buffer.alloc ? Buffer.alloc(BUFSIZE) : new Buffer(BUFSIZE);
               var bytesRead = 0;
-
+  
               try {
                 bytesRead = nodeFS.readSync(process.stdin.fd, buf, 0, BUFSIZE, null);
               } catch(e) {
@@ -2226,7 +2226,7 @@ var ASM_CONSTS = {
                 if (e.toString().indexOf('EOF') != -1) bytesRead = 0;
                 else throw e;
               }
-
+  
               if (bytesRead > 0) {
                 result = buf.slice(0, bytesRead).toString('utf-8');
               } else {
@@ -2278,7 +2278,7 @@ var ASM_CONSTS = {
             tty.output = [];
           }
         }}};
-
+  
   function mmapAlloc(size) {
       var alignedSize = alignMemory(size, 16384);
       var ptr = _malloc(alignedSize);
@@ -2353,7 +2353,7 @@ var ASM_CONSTS = {
           // When the byte data of the file is populated, this will point to either a typed array, or a normal JS array. Typed arrays are preferred
           // for performance, and used by default. However, typed arrays are not resizable like normal JS arrays are, so there is a small disk size
           // penalty involved for appending file writes that continuously grow a file similar to std::vector capacity vs used -scheme.
-          node.contents = null;
+          node.contents = null; 
         } else if (FS.isLink(node.mode)) {
           node.node_ops = MEMFS.ops_table.link.node;
           node.stream_ops = MEMFS.ops_table.link.stream;
@@ -2524,11 +2524,11 @@ var ASM_CONSTS = {
           if (buffer.buffer === HEAP8.buffer) {
             canOwn = false;
           }
-
+  
           if (!length) return 0;
           var node = stream.node;
           node.timestamp = Date.now();
-
+  
           if (buffer.subarray && (!node.contents || node.contents.subarray)) { // This write is from a typed array to a typed array?
             if (canOwn) {
               assert(position === 0, 'canOwn must imply no weird position inside the file');
@@ -2544,7 +2544,7 @@ var ASM_CONSTS = {
               return length;
             }
           }
-
+  
           // Appending to an existing file and we need to reallocate, or source data did not come as a typed array.
           MEMFS.expandFileStorage(node, position+length);
           if (node.contents.subarray && buffer.subarray) {
@@ -2615,21 +2615,21 @@ var ASM_CONSTS = {
             // MAP_PRIVATE calls need not to be synced back to underlying fs
             return 0;
           }
-
+  
           var bytesWritten = MEMFS.stream_ops.write(stream, buffer, 0, length, offset, false);
           // should we check if bytesWritten and length are the same?
           return 0;
         }}};
-
+  
   var ERRNO_MESSAGES={0:"Success",1:"Arg list too long",2:"Permission denied",3:"Address already in use",4:"Address not available",5:"Address family not supported by protocol family",6:"No more processes",7:"Socket already connected",8:"Bad file number",9:"Trying to read unreadable message",10:"Mount device busy",11:"Operation canceled",12:"No children",13:"Connection aborted",14:"Connection refused",15:"Connection reset by peer",16:"File locking deadlock error",17:"Destination address required",18:"Math arg out of domain of func",19:"Quota exceeded",20:"File exists",21:"Bad address",22:"File too large",23:"Host is unreachable",24:"Identifier removed",25:"Illegal byte sequence",26:"Connection already in progress",27:"Interrupted system call",28:"Invalid argument",29:"I/O error",30:"Socket is already connected",31:"Is a directory",32:"Too many symbolic links",33:"Too many open files",34:"Too many links",35:"Message too long",36:"Multihop attempted",37:"File or path name too long",38:"Network interface is not configured",39:"Connection reset by network",40:"Network is unreachable",41:"Too many open files in system",42:"No buffer space available",43:"No such device",44:"No such file or directory",45:"Exec format error",46:"No record locks available",47:"The link has been severed",48:"Not enough core",49:"No message of desired type",50:"Protocol not available",51:"No space left on device",52:"Function not implemented",53:"Socket is not connected",54:"Not a directory",55:"Directory not empty",56:"State not recoverable",57:"Socket operation on non-socket",59:"Not a typewriter",60:"No such device or address",61:"Value too large for defined data type",62:"Previous owner died",63:"Not super-user",64:"Broken pipe",65:"Protocol error",66:"Unknown protocol",67:"Protocol wrong type for socket",68:"Math result not representable",69:"Read only file system",70:"Illegal seek",71:"No such process",72:"Stale file handle",73:"Connection timed out",74:"Text file busy",75:"Cross-device link",100:"Device not a stream",101:"Bad font file fmt",102:"Invalid slot",103:"Invalid request code",104:"No anode",105:"Block device required",106:"Channel number out of range",107:"Level 3 halted",108:"Level 3 reset",109:"Link number out of range",110:"Protocol driver not attached",111:"No CSI structure available",112:"Level 2 halted",113:"Invalid exchange",114:"Invalid request descriptor",115:"Exchange full",116:"No data (for no delay io)",117:"Timer expired",118:"Out of streams resources",119:"Machine is not on the network",120:"Package not installed",121:"The object is remote",122:"Advertise error",123:"Srmount error",124:"Communication error on send",125:"Cross mount point (not really error)",126:"Given log. name not unique",127:"f.d. invalid for this operation",128:"Remote address changed",129:"Can   access a needed shared lib",130:"Accessing a corrupted shared lib",131:".lib section in a.out corrupted",132:"Attempting to link in too many libs",133:"Attempting to exec a shared library",135:"Streams pipe error",136:"Too many users",137:"Socket type not supported",138:"Not supported",139:"Protocol family not supported",140:"Can't send after socket shutdown",141:"Too many references",142:"Host is down",148:"No medium (in tape drive)",156:"Level 2 not synchronized"};
-
+  
   var ERRNO_CODES={EPERM:63,ENOENT:44,ESRCH:71,EINTR:27,EIO:29,ENXIO:60,E2BIG:1,ENOEXEC:45,EBADF:8,ECHILD:12,EAGAIN:6,EWOULDBLOCK:6,ENOMEM:48,EACCES:2,EFAULT:21,ENOTBLK:105,EBUSY:10,EEXIST:20,EXDEV:75,ENODEV:43,ENOTDIR:54,EISDIR:31,EINVAL:28,ENFILE:41,EMFILE:33,ENOTTY:59,ETXTBSY:74,EFBIG:22,ENOSPC:51,ESPIPE:70,EROFS:69,EMLINK:34,EPIPE:64,EDOM:18,ERANGE:68,ENOMSG:49,EIDRM:24,ECHRNG:106,EL2NSYNC:156,EL3HLT:107,EL3RST:108,ELNRNG:109,EUNATCH:110,ENOCSI:111,EL2HLT:112,EDEADLK:16,ENOLCK:46,EBADE:113,EBADR:114,EXFULL:115,ENOANO:104,EBADRQC:103,EBADSLT:102,EDEADLOCK:16,EBFONT:101,ENOSTR:100,ENODATA:116,ETIME:117,ENOSR:118,ENONET:119,ENOPKG:120,EREMOTE:121,ENOLINK:47,EADV:122,ESRMNT:123,ECOMM:124,EPROTO:65,EMULTIHOP:36,EDOTDOT:125,EBADMSG:9,ENOTUNIQ:126,EBADFD:127,EREMCHG:128,ELIBACC:129,ELIBBAD:130,ELIBSCN:131,ELIBMAX:132,ELIBEXEC:133,ENOSYS:52,ENOTEMPTY:55,ENAMETOOLONG:37,ELOOP:32,EOPNOTSUPP:138,EPFNOSUPPORT:139,ECONNRESET:15,ENOBUFS:42,EAFNOSUPPORT:5,EPROTOTYPE:67,ENOTSOCK:57,ENOPROTOOPT:50,ESHUTDOWN:140,ECONNREFUSED:14,EADDRINUSE:3,ECONNABORTED:13,ENETUNREACH:40,ENETDOWN:38,ETIMEDOUT:73,EHOSTDOWN:142,EHOSTUNREACH:23,EINPROGRESS:26,EALREADY:7,EDESTADDRREQ:17,EMSGSIZE:35,EPROTONOSUPPORT:66,ESOCKTNOSUPPORT:137,EADDRNOTAVAIL:4,ENETRESET:39,EISCONN:30,ENOTCONN:53,ETOOMANYREFS:141,EUSERS:136,EDQUOT:19,ESTALE:72,ENOTSUP:138,ENOMEDIUM:148,EILSEQ:25,EOVERFLOW:61,ECANCELED:11,ENOTRECOVERABLE:56,EOWNERDEAD:62,ESTRPIPE:135};
   var FS={root:null,mounts:[],devices:{},streams:[],nextInode:1,nameTable:null,currentPath:"/",initialized:false,ignorePermissions:true,trackingDelegate:{},tracking:{openFlags:{READ:1,WRITE:2}},ErrnoError:null,genericErrors:{},filesystems:null,syncFSRequests:0,lookupPath:function(path, opts) {
         path = PATH_FS.resolve(FS.cwd(), path);
         opts = opts || {};
-
+  
         if (!path) return { path: '', node: null };
-
+  
         var defaults = {
           follow_mount: true,
           recurse_count: 0
@@ -2639,37 +2639,37 @@ var ASM_CONSTS = {
             opts[key] = defaults[key];
           }
         }
-
+  
         if (opts.recurse_count > 8) {  // max recursive lookup of 8
           throw new FS.ErrnoError(32);
         }
-
+  
         // split the path
         var parts = PATH.normalizeArray(path.split('/').filter(function(p) {
           return !!p;
         }), false);
-
+  
         // start at the root
         var current = FS.root;
         var current_path = '/';
-
+  
         for (var i = 0; i < parts.length; i++) {
           var islast = (i === parts.length-1);
           if (islast && opts.parent) {
             // stop resolving
             break;
           }
-
+  
           current = FS.lookupNode(current, parts[i]);
           current_path = PATH.join2(current_path, parts[i]);
-
+  
           // jump to the mount's root node if this is a mountpoint
           if (FS.isMountpoint(current)) {
             if (!islast || (islast && opts.follow_mount)) {
               current = current.mounted.root;
             }
           }
-
+  
           // by default, lookupPath will not follow a symlink if it is the final path component.
           // setting opts.follow = true will override this behavior.
           if (!islast || opts.follow) {
@@ -2677,17 +2677,17 @@ var ASM_CONSTS = {
             while (FS.isLink(current.mode)) {
               var link = FS.readlink(current_path);
               current_path = PATH_FS.resolve(PATH.dirname(current_path), link);
-
+  
               var lookup = FS.lookupPath(current_path, { recurse_count: opts.recurse_count });
               current = lookup.node;
-
+  
               if (count++ > 40) {  // limit max consecutive symlinks to 40 (SYMLOOP_MAX).
                 throw new FS.ErrnoError(32);
               }
             }
           }
         }
-
+  
         return { path: current_path, node: current };
       },getPath:function(node) {
         var path;
@@ -2702,7 +2702,7 @@ var ASM_CONSTS = {
         }
       },hashName:function(parentid, name) {
         var hash = 0;
-
+  
         for (var i = 0; i < name.length; i++) {
           hash = ((hash << 5) - hash + name.charCodeAt(i)) | 0;
         }
@@ -2742,9 +2742,9 @@ var ASM_CONSTS = {
       },createNode:function(parent, name, mode, rdev) {
         assert(typeof parent === 'object')
         var node = new FS.FSNode(parent, name, mode, rdev);
-
+  
         FS.hashAddNode(node);
-
+  
         return node;
       },destroyNode:function(node) {
         FS.hashRemoveNode(node);
@@ -2905,37 +2905,37 @@ var ASM_CONSTS = {
       },getMounts:function(mount) {
         var mounts = [];
         var check = [mount];
-
+  
         while (check.length) {
           var m = check.pop();
-
+  
           mounts.push(m);
-
+  
           check.push.apply(check, m.mounts);
         }
-
+  
         return mounts;
       },syncfs:function(populate, callback) {
         if (typeof(populate) === 'function') {
           callback = populate;
           populate = false;
         }
-
+  
         FS.syncFSRequests++;
-
+  
         if (FS.syncFSRequests > 1) {
           err('warning: ' + FS.syncFSRequests + ' FS.syncfs operations in flight at once, probably just doing extra work');
         }
-
+  
         var mounts = FS.getMounts(FS.root.mount);
         var completed = 0;
-
+  
         function doCallback(errCode) {
           assert(FS.syncFSRequests > 0);
           FS.syncFSRequests--;
           return callback(errCode);
         }
-
+  
         function done(errCode) {
           if (errCode) {
             if (!done.errored) {
@@ -2948,7 +2948,7 @@ var ASM_CONSTS = {
             doCallback(null);
           }
         };
-
+  
         // sync all mounts
         mounts.forEach(function (mount) {
           if (!mount.type.syncfs) {
@@ -2965,78 +2965,78 @@ var ASM_CONSTS = {
         var root = mountpoint === '/';
         var pseudo = !mountpoint;
         var node;
-
+  
         if (root && FS.root) {
           throw new FS.ErrnoError(10);
         } else if (!root && !pseudo) {
           var lookup = FS.lookupPath(mountpoint, { follow_mount: false });
-
+  
           mountpoint = lookup.path;  // use the absolute path
           node = lookup.node;
-
+  
           if (FS.isMountpoint(node)) {
             throw new FS.ErrnoError(10);
           }
-
+  
           if (!FS.isDir(node.mode)) {
             throw new FS.ErrnoError(54);
           }
         }
-
+  
         var mount = {
           type: type,
           opts: opts,
           mountpoint: mountpoint,
           mounts: []
         };
-
+  
         // create a root node for the fs
         var mountRoot = type.mount(mount);
         mountRoot.mount = mount;
         mount.root = mountRoot;
-
+  
         if (root) {
           FS.root = mountRoot;
         } else if (node) {
           // set as a mountpoint
           node.mounted = mount;
-
+  
           // add the new mount to the current mount's children
           if (node.mount) {
             node.mount.mounts.push(mount);
           }
         }
-
+  
         return mountRoot;
       },unmount:function (mountpoint) {
         var lookup = FS.lookupPath(mountpoint, { follow_mount: false });
-
+  
         if (!FS.isMountpoint(lookup.node)) {
           throw new FS.ErrnoError(28);
         }
-
+  
         // destroy the nodes for this mount, and all its child mounts
         var node = lookup.node;
         var mount = node.mounted;
         var mounts = FS.getMounts(mount);
-
+  
         Object.keys(FS.nameTable).forEach(function (hash) {
           var current = FS.nameTable[hash];
-
+  
           while (current) {
             var next = current.name_next;
-
+  
             if (mounts.indexOf(current.mount) !== -1) {
               FS.destroyNode(current);
             }
-
+  
             current = next;
           }
         });
-
+  
         // no longer a mountpoint
         node.mounted = null;
-
+  
         // remove this mount from the child mounts
         var idx = node.mount.mounts.indexOf(mount);
         assert(idx !== -1);
@@ -3112,13 +3112,13 @@ var ASM_CONSTS = {
         var new_name = PATH.basename(new_path);
         // parents must exist
         var lookup, old_dir, new_dir;
-
+  
         // let the errors from non existant directories percolate up
         lookup = FS.lookupPath(old_path, { parent: true });
         old_dir = lookup.node;
         lookup = FS.lookupPath(new_path, { parent: true });
         new_dir = lookup.node;
-
+  
         if (!old_dir || !new_dir) throw new FS.ErrnoError(44);
         // need to be part of the same mount
         if (old_dir.mount !== new_dir.mount) {
@@ -3442,7 +3442,7 @@ var ASM_CONSTS = {
         }
         // we've already handled these, don't pass down to the underlying vfs
         flags &= ~(128 | 512 | 131072);
-
+  
         // register the stream with the filesystem
         var stream = FS.createStream({
           node: node,
@@ -3725,7 +3725,7 @@ var ASM_CONSTS = {
         // TODO deprecate the old functionality of a single
         // input / output callback and that utilizes FS.createDevice
         // and instead require a unique set of stream ops
-
+  
         // by default, we symlink the standard streams to the
         // default tty devices. however, if the standard streams
         // have been overwritten we create a unique device for
@@ -3745,7 +3745,7 @@ var ASM_CONSTS = {
         } else {
           FS.symlink('/dev/tty1', '/dev/stderr');
         }
-
+  
         // open default streams for the stdin, stdout and stderr devices
         var stdin = FS.open('/dev/stdin', 0);
         var stdout = FS.open('/dev/stdout', 1);
@@ -3768,7 +3768,7 @@ var ASM_CONSTS = {
           };
           this.setErrno(errno);
           this.message = ERRNO_MESSAGES[errno];
-
+  
           // Try to get a maximally helpful stack trace. On Node.js, getting Error.stack
           // now ensures it shows what we want.
           if (this.stack) {
@@ -3786,29 +3786,29 @@ var ASM_CONSTS = {
         });
       },staticInit:function() {
         FS.ensureErrnoError();
-
+  
         FS.nameTable = new Array(4096);
-
+  
         FS.mount(MEMFS, {}, '/');
-
+  
         FS.createDefaultDirectories();
         FS.createDefaultDevices();
         FS.createSpecialDirectories();
-
+  
         FS.filesystems = {
           'MEMFS': MEMFS,
         };
       },init:function(input, output, error) {
         assert(!FS.init.initialized, 'FS.init was previously called. If you want to initialize later with custom parameters, remove any earlier calls (note that one is automatically added to the generated code)');
         FS.init.initialized = true;
-
+  
         FS.ensureErrnoError();
-
+  
         // Allow Module.stdin etc. to provide defaults, if none explicitly passed to us here
         Module['stdin'] = input || Module['stdin'];
         Module['stdout'] = output || Module['stdout'];
         Module['stderr'] = error || Module['stderr'];
-
+  
         FS.createStandardStreams();
       },quit:function() {
         FS.init.initialized = false;
@@ -3997,27 +3997,27 @@ var ASM_CONSTS = {
           var header;
           var hasByteServing = (header = xhr.getResponseHeader("Accept-Ranges")) && header === "bytes";
           var usesGzip = (header = xhr.getResponseHeader("Content-Encoding")) && header === "gzip";
-
+  
           var chunkSize = 1024*1024; // Chunk size in bytes
-
+  
           if (!hasByteServing) chunkSize = datalength;
-
+  
           // Function to get a range from the remote URL.
           var doXHR = (function(from, to) {
             if (from > to) throw new Error("invalid range (" + from + ", " + to + ") or no bytes requested!");
             if (to > datalength-1) throw new Error("only " + datalength + " bytes available! programmer error!");
-
+  
             // TODO: Use mozResponseArrayBuffer, responseStream, etc. if available.
             var xhr = new XMLHttpRequest();
             xhr.open('GET', url, false);
             if (datalength !== chunkSize) xhr.setRequestHeader("Range", "bytes=" + from + "-" + to);
-
+  
             // Some hints to the browser that we want binary data.
             if (typeof Uint8Array != 'undefined') xhr.responseType = 'arraybuffer';
             if (xhr.overrideMimeType) {
               xhr.overrideMimeType('text/plain; charset=x-user-defined');
             }
-
+  
             xhr.send(null);
             if (!(xhr.status >= 200 && xhr.status < 300 || xhr.status === 304)) throw new Error("Couldn't load " + url + ". Status: " + xhr.status);
             if (xhr.response !== undefined) {
@@ -4037,7 +4037,7 @@ var ASM_CONSTS = {
             if (typeof(lazyArray.chunks[chunkNum]) === "undefined") throw new Error("doXHR failed!");
             return lazyArray.chunks[chunkNum];
           });
-
+  
           if (usesGzip || !datalength) {
             // if the server uses gzip or doesn't supply the length, we have to download the whole file to get the (uncompressed) length
             chunkSize = datalength = 1; // this will force getter(0)/doXHR do download the whole file
@@ -4045,7 +4045,7 @@ var ASM_CONSTS = {
             chunkSize = datalength;
             out("LazyFiles on gzip forces download of the whole file when length is accessed");
           }
-
+  
           this._length = datalength;
           this._chunkSize = chunkSize;
           this.lengthKnown = true;
@@ -4071,12 +4071,12 @@ var ASM_CONSTS = {
               }
             }
           });
-
+  
           var properties = { isDevice: false, contents: lazyArray };
         } else {
           var properties = { isDevice: false, url: url };
         }
-
+  
         var node = FS.createFile(parent, name, properties, canRead, canWrite);
         // This is a total hack, but I want to get this lazy file code out of the
         // core of MEMFS. If we want to keep this lazy file concept I feel it should
@@ -4315,14 +4315,14 @@ var ASM_CONSTS = {
       },doReadlink:function(path, buf, bufsize) {
         if (bufsize <= 0) return -28;
         var ret = FS.readlink(path);
-
+  
         var len = Math.min(bufsize, lengthBytesUTF8(ret));
         var endChar = HEAP8[buf+len];
         stringToUTF8(ret, buf, bufsize+1);
         // readlink is one of the rare functions that write out a C string, but does never append a null to the output buffer(!)
         // stringToUTF8() always appends a null byte, so restore the character under the null byte after the write.
         HEAP8[buf+len] = endChar;
-
+  
         return len;
       },doAccess:function(path, amode) {
         if (amode & ~7) {
@@ -4387,7 +4387,7 @@ var ASM_CONSTS = {
       }};
   function ___sys_fcntl64(fd, cmd, varargs) {SYSCALLS.varargs = varargs;
   try {
-
+  
       var stream = SYSCALLS.getStreamFromFD(fd);
       switch (cmd) {
         case 0: {
@@ -4411,7 +4411,7 @@ var ASM_CONSTS = {
         }
         case 12:
         /* case 12: Currently in musl F_GETLK64 has same value as F_GETLK, so omitted to avoid duplicate case blocks. If that changes, uncomment this */ {
-
+          
           var arg = SYSCALLS.get();
           var offset = 0;
           // We're always unlocked.
@@ -4422,8 +4422,8 @@ var ASM_CONSTS = {
         case 14:
         /* case 13: Currently in musl F_SETLK64 has same value as F_SETLK, so omitted to avoid duplicate case blocks. If that changes, uncomment this */
         /* case 14: Currently in musl F_SETLKW64 has same value as F_SETLKW, so omitted to avoid duplicate case blocks. If that changes, uncomment this */
-
-
+          
+          
           return 0; // Pretend that the locking is successful.
         case 16:
         case 8:
@@ -4444,7 +4444,7 @@ var ASM_CONSTS = {
 
   function ___sys_ioctl(fd, op, varargs) {SYSCALLS.varargs = varargs;
   try {
-
+  
       var stream = SYSCALLS.getStreamFromFD(fd);
       switch (op) {
         case 21509:
@@ -4498,7 +4498,7 @@ var ASM_CONSTS = {
 
   function ___sys_open(path, flags, varargs) {SYSCALLS.varargs = varargs;
   try {
-
+  
       var pathname = SYSCALLS.getStr(path);
       var mode = varargs ? SYSCALLS.get() : 0;
       var stream = FS.open(pathname, flags, mode);
@@ -4516,12 +4516,12 @@ var ASM_CONSTS = {
   function _emscripten_set_main_loop_timing(mode, value) {
       Browser.mainLoop.timingMode = mode;
       Browser.mainLoop.timingValue = value;
-
+  
       if (!Browser.mainLoop.func) {
         console.error('emscripten_set_main_loop_timing: Cannot set timing mode for main loop since a main loop does not exist! Call emscripten_set_main_loop first to set one up.');
         return 1; // Return non-zero on failure, can't set timing mode when there is no main loop.
       }
-
+  
       if (mode == 0 /*EM_TIMING_SETTIMEOUT*/) {
         Browser.mainLoop.scheduler = function Browser_mainLoop_scheduler_setTimeout() {
           var timeUntilNextTick = Math.max(0, Browser.mainLoop.tickStartTime + value - _emscripten_get_now())|0;
@@ -4563,7 +4563,7 @@ var ASM_CONSTS = {
       }
       return 0;
     }
-
+  
   var _emscripten_get_now;if (ENVIRONMENT_IS_NODE) {
     _emscripten_get_now = function() {
       var t = process['hrtime']();
@@ -4575,14 +4575,14 @@ var ASM_CONSTS = {
   ;
   function setMainLoop(browserIterationFunc, fps, simulateInfiniteLoop, arg, noSetTiming) {
       noExitRuntime = true;
-
+  
       assert(!Browser.mainLoop.func, 'emscripten_set_main_loop: there can only be one main loop function at once: call emscripten_cancel_main_loop to cancel the previous one before setting a new one with different parameters.');
-
+  
       Browser.mainLoop.func = browserIterationFunc;
       Browser.mainLoop.arg = arg;
-
+  
       var thisMainLoopId = Browser.mainLoop.currentlyRunningMainloop;
-
+  
       Browser.mainLoop.runner = function Browser_mainLoop_runner() {
         if (ABORT) return;
         if (Browser.mainLoop.queue.length > 0) {
@@ -4602,17 +4602,17 @@ var ASM_CONSTS = {
           }
           console.log('main loop blocker "' + blocker.name + '" took ' + (Date.now() - start) + ' ms'); //, left: ' + Browser.mainLoop.remainingBlockers);
           Browser.mainLoop.updateStatus();
-
+  
           // catches pause/resume main loop from blocker execution
           if (thisMainLoopId < Browser.mainLoop.currentlyRunningMainloop) return;
-
+  
           setTimeout(Browser.mainLoop.runner, 0);
           return;
         }
-
+  
         // catch pauses from non-main loop sources
         if (thisMainLoopId < Browser.mainLoop.currentlyRunningMainloop) return;
-
+  
         // Implement very basic swap interval control
         Browser.mainLoop.currentFrameNumber = Browser.mainLoop.currentFrameNumber + 1 | 0;
         if (Browser.mainLoop.timingMode == 1/*EM_TIMING_RAF*/ && Browser.mainLoop.timingValue > 1 && Browser.mainLoop.currentFrameNumber % Browser.mainLoop.timingValue != 0) {
@@ -4622,39 +4622,39 @@ var ASM_CONSTS = {
         } else if (Browser.mainLoop.timingMode == 0/*EM_TIMING_SETTIMEOUT*/) {
           Browser.mainLoop.tickStartTime = _emscripten_get_now();
         }
-
+  
         // Signal GL rendering layer that processing of a new frame is about to start. This helps it optimize
         // VBO double-buffering and reduce GPU stalls.
         GL.newRenderingFrameStarted();
-
+  
         if (Browser.mainLoop.method === 'timeout' && Module.ctx) {
           warnOnce('Looks like you are rendering without using requestAnimationFrame for the main loop. You should use 0 for the frame rate in emscripten_set_main_loop in order to use requestAnimationFrame, as that can greatly improve your frame rates!');
           Browser.mainLoop.method = ''; // just warn once per call to set main loop
         }
-
+  
         Browser.mainLoop.runIter(browserIterationFunc);
-
+  
         checkStackCookie();
-
+  
         // catch pauses from the main loop itself
         if (thisMainLoopId < Browser.mainLoop.currentlyRunningMainloop) return;
-
+  
         // Queue new audio data. This is important to be right after the main loop invocation, so that we will immediately be able
         // to queue the newest produced audio samples.
         // TODO: Consider adding pre- and post- rAF callbacks so that GL.newRenderingFrameStarted() and SDL.audio.queueNewAudioData()
         //       do not need to be hardcoded into this function, but can be more generic.
         if (typeof SDL === 'object' && SDL.audio && SDL.audio.queueNewAudioData) SDL.audio.queueNewAudioData();
-
+  
         Browser.mainLoop.scheduler();
       }
-
+  
       if (!noSetTiming) {
         if (fps && fps > 0) _emscripten_set_main_loop_timing(0/*EM_TIMING_SETTIMEOUT*/, 1000.0 / fps);
         else _emscripten_set_main_loop_timing(1/*EM_TIMING_RAF*/, 1); // Do rAF by rendering each frame (no decimating)
-
+  
         Browser.mainLoop.scheduler();
       }
-
+  
       if (simulateInfiniteLoop) {
         throw 'unwind';
       }
@@ -4709,10 +4709,10 @@ var ASM_CONSTS = {
           if (Module['postMainLoop']) Module['postMainLoop']();
         }},isFullscreen:false,pointerLock:false,moduleContextCreatedCallbacks:[],workers:[],init:function() {
         if (!Module["preloadPlugins"]) Module["preloadPlugins"] = []; // needs to exist even in workers
-
+  
         if (Browser.initted) return;
         Browser.initted = true;
-
+  
         try {
           new Blob();
           Browser.hasBlobConstructor = true;
@@ -4726,7 +4726,7 @@ var ASM_CONSTS = {
           console.log("warning: Browser does not support creating object URLs. Built-in browser image decoding will not be available.");
           Module.noImageDecoding = true;
         }
-
+  
         // Support for plugins that can process preloaded files. You can add more of these to
         // your app by creating and appending to Module.preloadPlugins.
         //
@@ -4734,7 +4734,7 @@ var ASM_CONSTS = {
         // it is given the file's raw data. When it is done, it calls a callback with the file's
         // (possibly modified) data. For example, a plugin might decompress a file, or it
         // might create some side data structure for use later (like an Image element, etc.).
-
+  
         var imagePlugin = {};
         imagePlugin['canHandle'] = function imagePlugin_canHandle(name) {
           return !Module.noImageDecoding && /\.(jpg|jpeg|png|bmp)$/i.test(name);
@@ -4778,7 +4778,7 @@ var ASM_CONSTS = {
           img.src = url;
         };
         Module['preloadPlugins'].push(imagePlugin);
-
+  
         var audioPlugin = {};
         audioPlugin['canHandle'] = function audioPlugin_canHandle(name) {
           return !Module.noAudioDecoding && name.substr(-4) in { '.ogg': 1, '.wav': 1, '.mp3': 1 };
@@ -4847,9 +4847,9 @@ var ASM_CONSTS = {
           }
         };
         Module['preloadPlugins'].push(audioPlugin);
-
+  
         // Canvas event setup
-
+  
         function pointerLockChange() {
           Browser.pointerLock = document['pointerLockElement'] === Module['canvas'] ||
                                 document['mozPointerLockElement'] === Module['canvas'] ||
@@ -4860,7 +4860,7 @@ var ASM_CONSTS = {
         if (canvas) {
           // forced aspect ratio can be enabled by defining 'forcedAspectRatio' on Module
           // Module['forcedAspectRatio'] = 4 / 3;
-
+  
           canvas.requestPointerLock = canvas['requestPointerLock'] ||
                                       canvas['mozRequestPointerLock'] ||
                                       canvas['webkitRequestPointerLock'] ||
@@ -4872,12 +4872,12 @@ var ASM_CONSTS = {
                                    document['msExitPointerLock'] ||
                                    function(){}; // no-op if function does not exist
           canvas.exitPointerLock = canvas.exitPointerLock.bind(document);
-
+  
           document.addEventListener('pointerlockchange', pointerLockChange, false);
           document.addEventListener('mozpointerlockchange', pointerLockChange, false);
           document.addEventListener('webkitpointerlockchange', pointerLockChange, false);
           document.addEventListener('mspointerlockchange', pointerLockChange, false);
-
+  
           if (Module['elementPointerLock']) {
             canvas.addEventListener("click", function(ev) {
               if (!Browser.pointerLock && Module['canvas'].requestPointerLock) {
@@ -4889,7 +4889,7 @@ var ASM_CONSTS = {
         }
       },createContext:function(canvas, useWebGL, setInModule, webGLContextAttributes) {
         if (useWebGL && Module.ctx && canvas == Module.canvas) return Module.ctx; // no need to recreate GL context if it's already been created for this canvas.
-
+  
         var ctx;
         var contextHandle;
         if (useWebGL) {
@@ -4899,13 +4899,13 @@ var ASM_CONSTS = {
             alpha: false,
             majorVersion: (typeof WebGL2RenderingContext !== 'undefined') ? 2 : 1,
           };
-
+  
           if (webGLContextAttributes) {
             for (var attribute in webGLContextAttributes) {
               contextAttributes[attribute] = webGLContextAttributes[attribute];
             }
           }
-
+  
           // This check of existence of GL is here to satisfy Closure compiler, which yells if variable GL is referenced below but GL object is not
           // actually compiled in because application is not doing any GL operations. TODO: Ideally if GL is not being used, this function
           // Browser.createContext() should not even be emitted.
@@ -4918,12 +4918,12 @@ var ASM_CONSTS = {
         } else {
           ctx = canvas.getContext('2d');
         }
-
+  
         if (!ctx) return null;
-
+  
         if (setInModule) {
           if (!useWebGL) assert(typeof GLctx === 'undefined', 'cannot set in module if GLctx is used, but we are a non-GL context that would replace it');
-
+  
           Module.ctx = ctx;
           if (useWebGL) GL.makeContextCurrent(contextHandle);
           Module.useWebGL = useWebGL;
@@ -4936,7 +4936,7 @@ var ASM_CONSTS = {
         Browser.resizeCanvas = resizeCanvas;
         if (typeof Browser.lockPointer === 'undefined') Browser.lockPointer = true;
         if (typeof Browser.resizeCanvas === 'undefined') Browser.resizeCanvas = false;
-
+  
         var canvas = Module['canvas'];
         function fullscreenChange() {
           Browser.isFullscreen = false;
@@ -4956,7 +4956,7 @@ var ASM_CONSTS = {
             // remove the full screen specific parent of the canvas again to restore the HTML structure from before going full screen
             canvasContainer.parentNode.insertBefore(canvas, canvasContainer);
             canvasContainer.parentNode.removeChild(canvasContainer);
-
+  
             if (Browser.resizeCanvas) {
               Browser.setWindowedCanvasSize();
             } else {
@@ -4966,7 +4966,7 @@ var ASM_CONSTS = {
           if (Module['onFullScreen']) Module['onFullScreen'](Browser.isFullscreen);
           if (Module['onFullscreen']) Module['onFullscreen'](Browser.isFullscreen);
         }
-
+  
         if (!Browser.fullscreenHandlersInstalled) {
           Browser.fullscreenHandlersInstalled = true;
           document.addEventListener('fullscreenchange', fullscreenChange, false);
@@ -4974,19 +4974,19 @@ var ASM_CONSTS = {
           document.addEventListener('webkitfullscreenchange', fullscreenChange, false);
           document.addEventListener('MSFullscreenChange', fullscreenChange, false);
         }
-
+  
         // create a new parent to ensure the canvas has no siblings. this allows browsers to optimize full screen performance when its parent is the full screen root
         var canvasContainer = document.createElement("div");
         canvas.parentNode.insertBefore(canvasContainer, canvas);
         canvasContainer.appendChild(canvas);
-
+  
         // use parent of canvas as full screen root to allow aspect ratio correction (Firefox stretches the root to screen size)
         canvasContainer.requestFullscreen = canvasContainer['requestFullscreen'] ||
                                             canvasContainer['mozRequestFullScreen'] ||
                                             canvasContainer['msRequestFullscreen'] ||
                                            (canvasContainer['webkitRequestFullscreen'] ? function() { canvasContainer['webkitRequestFullscreen'](Element['ALLOW_KEYBOARD_INPUT']) } : null) ||
                                            (canvasContainer['webkitRequestFullScreen'] ? function() { canvasContainer['webkitRequestFullScreen'](Element['ALLOW_KEYBOARD_INPUT']) } : null);
-
+  
         canvasContainer.requestFullscreen();
       },requestFullScreen:function() {
         abort('Module.requestFullScreen has been replaced by Module.requestFullscreen (without a capital S)');
@@ -4997,7 +4997,7 @@ var ASM_CONSTS = {
         if (!Browser.isFullscreen) {
           return false;
         }
-
+  
         var CFS = document['exitFullscreen'] ||
                   document['cancelFullScreen'] ||
                   document['mozCancelFullScreen'] ||
@@ -5139,7 +5139,7 @@ var ASM_CONSTS = {
             Browser.mouseMovementX = Browser.getMovementX(event);
             Browser.mouseMovementY = Browser.getMovementY(event);
           }
-
+  
           // check if SDL is available
           if (typeof SDL != "undefined") {
             Browser.mouseX = SDL.mouseX + Browser.mouseMovementX;
@@ -5156,7 +5156,7 @@ var ASM_CONSTS = {
           var rect = Module["canvas"].getBoundingClientRect();
           var cw = Module["canvas"].width;
           var ch = Module["canvas"].height;
-
+  
           // Neither .scrollX or .pageXOffset are defined in a spec, but
           // we prefer .scrollX because it is currently in a spec draft.
           // (see: http://www.w3.org/TR/2013/WD-cssom-view-20131217/)
@@ -5165,21 +5165,21 @@ var ASM_CONSTS = {
           // If this assert lands, it's likely because the browser doesn't support scrollX or pageXOffset
           // and we have no viable fallback.
           assert((typeof scrollX !== 'undefined') && (typeof scrollY !== 'undefined'), 'Unable to retrieve scroll position, mouse positions likely broken.');
-
+  
           if (event.type === 'touchstart' || event.type === 'touchend' || event.type === 'touchmove') {
             var touch = event.touch;
             if (touch === undefined) {
               return; // the "touch" property is only defined in SDL
-
+  
             }
             var adjustedX = touch.pageX - (scrollX + rect.left);
             var adjustedY = touch.pageY - (scrollY + rect.top);
-
+  
             adjustedX = adjustedX * (cw / rect.width);
             adjustedY = adjustedY * (ch / rect.height);
-
+  
             var coords = { x: adjustedX, y: adjustedY };
-
+  
             if (event.type === 'touchstart') {
               Browser.lastTouches[touch.identifier] = coords;
               Browser.touches[touch.identifier] = coords;
@@ -5191,16 +5191,16 @@ var ASM_CONSTS = {
             }
             return;
           }
-
+  
           var x = event.pageX - (scrollX + rect.left);
           var y = event.pageY - (scrollY + rect.top);
-
+  
           // the canvas might be CSS-scaled compared to its backbuffer;
           // SDL-using content will want mouse coordinates in terms
           // of backbuffer units.
           x = x * (cw / rect.width);
           y = y * (ch / rect.height);
-
+  
           Browser.mouseMovementX = x - Browser.mouseX;
           Browser.mouseMovementY = y - Browser.mouseY;
           Browser.mouseX = x;
@@ -5308,7 +5308,7 @@ var ASM_CONSTS = {
   function _emscripten_get_heap_size() {
       return HEAPU8.length;
     }
-
+  
   function emscripten_realloc_buffer(size) {
       try {
         // round size grow request up to wasm page size (fixed 64KB per spec)
@@ -5326,18 +5326,18 @@ var ASM_CONSTS = {
       var oldSize = _emscripten_get_heap_size();
       // With pthreads, races can happen (another thread might increase the size in between), so return a failure, and let the caller retry.
       assert(requestedSize > oldSize);
-
+  
       // Memory resize rules:
       // 1. When resizing, always produce a resized heap that is at least 16MB (to avoid tiny heap sizes receiving lots of repeated resizes at startup)
       // 2. Always increase heap size to at least the requested size, rounded up to next page multiple.
-      // 3a. If MEMORY_GROWTH_LINEAR_STEP == -1, excessively resize the heap geometrically: increase the heap size according to
+      // 3a. If MEMORY_GROWTH_LINEAR_STEP == -1, excessively resize the heap geometrically: increase the heap size according to 
       //                                         MEMORY_GROWTH_GEOMETRIC_STEP factor (default +20%),
       //                                         At most overreserve by MEMORY_GROWTH_GEOMETRIC_CAP bytes (default 96MB).
       // 3b. If MEMORY_GROWTH_LINEAR_STEP != -1, excessively resize the heap linearly: increase the heap size by at least MEMORY_GROWTH_LINEAR_STEP bytes.
       // 4. Max size for the heap is capped at 2048MB-WASM_PAGE_SIZE, or by MAXIMUM_MEMORY, or by ASAN limit, depending on which is smallest
       // 5. If we were unable to allocate as much memory, it may be due to over-eager decision to excessively reserve due to (3) above.
       //    Hence if an allocation fails, cut down on the amount of excess growth, in an attempt to succeed to perform a smaller allocation.
-
+  
       // A limit was set for how much we can grow. We should not exceed that
       // (the wasm binary specifies it, so if we tried, we'd fail anyhow).
       var maxHeapSize = 2147483648;
@@ -5345,21 +5345,21 @@ var ASM_CONSTS = {
         err('Cannot enlarge memory, asked to go up to ' + requestedSize + ' bytes, but the limit is ' + maxHeapSize + ' bytes!');
         return false;
       }
-
+  
       var minHeapSize = 16777216;
-
+  
       // Loop through potential heap size increases. If we attempt a too eager reservation that fails, cut down on the
       // attempted size and reserve a smaller bump instead. (max 3 times, chosen somewhat arbitrarily)
       for(var cutDown = 1; cutDown <= 4; cutDown *= 2) {
         var overGrownHeapSize = oldSize * (1 + 0.2 / cutDown); // ensure geometric growth
         // but limit overreserving (default to capping at +96MB overgrowth at most)
         overGrownHeapSize = Math.min(overGrownHeapSize, requestedSize + 100663296 );
-
+  
         var newSize = Math.min(maxHeapSize, alignUp(Math.max(minHeapSize, requestedSize, overGrownHeapSize), 65536));
-
+  
         var replacement = emscripten_realloc_buffer(newSize);
         if (replacement) {
-
+  
           return true;
         }
       }
@@ -5374,7 +5374,7 @@ var ASM_CONSTS = {
     }
 
   var ENV={};
-
+  
   function getExecutableName() {
       return thisProgram || './this.program';
     }
@@ -5405,7 +5405,7 @@ var ASM_CONSTS = {
       return getEnvStrings.strings;
     }
   function _environ_get(__environ, environ_buf) {try {
-
+  
       var bufSize = 0;
       getEnvStrings().forEach(function(string, i) {
         var ptr = environ_buf + bufSize;
@@ -5421,7 +5421,7 @@ var ASM_CONSTS = {
   }
 
   function _environ_sizes_get(penviron_count, penviron_buf_size) {try {
-
+  
       var strings = getEnvStrings();
       HEAP32[((penviron_count)>>2)]=strings.length;
       var bufSize = 0;
@@ -5437,7 +5437,7 @@ var ASM_CONSTS = {
   }
 
   function _fd_close(fd) {try {
-
+  
       var stream = SYSCALLS.getStreamFromFD(fd);
       FS.close(stream);
       return 0;
@@ -5448,7 +5448,7 @@ var ASM_CONSTS = {
   }
 
   function _fd_read(fd, iov, iovcnt, pnum) {try {
-
+  
       var stream = SYSCALLS.getStreamFromFD(fd);
       var num = SYSCALLS.doReadv(stream, iov, iovcnt);
       HEAP32[((pnum)>>2)]=num
@@ -5460,19 +5460,19 @@ var ASM_CONSTS = {
   }
 
   function _fd_seek(fd, offset_low, offset_high, whence, newOffset) {try {
-
-
+  
+      
       var stream = SYSCALLS.getStreamFromFD(fd);
       var HIGH_OFFSET = 0x100000000; // 2^32
       // use an unsigned operator on low and shift high by 32-bits
       var offset = offset_high * HIGH_OFFSET + (offset_low >>> 0);
-
+  
       var DOUBLE_LIMIT = 0x20000000000000; // 2^53
       // we also check for equality since DOUBLE_LIMIT + 1 == DOUBLE_LIMIT
       if (offset <= -DOUBLE_LIMIT || offset >= DOUBLE_LIMIT) {
         return -61;
       }
-
+  
       FS.llseek(stream, offset, whence);
       (tempI64 = [stream.position>>>0,(tempDouble=stream.position,(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? ((Math.min((+(Math.floor((tempDouble)/4294967296.0))), 4294967295.0))|0)>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)],HEAP32[((newOffset)>>2)]=tempI64[0],HEAP32[(((newOffset)+(4))>>2)]=tempI64[1]);
       if (stream.getdents && offset === 0 && whence === 0) stream.getdents = null; // reset readdir state
@@ -5484,7 +5484,7 @@ var ASM_CONSTS = {
   }
 
   function _fd_write(fd, iov, iovcnt, pnum) {try {
-
+  
       var stream = SYSCALLS.getStreamFromFD(fd);
       var num = SYSCALLS.doWritev(stream, iov, iovcnt);
       HEAP32[((pnum)>>2)]=num
@@ -5509,7 +5509,7 @@ var ASM_CONSTS = {
         return 1;
       }
     }
-
+  
   function __webgl_enable_OES_vertex_array_object(ctx) {
       // Extension available in WebGL 1 from Firefox 25 and WebKit 536.28/desktop Safari 6.0.3 onwards. Core feature in WebGL 2.
       var ext = ctx.getExtension('OES_vertex_array_object');
@@ -5521,7 +5521,7 @@ var ASM_CONSTS = {
         return 1;
       }
     }
-
+  
   function __webgl_enable_WEBGL_draw_buffers(ctx) {
       // Extension available in WebGL 1 from Firefox 28 onwards. Core feature in WebGL 2.
       var ext = ctx.getExtension('WEBGL_draw_buffers');
@@ -5530,17 +5530,17 @@ var ASM_CONSTS = {
         return 1;
       }
     }
-
+  
   function __webgl_enable_WEBGL_draw_instanced_base_vertex_base_instance(ctx) {
       // Closure is expected to be allowed to minify the '.dibvbi' property, so not accessing it quoted.
       return !!(ctx.dibvbi = ctx.getExtension('WEBGL_draw_instanced_base_vertex_base_instance'));
     }
-
+  
   function __webgl_enable_WEBGL_multi_draw_instanced_base_vertex_base_instance(ctx) {
       // Closure is expected to be allowed to minify the '.mdibvbi' property, so not accessing it quoted.
       return !!(ctx.mdibvbi = ctx.getExtension('WEBGL_multi_draw_instanced_base_vertex_base_instance'));
     }
-
+  
   function __webgl_enable_WEBGL_multi_draw(ctx) {
       // Closure is expected to be allowed to minify the '.multiDrawWebgl' property, so not accessing it quoted.
       return !!(ctx.multiDrawWebgl = ctx.getExtension('WEBGL_multi_draw'));
@@ -5580,7 +5580,7 @@ var ASM_CONSTS = {
             ringbuffer1[j] = ringbuffer2[j] = null; // Created on-demand
           }
         }
-
+  
         if (quads) {
           // GL_QUAD indexes can be precalculated
           context.tempQuadIndexBuffer = GLctx.createBuffer();
@@ -5662,14 +5662,14 @@ var ASM_CONSTS = {
         return size * typeSize * count;
       },usedTempBuffers:[],preDrawHandleClientVertexAttribBindings:function preDrawHandleClientVertexAttribBindings(count) {
         GL.resetBufferBinding = false;
-
+  
         // TODO: initial pass to detect ranges we need to upload, might not need an upload per attrib
         for (var i = 0; i < GL.currentContext.maxVertexAttribs; ++i) {
           var cb = GL.currentContext.clientBuffers[i];
           if (!cb.clientside || !cb.enabled) continue;
-
+  
           GL.resetBufferBinding = true;
-
+  
           var size = GL.calcBufLength(cb.size, cb.type, cb.stride, count);
           var buf = GL.getTempVertexBuffer(size);
           GLctx.bindBuffer(0x8892 /*GL_ARRAY_BUFFER*/, buf);
@@ -5683,8 +5683,8 @@ var ASM_CONSTS = {
           GLctx.bindBuffer(0x8892 /*GL_ARRAY_BUFFER*/, GL.buffers[GLctx.currentArrayBufferBinding]);
         }
       },createContext:function(canvas, webGLContextAttributes) {
-
-        var ctx =
+  
+        var ctx = 
           (webGLContextAttributes.majorVersion > 1)
           ?
             canvas.getContext("webgl2", webGLContextAttributes)
@@ -5692,41 +5692,41 @@ var ASM_CONSTS = {
           (canvas.getContext("webgl", webGLContextAttributes)
             // https://caniuse.com/#feat=webgl
             );
-
+  
         if (!ctx) return 0;
-
+  
         var handle = GL.registerContext(ctx, webGLContextAttributes);
-
+  
         return handle;
       },registerContext:function(ctx, webGLContextAttributes) {
         // without pthreads a context is just an integer ID
         var handle = GL.getNewId(GL.contexts);
-
+  
         var context = {
           handle: handle,
           attributes: webGLContextAttributes,
           version: webGLContextAttributes.majorVersion,
           GLctx: ctx
         };
-
+  
         // Store the created context object so that we can access the context given a canvas without having to pass the parameters again.
         if (ctx.canvas) ctx.canvas.GLctxObject = context;
         GL.contexts[handle] = context;
         if (typeof webGLContextAttributes.enableExtensionsByDefault === 'undefined' || webGLContextAttributes.enableExtensionsByDefault) {
           GL.initExtensions(context);
         }
-
+  
         context.maxVertexAttribs = context.GLctx.getParameter(0x8869 /*GL_MAX_VERTEX_ATTRIBS*/);
         context.clientBuffers = [];
         for (var i = 0; i < context.maxVertexAttribs; i++) {
           context.clientBuffers[i] = { enabled: false, clientside: false, size: 0, type: 0, normalized: 0, stride: 0, ptr: 0, vertexAttribPointerAdaptor: null };
         }
-
+  
         GL.generateTempBuffers(false, context);
-
+  
         return handle;
       },makeContextCurrent:function(contextHandle) {
-
+  
         GL.currentContext = GL.contexts[contextHandle]; // Active Emscripten GL layer context object.
         Module.ctx = GLctx = GL.currentContext && GL.currentContext.GLctx; // Active WebGL context object.
         return !(contextHandle && !GLctx);
@@ -5740,14 +5740,14 @@ var ASM_CONSTS = {
       },initExtensions:function(context) {
         // If this function is called without a specific context object, init the extensions of the currently active context.
         if (!context) context = GL.currentContext;
-
+  
         if (context.initExtensionsDone) return;
         context.initExtensionsDone = true;
-
+  
         var GLctx = context.GLctx;
-
+  
         // Detect the presence of a few extensions manually, this GL interop layer itself will need to know if they exist.
-
+  
         // Extensions that are only available in WebGL 1 (the calls will be no-ops if called on a WebGL 2 context active)
         __webgl_enable_ANGLE_instanced_arrays(GLctx);
         __webgl_enable_OES_vertex_array_object(GLctx);
@@ -5755,10 +5755,10 @@ var ASM_CONSTS = {
         // Extensions that are available from WebGL >= 2 (no-op if called on a WebGL 1 context active)
         __webgl_enable_WEBGL_draw_instanced_base_vertex_base_instance(GLctx);
         __webgl_enable_WEBGL_multi_draw_instanced_base_vertex_base_instance(GLctx);
-
+  
         GLctx.disjointTimerQueryExt = GLctx.getExtension("EXT_disjoint_timer_query");
         __webgl_enable_WEBGL_multi_draw(GLctx);
-
+  
         // .getSupportedExtensions() can return null if context is lost, so coerce to empty array.
         var exts = GLctx.getSupportedExtensions() || [];
         exts.forEach(function(ext) {
@@ -5776,23 +5776,23 @@ var ASM_CONSTS = {
           maxAttributeLength: -1, // This is lazily computed and cached, computed when/if first asked, "-1" meaning not computed yet.
           maxUniformBlockNameLength: -1 // Lazily computed as well
         };
-
+  
         var utable = ptable.uniforms;
         // A program's uniform table maps the string name of an uniform to an integer location of that uniform.
         // The global GL.uniforms map maps integer locations to WebGLUniformLocations.
         var numUniforms = GLctx.getProgramParameter(p, 0x8B86/*GL_ACTIVE_UNIFORMS*/);
         for (var i = 0; i < numUniforms; ++i) {
           var u = GLctx.getActiveUniform(p, i);
-
+  
           var name = u.name;
           ptable.maxUniformLength = Math.max(ptable.maxUniformLength, name.length+1);
-
+  
           // If we are dealing with an array, e.g. vec4 foo[3], strip off the array index part to canonicalize that "foo", "foo[]",
           // and "foo[0]" will mean the same. Loop below will populate foo[1] and foo[2].
           if (name.slice(-1) == ']') {
             name = name.slice(0, name.lastIndexOf('['));
           }
-
+  
           // Optimize memory usage slightly: If we have an array of uniforms, e.g. 'vec3 colors[3];', then
           // only store the string 'colors' in utable, and 'colors[0]', 'colors[1]' and 'colors[2]' will be parsed as 'colors'+i.
           // Note that for the GL.uniforms table, we still need to fetch the all WebGLUniformLocations for all the indices.
@@ -5801,12 +5801,12 @@ var ASM_CONSTS = {
             var id = GL.getNewId(GL.uniforms);
             utable[name] = [u.size, id];
             GL.uniforms[id] = loc;
-
+  
             for (var j = 1; j < u.size; ++j) {
               var n = name + '['+j+']';
               loc = GLctx.getUniformLocation(p, n);
               id = GL.getNewId(GL.uniforms);
-
+  
               GL.uniforms[id] = loc;
             }
           }
@@ -5825,7 +5825,7 @@ var ASM_CONSTS = {
       } else if (target == 0x8893 /*GL_ELEMENT_ARRAY_BUFFER*/) {
         GLctx.currentElementArrayBufferBinding = buffer;
       }
-
+  
       if (target == 0x88EB /*GL_PIXEL_PACK_BUFFER*/) {
         // In WebGL 2 glReadPixels entry point, we need to use a different WebGL 2 API function call when a buffer is bound to
         // GL_PIXEL_PACK_BUFFER_BINDING point, so must keep track whether that binding point is non-null to know what is
@@ -5865,7 +5865,7 @@ var ASM_CONSTS = {
   function _glBlendFuncSeparate(x0, x1, x2, x3) { GLctx['blendFuncSeparate'](x0, x1, x2, x3) }
 
   function _glBufferData(target, size, data, usage) {
-
+  
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
         if (data) {
           GLctx.bufferData(target, HEAPU8, usage, data, size);
@@ -5925,14 +5925,14 @@ var ASM_CONSTS = {
         // the index is now 0
         indices = 0;
       }
-
+  
       // bind any client-side buffers
       GL.preDrawHandleClientVertexAttribBindings(count);
-
+  
       GLctx.drawElements(mode, count, type, indices);
-
+  
       GL.postDrawHandleClientVertexAttribBindings(count);
-
+  
       if (!GLctx.currentElementArrayBufferBinding) {
         GLctx.bindBuffer(0x8893 /*GL_ELEMENT_ARRAY_BUFFER*/, null);
       }
@@ -5982,7 +5982,7 @@ var ASM_CONSTS = {
   function readI53FromI64(ptr) {
       return HEAPU32[ptr>>2] + HEAP32[ptr+4>>2] * 4294967296;
     }
-
+  
   function readI53FromU64(ptr) {
       return HEAPU32[ptr>>2] + HEAPU32[ptr+4>>2] * 4294967296;
     }
@@ -6039,7 +6039,7 @@ var ASM_CONSTS = {
           ret = name_ == 0x821B ? 3 : 0; // return version 3.0
           break;
       }
-
+  
       if (ret === undefined) {
         var result = GLctx.getParameter(name_);
         switch (typeof(result)) {
@@ -6112,7 +6112,7 @@ var ASM_CONSTS = {
             return;
         }
       }
-
+  
       switch (type) {
         case 1: writeI53ToI64(p, ret); break;
         case 0: HEAP32[((p)>>2)]=ret; break;
@@ -6138,18 +6138,18 @@ var ASM_CONSTS = {
         GL.recordError(0x501 /* GL_INVALID_VALUE */);
         return;
       }
-
+  
       if (program >= GL.counter) {
         GL.recordError(0x501 /* GL_INVALID_VALUE */);
         return;
       }
-
+  
       var ptable = GL.programInfos[program];
       if (!ptable) {
         GL.recordError(0x502 /* GL_INVALID_OPERATION */);
         return;
       }
-
+  
       if (pname == 0x8B84) { // GL_INFO_LOG_LENGTH
         var log = GLctx.getProgramInfoLog(GL.programs[program]);
         if (log === null) log = '(unknown error)';
@@ -6223,7 +6223,7 @@ var ASM_CONSTS = {
     }
   function _glGetUniformLocation(program, name) {
       name = UTF8ToString(name);
-
+  
       var arrayIndex = 0;
       // If user passed an array accessor "[index]", parse the array index off the accessor.
       if (name[name.length - 1] == ']') {
@@ -6231,7 +6231,7 @@ var ASM_CONSTS = {
         arrayIndex = name[leftBrace+1] != ']' ? jstoi_q(name.slice(leftBrace + 1)) : 0; // "index]", parseInt will ignore the ']' at the end; but treat "foo[]" as "foo[0]"
         name = name.slice(0, leftBrace);
       }
-
+  
       var uniformInfo = GL.programInfos[program] && GL.programInfos[program].uniforms[name]; // returns pair [ dimension_of_uniform_array, uniform_location ]
       if (uniformInfo && arrayIndex >= 0 && arrayIndex < uniformInfo[0]) { // Check if user asked for an out-of-bounds element, i.e. for 'vec4 colors[3];' user could ask for 'colors[10]' which should return -1.
         return uniformInfo[1] + arrayIndex;
@@ -6258,7 +6258,7 @@ var ASM_CONSTS = {
 
   function _glShaderSource(shader, count, string, length) {
       var source = GL.getSource(shader, count, string, length);
-
+  
       GLctx.shaderSource(GL.shaders[shader], source);
     }
 
@@ -6270,7 +6270,7 @@ var ASM_CONSTS = {
       var alignedRowSize = roundedToNextMultipleOf(plainRowSize, alignment);
       return height * alignedRowSize;
     }
-
+  
   function __colorChannelsInGlTextureFormat(format) {
       // Micro-optimizations for size: map format to size by subtracting smallest enum value (0x1902) from all values first.
       // Also omit the most common size value (1) from the list, which is assumed by formats not on the list.
@@ -6292,7 +6292,7 @@ var ASM_CONSTS = {
       };
       return colorChannels[format - 0x1902]||1;
     }
-
+  
   function heapObjectForWebGLType(type) {
       // Micro-optimization for size: Subtract lowest GL enum number (0x1400/* GL_BYTE */) from type to compare
       // smaller values for the heap, for shorter generated code size.
@@ -6300,15 +6300,15 @@ var ASM_CONSTS = {
       // (since most types are HEAPU16)
       type -= 0x1400;
       if (type == 0) return HEAP8;
-
+  
       if (type == 1) return HEAPU8;
-
+  
       if (type == 2) return HEAP16;
-
+  
       if (type == 4) return HEAP32;
-
+  
       if (type == 6) return HEAPF32;
-
+  
       if (type == 5
         || type == 28922
         || type == 28520
@@ -6316,10 +6316,10 @@ var ASM_CONSTS = {
         || type == 30782
         )
         return HEAPU32;
-
+  
       return HEAPU16;
     }
-
+  
   function heapAccessShiftForWebGLHeap(heap) {
       return 31 - Math.clz32(heap.BYTES_PER_ELEMENT);
     }
@@ -6355,12 +6355,12 @@ var ASM_CONSTS = {
 
   var miniTempWebGLFloatBuffers=[];
   function _glUniformMatrix4fv(location, count, transpose, value) {
-
+  
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
         GLctx.uniformMatrix4fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*16);
         return;
       }
-
+  
       if (count <= 18) {
         // avoid allocation when uploading few enough uniforms
         var view = miniTempWebGLFloatBuffers[16*count-1];
@@ -6515,7 +6515,7 @@ var ASM_CONSTS = {
           case 0xDC:return 92; // DOM_VK_BACKSLASH -> GLFW_KEY_BACKSLASH
           case 0xDD:return 93; // DOM_VK_CLOSE_BRACKET -> GLFW_KEY_RIGHT_BRACKET
           case 0xC0:return 94; // DOM_VK_BACK_QUOTE -> GLFW_KEY_GRAVE_ACCENT
-
+  
           case 0x1B:return 256; // DOM_VK_ESCAPE -> GLFW_KEY_ESCAPE
           case 0x0D:return 257; // DOM_VK_RETURN -> GLFW_KEY_ENTER
           case 0x09:return 258; // DOM_VK_TAB -> GLFW_KEY_TAB
@@ -6599,23 +6599,23 @@ var ASM_CONSTS = {
       },onKeyPress:function(event) {
         if (!GLFW.active || !GLFW.active.charFunc) return;
         if (event.ctrlKey || event.metaKey) return;
-
+  
         // correct unicode charCode is only available with onKeyPress event
         var charCode = event.charCode;
         if (charCode == 0 || (charCode >= 0x00 && charCode <= 0x1F)) return;
-
+  
         wasmTable.get(GLFW.active.charFunc)(GLFW.active.id, charCode);
       },onKeyChanged:function(keyCode, status) {
         if (!GLFW.active) return;
-
+  
         var key = GLFW.DOMToGLFWKeyCode(keyCode);
         if (key == -1) return;
-
+  
         var repeat = status && GLFW.active.keys[key];
         GLFW.active.keys[key] = status;
         GLFW.active.domKeys[keyCode] = status;
         if (!GLFW.active.keyFunc) return;
-
+  
         if (repeat) status = 2; // GLFW_REPEAT
         wasmTable.get(GLFW.active.keyFunc)(GLFW.active.id, key, keyCode, status, GLFW.getModBits(GLFW.active));
       },onGamepadConnected:function(event) {
@@ -6624,7 +6624,7 @@ var ASM_CONSTS = {
         GLFW.refreshJoysticks();
       },onKeydown:function(event) {
         GLFW.onKeyChanged(event.keyCode, 1); // GLFW_PRESS or GLFW_REPEAT
-
+  
         // This logic comes directly from the sdl implementation. We cannot
         // call preventDefault on all keydown events otherwise onKeyPress will
         // not get called
@@ -6635,7 +6635,7 @@ var ASM_CONSTS = {
         GLFW.onKeyChanged(event.keyCode, 0); // GLFW_RELEASE
       },onBlur:function(event) {
         if (!GLFW.active) return;
-
+  
         for (var i = 0; i < GLFW.active.domKeys.length; ++i) {
           if (GLFW.active.domKeys[i]) {
             GLFW.onKeyChanged(i, 0); // GLFW_RELEASE
@@ -6643,11 +6643,11 @@ var ASM_CONSTS = {
         }
       },onMousemove:function(event) {
         if (!GLFW.active) return;
-
+  
         Browser.calculateMouseEvent(event);
-
+  
         if (event.target != Module["canvas"] || !GLFW.active.cursorPosFunc) return;
-
+  
         wasmTable.get(GLFW.active.cursorPosFunc)(GLFW.active.id, Browser.mouseX, Browser.mouseY);
       },DOMToGLFWMouseButton:function(event) {
         // DOM and glfw have different button codes.
@@ -6663,25 +6663,25 @@ var ASM_CONSTS = {
         return eventButton;
       },onMouseenter:function(event) {
         if (!GLFW.active) return;
-
+  
         if (event.target != Module["canvas"] || !GLFW.active.cursorEnterFunc) return;
-
+  
         wasmTable.get(GLFW.active.cursorEnterFunc)(GLFW.active.id, 1);
       },onMouseleave:function(event) {
         if (!GLFW.active) return;
-
+  
         if (event.target != Module["canvas"] || !GLFW.active.cursorEnterFunc) return;
-
+  
         wasmTable.get(GLFW.active.cursorEnterFunc)(GLFW.active.id, 0);
       },onMouseButtonChanged:function(event, status) {
         if (!GLFW.active) return;
-
+  
         Browser.calculateMouseEvent(event);
-
+  
         if (event.target != Module["canvas"]) return;
-
+  
         var eventButton = GLFW.DOMToGLFWMouseButton(event);
-
+  
         if (status == 1) { // GLFW_PRESS
           GLFW.active.buttons |= (1 << eventButton);
           try {
@@ -6690,9 +6690,9 @@ var ASM_CONSTS = {
         } else {  // GLFW_RELEASE
           GLFW.active.buttons &= ~(1 << eventButton);
         }
-
+  
         if (!GLFW.active.mouseButtonFunc) return;
-
+  
         wasmTable.get(GLFW.active.mouseButtonFunc)(GLFW.active.id, eventButton, status, GLFW.getModBits(GLFW.active));
       },onMouseButtonDown:function(event) {
         if (!GLFW.active) return;
@@ -6705,9 +6705,9 @@ var ASM_CONSTS = {
         var delta = -Browser.getMouseWheelDelta(event);
         delta = (delta == 0) ? 0 : (delta > 0 ? Math.max(delta, 1) : Math.min(delta, -1)); // Quantize to integer so that minimum scroll is at least +/- 1.
         GLFW.wheelPos += delta;
-
+  
         if (!GLFW.active || !GLFW.active.scrollFunc || event.target != Module['canvas']) return;
-
+  
         var sx = 0;
         var sy = 0;
         if (event.type == 'mousewheel') {
@@ -6717,15 +6717,15 @@ var ASM_CONSTS = {
           sx = event.deltaX;
           sy = event.deltaY;
         }
-
+  
         wasmTable.get(GLFW.active.scrollFunc)(GLFW.active.id, sx, sy);
-
+  
         event.preventDefault();
       },onCanvasResize:function(width, height) {
         if (!GLFW.active) return;
-
+  
         var resizeNeeded = true;
-
+  
         // If the client is requesting fullscreen mode
         if (document["fullscreen"] || document["fullScreen"] || document["mozFullScreen"] || document["webkitIsFullScreen"]) {
           GLFW.active.storedX = GLFW.active.x;
@@ -6736,7 +6736,7 @@ var ASM_CONSTS = {
           GLFW.active.width = screen.width;
           GLFW.active.height = screen.height;
           GLFW.active.fullscreen = true;
-
+  
         // If the client is reverting from fullscreen mode
         } else if (GLFW.active.fullscreen == true) {
           GLFW.active.x = GLFW.active.storedX;
@@ -6744,7 +6744,7 @@ var ASM_CONSTS = {
           GLFW.active.width = GLFW.active.storedWidth;
           GLFW.active.height = GLFW.active.storedHeight;
           GLFW.active.fullscreen = false;
-
+  
         // If the width/height values do not match current active window sizes
         } else if (GLFW.active.width != width || GLFW.active.height != height) {
             GLFW.active.width = width;
@@ -6752,7 +6752,7 @@ var ASM_CONSTS = {
         } else {
           resizeNeeded = false;
         }
-
+  
         // If any of the above conditions were true, we need to resize the canvas
         if (resizeNeeded) {
           // resets the canvas size to counter the aspect preservation of Browser.updateCanvasDimensions
@@ -6764,22 +6764,22 @@ var ASM_CONSTS = {
         }
       },onWindowSizeChanged:function() {
         if (!GLFW.active) return;
-
+  
         if (!GLFW.active.windowSizeFunc) return;
-
+  
         wasmTable.get(GLFW.active.windowSizeFunc)(GLFW.active.id, GLFW.active.width, GLFW.active.height);
       },onFramebufferSizeChanged:function() {
         if (!GLFW.active) return;
-
+  
         if (!GLFW.active.framebufferSizeFunc) return;
-
+  
         wasmTable.get(GLFW.active.framebufferSizeFunc)(GLFW.active.id, GLFW.active.width, GLFW.active.height);
       },getTime:function() {
         return _emscripten_get_now() / 1000;
       },setWindowTitle:function(winid, title) {
         var win = GLFW.WindowFromId(winid);
         if (!win) return;
-
+  
         win.title = UTF8ToString(title);
         if (GLFW.active.id == win.id) {
           document.title = win.title;
@@ -6792,10 +6792,10 @@ var ASM_CONSTS = {
         if (Browser.mainLoop.currentFrameNumber !== GLFW.lastGamepadStateFrame || !Browser.mainLoop.currentFrameNumber) {
           GLFW.lastGamepadState = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : null);
           GLFW.lastGamepadStateFrame = Browser.mainLoop.currentFrameNumber;
-
+  
           for (var joy = 0; joy < GLFW.lastGamepadState.length; ++joy) {
             var gamepad = GLFW.lastGamepadState[joy];
-
+  
             if (gamepad) {
               if (!GLFW.joys[joy]) {
                 console.log('glfw joystick connected:',joy);
@@ -6806,33 +6806,33 @@ var ASM_CONSTS = {
                   buttons: allocate(new Array(gamepad.buttons.length), ALLOC_NORMAL),
                   axes: allocate(new Array(gamepad.axes.length*4), ALLOC_NORMAL)
                 };
-
+  
                 if (GLFW.joystickFunc) {
                   wasmTable.get(GLFW.joystickFunc)(joy, 0x00040001); // GLFW_CONNECTED
                 }
               }
-
+  
               var data = GLFW.joys[joy];
-
+  
               for (var i = 0; i < gamepad.buttons.length;  ++i) {
                 setValue(data.buttons + i, gamepad.buttons[i].pressed, 'i8');
               }
-
+  
               for (var i = 0; i < gamepad.axes.length; ++i) {
                 setValue(data.axes + i*4, gamepad.axes[i], 'float');
               }
             } else {
               if (GLFW.joys[joy]) {
                 console.log('glfw joystick disconnected',joy);
-
+  
                 if (GLFW.joystickFunc) {
                   wasmTable.get(GLFW.joystickFunc)(joy, 0x00040002); // GLFW_DISCONNECTED
                 }
-
+  
                 _free(GLFW.joys[joy].id);
                 _free(GLFW.joys[joy].buttons);
                 _free(GLFW.joys[joy].axes);
-
+  
                 delete GLFW.joys[joy];
               }
             }
@@ -6877,18 +6877,18 @@ var ASM_CONSTS = {
       },onDrop:function(event) {
         if (!GLFW.active || !GLFW.active.dropFunc) return;
         if (!event.dataTransfer || !event.dataTransfer.files || event.dataTransfer.files.length == 0) return;
-
+  
         event.preventDefault();
-
+  
         var filenames = allocate(new Array(event.dataTransfer.files.length*4), ALLOC_NORMAL);
         var filenamesArray = [];
         var count = event.dataTransfer.files.length;
-
+  
         // Read and save the files to emscripten's FS
         var written = 0;
         var drop_dir = '.glfw_dropped_files';
         FS.createPath('/', drop_dir);
-
+  
         function save(file) {
           var path = '/' + drop_dir + '/' + file.name.replace(/\//g, '_');
           var reader = new FileReader();
@@ -6898,12 +6898,12 @@ var ASM_CONSTS = {
               console.log('failed to read dropped file: '+file.name+': '+reader.error);
               return;
             }
-
+  
             var data = e.target.result;
             FS.writeFile(path, new Uint8Array(data));
             if (++written === count) {
               wasmTable.get(GLFW.active.dropFunc)(GLFW.active.id, count, filenames);
-
+  
               for (var i = 0; i < filenamesArray.length; ++i) {
                 _free(filenamesArray[i]);
               }
@@ -6911,20 +6911,20 @@ var ASM_CONSTS = {
             }
           };
           reader.readAsArrayBuffer(file);
-
+  
           var filename = allocate(intArrayFromString(path), ALLOC_NORMAL);
           filenamesArray.push(filename);
           setValue(filenames + i*4, filename, 'i8*');
         }
-
+  
         for (var i = 0; i < count; ++i) {
           save(event.dataTransfer.files[i]);
         }
-
+  
         return false;
       },onDragover:function(event) {
         if (!GLFW.active || !GLFW.active.dropFunc) return;
-
+  
         event.preventDefault();
         return false;
       },setWindowSizeCallback:function(winid, cbfun) {
@@ -6932,7 +6932,7 @@ var ASM_CONSTS = {
         if (!win) return null;
         var prevcbfun = win.windowSizeFunc;
         win.windowSizeFunc = cbfun;
-
+  
         return prevcbfun;
       },setWindowCloseCallback:function(winid, cbfun) {
         var win = GLFW.WindowFromId(winid);
@@ -6954,7 +6954,7 @@ var ASM_CONSTS = {
       },setInputMode:function(winid, mode, value) {
         var win = GLFW.WindowFromId(winid);
         if (!win) return;
-
+  
         switch(mode) {
           case 0x00033001: { // GLFW_CURSOR
             switch(value) {
@@ -7012,17 +7012,17 @@ var ASM_CONSTS = {
       },getWindowPos:function(winid, x, y) {
         var wx = 0;
         var wy = 0;
-
+  
         var win = GLFW.WindowFromId(winid);
         if (win) {
           wx = win.x;
           wy = win.y;
         }
-
+  
         if (x) {
           setValue(x, wx, 'i32');
         }
-
+  
         if (y) {
           setValue(y, wy, 'i32');
         }
@@ -7034,24 +7034,24 @@ var ASM_CONSTS = {
       },getWindowSize:function(winid, width, height) {
         var ww = 0;
         var wh = 0;
-
+  
         var win = GLFW.WindowFromId(winid);
         if (win) {
           ww = win.width;
           wh = win.height;
         }
-
+  
         if (width) {
           setValue(width, ww, 'i32');
         }
-
+  
         if (height) {
           setValue(height, wh, 'i32');
         }
       },setWindowSize:function(winid, width, height) {
         var win = GLFW.WindowFromId(winid);
         if (!win) return;
-
+  
         if (GLFW.active.id == win.id) {
           if (width == screen.width && height == screen.height) {
             Browser.requestFullscreen();
@@ -7062,9 +7062,9 @@ var ASM_CONSTS = {
             win.height = height;
           }
         }
-
+  
         if (!win.windowSizeFunc) return;
-
+  
         wasmTable.get(win.windowSizeFunc)(win.id, width, height);
       },createWindow:function(width, height, title, monitor, share) {
         var i, id;
@@ -7072,19 +7072,19 @@ var ASM_CONSTS = {
           // no-op
         }
         if (i > 0) throw "glfwCreateWindow only supports one window at time currently";
-
+  
         // id for window
         id = i + 1;
-
+  
         // not valid
         if (width <= 0 || height <= 0) return 0;
-
+  
         if (monitor) {
           Browser.requestFullscreen();
         } else {
           Browser.setCanvasSize(width, height);
         }
-
+  
         // Create context when there are no existing alive windows
         for (i = 0; i < GLFW.windows.length && GLFW.windows[i] == null; i++) {
           // no-op
@@ -7103,37 +7103,37 @@ var ASM_CONSTS = {
             Browser.init();
           }
         }
-
+  
         // If context creation failed, do not return a valid window
         if (!Module.ctx && useWebGL) return 0;
-
+  
         // Get non alive id
         var win = new GLFW_Window(id, width, height, title, monitor, share);
-
+  
         // Set window to array
         if (id - 1 == GLFW.windows.length) {
           GLFW.windows.push(win);
         } else {
           GLFW.windows[id - 1] = win;
         }
-
+  
         GLFW.active = win;
         return win.id;
       },destroyWindow:function(winid) {
         var win = GLFW.WindowFromId(winid);
         if (!win) return;
-
+  
         if (win.windowCloseFunc)
           wasmTable.get(win.windowCloseFunc)(win.id);
-
+  
         GLFW.windows[win.id - 1] = null;
         if (GLFW.active.id == win.id)
           GLFW.active = null;
-
+  
         // Destroy context when no alive windows
         for (var i = 0; i < GLFW.windows.length; i++)
           if (GLFW.windows[i] !== null) return;
-
+  
         Module.ctx = Browser.destroyContext(Module['canvas'], true, true);
       },swapBuffers:function(winid) {
       },GLFW2ParamToGLFW3Param:function(param) {
@@ -7186,17 +7186,17 @@ var ASM_CONSTS = {
   function _glfwGetFramebufferSize(winid, width, height) {
       var ww = 0;
       var wh = 0;
-
+  
       var win = GLFW.WindowFromId(winid);
       if (win) {
         ww = win.width;
         wh = win.height;
       }
-
+  
       if (width) {
         setValue(width, ww, 'i32');
       }
-
+  
       if (height) {
         setValue(height, wh, 'i32');
       }
@@ -7205,7 +7205,7 @@ var ASM_CONSTS = {
   function _glfwGetInputMode(winid, mode) {
       var win = GLFW.WindowFromId(winid);
       if (!win) return;
-
+  
       switch (mode) {
         case 0x00033001: { // GLFW_CURSOR
           if (Browser.pointerLock) {
@@ -7215,32 +7215,32 @@ var ASM_CONSTS = {
           }
         }
       }
-
+  
       return win.inputModes[mode];
     }
 
   function _glfwGetJoystickAxes(joy, count) {
       GLFW.refreshJoysticks();
-
+  
       var state = GLFW.joys[joy];
       if (!state || !state.axes) {
         setValue(count, 0, 'i32');
         return;
       }
-
+  
       setValue(count, state.axesCount, 'i32');
       return state.axes;
     }
 
   function _glfwGetJoystickButtons(joy, count) {
       GLFW.refreshJoysticks();
-
+  
       var state = GLFW.joys[joy];
       if (!state || !state.buttons) {
         setValue(count, 0, 'i32');
         return;
       }
-
+  
       setValue(count, state.buttonsCount, 'i32');
       return state.buttons;
     }
@@ -7259,12 +7259,12 @@ var ASM_CONSTS = {
 
   function _glfwInit() {
       if (GLFW.windows) return 1; // GL_TRUE
-
+  
       GLFW.initialTime = GLFW.getTime();
       GLFW.hints = GLFW.defaultHints;
       GLFW.windows = new Array()
       GLFW.active = null;
-
+  
       window.addEventListener("gamepadconnected", GLFW.onGamepadConnected, true);
       window.addEventListener("gamepaddisconnected", GLFW.onGamepadDisconnected, true);
       window.addEventListener("keydown", GLFW.onKeydown, true);
@@ -7284,7 +7284,7 @@ var ASM_CONSTS = {
       Module["canvas"].addEventListener('mouseleave', GLFW.onMouseleave, true);
       Module["canvas"].addEventListener('drop', GLFW.onDrop, true);
       Module["canvas"].addEventListener('dragover', GLFW.onDragover, true);
-
+  
       Browser.resizeListeners.push(function(width, height) {
          GLFW.onCanvasResize(width, height);
       });
@@ -7359,7 +7359,7 @@ var ASM_CONSTS = {
       Module["canvas"].removeEventListener('mouseleave', GLFW.onMouseleave, true);
       Module["canvas"].removeEventListener('drop', GLFW.onDrop, true);
       Module["canvas"].removeEventListener('dragover', GLFW.onDragover, true);
-
+  
       Module["canvas"].width = Module["canvas"].height = 1;
       GLFW.windows = null;
       GLFW.active = null;
@@ -7382,7 +7382,7 @@ var ASM_CONSTS = {
   function __isLeapYear(year) {
         return year%4 === 0 && (year%100 !== 0 || year%400 === 0);
     }
-
+  
   function __arraySum(array, index) {
       var sum = 0;
       for (var i = 0; i <= index; sum += array[i++]) {
@@ -7390,9 +7390,9 @@ var ASM_CONSTS = {
       }
       return sum;
     }
-
+  
   var __MONTH_DAYS_LEAP=[31,29,31,30,31,30,31,31,30,31,30,31];
-
+  
   var __MONTH_DAYS_REGULAR=[31,28,31,30,31,30,31,31,30,31,30,31];
   function __addDays(date, days) {
       var newDate = new Date(date.getTime());
@@ -7400,7 +7400,7 @@ var ASM_CONSTS = {
         var leap = __isLeapYear(newDate.getFullYear());
         var currentMonth = newDate.getMonth();
         var daysInCurrentMonth = (leap ? __MONTH_DAYS_LEAP : __MONTH_DAYS_REGULAR)[currentMonth];
-
+  
         if (days > daysInCurrentMonth-newDate.getDate()) {
           // we spill over to next month
           days -= (daysInCurrentMonth-newDate.getDate()+1);
@@ -7417,15 +7417,15 @@ var ASM_CONSTS = {
           return newDate;
         }
       }
-
+  
       return newDate;
     }
   function _strftime(s, maxsize, format, tm) {
       // size_t strftime(char *restrict s, size_t maxsize, const char *restrict format, const struct tm *restrict timeptr);
       // http://pubs.opengroup.org/onlinepubs/009695399/functions/strftime.html
-
+  
       var tm_zone = HEAP32[(((tm)+(40))>>2)];
-
+  
       var date = {
         tm_sec: HEAP32[((tm)>>2)],
         tm_min: HEAP32[(((tm)+(4))>>2)],
@@ -7439,9 +7439,9 @@ var ASM_CONSTS = {
         tm_gmtoff: HEAP32[(((tm)+(36))>>2)],
         tm_zone: tm_zone ? UTF8ToString(tm_zone) : ''
       };
-
+  
       var pattern = UTF8ToString(format);
-
+  
       // expand format
       var EXPANSION_RULES_1 = {
         '%c': '%a %b %d %H:%M:%S %Y',     // Replaced by the locale's appropriate date and time representation - e.g., Mon Aug  3 14:02:01 2013
@@ -7477,10 +7477,10 @@ var ASM_CONSTS = {
       for (var rule in EXPANSION_RULES_1) {
         pattern = pattern.replace(new RegExp(rule, 'g'), EXPANSION_RULES_1[rule]);
       }
-
+  
       var WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
+  
       function leadingSomething(value, digits, character) {
         var str = typeof value === 'number' ? value.toString() : (value || '');
         while (str.length < digits) {
@@ -7488,16 +7488,16 @@ var ASM_CONSTS = {
         }
         return str;
       }
-
+  
       function leadingNulls(value, digits) {
         return leadingSomething(value, digits, '0');
       }
-
+  
       function compareByDay(date1, date2) {
         function sgn(value) {
           return value < 0 ? -1 : (value > 0 ? 1 : 0);
         }
-
+  
         var compare;
         if ((compare = sgn(date1.getFullYear()-date2.getFullYear())) === 0) {
           if ((compare = sgn(date1.getMonth()-date2.getMonth())) === 0) {
@@ -7506,7 +7506,7 @@ var ASM_CONSTS = {
         }
         return compare;
       }
-
+  
       function getFirstWeekStartDate(janFourth) {
           switch (janFourth.getDay()) {
             case 0: // Sunday
@@ -7525,16 +7525,16 @@ var ASM_CONSTS = {
               return new Date(janFourth.getFullYear()-1, 11, 30);
           }
       }
-
+  
       function getWeekBasedYear(date) {
           var thisDate = __addDays(new Date(date.tm_year+1900, 0, 1), date.tm_yday);
-
+  
           var janFourthThisYear = new Date(thisDate.getFullYear(), 0, 4);
           var janFourthNextYear = new Date(thisDate.getFullYear()+1, 0, 4);
-
+  
           var firstWeekStartThisYear = getFirstWeekStartDate(janFourthThisYear);
           var firstWeekStartNextYear = getFirstWeekStartDate(janFourthNextYear);
-
+  
           if (compareByDay(firstWeekStartThisYear, thisDate) <= 0) {
             // this date is after the start of the first week of this year
             if (compareByDay(firstWeekStartNextYear, thisDate) <= 0) {
@@ -7546,7 +7546,7 @@ var ASM_CONSTS = {
             return thisDate.getFullYear()-1;
           }
       }
-
+  
       var EXPANSION_RULES_2 = {
         '%a': function(date) {
           return WEEKDAYS[date.tm_wday].substring(0,3);
@@ -7580,7 +7580,7 @@ var ASM_CONSTS = {
           // %G is replaced by 1998 and %V is replaced by 53. If December 29th, 30th,
           // or 31st is a Monday, it and any following days are part of week 1 of the following year.
           // Thus, for Tuesday 30th December 1997, %G is replaced by 1998 and %V is replaced by 01.
-
+  
           return getWeekBasedYear(date).toString().substring(2);
         },
         '%G': function(date) {
@@ -7631,7 +7631,7 @@ var ASM_CONSTS = {
           var janFirst = new Date(date.tm_year+1900, 0, 1);
           var firstSunday = janFirst.getDay() === 0 ? janFirst : __addDays(janFirst, 7-janFirst.getDay());
           var endDate = new Date(date.tm_year+1900, date.tm_mon, date.tm_mday);
-
+  
           // is target date after the first Sunday?
           if (compareByDay(firstSunday, endDate) < 0) {
             // calculate difference in days between first Sunday and endDate
@@ -7640,7 +7640,7 @@ var ASM_CONSTS = {
             var days = firstSundayUntilEndJanuary+februaryFirstUntilEndMonth+endDate.getDate();
             return leadingNulls(Math.ceil(days/7), 2);
           }
-
+  
           return compareByDay(firstSunday, janFirst) === 0 ? '01': '00';
         },
         '%V': function(date) {
@@ -7651,22 +7651,22 @@ var ASM_CONSTS = {
           // Both January 4th and the first Thursday of January are always in week 1. [ tm_year, tm_wday, tm_yday]
           var janFourthThisYear = new Date(date.tm_year+1900, 0, 4);
           var janFourthNextYear = new Date(date.tm_year+1901, 0, 4);
-
+  
           var firstWeekStartThisYear = getFirstWeekStartDate(janFourthThisYear);
           var firstWeekStartNextYear = getFirstWeekStartDate(janFourthNextYear);
-
+  
           var endDate = __addDays(new Date(date.tm_year+1900, 0, 1), date.tm_yday);
-
+  
           if (compareByDay(endDate, firstWeekStartThisYear) < 0) {
             // if given date is before this years first week, then it belongs to the 53rd week of last year
             return '53';
           }
-
+  
           if (compareByDay(firstWeekStartNextYear, endDate) <= 0) {
             // if given date is after next years first week, then it belongs to the 01th week of next year
             return '01';
           }
-
+  
           // given date is in between CW 01..53 of this calendar year
           var daysDifference;
           if (firstWeekStartThisYear.getFullYear() < date.tm_year+1900) {
@@ -7688,7 +7688,7 @@ var ASM_CONSTS = {
           var janFirst = new Date(date.tm_year, 0, 1);
           var firstMonday = janFirst.getDay() === 1 ? janFirst : __addDays(janFirst, janFirst.getDay() === 0 ? 1 : 7-janFirst.getDay()+1);
           var endDate = new Date(date.tm_year+1900, date.tm_mon, date.tm_mday);
-
+  
           // is target date after the first Monday?
           if (compareByDay(firstMonday, endDate) < 0) {
             var februaryFirstUntilEndMonth = __arraySum(__isLeapYear(endDate.getFullYear()) ? __MONTH_DAYS_LEAP : __MONTH_DAYS_REGULAR, endDate.getMonth()-1)-31;
@@ -7728,12 +7728,12 @@ var ASM_CONSTS = {
           pattern = pattern.replace(new RegExp(rule, 'g'), EXPANSION_RULES_2[rule](date));
         }
       }
-
+  
       var bytes = intArrayFromString(pattern, false);
       if (bytes.length > maxsize) {
         return 0;
       }
-
+  
       writeArrayToMemory(bytes, s);
       return bytes.length-1;
     }
@@ -7961,16 +7961,16 @@ var asm = createWasm();
 var ___wasm_call_ctors = Module["___wasm_call_ctors"] = createExportWrapper("__wasm_call_ctors");
 
 /** @type {function(...*):?} */
-var _main = Module["_main"] = createExportWrapper("main");
-
-/** @type {function(...*):?} */
-var _fflush = Module["_fflush"] = createExportWrapper("fflush");
+var _free = Module["_free"] = createExportWrapper("free");
 
 /** @type {function(...*):?} */
 var _malloc = Module["_malloc"] = createExportWrapper("malloc");
 
 /** @type {function(...*):?} */
-var _free = Module["_free"] = createExportWrapper("free");
+var _main = Module["_main"] = createExportWrapper("main");
+
+/** @type {function(...*):?} */
+var _fflush = Module["_fflush"] = createExportWrapper("fflush");
 
 /** @type {function(...*):?} */
 var ___errno_location = Module["___errno_location"] = createExportWrapper("__errno_location");
@@ -8691,6 +8691,7 @@ if (typeof window === "object" && (typeof ENVIRONMENT_IS_PTHREAD === 'undefined'
       // Don't do this immediately, this may race with the notification about the return code reaching the
       // server. Send a *sync* xhr so that we know for sure that the server has gotten the return code
       // before we continue.
+      http.open("POST", "stdio.html", false);
       http.send(msg);
       try {
         // Try closing the current browser window, since it exit()ed itself. This can shut down the browser process

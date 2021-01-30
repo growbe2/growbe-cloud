@@ -13,22 +13,23 @@ export const navigation: FuseNavigation[] = [
     title: 'FAQ',
     type: 'item',
     icon: 'help',
-    url: '/faq'
+    url: '/faq',
+  },
+];
+
+export const navigationLogin: FuseNavigation[] = [
+  {
+    id: 'organisation',
+    title: 'Organisation',
+    type: 'item',
+    icon: 'help',
+    url: '/organisation',
   },
   {
     id: 'node',
     title: 'Node editor',
     type: 'item',
-    url: "/editor"
+    icon: 'editor',
+    url: '/editor',
   },
-];
-
-export const navigationLogin: FuseNavigation[] = [
- {
-    id: 'organisation',
-    title: 'Organisation',
-    type: 'item',
-    icon: 'help',
-    url: '/organisation'
-  }
 ];
