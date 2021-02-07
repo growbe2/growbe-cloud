@@ -1,6 +1,11 @@
-const SerialPort = require('@serialport/stream')
+const SerialPort = require('serialport')
 const MockBinding = require('@serialport/binding-mock')
 const Delimiter = require('@serialport/parser-delimiter')
+const InterByteTimeout = require('@serialport/parser-inter-byte-timeout')
+
+
+const GrowbePB = require('@growbe2/growbe-pb');
+
 
 const fs = require('fs');
 
@@ -16,7 +21,7 @@ if(config.port.includes('ROBOT')) {
 
 const port = new SerialPort(config.port, config.portConfig);
 
-const parser = port.pipe(new Delimiter({delimiter: '\n'}));
+const parser = port.pipe(new InterByteTimeout({interval: 30}));
 
 const topicSensor = `growbe_${config.growbeId}_sensor`;
 const topicControl = `growbe_${config.growbeId}_control`;
@@ -38,11 +43,21 @@ client.on('connect', () => {
 });
 
 parser.on('data', (e) => {
-    client.publish(topicSensor, e.toString());
+    console.log(e.length);
+    try {
+        const message = GrowbePB.GrowbeMessage.decode(e);
+        console.log(message.toJSON());
+        const innerMessage = GrowbePB.NetworkConfig.decode(message.body);
+        client.publish(topicSensor, e);
+
+
+        port.write(e);
+    } catch(e) {
+        console.log('ERROR', e);
+    }
 });
 
 
-setInterval(() => port.write(JSON.stringify({time: Date.now()})+'\n'), 1000);
 
 
 

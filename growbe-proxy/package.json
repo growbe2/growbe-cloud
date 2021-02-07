@@ -9,10 +9,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@growbe2/growbe-pb": "^0.0.9",
     "@serialport/binding-mock": "^9.0.2",
     "@serialport/bindings": "^9.0.4",
     "@serialport/parser-delimiter": "^9.0.1",
     "mqtt": "^4.2.6",
+    "protobufjs": "^6.10.2",
     "serialport": "^9.0.6"
   }
 }

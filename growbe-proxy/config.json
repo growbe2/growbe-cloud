@@ -1,7 +1,7 @@
 {
-    "port": "/dev/ROBOT",
+    "port": "COM4",
     "portConfig": {
-        "echo": true
+        "baudRate": 115200
     },
     "growbeId": "abc",
     "mqtt": "mqtt://localhost:1883"
