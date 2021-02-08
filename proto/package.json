@@ -1,6 +1,6 @@
 {
   "name": "@growbe2/growbe-pb",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "description": "Libraire avec les définitions protobuf",
   "repository": {
     "type": "git",

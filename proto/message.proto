@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+/*
+* Structure pour les messages qui sont envoyés entre la serre
+* par MQTT
+*/
+message GrowbeMessage {
+    string topic = 1;
+    int32 messageType = 2;
+    bytes body = 3;
+}
+
