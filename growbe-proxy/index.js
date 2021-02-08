@@ -47,12 +47,7 @@ parser.on('data', (e) => {
     try {
         const message = GrowbePB.GrowbeMessage.decode(e);
         console.log(message.toJSON());
-        const innerMessage = GrowbePB.NetworkConfig.decode(message.body);
-        client.publish(topicSensor, e);
-
-        const buffer = Buffer.concat([Buffer.from([0x00, 0x00, 0xDE, 0xAD, e.length]),e,Buffer.from(Array.from({length: 40-5-e.length}, (x,i) => 0x00))])
-        console.log(buffer.length);
-        //port.write(buffer);
+        client.publish(message.topic, message.body);
     } catch(e) {
         console.log('ERROR', e);
     }
