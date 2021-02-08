@@ -9,7 +9,7 @@ import {
 } from '@loopback/core';
 import { filter } from 'rxjs/operators';
 import mqtt from 'mqtt';
-import { MQTTService } from '../services';
+import { MQTTService } from '../../services';
 
 /**
  * This class will be bound to the application as a `LifeCycleObserver` during
@@ -29,13 +29,15 @@ export class GrowbeDataSubjectObserver implements LifeCycleObserver {
    */
   async init(): Promise<void> {
     // Add your logic for init
+    await this.mqttService.connect();
   }
 
   /**
    * This method will be invoked when the application starts.
    */
   async start(): Promise<void> {
-    this.mqttService.observable.pipe(filter(x => x.topic === 'presence')).subscribe((data) => {
+    await this.mqttService.addSubscription('#');
+    this.mqttService.observable.subscribe((data) => {
       console.log(data);
     })
    

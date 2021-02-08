@@ -1,5 +1,6 @@
 import {ApplicationConfig} from '@loopback/core';
 import {GrowbeCloudApplication} from './application';
+import { WatcherComponent } from './watcher/watcher.component';
 
 /**
  * Export the OpenAPI spec from the application
@@ -12,7 +13,7 @@ async function exportOpenApiSpec(): Promise<void> {
     },
   };
   const outFile = process.argv[2] ?? '';
-  const app = new GrowbeCloudApplication(config);
+  const app = new GrowbeCloudApplication(WatcherComponent,config);
   await app.boot();
   await app.exportOpenApiSpec(outFile);
 }
