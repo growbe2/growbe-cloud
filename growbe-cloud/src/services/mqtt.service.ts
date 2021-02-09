@@ -11,7 +11,7 @@ export class MQTTService {
 
   client: mqtt.AsyncClient;
 
-  observable: Observable<{topic: string; message: GrowbeMessage}>;
+  observable: Observable<{topic: string; message: Buffer}>;
 
   constructor(
       @inject(MQTTBindings.URL)
@@ -22,8 +22,7 @@ export class MQTTService {
   async connect() {
     this.client = await mqtt.connectAsync(this.url);
     this.observable = new Observable((sub) => {
-      this.client.on('message', (topic, msg) => {
-        const message = GrowbeMessage.decode(msg);
+      this.client.on('message', (topic, message) => {
         sub.next({topic, message});
       });
     })

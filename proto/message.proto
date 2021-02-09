@@ -10,3 +10,12 @@ message GrowbeMessage {
     bytes body = 3;
 }
 
+message HearthBeath {
+    string id = 1;
+    string rtc = 2;
+}
+
+message Log {
+    int32 timestamp = 1;
+    string log = 2;
+}
