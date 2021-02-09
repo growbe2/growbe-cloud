@@ -26,6 +26,7 @@ const parser = port.pipe(new InterByteTimeout({interval: 30}));
 const topicSensor = `growbe_${config.growbeId}_sensor`;
 const topicControl = `growbe_${config.growbeId}_control`;
 
+const paddingBuffer = Buffer.from(Array.from({length: 80}, () => 0x00));
 
 const client = mqtt.connect(config.mqtt);
 client.on('connect', () => {
@@ -48,6 +49,8 @@ parser.on('data', (e) => {
         const message = GrowbePB.GrowbeMessage.decode(e);
         console.log(message.toJSON());
         client.publish(message.topic, message.body);
+
+        port.write(Buffer.concat([Buffer.from([0x00,0x00,0xDE,0xAD, e.length]), e, paddingBuffer]))
     } catch(e) {
         console.log('ERROR', e);
     }
