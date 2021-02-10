@@ -10,9 +10,9 @@ export class GrowbeStateService {
   ) {}
 
   async onBeath(id: string, beath: HearthBeath) {
-    console.log('Beath from', id);
+    console.log('Beath from', id, beath);
     const mainboard = await this.growbeService.findOrCreate(id);
-    mainboard.lastUpdateAt = new Date();
+    mainboard.lastUpdateAt = beath;
     return this.growbeService.mainboardRepository.save(mainboard);
   }
 }

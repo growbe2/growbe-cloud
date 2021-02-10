@@ -1,4 +1,5 @@
 import { User } from '@berlingoqc/sso';
+import { HearthBeath } from '@growbe2/growbe-pb';
 import {belongsTo, Entity, model, property} from '@loopback/repository';
 
 @model()
@@ -14,7 +15,7 @@ export class GrowbeMainboard extends Entity {
   userId: string;
 
   @property()
-  lastUpdateAt: Date;
+  lastUpdateAt: any;
 
   constructor(data?: Partial<GrowbeMainboard>) {
     super(data);

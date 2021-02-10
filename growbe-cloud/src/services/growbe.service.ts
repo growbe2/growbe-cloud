@@ -1,10 +1,20 @@
 import {injectable, /* inject, */ BindingScope} from '@loopback/core';
-import { FilterExcludingWhere, repository } from '@loopback/repository';
+import { FilterExcludingWhere, model, repository } from '@loopback/repository';
 import { GrowbeMainboard, GrowbeMainboardWithRelations } from '../models';
 import { GrowbeMainboardRepository } from '../repositories';
 
 
-export type GrowbeRegisterState = 'BEATH_UNREGISTER' | 'UNREGISTER' | 'REGISTER';
+export type GrowbeRegisterState = 'BEATH_UNREGISTER' | 'UNBEATH_REGISTER' | 'UNREGISTER' | 'REGISTER' | 'ALREADY_REGISTER';
+
+@model()
+export class GrowbeRegisterResponse {
+  state: GrowbeRegisterState;
+}
+
+@model()
+export class GrowbeRegisterRequest {
+  id: string;
+}
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeService {
@@ -22,17 +32,24 @@ export class GrowbeService {
     return mainboard;
   }
 
-  async register(id: string, userId: string) {
-    const mainboard = await this.findOrCreate(id);
-    console.log(mainboard);
+  async register(userId: string, request: GrowbeRegisterRequest) {
+    const mainboard = await this.findOrCreate(request.id);
+    const response = new GrowbeRegisterResponse();
     if(mainboard.new) {
-
+      response.state = 'UNBEATH_REGISTER';
+      await this.mainboardRepository.updateById(request.id, {userId})
     } else if(!mainboard.userId) {
-
+      response.state = 'REGISTER';
+      await this.mainboardRepository.updateById(request.id, {userId})
+    } else {
+      response.state = 'ALREADY_REGISTER';
     }
-    return 
+    return response;
   }
 
+  async getGrowbeByProfile(userId: string, filter: FilterExcludingWhere<GrowbeMainboard> = {}) {
+    return this.mainboardRepository.find(Object.assign(filter, {where: {userId}}))
+  }
 
   private createMainboard(id: string, name?: string) {
     return this.mainboardRepository.create({id,name,lastUpdateAt: new Date()});
