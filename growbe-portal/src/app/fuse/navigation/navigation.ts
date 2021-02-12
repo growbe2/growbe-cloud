@@ -6,18 +6,15 @@ export const navigation: FuseNavigation[] = [
     title: 'Accueil',
     type: 'item',
     icon: 'home',
-    url: '/acceuil',
+    url: '/home',
   },
-  {
-    id: 'faq',
-    title: 'FAQ',
+{
+    id: 'growbe',
+    title: 'Growbe',
     type: 'item',
-    icon: 'help',
-    url: '/faq',
+    icon: 'grow',
+    url: '/growbe'
   },
-];
-
-export const navigationLogin: FuseNavigation[] = [
   {
     id: 'organisation',
     title: 'Organisation',
@@ -31,5 +28,12 @@ export const navigationLogin: FuseNavigation[] = [
     type: 'item',
     icon: 'editor',
     url: '/editor',
+  },
+  {
+    id: 'faq',
+    title: 'FAQ',
+    type: 'item',
+    icon: 'help',
+    url: '/faq',
   },
 ];

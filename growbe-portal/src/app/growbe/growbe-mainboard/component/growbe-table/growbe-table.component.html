@@ -1,0 +1,13 @@
+<ng-template #status let-parent="parent">
+  <app-growbe-status-dot [growbe]="parent"></app-growbe-status-dot>
+</ng-template>
+
+<div>
+  <ngx-autotable
+    [columns]="columns"
+    [source]="source"
+    [where]="where"
+    [includes]="includes"
+  >
+  </ngx-autotable>
+</div>

@@ -10,6 +10,7 @@ import {
   SITE_LOGO,
   SITE_NAME,
   TOOLBAR_NAVIGATION,
+  FUSE_FULL_SCREEN_BACKGROUND_PATH
 } from '@berlingoqc/fuse-extra';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -21,7 +22,7 @@ import {
   envConfig,
 } from '@berlingoqc/ngx-common';
 
-import { navigationLogin, navigation } from './fuse/navigation/navigation';
+import { navigation } from './fuse/navigation/navigation';
 import { NotificationModule, PWAModule } from '@berlingoqc/ngx-pwa';
 import { FuseModule, FuseNavigationService } from '@berlingoqc/fuse';
 import { fuseConfig } from './fuse/fuse-config';
@@ -48,6 +49,7 @@ import {
 } from 'rxjs/operators';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NodeEditorComponent } from './node-editor/node-editor.component';
+import { GrowbeAuthModule } from './auth/auth.module';
 
 
 @Injectable({
@@ -78,6 +80,7 @@ export class NavigationWrapper {
     FlexLayoutModule,
     AccountModule,
     AuthModule.forRoot(),
+    GrowbeAuthModule,
   ],
   providers: [
     EnvConfigurationService,
@@ -112,6 +115,10 @@ export class NavigationWrapper {
       useValue: '/assets/icons/android-chrome-96x96.png',
     },
     {
+      provide: FUSE_FULL_SCREEN_BACKGROUND_PATH,
+      useValue: '/assets/dark-material-bg.jpg'
+    },
+    {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
     },
@@ -128,22 +135,5 @@ export class AppModule {
     layourService: LayoutEventService,
     navigationService: FuseNavigationService
   ) {
-    layourService.logoutSubject.asObservable().subscribe(() => {
-      authService.logout();
-      navigationLogin.forEach((e) =>
-        navigationService.removeNavigationItem(e.id)
-      );
-    });
-    authService.loginEvents
-      .asObservable()
-      .pipe(
-        filter((x) => x === 'connected'),
-        debounceTime(100)
-      )
-      .subscribe(() =>
-        navigationLogin.forEach((e) => {
-          navigationService.addNavigationItem(e, 'end');
-        })
-      );
   }
 }

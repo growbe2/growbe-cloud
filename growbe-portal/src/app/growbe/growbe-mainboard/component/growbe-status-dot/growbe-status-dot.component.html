@@ -1,0 +1,9 @@
+<div>
+  <div class="dot" [ngClass]="state">
+    {{ state }}
+  </div>
+
+  <span>{{ hearthBeathAt | date: "short" }}</span>
+
+  <div *ngIf="rtcOff == false"></div>
+</div>
