@@ -6,6 +6,11 @@ import mqtt from 'async-mqtt';
 
 import {GrowbeMessage} from '@growbe2/growbe-pb';
 
+
+export const getTopic = (growbeId: string, subtopic: string) => {
+  return `/growbe/${growbeId}/board${subtopic}`;
+}
+
 @injectable({scope: BindingScope.SINGLETON})
 export class MQTTService {
 
@@ -30,6 +35,11 @@ export class MQTTService {
 
   async addSubscription(topic: string) {
     return this.client.subscribe(topic);
+  }
+
+
+  async send(topic: string, body: any) {
+    this.client.publish(topic, body);
   }
 
 

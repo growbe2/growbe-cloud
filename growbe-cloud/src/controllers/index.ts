@@ -1,2 +1,2 @@
 export * from './ping.controller';
-export * from './growbe-mainboard.controller';
+export * from '../cloud/controllers/growbe-mainboard.controller';

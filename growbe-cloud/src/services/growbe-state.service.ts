@@ -12,7 +12,6 @@ export class GrowbeStateService {
   async onBeath(id: string, beath: HearthBeath) {
     console.log('Beath from', id, beath);
     const mainboard = await this.growbeService.findOrCreate(id);
-    mainboard.lastUpdateAt = beath;
-    return this.growbeService.mainboardRepository.save(mainboard);
+    return this.growbeService.mainboardRepository.updateById(id, {lastUpdateAt: beath})
   }
 }
