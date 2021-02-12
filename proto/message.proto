@@ -1,5 +1,12 @@
 syntax = "proto3";
 
+
+enum MessageType {
+    MT_UNKNOW = 0;
+    MT_HEARTHBEATH = 1;
+    MT_MODULESTATUS = 2;
+}
+
 /*
 * Structure pour les messages qui sont envoyés entre la serre
 * par MQTT
@@ -18,4 +25,13 @@ message HearthBeath {
 message Log {
     int32 timestamp = 1;
     string log = 2;
+}
+
+message RTCTime {
+    int32 second = 1;
+    int32 minute = 2;
+    int32 hour = 3;
+    int32 day = 4;
+    int32 month = 5;
+    int32 year = 6;
 }
