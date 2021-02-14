@@ -36,8 +36,18 @@ client.on('connect', () => {
         console.log('CONNECTED TO', topicControl);
     });
     client.on('message', (topic, message) => {
-        console.log("Got msg for growbe", topic);
-    })
+        const data = GrowbePB.GrowbeMessage.encode(new GrowbePB.GrowbeMessage({
+            topic,
+            messageType: 2,
+            body: message,
+        })).finish();
+
+        port.write(Buffer.concat(
+            Buffer.from([0x00, 0x00, 0xDE, 0xAD,data.length]),
+            data,
+            paddingBuffer
+        ));
+    });
 });
 
 parser.on('data', (e) => {
