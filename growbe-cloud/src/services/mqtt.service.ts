@@ -14,7 +14,7 @@ export const getTopic = (growbeId: string, subtopic: string) => {
 @injectable({scope: BindingScope.SINGLETON})
 export class MQTTService {
 
-  client: mqtt.AsyncClient;
+  private client: mqtt.AsyncClient;
 
   observable: Observable<{topic: string; message: Buffer}>;
 

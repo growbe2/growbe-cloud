@@ -1,10 +1,13 @@
-import {injectable, /* inject, */ BindingScope, service} from '@loopback/core';
+import {injectable, inject, BindingScope, service} from '@loopback/core';
 import { FilterExcludingWhere, model, property, repository } from '@loopback/repository';
 import { GrowbeMainboard, GrowbeMainboardWithRelations } from '../models';
 import { GrowbeMainboardRepository } from '../repositories';
 
 import { RTCTime } from '@growbe2/growbe-pb';
 import { getTopic, MQTTService } from './mqtt.service';
+import { GrowbeMainboardConfig } from '../models/growbe-mainboard-config.model';
+import { GrowbeMainboardConfigRepository } from '../repositories/growbe-mainboard-config.repository';
+import { GrowbeMainboardBindings } from '../keys';
 
 export type GrowbeRegisterState = 'BEATH_UNREGISTER' | 'UNBEATH_REGISTER' | 'UNREGISTER' | 'REGISTER' | 'ALREADY_REGISTER';
 
@@ -12,6 +15,8 @@ export type GrowbeRegisterState = 'BEATH_UNREGISTER' | 'UNBEATH_REGISTER' | 'UNR
 export class GrowbeRegisterResponse {
   @property()
   state: GrowbeRegisterState;
+  @property()
+  growbe: GrowbeMainboard;
 }
 
 @model()
@@ -25,8 +30,12 @@ export class GrowbeService {
   constructor(
     @repository(GrowbeMainboardRepository)
     public mainboardRepository: GrowbeMainboardRepository,
+    @repository(GrowbeMainboardConfigRepository)
+    public mainboardConfigRepository: GrowbeMainboardConfigRepository,
     @service(MQTTService)
     private mqttService: MQTTService,
+    @inject(GrowbeMainboardBindings.DEFAULT_CONFIG)
+    private defaultConfig: Partial<GrowbeMainboardConfig>,
   ) {}
 
   async findOrCreate(id: string, filter: FilterExcludingWhere<GrowbeMainboard> = {}): Promise<GrowbeMainboard & {new?: boolean}> {
@@ -43,8 +52,8 @@ export class GrowbeService {
   }
 
   async register(userId: string, request: GrowbeRegisterRequest) {
-    const mainboard = await this.findOrCreate(request.id);
     const response = new GrowbeRegisterResponse();
+    const mainboard = await this.findOrCreate(request.id);
     if(mainboard.new == true) {
       response.state = 'UNBEATH_REGISTER';
       await this.mainboardRepository.updateById(request.id, {userId})
@@ -54,6 +63,7 @@ export class GrowbeService {
     } else {
       response.state = 'ALREADY_REGISTER';
     }
+    response.growbe = mainboard;
     return response;
   }
 
@@ -61,7 +71,17 @@ export class GrowbeService {
     return this.mainboardRepository.find(Object.assign(filter, {where: {userId}}))
   }
 
-  private createMainboard(id: string, name?: string) {
-    return this.mainboardRepository.create({id,name,lastUpdateAt: new Date()});
+  /**
+   * CreateMainboard
+   *  * crée une mainboard
+   *  * crée une config par default
+   * @param id 
+   * @param name 
+   */
+  private async createMainboard(id: string, name?: string) {
+    const mainboard = await this.mainboardRepository.create({id,name});
+    mainboard.growbeMainboardConfig = await this.mainboardConfigRepository.create({config: this.defaultConfig, growbeMainboardId: mainboard.id});
+
+    return mainboard;
   }
 }

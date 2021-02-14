@@ -7,7 +7,7 @@ import {
   Application,
 } from '@loopback/core';
 import { RestApplication } from '@loopback/rest';
-import { GrowbeMainboardController } from '../controllers';
+import { GrowbeMainboardController } from './controllers';
 import { CRUD_CONTROLLERS } from './crud-controller';
 
 export class CloudComponent implements Component {

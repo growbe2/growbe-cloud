@@ -3,9 +3,9 @@ import {ApplicationConfig, Component, Constructor} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
-import {AlbAuthMixin, SSOAuthBindings} from '@berlingoqc/lb-extensions';
+import {AlbAuthMixin, AuditzComponent, RevisionRepository, SSOAuthBindings} from '@berlingoqc/lb-extensions';
 import { UserRepository, OrganisationRepository } from '@berlingoqc/sso';
-import { MQTTBindings } from './keys';
+import { GrowbeMainboardBindings, MQTTBindings } from './keys';
 
 export {ApplicationConfig};
 
@@ -15,9 +15,16 @@ export class GrowbeCloudApplication extends BootMixin(
   constructor(component: Constructor<Component>,options: ApplicationConfig = {}) {
     super(options);
 
-    this.component(component);
+    if(component)
+      this.component(component);
     this.setupSSOBindings();
+    this.setupAuditz();
     this.addUserAndOrganisation();
+
+
+    this.bind(GrowbeMainboardBindings.DEFAULT_CONFIG).to({
+        hearthBeath: 30
+    });
   }
 
 
@@ -26,11 +33,21 @@ export class GrowbeCloudApplication extends BootMixin(
     this.repository(OrganisationRepository);
   }
 
+  private setupAuditz() {
+    this.component(AuditzComponent);
+    this.repository(RevisionRepository);
+  }
+
   private setupSSOBindings() {
     const ssoUrl = (process.env.SSO_URL ?? 'http://localhost:3001') as string;
     this.bind(SSOAuthBindings.SSO_URL).to(ssoUrl);
 
     this.bind(MQTTBindings.URL).to(process.env.MQTT_URL);
+    this.bind('datasources.config.postregsql').to({
+      name: 'postregsql',
+      connector: 'postgresql',
+      url: process.env.DB_URL ?? '',
+    })
     this.bind('datasources.config.pgsql').to({
       name: 'pgsql',
       connector: 'postgresql',
@@ -41,8 +58,9 @@ export class GrowbeCloudApplication extends BootMixin(
       connector: 'mongodb',
       url: process.env.MONGO_URL ?? '',
     });
- 
   }
+
+
 }
 
 export async function main(component: Constructor<Component>, options: ApplicationConfig = {}) {
