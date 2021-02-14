@@ -23,8 +23,7 @@ const port = new SerialPort(config.port, config.portConfig);
 
 const parser = port.pipe(new InterByteTimeout({interval: 30}));
 
-const topicSensor = `growbe_${config.growbeId}_sensor`;
-const topicControl = `growbe_${config.growbeId}_control`;
+const topicControl = `/growbe/${config.growbeId}/board/#`;
 
 const paddingBuffer = Buffer.from(Array.from({length: 80}, () => 0x00));
 
@@ -37,20 +36,15 @@ client.on('connect', () => {
         console.log('CONNECTED TO', topicControl);
     });
     client.on('message', (topic, message) => {
-        if(topic === topicControl) {
-            port.write(message);
-        }
+        console.log("Got msg for growbe", topic);
     })
 });
 
 parser.on('data', (e) => {
-    console.log(e.length);
     try {
         const message = GrowbePB.GrowbeMessage.decode(e);
         console.log(message.toJSON());
         client.publish(message.topic, message.body);
-
-        port.write(Buffer.concat([Buffer.from([0x00,0x00,0xDE,0xAD, e.length]), e, paddingBuffer]))
     } catch(e) {
         console.log('ERROR', e);
     }

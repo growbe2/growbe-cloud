@@ -3,6 +3,6 @@
     "portConfig": {
         "baudRate": 115200
     },
-    "growbeId": "abc",
-    "mqtt": "mqtt://192.168.0.149:1883"
+    "growbeId": "24DFC-2DAD",
+    "mqtt": "mqtt://192.168.1.20:1883"
 }
