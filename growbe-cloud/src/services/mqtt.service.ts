@@ -39,7 +39,7 @@ export class MQTTService {
 
 
   async send(topic: string, body: any) {
-    this.client.publish(topic, body);
+    return this.client.publish(topic, body);
   }
 
 

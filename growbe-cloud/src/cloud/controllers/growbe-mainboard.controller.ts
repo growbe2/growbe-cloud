@@ -1,7 +1,7 @@
 // Uncomment these imports to begin using these cool features!
 
 import { inject, service } from "@loopback/core";
-import { get, param, post, requestBody } from "@loopback/openapi-v3";
+import { get, param, patch, post, requestBody } from "@loopback/openapi-v3";
 import { GrowbeRegisterRequest, GrowbeService } from "../../services";
 import {authenticate} from '@loopback/authentication';
 import { SecurityBindings, securityId, UserProfile } from "@loopback/security";
@@ -21,13 +21,13 @@ export class GrowbeMainboardController {
     return this.growbeService.register(user.id, request);
   }
 
-  @post('/growbe/{id}/time')
+  @patch('/growbe/{id}/config')
   @authenticate('jwt')
   setGrowbeTime(
     @param.path.string('id') id: string,
     @requestBody() body: any,
   ) {
-    return this.growbeService.setTime(id, body)
+    return this.growbeService.updateConfig(id, body)
   } 
 
 }
