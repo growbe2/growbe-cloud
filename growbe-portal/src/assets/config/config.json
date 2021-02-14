@@ -1,5 +1,5 @@
 {
-  "growbeCloud": "http://localhost:3010",
+  "growbeCloud": "http://localhost:3011",
   "broker": "ws://localhost:9001",
   "sso": "http://localhost:3001/api/"
 }

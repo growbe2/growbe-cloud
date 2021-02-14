@@ -36,12 +36,12 @@ export class GrowbeEventService {
   }
 
 
-  async getGrowbeEvent(id: string, subtopic: string, model: any) {
+  async getGrowbeEvent(id: string, subtopic: string, parse: (data) => any) {
     const topic = getTopic(id, subtopic);
     this.addSubscription(topic).then(() => console.log('Register to', topic)).catch(() => console.warn("Failed to subscript to ", topic))
     return this.observable
       .pipe(filter((value) => value.topic === topic))
-      .pipe(map((value) => model.decode(value.message)))
+      .pipe(map((value) => parse(value.message)))
   }
 
 

@@ -15,7 +15,7 @@ export class GrowbeStatusDotComponent implements OnInit {
   @Input() growbe: any;
 
 
-  state: string = 'disconnected';
+  state: string = 'DISCONNECTED';
 
   rtcOff: boolean;
 
@@ -31,25 +31,11 @@ export class GrowbeStatusDotComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    if(this.growbe?.lastUpdateAt?.rtc) {
-      this.state = 'waiting';
-      this.hearthBeathAt = new Date(this.growbe.lastUpdateAt.rtc);
-    } else {
-      this.state = 'disconnected';
-    }
-
-    this.timer = setInterval(() => {
-      if(this.state === 'waiting')
-        this.state = 'disconnected';
-      if(this.state === 'connected') {
-        // si le temps est supperieur a hearthBeathRate
-      }
-    }, this.growbeConfigService.hearthBeathRate * 1000);
+    this.state = this.growbe.state;
 
 
-    (await this.growbeEventService.getGrowbeEvent(this.growbe.id, '/heartbeath', HearthBeath)).subscribe((event) => {
-      this.state = 'connected';
-      this.growbe.lastUpdateAt = event;
+    (await this.growbeEventService.getGrowbeEvent(this.growbe.id, '/board/state', (d) => JSON.parse(d))).subscribe((event) => {
+      this.state = event.state;
     });
   }
 

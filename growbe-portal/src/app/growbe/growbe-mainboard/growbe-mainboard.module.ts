@@ -8,12 +8,12 @@ import { GrowbeStatusDotComponent } from './component/growbe-status-dot/growbe-s
 import { GrowbeEventService } from '../services/growbe-event.service';
 
 
-
 @NgModule({
   declarations: [GrowbeTableComponent, GrowbeDetailComponent, GrowbeRegisterComponent, GrowbeStatusDotComponent],
   imports: [
     CommonModule,
     AutoTableModule,
+
   ],
   exports: [GrowbeTableComponent, GrowbeDetailComponent, GrowbeRegisterComponent]
 })
