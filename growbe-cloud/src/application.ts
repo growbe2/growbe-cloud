@@ -6,6 +6,7 @@ import {ServiceMixin} from '@loopback/service-proxy';
 import {AlbAuthMixin, AuditzComponent, RevisionRepository, SSOAuthBindings} from '@berlingoqc/lb-extensions';
 import { UserRepository, OrganisationRepository } from '@berlingoqc/sso';
 import { GrowbeMainboardBindings, MQTTBindings } from './keys';
+import { MQTTService } from './services';
 
 export {ApplicationConfig};
 

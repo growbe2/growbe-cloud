@@ -9,6 +9,8 @@ import { GrowbeMainboardConfig } from '../models/growbe-mainboard-config.model';
 import { GrowbeMainboardConfigRepository } from '../repositories/growbe-mainboard-config.repository';
 import { GrowbeMainboardBindings } from '../keys';
 
+import pb from '@growbe2/growbe-pb';
+
 export type GrowbeRegisterState = 'BEATH_UNREGISTER' | 'UNBEATH_REGISTER' | 'UNREGISTER' | 'REGISTER' | 'ALREADY_REGISTER';
 
 @model()
@@ -47,8 +49,9 @@ export class GrowbeService {
     return mainboard;
   }
 
-  setTime(growbeId: string, date: RTCTime) {
-      return this.mqttService.send(getTopic(growbeId, "setTime"), RTCTime.encode(date))
+  async updateConfig(growbeId: string, config: pb.GrowbeMainboardConfig) {
+      await this.mqttService.send(getTopic(growbeId, "/config"), pb.GrowbeMainboardConfig.encode(config).finish())
+      this.mainboardRepository.growbeMainboardConfig(growbeId).patch({config})
   }
 
   async register(userId: string, request: GrowbeRegisterRequest) {
