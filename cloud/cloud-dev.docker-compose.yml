@@ -28,6 +28,11 @@ services:
       - net
     ports:
       - '0.0.0.0:1883:1883'
+      - '0.0.0.0:9001:9001'
+    volumes:
+      - type: bind
+        source: ./mosquito/mosquito.conf
+        target: /mosquitto/config/mosquitto.conf
   growbe-cloud:
     build:
       context: '../growbe-cloud'
