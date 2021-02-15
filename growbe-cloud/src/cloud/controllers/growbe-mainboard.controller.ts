@@ -5,12 +5,16 @@ import { get, param, patch, post, requestBody } from "@loopback/openapi-v3";
 import { GrowbeRegisterRequest, GrowbeService } from "../../services";
 import {authenticate} from '@loopback/authentication';
 import { SecurityBindings, securityId, UserProfile } from "@loopback/security";
+import { GraphModuleRequest, ModuleValueGraphService } from "../../services/module-value-graph.service";
 
 // import {inject} from '@loopback/core';
 
 
 export class GrowbeMainboardController {
-  constructor(@service(GrowbeService) private growbeService: GrowbeService) {}
+  constructor(
+    @service(GrowbeService) private growbeService: GrowbeService,
+    @service(ModuleValueGraphService) private graphService: ModuleValueGraphService,
+  ) {}
 
   @post('/growbe/register')
   @authenticate('jwt')
@@ -38,6 +42,15 @@ export class GrowbeMainboardController {
   ) {
     return this.growbeService.setRTC(id, body);
   } 
+
+
+  @post('/growbe/graph')
+  @authenticate('jwt')
+  getGraph(
+    @requestBody() request: GraphModuleRequest
+  ) {
+    return this.graphService.getGraph(request);
+  }
 
 
 

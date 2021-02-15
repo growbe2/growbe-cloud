@@ -3,3 +3,4 @@ export * from './growbe-state.service';
 export * from './growbe.service';
 export * from './growbe-warning.service';
 export * from './growbe-module-value.service';
+export * from './module-value-graph.service';
