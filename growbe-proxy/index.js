@@ -7,6 +7,12 @@ const InterByteTimeout = require('@serialport/parser-inter-byte-timeout')
 const GrowbePB = require('@growbe2/growbe-pb');
 
 
+const mapType = {
+    'config': 3,
+    'rtc': 5,
+}
+
+
 const fs = require('fs');
 
 const mqtt = require('mqtt');
@@ -36,9 +42,12 @@ client.on('connect', () => {
         console.log('CONNECTED TO', topicControl);
     });
     client.on('message', (topic, message) => {
+        const topicItems = topic.split('/');
+        const lastItem = topicItems[topicItems.length - 1];
+
         const data = GrowbePB.GrowbeMessage.encode(new GrowbePB.GrowbeMessage({
             topic,
-            messageType: 2,
+            messageType: mapType[lastItem],
             body: message,
         })).finish();
 
