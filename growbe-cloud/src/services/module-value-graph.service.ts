@@ -20,13 +20,18 @@ export class GraphModuleRequest {
 @model()
 export class GraphItem {
   @property()
-  at: Date;
+  name: string;
   @property()
   value: number;
 }
 
-export class GraphModuleResponse {
-  [field: string]: GraphItem[]
+@model()
+export class GraphSerie {
+  @property()
+  name: string;
+  @property.array(() => GraphItem)
+  series: GraphItem[];
+
 }
 
 @injectable({scope: BindingScope.TRANSIENT})
@@ -37,9 +42,8 @@ export class ModuleValueGraphService {
   ) {}
 
 
-  async getGraph(request: GraphModuleRequest): Promise<GraphModuleResponse> {
-    const response = new GraphModuleResponse();
-    for(const field of request.fields) { response[field] = []}
+  async getGraph(request: GraphModuleRequest): Promise<GraphSerie[]> {
+    const series: GraphSerie[] = [];
     const entries = await this.valueService.sensorValueRepository.find({
       fields: [...request.fields, 'createdAt'],
       where: {
@@ -57,11 +61,16 @@ export class ModuleValueGraphService {
         ]
       }
     });
+    for(const field of request.fields) {
+      series.push({name: field, series: []});
+    }
     for(const e of entries) {
+      let i = 0;
       for(const field of request.fields) {
-        response[field].push({at: e.createdAt, value: e[field]})
+        series[i].series.push({name: e.createdAt.toLocaleString(), value: e[field]})
+        i++;
       }
     }
-    return response;
+    return series;
   }
 }
