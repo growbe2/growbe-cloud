@@ -34,7 +34,7 @@ export class GrowbeStatusDotComponent implements OnInit {
     this.state = this.growbe.state;
 
 
-    (await this.growbeEventService.getGrowbeEvent(this.growbe.id, '/board/state', (d) => JSON.parse(d))).subscribe((event) => {
+    (await this.growbeEventService.getGrowbeEvent(this.growbe.id, '/cloud/state', (d) => JSON.parse(d))).subscribe((event) => {
       this.state = event.state;
     });
   }
