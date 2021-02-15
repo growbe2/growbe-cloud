@@ -108,6 +108,7 @@ describe('Growbe Mainboard', () => {
       });
     });
 
+    /*
     describe('Validation de la connectivité', () => {
       it('Recoit des hearthBeath donc online et topic send', async () => {
         const rtcValid = getDate((defaultConfig.hearthBeath as any) / 2);
@@ -142,5 +143,6 @@ describe('Growbe Mainboard', () => {
         expect(mqttService.sendMessage.length).to.eql(1);
       });
     });
+    */
   });
 });

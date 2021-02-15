@@ -1,10 +1,28 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {GrowbeMainboard} from './growbe-mainboard.model';
 
 @model({settings: {strict: false}})
 export class GrowbeSensorValue extends Entity {
   // Define well-known properties here
-  @property({type: 'string', id: true, generated: true})
-  id: string
+  @property({
+    type: 'string',
+    id: true,
+        generated: true,
+            mongodb: {dataType: 'ObjectID'},
+  })
+  id?: string;
+
+  @property()
+  moduleType: string;
+
+  @property()
+  moduleId: string;
+
+  @belongsTo(() => GrowbeMainboard)
+  growbeMainboardId: string;
+
+  @property()
+  createdAt: Date;
 
   // Indexer property to allow additional data
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,10 +1,11 @@
 import {BelongsToAccessor, DefaultCrudRepository, repository, HasOneRepositoryFactory, HasManyRepositoryFactory} from '@loopback/repository';
-import {GrowbeMainboard, GrowbeMainboardRelations, GrowbeMainboardConfig, GrowbeWarning} from '../models';
+import {GrowbeMainboard, GrowbeMainboardRelations, GrowbeMainboardConfig, GrowbeWarning, GrowbeSensorValue} from '../models';
 import {PgsqlDataSource} from '../datasources';
 import {Getter, inject} from '@loopback/core';
 import { UserRepository, User } from '@berlingoqc/sso';
 import {GrowbeMainboardConfigRepository} from './growbe-mainboard-config.repository';
 import {GrowbeWarningRepository} from './growbe-warning.repository';
+import {GrowbeSensorValueRepository} from './growbe-sensor-value.repository';
 
 export class GrowbeMainboardRepository extends DefaultCrudRepository<
   GrowbeMainboard,
@@ -18,11 +19,15 @@ export class GrowbeMainboardRepository extends DefaultCrudRepository<
 
   public readonly growbeWarnings: HasManyRepositoryFactory<GrowbeWarning, typeof GrowbeMainboard.prototype.id>;
 
+  public readonly growbeSensorValues: HasManyRepositoryFactory<GrowbeSensorValue, typeof GrowbeMainboard.prototype.id>;
+
   constructor(
     @inject('datasources.pgsql') dataSource: PgsqlDataSource,
-    @repository.getter('repositories.UserRepository') userGetter: Getter<UserRepository>, @repository.getter('GrowbeMainboardConfigRepository') protected growbeMainboardConfigRepositoryGetter: Getter<GrowbeMainboardConfigRepository>, @repository.getter('GrowbeWarningRepository') protected growbeWarningRepositoryGetter: Getter<GrowbeWarningRepository>,
+    @repository.getter('repositories.UserRepository') userGetter: Getter<UserRepository>, @repository.getter('GrowbeMainboardConfigRepository') protected growbeMainboardConfigRepositoryGetter: Getter<GrowbeMainboardConfigRepository>, @repository.getter('GrowbeWarningRepository') protected growbeWarningRepositoryGetter: Getter<GrowbeWarningRepository>, @repository.getter('GrowbeSensorValueRepository') protected growbeSensorValueRepositoryGetter: Getter<GrowbeSensorValueRepository>,
   ) {
     super(GrowbeMainboard, dataSource);
+    this.growbeSensorValues = this.createHasManyRepositoryFactoryFor('growbeSensorValues', growbeSensorValueRepositoryGetter,);
+    this.registerInclusionResolver('growbeSensorValues', this.growbeSensorValues.inclusionResolver);
     this.growbeWarnings = this.createHasManyRepositoryFactoryFor('growbeWarnings', growbeWarningRepositoryGetter,);
     this.registerInclusionResolver('growbeWarnings', this.growbeWarnings.inclusionResolver);
     this.growbeMainboardConfig = this.createHasOneRepositoryFactoryFor('growbeMainboardConfig', growbeMainboardConfigRepositoryGetter);

@@ -11,20 +11,20 @@ import { filter } from 'rxjs/operators';
 import mqtt from 'mqtt';
 import { MQTTService } from '../../services';
 
-import { HearthBeath } from '@growbe2/growbe-pb';
+import { HearthBeath, THLModuleData } from '@growbe2/growbe-pb';
 import { GrowbeStateService } from '../../services/growbe-state.service';
+import { GrowbeModuleValueService } from '../../services/growbe-module-value.service';
+import { Constructor } from '@loopback/repository';
+import { GrowbeMainboardBindings } from '../../keys';
+import { DataSubject } from './model';
 
-/**
- * This class will be bound to the application as a `LifeCycleObserver` during
- * `boot`
- */
 @lifeCycleObserver('')
 export class GrowbeDataSubjectObserver implements LifeCycleObserver {
   client: mqtt.Client;
   constructor(
     @inject(CoreBindings.APPLICATION_INSTANCE) private app: Application,
     @service(MQTTService) private mqttService: MQTTService,
-    @service(GrowbeStateService) private growbeStateService: GrowbeStateService,
+    @inject(GrowbeMainboardBindings.WATCHERS) private watchers: DataSubject[],
   ) {}
 
   /**
@@ -41,11 +41,17 @@ export class GrowbeDataSubjectObserver implements LifeCycleObserver {
    */
   async start(): Promise<void> {
     await this.mqttService.addSubscription('#');
-    this.mqttService.observable.pipe(filter(x => x.topic.includes("heartbeath"))).subscribe((data) => {
-      const beath = HearthBeath.decode(data.message);
-      this.growbeStateService.onBeath(this.getIdFromTopic(data.topic), beath);
-    });
-   
+    for(const subject of this.watchers) {
+      this.mqttService.observable.pipe(filter(x => x.topic.includes(subject.regexTopic))).subscribe(async (data) => {
+        try {
+        const d = subject.model.decode(data.message);
+        const service = await this.app.get(`services.${subject.service.name}`);
+        await subject.func(this.getIdFromTopic(data.topic), service, d);
+        } catch(err) {
+          console.log(err);
+        }
+      })
+    }
   }
 
   /**

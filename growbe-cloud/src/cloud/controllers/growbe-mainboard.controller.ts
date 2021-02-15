@@ -23,11 +23,22 @@ export class GrowbeMainboardController {
 
   @patch('/growbe/{id}/config')
   @authenticate('jwt')
-  setGrowbeTime(
+  setGrowbeConfig(
     @param.path.string('id') id: string,
     @requestBody() body: any,
   ) {
     return this.growbeService.updateConfig(id, body)
   } 
+
+  @patch('/growbe/{id}/rtc')
+  @authenticate('jwt')
+  setGrowbeRTC(
+    @param.path.string('id') id: string,
+    @requestBody() body: any,
+  ) {
+    return this.growbeService.setRTC(id, body);
+  } 
+
+
 
 }

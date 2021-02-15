@@ -3,7 +3,7 @@ import { HearthBeath } from '@growbe2/growbe-pb';
 import {belongsTo, Entity, model, property, hasOne, hasMany} from '@loopback/repository';
 import {GrowbeMainboardConfig} from './growbe-mainboard-config.model';
 import {GrowbeWarning} from './growbe-warning.model';
-
+import {GrowbeSensorValue} from './growbe-sensor-value.model';
 
 export type GrowbeState = 'CONNECTED' | 'DISCONNECTED';
 
@@ -30,6 +30,9 @@ export class GrowbeMainboard extends Entity {
 
   @hasMany(() => GrowbeWarning)
   growbeWarnings: GrowbeWarning[];
+
+  @hasMany(() => GrowbeSensorValue)
+  growbeSensorValues: GrowbeSensorValue[];
 
   constructor(data?: Partial<GrowbeMainboard>) {
     super(data);

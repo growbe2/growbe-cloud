@@ -14,9 +14,6 @@ export async function migrate(args: string[]) {
   await app.boot();
   await app.migrateSchema({existingSchema});
 
-  const repo = await app.getRepository(GrowbeSensorValueRepository);
-  console.log(await repo.create({}));
-
   // Connectors usually keep a pool of opened connections,
   // this keeps the process running even after all work is done.
   // We need to exit explicitly.

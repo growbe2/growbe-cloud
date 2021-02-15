@@ -54,6 +54,10 @@ export class GrowbeService {
       this.mainboardRepository.growbeMainboardConfig(growbeId).patch({config})
   }
 
+  async setRTC(growbeId: string, rtcTime: RTCTime) {
+    return this.mqttService.send(getTopic(growbeId, "/board/setTime"), pb.RTCTime.encode(rtcTime).finish())
+  }
+
   async register(userId: string, request: GrowbeRegisterRequest) {
     const response = new GrowbeRegisterResponse();
     const mainboard = await this.findOrCreate(request.id);
