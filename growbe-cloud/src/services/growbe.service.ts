@@ -50,7 +50,7 @@ export class GrowbeService {
   }
 
   async updateConfig(growbeId: string, config: pb.GrowbeMainboardConfig) {
-      await this.mqttService.send(getTopic(growbeId, "/config"), pb.GrowbeMainboardConfig.encode(config).finish())
+      await this.mqttService.send(getTopic(growbeId, "/board/config"), pb.GrowbeMainboardConfig.encode(config).finish())
       this.mainboardRepository.growbeMainboardConfig(growbeId).patch({config})
   }
 

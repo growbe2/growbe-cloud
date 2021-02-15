@@ -57,7 +57,7 @@ export class GrowbeStateService {
   }
 
   private notifyState(mainboard: GrowbeMainboard, beath: HearthBeath) {
-     return this.mqttService.send(getTopic(mainboard.id,'/state'), JSON.stringify({
+     return this.mqttService.send(getTopic(mainboard.id,'/cloud/state'), JSON.stringify({
         state: mainboard.state,
       }));
   }

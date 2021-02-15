@@ -8,7 +8,7 @@ import {GrowbeMessage} from '@growbe2/growbe-pb';
 
 
 export const getTopic = (growbeId: string, subtopic: string) => {
-  return `/growbe/${growbeId}/board${subtopic}`;
+  return `/growbe/${growbeId}${subtopic}`;
 }
 
 @injectable({scope: BindingScope.SINGLETON})
