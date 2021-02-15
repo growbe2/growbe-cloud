@@ -36,6 +36,8 @@
     "@growbe2/node-editor": "0.0.2",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
+    "@swimlane/dragula": "^3.8.0",
+    "@swimlane/ngx-charts": "^17.0.0",
     "@types/protobufjs": "^6.0.0",
     "async-mqtt": "^2.6.1",
     "buffer": "^6.0.3",

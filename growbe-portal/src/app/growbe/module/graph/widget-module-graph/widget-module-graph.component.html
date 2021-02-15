@@ -1,0 +1,31 @@
+<fuse-widget
+  [@animate]="{ value: '*', params: { y: '100%' } }"
+  class="widget"
+  fxLayout="column"
+  fxFlex="100"
+  fxFlex.gt-xs="50"
+  fxFlex.gt-md="25"
+>
+  <!-- Front -->
+  <div class="fuse-widget-front">
+    <div
+      class="pl-16 pr-8 py-16 h-52"
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+    >
+    </div>
+
+    <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+      <app-module-sensor-value-graph [data]="data"></app-module-sensor-value-graph>
+    </div>
+
+    <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+    </div>
+  </div>
+  <!-- / Front -->
+
+  <!-- Back -->
+  <div class="fuse-widget-back p-16 pt-32">
+  </div>
+  <!-- / Back -->
+</fuse-widget>

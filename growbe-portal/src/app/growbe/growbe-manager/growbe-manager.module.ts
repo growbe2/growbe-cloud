@@ -5,6 +5,7 @@ import { GrowbeMainboardModule } from '../growbe-mainboard/growbe-mainboard.modu
 import { GrowbeManagerRoutingModule } from './growbe-manager.routing';
 
 import {PageLayoutModule} from '@berlingoqc/fuse-extra';
+import { GraphModule } from '../module/graph/graph.module';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import {PageLayoutModule} from '@berlingoqc/fuse-extra';
     GrowbeManagerRoutingModule,
 
     GrowbeMainboardModule,
+    GraphModule,
   ]
 })
 export class GrowbeManagerModule { }
