@@ -20,3 +20,10 @@ message ModuleStatus {
     string boardVersion = 5;
     bool plug = 6;
 }
+
+message THLModuleData {
+    string id = 1;
+
+    float humidity = 2;
+    float airTemperature = 3;
+}
