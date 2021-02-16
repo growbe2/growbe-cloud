@@ -1,16 +1,6 @@
 syntax = "proto3";
 
 
-enum MessageType {
-    MT_UNKNOW = 0;
-    MT_HEARTHBEATH = 1;
-    MT_MODULESTATUS = 2;
-    MT_GROWBECONFIG = 3;
-    MT_LOG = 4;
-    MT_RTCTIME = 5;
-    MT_THLMODULEDATA = 6;
-}
-
 /*
 * Structure pour les messages qui sont envoyés entre la serre
 * par MQTT

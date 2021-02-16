@@ -1,16 +1,6 @@
 syntax = "proto3";
 
 
-enum BoardType {
-    BT_UNKNOW = 0;
-    BT_COMM = 1;
-    BT_SWITCH = 2;
-    BT_P110 = 3;
-    BT_P220 = 4;
-    BT_WATER = 5;
-    BT_AIR = 6;
-    BT_SOIL = 7;
-}
 
 message ModuleStatus {
     string id = 1;
