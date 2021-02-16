@@ -35,6 +35,9 @@ export async function setupApplication(
     casbin: true,
   });
 
+
+  await init(app);
+
   app.bind('datasources.config.mongo').to({name: 'mongo', connector: 'memory'});
   app.bind('datasources.config.pgsql').to({name: 'pgsql', connector: 'memory'});
   app.bind('datasources.postregsql').toClass(TestDataSource).inScope(BindingScope.SINGLETON);
@@ -42,8 +45,6 @@ export async function setupApplication(
 
   app.bind(GrowbeMainboardBindings.DEFAULT_CONFIG).to({hearthBeath: 5})
 
-
-  await init(app);
 
   app.bind('services.MQTTService').toClass(MockMQTTService);
   await app.boot();

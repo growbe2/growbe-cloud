@@ -18,7 +18,7 @@ const watchers: DataSubject[] = [
       return service.onBeath(id, data)
     },
     model: HearthBeath,
-    regexTopic: 'hearthBeath',
+    regexTopic: 'heartbeath',
     service: GrowbeStateService,
   },
   {

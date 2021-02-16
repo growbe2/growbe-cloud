@@ -6,6 +6,8 @@ export class PostregsqlDataSource
   extends juggler.DataSource
   implements LifeCycleObserver {
   static dataSourceName = 'postregsql';
+  static readonly defaultConfig = {};
+
 
   constructor(
     @inject('datasources.config.postregsql', {optional: false})
