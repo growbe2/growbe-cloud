@@ -11,6 +11,7 @@ import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 export class GrowbeTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild('status') status: TemplateRef<any>;
+  @ViewChild('options') options: TemplateRef<any>;
 
   @Input() where: Where = {};
   // Include pour requête loopback
@@ -49,6 +50,18 @@ export class GrowbeTableComponent implements OnInit, AfterViewInit {
         type: 'template',
         content: null,
       }
+    },
+    {
+      id: 'options',
+      title: {
+        type: 'string',
+        content: 'Options'
+      },
+      content: {
+        type: 'template',
+        content: null,
+      }
+
     }
   ];
 
@@ -61,6 +74,7 @@ export class GrowbeTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.columns[2].content.content = this.status;
+    this.columns[3].content.content = this.options;
   }
 
 }

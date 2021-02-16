@@ -47,10 +47,9 @@ import {
   distinctUntilChanged,
   filter,
 } from 'rxjs/operators';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { NodeEditorComponent } from './node-editor/node-editor.component';
 import { GrowbeAuthModule } from './auth/auth.module';
-
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @Injectable({
   providedIn: 'root',

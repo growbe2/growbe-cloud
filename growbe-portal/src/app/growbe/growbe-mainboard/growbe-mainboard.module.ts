@@ -6,15 +6,19 @@ import { GrowbeRegisterComponent } from './component/growbe-register/growbe-regi
 import { AutoTableModule } from '@berlingoqc/ngx-autotable';
 import { GrowbeStatusDotComponent } from './component/growbe-status-dot/growbe-status-dot.component';
 import { GrowbeEventService } from '../services/growbe-event.service';
+import { GrowbeClockStateComponent } from './component/growbe-clock-state/growbe-clock-state.component';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
-  declarations: [GrowbeTableComponent, GrowbeDetailComponent, GrowbeRegisterComponent, GrowbeStatusDotComponent],
+  declarations: [GrowbeTableComponent, GrowbeDetailComponent, GrowbeRegisterComponent, GrowbeStatusDotComponent, GrowbeClockStateComponent],
   imports: [
     CommonModule,
+    RouterModule,
     AutoTableModule,
-
+    MatButtonModule,
   ],
-  exports: [GrowbeTableComponent, GrowbeDetailComponent, GrowbeRegisterComponent]
+  exports: [GrowbeTableComponent, GrowbeDetailComponent, GrowbeRegisterComponent, GrowbeClockStateComponent]
 })
 export class GrowbeMainboardModule {}

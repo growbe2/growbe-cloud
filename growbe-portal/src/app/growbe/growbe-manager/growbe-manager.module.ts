@@ -6,10 +6,11 @@ import { GrowbeManagerRoutingModule } from './growbe-manager.routing';
 
 import {PageLayoutModule} from '@berlingoqc/fuse-extra';
 import { GraphModule } from '../module/graph/graph.module';
+import { GrowbeManagerDetailComponent } from './growbe-manager-detail/growbe-manager-detail.component';
 
 
 @NgModule({
-  declarations: [GrowbeManagerDashboardComponent],
+  declarations: [GrowbeManagerDashboardComponent, GrowbeManagerDetailComponent],
   imports: [
     CommonModule,
 

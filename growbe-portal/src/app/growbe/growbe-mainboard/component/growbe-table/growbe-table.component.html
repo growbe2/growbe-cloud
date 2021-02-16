@@ -2,6 +2,12 @@
   <app-growbe-status-dot [growbe]="parent"></app-growbe-status-dot>
 </ng-template>
 
+<ng-template #options let-parent="parent">
+  <button mat-stroked-button [routerLink]="['/','growbe',parent.id]">Detail</button>
+</ng-template>
+
+
+
 <div>
   <ngx-autotable
     [columns]="columns"

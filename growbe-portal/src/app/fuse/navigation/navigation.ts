@@ -12,22 +12,15 @@ export const navigation: FuseNavigation[] = [
     id: 'growbe',
     title: 'Growbe',
     type: 'item',
-    icon: 'grow',
+    icon: 'settings_input_component',
     url: '/growbe'
   },
   {
-    id: 'organisation',
-    title: 'Organisation',
+    id: 'dashboard',
+    title: 'Dashboard',
     type: 'item',
-    icon: 'help',
-    url: '/organisation',
-  },
-  {
-    id: 'node',
-    title: 'Node editor',
-    type: 'item',
-    icon: 'editor',
-    url: '/editor',
+    icon: 'dashboard',
+    url: '/dashboard',
   },
   {
     id: 'faq',
