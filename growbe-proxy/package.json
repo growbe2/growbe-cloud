@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "nexe --build && nexe index.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,5 +17,8 @@
     "mqtt": "^4.2.6",
     "protobufjs": "^6.10.2",
     "serialport": "^9.0.6"
+  },
+  "devDependencies": {
+    "nexe": "^4.0.0-beta.17"
   }
 }

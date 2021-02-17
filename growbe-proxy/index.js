@@ -9,7 +9,7 @@ const GrowbePB = require('@growbe2/growbe-pb');
 
 const mapType = {
     'config': 3,
-    'rtc': 5,
+    'setTime': 5,
 }
 
 
