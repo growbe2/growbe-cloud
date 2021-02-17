@@ -1,7 +1,7 @@
 name: Deploying
 
 on:
-  create:
+  push:
     tags:
       - 'cloud*'
 
@@ -13,7 +13,7 @@ jobs:
       - name: Login docker
         run: docker login https://docker.pkg.github.com -u berlingoqc -p $GITHUB_ACCESS_TOKEN
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.READ_PACKAGES_PAT }}
+          GITHUB_ACCESS_TOKEN: ${{ secrets.READ_PACKAGES_PAT }}
       - name: Docker build
         run: cd growbe-cloud && npm run docker:build
         env:
