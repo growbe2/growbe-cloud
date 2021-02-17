@@ -1,0 +1,26 @@
+name: Deploying
+
+on:
+  create:
+    tags:
+      - 'cloud*'
+
+jobs:
+  proxy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Login docker
+        run: docker login https://docker.pkg.github.com -u berlingoqc -p $GITHUB_ACCESS_TOKEN
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.READ_PACKAGES_PAT }}
+      - name: Docker build
+        run: cd growbe-cloud && npm run docker:build
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.READ_PACKAGES_PAT }}
+      - name: Publish
+        run: cd growbe-cloud && npm run docker:build
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.READ_PACKAGES_PAT }}
+ 
+ 

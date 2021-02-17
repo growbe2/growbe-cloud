@@ -1,0 +1,18 @@
+name: Deploying
+
+on:
+  create:
+    tags:
+      - prod*
+
+jobs:
+  tagging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Building
+        run: './cloud/build.sh'
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+      - name: Deploy to serveur
+        run: 'DOCKER_HOST=dock.wquintal.ca:2356 ./cloud/deploy.sh'

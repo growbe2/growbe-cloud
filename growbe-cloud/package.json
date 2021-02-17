@@ -29,6 +29,8 @@
     "migrate": "node ./dist/migrate",
     "preopenapi-spec": "npm run build",
     "openapi-spec": "node ./dist/openapi-spec",
+    "docker:build": "docker build -f ./docker/growbe-cloud.Dockerfile -t docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud:latest --build-arg GITHUB_ACCESS_TOKEN=$GITHUB_ACCESS_TOKEN .",
+    "docker:push": "docker push docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud",
     "rebuild": "npm run clean && npm run build",
     "prestart": "npm run rebuild",
     "start": "node -r source-map-support/register ./dist/growbe-cloud.js",

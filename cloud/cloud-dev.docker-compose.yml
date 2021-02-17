@@ -114,6 +114,19 @@ services:
       - '0.0.0.0:8080:80'
     expose:
       - '80'
+  red:
+    image: nodered/node-red:latest
+    environment:
+      - TZ=America/Toronto
+    ports:
+      - "1880:1880"
+    networks:
+      - net
+    volumes:
+      - node-red-data:/data
+
+volumes:
+  node-red-data:
 
 networks:
   net:

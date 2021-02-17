@@ -1,0 +1,21 @@
+name: Deploying
+
+on:
+  create:
+    tags:
+      - portal*
+
+jobs:
+  proxy:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@growbe2'
+      - name: Building App
+        run: npm install && npm run build
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.READ_PACKAGES_PAT }}
