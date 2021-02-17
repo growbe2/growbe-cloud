@@ -18,6 +18,7 @@ RUN mkdir -p /home/node/app
 WORKDIR /home/node/app
 
 RUN echo "@berlingoqc:registry=https://npm.pkg.github.com/" > .npmrc
+RUN echo "@growbe2:registry=https://npm.pkg.github.com/" >> .npmrc
 RUN echo "//npm.pkg.github.com/:_authToken=$GITHUB_ACCESS_TOKEN" >> .npmrc
 #
 # Install app dependencies

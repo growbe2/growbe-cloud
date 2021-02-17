@@ -55,12 +55,30 @@ services:
       MQTT_URL: 'mqtt://broker:1883'
     command: >
       npm run start
-  sso:
+  growbe-cloud-watcher:
     build:
-      context: '../sso/'
-      dockerfile: './docker/sso.Dockerfile'
+      context: '../growbe-cloud'
+      dockerfile: './docker/growbe-cloud.Dockerfile'
       args:
         - GITHUB_ACCESS_TOKEN
+    networks:
+      - net
+    depends_on:
+        - pgsql
+    ports:
+      - '0.0.0.0:3005:3000'
+    expose:
+      - '3000'
+    environment:
+      PORT: 3000
+      SSO_URL: 'http://sso:3001'
+      DB_URL: 'postgres://test:test@pgsql:5432/defaultdb'
+      MONGO_URL: 'mongodb://doadmin:test@mongo:27017/growbe?authSource=admin'
+      MQTT_URL: 'mqtt://broker:1883'
+    command: >
+      npm run build && npm run start:watcher
+  sso:
+    image: docker.pkg.github.com/berlingoqc/sso:latest
     networks:
       - net
     depends_on:
