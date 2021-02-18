@@ -1,7 +1,7 @@
 name: Deploying
 
 on:
-  create:
+  push:
     tags:
       - prod*
 
