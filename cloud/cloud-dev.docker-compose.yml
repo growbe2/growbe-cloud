@@ -31,8 +31,8 @@ services:
       - '0.0.0.0:9001:9001'
     volumes:
       - type: bind
-        source: ./mosquito/mosquito.conf
-        target: /mosquitto/config/mosquitto.conf
+        source: './mosquito/mosquito.conf'
+        target: '/mosquitto/config/mosquitto.conf'
   growbe-cloud:
     image: docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud:latest
     networks:
@@ -58,11 +58,11 @@ services:
     depends_on:
         - pgsql
     ports:
-      - '0.0.0.0:3005:3000'
+      - '0.0.0.0:3005:3005'
     expose:
-      - '3000'
+      - '3005'
     environment:
-      PORT: 3000
+      PORT: 3005
       SSO_URL: 'http://sso:3001'
       DB_URL: 'postgres://test:test@pgsql:5432/defaultdb'
       MONGO_URL: 'mongodb://doadmin:test@mongo:27017/growbe?authSource=admin'
