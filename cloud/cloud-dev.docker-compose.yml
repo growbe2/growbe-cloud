@@ -34,11 +34,7 @@ services:
         source: ./mosquito/mosquito.conf
         target: /mosquitto/config/mosquitto.conf
   growbe-cloud:
-    build:
-      context: '../growbe-cloud'
-      dockerfile: './docker/growbe-cloud.Dockerfile'
-      args:
-        - GITHUB_ACCESS_TOKEN
+    image: docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud:latest
     networks:
       - net
     depends_on:
@@ -54,13 +50,9 @@ services:
       MONGO_URL: 'mongodb://doadmin:test@mongo:27017/growbe?authSource=admin'
       MQTT_URL: 'mqtt://broker:1883'
     command: >
-      npm run start
+      npm run start:cloud
   growbe-cloud-watcher:
-    build:
-      context: '../growbe-cloud'
-      dockerfile: './docker/growbe-cloud.Dockerfile'
-      args:
-        - GITHUB_ACCESS_TOKEN
+    image: docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud:latest
     networks:
       - net
     depends_on:
@@ -76,7 +68,7 @@ services:
       MONGO_URL: 'mongodb://doadmin:test@mongo:27017/growbe?authSource=admin'
       MQTT_URL: 'mqtt://broker:1883'
     command: >
-      npm run build && npm run start:watcher
+      npm run start:watcher
   sso:
     image: docker.pkg.github.com/berlingoqc/sso:latest
     networks:
@@ -103,11 +95,7 @@ services:
     command: >
       npm run start
   frontend_dev:
-    build:
-      context: '../growbe-portal'
-      dockerfile: './Dockerfile'
-      args:
-        - GITHUB_ACCESS_TOKEN
+    image: docker.pkg.github.com/growbe2/growbe-cloud/growbe-portal:latest
     networks:
       - net
     ports:

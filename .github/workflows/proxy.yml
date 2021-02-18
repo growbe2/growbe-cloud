@@ -1,4 +1,4 @@
-name: Deploying
+name: growbe proxy
 
 on:
   push:

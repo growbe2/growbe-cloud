@@ -1,4 +1,4 @@
-name: Deploying
+name: growbe portal pipeline
 
 on:
   push:
@@ -7,15 +7,20 @@ on:
 
 jobs:
   proxy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '10.x'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@growbe2'
-      - name: Building App
-        run: npm install && npm run build
+      - name: Login docker
+        run: docker login https://docker.pkg.github.com -u berlingoqc -p $GITHUB_ACCESS_TOKEN
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.PAT }}
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+      - name: Docker build
+        run: cd growbe-portal && npm run docker:build
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+      - name: Publish
+        run: cd growbe-portal && npm run docker:push
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+ 
+ 
