@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "nexe --build && nexe index.js"
+    "build": "npx pkg -t win ./index.js -o growbe-proxy"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,6 @@
     "serialport": "^9.0.6"
   },
   "devDependencies": {
-    "nexe": "^4.0.0-beta.17"
+    "pkg": "^4.4.9"
   }
 }
