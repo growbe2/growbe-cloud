@@ -1,5 +1,6 @@
-import {injectable, /* inject, */ BindingScope, service} from '@loopback/core';
-import {model, property} from '@loopback/repository';
+import {/* inject, */ BindingScope, injectable, service} from '@loopback/core';
+import {model, property, Where} from '@loopback/repository';
+import {GrowbeSensorValue} from '../models';
 import {GrowbeModuleValueService} from './growbe-module-value.service';
 
 @model()
@@ -50,7 +51,8 @@ export class ModuleValueGraphService {
     const entries = await this.valueService.sensorValueRepository.find({
       fields: [...request.fields, 'createdAt'],
       where: {
-        and: this.getDateCondifition(request),
+        and: [...this.getDateCondifition(request)],
+        or: request.fields.map(field => ({[field]: {neq: null}})),
       },
     });
     for (const field of request.fields) {
@@ -59,6 +61,7 @@ export class ModuleValueGraphService {
     for (const e of entries) {
       let i = 0;
       for (const field of request.fields) {
+        if (!e[field]) continue;
         series[i].series.push({
           name: e.createdAt.toLocaleString(),
           value: e[field],
@@ -69,7 +72,9 @@ export class ModuleValueGraphService {
     return series;
   }
 
-  private getDateCondifition(request: GraphModuleRequest) {
+  private getDateCondifition(
+    request: GraphModuleRequest,
+  ): Where<GrowbeSensorValue>[] {
     if (request.from && request.to) {
       return [
         {
@@ -83,19 +88,19 @@ export class ModuleValueGraphService {
           },
         },
       ];
-    } else if(request.from) {
-      return [{createAt: {gte: request.from}}]
-    } else if(request.to) {
-      return [{createAt: {lte: request.from}}]
-    } else if(request.lastX) {
-      const date:any = new Date();
+    } else if (request.from) {
+      return [{createAt: {gte: request.from}}];
+    } else if (request.to) {
+      return [{createAt: {lte: request.from}}];
+    } else if (request.lastX) {
+      const date: any = new Date();
       const unit = request.lastXUnit ?? 'Date';
       const set = `set${unit}`;
       const get = `get${unit}`;
       const d = date[get]() - request.lastX;
       date[set](d);
-      return [{createdAt: {gte: date}}]
+      return [{createdAt: {gte: date}}];
     }
-
+    return [];
   }
 }
