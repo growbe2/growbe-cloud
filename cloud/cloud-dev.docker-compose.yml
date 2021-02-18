@@ -39,6 +39,7 @@ services:
       - net
     depends_on:
         - pgsql
+        - broker
     ports:
       - '0.0.0.0:3000:3000'
     expose:
@@ -49,14 +50,15 @@ services:
       DB_URL: 'postgres://test:test@pgsql:5432/defaultdb'
       MONGO_URL: 'mongodb://doadmin:test@mongo:27017/growbe?authSource=admin'
       MQTT_URL: 'mqtt://broker:1883'
-    command: >
-      npm run start:cloud
+    command: 'npm run start:cloud'
+
   growbe-cloud-watcher:
     image: docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud:latest
     networks:
       - net
     depends_on:
         - pgsql
+        - broker
     ports:
       - '0.0.0.0:3005:3005'
     expose:
@@ -67,8 +69,7 @@ services:
       DB_URL: 'postgres://test:test@pgsql:5432/defaultdb'
       MONGO_URL: 'mongodb://doadmin:test@mongo:27017/growbe?authSource=admin'
       MQTT_URL: 'mqtt://broker:1883'
-    command: >
-      npm run start:watcher
+    command: 'npm run start:watcher'
   sso:
     image: docker.pkg.github.com/berlingoqc/sso:latest
     networks:
@@ -92,8 +93,7 @@ services:
       OTP_SECRET: '12445431'
       JWT_SECRET: '2342tf'
       JWT_TTL: 9600
-    command: >
-      npm run start
+    command: npm run start
   frontend_dev:
     image: docker.pkg.github.com/growbe2/growbe-cloud/growbe-portal:latest
     networks:

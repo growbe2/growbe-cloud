@@ -16,6 +16,6 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@growbe2'
       - name: Building App
-        run: npm install && npm run build
+        run: cd growbe-proxy && npm install && npm run build && ls -la
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PAT }}

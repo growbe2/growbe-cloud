@@ -1,4 +1,4 @@
-FROM node:10-slim
+FROM node:14
 
 VOLUME /ASSET_DIR
 VOLUME /STORAGE_DIR
@@ -33,7 +33,6 @@ RUN npm install
 # Bundle app source code
 COPY --chown=node . .
 
-RUN npm run build
 
 # Bind to all network interfaces so that it can be mapped to the host OS
 ENV HOST=$HOST PORT=$PORT TZ=$TZ
