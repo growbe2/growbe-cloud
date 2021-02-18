@@ -32,7 +32,7 @@ jobs:
           draft: false
           prerelease: false
       - name: Creating archive realease
-        run: mkdir -p ./growbe${{ github.ref }}/node_modules/@serialport/bindings/ && cp -r ./node_modules/@serialport/bindings/* ./${{ github.ref }}/node_modules/@serialport/bindings/ && cp growbe-proxy.exe ./${{ github.ref }}  &&  zip ${{ github.ref }}.zip -r ./${{ github.ref }}/*
+        run: cd growbe-proxy && mkdir -p ./growbe${{ github.ref }}/node_modules/@serialport/bindings/ && cp -r ./node_modules/@serialport/bindings/* ./${{ github.ref }}/node_modules/@serialport/bindings/ && cp growbe-proxy.exe ./${{ github.ref }}  &&  zip ${{ github.ref }}.zip -r ./${{ github.ref }}/*
       - name: Upload Release Asset
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
