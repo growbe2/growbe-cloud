@@ -11,10 +11,6 @@ import { filter } from 'rxjs/operators';
 import mqtt from 'mqtt';
 import { MQTTService } from '../../services';
 
-import { HearthBeath, THLModuleData } from '@growbe2/growbe-pb';
-import { GrowbeStateService } from '../../services/growbe-state.service';
-import { GrowbeModuleValueService } from '../../services/growbe-module-value.service';
-import { Constructor } from '@loopback/repository';
 import { GrowbeMainboardBindings } from '../../keys';
 import { DataSubject } from './model';
 
@@ -42,13 +38,14 @@ export class GrowbeDataSubjectObserver implements LifeCycleObserver {
   async start(): Promise<void> {
     await this.mqttService.addSubscription('#');
     for(const subject of this.watchers) {
-      this.mqttService.observable.pipe(filter(x => x.topic.includes(subject.regexTopic))).subscribe(async (data) => {
+      // TODO mettre vrai regex calsis
+      this.mqttService.observable.pipe(filter(x => !x.topic.includes('cloud') && x.topic.includes(subject.regexTopic))).subscribe(async (data) => {
         try {
-        const d = subject.model.decode(data.message);
+        const d = (subject.model) ? subject.model.decode(data.message) : data.message;
         const service = await this.app.get(`services.${subject.service.name}`);
-        await subject.func(this.getIdFromTopic(data.topic), service, d);
+        await subject.func(this.getIdFromTopic(data.topic), service, d, data.topic);
         } catch(err) {
-          console.log(err);
+          console.log('Failed to parse on subject', data.topic);
         }
       })
     }

@@ -4,6 +4,7 @@ import {belongsTo, Entity, model, property, hasOne, hasMany} from '@loopback/rep
 import {GrowbeMainboardConfig} from './growbe-mainboard-config.model';
 import {GrowbeWarning} from './growbe-warning.model';
 import {GrowbeSensorValue} from './growbe-sensor-value.model';
+import {GrowbeModule} from './growbe-module.model';
 
 export type GrowbeState = 'CONNECTED' | 'DISCONNECTED';
 
@@ -33,6 +34,9 @@ export class GrowbeMainboard extends Entity {
 
   @hasMany(() => GrowbeSensorValue)
   growbeSensorValues: GrowbeSensorValue[];
+
+  @hasMany(() => GrowbeModule, {keyTo: 'mainboardId'})
+  growbeModules: GrowbeModule[];
 
   constructor(data?: Partial<GrowbeMainboard>) {
     super(data);

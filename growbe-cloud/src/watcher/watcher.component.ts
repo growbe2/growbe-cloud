@@ -1,4 +1,4 @@
-import { HearthBeath, THLModuleData } from '@growbe2/growbe-pb';
+import { HearthBeath, ModuleStatus } from '@growbe2/growbe-pb';
 import {
   Component,
   LifeCycleObserver,
@@ -7,10 +7,9 @@ import {
   Binding,
 } from '@loopback/core';
 import { GrowbeMainboardBindings } from '../keys';
-import { GrowbeStateService } from '../services';
-import { GrowbeModuleValueService } from '../services/growbe-module-value.service';
+import { GrowbeModuleService, GrowbeStateService } from '../services';
 import { GrowbeDataSubjectObserver } from './observers';
-import { DataSubject } from './observers/model';
+import { DataSubject, funcModuleSubject } from './observers/model';
 
 const watchers: DataSubject[] = [
   {
@@ -22,10 +21,16 @@ const watchers: DataSubject[] = [
     service: GrowbeStateService,
   },
   {
-    func: (id, service: GrowbeModuleValueService, data: any) => service.onModuleData(id,'thl',data),
-    model: THLModuleData,
-    regexTopic: 'thl',
-    service: GrowbeModuleValueService,
+    func: funcModuleSubject((id, moduleId, service: GrowbeModuleService, data: any) => service.onModuleDataChange(id,moduleId,data)),
+    model: null,
+    regexTopic: 'data',
+    service: GrowbeModuleService,
+  },
+  {
+    func: funcModuleSubject((id, moduleId, service: GrowbeModuleService, data: any) => service.onModuleStateChange(id, moduleId, data)),
+    model: ModuleStatus,
+    regexTopic: 'state',
+    service: GrowbeModuleService,
   }
 ];
 

@@ -5,3 +5,5 @@ export * from './growbe-mainboard-config.model';
 export * from './growbe-warning-key.model';
 export * from './growbe-dashboard.model';
 export * from './growbe-dashboard-item.model';
+export * from './growbe-module.model';
+export * from './growbe-module-def.model';
