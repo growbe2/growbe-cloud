@@ -1,14 +1,13 @@
 syntax = "proto3";
 
-
-
-message ModuleStatus {
+message ModuleData {
     string id = 1;
     string name = 2;
 
     int32 readCount = 4;
     string boardVersion = 5;
     bool plug = 6;
+    int32 atIndex = 7;
 }
 
 message THLModuleData {
@@ -16,4 +15,28 @@ message THLModuleData {
 
     float humidity = 2;
     float airTemperature = 3;
+}
+
+message SOILModuleData {
+    string id = 1;
+    repeated int32 values = 2;
+}
+
+message WAModuleData {
+    string id = 1;
+    int32 PH = 2;
+    int32 EC = 3;
+    int32 temperature = 4;
+}
+
+enum MessageType {
+    MT_UNKNOW = 0;
+    MT_HEARTHBEATH = 1;
+    MT_MODULEDATA = 2;
+    MT_GROWBECONFIG = 3;
+    MT_LOG = 4;
+    MT_RTCTIME = 5;
+    MT_THLMODULEDATA = 6;
+    MT_SOILMODULEDATA = 7;
+    MT_WAMODULEDATA = 8;
 }
