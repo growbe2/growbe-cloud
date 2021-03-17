@@ -7,7 +7,17 @@ import { GrowbeMainboardResolver } from '../resolvers/mainboard';
 const routes: Routes = [
   { path: '', component: GrowbeManagerDashboardComponent },
   { path: ':id', component: GrowbeManagerDetailComponent, data: {
-    include: []
+    include: [
+      {
+        relation: 'growbeModules',
+      },
+      {
+        relation: 'growbeWarnings',
+      },
+      {
+        relation: 'growbeMainboardConfig',
+      }
+    ]
   }, resolve: {
     mainboard: GrowbeMainboardResolver,
   }},

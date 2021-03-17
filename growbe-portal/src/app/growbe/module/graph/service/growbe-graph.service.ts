@@ -7,8 +7,8 @@ export class GrowbeGraphService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getGraph(data: any) {
-    return this.httpClient.post(`${envConfig.growbeCloud}/growbe/graph`, data);
+  getGraph(mode: string, data: any) {
+    return this.httpClient.post(`${envConfig.growbeCloud}/growbe/`+mode, data);
   }
 
 }

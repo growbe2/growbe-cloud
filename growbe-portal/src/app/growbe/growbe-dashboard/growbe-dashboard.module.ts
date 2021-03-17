@@ -15,8 +15,8 @@ import { GrowbeDashboardItemComponent } from './growbe-dashboard-item/growbe-das
 import { GrowbeDashboardFormComponent } from './growbe-dashboard-form/growbe-dashboard-form.component';
 import { GrowbeDashboardItemFormComponent } from './growbe-dashboard-item-form/growbe-dashboard-item-form.component';
 import { GrowbeDashboardHomeComponent } from './growbe-dashboard-home/growbe-dashboard-home.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatMenuModule } from '@angular/material/menu';
+
+import { GraphSearchBarModule } from '../module/graph/graph-search-bar/graph-search-bar.module';
 
 import {AutoFormModule} from '@berlingoqc/ngx-autoform';
 import { GrowbeMainboardModule } from '../growbe-mainboard/growbe-mainboard.module';
@@ -27,8 +27,9 @@ import { GrowbeMainboardModule } from '../growbe-mainboard/growbe-mainboard.modu
     CommonModule,
     ProjectDashboardModule,
     LayoutDirectiveModule,
-    GraphModule,
 
+    GraphModule,
+    GraphSearchBarModule,
     GrowbeMainboardModule,
 
     FuseWidgetModule,

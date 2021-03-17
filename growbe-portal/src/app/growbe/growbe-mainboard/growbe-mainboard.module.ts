@@ -9,6 +9,8 @@ import { GrowbeEventService } from '../services/growbe-event.service';
 import { GrowbeClockStateComponent } from './component/growbe-clock-state/growbe-clock-state.component';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { LayoutDirectiveModule, ProjectDashboardModule } from '@berlingoqc/fuse-extra';
+import { FuseWidgetModule } from '@berlingoqc/fuse';
 
 
 @NgModule({
@@ -18,6 +20,7 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     AutoTableModule,
     MatButtonModule,
+
   ],
   exports: [GrowbeTableComponent, GrowbeDetailComponent, GrowbeRegisterComponent, GrowbeClockStateComponent]
 })

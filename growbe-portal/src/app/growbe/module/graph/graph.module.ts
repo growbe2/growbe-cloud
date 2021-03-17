@@ -8,17 +8,21 @@ import { GrowbeGraphService } from './service/growbe-graph.service';
 
 import { FuseWidgetModule } from '@berlingoqc/fuse';
 import { WidgetModuleGraphComponent } from './widget-module-graph/widget-module-graph.component';
+import { ModuleLastValueComponent } from './module-last-value/module-last-value.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  declarations: [ModuleSensorValueGraphComponent, GraphSearchBarComponent, WidgetModuleGraphComponent],
+  declarations: [ModuleSensorValueGraphComponent, WidgetModuleGraphComponent, ModuleLastValueComponent],
   imports: [
     CommonModule,
+
+    MatIconModule,
 
     FuseWidgetModule,
 
     NgxChartsModule,
   ],
   providers: [GrowbeGraphService],
-  exports: [ModuleSensorValueGraphComponent, WidgetModuleGraphComponent],
+  exports: [ModuleSensorValueGraphComponent, WidgetModuleGraphComponent, ModuleLastValueComponent],
 })
 export class GraphModule { }

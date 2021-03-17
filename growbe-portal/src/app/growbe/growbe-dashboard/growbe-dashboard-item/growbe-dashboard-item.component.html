@@ -21,6 +21,12 @@
           fxFlex="100"
           [data]="item"
         ></app-module-sensor-value-graph>
+        <app-module-sensor-value-graph
+          *ngSwitchCase="'average'"
+          fxFlex="100"
+          [data]="item"
+        ></app-module-sensor-value-graph>
+        <app-module-last-value *ngSwitchCase="'lastread'" fxFlex="100" [data]="item"></app-module-last-value>
         <app-growbe-clock-state
           *ngSwitchCase="'clock'"
           fxFlex="100"
@@ -28,7 +34,9 @@
         ></app-growbe-clock-state>
     </div>
   </div>
-  <div class="fuse-widget-back" fuseWidgetToggle fusePerfectScrollbar>
-    <pre>{{item | json}}</pre>
+  <div class="fuse-widget-back" fusePerfectScrollbar>
+    <app-graph-search-bar *ngIf="item.type == 'graph'"></app-graph-search-bar>
+
+    <button fuseWidgetToggle>cancel</button>
   </div>
 </fuse-widget>

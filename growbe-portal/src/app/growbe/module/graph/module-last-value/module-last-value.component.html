@@ -1,0 +1,26 @@
+<div class="p-16 pb-32" fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <span class="mat-display-2 m-0 font-weight-300 secondary-text">
+      {{ value | number }}
+    </span>
+    <ng-container>
+      <span class="font-size-48 font-weight-300 hint-text text-super ml-8"
+        >°</span
+      >
+      <span class="mat-display-2 mb-0 font-weight-300 hint-text ng-binding"
+        >C</span
+      >
+    </ng-container>
+  </div>
+  <div>
+    <ng-container *ngIf="lastValue">
+    <span>
+      <mat-icon *ngIf="lastValue > value" class="green-fg mr-4">trending_up</mat-icon>
+      <mat-icon *ngIf="lastValue < value" class="red-fg mr-4">trending_down</mat-icon>
+      <mat-icpn *ngIf="lastValue === value">trending_flat</mat-icpn>
+    </span>
+    <span >Dernière valeur : {{lastValue | number}}</span>
+
+    </ng-container>
+ </div>
+</div>

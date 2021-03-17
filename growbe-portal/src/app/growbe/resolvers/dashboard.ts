@@ -16,6 +16,6 @@ export class GrowbeDashboardResolver implements Resolve<any> {
     const include = route.data.include;
     return this.service.getById(id, {
       include
-    })
+    }).toPromise();
   }
 }

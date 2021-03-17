@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { APP_INITIALIZER, Injectable, NgModule } from '@angular/core';
+import { APP_INITIALIZER, Injectable, Injector, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import {
@@ -23,7 +23,8 @@ import {
 } from '@berlingoqc/ngx-common';
 
 import { navigation } from './fuse/navigation/navigation';
-import { NotificationModule, PWAModule } from '@berlingoqc/ngx-pwa';
+import { PWAModule } from '@berlingoqc/ngx-pwa';
+import { NotificationModule } from '@berlingoqc/ngx-notification';
 import { FuseModule, FuseNavigationService } from '@berlingoqc/fuse';
 import { fuseConfig } from './fuse/fuse-config';
 import { HttpClientModule } from '@angular/common/http';
@@ -79,6 +80,7 @@ export class NavigationWrapper {
     FlexLayoutModule,
     AccountModule,
     AuthModule.forRoot(),
+    NotificationModule.forRoot({} as any),
     GrowbeAuthModule,
   ],
   providers: [
@@ -92,13 +94,13 @@ export class NavigationWrapper {
         confirm: '/full/account/validate/account',
       },
       config: {
-        img: 'assets/icons/android-chrome-96x96.png',
+        img: '/assets/icons/android/android-launchericon-192-192.png',
         mainContainerClass: 'auth-dialog',
         itemClass: {
           FIRST_BTN: ['btn', 'button', 'btn-lg', 'thm-btn'],
           SECOND_BTN: ['btn', 'button', 'btn-lg', 'thm-btn', 'thm-btn-2'],
         },
-        noProfileImg: '/assets/icons/android-chrome-96x96.pngg',
+        noProfileImg: '/assets/icons/android-chrome-96x96.png',
       },
     }),
     {
@@ -111,7 +113,7 @@ export class NavigationWrapper {
     },
     {
       provide: SITE_LOGO,
-      useValue: '/assets/icons/android-chrome-96x96.png',
+      useValue: '/assets/icons/android/android-launchericon-72-72.png',
     },
     {
       provide: FUSE_FULL_SCREEN_BACKGROUND_PATH,
@@ -132,7 +134,7 @@ export class AppModule {
   constructor(
     authService: AuthService,
     layourService: LayoutEventService,
-    navigationService: FuseNavigationService
+    navigationService: FuseNavigationService,
   ) {
   }
 }

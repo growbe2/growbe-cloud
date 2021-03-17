@@ -3,6 +3,7 @@ import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 
 import * as pb from '@growbe2/growbe-pb';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-growbe-clock-state',
@@ -30,7 +31,7 @@ export class GrowbeClockStateComponent implements OnInit, OnDestroy {
   ) { }
 
   async ngOnInit() {
-    this.growbe = await this.mainboardAPI.getById(this.data.id).toPromise();
+    this.growbe = await this.mainboardAPI.getById(this.data.id).pipe(take(1)).toPromise();
     this.sub = (await this.topic.getGrowbeEvent(this.data.id, '/heartbeath', (d) => pb.HearthBeath.decode(d))).subscribe((beath) => {
       this.growbe.lastUpdateAt = beath;
       this.pulsingText.pulsing = true;
@@ -38,7 +39,7 @@ export class GrowbeClockStateComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    if(this.sub) this.sub.unsubscribe();
   }
 
 

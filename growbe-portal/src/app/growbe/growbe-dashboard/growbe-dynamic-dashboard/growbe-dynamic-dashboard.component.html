@@ -20,13 +20,12 @@
   </fuseLayoutHeader>
 
   <fuseLayoutContent>
-    <mat-tab-group dynamicHeight>
+    <mat-tab-group dynamicHeight fxFlex="100">
       <mat-tab *ngFor="let page of data.growbeDashboardItems" [label]="page.name">
         <ng-template matTabContent>
-          <div>
-        <app-growbe-dashboard-item  *ngFor="let item of page.items" [item]="item" >
+          <div class="content" [ngStyle]="data.style">
+        <app-growbe-dashboard-item  *ngFor="let item of page.items" [ngStyle]="item.style" [item]="item" >
         </app-growbe-dashboard-item>
-
           </div>
        </ng-template>
      </mat-tab>

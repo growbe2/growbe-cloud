@@ -1,1 +1,42 @@
-<p>growbe-manager-detail works!</p>
+<project-dashboard *ngIf="(mainboard | async) as mainboard$">
+  <fuseLayoutHeader>
+        <div fxLayout="row" fxLayoutAlign="space-between start">
+      <span
+        class="mat-display-1 my-0 my-sm-24 welcome-message"
+        [@animate]="{ value: '*', params: { x: '50px' } }"
+      >
+        {{ mainboard$.name }}
+      </span>
+    </div>
+  </fuseLayoutHeader>
+  <fuseLayoutContent>
+    <mat-tab-group>
+      <mat-tab label="Detail">
+
+        <autoform-form [formData]="detailMainboardForm" [initialData]="{mainboard: {id: mainboard$.id, name: mainboard$.name}}"> </autoform-form>
+
+      </mat-tab>
+      <mat-tab label="Modules">
+        <app-module-list
+          [source]="mainboardAPI.growbeModules"
+        >
+        </app-module-list>
+      </mat-tab>
+       <mat-tab label="Alerts">
+         <ngx-autotable
+          [columns]="warningColumns"
+          [source]="mainboardAPI.growbeWarnings"
+        >
+        </ngx-autotable>
+      </mat-tab>
+    </mat-tab-group>
+  </fuseLayoutContent>
+
+  <fuseLayoutSidebar>
+    <fuse-widget [@animate]="{ value: '*', params: { y: '100%' } }" class="pb-0">
+  <div class="fuse-widget-front">
+    <app-growbe-clock-state [data]="mainboard$"></app-growbe-clock-state>
+  </div>
+</fuse-widget>
+  </fuseLayoutSidebar>
+</project-dashboard>

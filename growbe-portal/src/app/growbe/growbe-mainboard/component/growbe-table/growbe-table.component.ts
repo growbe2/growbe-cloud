@@ -20,32 +20,17 @@ export class GrowbeTableComponent implements OnInit, AfterViewInit {
   columns: TableColumn[] = [
     {
       id: 'id',
-      title: {
-        type: 'string',
-        content: 'ID'
-      },
-      content: {
-        type: 'func',
-        content: (g) => g.id,
-      }
+      title: 'ID',
+      content: (g) => g.id,
     },
     {
       id: 'name',
-      title: {
-        type: 'string',
-        content: 'Nom'
-      },
-      content: {
-        type: 'func',
-        content: (g) => g.name
-      }
+      title: 'Nom',
+      content: (g) => g.name
     },
     {
       id: 'status',
-      title: {
-        type: 'string',
-        content: 'Status'
-      },
+      title: 'Status',
       content: {
         type: 'template',
         content: null,
@@ -53,10 +38,7 @@ export class GrowbeTableComponent implements OnInit, AfterViewInit {
     },
     {
       id: 'options',
-      title: {
-        type: 'string',
-        content: 'Options'
-      },
+      title: 'Options',
       content: {
         type: 'template',
         content: null,
@@ -73,8 +55,8 @@ export class GrowbeTableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.columns[2].content.content = this.status;
-    this.columns[3].content.content = this.options;
+    (this.columns[2].content as any).content = this.status;
+    (this.columns[3].content as any).content = this.options;
   }
 
 }

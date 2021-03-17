@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { GrowbeGraphService } from '../service/growbe-graph.service';
 
 @Component({
@@ -8,6 +9,17 @@ import { GrowbeGraphService } from '../service/growbe-graph.service';
 })
 export class GraphSearchBarComponent implements OnInit {
 
+  nameMode = 'Mode';
+  valueMode = ['period', 'depuis'];
+  displayMode = {
+    display: (e) => e,
+    value: (e) => e,
+  };
+
+  controlMode: FormControl;
+  formMode: FormGroup;
+
+  mode: 'period' | 'last';
 
   data;
 
@@ -16,13 +28,20 @@ export class GraphSearchBarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.data = this.graphService.getGraph({
-    "growbeId": "24DFC-2DAD",
-    "moduleType": "thl",
-    "from": "2021-02-15T04:45:13.432Z",
-    "to": "2021-02-15T04:55:13.432Z",
-    "fields": ["airTemperature", "humidity"]
-    })
+    this.controlMode = new FormControl();
+
+    this.controlMode.valueChanges.subscribe((v) => this.setMode(v));
+  }
+
+
+  private setMode(mode) {
+    this.mode = mode;
+    this.formMode = (mode === 'period') ?
+      new FormGroup({
+        from: new FormControl(),
+        to: new FormControl(),
+      }) :
+      new FormGroup({})
   }
 
 }

@@ -25,13 +25,13 @@ export class ModuleSensorValueGraphComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    this.graphService.getGraph(this.data.graphDataConfig).subscribe((serie) => (this.chartSerie = serie))
+    this.graphService.getGraph(this.data.type, this.data.graphDataConfig).subscribe((serie) => (this.chartSerie = serie))
     if (this.data.graphDataConfig.liveUpdate) {
       this.sub = (
         await this.topic.getGrowbeEvent(
           this.data.graphDataConfig.growbeId,
-          `/${this.data.graphDataConfig.moduleType}`,
-          (d) => THLModuleData.decode(d)
+          `/cloud/m/${this.data.graphDataConfig.moduleId}/data`,
+          (d) => JSON.parse(d)
         )
       ).subscribe((data) => {
         if (data) {
