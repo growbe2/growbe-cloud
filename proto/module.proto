@@ -11,23 +11,64 @@ message ModuleData {
 }
 
 message THLModuleData {
-    string id = 1;
-
     float humidity = 2;
     float airTemperature = 3;
 }
 
 message SOILModuleData {
-    string id = 1;
     repeated int32 values = 2;
 }
 
 message WAModuleData {
-    string id = 1;
     int32 PH = 2;
     int32 EC = 3;
     int32 temperature = 4;
 }
+
+enum RelayOutletMode {
+    MANUAL = 0;
+    ALARM = 1;
+}
+
+message CronItem {
+    string minute = 1;
+    string hour = 2;
+    string dayMonth = 3;
+    string month = 4;
+    string dayWeek = 5;
+}
+
+message AlarmConfig {
+    CronItem begining = 1;
+    CronItem end = 2;
+}
+
+message ManualConfig {
+    bool state = 1;
+    int32 duration = 2;
+}
+
+message RelayOutletData {
+    bool state = 1;
+}
+
+message RelayModuleData {
+    repeated RelayOutletData outlets = 1;
+}
+
+message RelayModuleConfig {
+    repeated RelayOutletConfig outlets = 1;
+}
+
+message RelayOutletConfig {
+    RelayOutletMode mode = 1;
+    
+    oneof config {
+        AlarmConfig alarm = 2;
+        ManualConfig manual =3;
+    }    
+}
+
 
 enum MessageType {
     MT_UNKNOW = 0;

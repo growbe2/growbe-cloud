@@ -4,9 +4,7 @@ ModuleData.boardVersion max_size:5
 ModuleData.id max_size:13
 ModuleData.name max_size:23
 
-THLModuleData.id max_size:13
-
-SOILModuleData.id max_size:13
 SOILModuleData.values max_count:8 fixed_count:true
 
-WAModuleData.id max_size:13
+RelayModuleConfig.outlets max_count:8 fixed_count:true
+RelayModuleData.outlets max_count:8 fixed_count:true
