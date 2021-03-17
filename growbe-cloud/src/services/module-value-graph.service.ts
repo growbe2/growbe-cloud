@@ -1,15 +1,16 @@
 import {/* inject, */ BindingScope, injectable, service} from '@loopback/core';
 import {Entity, model, property, Where} from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
+import {format} from 'date-fns';
 import {GrowbeSensorValue} from '../models';
-import { GrowbeModuleService } from './growbe-module.service';
+import {GrowbeModuleService} from './growbe-module.service';
 
 @model()
 export class ModuleDataRequest {
   @property()
   growbeId: string;
   @property()
-  moduleType: string;
+  moduleId: string;
   @property()
   lastX: number; // par default jour
   @property()
@@ -75,7 +76,7 @@ export class ModuleValueGraphService {
     const data = await this.valueService.sensorValueRepository.findOne({
       fields: [...request.fields, 'createdAt'],
       where: {
-        moduleType: request.moduleType,
+        moduleId: request.moduleId,
         growbeMainboardId: request.growbeId,
         or: request.fields.map(field => ({[field]: {neq: null}})),
       },
@@ -94,8 +95,9 @@ export class ModuleValueGraphService {
     for (const e of entries) {
       for (let i = 0; i < request.fields.length; i++) {
         const field = request.fields[i];
-        if (!e[field]) continue;
-        series[i].series[0].value += e[field];
+        const value = this.getValue(e, field);
+        if (!value) continue;
+        series[i].series[0].value += value;
         series[i].series[0].reads += 1;
       }
     }
@@ -115,10 +117,11 @@ export class ModuleValueGraphService {
     for (const e of entries) {
       let i = 0;
       for (const field of request.fields) {
-        if (!e[field]) continue;
+        const value = this.getValue(e, field);
+        if (!value) continue;
         series[i].series.push({
-          name: e.createdAt.toLocaleString(),
-          value: e[field],
+          name: format(e.createdAt, 'MM/dd/yyyy HH:mm:ss'),
+          value,
         });
         i++;
       }
@@ -126,12 +129,25 @@ export class ModuleValueGraphService {
     return series;
   }
 
+  private getValue(object: any, propAny: string) {
+    const r = new RegExp(/\[(.*?)\]/);
+    const arr = r.exec(propAny);
+    if (arr) {
+      const prop = propAny.replace(arr[0], '');
+      const index = +arr[1];
+      if (object.prop?.[index]) return object[prop][index];
+      else return null;
+    }
+    return object[propAny];
+  }
+
   private async getModuleSensorData(request: ModuleDataRequest) {
     const entries = await this.valueService.sensorValueRepository.find({
-      fields: [...request.fields, 'createdAt'],
+      //fields: [...request.fields, 'createdAt'],
       where: {
+        moduleId: request.moduleId,
         and: [...this.getDateCondifition(request)],
-        or: request.fields.map(field => ({[field]: {neq: null}})),
+        //or: request.fields.map(field => ({[field]: {neq: null}})),
       },
     });
     return entries;

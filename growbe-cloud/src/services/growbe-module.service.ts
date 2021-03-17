@@ -1,21 +1,23 @@
-import {injectable, /* inject, */ BindingScope, service} from '@loopback/core';
-import { repository } from '@loopback/repository';
-import { GrowbeModuleWithRelations, GrowbeSensorValue } from '../models';
-import { GrowbeModuleDefRepository, GrowbeModuleRepository, GrowbeSensorValueRepository } from '../repositories';
-import { getTopic, MQTTService } from './mqtt.service';
+import * as pb from '@growbe2/growbe-pb';
+import {/* inject, */ BindingScope, injectable, service} from '@loopback/core';
+import {repository} from '@loopback/repository';
+import {GrowbeModuleWithRelations, GrowbeSensorValue} from '../models';
+import {
+  GrowbeModuleDefRepository,
+  GrowbeModuleRepository,
+  GrowbeSensorValueRepository,
+} from '../repositories';
+import {getTopic, MQTTService} from './mqtt.service';
 
-import * as pb from'@growbe2/growbe-pb';
-import { parse } from 'protobufjs';
-
-
-const mapType: any= {
-  'ABCDEF': 'THLModuleData'
-}
+const mapType: any = {
+  AAA: 'THLModuleData',
+  AAS: 'SOILModuleData',
+};
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeModuleService {
-  static PREFIX_LENGTH = 6;
-  static SUFFIX_LENGTH = 4;
+  static PREFIX_LENGTH = 3;
+  static SUFFIX_LENGTH = 9;
 
   constructor(
     @repository(GrowbeModuleDefRepository)
@@ -27,11 +29,20 @@ export class GrowbeModuleService {
     @service(MQTTService) public mqttService: MQTTService,
   ) {}
 
-  async onModuleStateChange(boardId: string, moduleId: string, data: pb.ModuleStatus) {
+  async onModuleStateChange(
+    boardId: string,
+    moduleId: string,
+    data: pb.ModuleData,
+  ) {
     const module = await this.findOrCreate(boardId, moduleId);
     module.connected = data.plug;
-    await this.moduleRepository.updateById(module.id, {connected: data.plug, readCount: data.readCount});
-    await this.mqttService.send(getTopic(boardId, `/cloud/m/${moduleId}/state`), JSON.stringify(module))
+    module.readCount = data.readCount;
+    module.atIndex = data.atIndex;
+    await this.moduleRepository.update(module);
+    await this.mqttService.send(
+      getTopic(boardId, `/cloud/m/${moduleId}/state`),
+      JSON.stringify(module),
+    );
   }
 
   async onModuleDataChange(boardId: string, moduleId: string, data: any) {
@@ -39,29 +50,34 @@ export class GrowbeModuleService {
 
     // parsing of the data lol we i succeed
     const pbObjectName = mapType[info.id];
-    if(!pbObjectName) {
+    if (!pbObjectName) {
       throw new Error('pbObjectName not found in map for ' + info.id);
-    } 
+    }
 
     const parseData = require('@growbe2/growbe-pb')[pbObjectName].decode(data);
 
-    let value = new GrowbeSensorValue(Object.assign(parseData, {
-      moduleType: info.id,
-      moduleId: moduleId,
-      growbeMainboardId: boardId,
-      createdAt: new Date(),
-    }));
+    let value = new GrowbeSensorValue(
+      Object.assign(parseData, {
+        moduleType: info.id,
+        moduleId: moduleId,
+        growbeMainboardId: boardId,
+        createdAt: new Date(),
+      }),
+    );
     delete value.id;
     value = await this.sensorValueRepository.create(value);
-    await this.mqttService.send(getTopic(boardId, `/cloud/m/${moduleId}/data`), JSON.stringify(parseData));
+    await this.mqttService.send(
+      getTopic(boardId, `/cloud/m/${moduleId}/data`),
+      JSON.stringify(parseData),
+    );
     return value;
   }
 
   async findOrCreate(boardId: string, moduleId: string) {
-    let module: any = await  this.moduleRepository.findOne({
-      where: {uid: moduleId}
+    let module: any = await this.moduleRepository.findOne({
+      where: {uid: moduleId},
     });
-    if(!module) {
+    if (!module) {
       module = await this.createModule(boardId, moduleId);
       module.new = true;
     }
@@ -71,22 +87,25 @@ export class GrowbeModuleService {
   private async createModule(boardId: string, moduleId: string) {
     const info = this.getModuleIdAndType(moduleId);
     const def = await this.moduleDefRepository.findOne({where: {id: info.id}});
-    if(!def) {
-      throw new Error(`def not found ${moduleId} ${boardId}`)
+    if (!def) {
+      throw new Error(`def not found ${info.id} ${moduleId} ${boardId}`);
     }
-    const module = await this.moduleRepository.create({
+    const module = (await this.moduleRepository.create({
       uid: moduleId,
       mainboardId: boardId,
       moduleName: def.id,
-    }) as GrowbeModuleWithRelations;
+    })) as GrowbeModuleWithRelations;
     module.moduleDef = def;
-    return module
+    return module;
   }
 
-  private getModuleIdAndType(id: string): {id: string, type: string} {
+  private getModuleIdAndType(id: string): {id: string; type: string} {
     return {
       id: id.substr(0, GrowbeModuleService.PREFIX_LENGTH),
-      type: id.substr(GrowbeModuleService.PREFIX_LENGTH, GrowbeModuleService.SUFFIX_LENGTH),
+      type: id.substr(
+        GrowbeModuleService.PREFIX_LENGTH,
+        GrowbeModuleService.SUFFIX_LENGTH,
+      ),
     };
   }
 }

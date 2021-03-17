@@ -1,13 +1,11 @@
-import {injectable, /* inject, */ BindingScope, service} from '@loopback/core';
-
 import {HearthBeath} from '@growbe2/growbe-pb';
-import {GrowbeService} from './growbe.service';
+import {/* inject, */ BindingScope, injectable, service} from '@loopback/core';
+import {RTC_OFFSET_KEY} from '../data';
+import {GrowbeMainboard} from '../models';
 import {GrowbeWarningService} from './growbe-warning.service';
+import {GrowbeService} from './growbe.service';
+import {getTopic, MQTTService} from './mqtt.service';
 
-import { RTC_OFFSET_KEY } from '../data';
-import { getTopic, MQTTService } from './mqtt.service';
-import { main } from '../application';
-import { GrowbeMainboard } from '../models';
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeStateService {
   static DEBUG = require('debug')('growbe:service:state');
@@ -25,23 +23,21 @@ export class GrowbeStateService {
     });
 
     const hearthBeathRate = mainboard.growbeMainboardConfig.config.hearthBeath;
-    await this.validOffsetRTC(
-      beath.rtc,
-      mainboard.id,
-      hearthBeathRate,
-    );
+    await this.validOffsetRTC(beath.rtc, mainboard.id, hearthBeathRate);
     // Si on change d'état notify par MQTT
-    if(mainboard.state !== 'CONNECTED') {
+    if (mainboard.state !== 'CONNECTED') {
       mainboard.state = 'CONNECTED';
       await this.notifyState(mainboard, beath);
     }
     // Démarre un timer pour regarder si on a recu un autre beath
     setTimeout(async () => {
       // Regarde si on a été update depuis
-      const b = await this.growbeService.mainboardRepository.findById(mainboard.id);
-      if(b.lastUpdateAt.rtc === beath.rtc) {
+      const b = await this.growbeService.mainboardRepository.findById(
+        mainboard.id,
+      );
+      if (b.lastUpdateAt.rtc === beath.rtc) {
         // na pas été update
-        GrowbeStateService.DEBUG(`Growbe ${id} lost connection`)
+        GrowbeStateService.DEBUG(`Growbe ${id} lost connection`);
         mainboard.state = 'DISCONNECTED';
         await this.notifyState(mainboard, beath);
         await this.growbeService.mainboardRepository.updateById(id, {
@@ -57,12 +53,19 @@ export class GrowbeStateService {
   }
 
   private notifyState(mainboard: GrowbeMainboard, beath: HearthBeath) {
-     return this.mqttService.send(getTopic(mainboard.id,'/cloud/state'), JSON.stringify({
+    return this.mqttService.send(
+      getTopic(mainboard.id, '/cloud/state'),
+      JSON.stringify({
         state: mainboard.state,
-      }));
+      }),
+    );
   }
 
-  private async validOffsetRTC(rtc: string, mainboardId: string, configHearthBeath: number) {
+  private async validOffsetRTC(
+    rtc: string,
+    mainboardId: string,
+    configHearthBeath: number,
+  ) {
     const rtcDate = new Date(rtc).getTime();
     const currentDate = new Date().getTime();
     const timeDiff = currentDate - rtcDate;
@@ -72,10 +75,14 @@ export class GrowbeStateService {
     } else if ((configHearthBeath + 5) * 1000 < timeDiff) {
       state = 'late';
     }
-    if(state) {
-      await this.warningService.addWarning({growbeMainboardId: mainboardId, warningKeyId: RTC_OFFSET_KEY, data: {
-        state,
-      }});
+    if (state) {
+      await this.warningService.addWarning({
+        growbeMainboardId: mainboardId,
+        warningKeyId: RTC_OFFSET_KEY,
+        data: {
+          state,
+        },
+      });
     }
   }
 }

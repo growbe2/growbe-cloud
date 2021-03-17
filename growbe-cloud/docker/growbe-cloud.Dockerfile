@@ -1,7 +1,5 @@
-FROM node:14
-
-VOLUME /ASSET_DIR
-VOLUME /STORAGE_DIR
+# Check out https://hub.docker.com/_/node to select a new base image
+FROM node:10-slim
 
 ARG GITHUB_ACCESS_TOKEN
 
@@ -20,20 +18,17 @@ WORKDIR /home/node/app
 RUN echo "@berlingoqc:registry=https://npm.pkg.github.com/" > .npmrc
 RUN echo "@growbe2:registry=https://npm.pkg.github.com/" >> .npmrc
 RUN echo "//npm.pkg.github.com/:_authToken=$GITHUB_ACCESS_TOKEN" >> .npmrc
-#
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 COPY --chown=node package*.json ./
 
-# Make new relic not build the native metrics package
-# TODO: Make sure the image doesn't build if one isn't available
-RUN npm install
+RUN npm ci
 
 # Bundle app source code
 COPY --chown=node . .
 
-
+RUN npm run build
 # Bind to all network interfaces so that it can be mapped to the host OS
 ENV HOST=$HOST PORT=$PORT TZ=$TZ
 
@@ -41,8 +36,7 @@ ENV NODE_ENV=$NODE_ENV
 ENV DB_URL=${DB_URL}
 ENV MONGO_URL=${MONGO_URL}
 ENV MQTT_ENDPONT=${MQTT_ENDPONT}
-ENV STORAGE_DIR='/STORAGE_DIR'
 
-ENV ASSET_DIR="/ASSET_DIR"
+EXPOSE ${PORT}
 
-EXPOSE $PORT
+CMD [ "node" ]

@@ -1,37 +1,37 @@
-import { HearthBeath, ModuleStatus } from '@growbe2/growbe-pb';
-import {
-  Component,
-  LifeCycleObserver,
-  CoreBindings,
-  inject,
-  Binding,
-} from '@loopback/core';
-import { GrowbeMainboardBindings } from '../keys';
-import { GrowbeModuleService, GrowbeStateService } from '../services';
-import { GrowbeDataSubjectObserver } from './observers';
-import { DataSubject, funcModuleSubject } from './observers/model';
+import {HearthBeath, ModuleData} from '@growbe2/growbe-pb';
+import {Binding, Component} from '@loopback/core';
+import {GrowbeMainboardBindings} from '../keys';
+import {GrowbeModuleService, GrowbeStateService} from '../services';
+import {GrowbeDataSubjectObserver} from './observers';
+import {DataSubject, funcModuleSubject} from './observers/model';
 
 const watchers: DataSubject[] = [
   {
     func: (id, service: GrowbeStateService, data: any) => {
-      return service.onBeath(id, data)
+      return service.onBeath(id, data);
     },
     model: HearthBeath,
     regexTopic: 'heartbeath',
     service: GrowbeStateService,
   },
   {
-    func: funcModuleSubject((id, moduleId, service: GrowbeModuleService, data: any) => service.onModuleDataChange(id,moduleId,data)),
+    func: funcModuleSubject(
+      (id, moduleId, service: GrowbeModuleService, data: any) =>
+        service.onModuleDataChange(id, moduleId, data),
+    ),
     model: null,
     regexTopic: 'data',
     service: GrowbeModuleService,
   },
   {
-    func: funcModuleSubject((id, moduleId, service: GrowbeModuleService, data: any) => service.onModuleStateChange(id, moduleId, data)),
-    model: ModuleStatus,
+    func: funcModuleSubject(
+      (id, moduleId, service: GrowbeModuleService, data: any) =>
+        service.onModuleStateChange(id, moduleId, data),
+    ),
+    model: ModuleData,
     regexTopic: 'state',
     service: GrowbeModuleService,
-  }
+  },
 ];
 
 export class WatcherComponent implements Component {
@@ -39,8 +39,6 @@ export class WatcherComponent implements Component {
     console.log('WATCH COMPONENT STARTING');
   }
   controllers = [];
-  bindings = [
-    Binding.bind(GrowbeMainboardBindings.WATCHERS).to(watchers)
-  ];
+  bindings = [Binding.bind(GrowbeMainboardBindings.WATCHERS).to(watchers)];
   lifeCycleObservers = [GrowbeDataSubjectObserver];
 }

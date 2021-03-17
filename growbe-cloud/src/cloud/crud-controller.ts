@@ -1,9 +1,10 @@
 import { CrudControllerMixinOptions, InjectableRepository, ModelDef, ModelRelation, OPERATION_SECURITY_SPEC } from "@berlingoqc/lb-extensions";
-import { GrowbeDashboard, GrowbeMainboard, GrowbeWarning } from "../models";
+import { GrowbeDashboard, GrowbeMainboard, GrowbeModule, GrowbeSensorValue, GrowbeWarning } from "../models";
 import { GrowbeMainboardRepository, GrowbeWarningRepository } from "../repositories";
 import { authenticate } from '@loopback/authentication';
 import { GrowbeDashboardRepository } from "../repositories/growbe-dashboard.repository";
 import { GrowbeDashboardItem } from "../models/growbe-dashboard-item.model";
+import { GrowbeMainboardConfig } from "@growbe2/growbe-pb";
 
 const auth = {
   func: authenticate,
@@ -39,7 +40,32 @@ export const CRUD_CONTROLLERS: {
       idType: 'string',
       properties: [],
     },
-    relations: [],
+    relations: [
+       {
+        modelRelationDef: GrowbeWarning,
+        optionsRelation: {
+          accessorType: "HasMany",
+          name: 'growbeWarnings',
+          idType: 'string',
+        }
+      },
+      {
+        modelRelationDef: GrowbeModule,
+        optionsRelation: {
+          accessorType: "HasMany",
+          name: 'growbeModules',
+          idType: 'string'
+        }
+      },
+      {
+        modelRelationDef: GrowbeSensorValue,
+        optionsRelation: {
+          accessorType: "HasMany",
+          name: 'growbeSensorValues',
+          idType: 'string',
+        }
+      }
+    ],
   },
   {
     model: GrowbeWarning,

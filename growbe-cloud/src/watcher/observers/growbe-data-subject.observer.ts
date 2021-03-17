@@ -3,16 +3,15 @@ import {
   CoreBindings,
   inject,
   /* inject, Application, CoreBindings, */
-  lifeCycleObserver, // The decorator
+  lifeCycleObserver,
   LifeCycleObserver,
-  service, // The interface
+  service,
 } from '@loopback/core';
-import { filter } from 'rxjs/operators';
 import mqtt from 'mqtt';
-import { MQTTService } from '../../services';
-
-import { GrowbeMainboardBindings } from '../../keys';
-import { DataSubject } from './model';
+import {filter} from 'rxjs/operators';
+import {GrowbeMainboardBindings} from '../../keys';
+import {MQTTService} from '../../services';
+import {DataSubject} from './model';
 
 @lifeCycleObserver('')
 export class GrowbeDataSubjectObserver implements LifeCycleObserver {
@@ -37,17 +36,34 @@ export class GrowbeDataSubjectObserver implements LifeCycleObserver {
    */
   async start(): Promise<void> {
     await this.mqttService.addSubscription('#');
-    for(const subject of this.watchers) {
+    for (const subject of this.watchers) {
       // TODO mettre vrai regex calsis
-      this.mqttService.observable.pipe(filter(x => !x.topic.includes('cloud') && x.topic.includes(subject.regexTopic))).subscribe(async (data) => {
-        try {
-        const d = (subject.model) ? subject.model.decode(data.message) : data.message;
-        const service = await this.app.get(`services.${subject.service.name}`);
-        await subject.func(this.getIdFromTopic(data.topic), service, d, data.topic);
-        } catch(err) {
-          console.log('Failed to parse on subject', data.topic);
-        }
-      })
+      this.mqttService.observable
+        .pipe(
+          filter(
+            x =>
+              !x.topic.includes('cloud') &&
+              x.topic.includes(subject.regexTopic),
+          ),
+        )
+        .subscribe(async data => {
+          try {
+            const d = subject.model
+              ? subject.model.decode(data.message)
+              : data.message;
+            const service = await this.app.get(
+              `services.${subject.service.name}`,
+            );
+            await subject.func(
+              this.getIdFromTopic(data.topic),
+              service,
+              d,
+              data.topic,
+            );
+          } catch (err) {
+            console.log('Failed to parse on subject', data.topic, err);
+          }
+        });
     }
   }
 
