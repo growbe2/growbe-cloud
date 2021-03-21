@@ -10,6 +10,6 @@
 * Vous devez vous configurer GITHUB_ACCESS_TOKEN
 
 ```bash
-./cloud/build.sh
-./cloud/run.sh
+./docker/build.sh
+./docker/run.sh
 ```
