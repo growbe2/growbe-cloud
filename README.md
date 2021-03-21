@@ -1,15 +1,122 @@
 # Growbe Cloud
 
 
-[Documentation](./doc/index.md)
+This is a mono-repo for the growbe-cloud project.
 
 
-## Executer
 
-* Vous devez installer docker et docker-compose.
-* Vous devez vous configurer GITHUB_ACCESS_TOKEN
+## Projects
+
+The detail for every one is in there own `README.md`
+
+* [growbe-cloud](growbe-cloud/README.md)
+* [growbe-portal](growbe-portal/README.md)
+* [growbe-proxy](growbe-proxy/README.md)
+* [growbe-proto](proto/README.md)
+
+## Run locally
+
+* You need to install `docker` and `docker-compose`
+* This script will run all the cloud locally on your computer
 
 ```bash
-./docker/build.sh
-./docker/run.sh
+# Run first time only to build dependency
+./docker/cloud.sh build
+# To run to script in a daemon
+./docker/cloud.sh start
+# To stop everything
+./docker/cloud.sh stop
+# To print the log
+./docker/cloud.sh logs
+# To update to the latest version
+./docker/cloud.sh update
 ```
+
+## How to contribute
+
+Go on `develop` branch, make sure you have the latest version:
+
+```shell
+git fetch
+git pull
+```
+
+Create new branch
+
+```shell
+git checkout -b <type>/<ticket-id || name>
+```
+
+The name of the new branch is the type of task and the JIRA ticket number
+
+Make your changes, after pushing your changes, create a PR.
+
+Change the base branch to: `develop`
+
+#### Commit Message Header
+
+```
+<type>(<scope>): <short summary>
+  │       │             │
+  │       │             └─⫸ Summary in present tense. Not capitalized. No period at the end.
+  │       │
+  │       └─⫸ Commit Scope
+  │
+  └─⫸ Commit Type: build|ci|docs|feat|fix|perf|refactor|style|test
+```
+
+
+##### Type
+
+Must be one of the following:
+
+- **build**: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
+- **ci**: Changes to our CI configuration files and scripts (example scopes: Circle, BrowserStack, SauceLabs)
+- **docs**: Documentation only changes
+- **feat**: A new feature
+- **fix**: A bug fix
+- **perf**: A code change that improves performance
+- **refactor**: A code change that neither fixes a bug nor adds a feature
+- **test**: Adding missing tests or correcting existing tests
+
+##### Scope
+
+The scope should be the name of the component affected.
+
+* `cloud`
+* `portal`
+* `proxy`
+* `proto`
+* `docker`
+* `ci`
+
+##### Summary
+
+Use the summary field to provide a succinct description of the change:
+
+* use the imperative, present tense: "change" not "changed" nor "changes"
+* don't capitalize the first letter
+* no dot (.) at the end
+
+##### Pull Request
+
+Pull request for new feature should be merge into `develop`
+
+Put the link of the Jira ticket in the description.
+
+If changes are complexe you can explaine what you did also in the description.
+
+Click on Create pull resquest button.
+
+After the PR is approved to be merge, do a Sqash and merge. Add the ticket number to the message if it's not already there.
+
+##### How to promote to Staging
+
+NO STAGING FOR NOW
+
+##### How to promote to Production
+
+
+
+
+
