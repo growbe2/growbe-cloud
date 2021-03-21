@@ -21,8 +21,6 @@ jobs:
             scope: '@growbe2'
       - name: Updating version
         run: npm run setversion
-      - name: Creating tag
-        run: git config --global user.email "berlingoqc@gmail.com" && git config --global user.name "Bot WQ" && export VERSION=$(npm run version --silent) && git tag -a $VERSION -m "Release $VERSION" && git push origin $VERSION
       - name: Cloud docker-build
         run: cd growbe-cloud && npm run docker:build
         env:
