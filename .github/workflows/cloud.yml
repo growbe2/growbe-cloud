@@ -38,6 +38,9 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.PAT }}
       - name: Publish Proto
         run: cd proto && npm run publishnpm
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+          NODE_AUTH_TOKEN: ${{ secrets.PAT }}
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
