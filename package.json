@@ -1,6 +1,6 @@
 {
   "name": "@growbe2/cloud",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Mono-repo pour growbe-cloud project",
   "repository": {
     "type": "git",
