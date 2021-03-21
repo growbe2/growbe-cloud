@@ -7,7 +7,7 @@
     "url": "https://github.com/growbe2/growbe-cloud/"
   },
   "scripts": {
-    "build": "docker run -v $(pwd):/PROTO -v $(pwd)/out:/OUT_PATH_C protoc",
+    "docker:build": "docker run -v $(pwd):/PROTO -v $(pwd)/out:/OUT_PATH_C protoc",
     "publishnpm": "cd out/ && npm publish",
     "copyc": "cp out/*pb* ../../../growbe2/AWS_LPC54018_Growbe_Mainboard/source/cloud/pb_struct/"
   },
