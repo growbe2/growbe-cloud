@@ -27,7 +27,7 @@ jobs:
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Publish proxy
-        run: cd growbe-proxy && npm run publish
+        run: cd growbe-proxy && npm publish
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Publish Proto
