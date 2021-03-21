@@ -1,0 +1,13 @@
+{
+  "name": "@growbe2/cloud",
+  "version": "1.0.1",
+  "description": "Mono-repo pour growbe-cloud project",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/growbe2/growbe-cloud/"
+  },
+  "scripts": {
+    "version": "node -p \"require('./package.json').version\"",
+    "setversion": "export VERSION=$(npm run version --silent) && cd proto && npm --no-git-tag-version version $VERSION && cd ../growbe-proxy && npm --no-git-tag-version version $VERSION"
+  }
+}

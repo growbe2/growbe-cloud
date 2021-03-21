@@ -1,18 +1,15 @@
 # Growbe Cloud
 
-
 This is a mono-repo for the growbe-cloud project.
-
-
 
 ## Projects
 
 The detail for every one is in there own `README.md`
 
-* [growbe-cloud](growbe-cloud/README.md)
-* [growbe-portal](growbe-portal/README.md)
-* [growbe-proxy](growbe-proxy/README.md)
-* [growbe-proto](proto/README.md)
+* [growbe-cloud](growbe-cloud/)
+* [growbe-portal](growbe-portal/)
+* [growbe-proxy](growbe-proxy/)
+* [growbe-proto](proto/)
 
 ## Run locally
 
@@ -116,6 +113,40 @@ NO STAGING FOR NOW
 
 ##### How to promote to Production
 
+Go to `develop` branch, make sure you have the latest
+
+```bash
+git fetch
+git pull
+```
+
+Create a new branch named `dev-to-master`
+
+If some commit on dev should not be deployed to staging you have to drop them,
+
+```bash
+git rebase -i master
+```
+
+After create a pull request `master` <- `dev-to-master`
+
+Name the pull-request `version(x.y.z)`
+
+And in the description but the release note with the following point:
+
+```md
+# growbe-cloud
+
+* TICKET-001 Blah blah blah
+* TICKET-001 Blah blah blah
+
+# growbe-portal
+
+* TICKET-001 Blah blah blah
+* TICKET-001 Blah blah blah
+```
+
+The description will be use to create the release note.
 
 
 

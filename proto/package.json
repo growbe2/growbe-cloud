@@ -1,6 +1,6 @@
 {
   "name": "@growbe2/growbe-pb",
-  "version": "0.0.21",
+  "version": "1.0.1",
   "description": "Libraire avec les définitions protobuf",
   "repository": {
     "type": "git",
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "docker run -v $(pwd):/PROTO -v $(pwd)/out:/OUT_PATH_C protoc",
-    "publish": "cd out/ && npm publish",
+    "publishnpm": "cd out/ && npm publish",
     "copyc": "cp out/*pb* ../../../growbe2/AWS_LPC54018_Growbe_Mainboard/source/cloud/pb_struct/"
   },
   "license": "MIT",

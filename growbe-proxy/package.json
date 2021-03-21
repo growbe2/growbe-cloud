@@ -1,11 +1,14 @@
 {
   "name": "@berlingoqc/growbe-proxy",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx pkg -t win ./index.js -o growbe-proxy"
+  },
+  "bin": {
+    "growbe-proxy": "./index.json"
   },
   "author": "",
   "license": "ISC",

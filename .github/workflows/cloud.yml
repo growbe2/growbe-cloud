@@ -2,8 +2,8 @@ name: growbe cloud pipeline
 
 on:
   push:
-    tags:
-      - 'cloud*'
+    branches:
+      - master
 
 jobs:
   proxy:
@@ -14,13 +14,23 @@ jobs:
         run: docker login https://docker.pkg.github.com -u berlingoqc -p $GITHUB_ACCESS_TOKEN
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-      - name: Docker build
+      - name: Updating version
+        run: npm run setversion
+      - name: Cloud docker-build
         run: cd growbe-cloud && npm run docker:build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-      - name: Publish
+      - name: Proto build
+        run: cd proto && npm run docker:build
+      - name: Publish Cloud
         run: cd growbe-cloud && npm run docker:push
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+      - name: Publish proxy
+        run: cd growbe-proxy && npm run publish
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+      - name: Publish Proto
+        run: cd proto && npm run publishnpm
  
  
