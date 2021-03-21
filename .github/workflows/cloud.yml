@@ -14,8 +14,17 @@ jobs:
         run: docker login https://docker.pkg.github.com -u berlingoqc -p $GITHUB_ACCESS_TOKEN
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+      - uses: actions/setup-node@v1
+        with:
+            node-version: '10.x'
+            registry-url: 'https://npm.pkg.github.com'
+            scope: '@growbe2'
       - name: Updating version
         run: npm run setversion
+      - name: Portal docker-build
+        run: cd growbe-portal && npm run docker:build
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Cloud docker-build
         run: cd growbe-cloud && npm run docker:build
         env:
@@ -26,11 +35,18 @@ jobs:
         run: cd growbe-cloud && npm run docker:push
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-      - name: Publish proxy
-        run: cd growbe-proxy && npm run publish
+      - name: Publish Portal
+        run: cd growbe-portal && npm run docker:push
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+      - name: Publish proxy
+        run: cd growbe-proxy && npm publish
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+          NODE_AUTH_TOKEN: ${{ secrets.PAT }}
       - name: Publish Proto
         run: cd proto && npm run publishnpm
- 
- 
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+          NODE_AUTH_TOKEN: ${{ secrets.PAT }}
+      

@@ -132,7 +132,20 @@ After create a pull request `master` <- `dev-to-master`
 
 Name the pull-request `version(x.y.z)`
 
-And in the description but the release note with the following point:
+After the pull request is made and the pipeline sucessfully ended
+you can create the tag for the version and publish it to github
+
+```bash
+export VERSION=$(npm run version --silent)
+git tag -a $VERSION "Release $VERSION"
+git push origin $VERSION
+```
+
+After you publish the tag , a release note is created
+and you need to add the information of all the ticket
+and work that has been done in this release.
+
+Exemple :
 
 ```md
 # growbe-cloud
@@ -146,8 +159,5 @@ And in the description but the release note with the following point:
 * TICKET-001 Blah blah blah
 ```
 
-The description will be use to create the release note.
-
-
-
-
+After uncheck the prelease checkbox to release this version.
+This will update the website in production.

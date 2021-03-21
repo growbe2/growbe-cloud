@@ -1,12 +1,11 @@
-name: growbe prod
+name: Release released
 
 on:
-  push:
-    tags:
-      - prod*
+  release:
+    types: [released]
 
 jobs:
-  tagging:
+  deploy-prod:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
