@@ -8,7 +8,7 @@
   },
   "scripts": {
     "version": "node -p \"require('./package.json').version\"",
-    "setversion": "export VERSION=$(npm run version --silent) && cd proto && npm --no-git-tag-version version $VERSION && cd ../growbe-proxy && npm --no-git-tag-version version $VERSION",
+    "setversion": "export VERSION=$(npm run version --silent) && cd proto && npm --no-git-tag-version version $VERSION && cd ../growbe-proxy && npm --no-git-tag-version version $VERSION && cd ../growbe-portal && npm --no-git-tag-version version $VERSION",
     "get-env": "scp -r root@api.growbe.wquintal.ca:envs docker/"
   }
 }
