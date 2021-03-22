@@ -2,3 +2,5 @@ sso/
 ng-lib/
 loopback-sso-extensions/
 angular-libs/
+
+docker/envs/
