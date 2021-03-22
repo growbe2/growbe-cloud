@@ -11,6 +11,16 @@ The detail for every one is in there own `README.md`
 * [growbe-proxy](growbe-proxy/)
 * [growbe-proto](proto/)
 
+
+## Environment
+
+### PROD
+
+* [sso-swagger](https://auth.growbe.wquintal.ca/api/explorer)
+* [cloud-swagger](https://api.growbe.wquintal.ca/explorer)
+* [portal](https://portal.growbe.wquintal.ca)
+* broker mqtt://broker.growbe.wquintal.ca:1883
+
 ## Run locally
 
 * You need to install `docker` and `docker-compose`
