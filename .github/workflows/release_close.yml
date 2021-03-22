@@ -9,9 +9,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Building
-        run: './cloud/build.sh'
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Deploy to serveur
-        run: 'mkdir $HOME/.ssh && echo "${{secrets.SSH2}}" > $HOME/.ssh/id_rsa && chmod 700 $HOME/.ssh/id_rsa && ssh -oStrictHostKeyChecking=accept-new root@api.growbe.wquintal.ca "cd growbe-cloud && git pull origin master && ./cloud/deploy.sh"'
+        run: 'mkdir $HOME/.ssh && echo "${{secrets.SSH2}}" > $HOME/.ssh/id_rsa && chmod 700 $HOME/.ssh/id_rsa && ssh -oStrictHostKeyChecking=accept-new root@api.growbe.wquintal.ca "cd growbe-cloud && git pull origin master && ./docker/deploy.sh"'
