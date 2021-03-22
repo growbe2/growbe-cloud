@@ -52,6 +52,8 @@ import { NodeEditorComponent } from './node-editor/node-editor.component';
 import { GrowbeAuthModule } from './auth/auth.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+import { version } from '../../package.json';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -109,7 +111,7 @@ export class NavigationWrapper {
     },
     {
       provide: SITE_NAME,
-      useValue: 'Portail Growbe',
+      useValue: 'Portail Growbe ' + version,
     },
     {
       provide: SITE_LOGO,

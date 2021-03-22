@@ -29,6 +29,54 @@ The detail for every one is in there own `README.md`
 ./docker/cloud.sh update
 ```
 
+
+## Environement file
+
+You can download the environement file for all the envrionement
+with this command if you are allow to:
+
+```bash
+scp -r root@api.growbe.wquintal.ca:envs ./docker/
+```
+
+This is the local file when you locally run the docker-compose cloud.
+
+```bash
+export DB_URL="postgresql://test:test@192.168.2.26:5432/defaultdb"
+export SSO_URL="http://localhost:3001"
+export MONGO_URL="mongodb://doadmin:test@192.168.2.26:27017/growbe?authSource=admin"
+export MQTT_URL="mqtt://localhost:1883"
+
+export SSO_SETTINGS="{\"publicCreation\":true,\"multiFactor\":false,\"accountValidation\":true, \"defaultRoles\": []}"
+export EMAIL_FROM='"Xmation" <info@alborea.com>'
+export EMAIL_USER=apikey
+export EMAIL_PASSWORD=
+export EMAIL_REDIRECT=http://localhost:4200
+export SMS_SID=""
+export SMS_TOKEN=""
+export SMS_NUMBER=""
+export OTP_SECRET=5ytrfedsa
+export JWT_SECRET=542rewdasr
+export JWT_TTL=3600
+```
+
+All the environment file must be store in `./docker/envs/<name>.sh`
+
+## Migration of database
+
+Exemple of backup the prod to local database.
+All database must be destroy before doing the restoring.
+
+```bash
+## Backup of database
+./docker/migration.sh pg-backup cloud
+./docker/migration.sh mongo-backup cloud
+
+## Restoring of database
+./docker/migration.sh pg-restore local ./backups/cloud_pg_...sh
+./docker/migration.sh mongo-restore local ./backups/cloud_mongo_...sh
+```
+
 ## How to contribute
 
 Go on `develop` branch, make sure you have the latest version:
@@ -68,13 +116,7 @@ Change the base branch to: `develop`
 Must be one of the following:
 
 - **build**: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
-- **ci**: Changes to our CI configuration files and scripts (example scopes: Circle, BrowserStack, SauceLabs)
-- **docs**: Documentation only changes
-- **feat**: A new feature
-- **fix**: A bug fix
-- **perf**: A code change that improves performance
-- **refactor**: A code change that neither fixes a bug nor adds a feature
-- **test**: Adding missing tests or correcting existing tests
+- **ci**: Chan/ing missing tests or correcting existing tests
 
 ##### Scope
 
@@ -137,7 +179,7 @@ you can create the tag for the version and publish it to github
 
 ```bash
 export VERSION=$(npm run version --silent)
-git tag -a $VERSION "Release $VERSION"
+git tag -a $VERSION -m "Release $VERSION"
 git push origin $VERSION
 ```
 
