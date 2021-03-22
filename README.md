@@ -68,13 +68,7 @@ Change the base branch to: `develop`
 Must be one of the following:
 
 - **build**: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
-- **ci**: Changes to our CI configuration files and scripts (example scopes: Circle, BrowserStack, SauceLabs)
-- **docs**: Documentation only changes
-- **feat**: A new feature
-- **fix**: A bug fix
-- **perf**: A code change that improves performance
-- **refactor**: A code change that neither fixes a bug nor adds a feature
-- **test**: Adding missing tests or correcting existing tests
+- **ci**: Chan/ing missing tests or correcting existing tests
 
 ##### Scope
 
@@ -137,7 +131,7 @@ you can create the tag for the version and publish it to github
 
 ```bash
 export VERSION=$(npm run version --silent)
-git tag -a $VERSION "Release $VERSION"
+git tag -a $VERSION -m "Release $VERSION"
 git push origin $VERSION
 ```
 
