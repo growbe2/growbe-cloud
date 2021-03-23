@@ -2,28 +2,9 @@ import {/* inject, */ BindingScope, injectable, service} from '@loopback/core';
 import {Entity, model, property, Where} from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
 import {format} from 'date-fns';
-import {GrowbeSensorValue} from '../models';
+import {GrowbeSensorValue, ModuleDataRequest} from '../models';
 import {GrowbeModuleService} from './growbe-module.service';
 
-@model()
-export class ModuleDataRequest {
-  @property()
-  growbeId: string;
-  @property()
-  moduleId: string;
-  @property()
-  lastX: number; // par default jour
-  @property()
-  lastXUnit?: string;
-  @property()
-  from: Date;
-  @property()
-  to: Date;
-  @property.array('string')
-  fields: string[];
-  @property()
-  liveUpdate?: boolean;
-}
 
 @model()
 export class GraphModuleRequest extends ModuleDataRequest {}
