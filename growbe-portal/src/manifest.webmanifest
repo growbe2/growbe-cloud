@@ -1,8 +1,8 @@
 {
   "name": "growbe-cloud",
   "short_name": "growbe-cloud",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "theme_color": "#387E22",
+  "background_color": "#333333",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
