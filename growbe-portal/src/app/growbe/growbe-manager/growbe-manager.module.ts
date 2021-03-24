@@ -12,6 +12,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { GrowbeModuleModule } from '../module/growbe-module.module';
 import { AutoTableModule } from '@berlingoqc/ngx-autotable';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
+import { TerminalModule } from 'src/app/shared/terminal/terminal.module';
 
 
 @NgModule({
@@ -37,6 +38,8 @@ import { AutoFormModule } from '@berlingoqc/ngx-autoform';
     LayoutDirectiveModule,
 
     FuseWidgetModule,
+
+    TerminalModule,
   ]
 })
 export class GrowbeManagerModule { }

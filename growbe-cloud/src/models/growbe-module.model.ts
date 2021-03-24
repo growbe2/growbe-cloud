@@ -2,6 +2,7 @@ import {Entity, model, property, hasMany, belongsTo} from '@loopback/repository'
 import {GrowbeSensorValue} from './growbe-sensor-value.model';
 import {GrowbeMainboard} from './growbe-mainboard.model';
 import {GrowbeModuleDef} from './growbe-module-def.model';
+import {GrowbeLogs} from './growbe-logs.model';
 
 @model({settings: {strict: false}})
 export class GrowbeModule extends Entity {
@@ -31,6 +32,8 @@ export class GrowbeModule extends Entity {
   @belongsTo(() => GrowbeModuleDef, {name: 'moduleDef', keyTo: 'id'})
   moduleName: string;
 
+  @hasMany(() => GrowbeLogs)
+  growbeLogs: GrowbeLogs[];
   [prop: string]: any;
 
   constructor(data?: Partial<GrowbeModule>) {

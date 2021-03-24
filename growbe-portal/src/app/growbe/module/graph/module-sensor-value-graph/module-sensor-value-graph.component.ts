@@ -3,6 +3,7 @@ import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service
 import { GrowbeGraphService } from '../service/growbe-graph.service';
 import { THLModuleData } from '@growbe2/growbe-pb';
 import { Subscription } from 'rxjs';
+import { DashboardGraphElement } from '@growbe2/ngx-cloud-api';
 
 @Component({
   selector: 'app-module-sensor-value-graph',
@@ -10,7 +11,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./module-sensor-value-graph.component.scss'],
 })
 export class ModuleSensorValueGraphComponent implements OnInit, OnDestroy {
-  @Input() data: any;
+  @Input() data: DashboardGraphElement;
 
   chartSerie;
 

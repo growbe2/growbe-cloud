@@ -85,6 +85,7 @@ export class GrowbeManagerDetailComponent implements OnInit {
 
     this.mainboardAPI.growbeModules.parentKey = this.id;
     this.mainboardAPI.growbeWarnings.parentKey = this.id;
+    this.mainboardAPI.growbeLogs.parentKey = this.id;
   }
 
 }

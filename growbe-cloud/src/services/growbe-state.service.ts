@@ -2,6 +2,8 @@ import {HearthBeath} from '@growbe2/growbe-pb';
 import {/* inject, */ BindingScope, injectable, service} from '@loopback/core';
 import {RTC_OFFSET_KEY} from '../data';
 import {GrowbeMainboard} from '../models';
+import { GroupEnum, LogTypeEnum, SeverityEnum } from '../models/growbe-logs.model';
+import { GrowbeLogsService } from './growbe-logs.service';
 import {GrowbeWarningService} from './growbe-warning.service';
 import {GrowbeService} from './growbe.service';
 import {getTopic, MQTTService} from './mqtt.service';
@@ -14,6 +16,7 @@ export class GrowbeStateService {
     @service(MQTTService) public mqttService: MQTTService,
     @service(GrowbeService) public growbeService: GrowbeService,
     @service(GrowbeWarningService) public warningService: GrowbeWarningService,
+    @service(GrowbeLogsService) public logsService: GrowbeLogsService,
   ) {}
 
   async onBeath(id: string, beath: HearthBeath) {
@@ -53,6 +56,13 @@ export class GrowbeStateService {
   }
 
   private notifyState(mainboard: GrowbeMainboard, beath: HearthBeath) {
+    this.logsService.addLog({
+      growbeMainboardId: mainboard.id,
+      group: GroupEnum.MAINBOARD,
+      severity: SeverityEnum.HIGH,
+      type: LogTypeEnum.CONNECTION_STATE_CHANGE,
+      message: `connected ${mainboard.state}`
+    })
     return this.mqttService.send(
       getTopic(mainboard.id, '/cloud/state'),
       JSON.stringify({

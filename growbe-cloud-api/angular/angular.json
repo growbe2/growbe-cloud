@@ -1,0 +1,47 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "growbe-cloud-api": {
+      "projectType": "library",
+      "root": "projects/growbe-cloud-api",
+      "sourceRoot": "projects/growbe-cloud-api/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/growbe-cloud-api/tsconfig.lib.json",
+            "project": "projects/growbe-cloud-api/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/growbe-cloud-api/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/growbe-cloud-api/src/test.ts",
+            "tsConfig": "projects/growbe-cloud-api/tsconfig.spec.json",
+            "karmaConfig": "projects/growbe-cloud-api/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/growbe-cloud-api/tsconfig.lib.json",
+              "projects/growbe-cloud-api/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }},
+  "defaultProject": "growbe-cloud-api"
+}

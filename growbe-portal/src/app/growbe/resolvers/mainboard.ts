@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
+import { GrowbeMainboardWithRelations } from "@growbe2/ngx-cloud-api";
 import { Observable } from "rxjs";
 import { take } from "rxjs/operators";
 import { GrowbeMainboardAPI } from "../api/growbe-mainboard";
 
 
 @Injectable({ providedIn: 'root' })
-export class GrowbeMainboardResolver implements Resolve<any> {
+export class GrowbeMainboardResolver implements Resolve<GrowbeMainboardWithRelations> {
   constructor(private service: GrowbeMainboardAPI) {}
 
   async resolve(

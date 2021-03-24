@@ -1,6 +1,8 @@
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { fuseAnimations } from '@berlingoqc/fuse';
 
+import { BaseDashboardElement } from '@growbe2/ngx-cloud-api';
+
 @Component({
   selector: 'app-growbe-dashboard-item',
   templateUrl: './growbe-dashboard-item.component.html',
@@ -10,7 +12,7 @@ import { fuseAnimations } from '@berlingoqc/fuse';
 })
 export class GrowbeDashboardItemComponent implements OnInit, OnDestroy {
 
-  @Input() item: any;
+  @Input() item: BaseDashboardElement;
 
   constructor() { }
 

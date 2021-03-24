@@ -2,14 +2,15 @@
 
 import {authenticate} from '@loopback/authentication';
 import {inject, service} from '@loopback/core';
-import {param, patch, post, requestBody} from '@loopback/openapi-v3';
+import {get, param, patch, post, requestBody} from '@loopback/openapi-v3';
 import {SecurityBindings, UserProfile} from '@loopback/security';
+import { BaseDashboardElement, DashboardClockStateElement, DashboardGraphElement, DashboardLastValueElement, GraphDataConfig, ModuleDataRequest } from '../../models';
 import {GrowbeRegisterRequest, GrowbeService} from '../../services';
 import {
   GraphModuleRequest,
-  ModuleDataRequest,
   ModuleValueGraphService,
 } from '../../services/module-value-graph.service';
+import { schemaJsonOf } from '../../utility/oa3model';
 
 // import {inject} from '@loopback/core';
 
@@ -61,4 +62,20 @@ export class GrowbeMainboardController {
   getLastValue(@requestBody() request: ModuleDataRequest) {
     return this.graphService.getLastRead(request);
   }
+
+  @get('/model/graphDataConfig', schemaJsonOf(GraphDataConfig))
+  graphDataConfig() {return new GraphDataConfig()}
+
+  @get('/model/dashboardGraphElement', schemaJsonOf(DashboardGraphElement))
+  dashboardGraphElement() {return new GraphDataConfig()}
+
+  @get('/model/baseDashboardElement', schemaJsonOf(BaseDashboardElement))
+  baseDashboardElement() {return new BaseDashboardElement()}
+
+  @get('/model/dashboardLastValueElement', schemaJsonOf(DashboardLastValueElement))
+  dashboardLastValueElement() {return new DashboardLastValueElement}
+
+  @get('/model/dashboardClockStateElement', schemaJsonOf(DashboardClockStateElement))
+  dashboardClockStateElement() {return new DashboardClockStateElement()}
+
 }

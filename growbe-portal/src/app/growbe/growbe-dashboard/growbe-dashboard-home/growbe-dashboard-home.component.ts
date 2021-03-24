@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@berlingoqc/fuse';
+import { GrowbeDashboardWithRelations } from '@growbe2/ngx-cloud-api';
 
 @Component({
   selector: 'app-growbe-dashboard-home',
@@ -10,7 +11,7 @@ import { fuseAnimations } from '@berlingoqc/fuse';
 })
 export class GrowbeDashboardHomeComponent implements OnInit {
 
-  data: any;
+  data: GrowbeDashboardWithRelations;
 
   constructor(
     private activatedRoute: ActivatedRoute,
