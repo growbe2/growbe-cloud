@@ -3,7 +3,9 @@ import { Observable, Subject } from "rxjs";
 
 import {AsyncClient, connectAsync} from 'async-mqtt';
 import { envConfig } from "@berlingoqc/ngx-common";
-import { filter, map } from "rxjs/operators";
+import { filter, map, startWith } from "rxjs/operators";
+import { CRUDDataSource, Filter } from "@berlingoqc/ngx-loopback";
+import { GrowbeLogs } from "@growbe2/ngx-cloud-api";
 
 
 export const getTopic = (growbeId: string, subtopic: string) => {
@@ -53,6 +55,20 @@ export class GrowbeEventService {
           return null;
         }
       }))
+  }
+
+  getGrowbeEventWithSource<T>(id: string, subtopic: string, parse: (data) => T, obs: Observable<T[]>): Observable<T[]> {
+    return new Observable<T[]>((sub) => {
+      let data: T[] = [];
+      this.getGrowbeEvent(id, subtopic, parse).subscribe((newData) => {
+        data.push(newData);
+        sub.next(data);
+      });
+      obs.subscribe((firstData) => {
+        data = firstData;
+        sub.next(data);
+      });
+    });
   }
 
 
