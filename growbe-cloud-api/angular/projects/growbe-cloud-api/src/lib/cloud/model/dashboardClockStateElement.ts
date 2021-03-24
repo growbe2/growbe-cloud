@@ -11,11 +11,12 @@
  */
 
 
-export interface BaseDashboardElement { 
+export interface DashboardClockStateElement { 
     name?: string;
-    type?: BaseDashboardElement.TypeEnum;
+    type?: DashboardClockStateElement.TypeEnum;
+    id?: string;
 }
-export namespace BaseDashboardElement {
+export namespace DashboardClockStateElement {
     export type TypeEnum = 'graph' | 'average' | 'lastread' | 'clock';
     export const TypeEnum = {
         Graph: 'graph' as TypeEnum,

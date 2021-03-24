@@ -9,7 +9,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { BaseDashboardElementExcludingId } from './baseDashboardElementExcludingId';
 
 
 /**
@@ -21,6 +20,6 @@ export interface GrowbeDashboardItemPartialExcludingId {
 
     growbeDashboardId?: string;
     name?: string;
-    items?: Array<BaseDashboardElementExcludingId>;
+    items?: Array<object>;
 }
 

@@ -12,14 +12,13 @@
 
 
 /**
- * (tsType: Omit<Partial<GrowbeDashboardItem>, >, schemaOptions: { title: \'\', partial: true, exclude: [] })
+ * (tsType: Omit<GrowbeDashboardItem, \'id\'>, schemaOptions: { exclude: [ \'id\' ] })
  */
-export interface GrowbeDashboardItemPartial { 
+export interface GrowbeDashboardItemExcludingId { 
   [key: string]: object | any;
 
 
     growbeDashboardId?: string;
-    id?: string;
     name?: string;
     items?: Array<object>;
 }

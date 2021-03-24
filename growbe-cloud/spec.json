@@ -1810,6 +1810,48 @@
         "operationId": "GrowbeMainboardController.find"
       }
     },
+    "/model/baseDashboardElement": {
+      "get": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "baseDashboardElement",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseDashboardElement"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "GrowbeMainboardController.baseDashboardElement"
+      }
+    },
+    "/model/dashboardClockStateElement": {
+      "get": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "dashboardClockStateElement",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseDashboardElement"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "GrowbeMainboardController.dashboardClockStateElement"
+      }
+    },
     "/model/dashboardGraphElement": {
       "get": {
         "x-controller-name": "GrowbeMainboardController",
@@ -1829,6 +1871,27 @@
           }
         },
         "operationId": "GrowbeMainboardController.dashboardGraphElement"
+      }
+    },
+    "/model/dashboardLastValueElement": {
+      "get": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "dashboardLastValueElement",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseDashboardElement"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "GrowbeMainboardController.dashboardLastValueElement"
       }
     },
     "/model/graphDataConfig": {
@@ -3015,6 +3078,29 @@
         "additionalProperties": false,
         "x-typescript-type": "Omit<GrowbeWarning, 'id'>"
       },
+      "GrowbeDashboardItem": {
+        "title": "GrowbeDashboardItem",
+        "type": "object",
+        "properties": {
+          "growbeDashboardId": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "LastValue | ClockState | Graph"
+            }
+          }
+        },
+        "additionalProperties": true
+      },
       "GrowbeDashboard": {
         "title": "GrowbeDashboard",
         "type": "object",
@@ -3029,10 +3115,35 @@
             "type": "string"
           },
           "sidePanel": {
-            "type": "object"
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrowbeDashboardItem"
+            }
           }
         },
         "additionalProperties": true
+      },
+      "GrowbeDashboardItemExcluding_id_": {
+        "title": "GrowbeDashboardItemExcluding_id_",
+        "type": "object",
+        "description": "(tsType: Omit<GrowbeDashboardItem, 'id'>, schemaOptions: { exclude: [ 'id' ] })",
+        "properties": {
+          "growbeDashboardId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "LastValue | ClockState | Graph"
+            }
+          }
+        },
+        "additionalProperties": true,
+        "x-typescript-type": "Omit<GrowbeDashboardItem, 'id'>"
       },
       "GrowbeDashboardExcluding_id_": {
         "title": "GrowbeDashboardExcluding_id_",
@@ -3046,31 +3157,14 @@
             "type": "string"
           },
           "sidePanel": {
-            "type": "object"
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrowbeDashboardItemExcluding_id_"
+            }
           }
         },
         "additionalProperties": true,
         "x-typescript-type": "Omit<GrowbeDashboard, 'id'>"
-      },
-      "BaseDashboardElementWithRelations": {
-        "title": "BaseDashboardElementWithRelations",
-        "type": "object",
-        "description": "(tsType: BaseDashboardElementWithRelations, schemaOptions: { includeRelations: true })",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "graph",
-              "average",
-              "clock"
-            ]
-          }
-        },
-        "additionalProperties": false,
-        "x-typescript-type": "BaseDashboardElementWithRelations"
       },
       "GrowbeDashboardItemWithRelations": {
         "title": "GrowbeDashboardItemWithRelations",
@@ -3089,7 +3183,8 @@
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/BaseDashboardElementWithRelations"
+              "type": "object",
+              "description": "LastValue | ClockState | Graph"
             }
           }
         },
@@ -3111,7 +3206,10 @@
             "type": "string"
           },
           "sidePanel": {
-            "type": "object"
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrowbeDashboardItemWithRelations"
+            }
           },
           "growbeDashboardItems": {
             "type": "array",
@@ -3138,7 +3236,10 @@
             "type": "string"
           },
           "sidePanel": {
-            "type": "object"
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrowbeDashboardItem"
+            }
           }
         },
         "additionalProperties": true,
@@ -3156,71 +3257,14 @@
             "type": "string"
           },
           "sidePanel": {
-            "type": "object"
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrowbeDashboardItemExcluding_id_"
+            }
           }
         },
         "additionalProperties": true,
         "x-typescript-type": "Omit<Partial<GrowbeDashboard>, 'id'>"
-      },
-      "BaseDashboardElement": {
-        "title": "BaseDashboardElement",
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "graph",
-              "average",
-              "clock"
-            ]
-          }
-        },
-        "additionalProperties": false
-      },
-      "GrowbeDashboardItem": {
-        "title": "GrowbeDashboardItem",
-        "type": "object",
-        "properties": {
-          "growbeDashboardId": {
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BaseDashboardElement"
-            }
-          }
-        },
-        "additionalProperties": true
-      },
-      "BaseDashboardElementExcluding_id_": {
-        "title": "BaseDashboardElementExcluding_id_",
-        "type": "object",
-        "description": "(tsType: Omit<BaseDashboardElement, 'id'>, schemaOptions: { exclude: [ 'id' ] })",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "graph",
-              "average",
-              "clock"
-            ]
-          }
-        },
-        "additionalProperties": false,
-        "x-typescript-type": "Omit<BaseDashboardElement, 'id'>"
       },
       "GrowbeDashboardItemPartialExcluding_id_": {
         "title": "GrowbeDashboardItemPartialExcluding_id_",
@@ -3236,7 +3280,8 @@
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/BaseDashboardElementExcluding_id_"
+              "type": "object",
+              "description": "LastValue | ClockState | Graph"
             }
           }
         },
@@ -3260,7 +3305,8 @@
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/BaseDashboardElement"
+              "type": "object",
+              "description": "LastValue | ClockState | Graph"
             }
           }
         },
@@ -3282,33 +3328,47 @@
         "type": "object",
         "properties": {
           "growbeId": {
-            "type": "string"
+            "type": "string",
+            "description": "ID of the growbe to get data"
           },
           "moduleId": {
-            "type": "string"
+            "type": "string",
+            "description": "Module to get the data from"
           },
           "lastX": {
-            "type": "number"
+            "type": "number",
+            "description": "Last X Unit of time , default to Date"
           },
           "lastXUnit": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "Month",
+              "Hours",
+              "Minutes",
+              "Day",
+              "Date"
+            ]
           },
           "from": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "description": "if specify , get data from interval from this date"
           },
           "to": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "description": "if specify , get data from interval before this date"
           },
           "fields": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "description": "list of fields of the module to get, create one series pet fields"
             }
           },
           "liveUpdate": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "if true the data will be fetch , only possible with lastX"
           }
         },
         "additionalProperties": false
@@ -3318,33 +3378,47 @@
         "type": "object",
         "properties": {
           "growbeId": {
-            "type": "string"
+            "type": "string",
+            "description": "ID of the growbe to get data"
           },
           "moduleId": {
-            "type": "string"
+            "type": "string",
+            "description": "Module to get the data from"
           },
           "lastX": {
-            "type": "number"
+            "type": "number",
+            "description": "Last X Unit of time , default to Date"
           },
           "lastXUnit": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "Month",
+              "Hours",
+              "Minutes",
+              "Day",
+              "Date"
+            ]
           },
           "from": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "description": "if specify , get data from interval from this date"
           },
           "to": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "description": "if specify , get data from interval before this date"
           },
           "fields": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "description": "list of fields of the module to get, create one series pet fields"
             }
           },
           "liveUpdate": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "if true the data will be fetch , only possible with lastX"
           }
         },
         "additionalProperties": false
@@ -3353,8 +3427,29 @@
         "title": "GraphDataConfig",
         "type": "object",
         "properties": {
+          "scheme": {
+            "type": "object"
+          },
+          "schemeType": {
+            "type": "string"
+          },
+          "customColors": {
+            "type": "object"
+          },
+          "animations": {
+            "type": "boolean"
+          },
+          "rangeFillOpacity": {
+            "type": "number"
+          },
           "legend": {
             "type": "boolean"
+          },
+          "legendTitle": {
+            "type": "string"
+          },
+          "legendPosition": {
+            "type": "string"
           },
           "showLabels": {
             "type": "boolean"
@@ -3371,11 +3466,62 @@
           "showXAxisLabel": {
             "type": "boolean"
           },
+          "xScaleMin": {
+            "type": "number"
+          },
+          "xScaleMax": {
+            "type": "number"
+          },
+          "yScaleMin": {
+            "type": "number"
+          },
+          "yScaleMax": {
+            "type": "number"
+          },
           "yAxisLabel": {
             "type": "string"
           },
           "xAxisLabel": {
             "type": "string"
+          },
+          "trimXAxisTicks": {
+            "type": "boolean"
+          },
+          "trimYAxisTicks": {
+            "type": "boolean"
+          },
+          "maxXAxisTickLength": {
+            "type": "number"
+          },
+          "maxYAxisTickLength": {
+            "type": "number"
+          },
+          "rotateXAxisTicks": {
+            "type": "boolean"
+          },
+          "showGridLines": {
+            "type": "boolean"
+          },
+          "roundDomains": {
+            "type": "boolean"
+          },
+          "timeline": {
+            "type": "boolean"
+          },
+          "gradient": {
+            "type": "boolean"
+          },
+          "referenceLines": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "showRefLines": {
+            "type": "boolean"
+          },
+          "showRefLabels": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -3392,6 +3538,7 @@
             "enum": [
               "graph",
               "average",
+              "lastread",
               "clock"
             ]
           },
@@ -3407,6 +3554,25 @@
           },
           "graphDataConfig": {
             "$ref": "#/components/schemas/ModuleDataRequest"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BaseDashboardElement": {
+        "title": "BaseDashboardElement",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "graph",
+              "average",
+              "lastread",
+              "clock"
+            ]
           }
         },
         "additionalProperties": false

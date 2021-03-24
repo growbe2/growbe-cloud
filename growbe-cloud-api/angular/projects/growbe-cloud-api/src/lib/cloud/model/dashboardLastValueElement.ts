@@ -9,13 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ModuleDataRequest } from './moduleDataRequest';
 
 
-export interface BaseDashboardElement { 
+export interface DashboardLastValueElement { 
     name?: string;
-    type?: BaseDashboardElement.TypeEnum;
+    type?: DashboardLastValueElement.TypeEnum;
+    graphDataConfig?: ModuleDataRequest;
 }
-export namespace BaseDashboardElement {
+export namespace DashboardLastValueElement {
     export type TypeEnum = 'graph' | 'average' | 'lastread' | 'clock';
     export const TypeEnum = {
         Graph: 'graph' as TypeEnum,

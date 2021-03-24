@@ -21,8 +21,8 @@ export class GrowbeDashboard extends Entity {
   @property()
   name: string;
 
-  @property()
-  sidePanel: any;
+  @property.array(GrowbeDashboardItem)
+  sidePanel: GrowbeDashboardItem[];
 
   // Indexer property to allow additional data
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

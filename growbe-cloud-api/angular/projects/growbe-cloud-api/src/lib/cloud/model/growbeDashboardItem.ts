@@ -9,7 +9,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { BaseDashboardElement } from './baseDashboardElement';
 
 
 export interface GrowbeDashboardItem { 
@@ -19,6 +18,6 @@ export interface GrowbeDashboardItem {
     growbeDashboardId?: string;
     id?: string;
     name?: string;
-    items?: Array<BaseDashboardElement>;
+    items?: Array<object>;
 }
 

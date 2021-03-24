@@ -3072,13 +3072,13 @@
         "affectsGlobalScope": false
       },
       "./src/models/growbe-dashboard-item.model.ts": {
-        "version": "96b71062006ad6229ee938a64b44f465248b290b19e1ed2b085d2f6cf71d6d62",
-        "signature": "183f774ea9b24c3bae6eaed1f3ccdc7117acca4b8048af78984fa9ad3c9a62f0",
+        "version": "d14ff0cfda23cb9664a81684996c88b89091e7bc534f47740e78314f4090f4f9",
+        "signature": "c311317378fa669f1d6d1a999b5d1a19a8c82660ec1e866e6d01750cf3ffddc8",
         "affectsGlobalScope": false
       },
       "./src/models/growbe-dashboard.model.ts": {
-        "version": "afbd9625409b93a16c7f88704f7f88a3e1fafc8c3089805bad36e4c08b749075",
-        "signature": "ae411e26a905a79e110afb1bedeca674ecfc03c09c06570020ae2b3e753b1aa6",
+        "version": "279ffb76e006e6f1b1d9b2a18f1b54d52ebb63e1f23a3cf98a24395f8fc132ab",
+        "signature": "7353fda9ff068819237633a4117afa66e3e1f4f9d6e592390565eaa8ced7d54e",
         "affectsGlobalScope": false
       },
       "./src/models/index.ts": {
@@ -3158,7 +3158,7 @@
       },
       "./src/services/growbe.service.ts": {
         "version": "6fe06686ed62a902167f77fb82cde22a790ee1ebb29b6751319b6ef3e0f6c759",
-        "signature": "87089df2e4c3cc0b5224f8d4a59b083f91ad937e0162eede274fd7b8a136b02f",
+        "signature": "fb8d71879a0f42fd0cf9fe07b4f7db7619953d749bd7f8d50b02b52cc9530754",
         "affectsGlobalScope": false
       },
       "./src/services/growbe-state.service.ts": {
@@ -3188,7 +3188,7 @@
       },
       "./src/application.ts": {
         "version": "e3a0d541757b5e92c0775acd11160d120009621e8d1756e492cb8d9c96f8d95b",
-        "signature": "f78ab10ca305c900e92517fa849ae452698bbd2b961518b347fc7c5dc2fdb530",
+        "signature": "504c7c653f26dec6c85fc172228f39352c94d61153ba758a7559a45b41f7298b",
         "affectsGlobalScope": false
       },
       "./src/utility/oa3model.ts": {
@@ -3197,8 +3197,8 @@
         "affectsGlobalScope": false
       },
       "./src/cloud/controllers/growbe-mainboard.controller.ts": {
-        "version": "a9a2c065fc7d1a4f3b0f4b58e08fa71bb03edcb7924295682f090f3fe4be2a44",
-        "signature": "fbae38ae53c032bd535218dce510a1989e98213ac6f5c7b24a2a2a48d71bbc0a",
+        "version": "e8cc0c52bb11e6d1f2e8c925f032037a67b392f72a13f8ac269a7b85898275af",
+        "signature": "60c376d7f7cde27bcd5f5d3ba4ccd8be90156a64fa2b72fc5ec7ea6c95eaa48d",
         "affectsGlobalScope": false
       },
       "./src/cloud/controllers/index.ts": {

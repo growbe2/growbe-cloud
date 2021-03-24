@@ -5,6 +5,7 @@ import {Entity, Model, model, property} from '@loopback/repository';
 export enum DashboardElementType {
   GRAPH = 'graph',
   AVERAGE = 'average',
+  LAST_READ = 'lastread',
   CLOCK = 'clock'
 }
 
@@ -13,23 +14,31 @@ export enum GraphTypeEnum {
   BAR_VERTICAL = 'bar-vertical',
 }
 
+export enum LastXUnitEnum {
+  MONTH = 'Month',
+  HOURS = 'Hours' ,
+  MINUTES = 'Minutes',
+  DAY = 'Day',
+  DATE  = 'Date',
+}
+
 @model()
 export class ModuleDataRequest extends Model {
-  @property()
+  @property({description: 'ID of the growbe to get data'})
   growbeId: string;
-  @property()
+  @property({description: 'Module to get the data from'})
   moduleId: string;
-  @property()
-  lastX: number; // par default jour
-  @property()
-  lastXUnit?: string;
-  @property()
+  @property({description: 'Last X Unit of time , default to Date'})
+  lastX: number;
+  @property({type: 'string', jsonSchema: {enum: Object.values(LastXUnitEnum)}})
+  lastXUnit?: LastXUnitEnum;
+  @property({description: 'if specify , get data from interval from this date'})
   from: Date;
-  @property()
+  @property({description: 'if specify , get data from interval before this date'})
   to: Date;
-  @property.array('string')
+  @property.array('string', {description: 'list of fields of the module to get, create one series pet fields'})
   fields: string[];
-  @property()
+  @property({description: 'if true the data will be fetch , only possible with lastX'})
   liveUpdate?: boolean;
 }
 
@@ -37,7 +46,21 @@ export class ModuleDataRequest extends Model {
 @model()
 export class GraphDataConfig extends Model {
   @property()
+  scheme?: any;
+  @property()
+  schemeType?: string;
+  @property()
+  customColors: any;
+  @property()
+  animations: boolean;
+  @property()
+  rangeFillOpacity: number;
+  @property()
   legend?: boolean;
+  @property()
+  legendTitle?: string;
+  @property()
+  legendPosition?: string;
   @property()
   showLabels?: boolean;
   @property()
@@ -49,9 +72,41 @@ export class GraphDataConfig extends Model {
   @property()
   showXAxisLabel?: boolean;
   @property()
+  xScaleMin: number;
+  @property()
+  xScaleMax: number;
+  @property()
+  yScaleMin: number;
+  @property()
+  yScaleMax: number;
+  @property()
   yAxisLabel?: string;
   @property()
   xAxisLabel?: string;
+  @property()
+  trimXAxisTicks: boolean;
+  @property()
+  trimYAxisTicks: boolean;
+  @property()
+  maxXAxisTickLength: number;
+  @property()
+  maxYAxisTickLength: number;
+  @property()
+  rotateXAxisTicks: boolean;
+  @property()
+  showGridLines?: boolean;
+  @property()
+  roundDomains?: boolean;
+  @property()
+  timeline?: boolean;
+  @property()
+  gradient?:boolean;
+  @property.array('object')
+  referenceLines?: any[];
+  @property()
+  showRefLines: boolean;
+  @property()
+  showRefLabels: boolean;
 }
 
 
@@ -83,6 +138,19 @@ export class DashboardGraphElement extends BaseDashboardElement {
   graphDataConfig: ModuleDataRequest;
 }
 
+@model()
+export class DashboardClockStateElement extends BaseDashboardElement {
+  @property()
+  id: string;
+}
+
+@model()
+export class DashboardLastValueElement extends BaseDashboardElement {
+  @property()
+  graphDataConfig: ModuleDataRequest;
+}
+
+
 @model({settings: {strict: false}})
 export class GrowbeDashboardItem extends Entity {
 
@@ -102,8 +170,8 @@ export class GrowbeDashboardItem extends Entity {
   @property()
   name: string;
 
-  @property.array(() => BaseDashboardElement)
-  items: BaseDashboardElement[];
+  @property.array('object', {description: 'LastValue | ClockState | Graph'})
+  items: any[];
 
   // Indexer property to allow additional data
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

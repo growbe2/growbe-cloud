@@ -22,7 +22,7 @@ export interface GrowbeDashboardWithRelations {
     id?: string;
     userId?: string;
     name?: string;
-    sidePanel?: object;
+    sidePanel?: Array<GrowbeDashboardItemWithRelations>;
     growbeDashboardItems?: Array<GrowbeDashboardItemWithRelations>;
 }
 

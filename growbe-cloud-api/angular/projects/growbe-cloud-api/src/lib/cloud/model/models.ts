@@ -1,6 +1,4 @@
 export * from './baseDashboardElement';
-export * from './baseDashboardElementExcludingId';
-export * from './baseDashboardElementWithRelations';
 export * from './dashboardGraphElement';
 export * from './extraFieldWithRelations';
 export * from './graphDataConfig';
@@ -11,6 +9,7 @@ export * from './growbeDashboardFilter';
 export * from './growbeDashboardFilter1';
 export * from './growbeDashboardIncludeFilterItems';
 export * from './growbeDashboardItem';
+export * from './growbeDashboardItemExcludingId';
 export * from './growbeDashboardItemPartial';
 export * from './growbeDashboardItemPartialExcludingId';
 export * from './growbeDashboardItemWithRelations';

@@ -12,13 +12,42 @@
 
 
 export interface ModuleDataRequest { 
+    /**
+     * ID of the growbe to get data
+     */
     growbeId?: string;
+    /**
+     * Module to get the data from
+     */
     moduleId?: string;
+    /**
+     * Last X Unit of time , default to Date
+     */
     lastX?: number;
-    lastXUnit?: string;
+    lastXUnit?: ModuleDataRequest.LastXUnitEnum;
+    /**
+     * if specify , get data from interval from this date
+     */
     from?: string;
+    /**
+     * if specify , get data from interval before this date
+     */
     to?: string;
     fields?: Array<string>;
+    /**
+     * if true the data will be fetch , only possible with lastX
+     */
     liveUpdate?: boolean;
 }
+export namespace ModuleDataRequest {
+    export type LastXUnitEnum = 'Month' | 'Hours' | 'Minutes' | 'Day' | 'Date';
+    export const LastXUnitEnum = {
+        Month: 'Month' as LastXUnitEnum,
+        Hours: 'Hours' as LastXUnitEnum,
+        Minutes: 'Minutes' as LastXUnitEnum,
+        Day: 'Day' as LastXUnitEnum,
+        Date: 'Date' as LastXUnitEnum
+    };
+}
+
 

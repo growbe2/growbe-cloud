@@ -21,10 +21,11 @@ export interface DashboardGraphElement {
     graphDataConfig?: ModuleDataRequest;
 }
 export namespace DashboardGraphElement {
-    export type TypeEnum = 'graph' | 'average' | 'clock';
+    export type TypeEnum = 'graph' | 'average' | 'lastread' | 'clock';
     export const TypeEnum = {
         Graph: 'graph' as TypeEnum,
         Average: 'average' as TypeEnum,
+        Lastread: 'lastread' as TypeEnum,
         Clock: 'clock' as TypeEnum
     };
     export type GraphTypeEnum = 'line' | 'bar-vertical';

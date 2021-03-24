@@ -13,8 +13,6 @@ import { GrowbeWarningAPI } from '../../api/growbe-warning';
   animations: fuseAnimations,
 })
 export class GrowbeDynamicDashboardComponent implements OnInit {
-
-
   data: any;
 
   constructor(
@@ -24,9 +22,7 @@ export class GrowbeDynamicDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.data = this.activatedRoute.snapshot.data.dashboard;
-    console.log(this.data);
   }
-
 
   toggleSidebar(name): void
   {

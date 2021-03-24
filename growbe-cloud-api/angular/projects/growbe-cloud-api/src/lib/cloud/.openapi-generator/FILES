@@ -12,8 +12,6 @@ encoder.ts
 git_push.sh
 index.ts
 model/baseDashboardElement.ts
-model/baseDashboardElementExcludingId.ts
-model/baseDashboardElementWithRelations.ts
 model/dashboardGraphElement.ts
 model/extraFieldWithRelations.ts
 model/graphDataConfig.ts
@@ -24,6 +22,7 @@ model/growbeDashboardFilter.ts
 model/growbeDashboardFilter1.ts
 model/growbeDashboardIncludeFilterItems.ts
 model/growbeDashboardItem.ts
+model/growbeDashboardItemExcludingId.ts
 model/growbeDashboardItemPartial.ts
 model/growbeDashboardItemPartialExcludingId.ts
 model/growbeDashboardItemWithRelations.ts

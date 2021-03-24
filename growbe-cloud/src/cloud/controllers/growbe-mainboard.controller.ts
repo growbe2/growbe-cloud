@@ -4,7 +4,7 @@ import {authenticate} from '@loopback/authentication';
 import {inject, service} from '@loopback/core';
 import {get, param, patch, post, requestBody} from '@loopback/openapi-v3';
 import {SecurityBindings, UserProfile} from '@loopback/security';
-import { DashboardGraphElement, GraphDataConfig, ModuleDataRequest } from '../../models';
+import { BaseDashboardElement, DashboardClockStateElement, DashboardGraphElement, DashboardLastValueElement, GraphDataConfig, ModuleDataRequest } from '../../models';
 import {GrowbeRegisterRequest, GrowbeService} from '../../services';
 import {
   GraphModuleRequest,
@@ -68,5 +68,14 @@ export class GrowbeMainboardController {
 
   @get('/model/dashboardGraphElement', schemaJsonOf(DashboardGraphElement))
   dashboardGraphElement() {return new GraphDataConfig()}
+
+  @get('/model/baseDashboardElement', schemaJsonOf(BaseDashboardElement))
+  baseDashboardElement() {return new BaseDashboardElement()}
+
+  @get('/model/dashboardLastValueElement', schemaJsonOf(DashboardLastValueElement))
+  dashboardLastValueElement() {return new DashboardLastValueElement}
+
+  @get('/model/dashboardClockStateElement', schemaJsonOf(DashboardClockStateElement))
+  dashboardClockStateElement() {return new DashboardClockStateElement()}
 
 }

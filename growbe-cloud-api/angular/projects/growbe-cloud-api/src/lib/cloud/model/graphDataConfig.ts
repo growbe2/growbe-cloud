@@ -12,13 +12,36 @@
 
 
 export interface GraphDataConfig { 
+    scheme?: object;
+    schemeType?: string;
+    customColors?: object;
+    animations?: boolean;
+    rangeFillOpacity?: number;
     legend?: boolean;
+    legendTitle?: string;
+    legendPosition?: string;
     showLabels?: boolean;
     xAxis?: boolean;
     yAxis?: boolean;
     showYAxisLabel?: boolean;
     showXAxisLabel?: boolean;
+    xScaleMin?: number;
+    xScaleMax?: number;
+    yScaleMin?: number;
+    yScaleMax?: number;
     yAxisLabel?: string;
     xAxisLabel?: string;
+    trimXAxisTicks?: boolean;
+    trimYAxisTicks?: boolean;
+    maxXAxisTickLength?: number;
+    maxYAxisTickLength?: number;
+    rotateXAxisTicks?: boolean;
+    showGridLines?: boolean;
+    roundDomains?: boolean;
+    timeline?: boolean;
+    gradient?: boolean;
+    referenceLines?: Array<object>;
+    showRefLines?: boolean;
+    showRefLabels?: boolean;
 }
 
