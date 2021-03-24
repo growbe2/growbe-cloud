@@ -1013,6 +1013,233 @@
         "operationId": "GrowbeMainboardController.count"
       }
     },
+    "/growbes/{id}/growbeLogs/{fk}": {
+      "put": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "putRelationModelById",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "description": "Replace a instance of GrowbeMainboard",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GrowbeLogs"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "fk",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrowbeLogsPartial"
+              }
+            }
+          },
+          "x-parameter-index": 2
+        },
+        "operationId": "GrowbeMainboardController.putRelationModelById"
+      },
+      "get": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "getRelationModel",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "description": "Get a filter list of GrowbeMainboard",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GrowbeLogs"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "fk",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        ],
+        "operationId": "GrowbeMainboardController.getRelationModel"
+      },
+      "delete": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "delRelationModel",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "description": "Delete a instance of GrowbeMainboard",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GrowbeLogs"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "fk",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "operationId": "GrowbeMainboardController.delRelationModel"
+      }
+    },
+    "/growbes/{id}/growbeLogs": {
+      "post": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "createRelationModel",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "description": "Create a new instance of GrowbeMainboard",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GrowbeLogs"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrowbeLogsPartialExcluding_id_"
+              }
+            }
+          },
+          "x-parameter-index": 1
+        },
+        "operationId": "GrowbeMainboardController.createRelationModel"
+      },
+      "get": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "findRelationModel",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "description": "Get a filter list of GrowbeMainboard",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GrowbeLogs"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        ],
+        "operationId": "GrowbeMainboardController.findRelationModel"
+      }
+    },
     "/growbes/{id}/growbeModules/{fk}": {
       "put": {
         "x-controller-name": "GrowbeMainboardController",
@@ -3305,6 +3532,166 @@
         "additionalProperties": true,
         "x-typescript-type": "Omit<Partial<GrowbeSensorValue>, >"
       },
+      "GrowbeLogs": {
+        "title": "GrowbeLogs",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "0",
+              "1",
+              "2"
+            ]
+          },
+          "group": {
+            "type": "string",
+            "enum": [
+              "mainboard",
+              "modules"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "module",
+              "connection",
+              "new_warning",
+              "update_rtc"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "newState": {
+            "type": "object"
+          },
+          "oldState": {
+            "type": "object"
+          },
+          "growbeMainboardId": {
+            "type": "string"
+          },
+          "growbeModuleId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "GrowbeLogsPartialExcluding_id_": {
+        "title": "GrowbeLogsPartialExcluding_id_",
+        "type": "object",
+        "description": "(tsType: Omit<Partial<GrowbeLogs>, 'id'>, schemaOptions: { title: '', partial: true, exclude: [ 'id' ] })",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "0",
+              "1",
+              "2"
+            ]
+          },
+          "group": {
+            "type": "string",
+            "enum": [
+              "mainboard",
+              "modules"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "module",
+              "connection",
+              "new_warning",
+              "update_rtc"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "newState": {
+            "type": "object"
+          },
+          "oldState": {
+            "type": "object"
+          },
+          "growbeMainboardId": {
+            "type": "string"
+          },
+          "growbeModuleId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true,
+        "x-typescript-type": "Omit<Partial<GrowbeLogs>, 'id'>"
+      },
+      "GrowbeLogsPartial": {
+        "title": "GrowbeLogsPartial",
+        "type": "object",
+        "description": "(tsType: Omit<Partial<GrowbeLogs>, >, schemaOptions: { title: '', partial: true, exclude: [] })",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "0",
+              "1",
+              "2"
+            ]
+          },
+          "group": {
+            "type": "string",
+            "enum": [
+              "mainboard",
+              "modules"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "module",
+              "connection",
+              "new_warning",
+              "update_rtc"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "newState": {
+            "type": "object"
+          },
+          "oldState": {
+            "type": "object"
+          },
+          "growbeMainboardId": {
+            "type": "string"
+          },
+          "growbeModuleId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true,
+        "x-typescript-type": "Omit<Partial<GrowbeLogs>, >"
+      },
       "GrowbeWarningExcluding_id_": {
         "title": "GrowbeWarningExcluding_id_",
         "type": "object",
@@ -3829,59 +4216,6 @@
         },
         "additionalProperties": false
       },
-      "GrowbeLogs": {
-        "title": "GrowbeLogs",
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "severity": {
-            "type": "string",
-            "enum": [
-              "0",
-              "1",
-              "2"
-            ]
-          },
-          "group": {
-            "type": "string",
-            "enum": [
-              "mainboard",
-              "modules"
-            ]
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "module",
-              "connection",
-              "new_warning",
-              "update_rtc"
-            ]
-          },
-          "message": {
-            "type": "string"
-          },
-          "newState": {
-            "type": "object"
-          },
-          "oldState": {
-            "type": "object"
-          },
-          "growbeMainboardId": {
-            "type": "string"
-          },
-          "growbeModuleId": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": true
-      },
       "NewGrowbeLogsInGrowbeModule": {
         "title": "NewGrowbeLogsInGrowbeModule",
         "type": "object",
@@ -3933,61 +4267,6 @@
         },
         "additionalProperties": true,
         "x-typescript-type": "@loopback/repository-json-schema#Optional<Omit<GrowbeLogs, 'id'>, 'growbeModuleId'>"
-      },
-      "GrowbeLogsPartial": {
-        "title": "GrowbeLogsPartial",
-        "type": "object",
-        "description": "(tsType: Partial<GrowbeLogs>, schemaOptions: { partial: true })",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "severity": {
-            "type": "string",
-            "enum": [
-              "0",
-              "1",
-              "2"
-            ]
-          },
-          "group": {
-            "type": "string",
-            "enum": [
-              "mainboard",
-              "modules"
-            ]
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "module",
-              "connection",
-              "new_warning",
-              "update_rtc"
-            ]
-          },
-          "message": {
-            "type": "string"
-          },
-          "newState": {
-            "type": "object"
-          },
-          "oldState": {
-            "type": "object"
-          },
-          "growbeMainboardId": {
-            "type": "string"
-          },
-          "growbeModuleId": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": true,
-        "x-typescript-type": "Partial<GrowbeLogs>"
       },
       "GrowbeModuleDef": {
         "title": "GrowbeModuleDef",

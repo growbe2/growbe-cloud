@@ -19,6 +19,7 @@ export * from './growbeDashboardScopeFilter';
 export * from './growbeDashboardWithRelations';
 export * from './growbeLogs';
 export * from './growbeLogsPartial';
+export * from './growbeLogsPartialExcludingId';
 export * from './growbeLogsWithRelations';
 export * from './growbeMainboard';
 export * from './growbeMainboardConfigWithRelations';

@@ -21,6 +21,7 @@ import { BaseDashboardElement } from '../model/models';
 import { DashboardGraphElement } from '../model/models';
 import { GraphDataConfig } from '../model/models';
 import { GraphModuleRequest } from '../model/models';
+import { GrowbeLogs } from '../model/models';
 import { GrowbeMainboard } from '../model/models';
 import { GrowbeMainboardExcludingId } from '../model/models';
 import { GrowbeMainboardFilter } from '../model/models';
@@ -264,12 +265,68 @@ export class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeMainboardControllerCreateRelationModel(id: string, requestBody?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeModule>;
-    public growbeMainboardControllerCreateRelationModel(id: string, requestBody?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeModule>>;
-    public growbeMainboardControllerCreateRelationModel(id: string, requestBody?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeModule>>;
+    public growbeMainboardControllerCreateRelationModel(id: string, requestBody?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeLogs>;
+    public growbeMainboardControllerCreateRelationModel(id: string, requestBody?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeLogs>>;
+    public growbeMainboardControllerCreateRelationModel(id: string, requestBody?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeLogs>>;
     public growbeMainboardControllerCreateRelationModel(id: string, requestBody?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerCreateRelationModel.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.post<GrowbeLogs>(`${this.configuration.basePath}/growbes/${encodeURIComponent(String(id))}/growbeLogs`,
+            requestBody,
+            {
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Create a new instance of GrowbeMainboard
+     * @param id 
+     * @param requestBody 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public growbeMainboardControllerCreateRelationModel_1(id: string, requestBody?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeModule>;
+    public growbeMainboardControllerCreateRelationModel_1(id: string, requestBody?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeModule>>;
+    public growbeMainboardControllerCreateRelationModel_1(id: string, requestBody?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeModule>>;
+    public growbeMainboardControllerCreateRelationModel_1(id: string, requestBody?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerCreateRelationModel_1.');
         }
 
         let headers = this.defaultHeaders;
@@ -320,12 +377,12 @@ export class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeMainboardControllerCreateRelationModel_1(id: string, requestBody?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeSensorValue>;
-    public growbeMainboardControllerCreateRelationModel_1(id: string, requestBody?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeSensorValue>>;
-    public growbeMainboardControllerCreateRelationModel_1(id: string, requestBody?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeSensorValue>>;
-    public growbeMainboardControllerCreateRelationModel_1(id: string, requestBody?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeMainboardControllerCreateRelationModel_2(id: string, requestBody?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeSensorValue>;
+    public growbeMainboardControllerCreateRelationModel_2(id: string, requestBody?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeSensorValue>>;
+    public growbeMainboardControllerCreateRelationModel_2(id: string, requestBody?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeSensorValue>>;
+    public growbeMainboardControllerCreateRelationModel_2(id: string, requestBody?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerCreateRelationModel_1.');
+            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerCreateRelationModel_2.');
         }
 
         let headers = this.defaultHeaders;
@@ -376,12 +433,12 @@ export class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeMainboardControllerCreateRelationModel_2(id: string, growbeWarningPartialExcludingId?: GrowbeWarningPartialExcludingId, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeWarning>;
-    public growbeMainboardControllerCreateRelationModel_2(id: string, growbeWarningPartialExcludingId?: GrowbeWarningPartialExcludingId, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeWarning>>;
-    public growbeMainboardControllerCreateRelationModel_2(id: string, growbeWarningPartialExcludingId?: GrowbeWarningPartialExcludingId, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeWarning>>;
-    public growbeMainboardControllerCreateRelationModel_2(id: string, growbeWarningPartialExcludingId?: GrowbeWarningPartialExcludingId, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeMainboardControllerCreateRelationModel_3(id: string, growbeWarningPartialExcludingId?: GrowbeWarningPartialExcludingId, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeWarning>;
+    public growbeMainboardControllerCreateRelationModel_3(id: string, growbeWarningPartialExcludingId?: GrowbeWarningPartialExcludingId, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeWarning>>;
+    public growbeMainboardControllerCreateRelationModel_3(id: string, growbeWarningPartialExcludingId?: GrowbeWarningPartialExcludingId, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeWarning>>;
+    public growbeMainboardControllerCreateRelationModel_3(id: string, growbeWarningPartialExcludingId?: GrowbeWarningPartialExcludingId, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerCreateRelationModel_2.');
+            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerCreateRelationModel_3.');
         }
 
         let headers = this.defaultHeaders;
@@ -552,15 +609,64 @@ export class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeMainboardControllerDelRelationModel(id: string, fk: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeModule>;
-    public growbeMainboardControllerDelRelationModel(id: string, fk: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeModule>>;
-    public growbeMainboardControllerDelRelationModel(id: string, fk: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeModule>>;
+    public growbeMainboardControllerDelRelationModel(id: string, fk: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeLogs>;
+    public growbeMainboardControllerDelRelationModel(id: string, fk: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeLogs>>;
+    public growbeMainboardControllerDelRelationModel(id: string, fk: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeLogs>>;
     public growbeMainboardControllerDelRelationModel(id: string, fk: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerDelRelationModel.');
         }
         if (fk === null || fk === undefined) {
             throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerDelRelationModel.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.delete<GrowbeLogs>(`${this.configuration.basePath}/growbes/${encodeURIComponent(String(id))}/growbeLogs/${encodeURIComponent(String(fk))}`,
+            {
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Delete a instance of GrowbeMainboard
+     * @param id 
+     * @param fk 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public growbeMainboardControllerDelRelationModel_4(id: string, fk: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeModule>;
+    public growbeMainboardControllerDelRelationModel_4(id: string, fk: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeModule>>;
+    public growbeMainboardControllerDelRelationModel_4(id: string, fk: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeModule>>;
+    public growbeMainboardControllerDelRelationModel_4(id: string, fk: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerDelRelationModel_4.');
+        }
+        if (fk === null || fk === undefined) {
+            throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerDelRelationModel_4.');
         }
 
         let headers = this.defaultHeaders;
@@ -601,15 +707,15 @@ export class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeMainboardControllerDelRelationModel_3(id: string, fk: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeSensorValue>;
-    public growbeMainboardControllerDelRelationModel_3(id: string, fk: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeSensorValue>>;
-    public growbeMainboardControllerDelRelationModel_3(id: string, fk: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeSensorValue>>;
-    public growbeMainboardControllerDelRelationModel_3(id: string, fk: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeMainboardControllerDelRelationModel_5(id: string, fk: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeSensorValue>;
+    public growbeMainboardControllerDelRelationModel_5(id: string, fk: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeSensorValue>>;
+    public growbeMainboardControllerDelRelationModel_5(id: string, fk: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeSensorValue>>;
+    public growbeMainboardControllerDelRelationModel_5(id: string, fk: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerDelRelationModel_3.');
+            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerDelRelationModel_5.');
         }
         if (fk === null || fk === undefined) {
-            throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerDelRelationModel_3.');
+            throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerDelRelationModel_5.');
         }
 
         let headers = this.defaultHeaders;
@@ -650,15 +756,15 @@ export class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeMainboardControllerDelRelationModel_4(id: string, fk: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeWarning>;
-    public growbeMainboardControllerDelRelationModel_4(id: string, fk: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeWarning>>;
-    public growbeMainboardControllerDelRelationModel_4(id: string, fk: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeWarning>>;
-    public growbeMainboardControllerDelRelationModel_4(id: string, fk: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeMainboardControllerDelRelationModel_6(id: string, fk: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeWarning>;
+    public growbeMainboardControllerDelRelationModel_6(id: string, fk: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeWarning>>;
+    public growbeMainboardControllerDelRelationModel_6(id: string, fk: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeWarning>>;
+    public growbeMainboardControllerDelRelationModel_6(id: string, fk: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerDelRelationModel_4.');
+            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerDelRelationModel_6.');
         }
         if (fk === null || fk === undefined) {
-            throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerDelRelationModel_4.');
+            throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerDelRelationModel_6.');
         }
 
         let headers = this.defaultHeaders;
@@ -867,12 +973,65 @@ export class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeMainboardControllerFindRelationModel(id: string, filter?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeModule>;
-    public growbeMainboardControllerFindRelationModel(id: string, filter?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeModule>>;
-    public growbeMainboardControllerFindRelationModel(id: string, filter?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeModule>>;
+    public growbeMainboardControllerFindRelationModel(id: string, filter?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeLogs>;
+    public growbeMainboardControllerFindRelationModel(id: string, filter?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeLogs>>;
+    public growbeMainboardControllerFindRelationModel(id: string, filter?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeLogs>>;
     public growbeMainboardControllerFindRelationModel(id: string, filter?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerFindRelationModel.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (filter !== undefined && filter !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>filter, 'filter');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.get<GrowbeLogs>(`${this.configuration.basePath}/growbes/${encodeURIComponent(String(id))}/growbeLogs`,
+            {
+                params: queryParameters,
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get a filter list of GrowbeMainboard
+     * @param id 
+     * @param filter 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public growbeMainboardControllerFindRelationModel_7(id: string, filter?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeModule>;
+    public growbeMainboardControllerFindRelationModel_7(id: string, filter?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeModule>>;
+    public growbeMainboardControllerFindRelationModel_7(id: string, filter?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeModule>>;
+    public growbeMainboardControllerFindRelationModel_7(id: string, filter?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerFindRelationModel_7.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -920,12 +1079,12 @@ export class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeMainboardControllerFindRelationModel_5(id: string, filter?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeSensorValue>;
-    public growbeMainboardControllerFindRelationModel_5(id: string, filter?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeSensorValue>>;
-    public growbeMainboardControllerFindRelationModel_5(id: string, filter?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeSensorValue>>;
-    public growbeMainboardControllerFindRelationModel_5(id: string, filter?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeMainboardControllerFindRelationModel_8(id: string, filter?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeSensorValue>;
+    public growbeMainboardControllerFindRelationModel_8(id: string, filter?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeSensorValue>>;
+    public growbeMainboardControllerFindRelationModel_8(id: string, filter?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeSensorValue>>;
+    public growbeMainboardControllerFindRelationModel_8(id: string, filter?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerFindRelationModel_5.');
+            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerFindRelationModel_8.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -973,12 +1132,12 @@ export class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeMainboardControllerFindRelationModel_6(id: string, filter?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeWarning>;
-    public growbeMainboardControllerFindRelationModel_6(id: string, filter?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeWarning>>;
-    public growbeMainboardControllerFindRelationModel_6(id: string, filter?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeWarning>>;
-    public growbeMainboardControllerFindRelationModel_6(id: string, filter?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeMainboardControllerFindRelationModel_9(id: string, filter?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeWarning>;
+    public growbeMainboardControllerFindRelationModel_9(id: string, filter?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeWarning>>;
+    public growbeMainboardControllerFindRelationModel_9(id: string, filter?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeWarning>>;
+    public growbeMainboardControllerFindRelationModel_9(id: string, filter?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerFindRelationModel_6.');
+            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerFindRelationModel_9.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -1177,15 +1336,72 @@ export class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeMainboardControllerGetRelationModel(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeModule>;
-    public growbeMainboardControllerGetRelationModel(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeModule>>;
-    public growbeMainboardControllerGetRelationModel(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeModule>>;
+    public growbeMainboardControllerGetRelationModel(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeLogs>;
+    public growbeMainboardControllerGetRelationModel(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeLogs>>;
+    public growbeMainboardControllerGetRelationModel(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeLogs>>;
     public growbeMainboardControllerGetRelationModel(id: string, fk: string, filter?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerGetRelationModel.');
         }
         if (fk === null || fk === undefined) {
             throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerGetRelationModel.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (filter !== undefined && filter !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>filter, 'filter');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.get<GrowbeLogs>(`${this.configuration.basePath}/growbes/${encodeURIComponent(String(id))}/growbeLogs/${encodeURIComponent(String(fk))}`,
+            {
+                params: queryParameters,
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get a filter list of GrowbeMainboard
+     * @param id 
+     * @param fk 
+     * @param filter 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public growbeMainboardControllerGetRelationModel_10(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeModule>;
+    public growbeMainboardControllerGetRelationModel_10(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeModule>>;
+    public growbeMainboardControllerGetRelationModel_10(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeModule>>;
+    public growbeMainboardControllerGetRelationModel_10(id: string, fk: string, filter?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerGetRelationModel_10.');
+        }
+        if (fk === null || fk === undefined) {
+            throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerGetRelationModel_10.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -1234,15 +1450,15 @@ export class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeMainboardControllerGetRelationModel_7(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeSensorValue>;
-    public growbeMainboardControllerGetRelationModel_7(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeSensorValue>>;
-    public growbeMainboardControllerGetRelationModel_7(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeSensorValue>>;
-    public growbeMainboardControllerGetRelationModel_7(id: string, fk: string, filter?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeMainboardControllerGetRelationModel_11(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeSensorValue>;
+    public growbeMainboardControllerGetRelationModel_11(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeSensorValue>>;
+    public growbeMainboardControllerGetRelationModel_11(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeSensorValue>>;
+    public growbeMainboardControllerGetRelationModel_11(id: string, fk: string, filter?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerGetRelationModel_7.');
+            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerGetRelationModel_11.');
         }
         if (fk === null || fk === undefined) {
-            throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerGetRelationModel_7.');
+            throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerGetRelationModel_11.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -1291,15 +1507,15 @@ export class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeMainboardControllerGetRelationModel_8(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeWarning>;
-    public growbeMainboardControllerGetRelationModel_8(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeWarning>>;
-    public growbeMainboardControllerGetRelationModel_8(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeWarning>>;
-    public growbeMainboardControllerGetRelationModel_8(id: string, fk: string, filter?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeMainboardControllerGetRelationModel_12(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeWarning>;
+    public growbeMainboardControllerGetRelationModel_12(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeWarning>>;
+    public growbeMainboardControllerGetRelationModel_12(id: string, fk: string, filter?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeWarning>>;
+    public growbeMainboardControllerGetRelationModel_12(id: string, fk: string, filter?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerGetRelationModel_8.');
+            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerGetRelationModel_12.');
         }
         if (fk === null || fk === undefined) {
-            throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerGetRelationModel_8.');
+            throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerGetRelationModel_12.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -1388,15 +1604,75 @@ export class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeMainboardControllerPutRelationModelById(id: string, fk: string, requestBody?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeModule>;
-    public growbeMainboardControllerPutRelationModelById(id: string, fk: string, requestBody?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeModule>>;
-    public growbeMainboardControllerPutRelationModelById(id: string, fk: string, requestBody?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeModule>>;
+    public growbeMainboardControllerPutRelationModelById(id: string, fk: string, requestBody?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeLogs>;
+    public growbeMainboardControllerPutRelationModelById(id: string, fk: string, requestBody?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeLogs>>;
+    public growbeMainboardControllerPutRelationModelById(id: string, fk: string, requestBody?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeLogs>>;
     public growbeMainboardControllerPutRelationModelById(id: string, fk: string, requestBody?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerPutRelationModelById.');
         }
         if (fk === null || fk === undefined) {
             throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerPutRelationModelById.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.put<GrowbeLogs>(`${this.configuration.basePath}/growbes/${encodeURIComponent(String(id))}/growbeLogs/${encodeURIComponent(String(fk))}`,
+            requestBody,
+            {
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Replace a instance of GrowbeMainboard
+     * @param id 
+     * @param fk 
+     * @param requestBody 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public growbeMainboardControllerPutRelationModelById_13(id: string, fk: string, requestBody?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeModule>;
+    public growbeMainboardControllerPutRelationModelById_13(id: string, fk: string, requestBody?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeModule>>;
+    public growbeMainboardControllerPutRelationModelById_13(id: string, fk: string, requestBody?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeModule>>;
+    public growbeMainboardControllerPutRelationModelById_13(id: string, fk: string, requestBody?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerPutRelationModelById_13.');
+        }
+        if (fk === null || fk === undefined) {
+            throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerPutRelationModelById_13.');
         }
 
         let headers = this.defaultHeaders;
@@ -1448,15 +1724,15 @@ export class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeMainboardControllerPutRelationModelById_9(id: string, fk: string, requestBody?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeSensorValue>;
-    public growbeMainboardControllerPutRelationModelById_9(id: string, fk: string, requestBody?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeSensorValue>>;
-    public growbeMainboardControllerPutRelationModelById_9(id: string, fk: string, requestBody?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeSensorValue>>;
-    public growbeMainboardControllerPutRelationModelById_9(id: string, fk: string, requestBody?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeMainboardControllerPutRelationModelById_14(id: string, fk: string, requestBody?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeSensorValue>;
+    public growbeMainboardControllerPutRelationModelById_14(id: string, fk: string, requestBody?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeSensorValue>>;
+    public growbeMainboardControllerPutRelationModelById_14(id: string, fk: string, requestBody?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeSensorValue>>;
+    public growbeMainboardControllerPutRelationModelById_14(id: string, fk: string, requestBody?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerPutRelationModelById_9.');
+            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerPutRelationModelById_14.');
         }
         if (fk === null || fk === undefined) {
-            throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerPutRelationModelById_9.');
+            throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerPutRelationModelById_14.');
         }
 
         let headers = this.defaultHeaders;
@@ -1508,15 +1784,15 @@ export class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeMainboardControllerPutRelationModelById_10(id: string, fk: string, growbeWarningPartial?: GrowbeWarningPartial, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeWarning>;
-    public growbeMainboardControllerPutRelationModelById_10(id: string, fk: string, growbeWarningPartial?: GrowbeWarningPartial, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeWarning>>;
-    public growbeMainboardControllerPutRelationModelById_10(id: string, fk: string, growbeWarningPartial?: GrowbeWarningPartial, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeWarning>>;
-    public growbeMainboardControllerPutRelationModelById_10(id: string, fk: string, growbeWarningPartial?: GrowbeWarningPartial, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeMainboardControllerPutRelationModelById_15(id: string, fk: string, growbeWarningPartial?: GrowbeWarningPartial, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeWarning>;
+    public growbeMainboardControllerPutRelationModelById_15(id: string, fk: string, growbeWarningPartial?: GrowbeWarningPartial, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeWarning>>;
+    public growbeMainboardControllerPutRelationModelById_15(id: string, fk: string, growbeWarningPartial?: GrowbeWarningPartial, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeWarning>>;
+    public growbeMainboardControllerPutRelationModelById_15(id: string, fk: string, growbeWarningPartial?: GrowbeWarningPartial, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerPutRelationModelById_10.');
+            throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerPutRelationModelById_15.');
         }
         if (fk === null || fk === undefined) {
-            throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerPutRelationModelById_10.');
+            throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerPutRelationModelById_15.');
         }
 
         let headers = this.defaultHeaders;

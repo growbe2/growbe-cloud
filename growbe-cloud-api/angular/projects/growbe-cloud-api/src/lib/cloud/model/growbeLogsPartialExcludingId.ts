@@ -12,24 +12,23 @@
 
 
 /**
- * (tsType: Omit<Partial<GrowbeLogs>, >, schemaOptions: { title: \'\', partial: true, exclude: [] })
+ * (tsType: Omit<Partial<GrowbeLogs>, \'id\'>, schemaOptions: { title: \'\', partial: true, exclude: [ \'id\' ] })
  */
-export interface GrowbeLogsPartial { 
+export interface GrowbeLogsPartialExcludingId { 
   [key: string]: object | any;
 
 
-    id?: string;
     timestamp?: string;
-    severity?: GrowbeLogsPartial.SeverityEnum;
-    group?: GrowbeLogsPartial.GroupEnum;
-    type?: GrowbeLogsPartial.TypeEnum;
+    severity?: GrowbeLogsPartialExcludingId.SeverityEnum;
+    group?: GrowbeLogsPartialExcludingId.GroupEnum;
+    type?: GrowbeLogsPartialExcludingId.TypeEnum;
     message?: string;
     newState?: object;
     oldState?: object;
     growbeMainboardId?: string;
     growbeModuleId?: string;
 }
-export namespace GrowbeLogsPartial {
+export namespace GrowbeLogsPartialExcludingId {
     export type SeverityEnum = '0' | '1' | '2';
     export const SeverityEnum = {
         _0: '0' as SeverityEnum,

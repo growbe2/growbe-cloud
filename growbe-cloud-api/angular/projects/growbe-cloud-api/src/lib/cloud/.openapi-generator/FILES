@@ -33,6 +33,7 @@ model/growbeDashboardScopeFilter.ts
 model/growbeDashboardWithRelations.ts
 model/growbeLogs.ts
 model/growbeLogsPartial.ts
+model/growbeLogsPartialExcludingId.ts
 model/growbeLogsWithRelations.ts
 model/growbeMainboard.ts
 model/growbeMainboardConfigWithRelations.ts
