@@ -2,6 +2,7 @@ import {HearthBeath, ModuleData} from '@growbe2/growbe-pb';
 import {Binding, Component} from '@loopback/core';
 import {GrowbeMainboardBindings} from '../keys';
 import {GrowbeModuleService, GrowbeStateService} from '../services';
+import { GrowbeLogsService } from '../services/growbe-logs.service';
 import {GrowbeDataSubjectObserver} from './observers';
 import {DataSubject, funcModuleSubject} from './observers/model';
 

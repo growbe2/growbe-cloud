@@ -2,11 +2,13 @@ import * as pb from '@growbe2/growbe-pb';
 import {/* inject, */ BindingScope, injectable, service} from '@loopback/core';
 import {repository} from '@loopback/repository';
 import {GrowbeModuleWithRelations, GrowbeSensorValue} from '../models';
+import { GroupEnum, LogTypeEnum, SeverityEnum } from '../models/growbe-logs.model';
 import {
   GrowbeModuleDefRepository,
   GrowbeModuleRepository,
   GrowbeSensorValueRepository,
 } from '../repositories';
+import { GrowbeLogsService } from './growbe-logs.service';
 import {getTopic, MQTTService} from './mqtt.service';
 
 const mapType: any = {
@@ -27,6 +29,7 @@ export class GrowbeModuleService {
     @repository(GrowbeSensorValueRepository)
     public sensorValueRepository: GrowbeSensorValueRepository,
     @service(MQTTService) public mqttService: MQTTService,
+    @service(GrowbeLogsService) public logsService: GrowbeLogsService,
   ) {}
 
   async onModuleStateChange(
@@ -43,6 +46,13 @@ export class GrowbeModuleService {
       getTopic(boardId, `/cloud/m/${moduleId}/state`),
       JSON.stringify(module),
     );
+    await this.logsService.addLog({
+      growbeMainboardId: boardId, severity: SeverityEnum.LOW,
+      growbeModuleId: moduleId,
+      type: LogTypeEnum.MODULE_STATE_CHANGE,
+      group: GroupEnum.MAINBOARD,
+      message: `connected: ${module.connected} index: ${module.atIndex}`,
+    });
   }
 
   async onModuleDataChange(boardId: string, moduleId: string, data: any) {

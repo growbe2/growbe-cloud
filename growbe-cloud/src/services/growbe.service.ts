@@ -10,6 +10,8 @@ import { GrowbeMainboardConfigRepository } from '../repositories/growbe-mainboar
 import { GrowbeMainboardBindings } from '../keys';
 
 import pb from '@growbe2/growbe-pb';
+import { GrowbeLogsService } from './growbe-logs.service';
+import { GroupEnum, GrowbeLogs, LogTypeEnum, SeverityEnum } from '../models/growbe-logs.model';
 
 export type GrowbeRegisterState = 'BEATH_UNREGISTER' | 'UNBEATH_REGISTER' | 'UNREGISTER' | 'REGISTER' | 'ALREADY_REGISTER';
 
@@ -38,6 +40,8 @@ export class GrowbeService {
     private mqttService: MQTTService,
     @inject(GrowbeMainboardBindings.DEFAULT_CONFIG)
     private defaultConfig: Partial<GrowbeMainboardConfig>,
+    @service(GrowbeLogsService)
+    private logsService: GrowbeLogsService,
   ) {}
 
   async findOrCreate(id: string, filter: FilterExcludingWhere<GrowbeMainboard> = {}): Promise<GrowbeMainboard & {new?: boolean}> {
@@ -55,7 +59,15 @@ export class GrowbeService {
   }
 
   async setRTC(growbeId: string, rtcTime: RTCTime) {
-    return this.mqttService.send(getTopic(growbeId, "/board/setTime"), pb.RTCTime.encode(rtcTime).finish())
+    return this.mqttService.send(getTopic(growbeId, "/board/setTime"), pb.RTCTime.encode(rtcTime).finish()).then((value) => {
+      return this.logsService.addLog({
+        group: GroupEnum.MAINBOARD,
+        type: LogTypeEnum.RTC_UPDATE,
+        severity: SeverityEnum.LOW,
+        growbeMainboardId: growbeId,
+        message: `rtc set : ${rtcTime.toJSON()}`
+      })
+    })
   }
 
   async register(userId: string, request: GrowbeRegisterRequest) {

@@ -1,14 +1,18 @@
-import {injectable, /* inject, */ BindingScope} from '@loopback/core';
+import {injectable, /* inject, */ BindingScope, service} from '@loopback/core';
 import { repository } from '@loopback/repository';
 import { GrowbeWarning } from '../models';
+import { GroupEnum, GrowbeLogs, LogTypeEnum, SeverityEnum } from '../models/growbe-logs.model';
 import { GrowbeWarningRepository } from '../repositories';
 import { GrowbeMainboardConfigRepository } from '../repositories/growbe-mainboard-config.repository';
+import { GrowbeLogsService } from './growbe-logs.service';
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeWarningService {
   constructor(
     @repository(GrowbeWarningRepository)
     public warningRepository: GrowbeWarningRepository,
+    @service(GrowbeLogsService)
+    public logsService: GrowbeLogsService,
   ) {}
 
 
@@ -29,6 +33,16 @@ export class GrowbeWarningService {
         return warning;
       }
     }
-    return this.warningRepository.create(Object.assign(warn, {createdAt: new Date()}));
+    const warningEntity = await this.warningRepository.create(Object.assign(warn, {createdAt: new Date()}));
+
+    await this.logsService.addLog({
+      growbeMainboardId: warningEntity.growbeMainboardId,
+      group: GroupEnum.MAINBOARD,
+      type: LogTypeEnum.WARNING_CREATED,
+      message: warningEntity.text,
+      severity: SeverityEnum.MEDIUM,
+    })
+
+    return warningEntity;
   }
 }
