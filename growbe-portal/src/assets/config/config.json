@@ -1,5 +1,5 @@
 {
-  "growbeCloud": "http://localhost:3000",
+  "growbeCloud": "https://api.growbe.wquintal.ca",
   "broker": "wss://broker.growbe.wquintal.ca",
   "red": "http://localhost:1880",
   "sso": "https://auth.growbe.wquintal.ca/api/"

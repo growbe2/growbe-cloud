@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CRUDDataSource } from '@berlingoqc/ngx-loopback';
+import { CRUDDataSource, Filter } from '@berlingoqc/ngx-loopback';
 import { GrowbeLogs } from '@growbe2/ngx-cloud-api';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -20,6 +20,8 @@ export class TerminalComponent implements OnInit {
 
   logs: Observable<string[]>;
 
+  @Input() filter: Filter<GrowbeLogs>;
+
   constructor(
     private eventService: GrowbeEventService,
   ) { }
@@ -29,8 +31,8 @@ export class TerminalComponent implements OnInit {
       this.growbeId,
       '/cloud/logs',
       (d) => JSON.parse(d),
-      this.logsSource.get()).pipe(map((logs) => {
-      return logs.map(log => `[${log.timestamp}][${log.group}][${log.type}] ${log.growbeModuleId} ${log.message}`);
+      this.logsSource.get(this.filter)).pipe(map((logs) => {
+      return logs.map(log => `[${log.timestamp}][${log.group}][${log.type}]${(log.growbeModuleId) ? ' '+log.growbeModuleId+' ' : ''}${log.message}`);
     }));
   }
 
