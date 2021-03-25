@@ -11,7 +11,6 @@ message GrowbeMessage {
 }
 
 message HearthBeath {
-    //string id = 1;
     string rtc = 2;
 }
 

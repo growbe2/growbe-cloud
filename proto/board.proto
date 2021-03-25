@@ -1,7 +1,12 @@
 
 syntax = "proto3";
 
-
 message GrowbeMainboardConfig {
     int32 hearthBeath = 1;
+}
+
+message HelloWord {
+    string version = 1;
+    string cloudVersion = 2;
+    string RTC = 3;
 }
