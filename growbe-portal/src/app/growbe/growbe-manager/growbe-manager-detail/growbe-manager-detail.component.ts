@@ -5,14 +5,24 @@ import { TableColumn } from '@berlingoqc/ngx-autotable';
 import { AutoFormData } from '@berlingoqc/ngx-autoform';
 import {notify} from '@berlingoqc/ngx-notification';
 import { Observable, Subscription } from 'rxjs';
+import { Filter } from '@berlingoqc/ngx-loopback';
+import { GrowbeLogs } from '@growbe2/ngx-cloud-api';
+import { fuseAnimations } from '@berlingoqc/fuse';
 @Component({
   selector: 'app-growbe-manager-detail',
   templateUrl: './growbe-manager-detail.component.html',
-  styleUrls: ['./growbe-manager-detail.component.scss']
+  styleUrls: ['./growbe-manager-detail.component.scss'],
+  animations: [fuseAnimations],
 })
 export class GrowbeManagerDetailComponent implements OnInit {
 
   mainboard: Observable<any>;
+
+  logFilter: Filter<GrowbeLogs> = {
+    order: ['timestamp desc'],
+    limit: 20,
+    offset: 0,
+  }
 
   id: string;
 

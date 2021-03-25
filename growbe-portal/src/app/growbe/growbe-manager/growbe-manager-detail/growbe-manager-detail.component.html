@@ -30,7 +30,11 @@
         </ngx-autotable>
       </mat-tab>
       <mat-tab label="Logs">
-        <app-terminal [growbeId]="id" [logsSource]="mainboardAPI.growbeLogs | lbRelation: id"></app-terminal>
+        <app-terminal
+          [growbeId]="id"
+          [filter]="logFilter"
+          [logsSource]="mainboardAPI.growbeLogs | lbRelation: id">
+        </app-terminal>
       </mat-tab>
     </mat-tab-group>
   </fuseLayoutContent>
