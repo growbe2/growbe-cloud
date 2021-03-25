@@ -29,5 +29,4 @@ echo 'Generating TS'
 /npm/node_modules/.bin/pbts -o growbe.d.ts growbe.js
 
 mv *.d.ts *.js out/
-npm version patch
 cp package.json out/
