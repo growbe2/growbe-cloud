@@ -23,7 +23,7 @@ import {
 } from '@berlingoqc/ngx-common';
 
 import { navigation } from './fuse/navigation/navigation';
-import { PWAModule } from '@berlingoqc/ngx-pwa';
+import { PWAModule, PWA_CONFIG } from '@berlingoqc/ngx-pwa';
 import { NotificationModule } from '@berlingoqc/ngx-notification';
 import { FuseModule, FuseNavigationService } from '@berlingoqc/fuse';
 import { fuseConfig } from './fuse/fuse-config';
@@ -124,6 +124,10 @@ export class NavigationWrapper {
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
+    },
+    {
+      provide: PWA_CONFIG,
+      useValue: { autoUpdate: false}
     },
     {
       provide: 'FAQResolver',

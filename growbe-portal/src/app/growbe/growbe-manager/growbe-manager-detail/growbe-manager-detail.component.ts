@@ -82,10 +82,6 @@ export class GrowbeManagerDetailComponent implements OnInit {
     this.id = this.activatedRoute.snapshot.data.mainboard.id;
 
     this.mainboard = this.mainboardAPI.getById(this.id);
-
-    this.mainboardAPI.growbeModules.parentKey = this.id;
-    this.mainboardAPI.growbeWarnings.parentKey = this.id;
-    this.mainboardAPI.growbeLogs.parentKey = this.id;
   }
 
 }

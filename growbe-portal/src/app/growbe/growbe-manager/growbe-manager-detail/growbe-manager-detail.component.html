@@ -18,19 +18,19 @@
       </mat-tab>
       <mat-tab label="Modules">
         <app-module-list
-          [source]="mainboardAPI.growbeModules"
+          [source]="mainboardAPI.growbeModules | lbRelation: id"
         >
         </app-module-list>
       </mat-tab>
        <mat-tab label="Alerts">
          <ngx-autotable
           [columns]="warningColumns"
-          [source]="mainboardAPI.growbeWarnings"
+          [source]="mainboardAPI.growbeWarnings | lbRelation: id"
         >
         </ngx-autotable>
       </mat-tab>
       <mat-tab label="Logs">
-        <app-terminal [growbeId]="id" [logsSource]="mainboardAPI.growbeLogs"></app-terminal>
+        <app-terminal [growbeId]="id" [logsSource]="mainboardAPI.growbeLogs | lbRelation: id"></app-terminal>
       </mat-tab>
     </mat-tab-group>
   </fuseLayoutContent>

@@ -10,5 +10,4 @@ export class GrowbeWarningAPI extends LoopbackRestClient<GrowbeWarningWithRelati
     super(httpClient, '/warnings')
     this.baseURL = envConfig.growbeCloud;
   }
-
 }
