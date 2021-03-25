@@ -1,0 +1,3 @@
+#ifndef CLOUD_VERSION
+#define CLOUD_VERSION "REPLACE"
+#endif

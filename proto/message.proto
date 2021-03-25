@@ -1,6 +1,5 @@
 syntax = "proto3";
 
-
 /*
 * Structure pour les messages qui sont envoyés entre la serre
 * par MQTT
