@@ -12,6 +12,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { GrowbeModuleModule } from '../module/growbe-module.module';
 import { AutoTableModule } from '@berlingoqc/ngx-autotable';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
+import { LoopbackRestPipeModule } from '@berlingoqc/ngx-loopback';
 import { TerminalModule } from 'src/app/shared/terminal/terminal.module';
 
 
@@ -38,6 +39,8 @@ import { TerminalModule } from 'src/app/shared/terminal/terminal.module';
     LayoutDirectiveModule,
 
     FuseWidgetModule,
+
+    LoopbackRestPipeModule,
 
     TerminalModule,
   ]

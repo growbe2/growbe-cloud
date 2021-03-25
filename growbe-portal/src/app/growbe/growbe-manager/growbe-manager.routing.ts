@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { GrowbeManagerDashboardComponent } from "./growbe-manager-dashboard/growbe-manager-dashboard.component";
 import { GrowbeManagerDetailComponent } from "./growbe-manager-detail/growbe-manager-detail.component";
-import { GrowbeMainboardResolver } from '../resolvers/mainboard';
+import { GrowbeMainboardAPI } from "../api/growbe-mainboard";
 
 const routes: Routes = [
   { path: '', component: GrowbeManagerDashboardComponent },
@@ -19,7 +19,7 @@ const routes: Routes = [
       }
     ]
   }, resolve: {
-    mainboard: GrowbeMainboardResolver,
+    mainboard: GrowbeMainboardAPI,
   }},
 ];
 

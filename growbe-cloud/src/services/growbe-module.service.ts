@@ -105,7 +105,7 @@ export class GrowbeModuleService {
       mainboardId: boardId,
       moduleName: def.id,
     })) as GrowbeModuleWithRelations;
-    module.moduleDef = def;
+    //module.moduleDef = def;
     return module;
   }
 
