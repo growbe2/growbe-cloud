@@ -36,3 +36,10 @@
     color: black;
   }
 }
+
+.full { width: 100%; }
+.frow {display: flex; flex-direction: row;}
+.fcol {display: flex; flex-direction: column;}
+.jend {justify-content: flex-end;}
+
+.ipad {padding: 10px;}

@@ -14,6 +14,8 @@ import { AutoTableModule } from '@berlingoqc/ngx-autotable';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { LoopbackRestPipeModule } from '@berlingoqc/ngx-loopback';
 import { TerminalModule } from 'src/app/shared/terminal/terminal.module';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -34,6 +36,8 @@ import { TerminalModule } from 'src/app/shared/terminal/terminal.module';
     GraphModule,
 
     MatTabsModule,
+    MatButtonModule,
+    MatIconModule,
 
     ProjectDashboardModule,
     LayoutDirectiveModule,

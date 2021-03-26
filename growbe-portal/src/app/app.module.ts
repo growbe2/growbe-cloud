@@ -10,6 +10,7 @@ import {
   SITE_LOGO,
   SITE_NAME,
   TOOLBAR_NAVIGATION,
+  TOOLBAR_TEMPLATE_EXTRA,
   FUSE_FULL_SCREEN_BACKGROUND_PATH
 } from '@berlingoqc/fuse-extra';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -55,6 +56,7 @@ import {
 import { NodeEditorComponent } from './node-editor/node-editor.component';
 import { GrowbeAuthModule } from './auth/auth.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { NavigationComponent } from './home/navigation.component';
 
 
 @Injectable({
@@ -68,7 +70,7 @@ export class NavigationWrapper {
   }
 }
 @NgModule({
-  declarations: [HomeComponent, NodeEditorComponent],
+  declarations: [HomeComponent, NavigationComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
