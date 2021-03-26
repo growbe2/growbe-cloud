@@ -30,13 +30,6 @@ export const navigation: FuseNavigation[] = [
     url: '/admin'
   },
   {
-    id: 'account',
-    title: 'Account',
-    type: 'item',
-    icon: 'profile',
-    url: '/account'
-  },
-  {
     id: 'faq',
     title: 'FAQ',
     type: 'item',
