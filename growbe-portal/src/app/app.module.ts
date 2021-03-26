@@ -20,6 +20,8 @@ import {
   EnvConfigurationService,
   APP_ENV_PROVIDER,
   envConfig,
+  PathIDResolver,
+  IDResolver,
 } from '@berlingoqc/ngx-common';
 
 import { navigation } from './fuse/navigation/navigation';
@@ -39,6 +41,8 @@ import {
   AuthService,
   AuthSettingConfig,
   AUTH_APP_INITALIZER,
+  EmailModule,
+  OrganisationModule,
 } from '@berlingoqc/auth';
 import { HomeComponent } from './home/home.component';
 
@@ -83,6 +87,11 @@ export class NavigationWrapper {
     AccountModule,
     AuthModule.forRoot(),
     NotificationModule.forRoot({} as any),
+
+    EmailModule,
+    AccountModule,
+    OrganisationModule,
+
     GrowbeAuthModule,
   ],
   providers: [
@@ -116,6 +125,10 @@ export class NavigationWrapper {
     {
       provide: SITE_LOGO,
       useValue: '/assets/icons/android/android-launchericon-72-72.png',
+    },
+    {
+      provide: IDResolver,
+      useClass: PathIDResolver,
     },
     {
       provide: FUSE_FULL_SCREEN_BACKGROUND_PATH,
