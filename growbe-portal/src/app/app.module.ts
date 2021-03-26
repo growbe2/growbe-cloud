@@ -132,7 +132,7 @@ export class NavigationWrapper {
     },
     {
       provide: FUSE_FULL_SCREEN_BACKGROUND_PATH,
-      useValue: '/assets/dark-material-bg.jpg'
+      useValue: '/assets/backimage.jpg'
     },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
