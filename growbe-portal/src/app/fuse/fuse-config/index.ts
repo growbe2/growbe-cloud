@@ -10,7 +10,7 @@ import { FuseConfig } from '@berlingoqc/fuse';
 
 export const fuseConfig: FuseConfig = {
     // Color themes can be defined in src/app/app.theme.scss
-    colorTheme: 'theme-default',
+    colorTheme: 'theme-growbe',
     customScrollbars: true,
     layout: {
         style: 'vertical-layout-1',
