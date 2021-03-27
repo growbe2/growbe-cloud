@@ -53,8 +53,9 @@ export class GrowbeStateService {
     // Si on change d'état notify par MQTT
     if (mainboard.state !== 'CONNECTED') {
       mainboard.state = 'CONNECTED';
-      await this.notifyState(new GrowbeMainboard({id: mainboard.id, state: mainboard.state, lastUpdateAt: receiveAt}));
     }
+    await this.notifyState(new GrowbeMainboard({id: mainboard.id, state: mainboard.state, lastUpdateAt: receiveAt}));
+
     // Démarre un timer pour regarder si on a recu un autre beath
     if(this.watcherMainboard[id]) {
       clearTimeout(this.watcherMainboard[id]);
