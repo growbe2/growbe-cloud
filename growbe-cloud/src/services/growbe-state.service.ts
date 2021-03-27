@@ -1,6 +1,8 @@
 import {HearthBeath} from '@growbe2/growbe-pb';
-import {/* inject, */ BindingScope, injectable, service} from '@loopback/core';
+import {inject, BindingScope, injectable, service} from '@loopback/core';
+import { Subject } from 'rxjs';
 import {RTC_OFFSET_KEY} from '../data';
+import { GrowbeMainboardBindings } from '../keys';
 import {GrowbeMainboard} from '../models';
 import { GroupEnum, LogTypeEnum, SeverityEnum } from '../models/growbe-logs.model';
 import { GrowbeLogsService } from './growbe-logs.service';
@@ -12,50 +14,61 @@ import {getTopic, MQTTService} from './mqtt.service';
 export class GrowbeStateService {
   static DEBUG = require('debug')('growbe:service:state');
 
+
+  watcherMainboard: {[id: string]: NodeJS.Timeout} = {};
+
   constructor(
     @service(MQTTService) public mqttService: MQTTService,
     @service(GrowbeService) public growbeService: GrowbeService,
     @service(GrowbeWarningService) public warningService: GrowbeWarningService,
     @service(GrowbeLogsService) public logsService: GrowbeLogsService,
+    @inject(GrowbeMainboardBindings.WATCHER_STATE_EVENT) private stateSubject: Subject<string>
   ) {}
 
-  async onBeath(id: string, beath: HearthBeath) {
-    GrowbeStateService.DEBUG('Beath from', id, beath);
+  async onBeath(id: string) {
+    this.stateSubject.next(id);
+  }
+
+  async valideState(id: string) {
+    GrowbeStateService.DEBUG('Beath from', id);
     const mainboard = await this.growbeService.findOrCreate(id, {
       include: ['growbeMainboardConfig'],
     });
 
     const hearthBeathRate = mainboard.growbeMainboardConfig.config.hearthBeath;
-    await this.validOffsetRTC(beath.rtc, mainboard.id, hearthBeathRate);
+    const receiveAt = new Date();
+    //await this.validOffsetRTC(beath.rtc, mainboard.id, hearthBeathRate);
     // Si on change d'état notify par MQTT
     if (mainboard.state !== 'CONNECTED') {
       mainboard.state = 'CONNECTED';
-      await this.notifyState(mainboard, beath);
+      await this.notifyState(mainboard);
     }
     // Démarre un timer pour regarder si on a recu un autre beath
-    setTimeout(async () => {
+    if(this.watcherMainboard[id]) {
+      clearTimeout(this.watcherMainboard[id]);
+    }
+
+    this.watcherMainboard[id] = setTimeout(async () => {
       // Regarde si on a été update depuis
       const b = await this.growbeService.mainboardRepository.findById(
         mainboard.id,
       );
-      if (b.lastUpdateAt.rtc === beath.rtc) {
         // na pas été update
         GrowbeStateService.DEBUG(`Growbe ${id} lost connection`);
         mainboard.state = 'DISCONNECTED';
-        await this.notifyState(mainboard, beath);
+        await this.notifyState(mainboard);
         await this.growbeService.mainboardRepository.updateById(id, {
           state: 'DISCONNECTED',
-          lastUpdateAt: beath,
         });
-      }
-    }, hearthBeathRate * 2000);
-    return this.growbeService.mainboardRepository.updateById(id, {
+        delete this.watcherMainboard[id];
+    }, hearthBeathRate * 1000);
+    await this.growbeService.mainboardRepository.updateById(id, {
       state: 'CONNECTED',
-      lastUpdateAt: beath,
+      lastUpdateAt: receiveAt,
     });
   }
 
-  private notifyState(mainboard: GrowbeMainboard, beath: HearthBeath) {
+  private notifyState(mainboard: GrowbeMainboard) {
     this.logsService.addLog({
       growbeMainboardId: mainboard.id,
       group: GroupEnum.MAINBOARD,

@@ -1,6 +1,8 @@
 import * as pb from '@growbe2/growbe-pb';
-import {/* inject, */ BindingScope, injectable, service} from '@loopback/core';
+import {inject, BindingScope, injectable, service} from '@loopback/core';
 import {repository} from '@loopback/repository';
+import { Subject } from 'rxjs';
+import { GrowbeMainboardBindings } from '../keys';
 import {GrowbeModuleWithRelations, GrowbeSensorValue} from '../models';
 import { GroupEnum, LogTypeEnum, SeverityEnum } from '../models/growbe-logs.model';
 import {
@@ -30,6 +32,7 @@ export class GrowbeModuleService {
     public sensorValueRepository: GrowbeSensorValueRepository,
     @service(MQTTService) public mqttService: MQTTService,
     @service(GrowbeLogsService) public logsService: GrowbeLogsService,
+    @inject(GrowbeMainboardBindings.WATCHER_STATE_EVENT) private stateSubject: Subject<string>
   ) {}
 
   async onModuleStateChange(
@@ -37,6 +40,7 @@ export class GrowbeModuleService {
     moduleId: string,
     data: pb.ModuleData,
   ) {
+    this.stateSubject.next(boardId);
     const module = await this.findOrCreate(boardId, moduleId);
     module.connected = data.plug;
     module.readCount = data.readCount;
@@ -56,6 +60,7 @@ export class GrowbeModuleService {
   }
 
   async onModuleDataChange(boardId: string, moduleId: string, data: any) {
+    this.stateSubject.next(boardId);
     const info = this.getModuleIdAndType(moduleId);
 
     // parsing of the data lol we i succeed

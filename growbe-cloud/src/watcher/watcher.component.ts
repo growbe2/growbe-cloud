@@ -1,9 +1,10 @@
 import {HearthBeath, ModuleData} from '@growbe2/growbe-pb';
 import {Binding, Component} from '@loopback/core';
+import { Subject } from 'rxjs';
 import {GrowbeMainboardBindings} from '../keys';
 import {GrowbeModuleService, GrowbeStateService} from '../services';
 import { GrowbeLogsService } from '../services/growbe-logs.service';
-import {GrowbeDataSubjectObserver} from './observers';
+import {GrowbeDataSubjectObserver, GrowbeStateWatcherObserver} from './observers';
 import {DataSubject, funcModuleSubject} from './observers/model';
 
 const watchers: DataSubject[] = [
@@ -37,9 +38,11 @@ const watchers: DataSubject[] = [
 
 export class WatcherComponent implements Component {
   constructor() {
-    console.log('WATCH COMPONENT STARTING');
   }
   controllers = [];
-  bindings = [Binding.bind(GrowbeMainboardBindings.WATCHERS).to(watchers)];
-  lifeCycleObservers = [GrowbeDataSubjectObserver];
+  bindings = [
+    Binding.bind(GrowbeMainboardBindings.WATCHERS).to(watchers),
+    Binding.bind(GrowbeMainboardBindings.WATCHER_STATE_EVENT).to(new Subject()),
+  ];
+  lifeCycleObservers = [GrowbeDataSubjectObserver, GrowbeStateWatcherObserver];
 }
