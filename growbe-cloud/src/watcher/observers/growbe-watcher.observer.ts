@@ -37,6 +37,8 @@ export class GrowbeStateWatcherObserver implements LifeCycleObserver {
    * This method will be invoked when the application starts.
    */
   async start(): Promise<void> {
+    // Dont send event to trigger anything on MQTT but set the state the DISCONNECTED
+    this.state.growbeService.mainboardRepository.updateAll({state: 'DISCONNECTED'});
       this.subject.asObservable().subscribe((id) => {
           this.state.valideState(id)
       });

@@ -1,4 +1,4 @@
-import {HearthBeath} from '@growbe2/growbe-pb';
+import {HearthBeath, HelloWord} from '@growbe2/growbe-pb';
 import {inject, BindingScope, injectable, service} from '@loopback/core';
 import { Subject } from 'rxjs';
 import {RTC_OFFSET_KEY} from '../data';
@@ -9,11 +9,11 @@ import { GrowbeLogsService } from './growbe-logs.service';
 import {GrowbeWarningService} from './growbe-warning.service';
 import {GrowbeService} from './growbe.service';
 import {getTopic, MQTTService} from './mqtt.service';
+import * as _ from 'lodash';
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeStateService {
   static DEBUG = require('debug')('growbe:service:state');
-
 
   watcherMainboard: {[id: string]: NodeJS.Timeout} = {};
 
@@ -29,6 +29,19 @@ export class GrowbeStateService {
     this.stateSubject.next(id);
   }
 
+  async onHelloWorld(id: string, helloWorld: HelloWord) {
+    this.stateSubject.next(id);
+    const mainboard = await this.growbeService.findOrCreate(id, {
+      include: ['growbeMainboardConfig'],
+    });
+    await this.validOffsetRTC(helloWorld.RTC, id, mainboard.growbeMainboardConfig.config.hearthBeath);
+    mainboard.cloudVersion = helloWorld.cloudVersion;
+    mainboard.version = helloWorld.version;
+    mainboard.lastUpdateAt = new Date();
+    mainboard.state = 'CONNECTED';
+    this.notifyState(new GrowbeMainboard(_.omit(mainboard, 'growbeMainboardConfig')));
+  }
+
   async valideState(id: string) {
     GrowbeStateService.DEBUG('Beath from', id);
     const mainboard = await this.growbeService.findOrCreate(id, {
@@ -37,11 +50,10 @@ export class GrowbeStateService {
 
     const hearthBeathRate = mainboard.growbeMainboardConfig.config.hearthBeath;
     const receiveAt = new Date();
-    //await this.validOffsetRTC(beath.rtc, mainboard.id, hearthBeathRate);
     // Si on change d'état notify par MQTT
     if (mainboard.state !== 'CONNECTED') {
       mainboard.state = 'CONNECTED';
-      await this.notifyState(mainboard);
+      await this.notifyState(new GrowbeMainboard({id: mainboard.id, state: mainboard.state, lastUpdateAt: receiveAt}));
     }
     // Démarre un timer pour regarder si on a recu un autre beath
     if(this.watcherMainboard[id]) {
@@ -50,25 +62,23 @@ export class GrowbeStateService {
 
     this.watcherMainboard[id] = setTimeout(async () => {
       // Regarde si on a été update depuis
-      const b = await this.growbeService.mainboardRepository.findById(
+      const mainboardNew = await this.growbeService.mainboardRepository.findById(
         mainboard.id,
       );
-        // na pas été update
-        GrowbeStateService.DEBUG(`Growbe ${id} lost connection`);
-        mainboard.state = 'DISCONNECTED';
-        await this.notifyState(mainboard);
-        await this.growbeService.mainboardRepository.updateById(id, {
-          state: 'DISCONNECTED',
-        });
-        delete this.watcherMainboard[id];
+      // na pas été update
+      GrowbeStateService.DEBUG(`Growbe ${id} lost connection`);
+      mainboardNew.state = 'DISCONNECTED';
+      await this.notifyState(mainboardNew);
+      delete this.watcherMainboard[id];
     }, hearthBeathRate * 1000);
-    await this.growbeService.mainboardRepository.updateById(id, {
-      state: 'CONNECTED',
-      lastUpdateAt: receiveAt,
-    });
   }
 
-  private notifyState(mainboard: GrowbeMainboard) {
+  /**
+   * notify a state change for a Growbe (CONNECTED and DISCONNECTED)
+   * @param mainboard 
+   */
+  private async notifyState(mainboard: GrowbeMainboard) {
+    await this.growbeService.mainboardRepository.updateById(mainboard.id, mainboard)
     this.logsService.addLog({
       growbeMainboardId: mainboard.id,
       group: GroupEnum.MAINBOARD,
@@ -78,12 +88,18 @@ export class GrowbeStateService {
     })
     return this.mqttService.send(
       getTopic(mainboard.id, '/cloud/state'),
-      JSON.stringify({
-        state: mainboard.state,
-      }),
+      JSON.stringify(new GrowbeMainboard(mainboard)),
     );
   }
 
+  /**
+   * valid if the RTC clock time is the same that
+   * the one in the computer and create a warning
+   * if different
+   * @param rtc of the mainboard
+   * @param mainboardId if of the mainboard
+   * @param configHearthBeath the hearthbeathRate config
+   */
   private async validOffsetRTC(
     rtc: string,
     mainboardId: string,

@@ -56,6 +56,7 @@ describe('Growbe Mainboard', () => {
       );
     });
 
+    /*
     it('Register un growbe par un user qui a recu un hearthbeath', async () => {
         const rtcValid = getDate((defaultConfig.hearthBeath as any)  / 2);
         await stateService.onBeath(boardId, new pb.HearthBeath({rtc: rtcValid}))
@@ -64,6 +65,7 @@ describe('Growbe Mainboard', () => {
         expect(response).to.be.Object();
         expect(response.state).to.eql("REGISTER");
     });
+    */
 
     it('Register un growbe par un user qui a deja été register', async () => {
         await mainboardService.register(userId, request);

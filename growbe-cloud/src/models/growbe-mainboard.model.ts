@@ -1,6 +1,6 @@
 import { User } from '@berlingoqc/sso';
 import { HearthBeath } from '@growbe2/growbe-pb';
-import {belongsTo, Entity, model, property, hasOne, hasMany} from '@loopback/repository';
+import {belongsTo, Entity, model, property, hasOne, hasMany, Model} from '@loopback/repository';
 import {GrowbeMainboardConfig} from './growbe-mainboard-config.model';
 import {GrowbeWarning} from './growbe-warning.model';
 import {GrowbeSensorValue} from './growbe-sensor-value.model';
@@ -25,7 +25,13 @@ export class GrowbeMainboard extends Entity {
   userId: string;
 
   @property()
-  lastUpdateAt: any;
+  lastUpdateAt: Date;
+
+  @property()
+  version: string;
+
+  @property()
+  cloudVersion: string;
 
   @hasOne(() => GrowbeMainboardConfig)
   growbeMainboardConfig: GrowbeMainboardConfig;
