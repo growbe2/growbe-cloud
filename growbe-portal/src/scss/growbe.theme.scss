@@ -1,0 +1,149 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+$fuse-white: (
+    500: white,
+    contrast: (
+        500: $dark-primary-text,
+    ),
+);
+
+$fuse-black: (
+    500: #231f20,
+    contrast: (
+        500: $light-primary-text,
+    ),
+);
+
+$fuse-accent: (
+    50: #e7f0e4,
+    100: #c3d8bd,
+    200: #9cbf91,
+    300: #74a564,
+    400: #569143,
+    500: #387e22,
+    600: #32761e,
+    700: #2b6b19,
+    800: #246114,
+    900: #174e0c,
+    A100: #95ff85,
+    A200: #69ff52,
+    A400: #3eff1f,
+    A700: #28ff05,
+    contrast: (
+        50: $dark-primary-text,
+        100: $dark-primary-text,
+        200: $dark-primary-text,
+        300: $dark-primary-text,
+        400: $light-primary-text,
+        500: $light-primary-text,
+        600: $light-primary-text,
+        700: $light-primary-text,
+        800: $light-primary-text,
+        900: $light-primary-text,
+        A100: $dark-primary-text,
+        A200: $light-primary-text,
+        A400: $light-primary-text,
+        A700: $light-primary-text,
+    ),
+);
+
+$fuse-primary: (
+    50: #e7e7e7,
+    100: #c2c2c2,
+    200: #999999,
+    300: #707070,
+    400: #525252,
+    500: #333333,
+    600: #2e2e2e,
+    700: #272727,
+    800: #202020,
+    900: #141414,
+    A100: #ef6e6e,
+    A200: #ea4040,
+    A400: #f60000,
+    A700: #dd0000,
+    contrast: (
+        50: $dark-primary-text,
+        100: $dark-primary-text,
+        200: $dark-primary-text,
+        300: $light-primary-text,
+        400: $light-primary-text,
+        500: $light-primary-text,
+        600: $light-primary-text,
+        700: $light-primary-text,
+        800: $light-primary-text,
+        900: $light-primary-text,
+        A100: $dark-primary-text,
+        A200: $light-primary-text,
+        A400: $light-primary-text,
+        A700: $light-primary-text,
+    ),
+);
+
+$custom_palettes: (
+    fuse-white: $fuse-white,
+    fuse-black: $fuse-black,
+    fuse-accent: $fuse-accent,
+    fuse-primary: $fuse-primary,
+);
+
+$default-primary-palette: mat-palette($fuse-primary);
+$default-accent-palette: mat-palette($fuse-accent, 600, 400, 700);
+$default-warn-palette: mat-palette($mat-red);
+
+$theme: mat-light-theme(
+    $default-primary-palette,
+    $default-accent-palette,
+    $default-warn-palette
+);
+
+@include angular-material-theme($theme);
+
+@include fuse-color-classes($custom_palettes);
+
+// -----------------------------------------------------------------------------------------------------
+// @ Typography
+// -----------------------------------------------------------------------------------------------------
+
+// Angular Material typography
+$typography: mat-typography-config(
+    $font-family: 'Muli, Helvetica Neue, Arial, sans-serif',
+    $title: mat-typography-level(20px, 32px, 600),
+    $body-2: mat-typography-level(14px, 24px, 600),
+    $button: mat-typography-level(14px, 14px, 600),
+    $input: mat-typography-level(16px, 1.125, 400),
+);
+
+// Setup the typography
+@include angular-material-typography($typography);
+
+// -----------------------------------------------------------------------------------------------------
+// @ Component theming
+// -----------------------------------------------------------------------------------------------------
+
+// Import app and page component themes here to enable theming for them
+@import '~@berlingoqc/fuse-extra/scss/toolbar.theme';
+
+// -----------------------------------------------------------------------------------------------------
+// @ Define the default theme
+// -----------------------------------------------------------------------------------------------------
+
+// Add ".theme-default" class to the body to activate this theme.
+// Class name must start with "theme-" !!!
+body.theme-growbe {
+    // Create an Angular Material theme from the $theme map
+    @include angular-material-theme($theme);
+
+    // Apply the theme to the Fuse Core
+    @include fuse-core-theme($theme);
+
+    // Generate Fuse color classes for primary, accent and warn colors
+    $palettes: (
+        primary: $default-primary-palette,
+        accent: $default-accent-palette,
+        warn: $default-warn-palette,
+    );
+
+    @include fuse-color-classes($palettes);
+}

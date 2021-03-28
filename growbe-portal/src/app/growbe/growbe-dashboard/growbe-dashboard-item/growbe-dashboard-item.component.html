@@ -27,11 +27,11 @@
           [data]="item"
         ></app-module-sensor-value-graph>
         <app-module-last-value *ngSwitchCase="'lastread'" fxFlex="100" [data]="item"></app-module-last-value>
-        <app-growbe-clock-state
+        <app-growbe-state
           *ngSwitchCase="'clock'"
           fxFlex="100"
           [data]="item"
-        ></app-growbe-clock-state>
+        ></app-growbe-state>
     </div>
   </div>
   <div class="fuse-widget-back" fusePerfectScrollbar>

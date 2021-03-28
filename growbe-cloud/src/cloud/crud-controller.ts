@@ -1,6 +1,6 @@
 import { CrudControllerMixinOptions, InjectableRepository, ModelDef, ModelRelation, OPERATION_SECURITY_SPEC } from "@berlingoqc/lb-extensions";
 import { GrowbeDashboard, GrowbeLogs, GrowbeMainboard, GrowbeModule, GrowbeSensorValue, GrowbeWarning } from "../models";
-import { GrowbeMainboardRepository, GrowbeWarningRepository } from "../repositories";
+import { GrowbeMainboardRepository, GrowbeModuleRepository, GrowbeWarningRepository } from "../repositories";
 import { authenticate } from '@loopback/authentication';
 import { GrowbeDashboardRepository } from "../repositories/growbe-dashboard.repository";
 import { GrowbeDashboardItem } from "../models/growbe-dashboard-item.model";
@@ -74,6 +74,16 @@ export const CRUD_CONTROLLERS: {
         }
       }
     ],
+  },
+  {
+    model: GrowbeModule,
+    repo: GrowbeModuleRepository,
+    options: {
+      name: 'growbeModules',
+      specs: specSecurity,
+      properties: []
+    },
+    relations: []
   },
   {
     model: GrowbeWarning,

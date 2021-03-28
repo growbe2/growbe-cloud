@@ -12,32 +12,12 @@ import { GrowbeConfigService } from 'src/app/growbe/services/growbe-config.servi
 })
 export class GrowbeStatusDotComponent implements OnInit {
 
-  @Input() growbe: any;
-
-
-  state: string = 'DISCONNECTED';
-
-  rtcOff: boolean;
-
-  hearthBeathAt: Date;
-  hearthBeathRtc: Date;
-
-
-  private timer: any;
+  @Input() state: any;
 
   constructor(
-    private growbeEventService: GrowbeEventService,
-    private growbeConfigService: GrowbeConfigService,
   ) { }
 
-  async ngOnInit() {
-    this.state = this.growbe.state;
-
-
-    (await this.growbeEventService.getGrowbeEvent(this.growbe.id, '/cloud/state', (d) => JSON.parse(d))).subscribe((event) => {
-      this.state = event.state;
-    });
-  }
+  async ngOnInit() {}
 
 
 }

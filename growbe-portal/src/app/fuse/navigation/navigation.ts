@@ -23,6 +23,13 @@ export const navigation: FuseNavigation[] = [
     url: '/dashboard',
   },
   {
+    id: 'admin',
+    title: 'Admin',
+    type: 'item',
+    icon: 'admin_panel_settings',
+    url: '/admin'
+  },
+  {
     id: 'faq',
     title: 'FAQ',
     type: 'item',

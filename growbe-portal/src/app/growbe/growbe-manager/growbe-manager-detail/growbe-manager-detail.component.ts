@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GrowbeMainboardAPI } from '../../api/growbe-mainboard';
 import { TableColumn } from '@berlingoqc/ngx-autotable';
-import { AutoFormData } from '@berlingoqc/ngx-autoform';
+import { AutoFormData, InputProperty } from '@berlingoqc/ngx-autoform';
 import {notify} from '@berlingoqc/ngx-notification';
 import { Observable, Subscription } from 'rxjs';
-import { Filter } from '@berlingoqc/ngx-loopback';
-import { GrowbeLogs } from '@growbe2/ngx-cloud-api';
+import { Filter, Include, Where } from '@berlingoqc/ngx-loopback';
+import { GrowbeLogs, GrowbeModule } from '@growbe2/ngx-cloud-api';
 import { fuseAnimations } from '@berlingoqc/fuse';
 @Component({
   selector: 'app-growbe-manager-detail',
@@ -37,9 +37,23 @@ export class GrowbeManagerDetailComponent implements OnInit {
             name: 'id',
             type: 'string',
             displayName: "ID",
-            required: false,
             disabled: true,
+
           },
+          {
+            name: 'version',
+            type: 'string',
+            displayName: "Version du mainboard",
+            disabled: true,
+            hint: 'Version du mainboard'
+          } as InputProperty,
+          {
+            name: 'cloudVersion',
+            type: 'string',
+            displayName: "Version protobuf",
+            disabled: true,
+            hint: 'Version du cloud dans le mainboard'
+          } as InputProperty,
           {
             name: 'name',
             type: 'string',
@@ -58,18 +72,21 @@ export class GrowbeManagerDetailComponent implements OnInit {
     }
   };
 
+
+  moduleWhere: Where<GrowbeModule>;
+  moduleIncludes: Include[] = [{relation: 'moduleDef'}];
   moduleColumns: TableColumn[] = [
-    {
-      id: 'id',
-      title: 'ID',
-      content: (g) => g.id,
-    },
-    {
-      id: 'name',
-      title: 'UID',
-      content: (g) => g.uid
-    },
-  ];
+   {
+     id: 'uid',
+     title: 'UID',
+     content: (c) => c.uid,
+   },
+   {
+     id: 'name',
+     title: 'Name',
+     content: (c) => c.moduleDef?.name
+   }
+  ]
 
   warningColumns: TableColumn[] = [
     {
@@ -78,7 +95,6 @@ export class GrowbeManagerDetailComponent implements OnInit {
       content: (w) => w.warningKeyId
     }
   ]
-
 
   sub: Subscription;
 
@@ -92,6 +108,8 @@ export class GrowbeManagerDetailComponent implements OnInit {
     this.id = this.activatedRoute.snapshot.data.mainboard.id;
 
     this.mainboard = this.mainboardAPI.getById(this.id);
+
+    this.moduleWhere = { mainboardId: this.id};
   }
 
 }

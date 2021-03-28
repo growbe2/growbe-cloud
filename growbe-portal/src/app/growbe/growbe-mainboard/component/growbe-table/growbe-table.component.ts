@@ -15,7 +15,11 @@ export class GrowbeTableComponent implements OnInit, AfterViewInit {
 
   @Input() where: Where = {};
   // Include pour requête loopback
-  @Input() includes: Include[] = [];
+  @Input() includes: Include[] = [
+    {
+      relation: 'growbe'
+    }
+  ];
 
   columns: TableColumn[] = [
     {
