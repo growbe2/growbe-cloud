@@ -16,12 +16,15 @@ import { LoopbackRestPipeModule } from '@berlingoqc/ngx-loopback';
 import { TerminalModule } from 'src/app/shared/terminal/terminal.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { CommonPipeModule } from '@berlingoqc/ngx-common';
 
 
 @NgModule({
   declarations: [GrowbeManagerDashboardComponent, GrowbeManagerDetailComponent],
   imports: [
     CommonModule,
+
+    CommonPipeModule,
 
     PageLayoutModule,
 

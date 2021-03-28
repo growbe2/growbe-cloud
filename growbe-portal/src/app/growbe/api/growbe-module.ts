@@ -5,14 +5,9 @@ import { Caching,LoopbackRelationClient,LoopbackRelationClientMixin, addLoopback
 import { GrowbeMainboardWithRelations, GrowbeWarningWithRelations, GrowbeModuleWithRelations, GrowbeSensorValue, GrowbeSensorValueWithRelations, GrowbeLogsWithRelations } from "@growbe2/ngx-cloud-api";
 
 @Injectable({providedIn: 'root'})
-export class GrowbeMainboardAPI extends Caching(Resolving(LoopbackRestClientMixin<GrowbeMainboardWithRelations>())) {
-  growbeWarnings = addLoopbackRelation(this, LoopbackRelationClientMixin<GrowbeWarningWithRelations>(), 'growbeWarnings');
-  growbeModules = addLoopbackRelation(this, LoopbackRelationClientMixin<GrowbeModuleWithRelations>(), 'growbeModules');
-  growbeSensorValues = addLoopbackRelation(this, LoopbackRelationClientMixin<GrowbeSensorValueWithRelations>(), 'growbeSensorValues');
-  growbeLogs = addLoopbackRelation(this, LoopbackRelationClientMixin<GrowbeLogsWithRelations>(), 'growbeLogs');
-
+export class GrowbeModuleAPI extends Resolving(LoopbackRestClientMixin<GrowbeModuleWithRelations>()) {
   constructor(httpClient: HttpClient) {
-    super(httpClient, '/growbes');
+    super(httpClient, '/growbeModules')
     this.baseURL = envConfig.growbeCloud;
   }
 }

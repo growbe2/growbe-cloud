@@ -17,13 +17,21 @@
 
       </mat-tab>
       <mat-tab label="Modules">
-        <app-module-list
+        <ng-template #status let-parent="parent">
+          <app-module-status-dot [module]="parent"></app-module-status-dot>
+        </ng-template>
+
+        <ngx-autotable
+          [columns]="moduleColumns | appendArray: [{id: 'status', title: 'Status', content: {type: 'template', content: status}}]"
+          [where]="moduleWhere"
+          [includes]="moduleIncludes"
           [source]="mainboardAPI.growbeModules | lbRelation: id"
         >
-        </app-module-list>
+        </ngx-autotable>
       </mat-tab>
        <mat-tab label="Alerts">
-         <ngx-autotable
+
+        <ngx-autotable
           [columns]="warningColumns"
           [source]="mainboardAPI.growbeWarnings | lbRelation: id"
         >
