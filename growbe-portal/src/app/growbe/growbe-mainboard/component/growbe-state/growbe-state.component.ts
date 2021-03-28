@@ -4,16 +4,17 @@ import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service
 
 import * as pb from '@growbe2/growbe-pb';
 import { take } from 'rxjs/operators';
+import { GrowbeMainboard } from '@growbe2/ngx-cloud-api';
 
 @Component({
-  selector: 'app-growbe-clock-state',
-  templateUrl: './growbe-clock-state.component.html',
-  styleUrls: ['./growbe-clock-state.component.scss'],
+  selector: 'app-growbe-state',
+  templateUrl: './growbe-state.component.html',
+  styleUrls: ['./growbe-state.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class GrowbeClockStateComponent implements OnInit, OnDestroy {
+export class GrowbeStateComponent implements OnInit, OnDestroy {
 
-  @Input() data: any;
+  @Input() data: GrowbeMainboard;
 
   growbe: any;
 

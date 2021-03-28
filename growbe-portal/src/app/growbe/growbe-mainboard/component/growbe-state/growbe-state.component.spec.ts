@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GrowbeClockStateComponent } from './growbe-clock-state.component';
+import { GrowbeClockStateComponent } from './growbe-state.component';
 
 describe('GrowbeClockStateComponent', () => {
   let component: GrowbeClockStateComponent;
