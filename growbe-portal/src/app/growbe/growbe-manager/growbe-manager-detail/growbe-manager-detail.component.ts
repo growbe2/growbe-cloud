@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GrowbeMainboardAPI } from '../../api/growbe-mainboard';
 import { TableColumn } from '@berlingoqc/ngx-autotable';
-import { AutoFormData } from '@berlingoqc/ngx-autoform';
+import { AutoFormData, InputProperty } from '@berlingoqc/ngx-autoform';
 import {notify} from '@berlingoqc/ngx-notification';
 import { Observable, Subscription } from 'rxjs';
 import { Filter } from '@berlingoqc/ngx-loopback';
@@ -37,9 +37,23 @@ export class GrowbeManagerDetailComponent implements OnInit {
             name: 'id',
             type: 'string',
             displayName: "ID",
-            required: false,
             disabled: true,
+
           },
+          {
+            name: 'version',
+            type: 'string',
+            displayName: "Version du mainboard",
+            disabled: true,
+            hint: 'Version du mainboard'
+          } as InputProperty,
+          {
+            name: 'cloudVersion',
+            type: 'string',
+            displayName: "Version protobuf",
+            disabled: true,
+            hint: 'Version du cloud dans le mainboard'
+          } as InputProperty,
           {
             name: 'name',
             type: 'string',

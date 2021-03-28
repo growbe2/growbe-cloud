@@ -13,7 +13,7 @@
     <mat-tab-group class="ipad">
       <mat-tab label="Detail">
 
-        <autoform-form [formData]="detailMainboardForm" [initialData]="{mainboard: {id: mainboard$.id, name: mainboard$.name}}"> </autoform-form>
+        <autoform-form [formData]="detailMainboardForm" [initialData]="{mainboard: {id: mainboard$.id, version: mainboard$.version, cloudVersion: mainboard$.cloudVersion ,name: mainboard$.name}}"> </autoform-form>
 
       </mat-tab>
       <mat-tab label="Modules">
@@ -42,7 +42,7 @@
   <fuseLayoutSidebar>
     <fuse-widget [@animate]="{ value: '*', params: { y: '100%' } }" class="pb-0">
   <div class="fuse-widget-front">
-    <app-growbe-clock-state [data]="mainboard$"></app-growbe-clock-state>
+    <app-growbe-state [data]="mainboard$"></app-growbe-state>
   </div>
 </fuse-widget>
   </fuseLayoutSidebar>
