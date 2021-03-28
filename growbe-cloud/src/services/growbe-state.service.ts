@@ -39,6 +39,7 @@ export class GrowbeStateService {
     mainboard.version = helloWorld.version;
     mainboard.lastUpdateAt = new Date();
     mainboard.state = 'CONNECTED';
+    await this.stateChange(mainboard);
     this.notifyState(new GrowbeMainboard(_.omit(mainboard, 'growbeMainboardConfig')));
   }
 
@@ -69,9 +70,20 @@ export class GrowbeStateService {
       // na pas été update
       GrowbeStateService.DEBUG(`Growbe ${id} lost connection`);
       mainboardNew.state = 'DISCONNECTED';
+      await this.stateChange(mainboardNew);
       await this.notifyState(mainboardNew);
       delete this.watcherMainboard[id];
     }, hearthBeathRate * 1000);
+  }
+
+  private stateChange(mainboard: GrowbeMainboard) {
+    return this.logsService.addLog({
+      growbeMainboardId: mainboard.id,
+      group: GroupEnum.MAINBOARD,
+      severity: SeverityEnum.HIGH,
+      type: LogTypeEnum.CONNECTION_STATE_CHANGE,
+      message: `connected ${mainboard.state}`
+    });
   }
 
   /**
@@ -80,13 +92,6 @@ export class GrowbeStateService {
    */
   private async notifyState(mainboard: GrowbeMainboard) {
     await this.growbeService.mainboardRepository.updateById(mainboard.id, mainboard)
-    this.logsService.addLog({
-      growbeMainboardId: mainboard.id,
-      group: GroupEnum.MAINBOARD,
-      severity: SeverityEnum.HIGH,
-      type: LogTypeEnum.CONNECTION_STATE_CHANGE,
-      message: `connected ${mainboard.state}`
-    })
     return this.mqttService.send(
       getTopic(mainboard.id, '/cloud/state'),
       JSON.stringify(new GrowbeMainboard(mainboard)),
