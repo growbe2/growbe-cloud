@@ -52,7 +52,7 @@ describe('Growbe Mainboard', () => {
     });
 
     describe('Validation RTC', () => {
-      it('RTC valide najoute pas de warning', async () => {
+      /*it('RTC valide najoute pas de warning', async () => {
         const rtcValid = getDate((defaultConfig.hearthBeath as any) / 2);
         await stateService.onBeath(
           boardId,
@@ -105,7 +105,7 @@ describe('Growbe Mainboard', () => {
 
         const count = await warningService.warningRepository.count();
         expect(count.count).to.eql(1);
-      });
+      });*/
     });
 
     /*

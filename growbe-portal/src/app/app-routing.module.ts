@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'auth',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'auth',
@@ -20,51 +20,41 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'growbe',
-    loadChildren: () => import('./growbe/growbe-manager/growbe-manager.module').then(m => m.GrowbeManagerModule),
-    canLoad: [MqttConnectGuard],
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'dashboard',
-    loadChildren: () => import('./growbe/growbe-dashboard/growbe-dashboard.module').then(m => m.GrowbeDashboardModule),
+    loadChildren: () =>
+      import('./growbe/growbe-manager/growbe-manager.module').then(
+        (m) => m.GrowbeManagerModule
+      ),
     canLoad: [MqttConnectGuard],
     canActivate: [AuthGuard],
   },
   {
-        path: 'organisation',
-        loadChildren: () =>
-          import('./wrapper/organisation').then(
-            (m) => m.OrganisationWrapperModule
-          ),
-      },
-      {
-        path: 'admin',
-        loadChildren: () =>
-          import('./wrapper/user-managing').then(
-            (m) => m.UserManagingModule
-          ),
-      },
-      {
-        path: 'account',
-        loadChildren: () =>
-          import('./wrapper/account').then(
-            (m) => m.AuthWrapperModule
-          ),
-      },
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./growbe/growbe-dashboard/growbe-dashboard.module').then(
+        (m) => m.GrowbeDashboardModule
+      ),
+    canLoad: [MqttConnectGuard],
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./wrapper/user-managing').then((m) => m.UserManagingModule),
+  },
   {
     path: 'editor',
     component: NodeEditorComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
-  ...FAQRoutes
+  ...FAQRoutes,
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

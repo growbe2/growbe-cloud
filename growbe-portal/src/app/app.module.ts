@@ -10,6 +10,7 @@ import {
   SITE_LOGO,
   SITE_NAME,
   TOOLBAR_NAVIGATION,
+  TOOLBAR_TEMPLATE_EXTRA,
   FUSE_FULL_SCREEN_BACKGROUND_PATH
 } from '@berlingoqc/fuse-extra';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,6 +21,8 @@ import {
   EnvConfigurationService,
   APP_ENV_PROVIDER,
   envConfig,
+  PathIDResolver,
+  IDResolver,
 } from '@berlingoqc/ngx-common';
 
 import { navigation } from './fuse/navigation/navigation';
@@ -39,6 +42,8 @@ import {
   AuthService,
   AuthSettingConfig,
   AUTH_APP_INITALIZER,
+  EmailModule,
+  OrganisationModule,
 } from '@berlingoqc/auth';
 import { HomeComponent } from './home/home.component';
 
@@ -51,8 +56,8 @@ import {
 import { NodeEditorComponent } from './node-editor/node-editor.component';
 import { GrowbeAuthModule } from './auth/auth.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { NavigationComponent } from './home/navigation.component';
 
-import { version } from '../../package.json';
 
 @Injectable({
   providedIn: 'root',
@@ -65,7 +70,7 @@ export class NavigationWrapper {
   }
 }
 @NgModule({
-  declarations: [HomeComponent, NodeEditorComponent],
+  declarations: [HomeComponent, NavigationComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -83,6 +88,11 @@ export class NavigationWrapper {
     AccountModule,
     AuthModule.forRoot(),
     NotificationModule.forRoot({} as any),
+
+    EmailModule,
+    AccountModule,
+    OrganisationModule,
+
     GrowbeAuthModule,
   ],
   providers: [
@@ -111,15 +121,19 @@ export class NavigationWrapper {
     },
     {
       provide: SITE_NAME,
-      useValue: 'Portail Growbe ' + version,
+      useValue: 'Portail Growbe ',
     },
     {
       provide: SITE_LOGO,
       useValue: '/assets/icons/android/android-launchericon-72-72.png',
     },
     {
+      provide: IDResolver,
+      useClass: PathIDResolver,
+    },
+    {
       provide: FUSE_FULL_SCREEN_BACKGROUND_PATH,
-      useValue: '/assets/dark-material-bg.jpg'
+      useValue: '/assets/backimage.jpg'
     },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,

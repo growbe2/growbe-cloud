@@ -1,12 +1,10 @@
 <ng-template #status let-parent="parent">
-  <app-growbe-status-dot [growbe]="parent"></app-growbe-status-dot>
+  <app-growbe-status-dot [state]="parent.state"></app-growbe-status-dot>
 </ng-template>
 
 <ng-template #options let-parent="parent">
-  <button mat-stroked-button [routerLink]="['/','growbe',parent.id]">Detail</button>
+  <button mat-stroked-button class="accent" [routerLink]="['/','growbe',parent.id]">Detail</button>
 </ng-template>
-
-
 
 <div>
   <ngx-autotable
