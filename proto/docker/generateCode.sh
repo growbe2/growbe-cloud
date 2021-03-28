@@ -28,5 +28,8 @@ echo 'Generating TS'
 /npm/node_modules/.bin/pbjs -t static-module -w default -o growbe.js *.proto
 /npm/node_modules/.bin/pbts -o growbe.d.ts growbe.js
 
+
 mv *.d.ts *.js out/
 cp package.json out/
+
+npm run setversion
