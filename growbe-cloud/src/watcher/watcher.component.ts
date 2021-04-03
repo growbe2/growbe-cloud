@@ -48,7 +48,6 @@ export class WatcherComponent implements Component {
   controllers = [];
   bindings = [
     Binding.bind(GrowbeMainboardBindings.WATCHERS).to(watchers),
-    Binding.bind(GrowbeMainboardBindings.WATCHER_STATE_EVENT).to(new Subject()),
   ];
   lifeCycleObservers = [GrowbeDataSubjectObserver, GrowbeStateWatcherObserver];
 }

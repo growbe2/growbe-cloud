@@ -6,7 +6,7 @@ import {ServiceMixin} from '@loopback/service-proxy';
 import {AlbAuthMixin, AuditzComponent, RevisionRepository, SSOAuthBindings} from '@berlingoqc/lb-extensions';
 import { UserRepository, OrganisationRepository } from '@berlingoqc/sso';
 import { GrowbeMainboardBindings, MQTTBindings } from './keys';
-import { MQTTService } from './services';
+import { Subject } from 'rxjs';
 
 export {ApplicationConfig};
 
@@ -26,6 +26,8 @@ export class GrowbeCloudApplication extends BootMixin(
     this.bind(GrowbeMainboardBindings.DEFAULT_CONFIG).to({
         hearthBeath: 30
     });
+
+    this.bind(GrowbeMainboardBindings.WATCHER_STATE_EVENT).to(new Subject());
   }
 
 
