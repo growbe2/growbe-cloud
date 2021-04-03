@@ -1,7 +1,7 @@
 #### Stage 0, Build Angular frontend
 FROM node:latest as build
 WORKDIR /app
-COPY package.json package.json
+COPY package*.json ./
 
 ARG GITHUB_ACCESS_TOKEN
 # Make sure the argument is supplied
@@ -12,7 +12,7 @@ RUN echo "@berlingoqc:registry=https://npm.pkg.github.com/" > .npmrc
 RUN echo "@growbe2:registry=https://npm.pkg.github.com/" >> .npmrc
 RUN echo "//npm.pkg.github.com/:_authToken=$GITHUB_ACCESS_TOKEN" >> .npmrc
 
-RUN npm install --force
+RUN npm ci --force
 COPY . .
 RUN npm run build -- --prod
 
