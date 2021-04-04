@@ -73,7 +73,7 @@ export class GrowbeStateService {
       await this.stateChange(mainboardNew);
       await this.notifyState(mainboardNew);
       delete this.watcherMainboard[id];
-    }, hearthBeathRate * 1000);
+    }, hearthBeathRate * 2000);
   }
 
   private stateChange(mainboard: GrowbeMainboard) {
