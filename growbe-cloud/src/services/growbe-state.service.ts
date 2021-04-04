@@ -54,6 +54,7 @@ export class GrowbeStateService {
     // Si on change d'état notify par MQTT
     if (mainboard.state !== 'CONNECTED') {
       mainboard.state = 'CONNECTED';
+      await this.stateChange(_.omit(mainboard, 'growbeMainboardConfig') as GrowbeMainboard);
     }
     await this.notifyState(new GrowbeMainboard({id: mainboard.id, state: mainboard.state, lastUpdateAt: receiveAt}));
 
