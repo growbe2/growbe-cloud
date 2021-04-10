@@ -110,24 +110,16 @@ export class ModuleValueGraphService {
   }
 
   private getValue(object: any, propAny: string) {
-    const r = new RegExp(/\[(.*?)\]/);
-    const arr = r.exec(propAny);
-    if (arr) {
-      const prop = propAny.replace(arr[0], '');
-      const index = +arr[1];
-      if (object[prop]?.[index]) return object[prop][index];
-      else return null;
-    }
     return object[propAny];
   }
 
   private async getModuleSensorData(request: ModuleDataRequest) {
     const entries = await this.valueService.sensorValueRepository.find({
-      //fields: [...request.fields, 'createdAt'],
+      fields: [...request.fields, 'createdAt'],
       where: {
         moduleId: request.moduleId,
         and: [...this.getDateCondifition(request)],
-        //or: request.fields.map(field => ({[field]: {neq: null}})),
+        or: request.fields.map(field => ({[field]: {neq: null}})),
       },
     });
     return entries;
