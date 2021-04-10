@@ -11,3 +11,9 @@ jobs:
       - uses: actions/checkout@v1
       - name: Deploy to serveur
         run: 'mkdir $HOME/.ssh && echo "${{secrets.SSH2}}" > $HOME/.ssh/id_rsa && chmod 700 $HOME/.ssh/id_rsa && ssh -oStrictHostKeyChecking=accept-new root@api.dev.growbe.ca "cd growbe-cloud && git pull origin master && ./docker/deploy.sh"'
+      - name: Notify discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has a new version depoyed to prod'
