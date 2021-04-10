@@ -1,20 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GrowbeMainboardAPI } from '../../api/growbe-mainboard';
-import { TableColumn } from '@berlingoqc/ngx-autotable';
+import { AutoTableComponent, TableColumn } from '@berlingoqc/ngx-autotable';
 import { AutoFormData, InputProperty } from '@berlingoqc/ngx-autoform';
 import {notify} from '@berlingoqc/ngx-notification';
 import { Observable, Subscription } from 'rxjs';
 import { Filter, Include, Where } from '@berlingoqc/ngx-loopback';
 import { GrowbeLogs, GrowbeModule } from '@growbe2/ngx-cloud-api';
 import { fuseAnimations } from '@berlingoqc/fuse';
+import { GrowbeEventService } from '../../services/growbe-event.service';
+import { unsubscriber } from '@berlingoqc/ngx-common';
 @Component({
   selector: 'app-growbe-manager-detail',
   templateUrl: './growbe-manager-detail.component.html',
   styleUrls: ['./growbe-manager-detail.component.scss'],
   animations: [fuseAnimations],
 })
+@unsubscriber
 export class GrowbeManagerDetailComponent implements OnInit {
+
+  @ViewChild(AutoTableComponent) table: AutoTableComponent;
 
   mainboard: Observable<any>;
 
@@ -101,6 +106,7 @@ export class GrowbeManagerDetailComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     public mainboardAPI: GrowbeMainboardAPI,
+    private growbeEventService: GrowbeEventService,
   ) {
   }
 
@@ -110,6 +116,14 @@ export class GrowbeManagerDetailComponent implements OnInit {
     this.mainboard = this.mainboardAPI.getById(this.id);
 
     this.moduleWhere = { mainboardId: this.id};
+
+    this.sub = this.growbeEventService.getGrowbeEvent(this.id, '/cloud/m/+/state', JSON.parse)
+    .subscribe((state) => {
+      const index = this.table.dataSource.data.findIndex(x => x.uid === state.uid);
+      if (index == -1) {
+        this.table.refreshData();
+      }
+    });
   }
 
 }
