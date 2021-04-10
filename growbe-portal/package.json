@@ -48,6 +48,7 @@
     "buffer": "^6.0.3",
     "moment": "^2.29.1",
     "mqtt": "^4.2.6",
+    "mqtt-pattern": "^1.2.0",
     "next-tick": "^1.1.0",
     "ngx-cookie-service": "^11.0.2",
     "ngx-permissions": "^8.1.1",
