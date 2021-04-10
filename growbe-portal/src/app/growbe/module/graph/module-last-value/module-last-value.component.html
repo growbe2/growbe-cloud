@@ -3,14 +3,24 @@
     <span class="mat-display-2 m-0 font-weight-300 secondary-text">
       {{ value | number }}
     </span>
-    <ng-container>
-      <span class="font-size-48 font-weight-300 hint-text text-super ml-8"
-        >°</span
-      >
-      <span class="mat-display-2 mb-0 font-weight-300 hint-text ng-binding"
-        >C</span
-      >
+    <ng-container [ngSwitch]="data?.graphDataConfig?.fields[0]">
+      <ng-container *ngSwitchCase="'airTemperature'">
+        <span class="font-size-48 font-weight-300 hint-text text-super ml-8"
+          >°</span
+        >
+        <span class="mat-display-2 mb-0 font-weight-300 hint-text ng-binding"
+          >C</span
+        >
+      </ng-container>
+      <ng-container *ngSwitchCase="'humidity'">
+        <span class="mat-display-2 mb-0 font-weight-300 hint-text ng-binding">
+          %
+        </span>
+      </ng-container>
     </ng-container>
+ </div>
+  <div>
+    <span>{{at | date: 'short'}}</span>
   </div>
   <div>
     <ng-container *ngIf="lastValue">

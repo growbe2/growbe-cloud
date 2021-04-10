@@ -17,6 +17,7 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
 
   value: number;
   lastValue: number;
+  at: Date;
 
   historic: number[] = [];
 
@@ -27,20 +28,22 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.graphService.getGraph('lastread', this.data.graphDataConfig).subscribe(async (data) => {
+    this.graphService.getGraph('lastread', this.data.graphDataConfig).subscribe(async (data: any) => {
       this.value = data[this.data.graphDataConfig.fields[0]];
+      this.at = data.createdAt;
       if(this.data.graphDataConfig.liveUpdate) {
         this.sub = (
         await this.topic.getGrowbeEvent(
           this.data.graphDataConfig.growbeId,
-          `/${this.data.graphDataConfig.moduleType}`,
-          (d) => THLModuleData.decode(d)
+          `/cloud/m/${this.data.graphDataConfig.moduleId}/data`,
+          (d) =>  Object.assign(JSON.parse(d), {createdAt: new Date()})
         )
       ).subscribe((data) => {
         if(data) {
           this.lastValue = this.value
           this.historic.push(this.lastValue);
           this.value = data[this.data.graphDataConfig.fields[0]]
+          this.at = data.createdAt;
         }
       });
     }
