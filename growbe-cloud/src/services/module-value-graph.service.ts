@@ -5,7 +5,6 @@ import {format} from 'date-fns';
 import {GrowbeSensorValue, ModuleDataRequest} from '../models';
 import {GrowbeModuleService} from './growbe-module.service';
 
-
 @model()
 export class GraphModuleRequest extends ModuleDataRequest {}
 
@@ -116,7 +115,7 @@ export class ModuleValueGraphService {
     if (arr) {
       const prop = propAny.replace(arr[0], '');
       const index = +arr[1];
-      if (object.prop?.[index]) return object[prop][index];
+      if (object[prop]?.[index]) return object[prop][index];
       else return null;
     }
     return object[propAny];
