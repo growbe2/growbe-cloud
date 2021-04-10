@@ -16,7 +16,14 @@ message THLModuleData {
 }
 
 message SOILModuleData {
-    repeated int32 values = 2;
+   int32 p0 = 1;
+   int32 p1 = 2;
+   int32 p2 = 3;
+   int32 p3 = 4;
+   int32 p4 = 5;
+   int32 p5 = 6;
+   int32 p6 = 7;
+   int32 p7 = 8;
 }
 
 message WAModuleData {
