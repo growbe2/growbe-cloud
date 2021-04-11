@@ -103,6 +103,8 @@ export class GrowbeManagerDetailComponent implements OnInit {
 
   sub: Subscription;
 
+  streamSelected: any;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     public mainboardAPI: GrowbeMainboardAPI,
@@ -124,6 +126,10 @@ export class GrowbeManagerDetailComponent implements OnInit {
         this.table.refreshData();
       }
     });
+  }
+
+  onStreamSelected(stream: any) {
+    this.streamSelected = stream;
   }
 
 }

@@ -12,14 +12,16 @@
 
 
 /**
- * (tsType: Omit<GrowbeMainboard, \'id\'>, schemaOptions: { title: \'\', partial: undefined, exclude: [ \'id\' ] })
+ * (tsType: Omit<GrowbeModule, \'id\'>, schemaOptions: { title: \'\', partial: undefined, exclude: [ \'id\' ] })
  */
-export interface GrowbeMainboardExcludingId { 
-    name?: string;
-    state?: string;
-    userId?: string;
-    lastUpdateAt?: string;
-    version?: string;
-    cloudVersion?: string;
+export interface GrowbeModuleExcludingId { 
+  [key: string]: object | any;
+
+
+    uid?: string;
+    connected?: boolean;
+    readCount?: number;
+    mainboardId?: string;
+    moduleName?: string;
 }
 

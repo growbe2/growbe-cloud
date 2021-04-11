@@ -19,6 +19,8 @@ export interface GrowbeMainboardPartial {
     name?: string;
     state?: string;
     userId?: string;
-    lastUpdateAt?: object;
+    lastUpdateAt?: string;
+    version?: string;
+    cloudVersion?: string;
 }
 

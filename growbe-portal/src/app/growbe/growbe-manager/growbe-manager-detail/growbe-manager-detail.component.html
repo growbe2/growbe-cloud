@@ -37,6 +37,10 @@
         >
         </ngx-autotable>
       </mat-tab>
+      <mat-tab label="Stream">
+        <app-stream-picker [growbeId]="id" (streamSelected)="onStreamSelected($event)"></app-stream-picker>
+        <app-stream-player [stream]="streamSelected"></app-stream-player>
+      </mat-tab>
       <mat-tab label="Logs">
         <app-terminal
           [growbeId]="id"

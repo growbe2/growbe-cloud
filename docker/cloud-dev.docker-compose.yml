@@ -55,7 +55,6 @@ services:
       MONGO_URL: 'mongodb://doadmin:test@mongo:27017/growbe?authSource=admin'
       MQTT_URL: 'mqtt://broker:1883'
     command: node dist/growbe-cloud.js
-
   growbe-cloud-watcher:
     image: docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud:latest
     networks:
@@ -116,6 +115,20 @@ services:
       - net
     volumes:
       - node-red-data:/data
+  nms:
+    image: docker.pkg.github.com/growbe2/growbe-cloud/nms:latest
+    networks:
+      - net
+    ports:
+      - '0.0.0.0:1935:1935'
+      - '0.0.0.0:8000:8000'
+    volumes:
+      - video:/home/node/app/media
+    environment:
+      - MQTT_URL=mqtt://broker:1883
+      - NMS_TOKEN=12345678
+      - NMS_API_USERNAME=testadmin
+      - NMS_API_PASSWORD=12345678
 
 volumes:
   mongo:
@@ -123,6 +136,8 @@ volumes:
   pgsql:
     driver: local
   node-red-data:
+    driver: local
+  video:
     driver: local
 
 networks:

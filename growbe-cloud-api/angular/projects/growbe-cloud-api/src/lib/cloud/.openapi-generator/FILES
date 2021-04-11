@@ -4,8 +4,7 @@ api.module.ts
 api/api.ts
 api/growbeDashboardController.service.ts
 api/growbeMainboardController.service.ts
-api/growbeModuleGrowbeLogsController.service.ts
-api/growbeModuleGrowbeModuleDefController.service.ts
+api/growbeModuleController.service.ts
 api/growbeWarningController.service.ts
 api/pingController.service.ts
 configuration.ts
@@ -46,10 +45,14 @@ model/growbeMainboardPartialExcludingId.ts
 model/growbeMainboardScopeFilter.ts
 model/growbeMainboardWithRelations.ts
 model/growbeModule.ts
-model/growbeModuleDef.ts
 model/growbeModuleDefWithRelations.ts
+model/growbeModuleExcludingId.ts
+model/growbeModuleFilter.ts
+model/growbeModuleFilter1.ts
+model/growbeModuleIncludeFilterItems.ts
 model/growbeModulePartial.ts
 model/growbeModulePartialExcludingId.ts
+model/growbeModuleScopeFilter.ts
 model/growbeModuleWithRelations.ts
 model/growbeRegisterRequest.ts
 model/growbeSensorValue.ts
@@ -69,7 +72,6 @@ model/growbeWarningWithRelations.ts
 model/loopbackCount.ts
 model/models.ts
 model/moduleDataRequest.ts
-model/newGrowbeLogsInGrowbeModule.ts
 model/orgUserLinkWithRelations.ts
 model/organisationInvitationWithRelations.ts
 model/organisationWithRelations.ts

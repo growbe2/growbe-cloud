@@ -1,12 +1,12 @@
+import {AlbAuthMixin, AuditzComponent, RevisionRepository, SSOAuthBindings} from '@berlingoqc/lb-extensions';
+import {OrganisationRepository, UserRepository} from '@berlingoqc/sso';
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig, Component, Constructor} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
-import {AlbAuthMixin, AuditzComponent, RevisionRepository, SSOAuthBindings} from '@berlingoqc/lb-extensions';
-import { UserRepository, OrganisationRepository } from '@berlingoqc/sso';
-import { GrowbeMainboardBindings, MQTTBindings } from './keys';
-import { Subject } from 'rxjs';
+import {Subject} from 'rxjs';
+import {GrowbeMainboardBindings, MQTTBindings} from './keys';
 
 export {ApplicationConfig};
 

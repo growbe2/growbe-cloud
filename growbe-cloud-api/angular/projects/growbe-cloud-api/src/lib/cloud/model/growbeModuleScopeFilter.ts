@@ -11,13 +11,13 @@
  */
 
 
-export interface GrowbeMainboard { 
-    id?: string;
-    name?: string;
-    state?: string;
-    userId?: string;
-    lastUpdateAt?: string;
-    version?: string;
-    cloudVersion?: string;
+export interface GrowbeModuleScopeFilter { 
+    offset?: number;
+    limit?: number;
+    skip?: number;
+    order?: string | Array<string>;
+    where?: { [key: string]: object; };
+    fields?: any | Set<string>;
+    include?: Array<{ [key: string]: object; }>;
 }
 

@@ -1,0 +1,33 @@
+{
+  "name": "nms-impl",
+  "version": "0.0.0",
+  "description": "node-media-server implementation",
+  "keywords": [],
+  "main": "index.js",
+  "engines": {
+    "node": ">=10.16"
+  },
+  "private": true,
+  "scripts": {
+    "start": "node ./index.js",
+    "docker:build": "docker build -t docker.pkg.github.com/growbe2/growbe-cloud/nms:latest .",
+    "docker:run": "docker run docker.pkg.github.com/growbe2/growbe-cloud/nms",
+    "docker:push": "docker push docker.pkg.github.com/growbe2/growbe-cloud/nms"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "William Quintal <wquintal@berlingoqc.com>",
+  "license": "",
+  "files": [
+    "README.md",
+    "dist",
+    "src",
+    "!*/__tests__"
+  ],
+  "dependencies": {
+    "mqtt": "^4.2.6",
+    "node-media-server": "^2.2.4"
+  }
+}

@@ -749,56 +749,17 @@
         "operationId": "GrowbeMainboardController.setGrowbeRTC"
       }
     },
-    "/growbe-modules/{id}/growbe-logs": {
-      "post": {
-        "x-controller-name": "GrowbeModuleGrowbeLogsController",
-        "x-operation-name": "create",
+    "/growbeModules/count": {
+      "get": {
+        "x-controller-name": "GrowbeModuleController",
+        "x-operation-name": "count",
         "tags": [
-          "GrowbeModuleGrowbeLogsController"
+          "GrowbeModuleController"
         ],
+        "description": "Get a filter list of GrowbeModule",
         "responses": {
           "200": {
-            "description": "GrowbeModule model instance",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GrowbeLogs"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewGrowbeLogsInGrowbeModule"
-              }
-            }
-          },
-          "x-parameter-index": 1
-        },
-        "operationId": "GrowbeModuleGrowbeLogsController.create"
-      },
-      "patch": {
-        "x-controller-name": "GrowbeModuleGrowbeLogsController",
-        "x-operation-name": "patch",
-        "tags": [
-          "GrowbeModuleGrowbeLogsController"
-        ],
-        "responses": {
-          "200": {
-            "description": "GrowbeModule.GrowbeLogs PATCH success count",
+            "description": "",
             "content": {
               "application/json": {
                 "schema": {
@@ -808,6 +769,53 @@
             }
           }
         },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "where",
+            "in": "query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "GrowbeModule.WhereFilter",
+                  "additionalProperties": true,
+                  "x-typescript-type": "@loopback/repository#Where<GrowbeModule>"
+                }
+              }
+            }
+          }
+        ],
+        "operationId": "GrowbeModuleController.count"
+      }
+    },
+    "/growbeModules/{id}": {
+      "put": {
+        "x-controller-name": "GrowbeModuleController",
+        "x-operation-name": "replaceById",
+        "tags": [
+          "GrowbeModuleController"
+        ],
+        "description": "Replace a instance of GrowbeModule",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -816,61 +824,94 @@
               "type": "string"
             },
             "required": true
-          },
-          {
-            "name": "where",
-            "in": "query",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "title": "GrowbeLogs.WhereFilter",
-                  "additionalProperties": true,
-                  "x-typescript-type": "@loopback/repository#Where<GrowbeLogs>"
-                }
-              }
-            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GrowbeLogsPartial"
+                "type": "object"
               }
             }
           },
           "x-parameter-index": 1
         },
-        "operationId": "GrowbeModuleGrowbeLogsController.patch"
+        "operationId": "GrowbeModuleController.replaceById"
       },
-      "get": {
-        "x-controller-name": "GrowbeModuleGrowbeLogsController",
-        "x-operation-name": "find",
+      "patch": {
+        "x-controller-name": "GrowbeModuleController",
+        "x-operation-name": "updateById",
         "tags": [
-          "GrowbeModuleGrowbeLogsController"
+          "GrowbeModuleController"
         ],
+        "description": "Update a instance of GrowbeModule",
         "responses": {
           "200": {
-            "description": "Array of GrowbeModule has many GrowbeLogs",
+            "description": "Entity PATCH success",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GrowbeLogs"
-                  }
-                }
+                "schema": {}
               }
             }
           }
         },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "schema": {
               "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrowbeModulePartialExcluding_id_"
+              }
+            }
+          },
+          "x-parameter-index": 1
+        },
+        "operationId": "GrowbeModuleController.updateById"
+      },
+      "get": {
+        "x-controller-name": "GrowbeModuleController",
+        "x-operation-name": "findById",
+        "tags": [
+          "GrowbeModuleController"
+        ],
+        "description": "Get a filter list of GrowbeModule",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GrowbeModuleWithRelations"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "number"
             },
             "required": true
           },
@@ -880,24 +921,95 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": true
+                  "$ref": "#/components/schemas/GrowbeModule.Filter"
                 }
               }
             }
           }
         ],
-        "operationId": "GrowbeModuleGrowbeLogsController.find"
+        "operationId": "GrowbeModuleController.findById"
       },
       "delete": {
-        "x-controller-name": "GrowbeModuleGrowbeLogsController",
-        "x-operation-name": "delete",
+        "x-controller-name": "GrowbeModuleController",
+        "x-operation-name": "deleteById",
         "tags": [
-          "GrowbeModuleGrowbeLogsController"
+          "GrowbeModuleController"
         ],
+        "description": "Delete a instance of GrowbeModule",
         "responses": {
           "200": {
-            "description": "GrowbeModule.GrowbeLogs DELETE success count",
+            "description": "DELETE success",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "operationId": "GrowbeModuleController.deleteById"
+      }
+    },
+    "/growbeModules": {
+      "post": {
+        "x-controller-name": "GrowbeModuleController",
+        "x-operation-name": "create",
+        "tags": [
+          "GrowbeModuleController"
+        ],
+        "description": "Create a new instance of GrowbeModule",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GrowbeModule"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrowbeModuleExcluding_id_"
+              }
+            }
+          }
+        },
+        "operationId": "GrowbeModuleController.create"
+      },
+      "patch": {
+        "x-controller-name": "GrowbeModuleController",
+        "x-operation-name": "updateAll",
+        "tags": [
+          "GrowbeModuleController"
+        ],
+        "description": "PATCH success count",
+        "responses": {
+          "200": {
+            "description": "",
             "content": {
               "application/json": {
                 "schema": {
@@ -907,15 +1019,12 @@
             }
           }
         },
-        "parameters": [
+        "security": [
           {
-            "name": "id",
-            "in": "path",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
-          },
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
           {
             "name": "where",
             "in": "query",
@@ -923,50 +1032,66 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "title": "GrowbeLogs.WhereFilter",
+                  "title": "GrowbeModule.WhereFilter",
                   "additionalProperties": true,
-                  "x-typescript-type": "@loopback/repository#Where<GrowbeLogs>"
+                  "x-typescript-type": "@loopback/repository#Where<GrowbeModule>"
                 }
               }
             }
           }
         ],
-        "operationId": "GrowbeModuleGrowbeLogsController.delete"
-      }
-    },
-    "/growbe-modules/{id}/growbe-module-def": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrowbeModulePartial"
+              }
+            }
+          }
+        },
+        "operationId": "GrowbeModuleController.updateAll"
+      },
       "get": {
-        "x-controller-name": "GrowbeModuleGrowbeModuleDefController",
-        "x-operation-name": "getGrowbeModuleDef",
+        "x-controller-name": "GrowbeModuleController",
+        "x-operation-name": "find",
         "tags": [
-          "GrowbeModuleGrowbeModuleDefController"
+          "GrowbeModuleController"
         ],
+        "description": "Get a filter list of GrowbeModule",
         "responses": {
           "200": {
-            "description": "GrowbeModuleDef belonging to GrowbeModule",
+            "description": "",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GrowbeModuleDef"
+                    "$ref": "#/components/schemas/GrowbeModuleWithRelations"
                   }
                 }
               }
             }
           }
         },
-        "parameters": [
+        "security": [
           {
-            "name": "id",
-            "in": "path",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
+            "bearerAuth": []
           }
         ],
-        "operationId": "GrowbeModuleGrowbeModuleDefController.getGrowbeModuleDef"
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GrowbeModule.Filter1"
+                }
+              }
+            }
+          }
+        ],
+        "operationId": "GrowbeModuleController.find"
       }
     },
     "/growbes/count": {
@@ -2721,7 +2846,14 @@
             "type": "string"
           },
           "lastUpdateAt": {
-            "type": "object"
+            "type": "string",
+            "format": "date-time"
+          },
+          "version": {
+            "type": "string"
+          },
+          "cloudVersion": {
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -2741,7 +2873,14 @@
             "type": "string"
           },
           "lastUpdateAt": {
-            "type": "object"
+            "type": "string",
+            "format": "date-time"
+          },
+          "version": {
+            "type": "string"
+          },
+          "cloudVersion": {
+            "type": "string"
           }
         },
         "additionalProperties": false,
@@ -3226,7 +3365,14 @@
             "type": "string"
           },
           "lastUpdateAt": {
-            "type": "object"
+            "type": "string",
+            "format": "date-time"
+          },
+          "version": {
+            "type": "string"
+          },
+          "cloudVersion": {
+            "type": "string"
           },
           "user": {
             "$ref": "#/components/schemas/UserWithRelations"
@@ -3280,7 +3426,14 @@
             "type": "string"
           },
           "lastUpdateAt": {
-            "type": "object"
+            "type": "string",
+            "format": "date-time"
+          },
+          "version": {
+            "type": "string"
+          },
+          "cloudVersion": {
+            "type": "string"
           }
         },
         "additionalProperties": false,
@@ -3301,7 +3454,14 @@
             "type": "string"
           },
           "lastUpdateAt": {
-            "type": "object"
+            "type": "string",
+            "format": "date-time"
+          },
+          "version": {
+            "type": "string"
+          },
+          "cloudVersion": {
+            "type": "string"
           }
         },
         "additionalProperties": false,
@@ -3691,6 +3851,30 @@
         },
         "additionalProperties": true,
         "x-typescript-type": "Omit<Partial<GrowbeLogs>, >"
+      },
+      "GrowbeModuleExcluding_id_": {
+        "title": "GrowbeModuleExcluding_id_",
+        "type": "object",
+        "description": "(tsType: Omit<GrowbeModule, 'id'>, schemaOptions: { title: '', partial: undefined, exclude: [ 'id' ] })",
+        "properties": {
+          "uid": {
+            "type": "string"
+          },
+          "connected": {
+            "type": "boolean"
+          },
+          "readCount": {
+            "type": "number"
+          },
+          "mainboardId": {
+            "type": "string"
+          },
+          "moduleName": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true,
+        "x-typescript-type": "Omit<GrowbeModule, 'id'>"
       },
       "GrowbeWarningExcluding_id_": {
         "title": "GrowbeWarningExcluding_id_",
@@ -4216,77 +4400,6 @@
         },
         "additionalProperties": false
       },
-      "NewGrowbeLogsInGrowbeModule": {
-        "title": "NewGrowbeLogsInGrowbeModule",
-        "type": "object",
-        "description": "(tsType: @loopback/repository-json-schema#Optional<Omit<GrowbeLogs, 'id'>, 'growbeModuleId'>, schemaOptions: { title: 'NewGrowbeLogsInGrowbeModule', exclude: [ 'id' ], optional: [ 'growbeModuleId' ] })",
-        "properties": {
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "severity": {
-            "type": "string",
-            "enum": [
-              "0",
-              "1",
-              "2"
-            ]
-          },
-          "group": {
-            "type": "string",
-            "enum": [
-              "mainboard",
-              "modules"
-            ]
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "module",
-              "connection",
-              "new_warning",
-              "update_rtc"
-            ]
-          },
-          "message": {
-            "type": "string"
-          },
-          "newState": {
-            "type": "object"
-          },
-          "oldState": {
-            "type": "object"
-          },
-          "growbeMainboardId": {
-            "type": "string"
-          },
-          "growbeModuleId": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": true,
-        "x-typescript-type": "@loopback/repository-json-schema#Optional<Omit<GrowbeLogs, 'id'>, 'growbeModuleId'>"
-      },
-      "GrowbeModuleDef": {
-        "title": "GrowbeModuleDef",
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "pbModelName": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
       "loopback.Count": {
         "type": "object",
         "title": "loopback.Count",
@@ -4532,6 +4645,253 @@
         "additionalProperties": false,
         "x-typescript-type": "@loopback/repository#Filter<GrowbeDashboard>"
       },
+      "GrowbeModule.ScopeFilter": {
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 100
+          },
+          "skip": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "order": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "where": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "fields": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": true
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              }
+            ]
+          },
+          "include": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": true
+            }
+          }
+        },
+        "additionalProperties": false,
+        "title": "GrowbeModule.ScopeFilter"
+      },
+      "GrowbeModule.IncludeFilter.Items": {
+        "title": "GrowbeModule.IncludeFilter.Items",
+        "type": "object",
+        "properties": {
+          "relation": {
+            "type": "string"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/GrowbeModule.ScopeFilter"
+          }
+        }
+      },
+      "GrowbeModule.Filter": {
+        "type": "object",
+        "title": "GrowbeModule.Filter",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 100
+          },
+          "skip": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "order": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "fields": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "boolean"
+                  },
+                  "uid": {
+                    "type": "boolean"
+                  },
+                  "connected": {
+                    "type": "boolean"
+                  },
+                  "readCount": {
+                    "type": "boolean"
+                  },
+                  "mainboardId": {
+                    "type": "boolean"
+                  },
+                  "moduleName": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": true
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "example": "id"
+                },
+                "uniqueItems": true
+              }
+            ],
+            "title": "GrowbeModule.Fields"
+          },
+          "include": {
+            "title": "GrowbeModule.IncludeFilter",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/GrowbeModule.IncludeFilter.Items"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        "additionalProperties": false,
+        "x-typescript-type": "@loopback/repository#Filter<GrowbeModule>"
+      },
+      "GrowbeModule.Filter1": {
+        "type": "object",
+        "title": "GrowbeModule.Filter",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 100
+          },
+          "skip": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "order": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "where": {
+            "title": "GrowbeModule.WhereFilter",
+            "type": "object",
+            "additionalProperties": true
+          },
+          "fields": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "boolean"
+                  },
+                  "uid": {
+                    "type": "boolean"
+                  },
+                  "connected": {
+                    "type": "boolean"
+                  },
+                  "readCount": {
+                    "type": "boolean"
+                  },
+                  "mainboardId": {
+                    "type": "boolean"
+                  },
+                  "moduleName": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": true
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "example": "id"
+                },
+                "uniqueItems": true
+              }
+            ],
+            "title": "GrowbeModule.Fields"
+          },
+          "include": {
+            "title": "GrowbeModule.IncludeFilter",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/GrowbeModule.IncludeFilter.Items"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        "additionalProperties": false,
+        "x-typescript-type": "@loopback/repository#Filter<GrowbeModule>"
+      },
       "GrowbeMainboard.ScopeFilter": {
         "properties": {
           "offset": {
@@ -4653,6 +5013,12 @@
                   },
                   "lastUpdateAt": {
                     "type": "boolean"
+                  },
+                  "version": {
+                    "type": "boolean"
+                  },
+                  "cloudVersion": {
+                    "type": "boolean"
                   }
                 },
                 "additionalProperties": false
@@ -4666,7 +5032,9 @@
                     "name",
                     "state",
                     "userId",
-                    "lastUpdateAt"
+                    "lastUpdateAt",
+                    "version",
+                    "cloudVersion"
                   ],
                   "example": "id"
                 },
@@ -4747,6 +5115,12 @@
                   },
                   "lastUpdateAt": {
                     "type": "boolean"
+                  },
+                  "version": {
+                    "type": "boolean"
+                  },
+                  "cloudVersion": {
+                    "type": "boolean"
                   }
                 },
                 "additionalProperties": false
@@ -4760,7 +5134,9 @@
                     "name",
                     "state",
                     "userId",
-                    "lastUpdateAt"
+                    "lastUpdateAt",
+                    "version",
+                    "cloudVersion"
                   ],
                   "example": "id"
                 },
