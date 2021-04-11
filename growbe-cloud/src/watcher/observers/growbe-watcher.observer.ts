@@ -1,24 +1,15 @@
 import {
-  Application,
-    BindingScope,
-  CoreBindings,
   inject,
-  injectable,
-  /* inject, Application, CoreBindings, */
   lifeCycleObserver,
   LifeCycleObserver,
   service,
 } from '@loopback/core';
-import mqtt from 'mqtt';
-import { Subject } from 'rxjs';
+import {Subject} from 'rxjs';
 import {GrowbeMainboardBindings} from '../../keys';
-import { GrowbeStateService } from '../../services';
-import {DataSubject} from './model';
-
+import {GrowbeStateService} from '../../services';
 
 @lifeCycleObserver('')
 export class GrowbeStateWatcherObserver implements LifeCycleObserver {
-
   constructor(
     @service(GrowbeStateService)
     private state: GrowbeStateService,
@@ -30,18 +21,22 @@ export class GrowbeStateWatcherObserver implements LifeCycleObserver {
    * This method will be invoked when the application initializes. It will be
    * called at most once for a given application instance.
    */
-  async init(): Promise<void> {
-  }
+  async init(): Promise<void> {}
 
   /**
    * This method will be invoked when the application starts.
    */
   async start(): Promise<void> {
     // Dont send event to trigger anything on MQTT but set the state the DISCONNECTED
-    this.state.growbeService.mainboardRepository.updateAll({state: 'DISCONNECTED'});
-      this.subject.asObservable().subscribe((id) => {
-          this.state.valideState(id)
-      });
+    //await this.state.growbeService.mainboardRepository.updateAll({
+    //  state: 'DISCONNECTED',
+    //});
+    this.subject.asObservable().subscribe(id => {
+      this.state.valideState(id).then(
+        () => {},
+        () => {},
+      );
+    });
   }
 
   /**
@@ -50,5 +45,4 @@ export class GrowbeStateWatcherObserver implements LifeCycleObserver {
   async stop(): Promise<void> {
     // Add your logic for stop
   }
-
 }
