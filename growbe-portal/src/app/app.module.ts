@@ -57,6 +57,7 @@ import { NodeEditorComponent } from './node-editor/node-editor.component';
 import { GrowbeAuthModule } from './auth/auth.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NavigationComponent } from './home/navigation.component';
+import { VideoStreamModule } from './growbe/video-stream/video-stream.module';
 
 
 @Injectable({

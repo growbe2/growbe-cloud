@@ -4,6 +4,7 @@ import { AuthGuard } from '@berlingoqc/auth';
 import { FAQRoutes } from '@berlingoqc/fuse-extra';
 import { LoginComponent } from './auth/login/login.component';
 import { MqttConnectGuard } from './growbe/guard/mqtt-connect.guard';
+import { StreamPlayerComponent } from './growbe/video-stream/stream-player/stream-player.component';
 import { HomeComponent } from './home/home.component';
 import { NodeEditorComponent } from './node-editor/node-editor.component';
 
