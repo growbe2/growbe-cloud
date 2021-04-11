@@ -1,6 +1,5 @@
 import {Entity, model, property} from '@loopback/repository';
 
-
 export enum GroupEnum {
   MAINBOARD = 'mainboard',
   MODULES = 'modules',
@@ -11,6 +10,7 @@ export enum LogTypeEnum {
   CONNECTION_STATE_CHANGE = 'connection',
   WARNING_CREATED = 'new_warning',
   RTC_UPDATE = 'update_rtc',
+  SYNC_REQUEST = 'sync_request',
 }
 
 export enum SeverityEnum {

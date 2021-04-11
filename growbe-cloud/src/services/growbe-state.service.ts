@@ -1,15 +1,20 @@
-import {HearthBeath, HelloWord} from '@growbe2/growbe-pb';
-import {inject, BindingScope, injectable, service} from '@loopback/core';
-import { Subject } from 'rxjs';
+import {HelloWord} from '@growbe2/growbe-pb';
+import {BindingScope, inject, injectable, service} from '@loopback/core';
+import * as _ from 'lodash';
+import {Subject} from 'rxjs';
 import {RTC_OFFSET_KEY} from '../data';
-import { GrowbeMainboardBindings } from '../keys';
+import {GrowbeMainboardBindings} from '../keys';
 import {GrowbeMainboard} from '../models';
-import { GroupEnum, LogTypeEnum, SeverityEnum } from '../models/growbe-logs.model';
-import { GrowbeLogsService } from './growbe-logs.service';
+import {
+  GroupEnum,
+  LogTypeEnum,
+  SeverityEnum,
+} from '../models/growbe-logs.model';
+import {GrowbeLogsService} from './growbe-logs.service';
+import {GrowbeModuleService} from './growbe-module.service';
 import {GrowbeWarningService} from './growbe-warning.service';
 import {GrowbeService} from './growbe.service';
 import {getTopic, MQTTService} from './mqtt.service';
-import * as _ from 'lodash';
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeStateService {
@@ -20,9 +25,12 @@ export class GrowbeStateService {
   constructor(
     @service(MQTTService) public mqttService: MQTTService,
     @service(GrowbeService) public growbeService: GrowbeService,
+    @service(GrowbeModuleService)
+    public growbeModuleService: GrowbeModuleService,
     @service(GrowbeWarningService) public warningService: GrowbeWarningService,
     @service(GrowbeLogsService) public logsService: GrowbeLogsService,
-    @inject(GrowbeMainboardBindings.WATCHER_STATE_EVENT) private stateSubject: Subject<string>
+    @inject(GrowbeMainboardBindings.WATCHER_STATE_EVENT)
+    private stateSubject: Subject<string>,
   ) {}
 
   async onBeath(id: string) {
@@ -34,13 +42,19 @@ export class GrowbeStateService {
     const mainboard = await this.growbeService.findOrCreate(id, {
       include: ['growbeMainboardConfig'],
     });
-    await this.validOffsetRTC(helloWorld.RTC, id, mainboard.growbeMainboardConfig.config.hearthBeath);
+    await this.validOffsetRTC(
+      helloWorld.RTC,
+      id,
+      mainboard.growbeMainboardConfig.config.hearthBeath,
+    );
     mainboard.cloudVersion = helloWorld.cloudVersion;
     mainboard.version = helloWorld.version;
     mainboard.lastUpdateAt = new Date();
     mainboard.state = 'CONNECTED';
     await this.stateChange(mainboard);
-    this.notifyState(new GrowbeMainboard(_.omit(mainboard, 'growbeMainboardConfig')));
+    await this.notifyState(
+      new GrowbeMainboard(_.omit(mainboard, 'growbeMainboardConfig')),
+    );
   }
 
   async valideState(id: string) {
@@ -54,27 +68,62 @@ export class GrowbeStateService {
     // Si on change d'état notify par MQTT
     if (mainboard.state !== 'CONNECTED') {
       mainboard.state = 'CONNECTED';
-      await this.stateChange(_.omit(mainboard, 'growbeMainboardConfig') as GrowbeMainboard);
+      await this.stateChange(
+        _.omit(mainboard, 'growbeMainboardConfig') as GrowbeMainboard,
+      );
+      await this.sendSyncRequest(mainboard.id);
     }
-    await this.notifyState(new GrowbeMainboard({id: mainboard.id, state: mainboard.state, lastUpdateAt: receiveAt}));
+    await this.notifyState(
+      new GrowbeMainboard({
+        id: mainboard.id,
+        state: mainboard.state,
+        lastUpdateAt: receiveAt,
+      }),
+    );
 
     // Démarre un timer pour regarder si on a recu un autre beath
-    if(this.watcherMainboard[id]) {
+    if (this.watcherMainboard[id]) {
       clearTimeout(this.watcherMainboard[id]);
     }
 
-    this.watcherMainboard[id] = setTimeout(async () => {
-      // Regarde si on a été update depuis
-      const mainboardNew = await this.growbeService.mainboardRepository.findById(
-        mainboard.id,
+    this.watcherMainboard[id] = setTimeout(() => {
+      (async () => {
+        // Regarde si on a été update depuis
+        const mainboardNew = await this.growbeService.mainboardRepository.findById(
+          mainboard.id,
+        );
+        // na pas été update
+        GrowbeStateService.DEBUG(`Growbe ${id} lost connection`);
+        mainboardNew.state = 'DISCONNECTED';
+        await this.stateChange(mainboardNew);
+        await this.notifyState(mainboardNew);
+        await this.growbeModuleService.onBoardDisconnect(mainboardNew.id);
+        delete this.watcherMainboard[id];
+      })().then(
+        () => {},
+        () => {},
       );
-      // na pas été update
-      GrowbeStateService.DEBUG(`Growbe ${id} lost connection`);
-      mainboardNew.state = 'DISCONNECTED';
-      await this.stateChange(mainboardNew);
-      await this.notifyState(mainboardNew);
-      delete this.watcherMainboard[id];
     }, hearthBeathRate * 2000);
+  }
+
+  /**
+   * send request to growbe to ask to
+   * sync all is modules informations
+   * with the cloud , trigger on reconnection.
+   * @param growbeId
+   */
+  private sendSyncRequest(growbeId: string) {
+    return this.mqttService
+      .send(getTopic(growbeId, '/board/sync'), '')
+      .then(value => {
+        return this.logsService.addLog({
+          group: GroupEnum.MAINBOARD,
+          type: LogTypeEnum.SYNC_REQUEST,
+          severity: SeverityEnum.LOW,
+          growbeMainboardId: growbeId,
+          message: `sync requested`,
+        });
+      });
   }
 
   private stateChange(mainboard: GrowbeMainboard) {
@@ -83,16 +132,19 @@ export class GrowbeStateService {
       group: GroupEnum.MAINBOARD,
       severity: SeverityEnum.HIGH,
       type: LogTypeEnum.CONNECTION_STATE_CHANGE,
-      message: `connected ${mainboard.state}`
+      message: `connected ${mainboard.state}`,
     });
   }
 
   /**
    * notify a state change for a Growbe (CONNECTED and DISCONNECTED)
-   * @param mainboard 
+   * @param mainboard
    */
   private async notifyState(mainboard: GrowbeMainboard) {
-    await this.growbeService.mainboardRepository.updateById(mainboard.id, mainboard)
+    await this.growbeService.mainboardRepository.updateById(
+      mainboard.id,
+      mainboard,
+    );
     return this.mqttService.send(
       getTopic(mainboard.id, '/cloud/state'),
       JSON.stringify(new GrowbeMainboard(mainboard)),
