@@ -1,7 +1,7 @@
-import {DefaultCrudRepository, repository, HasManyRepositoryFactory} from '@loopback/repository';
-import {GrowbeDashboard, GrowbeDashboardRelations, GrowbeDashboardItem} from '../models';
+import {Getter, inject} from '@loopback/core';
+import {DefaultCrudRepository, HasManyRepositoryFactory, repository} from '@loopback/repository';
 import {MongoDataSource} from '../datasources';
-import {inject, Getter} from '@loopback/core';
+import {GrowbeDashboard, GrowbeDashboardItem, GrowbeDashboardRelations} from '../models';
 import {GrowbeDashboardItemRepository} from './growbe-dashboard-item.repository';
 
 export class GrowbeDashboardRepository extends DefaultCrudRepository<

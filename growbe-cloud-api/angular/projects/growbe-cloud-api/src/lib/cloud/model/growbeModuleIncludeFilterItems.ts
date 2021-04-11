@@ -9,15 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { GrowbeModuleScopeFilter } from './growbeModuleScopeFilter';
 
 
-export interface GrowbeMainboard { 
-    id?: string;
-    name?: string;
-    state?: string;
-    userId?: string;
-    lastUpdateAt?: string;
-    version?: string;
-    cloudVersion?: string;
+export interface GrowbeModuleIncludeFilterItems { 
+    relation?: string;
+    scope?: GrowbeModuleScopeFilter;
 }
 
