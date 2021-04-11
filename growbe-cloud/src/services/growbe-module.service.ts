@@ -1,16 +1,24 @@
 import * as pb from '@growbe2/growbe-pb';
-import {inject, BindingScope, injectable, service} from '@loopback/core';
+import {BindingScope, inject, injectable, service} from '@loopback/core';
 import {repository} from '@loopback/repository';
-import { Subject } from 'rxjs';
-import { GrowbeMainboardBindings } from '../keys';
-import {GrowbeModuleWithRelations, GrowbeSensorValue} from '../models';
-import { GroupEnum, LogTypeEnum, SeverityEnum } from '../models/growbe-logs.model';
+import {Subject} from 'rxjs';
+import {GrowbeMainboardBindings} from '../keys';
+import {
+  GrowbeModule,
+  GrowbeModuleWithRelations,
+  GrowbeSensorValue,
+} from '../models';
+import {
+  GroupEnum,
+  LogTypeEnum,
+  SeverityEnum,
+} from '../models/growbe-logs.model';
 import {
   GrowbeModuleDefRepository,
   GrowbeModuleRepository,
   GrowbeSensorValueRepository,
 } from '../repositories';
-import { GrowbeLogsService } from './growbe-logs.service';
+import {GrowbeLogsService} from './growbe-logs.service';
 import {getTopic, MQTTService} from './mqtt.service';
 
 const mapType: any = {
@@ -32,8 +40,26 @@ export class GrowbeModuleService {
     public sensorValueRepository: GrowbeSensorValueRepository,
     @service(MQTTService) public mqttService: MQTTService,
     @service(GrowbeLogsService) public logsService: GrowbeLogsService,
-    @inject(GrowbeMainboardBindings.WATCHER_STATE_EVENT) private stateSubject: Subject<string>
+    @inject(GrowbeMainboardBindings.WATCHER_STATE_EVENT)
+    private stateSubject: Subject<string>,
   ) {}
+
+  /**
+   * trigger when a growbe lose connection,
+   * change the status off all the module to false
+   * @param growbeId growbe id
+   */
+  async onBoardDisconnect(growbeId: string) {
+    const modules = await this.moduleRepository.find({
+      where: {
+        mainboardId: growbeId,
+      },
+    });
+    for (const module of modules) {
+      module.connected = false;
+      await this.updateModuleState(growbeId, module);
+    }
+  }
 
   async onModuleStateChange(
     boardId: string,
@@ -45,18 +71,7 @@ export class GrowbeModuleService {
     module.connected = data.plug;
     module.readCount = data.readCount;
     module.atIndex = data.atIndex;
-    await this.moduleRepository.update(module);
-    await this.mqttService.send(
-      getTopic(boardId, `/cloud/m/${moduleId}/state`),
-      JSON.stringify(module),
-    );
-    await this.logsService.addLog({
-      growbeMainboardId: boardId, severity: SeverityEnum.LOW,
-      growbeModuleId: moduleId,
-      type: LogTypeEnum.MODULE_STATE_CHANGE,
-      group: GroupEnum.MAINBOARD,
-      message: `connected: ${module.connected} index: ${module.atIndex}`,
-    });
+    await this.updateModuleState(boardId, module);
   }
 
   async onModuleDataChange(boardId: string, moduleId: string, data: any) {
@@ -97,6 +112,22 @@ export class GrowbeModuleService {
       module.new = true;
     }
     return module;
+  }
+
+  private async updateModuleState(growbeId: string, module: GrowbeModule) {
+    await this.moduleRepository.update(module);
+    await this.mqttService.send(
+      getTopic(growbeId, `/cloud/m/${module.uid}/state`),
+      JSON.stringify(module),
+    );
+    await this.logsService.addLog({
+      growbeMainboardId: growbeId,
+      severity: SeverityEnum.LOW,
+      growbeModuleId: growbeId,
+      type: LogTypeEnum.MODULE_STATE_CHANGE,
+      group: GroupEnum.MAINBOARD,
+      message: `connected: ${module.connected} index: ${module.atIndex}`,
+    });
   }
 
   private async createModule(boardId: string, moduleId: string) {
