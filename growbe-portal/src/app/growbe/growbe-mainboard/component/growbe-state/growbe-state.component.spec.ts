@@ -1,20 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { getTestModuleMetadata } from 'src/app/_spec/test.module.spec';
 
-import { GrowbeClockStateComponent } from './growbe-state.component';
+import { GrowbeStateComponent } from './growbe-state.component';
 
-describe('GrowbeClockStateComponent', () => {
-  let component: GrowbeClockStateComponent;
-  let fixture: ComponentFixture<GrowbeClockStateComponent>;
+describe('GrowbeStateComponent', () => {
+  let component: GrowbeStateComponent;
+  let fixture: ComponentFixture<GrowbeStateComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ GrowbeClockStateComponent ]
-    })
+    await TestBed.configureTestingModule(getTestModuleMetadata({data:{
+      declarations: [ GrowbeStateComponent ]
+    }}))
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GrowbeClockStateComponent);
+    fixture = TestBed.createComponent(GrowbeStateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

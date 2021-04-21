@@ -27,6 +27,10 @@ export class TerminalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (!this.logsSource) {
+      console.warn("logsSource most be provided to terminal.component");
+      return;
+    }
     this.logs = this.eventService.getGrowbeEventWithSource(
       this.growbeId,
       '/cloud/logs',

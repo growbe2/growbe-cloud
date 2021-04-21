@@ -1,4 +1,4 @@
-
+<ng-container *ngIf="data">
 <ngx-charts-line-chart *ngIf="data.graphType == 'line'"
   [animations]="chart.animations"
   [rangeFillOpacity]="chart.rangeFillOpacity"
@@ -48,3 +48,4 @@
   [results]="chartSerie"
 >
 </ngx-charts-bar-vertical-2d>
+</ng-container>

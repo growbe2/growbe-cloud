@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { getTestModuleMetadata } from 'src/app/_spec/test.module.spec';
 
 import { ModuleLastValueComponent } from './module-last-value.component';
 
@@ -7,9 +8,9 @@ describe('ModuleLastValueComponent', () => {
   let fixture: ComponentFixture<ModuleLastValueComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
+    await TestBed.configureTestingModule(getTestModuleMetadata({data: {
       declarations: [ ModuleLastValueComponent ]
-    })
+    }}))
     .compileComponents();
   });
 

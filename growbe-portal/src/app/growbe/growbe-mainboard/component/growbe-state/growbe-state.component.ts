@@ -5,6 +5,7 @@ import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service
 import * as pb from '@growbe2/growbe-pb';
 import { take } from 'rxjs/operators';
 import { GrowbeMainboard } from '@growbe2/ngx-cloud-api';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-growbe-state',
@@ -18,13 +19,11 @@ export class GrowbeStateComponent implements OnInit, OnDestroy {
 
   growbe: any;
 
-  sub;
+  sub: Subscription;
 
   pulsingText = {
-
     pulsing: false
-
-  }
+  };
 
   constructor(
     private mainboardAPI: GrowbeMainboardAPI,
@@ -32,6 +31,7 @@ export class GrowbeStateComponent implements OnInit, OnDestroy {
   ) { }
 
   async ngOnInit() {
+    if (!this.data) return;
     this.growbe = await this.mainboardAPI.getById(this.data.id).pipe(take(1)).toPromise();
     this.sub = (await this.topic.getGrowbeEvent(this.data.id, '/heartbeath', (d) => pb.HearthBeath.decode(d))).subscribe((beath) => {
       this.growbe.lastUpdateAt = beath;

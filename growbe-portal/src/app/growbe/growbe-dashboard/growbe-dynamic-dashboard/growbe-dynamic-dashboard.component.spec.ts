@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import { getTestModuleMetadata } from 'src/app/_spec/test.module.spec';
 
 import { GrowbeDynamicDashboardComponent } from './growbe-dynamic-dashboard.component';
 
@@ -7,9 +9,12 @@ describe('GrowbeDynamicDashboardComponent', () => {
   let fixture: ComponentFixture<GrowbeDynamicDashboardComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
+    await TestBed.configureTestingModule(getTestModuleMetadata({data:{
+      imports: [
+        NoopAnimationsModule,
+      ],
       declarations: [ GrowbeDynamicDashboardComponent ]
-    })
+    }}))
     .compileComponents();
   });
 

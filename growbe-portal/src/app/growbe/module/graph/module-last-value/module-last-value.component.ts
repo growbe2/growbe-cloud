@@ -28,6 +28,7 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    if (!this.data) return;
     this.graphService.getGraph('lastread', this.data.graphDataConfig).subscribe(async (data: any) => {
       this.value = data[this.data.graphDataConfig.fields[0]];
       this.at = data.createdAt;

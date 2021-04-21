@@ -26,14 +26,16 @@ export class ModuleSensorValueGraphComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    this.graphService.getGraph(this.data.type, this.data.graphDataConfig).subscribe((serie) => (this.chartSerie = serie))
+    if (!this.data) {
+      return;
+    }
+    this.graphService.getGraph(this.data.type, this.data.graphDataConfig)
+      .subscribe((serie) => (this.chartSerie = serie))
     if (this.data.graphDataConfig.liveUpdate) {
-      this.sub = (
-        await this.topic.getGrowbeEvent(
+      this.sub = this.topic.getGrowbeEvent(
           this.data.graphDataConfig.growbeId,
           `/cloud/m/${this.data.graphDataConfig.moduleId}/data`,
           (d) => JSON.parse(d)
-        )
       ).subscribe((data) => {
         if (data) {
           for(const field of this.data.graphDataConfig.fields) {
@@ -42,7 +44,10 @@ export class ModuleSensorValueGraphComponent implements OnInit, OnDestroy {
               console.log('NOT INDEX');
               continue;
             }
-            const item = {name: (new Date()).toLocaleString(), value: data[field]};
+            const item = {
+              name: (new Date()).toLocaleString(),
+              value: data[field]
+            };
             const serie = this.chartSerie;
             serie[index].series.push(item);
             this.chartSerie = [...serie];

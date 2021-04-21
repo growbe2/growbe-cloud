@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { getTestModuleMetadata } from 'src/app/_spec/test.module.spec';
 
 import { GrowbeDetailComponent } from './growbe-detail.component';
 
@@ -7,9 +8,9 @@ describe('GrowbeDetailComponent', () => {
   let fixture: ComponentFixture<GrowbeDetailComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
+    await TestBed.configureTestingModule(getTestModuleMetadata({data:{
       declarations: [ GrowbeDetailComponent ]
-    })
+    }}))
     .compileComponents();
   });
 

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { getTestModuleMetadata } from 'src/app/_spec/test.module.spec';
 
 import { ModuleSensorValueGraphComponent } from './module-sensor-value-graph.component';
 
@@ -7,9 +8,9 @@ describe('ModuleSensorValueGraphComponent', () => {
   let fixture: ComponentFixture<ModuleSensorValueGraphComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
+    await TestBed.configureTestingModule(getTestModuleMetadata({data: {
       declarations: [ ModuleSensorValueGraphComponent ]
-    })
+    }}))
     .compileComponents();
   });
 

@@ -113,7 +113,9 @@ export class GrowbeManagerDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.id = this.activatedRoute.snapshot.data.mainboard.id;
+    this.id = this.activatedRoute.snapshot.data.mainboard?.id;
+
+    if (!this.id) return;
 
     this.mainboard = this.mainboardAPI.getById(this.id);
 

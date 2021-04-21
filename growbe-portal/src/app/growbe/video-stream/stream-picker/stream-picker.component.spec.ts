@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { getTestModuleMetadata } from 'src/app/_spec/test.module.spec';
 
 import { StreamPickerComponent } from './stream-picker.component';
 
@@ -7,9 +8,9 @@ describe('StreamPickerComponent', () => {
   let fixture: ComponentFixture<StreamPickerComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
+    await TestBed.configureTestingModule(getTestModuleMetadata({data: {
       declarations: [ StreamPickerComponent ]
-    })
+    }}))
     .compileComponents();
   });
 

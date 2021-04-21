@@ -16,7 +16,9 @@ export class ModuleStatusDotComponent implements OnInit {
   constructor(private growbeEventService: GrowbeEventService) { }
 
   ngOnInit(): void {
-    this.status = this.growbeEventService.getGrowbeEvent(this.module.mainboardId, `/cloud/m/${this.module.uid}/state`, JSON.parse).pipe(startWith(this.module));
+    if (this.module) {
+      this.status = this.growbeEventService.getGrowbeEvent(this.module.mainboardId, `/cloud/m/${this.module.uid}/state`, JSON.parse).pipe(startWith(this.module));
+    }
   }
 
 }

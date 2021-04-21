@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { getTestModuleMetadata } from 'src/app/_spec/test.module.spec';
 
 import { GraphSearchBarComponent } from './graph-search-bar.component';
 
@@ -7,9 +8,9 @@ describe('GraphSearchBarComponent', () => {
   let fixture: ComponentFixture<GraphSearchBarComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
+    await TestBed.configureTestingModule(getTestModuleMetadata({data:{
       declarations: [ GraphSearchBarComponent ]
-    })
+    }}))
     .compileComponents();
   });
 
