@@ -8,6 +8,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "ut:dev": "ng test --watch=true",
+    "ut:run": "ng test --watch=false --browsers=ChromeHeadless",
+    "ut:coverage": "ng test --code-coverage",
     "update:node-editor": "npm install @growbe2/node-editor && cp ./node_modules/@growbe2/node-editor/node-editor* ./src/assets/node-editor/",
     "docker:build": "docker build -t docker.pkg.github.com/growbe2/growbe-cloud/growbe-portal:latest --build-arg GITHUB_ACCESS_TOKEN=$GITHUB_ACCESS_TOKEN .",
     "docker:push": "docker push docker.pkg.github.com/growbe2/growbe-cloud/growbe-portal"
@@ -32,7 +35,7 @@
     "@berlingoqc/fuse-extra": "^1.1.0",
     "@berlingoqc/ngx-autoform": "^2.0.2",
     "@berlingoqc/ngx-autotable": "^2.0.2",
-    "@berlingoqc/ngx-common": "^2.0.2",
+    "@berlingoqc/ngx-common": "^2.0.3",
     "@berlingoqc/ngx-loopback": "^2.0.2",
     "@berlingoqc/ngx-notification": "2.0.2",
     "@berlingoqc/ngx-pwa": "^2.0.2",
