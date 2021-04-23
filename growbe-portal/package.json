@@ -10,7 +10,10 @@
     "e2e": "ng e2e",
     "ut:dev": "ng test --watch=true",
     "ut:run": "ng test --watch=false --browsers=ChromeHeadless",
+    "ut:ci": "ng test --watch=false --browsers=ChromeHeadlessNoSandbox",
     "ut:coverage": "ng test --code-coverage",
+    "postinstall": "ngcc",
+    "postci": "ngcc",
     "update:node-editor": "npm install @growbe2/node-editor && cp ./node_modules/@growbe2/node-editor/node-editor* ./src/assets/node-editor/",
     "docker:build": "docker build -t docker.pkg.github.com/growbe2/growbe-cloud/growbe-portal:latest --build-arg GITHUB_ACCESS_TOKEN=$GITHUB_ACCESS_TOKEN .",
     "docker:push": "docker push docker.pkg.github.com/growbe2/growbe-cloud/growbe-portal"
