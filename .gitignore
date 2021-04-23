@@ -4,3 +4,4 @@ loopback-sso-extensions/
 angular-libs/
 backups/
 docker/envs/
+*.DS_Store
