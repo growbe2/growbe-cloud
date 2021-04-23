@@ -5,6 +5,21 @@ on:
     types: [assigned, opened, synchronize, reopened]
 
 jobs:
+  growbe-cloud:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build
+        run: npm run docker:build
+      - name: Running linting
+        run: docker run docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud 'npm run lint'
+      - name: Running test integration
+        run: docker run -e SSO_URL=$SSO_URL -e DB_URL=$DB_URL -e MONGO_URL=$MONGO_URL -e MQTT_URL=$MQTT_URL docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud 'npm run test'
+        env:
+          SSO_URL: ${{secrets.sso_dev}}
+          DB_URL: ${{secrets.db_dev}}
+          MONGO_URL: ${{secrets.mongo_dev}}
+          MQTT_URL: ${{secrets.mqtt_dev}}
   growbe-portal:
     runs-on: ubuntu-latest
     steps:

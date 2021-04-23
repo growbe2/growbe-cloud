@@ -1,6 +1,14 @@
-import { User } from '@berlingoqc/sso';
-import { HearthBeath } from '@growbe2/growbe-pb';
-import {belongsTo, Entity, model, property, hasOne, hasMany, Model} from '@loopback/repository';
+import {User} from '@berlingoqc/sso';
+import {HearthBeath} from '@growbe2/growbe-pb';
+import {
+  belongsTo,
+  Entity,
+  model,
+  property,
+  hasOne,
+  hasMany,
+  Model,
+} from '@loopback/repository';
 import {GrowbeMainboardConfig} from './growbe-mainboard-config.model';
 import {GrowbeWarning} from './growbe-warning.model';
 import {GrowbeSensorValue} from './growbe-sensor-value.model';
@@ -11,7 +19,6 @@ export type GrowbeState = 'CONNECTED' | 'DISCONNECTED';
 
 @model()
 export class GrowbeMainboard extends Entity {
-
   @property({id: true, generated: false})
   id: string;
 
@@ -58,4 +65,5 @@ export interface GrowbeMainboardRelations {
   user: User;
 }
 
-export type GrowbeMainboardWithRelations = GrowbeMainboard & GrowbeMainboardRelations;
+export type GrowbeMainboardWithRelations = GrowbeMainboard &
+  GrowbeMainboardRelations;

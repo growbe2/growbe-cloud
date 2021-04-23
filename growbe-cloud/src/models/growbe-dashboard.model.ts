@@ -24,8 +24,6 @@ export class GrowbeDashboard extends Entity {
   @property.array(GrowbeDashboardItem)
   sidePanel: GrowbeDashboardItem[];
 
-  // Indexer property to allow additional data
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [prop: string]: any;
 
   constructor(data?: Partial<GrowbeDashboard>) {
@@ -37,4 +35,5 @@ export interface GrowbeDashboardRelations {
   // describe navigational properties here
 }
 
-export type GrowbeDashboardWithRelations = GrowbeDashboard & GrowbeDashboardRelations;
+export type GrowbeDashboardWithRelations = GrowbeDashboard &
+  GrowbeDashboardRelations;

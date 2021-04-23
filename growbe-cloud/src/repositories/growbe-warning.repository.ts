@@ -1,5 +1,13 @@
-import {DefaultCrudRepository, repository, BelongsToAccessor} from '@loopback/repository';
-import {GrowbeWarning, GrowbeWarningRelations, GrowbeWarningKey} from '../models';
+import {
+  DefaultCrudRepository,
+  repository,
+  BelongsToAccessor,
+} from '@loopback/repository';
+import {
+  GrowbeWarning,
+  GrowbeWarningRelations,
+  GrowbeWarningKey,
+} from '../models';
 import {PgsqlDataSource} from '../datasources';
 import {inject, Getter} from '@loopback/core';
 import {GrowbeWarningKeyRepository} from './growbe-warning-key.repository';
@@ -9,14 +17,24 @@ export class GrowbeWarningRepository extends DefaultCrudRepository<
   typeof GrowbeWarning.prototype.id,
   GrowbeWarningRelations
 > {
-
-  public readonly warningKey: BelongsToAccessor<GrowbeWarningKey, typeof GrowbeWarning.prototype.id>;
+  public readonly warningKey: BelongsToAccessor<
+    GrowbeWarningKey,
+    typeof GrowbeWarning.prototype.id
+  >;
 
   constructor(
-    @inject('datasources.pgsql') dataSource: PgsqlDataSource, @repository.getter('GrowbeWarningKeyRepository') protected growbeWarningKeyRepositoryGetter: Getter<GrowbeWarningKeyRepository>,
+    @inject('datasources.pgsql') dataSource: PgsqlDataSource,
+    @repository.getter('GrowbeWarningKeyRepository')
+    protected growbeWarningKeyRepositoryGetter: Getter<GrowbeWarningKeyRepository>,
   ) {
     super(GrowbeWarning, dataSource);
-    this.warningKey = this.createBelongsToAccessorFor('warningKey', growbeWarningKeyRepositoryGetter,);
-    this.registerInclusionResolver('warningKey', this.warningKey.inclusionResolver);
+    this.warningKey = this.createBelongsToAccessorFor(
+      'warningKey',
+      growbeWarningKeyRepositoryGetter,
+    );
+    this.registerInclusionResolver(
+      'warningKey',
+      this.warningKey.inclusionResolver,
+    );
   }
 }

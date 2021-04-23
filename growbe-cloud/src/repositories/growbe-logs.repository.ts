@@ -8,9 +8,7 @@ export class GrowbeLogsRepository extends DefaultCrudRepository<
   typeof GrowbeLogs.prototype.id,
   GrowbeLogsRelations
 > {
-  constructor(
-    @inject('datasources.mongo') dataSource: MongoDataSource,
-  ) {
+  constructor(@inject('datasources.mongo') dataSource: MongoDataSource) {
     super(GrowbeLogs, dataSource);
   }
 }

@@ -1,5 +1,5 @@
-import { GrowbeCloudApplication } from "../../application";
-import { setupApplication } from "../fixtures/app";
+import {GrowbeCloudApplication} from '../../application';
+import {setupApplication} from '../fixtures/app';
 
 describe('Growbe Mainboard', () => {
   let app: GrowbeCloudApplication;
@@ -16,23 +16,12 @@ describe('Growbe Mainboard', () => {
   });
 
   describe('Module Value Graph', () => {
+    before(async () => {});
 
-
-    before(async () => {
-
-    });
-
-    afterEach(async () => {
-
-    });
+    afterEach(async () => {});
 
     describe('Validation RTC', () => {
-      it('RTC valide najoute pas de warning', async () => {
-
-      });
-
+      it('RTC valide najoute pas de warning', async () => {});
     });
-
-
   });
 });

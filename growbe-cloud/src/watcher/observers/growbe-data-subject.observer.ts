@@ -2,7 +2,6 @@ import {
   Application,
   CoreBindings,
   inject,
-  /* inject, Application, CoreBindings, */
   lifeCycleObserver,
   LifeCycleObserver,
   service,
@@ -46,23 +45,27 @@ export class GrowbeDataSubjectObserver implements LifeCycleObserver {
               x.topic.includes(subject.regexTopic),
           ),
         )
-        .subscribe(async data => {
-          try {
-            const d = subject.model
-              ? subject.model.decode(data.message)
-              : data.message;
-            const service = await this.app.get(
-              `services.${subject.service.name}`,
-            );
-            await subject.func(
-              this.getIdFromTopic(data.topic),
-              service,
-              d,
-              data.topic,
-            );
-          } catch (err) {
-            console.log('Failed to parse on subject', data.topic, err);
-          }
+        .subscribe(data => {
+          (async () => {
+            try {
+              const d = subject.model
+                ? subject.model.decode(data.message)
+                : data.message;
+              const serviceSubject = await this.app.get(
+                `services.${subject.service.name}`,
+              );
+              await subject.func(
+                this.getIdFromTopic(data.topic),
+                serviceSubject,
+                d,
+                data.topic,
+              );
+            } catch (err) {
+              console.log('Failed to parse on subject', data.topic, err);
+            }
+          })()
+            .then(() => {})
+            .catch(() => {});
         });
     }
   }

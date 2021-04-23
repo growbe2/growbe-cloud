@@ -1,7 +1,15 @@
 import {Getter, inject} from '@loopback/core';
-import {DefaultCrudRepository, HasManyRepositoryFactory, repository} from '@loopback/repository';
+import {
+  DefaultCrudRepository,
+  HasManyRepositoryFactory,
+  repository,
+} from '@loopback/repository';
 import {MongoDataSource} from '../datasources';
-import {GrowbeDashboard, GrowbeDashboardItem, GrowbeDashboardRelations} from '../models';
+import {
+  GrowbeDashboard,
+  GrowbeDashboardItem,
+  GrowbeDashboardRelations,
+} from '../models';
 import {GrowbeDashboardItemRepository} from './growbe-dashboard-item.repository';
 
 export class GrowbeDashboardRepository extends DefaultCrudRepository<
@@ -9,14 +17,24 @@ export class GrowbeDashboardRepository extends DefaultCrudRepository<
   typeof GrowbeDashboard.prototype.id,
   GrowbeDashboardRelations
 > {
-
-  public readonly growbeDashboardItems: HasManyRepositoryFactory<GrowbeDashboardItem, typeof GrowbeDashboard.prototype.id>;
+  public readonly growbeDashboardItems: HasManyRepositoryFactory<
+    GrowbeDashboardItem,
+    typeof GrowbeDashboard.prototype.id
+  >;
 
   constructor(
-    @inject('datasources.mongo') dataSource: MongoDataSource, @repository.getter('GrowbeDashboardItemRepository') protected growbeDashboardItemRepositoryGetter: Getter<GrowbeDashboardItemRepository>,
+    @inject('datasources.mongo') dataSource: MongoDataSource,
+    @repository.getter('GrowbeDashboardItemRepository')
+    protected growbeDashboardItemRepositoryGetter: Getter<GrowbeDashboardItemRepository>,
   ) {
     super(GrowbeDashboard, dataSource);
-    this.growbeDashboardItems = this.createHasManyRepositoryFactoryFor('growbeDashboardItems', growbeDashboardItemRepositoryGetter,);
-    this.registerInclusionResolver('growbeDashboardItems', this.growbeDashboardItems.inclusionResolver);
+    this.growbeDashboardItems = this.createHasManyRepositoryFactoryFor(
+      'growbeDashboardItems',
+      growbeDashboardItemRepositoryGetter,
+    );
+    this.registerInclusionResolver(
+      'growbeDashboardItems',
+      this.growbeDashboardItems.inclusionResolver,
+    );
   }
 }

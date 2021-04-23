@@ -8,9 +8,7 @@ export class GrowbeModuleDefRepository extends DefaultCrudRepository<
   typeof GrowbeModuleDef.prototype.id,
   GrowbeModuleDefRelations
 > {
-  constructor(
-    @inject('datasources.pgsql') dataSource: PgsqlDataSource,
-  ) {
+  constructor(@inject('datasources.pgsql') dataSource: PgsqlDataSource) {
     super(GrowbeModuleDef, dataSource);
   }
 }

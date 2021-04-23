@@ -5,10 +5,8 @@ import {GrowbeService, GrowbeStateService} from '../../services';
 import {setupApplication} from '../fixtures/app';
 
 import pb from '@growbe2/growbe-pb';
-import { getDate } from '../helpers/date';
-import { boardId, userId } from '../fixtures/data';
-import { MockMQTTService } from '../fixtures/mock-mqtt.service';
-
+import {boardId, userId} from '../fixtures/data';
+import {MockMQTTService} from '../fixtures/mock-mqtt.service';
 
 describe('Growbe Mainboard', () => {
   let app: GrowbeCloudApplication;
@@ -24,7 +22,7 @@ describe('Growbe Mainboard', () => {
     await app.stop();
   });
 
-  describe('Register d\'un nouveau growbe', () => {
+  describe("Register d'un nouveau growbe", () => {
     let mainboardService: GrowbeService;
     let stateService: GrowbeStateService;
     let defaultConfig: Partial<pb.GrowbeMainboardConfig>;
@@ -39,7 +37,7 @@ describe('Growbe Mainboard', () => {
     });
 
     afterEach(async () => {
-        await mainboardService.mainboardRepository.deleteAll();
+      await mainboardService.mainboardRepository.deleteAll();
     });
 
     it('Register un growbe par un user qui existe pas encore', async () => {
@@ -68,12 +66,10 @@ describe('Growbe Mainboard', () => {
     */
 
     it('Register un growbe par un user qui a deja été register', async () => {
-        await mainboardService.register(userId, request);
-        const response = await mainboardService.register(userId, request);
-        expect(response).to.be.Object();
-        expect(response.state).to.eql("ALREADY_REGISTER");
+      await mainboardService.register(userId, request);
+      const response = await mainboardService.register(userId, request);
+      expect(response).to.be.Object();
+      expect(response.state).to.eql('ALREADY_REGISTER');
     });
-
   });
-
 });

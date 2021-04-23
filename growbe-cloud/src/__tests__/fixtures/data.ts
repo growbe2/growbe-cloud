@@ -1,5 +1,4 @@
 export const userId = '123456';
-export const boardId = 'CCCC-CCCC';
+export const boardId = 'CCCCCCCC';
 
-
-export const moduleId = 'ABCDEF0000';
+export const moduleId = 'AAA0000001';

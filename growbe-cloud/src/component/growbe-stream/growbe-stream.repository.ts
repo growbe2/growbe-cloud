@@ -8,10 +8,7 @@ export class GrowbeStreamRepository extends DefaultCrudRepository<
   typeof GrowbeStream.prototype.id,
   GrowbeStreamRelations
 > {
-
-  constructor(
-    @inject('datasources.mongo') dataSource: MongoDataSource
-  ) {
+  constructor(@inject('datasources.mongo') dataSource: MongoDataSource) {
     super(GrowbeStream, dataSource);
   }
 }

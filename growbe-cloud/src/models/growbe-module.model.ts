@@ -1,4 +1,10 @@
-import {Entity, model, property, hasMany, belongsTo} from '@loopback/repository';
+import {
+  Entity,
+  model,
+  property,
+  hasMany,
+  belongsTo,
+} from '@loopback/repository';
 import {GrowbeSensorValue} from './growbe-sensor-value.model';
 import {GrowbeMainboard} from './growbe-mainboard.model';
 import {GrowbeModuleDef} from './growbe-module-def.model';
@@ -19,7 +25,7 @@ export class GrowbeModule extends Entity {
 
   @property()
   connected: boolean;
-  
+
   @property()
   readCount: number;
 
