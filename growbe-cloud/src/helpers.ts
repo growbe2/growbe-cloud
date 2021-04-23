@@ -15,7 +15,6 @@ export function mqttObservable(url: string) {
     });
     client.on('message', function (topic, message) {
       sub.next({topic, message: JSON.parse(message.toString())});
-      console.log('SUB NEXT', topic, message);
     });
   });
 }

@@ -19,7 +19,6 @@ export class CloudComponent implements Component {
 
     const nmsToken = process.env.NMS_TOKEN;
     if (nmsToken) {
-      console.log('Enabling GrowbeStreamServer');
       app.bind(NMSBindings.NMS_KEY).to(nmsToken);
       app.component(GrowbeStreamComponent);
       app.repository(GrowbeStreamRepository);
