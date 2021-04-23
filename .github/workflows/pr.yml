@@ -46,7 +46,6 @@ jobs:
         env:
           STAGE: 'test_unit'
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-        run: docker run docker.pkg.github.com/growbe2/growbe-cloud/growbe-portal-ci npm run ut:ci
       - name: Running build
         run: cd growbe-portal && npm run docker:build:stage
         env:
