@@ -11,7 +11,7 @@ import {getDate} from '../helpers/date';
 import {boardId} from '../fixtures/data';
 import {RTC_OFFSET_KEY} from '../../data';
 import {MockMQTTService} from '../fixtures/mock-mqtt.service';
-import { waitAsync } from '../helpers/general';
+import {waitAsync} from '../helpers/general';
 
 describe('Growbe Mainboard', () => {
   let app: GrowbeCloudApplication;

@@ -2,15 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@berlingoqc/auth';
 
 @Component({
-  template: `DADADADAD`,
+    template: `DADADADAD`,
 })
 export class NavigationComponent implements OnInit {
+    constructor() {}
 
-  constructor(
-  ) {
-  }
-
-  ngOnInit(): void {
-  }
-
+    ngOnInit(): void {}
 }

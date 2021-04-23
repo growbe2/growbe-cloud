@@ -1,13 +1,18 @@
 <div class="content-center">
-  <fuse-widget
-    [@animate]="{ value: '*', params: { y: '100%' } }"
-    class="pb-0"
-    fxFlex="50"
-  >
-    <div fxLayout="row wrap" fxLayoutAlign="start start">
-      <div class="h-420 my-16" fxLayout="row" fxFlex="100" fxFlex.gt-sm="50">
-        <autoform-form [formData]="formData"> </autoform-form>
-      </div>
-    </div>
-  </fuse-widget>
+    <fuse-widget
+        [@animate]="{ value: '*', params: { y: '100%' } }"
+        class="pb-0"
+        fxFlex="50"
+    >
+        <div fxLayout="row wrap" fxLayoutAlign="start start">
+            <div
+                class="h-420 my-16"
+                fxLayout="row"
+                fxFlex="100"
+                fxFlex.gt-sm="50"
+            >
+                <autoform-form [formData]="formData"> </autoform-form>
+            </div>
+        </div>
+    </fuse-widget>
 </div>

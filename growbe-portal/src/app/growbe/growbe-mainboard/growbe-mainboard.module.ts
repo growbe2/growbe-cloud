@@ -9,15 +9,20 @@ import { GrowbeStateComponent } from './component/growbe-state/growbe-state.comp
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 
-
 @NgModule({
-  declarations: [GrowbeTableComponent, GrowbeDetailComponent, GrowbeRegisterComponent, GrowbeStatusDotComponent, GrowbeStateComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    AutoTableModule,
-    MatButtonModule,
-  ],
-  exports: [GrowbeTableComponent, GrowbeDetailComponent, GrowbeRegisterComponent, GrowbeStateComponent]
+    declarations: [
+        GrowbeTableComponent,
+        GrowbeDetailComponent,
+        GrowbeRegisterComponent,
+        GrowbeStatusDotComponent,
+        GrowbeStateComponent,
+    ],
+    imports: [CommonModule, RouterModule, AutoTableModule, MatButtonModule],
+    exports: [
+        GrowbeTableComponent,
+        GrowbeDetailComponent,
+        GrowbeRegisterComponent,
+        GrowbeStateComponent,
+    ],
 })
 export class GrowbeMainboardModule {}

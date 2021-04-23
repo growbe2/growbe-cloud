@@ -1,7 +1,7 @@
 import {ApplicationConfig} from '@loopback/core';
 import {GrowbeCloudApplication} from './application';
-import { CloudComponent } from './cloud';
-import { WatcherComponent } from './watcher/watcher.component';
+import {CloudComponent} from './cloud';
+import {WatcherComponent} from './watcher/watcher.component';
 
 /**
  * Export the OpenAPI spec from the application
@@ -17,7 +17,7 @@ async function exportOpenApiSpec(): Promise<void> {
   config.strategy = 'remote';
   config.pkg = require('../package.json');
   config.dirname = __dirname;
-  const app = new GrowbeCloudApplication(CloudComponent,config);
+  const app = new GrowbeCloudApplication(CloudComponent, config);
   await app.boot();
   await app.exportOpenApiSpec(outFile);
 }

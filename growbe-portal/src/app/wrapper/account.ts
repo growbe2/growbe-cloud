@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
-import { AccountRoutingModule, AuthModule } from '@berlingoqc/auth'
+import { AccountRoutingModule, AuthModule } from '@berlingoqc/auth';
 
 @NgModule({
-  imports: [AuthModule, AccountRoutingModule]
+    imports: [AuthModule, AccountRoutingModule],
 })
-export class AuthWrapperModule { }
-
+export class AuthWrapperModule {}

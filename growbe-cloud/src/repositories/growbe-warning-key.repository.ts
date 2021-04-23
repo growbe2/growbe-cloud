@@ -8,9 +8,7 @@ export class GrowbeWarningKeyRepository extends DefaultCrudRepository<
   typeof GrowbeWarningKey.prototype.key,
   GrowbeWarningKeyRelations
 > {
-  constructor(
-    @inject('datasources.pgsql') dataSource: PgsqlDataSource,
-  ) {
+  constructor(@inject('datasources.pgsql') dataSource: PgsqlDataSource) {
     super(GrowbeWarningKey, dataSource);
   }
 }

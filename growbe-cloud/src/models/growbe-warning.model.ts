@@ -3,7 +3,6 @@ import {GrowbeWarningKey} from './growbe-warning-key.model';
 
 @model()
 export class GrowbeWarning extends Entity {
-
   @property({id: true, generated: true})
   id: number;
 

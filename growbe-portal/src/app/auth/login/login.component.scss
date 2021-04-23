@@ -1,12 +1,10 @@
-
 .welcome-card {
-  display: flex;
-  flex-direction: row;
-  padding-right: 10px;
-  padding-left: 10px;
+    display: flex;
+    flex-direction: row;
+    padding-right: 10px;
+    padding-left: 10px;
 
-  .filler {
-    flex-grow: 2;
-  }
-
+    .filler {
+        flex-grow: 2;
+    }
 }

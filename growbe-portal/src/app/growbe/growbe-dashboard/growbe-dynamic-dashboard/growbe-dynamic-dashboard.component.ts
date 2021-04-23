@@ -6,28 +6,26 @@ import { Include, Where } from '@berlingoqc/ngx-loopback';
 import { GrowbeWarningAPI } from '../../api/growbe-warning';
 
 @Component({
-  selector: 'app-growbe-dynamic-dashboard',
-  templateUrl: './growbe-dynamic-dashboard.component.html',
-  styleUrls: ['./growbe-dynamic-dashboard.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  animations: fuseAnimations,
+    selector: 'app-growbe-dynamic-dashboard',
+    templateUrl: './growbe-dynamic-dashboard.component.html',
+    styleUrls: ['./growbe-dynamic-dashboard.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    animations: fuseAnimations,
 })
 export class GrowbeDynamicDashboardComponent implements OnInit {
-  data: any;
+    data: any;
 
-  constructor(
-    private _fuseSidebarService: FuseSidebarService,
-    private activatedRoute: ActivatedRoute,
-  ) { }
+    constructor(
+        private fuseSidebarService: FuseSidebarService,
+        private activatedRoute: ActivatedRoute,
+    ) {}
 
-  ngOnInit(): void {
-    this.data = this.activatedRoute.snapshot.data.dashboard;
-  }
+    ngOnInit(): void {
+        this.data = this.activatedRoute.snapshot.data.dashboard;
+    }
 
-  toggleSidebar(name): void
-  {
-      const sidebar = this._fuseSidebarService.getSidebar(name);
-      sidebar.toggleOpen();
-  }
-
+    toggleSidebar(name): void {
+        const sidebar = this.fuseSidebarService.getSidebar(name);
+        sidebar.toggleOpen();
+    }
 }

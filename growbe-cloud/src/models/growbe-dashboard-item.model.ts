@@ -1,12 +1,10 @@
 import {Entity, Model, model, property} from '@loopback/repository';
 
-
-
 export enum DashboardElementType {
   GRAPH = 'graph',
   AVERAGE = 'average',
   LAST_READ = 'lastread',
-  CLOCK = 'clock'
+  CLOCK = 'clock',
 }
 
 export enum GraphTypeEnum {
@@ -16,10 +14,10 @@ export enum GraphTypeEnum {
 
 export enum LastXUnitEnum {
   MONTH = 'Month',
-  HOURS = 'Hours' ,
+  HOURS = 'Hours',
   MINUTES = 'Minutes',
   DAY = 'Day',
-  DATE  = 'Date',
+  DATE = 'Date',
 }
 
 @model()
@@ -34,14 +32,20 @@ export class ModuleDataRequest extends Model {
   lastXUnit?: LastXUnitEnum;
   @property({description: 'if specify , get data from interval from this date'})
   from: Date;
-  @property({description: 'if specify , get data from interval before this date'})
+  @property({
+    description: 'if specify , get data from interval before this date',
+  })
   to: Date;
-  @property.array('string', {description: 'list of fields of the module to get, create one series pet fields'})
+  @property.array('string', {
+    description:
+      'list of fields of the module to get, create one series pet fields',
+  })
   fields: string[];
-  @property({description: 'if true the data will be fetch , only possible with lastX'})
+  @property({
+    description: 'if true the data will be fetch , only possible with lastX',
+  })
   liveUpdate?: boolean;
 }
-
 
 @model()
 export class GraphDataConfig extends Model {
@@ -100,7 +104,7 @@ export class GraphDataConfig extends Model {
   @property()
   timeline?: boolean;
   @property()
-  gradient?:boolean;
+  gradient?: boolean;
   @property.array('object')
   referenceLines?: any[];
   @property()
@@ -109,7 +113,6 @@ export class GraphDataConfig extends Model {
   showRefLabels: boolean;
 }
 
-
 @model()
 export class BaseDashboardElement extends Model {
   @property()
@@ -117,8 +120,8 @@ export class BaseDashboardElement extends Model {
   @property({
     type: 'string',
     jsonSchema: {
-      enum: Object.values(DashboardElementType)
-    }
+      enum: Object.values(DashboardElementType),
+    },
   })
   type: DashboardElementType;
 }
@@ -128,8 +131,8 @@ export class DashboardGraphElement extends BaseDashboardElement {
   @property({
     type: 'string',
     jsonSchema: {
-      enum: Object.values(GraphTypeEnum)
-    }
+      enum: Object.values(GraphTypeEnum),
+    },
   })
   graphType: GraphTypeEnum;
   @property()
@@ -150,10 +153,8 @@ export class DashboardLastValueElement extends BaseDashboardElement {
   graphDataConfig: ModuleDataRequest;
 }
 
-
 @model({settings: {strict: false}})
 export class GrowbeDashboardItem extends Entity {
-
   // Define well-known properties here
   @property({
     type: 'string',
@@ -165,7 +166,7 @@ export class GrowbeDashboardItem extends Entity {
     generated: true,
     mongodb: {dataType: 'ObjectID'},
   })
-  id?: string
+  id?: string;
 
   @property()
   name: string;
@@ -173,8 +174,6 @@ export class GrowbeDashboardItem extends Entity {
   @property.array('object', {description: 'LastValue | ClockState | Graph'})
   items: any[];
 
-  // Indexer property to allow additional data
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [prop: string]: any;
 
   constructor(data?: Partial<GrowbeDashboardItem>) {
@@ -186,4 +185,5 @@ export interface GrowbeDashboardItemRelations {
   // describe navigational properties here
 }
 
-export type GrowbeDashboardItemWithRelations = GrowbeDashboardItem & GrowbeDashboardItemRelations;
+export type GrowbeDashboardItemWithRelations = GrowbeDashboardItem &
+  GrowbeDashboardItemRelations;

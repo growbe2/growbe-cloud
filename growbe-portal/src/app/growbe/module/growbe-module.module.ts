@@ -5,13 +5,13 @@ import { GrowbeModuleFieldSelectComponent } from './component/growbe-module-fiel
 import { AutoTableModule } from '@berlingoqc/ngx-autotable';
 import { ModuleStatusDotComponent } from './component/module-status-dot/module-status-dot.component';
 
-
-
 @NgModule({
-  declarations: [GrowbeModuleSelectComponent, GrowbeModuleFieldSelectComponent, ModuleStatusDotComponent],
-  imports: [
-    CommonModule,
-  ],
-  exports: [ ModuleStatusDotComponent]
+    declarations: [
+        GrowbeModuleSelectComponent,
+        GrowbeModuleFieldSelectComponent,
+        ModuleStatusDotComponent,
+    ],
+    imports: [CommonModule],
+    exports: [ModuleStatusDotComponent],
 })
-export class GrowbeModuleModule { }
+export class GrowbeModuleModule {}

@@ -7,8 +7,8 @@ export class GrowbeSensorValue extends Entity {
   @property({
     type: 'string',
     id: true,
-        generated: true,
-            mongodb: {dataType: 'ObjectID'},
+    generated: true,
+    mongodb: {dataType: 'ObjectID'},
   })
   id?: string;
 
@@ -24,8 +24,6 @@ export class GrowbeSensorValue extends Entity {
   @property()
   createdAt: Date;
 
-  // Indexer property to allow additional data
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [prop: string]: any;
 
   constructor(data?: Partial<GrowbeSensorValue>) {
@@ -37,4 +35,5 @@ export interface GrowbeSensorValueRelations {
   // describe navigational properties here
 }
 
-export type GrowbeSensorValueWithRelations = GrowbeSensorValue & GrowbeSensorValueRelations;
+export type GrowbeSensorValueWithRelations = GrowbeSensorValue &
+  GrowbeSensorValueRelations;

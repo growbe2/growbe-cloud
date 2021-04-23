@@ -8,9 +8,7 @@ export class GrowbeDashboardItemRepository extends DefaultCrudRepository<
   typeof GrowbeDashboardItem.prototype.id,
   GrowbeDashboardItemRelations
 > {
-  constructor(
-    @inject('datasources.mongo') dataSource: MongoDataSource,
-  ) {
+  constructor(@inject('datasources.mongo') dataSource: MongoDataSource) {
     super(GrowbeDashboardItem, dataSource);
   }
 }

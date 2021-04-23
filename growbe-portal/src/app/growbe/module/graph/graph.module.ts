@@ -12,17 +12,17 @@ import { ModuleLastValueComponent } from './module-last-value/module-last-value.
 import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  declarations: [ModuleSensorValueGraphComponent, WidgetModuleGraphComponent, ModuleLastValueComponent],
-  imports: [
-    CommonModule,
-
-    MatIconModule,
-
-    FuseWidgetModule,
-
-    NgxChartsModule,
-  ],
-  providers: [GrowbeGraphService],
-  exports: [ModuleSensorValueGraphComponent, WidgetModuleGraphComponent, ModuleLastValueComponent],
+    declarations: [
+        ModuleSensorValueGraphComponent,
+        WidgetModuleGraphComponent,
+        ModuleLastValueComponent,
+    ],
+    imports: [CommonModule, MatIconModule, FuseWidgetModule, NgxChartsModule],
+    providers: [GrowbeGraphService],
+    exports: [
+        ModuleSensorValueGraphComponent,
+        WidgetModuleGraphComponent,
+        ModuleLastValueComponent,
+    ],
 })
-export class GraphModule { }
+export class GraphModule {}

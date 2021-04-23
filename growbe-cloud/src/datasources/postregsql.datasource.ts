@@ -1,5 +1,5 @@
-import { lifeCycleObserver, LifeCycleObserver, inject } from "@loopback/core";
-import { juggler } from "@loopback/repository";
+import {lifeCycleObserver, LifeCycleObserver, inject} from '@loopback/core';
+import {juggler} from '@loopback/repository';
 
 @lifeCycleObserver('datasource')
 export class PostregsqlDataSource
@@ -7,7 +7,6 @@ export class PostregsqlDataSource
   implements LifeCycleObserver {
   static dataSourceName = 'postregsql';
   static readonly defaultConfig = {};
-
 
   constructor(
     @inject('datasources.config.postregsql', {optional: false})

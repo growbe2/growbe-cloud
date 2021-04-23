@@ -1,43 +1,55 @@
-<project-dashboard>
-  <fuseLayoutHeader>
-    <div fxLayout="row" fxLayoutAlign="space-between start">
-      <span
-        class="mat-display-1 my-0 my-sm-24 welcome-message"
-        [@animate]="{ value: '*', params: { x: '50px' } }"
-      >
-        {{ data.name }}
-      </span>
+<ng-container *ngIf="data">
+    <project-dashboard>
+        <fuseLayoutHeader>
+            <div fxLayout="row" fxLayoutAlign="space-between start">
+                <span
+                    class="mat-display-1 my-0 my-sm-24 welcome-message"
+                    [@animate]="{ value: '*', params: { x: '50px' } }"
+                >
+                    {{ data.name }}
+                </span>
 
-      <button
-        mat-icon-button
-        class="sidebar-toggle mr-8"
-        fxHide.gt-md
-        (click)="toggleSidebar('project-dashboard-right-sidebar-1')"
-      >
-        <mat-icon>menu</mat-icon>
-      </button>
-    </div>
-  </fuseLayoutHeader>
+                <button
+                    mat-icon-button
+                    class="sidebar-toggle mr-8"
+                    fxHide.gt-md
+                    (click)="toggleSidebar('project-dashboard-right-sidebar-1')"
+                >
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </div>
+        </fuseLayoutHeader>
 
-  <fuseLayoutContent>
-    <mat-tab-group dynamicHeight fxFlex="100">
-      <mat-tab *ngFor="let page of data.growbeDashboardItems" [label]="page.name">
-        <ng-template matTabContent>
-          <div class="content" [ngStyle]="data.style">
-        <app-growbe-dashboard-item  *ngFor="let item of page.items" [ngStyle]="item.style" [item]="item" >
-        </app-growbe-dashboard-item>
-          </div>
-       </ng-template>
-     </mat-tab>
+        <fuseLayoutContent>
+            <mat-tab-group dynamicHeight fxFlex="100">
+                <mat-tab
+                    *ngFor="let page of data.growbeDashboardItems"
+                    [label]="page.name"
+                >
+                    <ng-template matTabContent>
+                        <div class="content" [ngStyle]="data.style">
+                            <app-growbe-dashboard-item
+                                *ngFor="let item of page.items"
+                                [ngStyle]="item.style"
+                                [item]="item"
+                            >
+                            </app-growbe-dashboard-item>
+                        </div>
+                    </ng-template>
+                </mat-tab>
 
-      <mat-tab label="+">
-        <app-growbe-dashboard-item-form></app-growbe-dashboard-item-form>
-      </mat-tab>
-    </mat-tab-group>
-  </fuseLayoutContent>
+                <mat-tab label="+">
+                    <app-growbe-dashboard-item-form></app-growbe-dashboard-item-form>
+                </mat-tab>
+            </mat-tab-group>
+        </fuseLayoutContent>
 
-  <fuseLayoutSidebar>
-        <app-growbe-dashboard-item  *ngFor="let item of data.sidePanel" [item]="item" >
-        </app-growbe-dashboard-item>
-  </fuseLayoutSidebar>
-</project-dashboard>
+        <fuseLayoutSidebar>
+            <app-growbe-dashboard-item
+                *ngFor="let item of data.sidePanel"
+                [item]="item"
+            >
+            </app-growbe-dashboard-item>
+        </fuseLayoutSidebar>
+    </project-dashboard>
+</ng-container>

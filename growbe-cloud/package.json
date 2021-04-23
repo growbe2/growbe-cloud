@@ -21,9 +21,7 @@
     "prettier:fix": "npm run prettier:cli -- --write",
     "eslint": "lb-eslint --report-unused-disable-directives .",
     "eslint:fix": "npm run eslint -- --fix",
-    "pretest": "npm run rebuild",
-    "test": "lb-mocha --allow-console-logs \"dist/__tests__\"",
-    "posttest": "npm run lint",
+    "test": "lb-mocha \"dist/__tests__\"",
     "test:dev": "npm run build && lb-mocha --allow-console-logs dist/__tests__/**/*.js",
     "premigrate": "npm run build",
     "migrate": "node ./dist/migrate",
@@ -50,7 +48,7 @@
     "!*/__tests__"
   ],
   "dependencies": {
-    "@berlingoqc/lb-extensions": "^1.0.0",
+    "@berlingoqc/lb-extensions": "^1.0.1",
     "@berlingoqc/sso": "^1.0.5",
     "@growbe2/growbe-pb": "^1.1.5-SNAPSHOT-100421-0253-6d4a274",
     "@loopback/boot": "^3.1.2",

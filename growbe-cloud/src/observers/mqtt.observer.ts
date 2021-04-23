@@ -4,7 +4,7 @@ import {
   LifeCycleObserver,
   service, // The interface
 } from '@loopback/core';
-import { MQTTService } from '../services';
+import {MQTTService} from '../services';
 
 /**
  * This class will be bound to the application as a `LifeCycleObserver` during
@@ -12,9 +12,7 @@ import { MQTTService } from '../services';
  */
 @lifeCycleObserver('')
 export class MqttObserver implements LifeCycleObserver {
-  constructor(
-    @service(MQTTService) private mqttService: MQTTService,
-  ) {}
+  constructor(@service(MQTTService) private mqttService: MQTTService) {}
 
   /**
    * This method will be invoked when the application initializes. It will be

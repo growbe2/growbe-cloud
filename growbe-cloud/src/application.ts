@@ -1,4 +1,9 @@
-import {AlbAuthMixin, AuditzComponent, RevisionRepository, SSOAuthBindings} from '@berlingoqc/lb-extensions';
+import {
+  AlbAuthMixin,
+  AuditzComponent,
+  RevisionRepository,
+  SSOAuthBindings,
+} from '@berlingoqc/lb-extensions';
 import {OrganisationRepository, UserRepository} from '@berlingoqc/sso';
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig, Component, Constructor} from '@loopback/core';
@@ -13,23 +18,23 @@ export {ApplicationConfig};
 export class GrowbeCloudApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(AlbAuthMixin(RestApplication))),
 ) {
-  constructor(component: Constructor<Component>,options: ApplicationConfig = {}) {
+  constructor(
+    component: Constructor<Component>,
+    options: ApplicationConfig = {},
+  ) {
     super(options);
 
-    if(component)
-      this.component(component);
+    if (component) this.component(component);
     this.setupSSOBindings();
     this.setupAuditz();
     this.addUserAndOrganisation();
 
-
     this.bind(GrowbeMainboardBindings.DEFAULT_CONFIG).to({
-        hearthBeath: 30
+      hearthBeath: 30,
     });
 
     this.bind(GrowbeMainboardBindings.WATCHER_STATE_EVENT).to(new Subject());
   }
-
 
   private addUserAndOrganisation() {
     this.repository(UserRepository);
@@ -50,7 +55,7 @@ export class GrowbeCloudApplication extends BootMixin(
       name: 'postregsql',
       connector: 'postgresql',
       url: process.env.DB_URL ?? '',
-    })
+    });
     this.bind('datasources.config.pgsql').to({
       name: 'pgsql',
       connector: 'postgresql',
@@ -62,11 +67,12 @@ export class GrowbeCloudApplication extends BootMixin(
       url: process.env.MONGO_URL ?? '',
     });
   }
-
-
 }
 
-export async function main(component: Constructor<Component>, options: ApplicationConfig = {}) {
+export async function main(
+  component: Constructor<Component>,
+  options: ApplicationConfig = {},
+) {
   options.strategy = 'remote';
   options.pkg = require('../package.json');
   options.dirname = __dirname;

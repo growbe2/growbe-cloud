@@ -4,13 +4,20 @@ import {authenticate} from '@loopback/authentication';
 import {inject, service} from '@loopback/core';
 import {get, param, patch, post, requestBody} from '@loopback/openapi-v3';
 import {SecurityBindings, UserProfile} from '@loopback/security';
-import { BaseDashboardElement, DashboardClockStateElement, DashboardGraphElement, DashboardLastValueElement, GraphDataConfig, ModuleDataRequest } from '../../models';
+import {
+  BaseDashboardElement,
+  DashboardClockStateElement,
+  DashboardGraphElement,
+  DashboardLastValueElement,
+  GraphDataConfig,
+  ModuleDataRequest,
+} from '../../models';
 import {GrowbeRegisterRequest, GrowbeService} from '../../services';
 import {
   GraphModuleRequest,
   ModuleValueGraphService,
 } from '../../services/module-value-graph.service';
-import { schemaJsonOf } from '../../utility/oa3model';
+import {schemaJsonOf} from '../../utility/oa3model';
 
 // import {inject} from '@loopback/core';
 
@@ -64,18 +71,33 @@ export class GrowbeMainboardController {
   }
 
   @get('/model/graphDataConfig', schemaJsonOf(GraphDataConfig))
-  graphDataConfig() {return new GraphDataConfig()}
+  graphDataConfig() {
+    return new GraphDataConfig();
+  }
 
   @get('/model/dashboardGraphElement', schemaJsonOf(DashboardGraphElement))
-  dashboardGraphElement() {return new GraphDataConfig()}
+  dashboardGraphElement() {
+    return new GraphDataConfig();
+  }
 
   @get('/model/baseDashboardElement', schemaJsonOf(BaseDashboardElement))
-  baseDashboardElement() {return new BaseDashboardElement()}
+  baseDashboardElement() {
+    return new BaseDashboardElement();
+  }
 
-  @get('/model/dashboardLastValueElement', schemaJsonOf(DashboardLastValueElement))
-  dashboardLastValueElement() {return new DashboardLastValueElement}
+  @get(
+    '/model/dashboardLastValueElement',
+    schemaJsonOf(DashboardLastValueElement),
+  )
+  dashboardLastValueElement() {
+    return new DashboardLastValueElement();
+  }
 
-  @get('/model/dashboardClockStateElement', schemaJsonOf(DashboardClockStateElement))
-  dashboardClockStateElement() {return new DashboardClockStateElement()}
-
+  @get(
+    '/model/dashboardClockStateElement',
+    schemaJsonOf(DashboardClockStateElement),
+  )
+  dashboardClockStateElement() {
+    return new DashboardClockStateElement();
+  }
 }

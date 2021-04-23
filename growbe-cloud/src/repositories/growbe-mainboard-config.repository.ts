@@ -8,9 +8,7 @@ export class GrowbeMainboardConfigRepository extends DefaultCrudRepository<
   typeof GrowbeMainboardConfig.prototype.id,
   GrowbeMainboardConfigRelations
 > {
-  constructor(
-    @inject('datasources.pgsql') dataSource: PgsqlDataSource,
-  ) {
+  constructor(@inject('datasources.pgsql') dataSource: PgsqlDataSource) {
     super(GrowbeMainboardConfig, dataSource);
   }
 }

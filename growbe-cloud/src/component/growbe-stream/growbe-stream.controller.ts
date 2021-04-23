@@ -7,9 +7,7 @@ import {GrowbeStream} from './growbe-stream.model';
 import {GrowbeStreamRepository} from './growbe-stream.repository';
 import {NMSBindings} from './keys';
 
-
 export class GrowbeStreamController {
-
   constructor(
     @inject(NMSBindings.NMS_KEY)
     private key: string,
@@ -23,7 +21,9 @@ export class GrowbeStreamController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(GrowbeStream, {exclude: ['id', 'active', 'expiredAt', 'key']}),
+          schema: getModelSchemaRef(GrowbeStream, {
+            exclude: ['id', 'active', 'expiredAt', 'key'],
+          }),
         },
       },
     })
@@ -46,16 +46,12 @@ export class GrowbeStreamController {
         'application/json': {
           type: 'array',
           items: getModelSchemaRef(GrowbeStream),
-        }
-      }
-    }
+        },
+      },
+    },
   })
   @authenticate('jwt')
-  getStreams(
-    @param.filter(GrowbeStream) filter: Filter<GrowbeStream>,
-  ) {
+  getStreams(@param.filter(GrowbeStream) filter: Filter<GrowbeStream>) {
     return this.growbeStreamRepository.find(filter);
   }
-
-
 }

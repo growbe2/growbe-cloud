@@ -4,14 +4,8 @@ import { WarningTableComponent } from './warning-table/warning-table.component';
 import { WarningRtcComponent } from './warning-rtc/warning-rtc.component';
 import { AutoTableModule } from '@berlingoqc/ngx-autotable';
 
-
-
 @NgModule({
-  declarations: [WarningTableComponent, WarningRtcComponent],
-  imports: [
-    CommonModule,
-
-    AutoTableModule,
-  ]
+    declarations: [WarningTableComponent, WarningRtcComponent],
+    imports: [CommonModule, AutoTableModule],
 })
-export class GrowbeWarningModule { }
+export class GrowbeWarningModule {}

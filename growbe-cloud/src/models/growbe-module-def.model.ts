@@ -2,7 +2,6 @@ import {Entity, model, property} from '@loopback/repository';
 
 @model()
 export class GrowbeModuleDef extends Entity {
-
   @property({id: true, generated: false})
   id: string;
 
@@ -24,4 +23,5 @@ export interface GrowbeModuleDefRelations {
   // describe navigational properties here
 }
 
-export type GrowbeModuleDefWithRelations = GrowbeModuleDef & GrowbeModuleDefRelations;
+export type GrowbeModuleDefWithRelations = GrowbeModuleDef &
+  GrowbeModuleDefRelations;

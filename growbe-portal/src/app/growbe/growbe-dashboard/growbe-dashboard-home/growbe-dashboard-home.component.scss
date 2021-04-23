@@ -1,4 +1,4 @@
-@import "~@berlingoqc/fuse/scss/fuse";
+@import '~@berlingoqc/fuse/scss/fuse';
 
 :host {
     min-height: 100%;
@@ -9,7 +9,6 @@
         -webkit-overflow-scrolling: touch;
 
         .header {
-
             h1 {
                 font-size: 40px;
                 font-weight: 300;
@@ -51,4 +50,3 @@
         }
     }
 }
-

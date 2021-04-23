@@ -1,10 +1,27 @@
-import { CrudControllerMixinOptions, InjectableRepository, ModelDef, ModelRelation, OPERATION_SECURITY_SPEC } from "@berlingoqc/lb-extensions";
-import { GrowbeDashboard, GrowbeLogs, GrowbeMainboard, GrowbeModule, GrowbeSensorValue, GrowbeWarning } from "../models";
-import { GrowbeMainboardRepository, GrowbeModuleRepository, GrowbeWarningRepository } from "../repositories";
-import { authenticate } from '@loopback/authentication';
-import { GrowbeDashboardRepository } from "../repositories/growbe-dashboard.repository";
-import { GrowbeDashboardItem } from "../models/growbe-dashboard-item.model";
-import { GrowbeMainboardConfig } from "@growbe2/growbe-pb";
+import {
+  CrudControllerMixinOptions,
+  InjectableRepository,
+  ModelDef,
+  ModelRelation,
+  OPERATION_SECURITY_SPEC,
+} from '@berlingoqc/lb-extensions';
+import {
+  GrowbeDashboard,
+  GrowbeLogs,
+  GrowbeMainboard,
+  GrowbeModule,
+  GrowbeSensorValue,
+  GrowbeWarning,
+} from '../models';
+import {
+  GrowbeMainboardRepository,
+  GrowbeModuleRepository,
+  GrowbeWarningRepository,
+} from '../repositories';
+import {authenticate} from '@loopback/authentication';
+import {GrowbeDashboardRepository} from '../repositories/growbe-dashboard.repository';
+import {GrowbeDashboardItem} from '../models/growbe-dashboard-item.model';
+import {GrowbeMainboardConfig} from '@growbe2/growbe-pb';
 
 const auth = {
   func: authenticate,
@@ -41,38 +58,38 @@ export const CRUD_CONTROLLERS: {
       properties: [],
     },
     relations: [
-       {
+      {
         modelRelationDef: GrowbeWarning,
         optionsRelation: {
-          accessorType: "HasMany",
+          accessorType: 'HasMany',
           name: 'growbeWarnings',
           idType: 'string',
-        }
+        },
       },
       {
         modelRelationDef: GrowbeModule,
         optionsRelation: {
-          accessorType: "HasMany",
+          accessorType: 'HasMany',
           name: 'growbeModules',
-          idType: 'string'
-        }
+          idType: 'string',
+        },
       },
       {
         modelRelationDef: GrowbeSensorValue,
         optionsRelation: {
-          accessorType: "HasMany",
+          accessorType: 'HasMany',
           name: 'growbeSensorValues',
           idType: 'string',
-        }
+        },
       },
       {
         modelRelationDef: GrowbeLogs,
         optionsRelation: {
-          accessorType: "HasMany",
+          accessorType: 'HasMany',
           name: 'growbeLogs',
-          idType: 'string'
-        }
-      }
+          idType: 'string',
+        },
+      },
     ],
   },
   {
@@ -81,9 +98,9 @@ export const CRUD_CONTROLLERS: {
     options: {
       name: 'growbeModules',
       specs: specSecurity,
-      properties: []
+      properties: [],
     },
-    relations: []
+    relations: [],
   },
   {
     model: GrowbeWarning,
@@ -93,7 +110,7 @@ export const CRUD_CONTROLLERS: {
       specs: specSecurity,
       properties: [],
     },
-    relations: []
+    relations: [],
   },
   {
     model: GrowbeDashboard,
@@ -108,11 +125,11 @@ export const CRUD_CONTROLLERS: {
       {
         modelRelationDef: GrowbeDashboardItem,
         optionsRelation: {
-          accessorType: "HasMany",
+          accessorType: 'HasMany',
           name: 'growbeDashboardItems',
           idType: 'string',
-        }
-      }
+        },
+      },
     ],
-  }
-]
+  },
+];

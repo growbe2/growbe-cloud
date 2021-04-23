@@ -1,0 +1,53 @@
+name: growbe cloud PR approuval
+
+on:
+  pull_request:
+    types: [assigned, opened, synchronize, reopened]
+
+jobs:
+  growbe-cloud:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build
+        run: cd growbe-cloud && npm run docker:build
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+      - name: Running linting
+        run: docker run docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud npm run lint
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+      - name: Running test integration
+        run: docker run -e SSO_URL=$SSO_URL -e DB_URL=$DB_URL -e MONGO_URL=$MONGO_URL -e MQTT_URL=$MQTT_URL docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud npm run test
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+          SSO_URL: ${{secrets.sso_dev}}
+          DB_URL: ${{secrets.db_dev}}
+          MONGO_URL: ${{secrets.mongo_dev}}
+          MQTT_URL: ${{secrets.mqtt_dev}}
+  growbe-portal:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Login docker
+        run: docker login https://docker.pkg.github.com -u berlingoqc -p $GITHUB_ACCESS_TOKEN
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+      - name: Create test container
+        run: cd growbe-portal && npm run docker:build:stage
+        env:
+          STAGE: 'source'
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+      - name: Running linting
+        run: docker run docker.pkg.github.com/growbe2/growbe-cloud/growbe-portal-ci npm run lint:check
+
+      - name: Running unittest
+        run: cd growbe-portal && npm run docker:build:stage
+        env:
+          STAGE: 'test_unit'
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+      - name: Running build
+        run: cd growbe-portal && npm run docker:build:stage
+        env:
+          STAGE: 'prod'
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}

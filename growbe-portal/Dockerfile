@@ -1,22 +1,31 @@
-#### Stage 0, Build Angular frontend
-FROM node:latest as build
+# Stage base
+FROM docker.pkg.github.com/growbe2/growbe-cloud/ng-test:latest as base
+
 WORKDIR /app
 COPY package*.json ./
 
-ARG GITHUB_ACCESS_TOKEN
-# Make sure the argument is supplied
-RUN test -n "$GITHUB_ACCESS_TOKEN"
-ENV GITHUB_ACCESS_TOKEN=$GITHUB_ACCESS_TOKEN
+RUN npm ci
 
-RUN echo "@berlingoqc:registry=https://npm.pkg.github.com/" > .npmrc
-RUN echo "@growbe2:registry=https://npm.pkg.github.com/" >> .npmrc
-RUN echo "//npm.pkg.github.com/:_authToken=$GITHUB_ACCESS_TOKEN" >> .npmrc
+FROM base as source
 
-RUN npm ci --force
 COPY . .
+
+FROM source as test_unit
+
+# TODO: Run lint after all files have been linted to the proper config
+#RUN npm run lint
+RUN npm run ut:ci
+
+#FROM test_base as test_e2e
+#RUN npm run e2e
+
+# Stage build
+FROM source AS prod
+
 RUN npm run build -- --prod
 
-####Stage 1, Build Nginx backend
-FROM nginx:alpine
-COPY --from=build /app/dist/ /usr/share/nginx/html
+# Stage release
+FROM nginx:alpine AS release
+
+COPY --from=prod /app/dist/ /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
