@@ -9,7 +9,7 @@ describe('GrowbeDashboardItemFormComponent', () => {
   let fixture: ComponentFixture<GrowbeDashboardItemFormComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule(getTestModuleMetadata({data:{
+    await TestBed.configureTestingModule(getTestModuleMetadata({data: {
       imports: [
         NoopAnimationsModule,
       ],

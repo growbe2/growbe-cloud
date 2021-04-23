@@ -27,7 +27,7 @@ export class GrowbeManagerDetailComponent implements OnInit {
     order: ['timestamp desc'],
     limit: 20,
     offset: 0,
-  }
+  };
 
   id: string;
 
@@ -41,28 +41,28 @@ export class GrowbeManagerDetailComponent implements OnInit {
           {
             name: 'id',
             type: 'string',
-            displayName: "ID",
+            displayName: 'ID',
             disabled: true,
 
           },
           {
             name: 'version',
             type: 'string',
-            displayName: "Version du mainboard",
+            displayName: 'Version du mainboard',
             disabled: true,
             hint: 'Version du mainboard'
           } as InputProperty,
           {
             name: 'cloudVersion',
             type: 'string',
-            displayName: "Version protobuf",
+            displayName: 'Version protobuf',
             disabled: true,
             hint: 'Version du cloud dans le mainboard'
           } as InputProperty,
           {
             name: 'name',
             type: 'string',
-            displayName: "Nom",
+            displayName: 'Nom',
             required: false,
           },
         ]
@@ -71,7 +71,7 @@ export class GrowbeManagerDetailComponent implements OnInit {
     onSubmitValid: (d) => {
       console.log(d);
       this.mainboardAPI.updateById(this.id, d.mainboard)
-        .pipe(notify({title: 'Mainboard modifié',body: () => `${this.id}`}))
+        .pipe(notify({title: 'Mainboard modifié', body: () => `${this.id}`}))
         .toPromise().then(() => {
         });
     }
@@ -91,7 +91,7 @@ export class GrowbeManagerDetailComponent implements OnInit {
      title: 'Name',
      content: (c) => c.moduleDef?.name
    }
-  ]
+  ];
 
   warningColumns: TableColumn[] = [
     {
@@ -99,7 +99,7 @@ export class GrowbeManagerDetailComponent implements OnInit {
       title: 'Type',
       content: (w) => w.warningKeyId
     }
-  ]
+  ];
 
   sub: Subscription;
 
@@ -115,7 +115,7 @@ export class GrowbeManagerDetailComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.activatedRoute.snapshot.data.mainboard?.id;
 
-    if (!this.id) return;
+    if (!this.id) { return; }
 
     this.mainboard = this.mainboardAPI.getById(this.id);
 

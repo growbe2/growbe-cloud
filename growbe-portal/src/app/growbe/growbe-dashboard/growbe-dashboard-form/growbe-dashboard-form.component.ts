@@ -59,7 +59,7 @@ export class GrowbeDashboardFormComponent implements OnInit {
     console.log(this.authService);
     this.dashboardAPI.post({name: data.dashboard.name, userId: this.authService.profile.id}).subscribe((item: GrowbeDashboard) => {
       console.log(item);
-      this.router.navigate(['/','dashboard',item.id])
+      this.router.navigate(['/', 'dashboard', item.id]);
     });
   }
 

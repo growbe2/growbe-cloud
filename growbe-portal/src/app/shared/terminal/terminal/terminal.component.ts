@@ -28,7 +28,7 @@ export class TerminalComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.logsSource) {
-      console.warn("logsSource most be provided to terminal.component");
+      console.warn('logsSource most be provided to terminal.component');
       return;
     }
     this.logs = this.eventService.getGrowbeEventWithSource(
@@ -36,7 +36,7 @@ export class TerminalComponent implements OnInit {
       '/cloud/logs',
       (d) => JSON.parse(d),
       this.logsSource.get(this.filter)).pipe(map((logs) => {
-      return logs.map(log => `[${log.timestamp}][${log.group}][${log.type}]${(log.growbeModuleId) ? ' '+log.growbeModuleId+' ' : ''}${log.message}`);
+      return logs.map(log => `[${log.timestamp}][${log.group}][${log.type}]${(log.growbeModuleId) ? ' ' + log.growbeModuleId + ' ' : ''}${log.message}`);
     }));
   }
 

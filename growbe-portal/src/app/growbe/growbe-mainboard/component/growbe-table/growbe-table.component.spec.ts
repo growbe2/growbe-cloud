@@ -8,7 +8,7 @@ describe('GrowbeTableComponent', () => {
   let fixture: ComponentFixture<GrowbeTableComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule(getTestModuleMetadata({data:{
+    await TestBed.configureTestingModule(getTestModuleMetadata({data: {
       declarations: [ GrowbeTableComponent ]
     }}))
     .compileComponents();

@@ -9,7 +9,7 @@ describe('GrowbeDashboardHomeComponent', () => {
   let fixture: ComponentFixture<GrowbeDashboardHomeComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule(getTestModuleMetadata({data:{
+    await TestBed.configureTestingModule(getTestModuleMetadata({data: {
       imports: [
         NoopAnimationsModule,
       ],

@@ -8,7 +8,7 @@ describe('GrowbeStatusDotComponent', () => {
   let fixture: ComponentFixture<GrowbeStatusDotComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule(getTestModuleMetadata({data:{
+    await TestBed.configureTestingModule(getTestModuleMetadata({data: {
       declarations: [ GrowbeStatusDotComponent ]
     }}))
     .compileComponents();

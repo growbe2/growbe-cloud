@@ -1,15 +1,15 @@
-import { Injectable } from "@angular/core";
-import { Observable, Subject } from "rxjs";
+import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 
 import {AsyncClient, connectAsync} from 'async-mqtt';
-import { envConfig } from "@berlingoqc/ngx-common";
-import { filter, map, startWith } from "rxjs/operators";
+import { envConfig } from '@berlingoqc/ngx-common';
+import { filter, map, startWith } from 'rxjs/operators';
 
 import {exec} from 'mqtt-pattern';
 
 export const getTopic = (growbeId: string, subtopic: string) => {
   return `/growbe/${growbeId}${subtopic}`;
-}
+};
 
 
 @Injectable({providedIn: 'root'})
@@ -41,8 +41,8 @@ export class GrowbeEventService {
 
   getGrowbeEvent(id: string, subtopic: string, parse: (data) => any) {
     const topic = getTopic(id, subtopic);
-    if(!this.registerTopic[topic]) {
-      this.addSubscription(topic).then(() => console.log('Register to', topic)).catch(() => console.warn("Failed to subscript to ", topic))
+    if (!this.registerTopic[topic]) {
+      this.addSubscription(topic).then(() => console.log('Register to', topic)).catch(() => console.warn('Failed to subscript to ', topic));
       this.registerTopic[topic] = true;
     }
     return this.subject.asObservable()
@@ -51,11 +51,11 @@ export class GrowbeEventService {
       }))
       .pipe(map((value) => {
         try {
-          return parse(value.message)
-        } catch(err) {
+          return parse(value.message);
+        } catch (err) {
           return null;
         }
-      }))
+      }));
   }
 
   getGrowbeEventWithSource<T>(id: string, subtopic: string, parse: (data) => T, obs: Observable<T[]>): Observable<T[]> {

@@ -8,7 +8,7 @@ describe('GraphSearchBarComponent', () => {
   let fixture: ComponentFixture<GraphSearchBarComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule(getTestModuleMetadata({data:{
+    await TestBed.configureTestingModule(getTestModuleMetadata({data: {
       declarations: [ GraphSearchBarComponent ]
     }}))
     .compileComponents();

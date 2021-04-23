@@ -9,7 +9,7 @@ describe('GrowbeDashboardItemComponent', () => {
   let fixture: ComponentFixture<GrowbeDashboardItemComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule(getTestModuleMetadata({data:{
+    await TestBed.configureTestingModule(getTestModuleMetadata({data: {
       declarations: [ GrowbeDashboardItemComponent ],
       imports: [MatMenuModule]
     }}))

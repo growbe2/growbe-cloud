@@ -28,11 +28,11 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    if (!this.data) return;
+    if (!this.data) { return; }
     this.graphService.getGraph('lastread', this.data.graphDataConfig).subscribe(async (data: any) => {
       this.value = data[this.data.graphDataConfig.fields[0]];
       this.at = data.createdAt;
-      if(this.data.graphDataConfig.liveUpdate) {
+      if (this.data.graphDataConfig.liveUpdate) {
         this.sub = (
         await this.topic.getGrowbeEvent(
           this.data.graphDataConfig.growbeId,
@@ -40,19 +40,19 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
           (d) =>  Object.assign(JSON.parse(d), {createdAt: new Date()})
         )
       ).subscribe((data) => {
-        if(data) {
-          this.lastValue = this.value
+        if (data) {
+          this.lastValue = this.value;
           this.historic.push(this.lastValue);
-          this.value = data[this.data.graphDataConfig.fields[0]]
+          this.value = data[this.data.graphDataConfig.fields[0]];
           this.at = data.createdAt;
         }
       });
     }
-    })
+    });
   }
 
   ngOnDestroy() {
-    if(this.sub) this.sub.unsubscribe();
+    if (this.sub) { this.sub.unsubscribe(); }
   }
 
 }

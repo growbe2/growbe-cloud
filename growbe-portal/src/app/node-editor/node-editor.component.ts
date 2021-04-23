@@ -7,7 +7,7 @@ import { ScriptService } from '../script.service';
   styleUrls: ['./node-editor.component.scss']
 })
 export class NodeEditorComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('canvas') canvas: ElementRef<HTMLCanvasElement>
+  @ViewChild('canvas') canvas: ElementRef<HTMLCanvasElement>;
 
   element: HTMLElement;
 
@@ -27,10 +27,10 @@ export class NodeEditorComponent implements OnInit, AfterViewInit, OnDestroy {
           console.log('PRINT');
           return (text) => {
             console.log(text);
-          }
+          };
         })(),
-        printErr: function(text) {
-          if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+        printErr(text) {
+          if (arguments.length > 1) { text = Array.prototype.slice.call(arguments).join(' '); }
           console.error(text);
         },
         canvas: (() => {
@@ -39,27 +39,28 @@ export class NodeEditorComponent implements OnInit, AfterViewInit, OnDestroy {
           // As a default initial behavior, pop up an alert when webgl context is lost. To make your
           // application robust, you may want to override this behavior before shipping!
           // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
-          canvas.addEventListener("webglcontextlost", function(e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
+          canvas.addEventListener('webglcontextlost', function(e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
 
           return canvas;
         })(),
-        setStatus: function(text) {
+        setStatus(text) {
           console.log('TEXT' , text);
         },
         totalDependencies: 0,
-        monitorRunDependencies: function(left) {
+        monitorRunDependencies(left) {
           this.totalDependencies = Math.max(this.totalDependencies, left);
-          (window as any).Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+          (window as any).Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
         }
       };
-      (window as any).Module.setStatus('Downloading...')
-      this.script.load('node-editor').then((data) =>(this.element = data[0].element));
+    (window as any).Module.setStatus('Downloading...');
+    this.script.load('node-editor').then((data) => (this.element = data[0].element));
   }
 
   ngOnDestroy() {
-    if(this.element)
+    if (this.element) {
       this.element.remove();
-    if((window as any).Module) {
+    }
+    if ((window as any).Module) {
       console.log((window as any).Module);
       delete (window as any).Module;
     }

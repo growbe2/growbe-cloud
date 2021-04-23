@@ -8,7 +8,7 @@ describe('WarningRtcComponent', () => {
   let fixture: ComponentFixture<WarningRtcComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule(getTestModuleMetadata({data:{
+    await TestBed.configureTestingModule(getTestModuleMetadata({data: {
       declarations: [ WarningRtcComponent ]
     }}))
     .compileComponents();

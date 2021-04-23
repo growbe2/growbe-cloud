@@ -8,7 +8,7 @@ describe('TerminalComponent', () => {
   let fixture: ComponentFixture<TerminalComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule(getTestModuleMetadata({data:{
+    await TestBed.configureTestingModule(getTestModuleMetadata({data: {
       declarations: [ TerminalComponent ]
     }}))
     .compileComponents();

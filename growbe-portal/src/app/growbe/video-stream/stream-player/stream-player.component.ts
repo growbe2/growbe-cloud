@@ -15,7 +15,7 @@ export class StreamPlayerComponent implements OnInit, AfterViewInit {
   @Input() width = 500;
 
   @Input() set stream(stream: any) {
-    if(!stream) return;
+    if (!stream) { return; }
     this.player = flvjs.createPlayer({
       type: 'flv',
       url: `${envConfig.nms}/live/${stream.streamName}.flv` + stream.url,

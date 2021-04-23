@@ -41,7 +41,7 @@ export class GraphSearchBarComponent implements OnInit {
         from: new FormControl(),
         to: new FormControl(),
       }) :
-      new FormGroup({})
+      new FormGroup({});
   }
 
 }

@@ -8,7 +8,7 @@ describe('GrowbeManagerDetailComponent', () => {
   let fixture: ComponentFixture<GrowbeManagerDetailComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule(getTestModuleMetadata({data:{
+    await TestBed.configureTestingModule(getTestModuleMetadata({data: {
       declarations: [ GrowbeManagerDetailComponent ]
     }}))
     .compileComponents();

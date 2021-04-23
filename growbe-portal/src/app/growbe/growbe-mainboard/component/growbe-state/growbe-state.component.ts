@@ -31,7 +31,7 @@ export class GrowbeStateComponent implements OnInit, OnDestroy {
   ) { }
 
   async ngOnInit() {
-    if (!this.data) return;
+    if (!this.data) { return; }
     this.growbe = await this.mainboardAPI.getById(this.data.id).pipe(take(1)).toPromise();
     this.sub = (await this.topic.getGrowbeEvent(this.data.id, '/heartbeath', (d) => pb.HearthBeath.decode(d))).subscribe((beath) => {
       this.growbe.lastUpdateAt = beath;
@@ -40,7 +40,7 @@ export class GrowbeStateComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.sub) this.sub.unsubscribe();
+    if (this.sub) { this.sub.unsubscribe(); }
   }
 
 

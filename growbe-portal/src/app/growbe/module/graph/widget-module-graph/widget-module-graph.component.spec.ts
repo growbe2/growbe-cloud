@@ -9,7 +9,7 @@ describe('WidgetModuleGraphComponent', () => {
   let fixture: ComponentFixture<WidgetModuleGraphComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule(getTestModuleMetadata({data:{
+    await TestBed.configureTestingModule(getTestModuleMetadata({data: {
       imports: [ NoopAnimationsModule ],
       declarations: [ WidgetModuleGraphComponent ]
     }}))

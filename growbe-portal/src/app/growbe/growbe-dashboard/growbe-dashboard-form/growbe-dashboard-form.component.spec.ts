@@ -9,7 +9,7 @@ describe('GrowbeDashboardFormComponent', () => {
   let fixture: ComponentFixture<GrowbeDashboardFormComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule(getTestModuleMetadata({data:{
+    await TestBed.configureTestingModule(getTestModuleMetadata({data: {
       imports: [ AuthModule.forRoot() ],
       declarations: [ GrowbeDashboardFormComponent ]
     }}))

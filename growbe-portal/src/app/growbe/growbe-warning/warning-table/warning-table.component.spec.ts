@@ -8,7 +8,7 @@ describe('WarningTableComponent', () => {
   let fixture: ComponentFixture<WarningTableComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule(getTestModuleMetadata({data:{
+    await TestBed.configureTestingModule(getTestModuleMetadata({data: {
       declarations: [ WarningTableComponent ]
     }}))
     .compileComponents();
