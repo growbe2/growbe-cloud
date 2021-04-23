@@ -1,0 +1,16 @@
+name: growbe cloud PR approuval
+
+on:
+  pull_request:
+    types: [assigned, opened, synchronize, reopened]
+
+jobs:
+  growbe-portal:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Portal lint , test and build docker
+        run: cd growbe-portal && npm run docker:build
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+ 
