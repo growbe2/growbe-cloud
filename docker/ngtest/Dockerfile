@@ -13,8 +13,8 @@ RUN echo "@berlingoqc:registry=https://npm.pkg.github.com/" > .npmrc
 RUN echo "@growbe2:registry=https://npm.pkg.github.com/" >> .npmrc
 RUN echo "//npm.pkg.github.com/:_authToken=$GITHUB_ACCESS_TOKEN" >> .npmrc
 
-RUN npm ci
 
+RUN npm install
 
 FROM base as test_base
 
