@@ -16,6 +16,7 @@ jobs:
       - name: Running test integration
         run: docker run -e SSO_URL=$SSO_URL -e DB_URL=$DB_URL -e MONGO_URL=$MONGO_URL -e MQTT_URL=$MQTT_URL docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud 'npm run test'
         env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
           SSO_URL: ${{secrets.sso_dev}}
           DB_URL: ${{secrets.db_dev}}
           MONGO_URL: ${{secrets.mongo_dev}}
