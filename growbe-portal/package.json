@@ -4,6 +4,7 @@
     "scripts": {
         "start": "ng serve",
         "build": "NODE_OPTIONS=\"--max-old-space-size=1024\" ng build",
+        "build:prod": "NODE_OPTIONS=\"--max-old-space-size=1024\" ng build --prod",
         "e2e": "ng e2e",
         "lint:check": "eslint ./src",
         "lint:write": "prettier --write . && eslint --fix ./src",
