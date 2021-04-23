@@ -1,5 +1,6 @@
-#### Stage 0, Build Angular frontend
-FROM node:latest as build
+# Stage base
+FROM node:latest as base
+
 WORKDIR /app
 COPY package*.json ./
 
@@ -12,11 +13,22 @@ RUN echo "@berlingoqc:registry=https://npm.pkg.github.com/" > .npmrc
 RUN echo "@growbe2:registry=https://npm.pkg.github.com/" >> .npmrc
 RUN echo "//npm.pkg.github.com/:_authToken=$GITHUB_ACCESS_TOKEN" >> .npmrc
 
-RUN npm ci --force
+RUN npm ci
+
 COPY . .
+
+# Stage unit test
+FROM base AS ut
+
+RUN npm run ut:run
+
+# Stage build
+FROM base AS prod
+
 RUN npm run build -- --prod
 
-####Stage 1, Build Nginx backend
-FROM nginx:alpine
+# Stage release
+FROM nginx:alpine AS release
+
 COPY --from=build /app/dist/ /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
