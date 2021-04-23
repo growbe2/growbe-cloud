@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Create test container
-        run: cd growbe-portal && STAGE=souurce npm run docker:build:stage
+        run: cd growbe-portal && STAGE=source npm run docker:build:stage
         env:
           STAGE: 'test_base'
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
