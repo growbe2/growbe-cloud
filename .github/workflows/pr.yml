@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Build
-        run: npm run docker:build
+        run: cd growbe-cloud && npm run docker:build
       - name: Running linting
         run: docker run docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud 'npm run lint'
       - name: Running test integration
