@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 
-
-
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class GrowbeConfigService {
-  hearthBeathRate = 30; // nbr of second between hearthBeath
+    hearthBeathRate = 30; // nbr of second between hearthBeath
 }

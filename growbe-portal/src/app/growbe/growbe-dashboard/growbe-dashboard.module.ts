@@ -2,12 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GrowbeDynamicDashboardComponent } from './growbe-dynamic-dashboard/growbe-dynamic-dashboard.component';
 
-import {ProjectDashboardModule, LayoutDirectiveModule} from '@berlingoqc/fuse-extra';
+import {
+    ProjectDashboardModule,
+    LayoutDirectiveModule,
+} from '@berlingoqc/fuse-extra';
 import { GrowbeDashboardRoutingModule } from './growbe-dashboard.routing';
 
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTabsModule } from '@angular/material/tabs';
 import { GraphModule } from '../module/graph/graph.module';
 import { FuseSharedModule, FuseWidgetModule } from '@berlingoqc/fuse';
 import { AutoTableModule } from '@berlingoqc/ngx-autotable';
@@ -18,29 +21,35 @@ import { GrowbeDashboardHomeComponent } from './growbe-dashboard-home/growbe-das
 
 import { GraphSearchBarModule } from '../module/graph/graph-search-bar/graph-search-bar.module';
 
-import {AutoFormModule} from '@berlingoqc/ngx-autoform';
+import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { GrowbeMainboardModule } from '../growbe-mainboard/growbe-mainboard.module';
 
 @NgModule({
-  declarations: [GrowbeDynamicDashboardComponent, GrowbeDashboardItemComponent,  GrowbeDashboardFormComponent, GrowbeDashboardItemFormComponent, GrowbeDashboardHomeComponent],
-  imports: [
-    CommonModule,
-    ProjectDashboardModule,
-    LayoutDirectiveModule,
+    declarations: [
+        GrowbeDynamicDashboardComponent,
+        GrowbeDashboardItemComponent,
+        GrowbeDashboardFormComponent,
+        GrowbeDashboardItemFormComponent,
+        GrowbeDashboardHomeComponent,
+    ],
+    imports: [
+        CommonModule,
+        ProjectDashboardModule,
+        LayoutDirectiveModule,
 
-    GraphModule,
-    GraphSearchBarModule,
-    GrowbeMainboardModule,
+        GraphModule,
+        GraphSearchBarModule,
+        GrowbeMainboardModule,
 
-    FuseWidgetModule,
-    FuseSharedModule,
+        FuseWidgetModule,
+        FuseSharedModule,
 
-    AutoFormModule,
+        AutoFormModule,
 
-    MatTabsModule,
-    MatIconModule,
-    MatButtonModule,
-    GrowbeDashboardRoutingModule,
-  ]
+        MatTabsModule,
+        MatIconModule,
+        MatButtonModule,
+        GrowbeDashboardRoutingModule,
+    ],
 })
-export class GrowbeDashboardModule { }
+export class GrowbeDashboardModule {}

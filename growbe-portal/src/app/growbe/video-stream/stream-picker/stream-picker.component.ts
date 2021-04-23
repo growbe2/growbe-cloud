@@ -6,28 +6,23 @@ import { map } from 'rxjs/operators';
 import { GrowbeStreamAPI } from 'src/app/growbe/api/growbe-stream';
 
 @Component({
-  selector: 'app-stream-picker',
-  templateUrl: './stream-picker.component.html',
-  styleUrls: ['./stream-picker.component.scss']
+    selector: 'app-stream-picker',
+    templateUrl: './stream-picker.component.html',
+    styleUrls: ['./stream-picker.component.scss'],
 })
 export class StreamPickerComponent implements OnInit {
+    @Output() streamSelected = new EventEmitter<any>();
+    @Input() growbeId: string;
 
-  @Input() growbeId: string;
+    streams: Observable<any[]>;
 
-  streams: Observable<any[]>;
+    constructor(private growbeStreamAPI: GrowbeStreamAPI) {}
 
-  @Output() streamSelected = new EventEmitter<any>();
-
-  constructor(
-    private growbeStreamAPI: GrowbeStreamAPI,
-  ) { }
-
-  ngOnInit(): void {
-    this.streams = this.growbeStreamAPI.get({
-      where: {
-        growbeMainboardId: this.growbeId,
-      }
-    });
-  }
-
+    ngOnInit(): void {
+        this.streams = this.growbeStreamAPI.get({
+            where: {
+                growbeMainboardId: this.growbeId,
+            },
+        });
+    }
 }

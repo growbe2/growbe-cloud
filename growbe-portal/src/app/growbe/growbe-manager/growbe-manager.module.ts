@@ -4,7 +4,11 @@ import { GrowbeManagerDashboardComponent } from './growbe-manager-dashboard/grow
 import { GrowbeMainboardModule } from '../growbe-mainboard/growbe-mainboard.module';
 import { GrowbeManagerRoutingModule } from './growbe-manager.routing';
 
-import {LayoutDirectiveModule, PageLayoutModule, ProjectDashboardModule} from '@berlingoqc/fuse-extra';
+import {
+    LayoutDirectiveModule,
+    PageLayoutModule,
+    ProjectDashboardModule,
+} from '@berlingoqc/fuse-extra';
 import { GraphModule } from '../module/graph/graph.module';
 import { GrowbeManagerDetailComponent } from './growbe-manager-detail/growbe-manager-detail.component';
 import { FuseWidgetModule } from '@berlingoqc/fuse';
@@ -19,39 +23,40 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonPipeModule } from '@berlingoqc/ngx-common';
 import { VideoStreamModule } from '../video-stream/video-stream.module';
 
-
 @NgModule({
-  declarations: [GrowbeManagerDashboardComponent, GrowbeManagerDetailComponent],
-  imports: [
-    CommonModule,
+    declarations: [
+        GrowbeManagerDashboardComponent,
+        GrowbeManagerDetailComponent,
+    ],
+    imports: [
+        CommonModule,
 
-    CommonPipeModule,
+        CommonPipeModule,
 
-    PageLayoutModule,
+        PageLayoutModule,
 
+        AutoTableModule,
+        AutoFormModule,
 
-    AutoTableModule,
-    AutoFormModule,
+        GrowbeManagerRoutingModule,
+        VideoStreamModule,
 
-    GrowbeManagerRoutingModule,
-    VideoStreamModule,
+        GrowbeModuleModule,
+        GrowbeMainboardModule,
+        GraphModule,
 
-    GrowbeModuleModule,
-    GrowbeMainboardModule,
-    GraphModule,
+        MatTabsModule,
+        MatButtonModule,
+        MatIconModule,
 
-    MatTabsModule,
-    MatButtonModule,
-    MatIconModule,
+        ProjectDashboardModule,
+        LayoutDirectiveModule,
 
-    ProjectDashboardModule,
-    LayoutDirectiveModule,
+        FuseWidgetModule,
 
-    FuseWidgetModule,
+        LoopbackRestPipeModule,
 
-    LoopbackRestPipeModule,
-
-    TerminalModule,
-  ]
+        TerminalModule,
+    ],
 })
-export class GrowbeManagerModule { }
+export class GrowbeManagerModule {}

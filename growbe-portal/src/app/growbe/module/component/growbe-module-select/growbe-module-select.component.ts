@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-growbe-module-select',
-  templateUrl: './growbe-module-select.component.html',
-  styleUrls: ['./growbe-module-select.component.scss']
+    selector: 'app-growbe-module-select',
+    templateUrl: './growbe-module-select.component.html',
+    styleUrls: ['./growbe-module-select.component.scss'],
 })
 export class GrowbeModuleSelectComponent implements OnInit {
+    constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+    ngOnInit(): void {}
 }

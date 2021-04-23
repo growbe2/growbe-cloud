@@ -7,25 +7,24 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { GraphSearchBarComponent } from './graph-search-bar.component';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { SelectControlModule } from '@berlingoqc/ngx-common';
 
-
 @NgModule({
-  declarations: [GraphSearchBarComponent],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
+    declarations: [GraphSearchBarComponent],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
 
-    MatDatepickerModule,
-    MatIconModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatRadioModule,
+        MatDatepickerModule,
+        MatIconModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatRadioModule,
 
-    SelectControlModule,
-  ],
-  exports: [GraphSearchBarComponent],
+        SelectControlModule,
+    ],
+    exports: [GraphSearchBarComponent],
 })
-export class GraphSearchBarModule { }
+export class GraphSearchBarModule {}

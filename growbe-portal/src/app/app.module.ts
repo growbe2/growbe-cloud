@@ -3,26 +3,25 @@ import { APP_INITIALIZER, Injectable, Injector, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import {
-  AppComponent,
-  FaqModule,
-  LayoutEventService,
-  LayoutModule,
-  SITE_LOGO,
-  SITE_NAME,
-  TOOLBAR_NAVIGATION,
-  TOOLBAR_TEMPLATE_EXTRA,
-  FUSE_FULL_SCREEN_BACKGROUND_PATH
+    AppComponent,
+    FaqModule,
+    LayoutEventService,
+    LayoutModule,
+    SITE_LOGO,
+    SITE_NAME,
+    TOOLBAR_NAVIGATION,
+    FUSE_FULL_SCREEN_BACKGROUND_PATH,
 } from '@berlingoqc/fuse-extra';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
 import {
-  EnvConfigurationService,
-  APP_ENV_PROVIDER,
-  envConfig,
-  PathIDResolver,
-  IDResolver,
+    EnvConfigurationService,
+    APP_ENV_PROVIDER,
+    envConfig,
+    PathIDResolver,
+    IDResolver,
 } from '@berlingoqc/ngx-common';
 
 import { navigation } from './fuse/navigation/navigation';
@@ -36,126 +35,112 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { FAQS } from './fuse/faq';
 import { Router } from '@angular/router';
 import {
-  AuthModule,
-  AuthDialogComponent,
-  AccountModule,
-  AuthService,
-  AuthSettingConfig,
-  AUTH_APP_INITALIZER,
-  EmailModule,
-  OrganisationModule,
+    AuthModule,
+    AuthDialogComponent,
+    AccountModule,
+    AuthService,
+    AuthSettingConfig,
+    AUTH_APP_INITALIZER,
+    EmailModule,
+    OrganisationModule,
 } from '@berlingoqc/auth';
 import { HomeComponent } from './home/home.component';
 
-import {
-  debounceTime,
-  distinct,
-  distinctUntilChanged,
-  filter,
-} from 'rxjs/operators';
-import { NodeEditorComponent } from './node-editor/node-editor.component';
 import { GrowbeAuthModule } from './auth/auth.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NavigationComponent } from './home/navigation.component';
-import { VideoStreamModule } from './growbe/video-stream/video-stream.module';
-
-
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class NavigationWrapper {
-  constructor(private router: Router) {}
+    constructor(private router: Router) {}
 
-  navigate(d) {
-    this.router.navigate(d);
-  }
+    navigate(d): void {
+        this.router.navigate(d);
+    }
 }
 @NgModule({
-  declarations: [HomeComponent, NavigationComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    NgxPermissionsModule.forRoot(),
-    PWAModule,
-    FuseModule.forRoot(fuseConfig),
-    LayoutModule,
-    FaqModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-    }),
-    FlexLayoutModule,
-    AccountModule,
-    AuthModule.forRoot(),
-    NotificationModule.forRoot({} as any),
+    declarations: [HomeComponent, NavigationComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        NgxPermissionsModule.forRoot(),
+        PWAModule,
+        FuseModule.forRoot(fuseConfig),
+        LayoutModule,
+        FaqModule,
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: environment.production,
+        }),
+        FlexLayoutModule,
+        AccountModule,
+        AuthModule.forRoot(),
+        NotificationModule.forRoot({} as any),
 
-    EmailModule,
-    AccountModule,
-    OrganisationModule,
+        EmailModule,
+        AccountModule,
+        OrganisationModule,
 
-    GrowbeAuthModule,
-  ],
-  providers: [
-    EnvConfigurationService,
-    APP_ENV_PROVIDER,
-    AUTH_APP_INITALIZER({
-      component: AuthDialogComponent,
-      navigate: NavigationWrapper,
-      actions: {
-        validate: '/full/account/validate/invitation',
-        confirm: '/full/account/validate/account',
-      },
-      config: {
-        img: '/assets/icons/android/android-launchericon-192-192.png',
-        mainContainerClass: 'auth-dialog',
-        itemClass: {
-          FIRST_BTN: ['btn', 'button', 'btn-lg', 'thm-btn'],
-          SECOND_BTN: ['btn', 'button', 'btn-lg', 'thm-btn', 'thm-btn-2'],
+        GrowbeAuthModule,
+    ],
+    providers: [
+        EnvConfigurationService,
+        APP_ENV_PROVIDER,
+        AUTH_APP_INITALIZER({
+            component: AuthDialogComponent,
+            navigate: NavigationWrapper,
+            actions: {
+                validate: '/full/account/validate/invitation',
+                confirm: '/full/account/validate/account',
+            },
+            config: {
+                img: '/assets/icons/android/android-launchericon-192-192.png',
+                mainContainerClass: 'auth-dialog',
+                itemClass: {},
+                noProfileImg: '/assets/icons/android-chrome-96x96.png',
+            },
+        }),
+        {
+            provide: TOOLBAR_NAVIGATION,
+            useValue: navigation,
         },
-        noProfileImg: '/assets/icons/android-chrome-96x96.png',
-      },
-    }),
-    {
-      provide: TOOLBAR_NAVIGATION,
-      useValue: navigation,
-    },
-    {
-      provide: SITE_NAME,
-      useValue: 'Portail Growbe ',
-    },
-    {
-      provide: SITE_LOGO,
-      useValue: '/assets/icons/android/android-launchericon-72-72.png',
-    },
-    {
-      provide: IDResolver,
-      useClass: PathIDResolver,
-    },
-    {
-      provide: FUSE_FULL_SCREEN_BACKGROUND_PATH,
-      useValue: '/assets/backimage.jpg'
-    },
-    {
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'outline' },
-    },
-    {
-      provide: PWA_CONFIG,
-      useValue: { autoUpdate: false}
-    },
-    {
-      provide: 'FAQResolver',
-      useValue: () => FAQS,
-    },
-  ],
-  bootstrap: [AppComponent],
+        {
+            provide: SITE_NAME,
+            useValue: 'Portail Growbe ',
+        },
+        {
+            provide: SITE_LOGO,
+            useValue: '/assets/icons/android/android-launchericon-72-72.png',
+        },
+        {
+            provide: IDResolver,
+            useClass: PathIDResolver,
+        },
+        {
+            provide: FUSE_FULL_SCREEN_BACKGROUND_PATH,
+            useValue: '/assets/backimage.jpg',
+        },
+        {
+            provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+            useValue: { appearance: 'outline' },
+        },
+        {
+            provide: PWA_CONFIG,
+            useValue: { autoUpdate: false },
+        },
+        {
+            provide: 'FAQResolver',
+            useValue: () => FAQS,
+        },
+    ],
+    bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor(
-    authService: AuthService,
-    layourService: LayoutEventService,
-    navigationService: FuseNavigationService,
-  ) {
-  }
+    constructor(
+        authService: AuthService,
+        layourService: LayoutEventService,
+        navigationService: FuseNavigationService,
+    ) {}
 }

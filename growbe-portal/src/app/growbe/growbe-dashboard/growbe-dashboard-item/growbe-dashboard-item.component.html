@@ -1,44 +1,61 @@
 <ng-container *ngIf="item">
-<fuse-widget [@animate]="{ value: '*', params: { y: '100%' } }" class="pb-0">
-  <div class="fuse-widget-front">
-    <div
-      class="pl-16 pr-8 py-16 h-52"
-      fxLayout="row"
-      fxLayoutAlign="end"
+    <fuse-widget
+        [@animate]="{ value: '*', params: { y: '100%' } }"
+        class="pb-0"
     >
-      <span fxFlex="100">{{item.name}}</span>
-      <button mat-icon-button aria-label="more" [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item fuseWidgetToggle>Options</button>
-        <button mat-menu-item>Editer</button>
-        <button mat-menu-item>Supprimé</button>
-      </mat-menu>
-    </div>
-    <div fxLayout="row wrap" fxLayoutAlign="center center" [ngSwitch]="item.type">
-        <app-module-sensor-value-graph
-          *ngSwitchCase="'graph'"
-          fxFlex="100"
-          [data]="item"
-        ></app-module-sensor-value-graph>
-        <app-module-sensor-value-graph
-          *ngSwitchCase="'average'"
-          fxFlex="100"
-          [data]="item"
-        ></app-module-sensor-value-graph>
-        <app-module-last-value *ngSwitchCase="'lastread'" fxFlex="100" [data]="item"></app-module-last-value>
-        <app-growbe-state
-          *ngSwitchCase="'growbe-state'"
-          fxFlex="100"
-          [data]="item"
-        ></app-growbe-state>
-    </div>
-  </div>
-  <div class="fuse-widget-back" fusePerfectScrollbar>
-    <app-graph-search-bar *ngIf="item.type == 'graph'"></app-graph-search-bar>
+        <div class="fuse-widget-front">
+            <div
+                class="pl-16 pr-8 py-16 h-52"
+                fxLayout="row"
+                fxLayoutAlign="end"
+            >
+                <span fxFlex="100">{{ item.name }}</span>
+                <button
+                    mat-icon-button
+                    aria-label="more"
+                    [matMenuTriggerFor]="menu"
+                >
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item fuseWidgetToggle>Options</button>
+                    <button mat-menu-item>Editer</button>
+                    <button mat-menu-item>Supprimé</button>
+                </mat-menu>
+            </div>
+            <div
+                fxLayout="row wrap"
+                fxLayoutAlign="center center"
+                [ngSwitch]="item.type"
+            >
+                <app-module-sensor-value-graph
+                    *ngSwitchCase="'graph'"
+                    fxFlex="100"
+                    [data]="item"
+                ></app-module-sensor-value-graph>
+                <app-module-sensor-value-graph
+                    *ngSwitchCase="'average'"
+                    fxFlex="100"
+                    [data]="item"
+                ></app-module-sensor-value-graph>
+                <app-module-last-value
+                    *ngSwitchCase="'lastread'"
+                    fxFlex="100"
+                    [data]="item"
+                ></app-module-last-value>
+                <app-growbe-state
+                    *ngSwitchCase="'growbe-state'"
+                    fxFlex="100"
+                    [data]="item"
+                ></app-growbe-state>
+            </div>
+        </div>
+        <div class="fuse-widget-back" fusePerfectScrollbar>
+            <app-graph-search-bar
+                *ngIf="item.type == 'graph'"
+            ></app-graph-search-bar>
 
-    <button fuseWidgetToggle>cancel</button>
-  </div>
-</fuse-widget>
+            <button fuseWidgetToggle>cancel</button>
+        </div>
+    </fuse-widget>
 </ng-container>
