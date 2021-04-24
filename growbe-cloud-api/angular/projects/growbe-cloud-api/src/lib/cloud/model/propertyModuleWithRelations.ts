@@ -12,10 +12,11 @@
 
 
 /**
- * (tsType: GrowbeWarningKeyWithRelations, schemaOptions: { includeRelations: true })
+ * (tsType: PropertyModuleWithRelations, schemaOptions: { includeRelations: true })
  */
-export interface GrowbeWarningKeyWithRelations { 
-    key?: string;
-    multi?: object;
+export interface PropertyModuleWithRelations { 
+    name?: string;
+    definition?: string;
+    unit?: string;
 }
 

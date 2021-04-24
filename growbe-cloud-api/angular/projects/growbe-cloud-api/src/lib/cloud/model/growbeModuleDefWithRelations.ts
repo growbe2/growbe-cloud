@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { PropertyModuleWithRelations } from './propertyModuleWithRelations';
 
 
 /**
@@ -19,5 +20,6 @@ export interface GrowbeModuleDefWithRelations {
     name?: string;
     description?: string;
     pbModelName?: string;
+    properties?: Array<PropertyModuleWithRelations>;
 }
 
