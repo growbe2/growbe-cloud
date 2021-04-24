@@ -12,6 +12,7 @@ import { FuseWidgetModule } from '@berlingoqc/fuse';
 import { LoopbackRestPipeModule } from '@berlingoqc/ngx-loopback';
 import { ButtonsRowModule } from 'src/app/shared/buttons-row/buttons-row.module';
 import { GraphModule } from './graph/graph.module';
+import { UnitModule } from 'src/app/shared/unit/unit.module';
 
 @NgModule({
     declarations: [
@@ -27,6 +28,7 @@ import { GraphModule } from './graph/graph.module';
       MatListModule,
       FuseWidgetModule,
       GraphModule,
+      UnitModule,
       AutoTableModule,
       ButtonsRowModule,
       LoopbackRestPipeModule,

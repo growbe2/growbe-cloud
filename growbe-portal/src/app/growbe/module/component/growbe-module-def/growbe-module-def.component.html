@@ -1,14 +1,6 @@
-
-
-<ng-container *ngIf="moduleDef | async as def">
-  <span>{{def.name}}</span>
-  <span>{{def.description}}</span>
-  <mat-list role="list">
-    <mat-list-item *ngFor="let property of def.properties">
-      {{property.name}}
-      {{property.description}}
-      {{property.unit}}
-    </mat-list-item>
-  </mat-list>
-</ng-container>
-
+<div *ngIf="moduleDef">
+  <h2>{{moduleDef.name}}</h2>
+  <h5>{{moduleDef.description}}</h5>
+</div>
+<ngx-autotable *ngIf="source" pageSize="0" [columns]="columns" [source]="source">
+</ngx-autotable>

@@ -24,7 +24,7 @@
         </ng-container>
     </div>
     <div>
-        <span>{{ at | date: 'short' }}</span>
+        <span>{{ at | date: 'shortTime' }}</span>
     </div>
     <div>
         <ng-container *ngIf="lastValue">
@@ -35,9 +35,9 @@
                 <mat-icon *ngIf="lastValue < value" class="red-fg mr-4"
                     >trending_down</mat-icon
                 >
-                <mat-icpn *ngIf="lastValue === value">trending_flat</mat-icpn>
+                <mat-icon *ngIf="lastValue === value">trending_flat</mat-icon>
             </span>
-            <span>Dernière valeur : {{ lastValue | number }}</span>
+            <span>{{ lastValue  - value }}</span>
         </ng-container>
     </div>
 </div>

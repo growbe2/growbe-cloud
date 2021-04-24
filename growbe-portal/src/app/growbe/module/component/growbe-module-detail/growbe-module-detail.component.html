@@ -1,36 +1,40 @@
 <div class="topbar">
-  <fuse-widget>
+  <fuse-widget style="width: 60%;">
     <div class="fuse-widget-front welcome-card">
-      <h2>Module Definition</h2>
       <app-growbe-module-def [moduleDefId]="module.moduleName">
       </app-growbe-module-def>
     </div>
   </fuse-widget>
-  <fuse-widget>
+  <fuse-widget class="module-status">
     <div class="fuse-widget-front welcome-card">
-      <h2>Module Status</h2>
+      <h2>Status</h2>
       <app-module-status-dot [module]="module"></app-module-status-dot>
+      <p>Port : {{module.atIndex}}</p>
     </div>
   </fuse-widget>
 </div>
 
 <div class="topbar" *ngIf="moduleDef$ | async as moduleDef">
-  <fuse-widget *ngFor="let def of moduleDef.properties">
+  <fuse-widget class="property-value" *ngFor="let def of moduleDef.properties">
     <div class="fuse-widget-front">
+      <h2>Last value of {{def.definition}}</h2>
       <app-module-last-value [data]="{
-    graphDataConfig: {
-      fields: ['p1'],
-      growbeId: '1F54018',
-      moduleId: 'AAS000000004'
-    }
-  }"></app-module-last-value>
+        graphDataConfig: {
+          fields: [def.name],
+          liveUpdate: true,
+          growbeId: module.mainboardId,
+          moduleId: module.uid
+        }
+      }"
+    ></app-module-last-value>
     </div>
   </fuse-widget>
 </div>
 
 <div class="data">
-  <fuse-widget>
+  <fuse-widget class="value-table">
     <div class="fuse-widget-front">
+      <h2>Module data historic</h2>
       <app-growbe-module-data-table [module]="module"></app-growbe-module-data-table>
     </div>
   </fuse-widget>

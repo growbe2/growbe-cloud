@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TableColumn } from '@berlingoqc/ngx-autotable';
+import { StaticDataSource } from '@berlingoqc/ngx-loopback';
 import { GrowbeModuleDefWithRelations } from '@growbe2/ngx-cloud-api';
 import {Observable} from 'rxjs';
+import { take } from 'rxjs/operators';
 import {GrowbeModuleDefAPI} from 'src/app/growbe/api/growbe-module-def';
 
 @Component({
@@ -12,17 +15,36 @@ export class GrowbeModuleDefComponent implements OnInit {
 
   @Input() moduleDefId: string;
 
-  moduleDef: Observable<GrowbeModuleDefWithRelations>;
+  columns: TableColumn[] = [
+    {
+      id: 'name',
+      title: 'Name',
+      content: (p) => p.name
+    },
+    {
+      id: 'definition',
+      title: 'Description',
+      content: (p) => p.definition
+    },
+    {
+      id: 'unit',
+      title: 'Unit',
+      content: (p) => p.unit,
+    }
+  ]
 
-  def: GrowbeModuleDefWithRelations;
+  moduleDef: GrowbeModuleDefWithRelations;
+  source;
 
   constructor(
     private moduleDefAPI: GrowbeModuleDefAPI,
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     if (!this.moduleDefId) return;
-    this.moduleDef = this.moduleDefAPI.getById(this.moduleDefId);
+    this.moduleDef = await this.moduleDefAPI.getById(this.moduleDefId).pipe(take(1)).toPromise();
+    this.source = new StaticDataSource(this.moduleDef.properties)
+    console.log('SOURce')
   }
 
 }

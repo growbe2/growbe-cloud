@@ -1,17 +1,29 @@
 :host {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+}
 
-  .topbar {
+.topbar {
     display: flex;
     flex-direction: row;
-  }
+    justify-content: center;
+    flex-wrap: wrap;
+}
 
-  .data {
+.data {
     display: flex;
-  }
 }
 
 .fuse-widget-front {
-  padding: 10px;
+    padding: 10px;
+    height: 100%;
+}
+
+
+.module-status {
+    width: 20%;
+}
+
+.value-table {
+    width: 100%;
 }

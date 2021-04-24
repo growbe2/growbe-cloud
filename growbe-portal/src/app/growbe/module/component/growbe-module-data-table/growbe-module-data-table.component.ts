@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AutoTableComponent, TableColumn } from '@berlingoqc/ngx-autotable';
+import { Where } from '@berlingoqc/ngx-loopback';
 import { GrowbeModule, GrowbeModuleDefWithRelations } from '@growbe2/ngx-cloud-api';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
@@ -23,6 +24,8 @@ export class GrowbeModuleDataTableComponent implements OnInit {
 
   columns: TableColumn[];
 
+  where: Where;
+
   orderBy: string[] = ['createdAt DESC']
 
   constructor(
@@ -32,6 +35,9 @@ export class GrowbeModuleDataTableComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.where = {
+      moduleId: this.module.uid
+    }
     this.moduleDefAPI.getById(this.module.moduleName).subscribe((def: GrowbeModuleDefWithRelations) => {
       this.columns = [
         {
