@@ -1,0 +1,25 @@
+
+<div class="topbar">
+  <fuse-widget>
+    <div class="fuse-widget-front welcome-card">
+      <h2>Module Definition</h2>
+      <app-growbe-module-def [moduleDefId]="module.moduleName">
+      </app-growbe-module-def>
+    </div>
+  </fuse-widget>
+  <fuse-widget>
+    <div class="fuse-widget-front welcome-card">
+      <h2>Module Status</h2>
+      <app-module-status-dot [module]="module"></app-module-status-dot>
+    </div>
+  </fuse-widget>
+</div>
+
+
+<div class="data">
+  <fuse-widget>
+    <div class="fuse-widget-front">
+      <app-growbe-module-data-table [module]="module"></app-growbe-module-data-table>
+    </div>
+  </fuse-widget>
+</div>

@@ -1,8 +1,8 @@
-<ng-template #status let-parent="parent">
-    <app-growbe-status-dot [state]="parent.state"></app-growbe-status-dot>
+<ng-template #status let-context="context">
+    <app-growbe-status-dot [state]="context.state"></app-growbe-status-dot>
 </ng-template>
 
-<ng-template #options let-parent="parent">
+<ng-template #options let-context="context">
     <button
         mat-stroked-button
         class="accent"

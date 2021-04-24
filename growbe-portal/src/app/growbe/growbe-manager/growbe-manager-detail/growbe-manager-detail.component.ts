@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GrowbeMainboardAPI } from '../../api/growbe-mainboard';
 import { AutoTableComponent, TableColumn } from '@berlingoqc/ngx-autotable';
@@ -17,7 +17,7 @@ import { unsubscriber } from '@berlingoqc/ngx-common';
     animations: [fuseAnimations],
 })
 @unsubscriber
-export class GrowbeManagerDetailComponent implements OnInit {
+export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
     @ViewChild(AutoTableComponent) table: AutoTableComponent;
 
     mainboard: Observable<any>;
@@ -93,7 +93,7 @@ export class GrowbeManagerDetailComponent implements OnInit {
             id: 'name',
             title: 'Name',
             content: (c) => c.moduleDef?.name,
-        },
+        }
     ];
 
     warningColumns: TableColumn[] = [
@@ -135,6 +135,9 @@ export class GrowbeManagerDetailComponent implements OnInit {
                     this.table.refreshData();
                 }
             });
+    }
+
+    ngAfterViewInit() {
     }
 
     onStreamSelected(stream: any) {

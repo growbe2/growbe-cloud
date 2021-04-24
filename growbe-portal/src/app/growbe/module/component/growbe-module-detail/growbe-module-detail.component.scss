@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  flex-direction: column;
+
+  .topbar {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .data {
+    display: flex;
+  }
+}
+
+.fuse-widget-front {
+  padding: 10px;
+}
