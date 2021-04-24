@@ -22,8 +22,10 @@ export class GrowbeModuleDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.module = this.activatedRoute.snapshot.data.module;
-    this.moduleDef$ = this.moduleDefAPI.getById(this.module.moduleName);
+    if (this.activatedRoute.snapshot.data.module) {
+      this.module = this.activatedRoute.snapshot.data.module;
+      this.moduleDef$ = this.moduleDefAPI.getById(this.module.moduleName);
+    }
   }
 
 }
