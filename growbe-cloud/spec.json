@@ -3189,7 +3189,7 @@
             "type": "string"
           },
           "multi": {
-            "type": "boolean"
+            "type": "object"
           }
         },
         "additionalProperties": false,
@@ -3226,6 +3226,24 @@
         "additionalProperties": false,
         "x-typescript-type": "GrowbeWarningWithRelations"
       },
+      "PropertyModuleWithRelations": {
+        "title": "PropertyModuleWithRelations",
+        "type": "object",
+        "description": "(tsType: PropertyModuleWithRelations, schemaOptions: { includeRelations: true })",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "definition": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "x-typescript-type": "PropertyModuleWithRelations"
+      },
       "GrowbeModuleDefWithRelations": {
         "title": "GrowbeModuleDefWithRelations",
         "type": "object",
@@ -3242,6 +3260,12 @@
           },
           "pbModelName": {
             "type": "string"
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PropertyModuleWithRelations"
+            }
           }
         },
         "additionalProperties": false,
@@ -3280,7 +3304,8 @@
               "module",
               "connection",
               "new_warning",
-              "update_rtc"
+              "update_rtc",
+              "sync_request"
             ]
           },
           "message": {
@@ -3724,7 +3749,8 @@
               "module",
               "connection",
               "new_warning",
-              "update_rtc"
+              "update_rtc",
+              "sync_request"
             ]
           },
           "message": {
@@ -3775,7 +3801,8 @@
               "module",
               "connection",
               "new_warning",
-              "update_rtc"
+              "update_rtc",
+              "sync_request"
             ]
           },
           "message": {
@@ -3830,7 +3857,8 @@
               "module",
               "connection",
               "new_warning",
-              "update_rtc"
+              "update_rtc",
+              "sync_request"
             ]
           },
           "message": {
