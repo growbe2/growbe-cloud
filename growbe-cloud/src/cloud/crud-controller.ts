@@ -14,6 +14,7 @@ import {
   GrowbeMainboardRepository,
         GrowbeModuleDefRepository,
   GrowbeModuleRepository,
+  GrowbeSensorValueRepository,
   GrowbeWarningRepository,
 } from '../repositories';
 import {authenticate} from '@loopback/authentication';
@@ -96,6 +97,7 @@ export const CRUD_CONTROLLERS: {
     options: {
       name: 'growbeModuleDefs',
       specs: specSecurity,
+      idType: 'string',
       omitId: false,
       properties: [],
 
@@ -108,9 +110,19 @@ export const CRUD_CONTROLLERS: {
     options: {
       name: 'growbeModules',
       specs: specSecurity,
+      idType: 'string',
       properties: [],
     },
-    relations: [],
+    relations: [
+      {
+        modelRelationDef: GrowbeSensorValue,
+        optionsRelation: {
+          accessorType: 'HasMany',
+          name: 'growbeSensorValues',
+          idType: 'string',
+        },
+      }
+    ],
   },
   {
     model: GrowbeWarning,
@@ -118,9 +130,21 @@ export const CRUD_CONTROLLERS: {
     options: {
       name: 'warnings',
       specs: specSecurity,
+      idType: 'string',
       properties: [],
     },
     relations: [],
+  },
+  {
+    model: GrowbeSensorValue,
+    repo: GrowbeSensorValueRepository,
+    options: {
+      name: 'growbeSensorValues',
+      specs: specSecurity,
+      idType: 'string',
+      properties: []
+    },
+    relations: []
   },
   {
     model: GrowbeDashboard,
