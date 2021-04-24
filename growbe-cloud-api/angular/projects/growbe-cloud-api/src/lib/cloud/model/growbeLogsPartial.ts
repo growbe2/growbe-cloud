@@ -41,12 +41,13 @@ export namespace GrowbeLogsPartial {
         Mainboard: 'mainboard' as GroupEnum,
         Modules: 'modules' as GroupEnum
     };
-    export type TypeEnum = 'module' | 'connection' | 'new_warning' | 'update_rtc';
+    export type TypeEnum = 'module' | 'connection' | 'new_warning' | 'update_rtc' | 'sync_request';
     export const TypeEnum = {
         Module: 'module' as TypeEnum,
         Connection: 'connection' as TypeEnum,
         NewWarning: 'new_warning' as TypeEnum,
-        UpdateRtc: 'update_rtc' as TypeEnum
+        UpdateRtc: 'update_rtc' as TypeEnum,
+        SyncRequest: 'sync_request' as TypeEnum
     };
 }
 

@@ -26,10 +26,14 @@
                 </autoform-form>
             </mat-tab>
             <mat-tab label="Modules">
-                <ng-template #status let-parent="parent">
+                <ng-template #status let-context="context">
                     <app-module-status-dot
-                        [module]="parent"
+                        [module]="context"
                     ></app-module-status-dot>
+                </ng-template>
+
+                <ng-template #moduleOptions let-context="context">
+                  <button [routerLink]="['/','growbe', context.mainboardId,'module',context.id]">Options</button>
                 </ng-template>
 
                 <ngx-autotable
@@ -44,6 +48,14 @@
                                               type: 'template',
                                               content: status
                                           }
+                                      },
+                                      {
+                                         id: 'options',
+                                         title: 'Options',
+                                         content: {
+                                              type: 'template',
+                                              content: moduleOptions
+                                         }
                                       }
                                   ]
                     "
@@ -91,3 +103,4 @@
         </fuse-widget>
     </fuseLayoutSidebar>
 </project-dashboard>
+

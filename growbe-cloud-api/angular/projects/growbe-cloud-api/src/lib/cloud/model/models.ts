@@ -62,6 +62,7 @@ export * from './orgUserLinkWithRelations';
 export * from './organisationInvitationWithRelations';
 export * from './organisationWithRelations';
 export * from './pingResponse';
+export * from './propertyModuleWithRelations';
 export * from './userCredentialsWithRelations';
 export * from './userRoleMappingWithRelations';
 export * from './userWithRelations';

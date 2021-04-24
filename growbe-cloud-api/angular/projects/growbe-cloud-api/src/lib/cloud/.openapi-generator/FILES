@@ -76,6 +76,7 @@ model/orgUserLinkWithRelations.ts
 model/organisationInvitationWithRelations.ts
 model/organisationWithRelations.ts
 model/pingResponse.ts
+model/propertyModuleWithRelations.ts
 model/userCredentialsWithRelations.ts
 model/userRoleMappingWithRelations.ts
 model/userWithRelations.ts
