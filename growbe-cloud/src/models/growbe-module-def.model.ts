@@ -2,6 +2,13 @@ import {Entity, model, property} from '@loopback/repository';
 
 
 @model()
+export class Range {
+  @property()
+  min: number;
+  @property()
+  max: number;
+}
+@model()
 export class PropertyModule {
     @property()
     name: string;
@@ -9,6 +16,8 @@ export class PropertyModule {
     definition: string;
     @property()
     unit: string;
+    @property()
+    operationalRange?: Range;
 }
 
 @model()
