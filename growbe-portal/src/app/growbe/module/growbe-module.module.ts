@@ -11,6 +11,7 @@ import {MatListModule} from '@angular/material/list';
 import { FuseWidgetModule } from '@berlingoqc/fuse';
 import { LoopbackRestPipeModule } from '@berlingoqc/ngx-loopback';
 import { ButtonsRowModule } from 'src/app/shared/buttons-row/buttons-row.module';
+import { GraphModule } from './graph/graph.module';
 
 @NgModule({
     declarations: [
@@ -25,6 +26,7 @@ import { ButtonsRowModule } from 'src/app/shared/buttons-row/buttons-row.module'
       CommonModule,
       MatListModule,
       FuseWidgetModule,
+      GraphModule,
       AutoTableModule,
       ButtonsRowModule,
       LoopbackRestPipeModule,

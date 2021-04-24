@@ -1,4 +1,3 @@
-
 <div class="topbar">
   <fuse-widget>
     <div class="fuse-widget-front welcome-card">
@@ -15,6 +14,19 @@
   </fuse-widget>
 </div>
 
+<div class="topbar" *ngIf="moduleDef$ | async as moduleDef">
+  <fuse-widget *ngFor="let def of moduleDef.properties">
+    <div class="fuse-widget-front">
+      <app-module-last-value [data]="{
+    graphDataConfig: {
+      fields: ['p1'],
+      growbeId: '1F54018',
+      moduleId: 'AAS000000004'
+    }
+  }"></app-module-last-value>
+    </div>
+  </fuse-widget>
+</div>
 
 <div class="data">
   <fuse-widget>

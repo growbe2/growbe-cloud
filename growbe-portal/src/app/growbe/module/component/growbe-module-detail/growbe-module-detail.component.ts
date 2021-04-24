@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {GrowbeModuleWithRelations} from '@growbe2/ngx-cloud-api';
+import {GrowbeModuleDefWithRelations, GrowbeModuleWithRelations} from '@growbe2/ngx-cloud-api';
+import { Observable } from 'rxjs';
+import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
 
 @Component({
   selector: 'app-growbe-module-detail',
@@ -12,12 +14,16 @@ export class GrowbeModuleDetailComponent implements OnInit {
 
   module: GrowbeModuleWithRelations;
 
+  moduleDef$: Observable<GrowbeModuleDefWithRelations>;
+
   constructor(
     private activatedRoute: ActivatedRoute,
+    private moduleDefAPI: GrowbeModuleDefAPI,
   ) { }
 
   ngOnInit(): void {
     this.module = this.activatedRoute.snapshot.data.module;
+    this.moduleDef$ = this.moduleDefAPI.getById(this.module.moduleName);
   }
 
 }
