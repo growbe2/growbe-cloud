@@ -1,6 +1,5 @@
 {
-    "growbeCloud": "http://localhost:3000",
+    "growbeCloud": "https://api.dev.growbe.ca",
     "broker": "wss://broker.dev.growbe.ca",
-    "red": "http://localhost:1880",
     "sso": "https://auth.dev.growbe.ca/api/"
 }
