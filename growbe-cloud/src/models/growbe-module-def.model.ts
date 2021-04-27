@@ -1,6 +1,5 @@
 import {Entity, model, property} from '@loopback/repository';
 
-
 @model()
 export class Range {
   @property()
@@ -10,14 +9,14 @@ export class Range {
 }
 @model()
 export class PropertyModule {
-    @property()
-    name: string;
-    @property()
-    definition: string;
-    @property()
-    unit: string;
-    @property()
-    operationalRange?: Range;
+  @property()
+  name: string;
+  @property()
+  definition: string;
+  @property()
+  unit: string;
+  @property()
+  operationalRange?: Range;
 }
 
 @model()

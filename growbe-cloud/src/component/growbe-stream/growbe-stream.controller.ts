@@ -26,10 +26,10 @@ export class GrowbeStreamController {
     responses: {
       '200': {
         'application/json': {
-          schema: getModelSchemaRef(GrowbeStream)
-        }
-      }
-    }
+          schema: getModelSchemaRef(GrowbeStream),
+        },
+      },
+    },
   })
   @authenticate('jwt')
   getLiveStream(
@@ -40,12 +40,13 @@ export class GrowbeStreamController {
       axios.get(`${this.url}/api/streams`, {
         auth: {
           password: this.password,
-          username: this.username
-        }
-      })
+          username: this.username,
+        },
+      }),
     ]).then(([streams, liveStreams]) => {
-      return streams.map((stream) => {
-        stream.active = liveStreams.data?.live?.[stream.streamName] !== undefined;
+      return streams.map(stream => {
+        stream.active =
+          liveStreams.data?.live?.[stream.streamName] !== undefined;
         return stream;
       });
     });
