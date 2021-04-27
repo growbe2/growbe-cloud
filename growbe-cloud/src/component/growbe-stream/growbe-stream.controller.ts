@@ -22,7 +22,15 @@ export class GrowbeStreamController {
     private growbeStreamRepository: GrowbeStreamRepository,
   ) {}
 
-  @get('/growbeStream/{id}/live')
+  @get('/growbeStream/{id}/live', {
+    responses: {
+      '200': {
+        'application/json': {
+          schema: getModelSchemaRef(GrowbeStream)
+        }
+      }
+    }
+  })
   @authenticate('jwt')
   getLiveStream(
     @param.path.string('id') growbeId: string,
@@ -66,20 +74,5 @@ export class GrowbeStreamController {
     const md5Hash = hash.digest('hex').toString();
     stream.url = `?sign=${stream.expiredAt}-${md5Hash}`;
     return this.growbeStreamRepository.save(stream as GrowbeStream);
-  }
-
-  @get('/growbeStream', {
-    responses: {
-      '200': {
-        'application/json': {
-          type: 'array',
-          items: getModelSchemaRef(GrowbeStream),
-        },
-      },
-    },
-  })
-  @authenticate('jwt')
-  getStreams(@param.filter(GrowbeStream) filter: Filter<GrowbeStream>) {
-    return this.growbeStreamRepository.find(filter);
   }
 }
