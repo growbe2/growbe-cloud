@@ -33,7 +33,17 @@
                 </ng-template>
 
                 <ng-template #moduleOptions let-context="context">
-                  <button [routerLink]="['/','growbe', context.mainboardId,'module',context.id]">Options</button>
+                    <button
+                        [routerLink]="[
+                            '/',
+                            'growbe',
+                            context.mainboardId,
+                            'module',
+                            context.id
+                        ]"
+                    >
+                        Options
+                    </button>
                 </ng-template>
 
                 <ngx-autotable
@@ -50,12 +60,12 @@
                                           }
                                       },
                                       {
-                                         id: 'options',
-                                         title: 'Options',
-                                         content: {
+                                          id: 'options',
+                                          title: 'Options',
+                                          content: {
                                               type: 'template',
                                               content: moduleOptions
-                                         }
+                                          }
                                       }
                                   ]
                     "
@@ -103,4 +113,3 @@
         </fuse-widget>
     </fuseLayoutSidebar>
 </project-dashboard>
-

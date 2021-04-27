@@ -6,7 +6,10 @@ import {
     LoopbackRestClientMixin,
     Resolving,
 } from '@berlingoqc/ngx-loopback';
-import { GrowbeDashboardWithRelations, GrowbeSensorValue } from '@growbe2/ngx-cloud-api';
+import {
+    GrowbeDashboardWithRelations,
+    GrowbeSensorValue,
+} from '@growbe2/ngx-cloud-api';
 
 @Injectable({ providedIn: 'root' })
 export class GrowbeSensorValueAPI extends Caching(

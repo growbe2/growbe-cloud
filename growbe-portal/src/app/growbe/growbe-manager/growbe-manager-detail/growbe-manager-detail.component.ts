@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    OnInit,
+    TemplateRef,
+    ViewChild,
+    ViewChildren,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GrowbeMainboardAPI } from '../../api/growbe-mainboard';
 import { AutoTableComponent, TableColumn } from '@berlingoqc/ngx-autotable';
@@ -93,7 +100,7 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
             id: 'name',
             title: 'Name',
             content: (c) => c.moduleDef?.name,
-        }
+        },
     ];
 
     warningColumns: TableColumn[] = [
@@ -137,8 +144,7 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
             });
     }
 
-    ngAfterViewInit() {
-    }
+    ngAfterViewInit() {}
 
     onStreamSelected(stream: any) {
         this.streamSelected = stream;
