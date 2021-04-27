@@ -51,6 +51,9 @@ services:
     environment:
       PORT: 3000
       NMS_TOKEN: '12345678'
+      NMS_API_USERNAME: 'testadmin'
+      NMS_API_PASSWORD: '1234567'
+      NMS_API_URL: http://nms:8000
       SSO_URL: 'http://sso:3001'
       DB_URL: 'postgres://test:test@pgsql:5432/defaultdb'
       MONGO_URL: 'mongodb://doadmin:test@mongo:27017/growbe?authSource=admin'
