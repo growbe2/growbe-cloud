@@ -3,6 +3,7 @@ import {inject} from '@loopback/core';
 import {Filter, repository} from '@loopback/repository';
 import {get, getModelSchemaRef, param, post, requestBody} from '@loopback/rest';
 import {createHash} from 'crypto';
+import axios from 'axios';
 import {GrowbeStream} from './growbe-stream.model';
 import {GrowbeStreamRepository} from './growbe-stream.repository';
 import {NMSBindings} from './keys';
@@ -11,9 +12,36 @@ export class GrowbeStreamController {
   constructor(
     @inject(NMSBindings.NMS_KEY)
     private key: string,
+    @inject(NMSBindings.NMS_PASSWORD)
+    private password: string,
+    @inject(NMSBindings.NMS_USERNAME)
+    private username: string,
+    @inject(NMSBindings.NMS_URL)
+    private url: string,
     @repository(GrowbeStreamRepository)
     private growbeStreamRepository: GrowbeStreamRepository,
   ) {}
+
+  @get('/growbeStream/{id}/live')
+  @authenticate('jwt')
+  getLiveStream(
+    @param.path.string('id') growbeId: string,
+  ): Promise<GrowbeStream[]> {
+    return Promise.all([
+      this.growbeStreamRepository.find({where: {growbeMainboardId: growbeId}}),
+      axios.get(`${this.url}/api/streams`, {
+        auth: {
+          password: this.password,
+          username: this.username
+        }
+      })
+    ]).then(([streams, liveStreams]) => {
+      return streams.map((stream) => {
+        stream.active = liveStreams.data?.live?.[stream.streamName] !== undefined;
+        return stream;
+      });
+    });
+  }
 
   @post('/growbeStream')
   @authenticate('jwt')
