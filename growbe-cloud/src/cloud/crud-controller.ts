@@ -3,7 +3,11 @@ import {
   InjectableRepository,
   ModelDef,
   ModelRelation,
-  OPERATION_SECURITY_SPEC, } from '@berlingoqc/lb-extensions'; import { GrowbeDashboard, GrowbeLogs,
+  OPERATION_SECURITY_SPEC,
+} from '@berlingoqc/lb-extensions';
+import {
+  GrowbeDashboard,
+  GrowbeLogs,
   GrowbeMainboard,
   GrowbeModule,
   GrowbeModuleDef,
@@ -12,7 +16,7 @@ import {
 } from '../models';
 import {
   GrowbeMainboardRepository,
-        GrowbeModuleDefRepository,
+  GrowbeModuleDefRepository,
   GrowbeModuleRepository,
   GrowbeSensorValueRepository,
   GrowbeWarningRepository,
@@ -100,7 +104,6 @@ export const CRUD_CONTROLLERS: {
       idType: 'string',
       omitId: false,
       properties: [],
-
     },
     relations: [],
   },
@@ -121,7 +124,7 @@ export const CRUD_CONTROLLERS: {
           name: 'growbeSensorValues',
           idType: 'string',
         },
-      }
+      },
     ],
   },
   {
@@ -142,9 +145,9 @@ export const CRUD_CONTROLLERS: {
       name: 'growbeSensorValues',
       specs: specSecurity,
       idType: 'string',
-      properties: []
+      properties: [],
     },
-    relations: []
+    relations: [],
   },
   {
     model: GrowbeDashboard,

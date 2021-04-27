@@ -12,18 +12,19 @@ import {
     Filter,
 } from '@berlingoqc/ngx-loopback';
 import {
-    GrowbeModuleWithRelations, GrowbeSensorValue, GrowbeSensorValueWithRelations,
+    GrowbeModuleWithRelations,
+    GrowbeSensorValue,
+    GrowbeSensorValueWithRelations,
 } from '@growbe2/ngx-cloud-api';
 
 @Injectable({ providedIn: 'root' })
 export class GrowbeModuleAPI extends Resolving(
     LoopbackRestClientMixin<GrowbeModuleWithRelations>(),
 ) {
-
     growbeSensorValues = addLoopbackRelation(
-      this,
-      LoopbackRelationClientMixin<GrowbeSensorValueWithRelations>(),
-      'growbeSensorValues'
+        this,
+        LoopbackRelationClientMixin<GrowbeSensorValueWithRelations>(),
+        'growbeSensorValues',
     );
 
     constructor(httpClient: HttpClient) {

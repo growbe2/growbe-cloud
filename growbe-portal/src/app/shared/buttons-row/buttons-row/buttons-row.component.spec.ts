@@ -4,26 +4,23 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ButtonsRowComponent } from './buttons-row.component';
 
 describe('ButtonsRowComponent', () => {
-  let component: ButtonsRowComponent;
-  let fixture: ComponentFixture<ButtonsRowComponent>;
+    let component: ButtonsRowComponent;
+    let fixture: ComponentFixture<ButtonsRowComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-      ],
-      declarations: [ ButtonsRowComponent ]
-    })
-    .compileComponents();
-  });
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [RouterTestingModule],
+            declarations: [ButtonsRowComponent],
+        }).compileComponents();
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ButtonsRowComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ButtonsRowComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -4,24 +4,26 @@ import { getTestModuleMetadata } from 'src/app/_spec/test.module.spec';
 import { GrowbeModuleDefComponent } from './growbe-module-def.component';
 
 describe('GrowbeModuleDefComponent', () => {
-  let component: GrowbeModuleDefComponent;
-  let fixture: ComponentFixture<GrowbeModuleDefComponent>;
+    let component: GrowbeModuleDefComponent;
+    let fixture: ComponentFixture<GrowbeModuleDefComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule(getTestModuleMetadata({
-      data:{
-      declarations: [ GrowbeModuleDefComponent ]
-    }}))
-    .compileComponents();
-  });
+    beforeEach(async () => {
+        await TestBed.configureTestingModule(
+            getTestModuleMetadata({
+                data: {
+                    declarations: [GrowbeModuleDefComponent],
+                },
+            }),
+        ).compileComponents();
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(GrowbeModuleDefComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(GrowbeModuleDefComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

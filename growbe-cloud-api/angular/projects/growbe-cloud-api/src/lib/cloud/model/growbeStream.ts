@@ -9,14 +9,17 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { PropertyModule } from './propertyModule';
 
 
-export interface GrowbeModuleDef { 
+export interface GrowbeStream { 
+  [key: string]: object | any;
+
+
     id?: string;
-    name?: string;
-    description?: string;
-    pbModelName?: string;
-    properties?: Array<PropertyModule>;
+    growbeMainboardId?: string;
+    streamName?: string;
+    active?: boolean;
+    expiredAt?: number;
+    url?: string;
 }
 

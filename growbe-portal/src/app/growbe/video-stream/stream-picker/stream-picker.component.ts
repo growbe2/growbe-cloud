@@ -19,10 +19,6 @@ export class StreamPickerComponent implements OnInit {
     constructor(private growbeStreamAPI: GrowbeStreamAPI) {}
 
     ngOnInit(): void {
-        this.streams = this.growbeStreamAPI.get({
-            where: {
-                growbeMainboardId: this.growbeId,
-            },
-        });
+        this.streams = this.growbeStreamAPI.getLivetream(this.growbeId);
     }
 }

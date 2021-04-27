@@ -9,14 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { PropertyModule } from './propertyModule';
+import { Range } from './range';
 
 
-export interface GrowbeModuleDef { 
-    id?: string;
+export interface PropertyModule { 
     name?: string;
-    description?: string;
-    pbModelName?: string;
-    properties?: Array<PropertyModule>;
+    definition?: string;
+    unit?: string;
+    operationalRange?: Range;
 }
 

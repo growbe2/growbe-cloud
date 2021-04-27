@@ -20,6 +20,9 @@ export class CloudComponent implements Component {
     const nmsToken = process.env.NMS_TOKEN;
     if (nmsToken) {
       app.bind(NMSBindings.NMS_KEY).to(nmsToken);
+      app.bind(NMSBindings.NMS_PASSWORD).to(process.env.NMS_API_PASSWORD ?? '');
+      app.bind(NMSBindings.NMS_USERNAME).to(process.env.NMS_API_USERNAME ?? '');
+      app.bind(NMSBindings.NMS_URL).to(process.env.NMS_API_URL ?? '');
       app.component(GrowbeStreamComponent);
       app.repository(GrowbeStreamRepository);
     }

@@ -17,13 +17,10 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { GrowbeWarning } from '../model/models';
-import { GrowbeWarningExcludingId } from '../model/models';
-import { GrowbeWarningFilter } from '../model/models';
-import { GrowbeWarningFilter1 } from '../model/models';
-import { GrowbeWarningPartial } from '../model/models';
-import { GrowbeWarningPartialExcludingId } from '../model/models';
-import { GrowbeWarningWithRelations } from '../model/models';
+import { GrowbeSensorValue } from '../model/models';
+import { GrowbeSensorValueFilter } from '../model/models';
+import { GrowbeSensorValueFilter1 } from '../model/models';
+import { GrowbeSensorValueWithRelations } from '../model/models';
 import { LoopbackCount } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -34,7 +31,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class GrowbeWarningControllerService {
+export class GrowbeSensorValueControllerService {
 
     protected basePath = 'http://localhost/api';
     public defaultHeaders = new HttpHeaders();
@@ -92,15 +89,15 @@ export class GrowbeWarningControllerService {
     }
 
     /**
-     * Get a filter list of GrowbeWarning
+     * Get a filter list of GrowbeSensorValue
      * @param where 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeWarningControllerCount(where?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<LoopbackCount>;
-    public growbeWarningControllerCount(where?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<LoopbackCount>>;
-    public growbeWarningControllerCount(where?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<LoopbackCount>>;
-    public growbeWarningControllerCount(where?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeSensorValueControllerCount(where?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<LoopbackCount>;
+    public growbeSensorValueControllerCount(where?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<LoopbackCount>>;
+    public growbeSensorValueControllerCount(where?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<LoopbackCount>>;
+    public growbeSensorValueControllerCount(where?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (where !== undefined && where !== null) {
@@ -135,7 +132,7 @@ export class GrowbeWarningControllerService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<LoopbackCount>(`${this.configuration.basePath}/warnings/count`,
+        return this.httpClient.get<LoopbackCount>(`${this.configuration.basePath}/growbeSensorValues/count`,
             {
                 params: queryParameters,
                 responseType: <any>responseType,
@@ -148,15 +145,15 @@ export class GrowbeWarningControllerService {
     }
 
     /**
-     * Create a new instance of GrowbeWarning
-     * @param growbeWarningExcludingId 
+     * Create a new instance of GrowbeSensorValue
+     * @param requestBody 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeWarningControllerCreate(growbeWarningExcludingId?: GrowbeWarningExcludingId, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeWarning>;
-    public growbeWarningControllerCreate(growbeWarningExcludingId?: GrowbeWarningExcludingId, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeWarning>>;
-    public growbeWarningControllerCreate(growbeWarningExcludingId?: GrowbeWarningExcludingId, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeWarning>>;
-    public growbeWarningControllerCreate(growbeWarningExcludingId?: GrowbeWarningExcludingId, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeSensorValueControllerCreate(requestBody?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeSensorValue>;
+    public growbeSensorValueControllerCreate(requestBody?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeSensorValue>>;
+    public growbeSensorValueControllerCreate(requestBody?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeSensorValue>>;
+    public growbeSensorValueControllerCreate(requestBody?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -194,8 +191,8 @@ export class GrowbeWarningControllerService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<GrowbeWarning>(`${this.configuration.basePath}/warnings`,
-            growbeWarningExcludingId,
+        return this.httpClient.post<GrowbeSensorValue>(`${this.configuration.basePath}/growbeSensorValues`,
+            requestBody,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -207,17 +204,17 @@ export class GrowbeWarningControllerService {
     }
 
     /**
-     * Delete a instance of GrowbeWarning
+     * Delete a instance of GrowbeSensorValue
      * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeWarningControllerDeleteById(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
-    public growbeWarningControllerDeleteById(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
-    public growbeWarningControllerDeleteById(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
-    public growbeWarningControllerDeleteById(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeSensorValueControllerDeleteById(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public growbeSensorValueControllerDeleteById(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public growbeSensorValueControllerDeleteById(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
+    public growbeSensorValueControllerDeleteById(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeWarningControllerDeleteById.');
+            throw new Error('Required parameter id was null or undefined when calling growbeSensorValueControllerDeleteById.');
         }
 
         let headers = this.defaultHeaders;
@@ -247,7 +244,7 @@ export class GrowbeWarningControllerService {
             responseType = 'text';
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/warnings/${encodeURIComponent(String(id))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/growbeSensorValues/${encodeURIComponent(String(id))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -259,15 +256,15 @@ export class GrowbeWarningControllerService {
     }
 
     /**
-     * Get a filter list of GrowbeWarning
+     * Get a filter list of GrowbeSensorValue
      * @param filter 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeWarningControllerFind(filter?: GrowbeWarningFilter1, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<GrowbeWarningWithRelations>>;
-    public growbeWarningControllerFind(filter?: GrowbeWarningFilter1, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<GrowbeWarningWithRelations>>>;
-    public growbeWarningControllerFind(filter?: GrowbeWarningFilter1, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<GrowbeWarningWithRelations>>>;
-    public growbeWarningControllerFind(filter?: GrowbeWarningFilter1, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeSensorValueControllerFind(filter?: GrowbeSensorValueFilter1, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<GrowbeSensorValueWithRelations>>;
+    public growbeSensorValueControllerFind(filter?: GrowbeSensorValueFilter1, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<GrowbeSensorValueWithRelations>>>;
+    public growbeSensorValueControllerFind(filter?: GrowbeSensorValueFilter1, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<GrowbeSensorValueWithRelations>>>;
+    public growbeSensorValueControllerFind(filter?: GrowbeSensorValueFilter1, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (filter !== undefined && filter !== null) {
@@ -302,7 +299,7 @@ export class GrowbeWarningControllerService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<Array<GrowbeWarningWithRelations>>(`${this.configuration.basePath}/warnings`,
+        return this.httpClient.get<Array<GrowbeSensorValueWithRelations>>(`${this.configuration.basePath}/growbeSensorValues`,
             {
                 params: queryParameters,
                 responseType: <any>responseType,
@@ -315,18 +312,18 @@ export class GrowbeWarningControllerService {
     }
 
     /**
-     * Get a filter list of GrowbeWarning
+     * Get a filter list of GrowbeSensorValue
      * @param id 
      * @param filter 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeWarningControllerFindById(id: string, filter?: GrowbeWarningFilter, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeWarningWithRelations>;
-    public growbeWarningControllerFindById(id: string, filter?: GrowbeWarningFilter, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeWarningWithRelations>>;
-    public growbeWarningControllerFindById(id: string, filter?: GrowbeWarningFilter, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeWarningWithRelations>>;
-    public growbeWarningControllerFindById(id: string, filter?: GrowbeWarningFilter, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeSensorValueControllerFindById(id: string, filter?: GrowbeSensorValueFilter, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<GrowbeSensorValueWithRelations>;
+    public growbeSensorValueControllerFindById(id: string, filter?: GrowbeSensorValueFilter, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<GrowbeSensorValueWithRelations>>;
+    public growbeSensorValueControllerFindById(id: string, filter?: GrowbeSensorValueFilter, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<GrowbeSensorValueWithRelations>>;
+    public growbeSensorValueControllerFindById(id: string, filter?: GrowbeSensorValueFilter, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeWarningControllerFindById.');
+            throw new Error('Required parameter id was null or undefined when calling growbeSensorValueControllerFindById.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -362,7 +359,7 @@ export class GrowbeWarningControllerService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<GrowbeWarningWithRelations>(`${this.configuration.basePath}/warnings/${encodeURIComponent(String(id))}`,
+        return this.httpClient.get<GrowbeSensorValueWithRelations>(`${this.configuration.basePath}/growbeSensorValues/${encodeURIComponent(String(id))}`,
             {
                 params: queryParameters,
                 responseType: <any>responseType,
@@ -375,18 +372,18 @@ export class GrowbeWarningControllerService {
     }
 
     /**
-     * Replace a instance of GrowbeWarning
+     * Replace a instance of GrowbeSensorValue
      * @param id 
      * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeWarningControllerReplaceById(id: string, body?: object, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
-    public growbeWarningControllerReplaceById(id: string, body?: object, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
-    public growbeWarningControllerReplaceById(id: string, body?: object, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
-    public growbeWarningControllerReplaceById(id: string, body?: object, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeSensorValueControllerReplaceById(id: string, body?: object, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public growbeSensorValueControllerReplaceById(id: string, body?: object, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public growbeSensorValueControllerReplaceById(id: string, body?: object, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
+    public growbeSensorValueControllerReplaceById(id: string, body?: object, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeWarningControllerReplaceById.');
+            throw new Error('Required parameter id was null or undefined when calling growbeSensorValueControllerReplaceById.');
         }
 
         let headers = this.defaultHeaders;
@@ -425,7 +422,7 @@ export class GrowbeWarningControllerService {
             responseType = 'text';
         }
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/warnings/${encodeURIComponent(String(id))}`,
+        return this.httpClient.put<any>(`${this.configuration.basePath}/growbeSensorValues/${encodeURIComponent(String(id))}`,
             body,
             {
                 responseType: <any>responseType,
@@ -440,14 +437,14 @@ export class GrowbeWarningControllerService {
     /**
      * PATCH success count
      * @param where 
-     * @param growbeWarningPartial 
+     * @param requestBody 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeWarningControllerUpdateAll(where?: { [key: string]: object; }, growbeWarningPartial?: GrowbeWarningPartial, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<LoopbackCount>;
-    public growbeWarningControllerUpdateAll(where?: { [key: string]: object; }, growbeWarningPartial?: GrowbeWarningPartial, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<LoopbackCount>>;
-    public growbeWarningControllerUpdateAll(where?: { [key: string]: object; }, growbeWarningPartial?: GrowbeWarningPartial, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<LoopbackCount>>;
-    public growbeWarningControllerUpdateAll(where?: { [key: string]: object; }, growbeWarningPartial?: GrowbeWarningPartial, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeSensorValueControllerUpdateAll(where?: { [key: string]: object; }, requestBody?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<LoopbackCount>;
+    public growbeSensorValueControllerUpdateAll(where?: { [key: string]: object; }, requestBody?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<LoopbackCount>>;
+    public growbeSensorValueControllerUpdateAll(where?: { [key: string]: object; }, requestBody?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<LoopbackCount>>;
+    public growbeSensorValueControllerUpdateAll(where?: { [key: string]: object; }, requestBody?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (where !== undefined && where !== null) {
@@ -491,8 +488,8 @@ export class GrowbeWarningControllerService {
             responseType = 'text';
         }
 
-        return this.httpClient.patch<LoopbackCount>(`${this.configuration.basePath}/warnings`,
-            growbeWarningPartial,
+        return this.httpClient.patch<LoopbackCount>(`${this.configuration.basePath}/growbeSensorValues`,
+            requestBody,
             {
                 params: queryParameters,
                 responseType: <any>responseType,
@@ -505,18 +502,18 @@ export class GrowbeWarningControllerService {
     }
 
     /**
-     * Update a instance of GrowbeWarning
+     * Update a instance of GrowbeSensorValue
      * @param id 
-     * @param growbeWarningPartialExcludingId 
+     * @param requestBody 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public growbeWarningControllerUpdateById(id: string, growbeWarningPartialExcludingId?: GrowbeWarningPartialExcludingId, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
-    public growbeWarningControllerUpdateById(id: string, growbeWarningPartialExcludingId?: GrowbeWarningPartialExcludingId, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
-    public growbeWarningControllerUpdateById(id: string, growbeWarningPartialExcludingId?: GrowbeWarningPartialExcludingId, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
-    public growbeWarningControllerUpdateById(id: string, growbeWarningPartialExcludingId?: GrowbeWarningPartialExcludingId, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public growbeSensorValueControllerUpdateById(id: string, requestBody?: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public growbeSensorValueControllerUpdateById(id: string, requestBody?: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public growbeSensorValueControllerUpdateById(id: string, requestBody?: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
+    public growbeSensorValueControllerUpdateById(id: string, requestBody?: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeWarningControllerUpdateById.');
+            throw new Error('Required parameter id was null or undefined when calling growbeSensorValueControllerUpdateById.');
         }
 
         let headers = this.defaultHeaders;
@@ -555,8 +552,8 @@ export class GrowbeWarningControllerService {
             responseType = 'text';
         }
 
-        return this.httpClient.patch<any>(`${this.configuration.basePath}/warnings/${encodeURIComponent(String(id))}`,
-            growbeWarningPartialExcludingId,
+        return this.httpClient.patch<any>(`${this.configuration.basePath}/growbeSensorValues/${encodeURIComponent(String(id))}`,
+            requestBody,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,

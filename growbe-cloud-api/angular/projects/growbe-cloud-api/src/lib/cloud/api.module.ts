@@ -5,6 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { GrowbeDashboardControllerService } from './api/growbeDashboardController.service';
 import { GrowbeMainboardControllerService } from './api/growbeMainboardController.service';
 import { GrowbeModuleControllerService } from './api/growbeModuleController.service';
+import { GrowbeModuleDefControllerService } from './api/growbeModuleDefController.service';
+import { GrowbeSensorValueControllerService } from './api/growbeSensorValueController.service';
+import { GrowbeStreamControllerService } from './api/growbeStreamController.service';
 import { GrowbeWarningControllerService } from './api/growbeWarningController.service';
 import { PingControllerService } from './api/pingController.service';
 
