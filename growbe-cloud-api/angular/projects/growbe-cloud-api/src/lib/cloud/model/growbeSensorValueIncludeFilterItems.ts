@@ -9,14 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { PropertyModule } from './propertyModule';
+import { GrowbeSensorValueScopeFilter } from './growbeSensorValueScopeFilter';
 
 
-export interface GrowbeModuleDef { 
-    id?: string;
-    name?: string;
-    description?: string;
-    pbModelName?: string;
-    properties?: Array<PropertyModule>;
+export interface GrowbeSensorValueIncludeFilterItems { 
+    relation?: string;
+    scope?: GrowbeSensorValueScopeFilter;
 }
 

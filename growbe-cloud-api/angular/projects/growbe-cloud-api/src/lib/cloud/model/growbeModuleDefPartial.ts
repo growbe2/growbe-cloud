@@ -12,7 +12,10 @@
 import { PropertyModule } from './propertyModule';
 
 
-export interface GrowbeModuleDef { 
+/**
+ * (tsType: Omit<Partial<GrowbeModuleDef>, >, schemaOptions: { title: \'\', partial: true, exclude: [] })
+ */
+export interface GrowbeModuleDefPartial { 
     id?: string;
     name?: string;
     description?: string;

@@ -9,16 +9,18 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { RangeWithRelations } from './rangeWithRelations';
 
 
 /**
- * (tsType: PropertyModuleWithRelations, schemaOptions: { includeRelations: true })
+ * (tsType: Omit<GrowbeSensorValue, \'id\'>, schemaOptions: { title: \'\', partial: undefined, exclude: [ \'id\' ] })
  */
-export interface PropertyModuleWithRelations { 
-    name?: string;
-    definition?: string;
-    unit?: string;
-    operationalRange?: RangeWithRelations;
+export interface GrowbeSensorValueExcludingId { 
+  [key: string]: object | any;
+
+
+    moduleType?: string;
+    moduleId?: string;
+    growbeMainboardId?: string;
+    createdAt?: string;
 }
 
