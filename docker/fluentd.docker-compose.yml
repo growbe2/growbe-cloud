@@ -40,6 +40,9 @@ services:
       - type: bind
         source: './oauth2/config.cfg'
         target: '/config.cfg'
+      - type: bind
+        source: './oauth2/htpasswd'
+        target: '/htpasswd'
     ports:
       - "4180:4180"
     command: --config /config.cfg
