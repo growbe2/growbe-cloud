@@ -156,7 +156,6 @@ export const CRUD_CONTROLLERS: {
       properties: [],
       idType: 'string',
     },
-    relations: [
-    ],
+    relations: [],
   },
 ];
