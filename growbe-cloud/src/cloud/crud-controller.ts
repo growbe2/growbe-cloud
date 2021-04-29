@@ -23,8 +23,6 @@ import {
 } from '../repositories';
 import {authenticate} from '@loopback/authentication';
 import {GrowbeDashboardRepository} from '../repositories/growbe-dashboard.repository';
-import {GrowbeDashboardItem} from '../models/growbe-dashboard-item.model';
-import {GrowbeMainboardConfig} from '@growbe2/growbe-pb';
 
 const auth = {
   func: authenticate,
@@ -159,14 +157,6 @@ export const CRUD_CONTROLLERS: {
       idType: 'string',
     },
     relations: [
-      {
-        modelRelationDef: GrowbeDashboardItem,
-        optionsRelation: {
-          accessorType: 'HasMany',
-          name: 'growbeDashboardItems',
-          idType: 'string',
-        },
-      },
     ],
   },
 ];

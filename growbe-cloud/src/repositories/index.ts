@@ -4,7 +4,6 @@ export * from './growbe-warning.repository';
 export * from './growbe-mainboard-config.repository';
 export * from './growbe-warning-key.repository';
 export * from './growbe-dashboard.repository';
-export * from './growbe-dashboard-item.repository';
 export * from './growbe-module.repository';
 export * from './growbe-module-def.repository';
 export * from './growbe-logs.repository';
