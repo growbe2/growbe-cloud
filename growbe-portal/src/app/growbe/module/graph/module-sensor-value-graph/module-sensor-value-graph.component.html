@@ -1,4 +1,4 @@
-<ng-container *ngIf="data">
+<ng-container *ngIf="data && chart">
     <ngx-charts-line-chart
         *ngIf="data.graphType == 'line'"
         [animations]="chart.animations"

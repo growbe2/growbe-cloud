@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     Input,
@@ -15,6 +16,7 @@ import { DashboardGraphElement } from '@growbe2/ngx-cloud-api';
     selector: 'app-module-sensor-value-graph',
     templateUrl: './module-sensor-value-graph.component.html',
     styleUrls: ['./module-sensor-value-graph.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModuleSensorValueGraphComponent implements OnInit, OnDestroy {
     @Input() data: DashboardGraphElement;
@@ -29,15 +31,17 @@ export class ModuleSensorValueGraphComponent implements OnInit, OnDestroy {
     constructor(
         private graphService: GrowbeGraphService,
         private topic: GrowbeEventService,
+        private changeDetection: ChangeDetectorRef,
     ) {}
 
     async ngOnInit() {
+      console.log(this.data);
         if (!this.data) {
             return;
         }
         this.graphService
             .getGraph(this.data.type, this.data.graphDataConfig)
-            .subscribe((serie) => (this.chartSerie = serie));
+            .subscribe((serie) => {(this.chartSerie = serie); this.changeDetection.markForCheck() });
         if (this.data.graphDataConfig.liveUpdate) {
             this.sub = this.topic
                 .getGrowbeEvent(
@@ -61,6 +65,7 @@ export class ModuleSensorValueGraphComponent implements OnInit, OnDestroy {
                             const serie = this.chartSerie;
                             serie[index].series.push(item);
                             this.chartSerie = [...serie];
+                            this.changeDetection.markForCheck();
                         }
                     }
                 });

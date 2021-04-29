@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { GrowbeGraphService } from '../service/growbe-graph.service';
@@ -8,6 +8,7 @@ import { THLModuleData } from '@growbe2/growbe-pb';
     selector: 'app-module-last-value',
     templateUrl: './module-last-value.component.html',
     styleUrls: ['./module-last-value.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModuleLastValueComponent implements OnInit, OnDestroy {
     @Input() data: any;
@@ -23,6 +24,7 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
     constructor(
         private topic: GrowbeEventService,
         private graphService: GrowbeGraphService,
+        private changeDetection: ChangeDetectorRef,
     ) {}
 
     ngOnInit(): void {
@@ -34,6 +36,7 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
             .subscribe(async (data: any) => {
                 this.value = data[this.data.graphDataConfig.fields[0]];
                 this.at = data.createdAt;
+                this.changeDetection.markForCheck();
                 if (this.data.graphDataConfig.liveUpdate) {
                     this.sub = (
                         await this.topic.getGrowbeEvent(
@@ -51,6 +54,7 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
                             this.value =
                                 graphData[this.data.graphDataConfig.fields[0]];
                             this.at = graphData.createdAt;
+                            this.changeDetection.markForCheck();
                         }
                     });
                 }

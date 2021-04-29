@@ -1,0 +1,45 @@
+<ng-container *ngIf="projectDashboard">
+    <project-dashboard>
+        <fuseLayoutHeader>
+            <div fxLayout="row" fxLayoutAlign="space-between start">
+                <span
+                    class="mat-display-1 my-0 my-sm-24 welcome-message"
+                    [@animate]="{ value: '*', params: { x: '50px' } }"
+                >
+                    {{ projectDashboard.name }}
+                </span>
+
+                <button
+                    *ngIf="projectDashboard.sidePanel"
+                    mat-icon-button
+                    class="sidebar-toggle mr-8"
+                    fxHide.gt-md
+                    (click)="toggleSidebar('project-dashboard-right-sidebar-1')"
+                >
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </div>
+        </fuseLayoutHeader>
+
+        <fuseLayoutContent>
+            <mat-tab-group dynamicHeight fxFlex="100">
+                <mat-tab
+                    *ngFor="let panel of projectDashboard.panels"
+                    [label]="panel.name"
+                >
+                    <ng-template matTabContent>
+                      <app-dashboard-panel [panel]="panel"></app-dashboard-panel>
+                    </ng-template>
+                </mat-tab>
+
+                <mat-tab label="+">
+                    <app-growbe-dashboard-item-form></app-growbe-dashboard-item-form>
+                </mat-tab>
+            </mat-tab-group>
+        </fuseLayoutContent>
+
+        <fuseLayoutSidebar *ngIf="projectDashboard.sidePanel">
+          <app-dashboard-panel [panel]="projectDashboard.sidePanel"></app-dashboard-panel>
+        </fuseLayoutSidebar>
+    </project-dashboard>
+</ng-container>
