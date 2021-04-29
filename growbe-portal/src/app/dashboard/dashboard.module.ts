@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { DashboardRegistryService } from './registry/dashboard-registry.service';
 import { DashboardProjectComponent } from './components/dashboard-project/dashboard-project.component';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 
 
 
@@ -19,6 +20,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     CommonModule,
     ProjectDashboardModule,
     LayoutDirectiveModule,
+
+    AutoFormModule,
 
     FuseWidgetModule,
     FuseSharedModule,

@@ -21,7 +21,7 @@ export interface DashboardPanel extends Style {
 
 
 export interface Dashboard {
-
+  name: string;
   // Dashboard is a collection of panel
   panels: DashboardPanel[];
 }
