@@ -37,7 +37,6 @@ import { AutoFormModule } from '@berlingoqc/ngx-autoform';
         FuseWidgetModule,
         FuseSharedModule,
 
-        MatGridListModule,
         MatTabsModule,
         MatIconModule,
         MatButtonModule,
