@@ -1,3 +1,4 @@
+<autoform-form #copy [formData]="formData"></autoform-form>
 <fuse-widget [@animate]="{ value: '*', params: { y: '100%' } }" class="pb-0">
     <div class="fuse-widget-front">
         <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="end">
@@ -14,7 +15,7 @@
                 <button
                     mat-menu-item
                     appDashboardItemRegistryCopy
-                    [item]="copyForm"
+                    [item]="copy"
                 >
                     Copy
                 </button>
@@ -34,4 +35,3 @@
     </div>
 </fuse-widget>
 
-<autoform-form *ngIf="formData" #copyForm [formData]="formData"></autoform-form>

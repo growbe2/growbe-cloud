@@ -25,8 +25,7 @@ describe('DashboardItemComponent', () => {
 
               RouterTestingModule,
 
-                      FuseModule.forRoot(fuseConfig),
-
+              FuseModule.forRoot(fuseConfig),
 
               FuseWidgetModule,
               FuseSharedModule,
@@ -51,6 +50,10 @@ describe('DashboardItemComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(DashboardItemComponent);
         component = fixture.componentInstance;
+        component.formData = {
+          type: 'dialog',
+          items: []
+        };
         fixture.detectChanges();
     });
 
