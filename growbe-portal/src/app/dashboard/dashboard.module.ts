@@ -1,8 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardItemComponent, DashboardItemRegistryCopy, ItemContentDirective } from './components/dashboard-item/dashboard-item.component';
+import {
+    DashboardItemComponent,
+    DashboardItemRegistryCopyDirective,
+    ItemContentDirective,
+} from './components/dashboard-item/dashboard-item.component';
 import { DashboardPanelComponent } from './components/dashboard-panel/dashboard-panel.component';
-import { LayoutDirectiveModule, ProjectDashboardModule } from '@berlingoqc/fuse-extra';
+import {
+    LayoutDirectiveModule,
+    ProjectDashboardModule,
+} from '@berlingoqc/fuse-extra';
 import { FuseSharedModule, FuseWidgetModule } from '@berlingoqc/fuse';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,26 +19,34 @@ import { DashboardProjectComponent } from './components/dashboard-project/dashbo
 import { MatGridListModule } from '@angular/material/grid-list';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 
-
-
 @NgModule({
-  declarations: [DashboardItemComponent, DashboardPanelComponent, DashboardProjectComponent, ItemContentDirective, DashboardItemRegistryCopy],
-  imports: [
-    CommonModule,
-    ProjectDashboardModule,
-    LayoutDirectiveModule,
+    declarations: [
+        DashboardItemComponent,
+        DashboardPanelComponent,
+        DashboardProjectComponent,
+        ItemContentDirective,
+        DashboardItemRegistryCopyDirective,
+    ],
+    imports: [
+        CommonModule,
+        ProjectDashboardModule,
+        LayoutDirectiveModule,
 
-    AutoFormModule,
+        AutoFormModule,
 
-    FuseWidgetModule,
-    FuseSharedModule,
+        FuseWidgetModule,
+        FuseSharedModule,
 
-    MatGridListModule,
-    MatTabsModule,
-    MatIconModule,
-    MatButtonModule,
-  ],
-  providers: [DashboardRegistryService],
-  exports: [DashboardPanelComponent, DashboardProjectComponent, DashboardItemComponent]
+        MatGridListModule,
+        MatTabsModule,
+        MatIconModule,
+        MatButtonModule,
+    ],
+    providers: [DashboardRegistryService],
+    exports: [
+        DashboardPanelComponent,
+        DashboardProjectComponent,
+        DashboardItemComponent,
+    ],
 })
-export class DashboardModule { }
+export class DashboardModule {}

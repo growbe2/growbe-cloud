@@ -54,9 +54,7 @@ import { DASHBOARD_ITEMS } from './items';
     ],
 })
 export class GrowbeDashboardModule {
-  constructor(
-    private registrty: DashboardRegistryService
-  ) {
-    DASHBOARD_ITEMS.forEach((item) => this.registrty.addItem(item));
-  }
+    constructor(private registrty: DashboardRegistryService) {
+        DASHBOARD_ITEMS.forEach((item) => this.registrty.addItem(item));
+    }
 }

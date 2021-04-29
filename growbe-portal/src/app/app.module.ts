@@ -139,7 +139,7 @@ export class NavigationWrapper {
         {
             provide: DashboardService,
             useClass: GrowbeDashboardAPI,
-        }
+        },
     ],
     bootstrap: [AppComponent],
 })

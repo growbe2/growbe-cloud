@@ -1,9 +1,9 @@
 <ng-container *ngIf="panel">
     <div
-      *ngFor="let item of panel.items"
-      [ngClass]="item.class"
-      [ngStyle]="item.style"
+        *ngFor="let item of panel.items"
+        [ngClass]="item.class"
+        [ngStyle]="item.style"
     >
-      <app-dashboard-item [dashboardItem]="item"></app-dashboard-item>
-  </div>
+        <app-dashboard-item [dashboardItem]="item"></app-dashboard-item>
+    </div>
 </ng-container>

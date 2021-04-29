@@ -28,7 +28,9 @@
                     [label]="panel.name"
                 >
                     <ng-template matTabContent>
-                      <app-dashboard-panel [panel]="panel"></app-dashboard-panel>
+                        <app-dashboard-panel
+                            [panel]="panel"
+                        ></app-dashboard-panel>
                     </ng-template>
                 </mat-tab>
 
@@ -39,7 +41,9 @@
         </fuseLayoutContent>
 
         <fuseLayoutSidebar *ngIf="projectDashboard.sidePanel">
-          <app-dashboard-panel [panel]="projectDashboard.sidePanel"></app-dashboard-panel>
+            <app-dashboard-panel
+                [panel]="projectDashboard.sidePanel"
+            ></app-dashboard-panel>
         </fuseLayoutSidebar>
     </project-dashboard>
 </ng-container>

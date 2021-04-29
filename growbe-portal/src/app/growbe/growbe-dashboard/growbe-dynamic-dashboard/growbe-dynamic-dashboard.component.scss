@@ -8,14 +8,13 @@ project-dashboard {
 .content {
 }
 
-
 .panel {
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: 1fr 1fr;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 1fr;
 }
 
 .table {
-  grid-column-start: 1;
-  grid-column-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 3;
 }

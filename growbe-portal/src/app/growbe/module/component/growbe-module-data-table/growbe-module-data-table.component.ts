@@ -36,7 +36,9 @@ export class GrowbeModuleDataTableComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        if (!this.module) {return;}
+        if (!this.module) {
+            return;
+        }
         this.where = {
             moduleId: this.module.uid,
         };

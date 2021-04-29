@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnDestroy,
+    OnInit,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { GrowbeGraphService } from '../service/growbe-graph.service';

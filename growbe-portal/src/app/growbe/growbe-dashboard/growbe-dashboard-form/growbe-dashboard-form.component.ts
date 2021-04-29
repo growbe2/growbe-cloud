@@ -41,15 +41,19 @@ export class GrowbeDashboardFormComponent {
             },
         ],
         event: {
-          submit: (data) => this.dashboardAPI
-            .post({
-                name: data.dashboard.name,
-                userId: this.authService.profile.id,
-            }).pipe(map(((item: any) => {
-              this.router.navigate(['/','dashboard', item.id]);
-              return item;
-            }))),
-        }
+            submit: (data) =>
+                this.dashboardAPI
+                    .post({
+                        name: data.dashboard.name,
+                        userId: this.authService.profile.id,
+                    })
+                    .pipe(
+                        map((item: any) => {
+                            this.router.navigate(['/', 'dashboard', item.id]);
+                            return item;
+                        }),
+                    ),
+        },
     };
 
     constructor(
