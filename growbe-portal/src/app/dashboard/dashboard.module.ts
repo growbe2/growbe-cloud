@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardItemComponent, ItemContentDirective } from './components/dashboard-item/dashboard-item.component';
+import { DashboardItemComponent, DashboardItemRegistryCopy, ItemContentDirective } from './components/dashboard-item/dashboard-item.component';
 import { DashboardPanelComponent } from './components/dashboard-panel/dashboard-panel.component';
 import { LayoutDirectiveModule, ProjectDashboardModule } from '@berlingoqc/fuse-extra';
 import { FuseSharedModule, FuseWidgetModule } from '@berlingoqc/fuse';
@@ -14,7 +14,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 
 
 @NgModule({
-  declarations: [DashboardItemComponent, DashboardPanelComponent, DashboardProjectComponent, ItemContentDirective],
+  declarations: [DashboardItemComponent, DashboardPanelComponent, DashboardProjectComponent, ItemContentDirective, DashboardItemRegistryCopy],
   imports: [
     CommonModule,
     ProjectDashboardModule,

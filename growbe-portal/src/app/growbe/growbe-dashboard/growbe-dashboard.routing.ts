@@ -24,7 +24,6 @@ const routes: Routes = [
         path: ':id',
         component: GrowbeDynamicDashboardComponent,
         data: {
-            include: [{ relation: 'growbeDashboardItems' }],
         },
         resolve: {
             dashboard: GrowbeDashboardAPI,

@@ -1,12 +1,27 @@
-import { AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, Directive, HostBinding, Injector, Input, OnDestroy, OnInit, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, Directive, Host, HostBinding, HostListener, Injector, Input, OnDestroy, OnInit, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { fuseAnimations } from '@berlingoqc/fuse';
 import { DashboardItem, Style } from '../../dashboard.model';
 import { DashboardRegistryService } from '../../registry/dashboard-registry.service';
 import { DashboardRegistryItem } from '../../registry/dashboard.registry';
 
 
+/**
+ * Add on element to display a dialog to copy to another dashboard
+ */
+@Directive({ selector: '[dashboardItemRegistryCopy]' })
+export class DashboardItemRegistryCopy {
+  @HostListener('click') click() {
+    console.log('ITEM', this.item);
+  }
+
+  @Input() item: DashboardItemComponent;
+
+  constructor() {}
+}
+
 @Directive({ selector: '[dashboardItemContent]'})
 export class ItemContentDirective implements OnInit {
+  this = this;
 
   @Input()
   dashboardItem: (DashboardItem & Style);
