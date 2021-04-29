@@ -4,6 +4,7 @@ import { AuthService } from '@berlingoqc/auth';
 import { fuseAnimations } from '@berlingoqc/fuse';
 import { AutoFormData } from '@berlingoqc/ngx-autoform';
 import { GrowbeDashboard } from '@growbe2/ngx-cloud-api';
+import { map } from 'rxjs/operators';
 import { GrowbeDashboardAPI } from '../../api/growbe-dashboard';
 import { GrowbeMainboardAPI } from '../../api/growbe-mainboard';
 
@@ -14,7 +15,7 @@ import { GrowbeMainboardAPI } from '../../api/growbe-mainboard';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations,
 })
-export class GrowbeDashboardFormComponent implements OnInit {
+export class GrowbeDashboardFormComponent {
     formData: AutoFormData = {
         type: 'simple',
         typeData: {
@@ -39,7 +40,16 @@ export class GrowbeDashboardFormComponent implements OnInit {
                 ],
             },
         ],
-        onSubmitValid: (d) => this.onSubmit(d),
+        event: {
+          submit: (data) => this.dashboardAPI
+            .post({
+                name: data.dashboard.name,
+                userId: this.authService.profile.id,
+            }).pipe(map(((item: any) => {
+              this.router.navigate(['/','dashboard', item.id]);
+              return item;
+            }))),
+        }
     };
 
     constructor(
@@ -49,19 +59,4 @@ export class GrowbeDashboardFormComponent implements OnInit {
         private router: Router,
         private authService: AuthService,
     ) {}
-
-    ngOnInit(): void {}
-
-    onSubmit(data) {
-        console.log(this.authService);
-        this.dashboardAPI
-            .post({
-                name: data.dashboard.name,
-                userId: this.authService.profile.id,
-            })
-            .subscribe((item: GrowbeDashboard) => {
-                console.log(item);
-                this.router.navigate(['/', 'dashboard', item.id]);
-            });
-    }
 }

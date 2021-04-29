@@ -1,5 +1,4 @@
 import {Entity, model, property, hasMany} from '@loopback/repository';
-import {GrowbeDashboardItem} from './growbe-dashboard-item.model';
 
 @model({settings: {strict: false}})
 export class GrowbeDashboard extends Entity {
@@ -15,14 +14,8 @@ export class GrowbeDashboard extends Entity {
   @property()
   userId: string;
 
-  @hasMany(() => GrowbeDashboardItem)
-  growbeDashboardItems: GrowbeDashboardItem[];
-
   @property()
   name: string;
-
-  @property.array(GrowbeDashboardItem)
-  sidePanel: GrowbeDashboardItem[];
 
   [prop: string]: any;
 

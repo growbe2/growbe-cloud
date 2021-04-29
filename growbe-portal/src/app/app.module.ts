@@ -49,6 +49,8 @@ import { HomeComponent } from './home/home.component';
 import { GrowbeAuthModule } from './auth/auth.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NavigationComponent } from './home/navigation.component';
+import { DashboardService } from './dashboard/dashboard.service';
+import { GrowbeDashboardAPI } from './growbe/api/growbe-dashboard';
 @Injectable({
     providedIn: 'root',
 })
@@ -134,6 +136,10 @@ export class NavigationWrapper {
             provide: 'FAQResolver',
             useValue: () => FAQS,
         },
+        {
+            provide: DashboardService,
+            useClass: GrowbeDashboardAPI,
+        }
     ],
     bootstrap: [AppComponent],
 })
