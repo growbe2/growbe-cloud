@@ -4,6 +4,9 @@
       [ngClass]="item.class"
       [ngStyle]="item.style"
     >
-      <app-dashboard-item [dashboardItem]="item"></app-dashboard-item>
+      <app-dashboard-item
+        [panelRef]=" (dashboard) ? {dashboardId: dashboard.dashboardId, panelName: panel.name} : null"
+        [dashboardItem]="item"
+      ></app-dashboard-item>
   </div>
 </ng-container>

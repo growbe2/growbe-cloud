@@ -1,5 +1,6 @@
 import { Component, HostBinding, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { DashboardPanel } from '../../dashboard.model';
+import { DashboardRef } from '../../dashboard.service';
 
 @Component({
   selector: 'app-dashboard-panel',
@@ -8,10 +9,13 @@ import { DashboardPanel } from '../../dashboard.model';
   encapsulation: ViewEncapsulation.None,
 })
 export class DashboardPanelComponent implements OnInit {
+
   @HostBinding('class')
   classes: string[];
 
   @Input() panel: DashboardPanel;
+
+  @Input() dashboard?: DashboardRef;
 
   constructor() { }
 

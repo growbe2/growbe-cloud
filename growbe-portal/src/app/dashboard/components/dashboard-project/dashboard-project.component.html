@@ -28,7 +28,7 @@
                     [label]="panel.name"
                 >
                     <ng-template matTabContent>
-                      <app-dashboard-panel [panel]="panel"></app-dashboard-panel>
+                      <app-dashboard-panel [dashboard]="{dashboardId: projectDashboard.id}" [panel]="panel"></app-dashboard-panel>
                     </ng-template>
                 </mat-tab>
 

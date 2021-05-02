@@ -124,32 +124,15 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
                         displayName: 'Nom',
                         required: false,
                     },
-                    /*
-                    {
-                        name: 'test',
-                        type: 'string',
-                        displayName: 'Test',
-                        component: {
-                            name: 'select',
-                            type: 'mat',
-                            multiple: false,
-                            options: {
-                                displayTitle: 'Test',
-                                displayContent: (e) => e,
-                                options: {
-                                    value: () => {
-                                        console.log('TEST');
-                                        return of(['test 1', 'test 2']);
-                                    },
-                                },
-                            },
-                        } as any,
-                    },
-                    */
                 ],
             },
         ],
         event: {
+            initialData: () => this.mainboardAPI.getById(this.id).pipe(
+              map((mainboard) => ({
+                mainboard: mainboard
+              }))
+            ),
             submit: (d) =>
                 this.mainboardAPI.updateById(this.id, d.mainboard).pipe(
                     notify({
