@@ -51,6 +51,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NavigationComponent } from './home/navigation.component';
 import { DashboardService } from './dashboard/dashboard.service';
 import { GrowbeDashboardAPI } from './growbe/api/growbe-dashboard';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { DASHBOARD_ITEMS } from './growbe/growbe-dashboard/items';
 @Injectable({
     providedIn: 'root',
 })
@@ -80,6 +82,8 @@ export class NavigationWrapper {
         AccountModule,
         AuthModule.forRoot(),
         NotificationModule.forRoot({} as any),
+
+        DashboardModule.forRoot(DASHBOARD_ITEMS),
 
         EmailModule,
         AccountModule,

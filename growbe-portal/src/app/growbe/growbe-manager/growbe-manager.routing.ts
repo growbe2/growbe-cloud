@@ -5,6 +5,7 @@ import { GrowbeManagerDetailComponent } from './growbe-manager-detail/growbe-man
 import { GrowbeMainboardAPI } from '../api/growbe-mainboard';
 import { GrowbeModuleDetailComponent } from '../module/component/growbe-module-detail/growbe-module-detail.component';
 import { GrowbeModuleAPI } from '../api/growbe-module';
+import { GrowbeModuleDashboardComponent } from '../module/growbe-module-dashboard/growbe-module-dashboard.component';
 
 const routes: Routes = [
     { path: '', component: GrowbeManagerDashboardComponent },
@@ -30,7 +31,7 @@ const routes: Routes = [
     },
     {
         path: ':mainboardId/module/:id',
-        component: GrowbeModuleDetailComponent,
+        component: GrowbeModuleDashboardComponent,
         data: {
             include: [],
         },

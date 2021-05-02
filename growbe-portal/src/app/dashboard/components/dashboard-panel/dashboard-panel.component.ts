@@ -13,15 +13,23 @@ export class DashboardPanelComponent implements OnInit {
   @HostBinding('class')
   classes: string[];
 
-  @Input() panel: DashboardPanel;
+  @HostBinding('style')
+  style: any;
+
+  mPanel: DashboardPanel;
+  @Input() set panel(p: DashboardPanel) {
+    if (!p) return;
+    this.mPanel = p;
+    this.classes = p.class;
+    this.style = Object.assign({
+      width: '100%',
+    }, p.style);
+  }
 
   @Input() dashboard?: DashboardRef;
 
   constructor() { }
 
-  ngOnInit(): void {
-    if (!this.panel) return;
-    this.classes = this.panel.class
-  }
+  ngOnInit(): void {}
 
 }

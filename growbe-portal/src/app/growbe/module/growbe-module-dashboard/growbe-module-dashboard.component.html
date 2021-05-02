@@ -1,0 +1,6 @@
+<div>
+  <button (click)="setRawPanel()">Data brut</button>
+  <button (click)="setGraphPanel()">Graphique</button>
+</div>
+
+<app-dashboard-panel [panel]="panel$ | async"></app-dashboard-panel>

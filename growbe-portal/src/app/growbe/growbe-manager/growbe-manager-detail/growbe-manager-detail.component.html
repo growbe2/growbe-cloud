@@ -26,6 +26,8 @@
 
                 <ng-template #moduleOptions let-context="context">
                     <button
+                        mat-stroked-button
+                        color="primary"
                         [routerLink]="[
                             '/',
                             'growbe',
@@ -34,7 +36,7 @@
                             context.id
                         ]"
                     >
-                        Options
+                      Dashboard
                     </button>
                 </ng-template>
 

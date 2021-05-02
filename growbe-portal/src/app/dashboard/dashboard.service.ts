@@ -1,5 +1,5 @@
 import { Observable, Subject } from "rxjs";
-import { ProjectDashboard, Dashboard, DashboardItem, DashboardPanel } from "./dashboard.model";
+import { Dashboard, DashboardItem, DashboardPanel } from "./dashboard.model";
 
 
 export interface DashboardRef {

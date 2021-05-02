@@ -1,5 +1,10 @@
-import { Injectable } from "@angular/core";
+import { Injectable, InjectionToken } from "@angular/core";
 import { DashboardRegistryItem } from "./dashboard.registry";
+
+
+
+export const DASHBOARDS_ITEM_DEFAULT = new InjectionToken<DashboardRegistryItem[]>('dashboards_item');
+
 
 
 @Injectable()
