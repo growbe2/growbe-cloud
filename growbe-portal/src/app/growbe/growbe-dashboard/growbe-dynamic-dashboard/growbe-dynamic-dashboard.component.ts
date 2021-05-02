@@ -18,10 +18,6 @@ export class GrowbeDynamicDashboardComponent implements OnInit {
 
     dashboardPanel: DashboardPanel[] = [{
       name: '1F54018 THL',
-      grid: {
-        cols: 2,
-        rowHeight: '200px'
-      },
       class: ['panel'],
       items: [
         {

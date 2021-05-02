@@ -12,15 +12,12 @@ export interface DashboardItem {
 
 export interface DashboardPanel extends Style {
   name: string;
-  grid: {
-    cols?: number;
-    rowHeight?: string;
-  }
   items: (DashboardItem & Style)[]
 }
 
 
 export interface Dashboard {
+  id: string
   name: string;
   // Dashboard is a collection of panel
   panels: DashboardPanel[];

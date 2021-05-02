@@ -2,7 +2,33 @@ import { AutoFormData, DialogFormContainer, InputProperty } from '@berlingoqc/ng
 import { notify } from '@berlingoqc/ngx-notification';
 import { Subject } from 'rxjs';
 import { DashboardItem } from './dashboard.model';
-import { DashboardService } from './dashboard.service';
+import { DashboardRef, DashboardService } from './dashboard.service';
+
+
+export const addPanelForm = (
+  service: DashboardService,
+  dashboardRef: DashboardRef,
+): AutoFormData => ({
+  type: 'simple',
+  items: [
+    {
+      type: 'object',
+      name: 'item',
+      properties: [
+        {
+          name: 'name',
+          type: 'string',
+          displayName: 'Name of the panel'
+        }
+      ]
+    }
+  ],
+  event: {
+    submit: (data: any) => {
+      return service.addPanelToDasboard(dashboardRef, {name: data.item.name, items: []})
+    }
+  }
+});
 
 export const getCopyDashboardForm = (
     service: DashboardService,
