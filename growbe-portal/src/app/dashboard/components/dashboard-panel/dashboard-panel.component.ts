@@ -1,6 +1,7 @@
 import { Component, HostBinding, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { DashboardPanel } from '../../dashboard.model';
 import { DashboardRef } from '../../dashboard.service';
+import { DashboardItemDirective } from '../dashboard-item.directive';
 
 @Component({
   selector: 'app-dashboard-panel',
@@ -8,7 +9,7 @@ import { DashboardRef } from '../../dashboard.service';
   styleUrls: ['./dashboard-panel.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class DashboardPanelComponent implements OnInit {
+export class DashboardPanelComponent extends DashboardItemDirective {
 
   @HostBinding('class')
   classes: string[];
@@ -27,9 +28,4 @@ export class DashboardPanelComponent implements OnInit {
   }
 
   @Input() dashboard?: DashboardRef;
-
-  constructor() { }
-
-  ngOnInit(): void {}
-
 }

@@ -9,6 +9,7 @@ import { DashboardItem, Style } from '../../dashboard.model';
 import { DashboardService, PanelDashboardRef } from '../../dashboard.service';
 import { DashboardRegistryService } from '../../registry/dashboard-registry.service';
 import { DashboardRegistryItem } from '../../registry/dashboard.registry';
+import { DashboardItemDirective } from '../dashboard-item.directive';
 
 
 /**
@@ -83,7 +84,7 @@ export class ItemContentDirective implements OnInit {
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations,
 })
-export class DashboardItemComponent implements OnInit{
+export class DashboardItemComponent extends DashboardItemDirective implements OnInit{
 
   @HostBinding('class')
   classes: string[];
@@ -99,7 +100,9 @@ export class DashboardItemComponent implements OnInit{
 
   constructor(
     private dashboardService: DashboardService,
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     if (!this.dashboardItem) return;

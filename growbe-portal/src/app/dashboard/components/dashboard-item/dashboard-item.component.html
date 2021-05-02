@@ -6,10 +6,10 @@
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item fuseWidgetToggle>Options</button>
+        <button mat-menu-item *ngIf="!static" fuseWidgetToggle>Options</button>
         <button mat-menu-item appDashboardItemRegistryCopy [item]="copyForm">Copy</button>
-        <button mat-menu-item>Editer</button>
-        <button mat-menu-item (click)="delete()">Supprimé</button>
+        <button mat-menu-item *ngIf="!static">Editer</button>
+        <button mat-menu-item *ngIf="!static" (click)="delete()">Supprimé</button>
       </mat-menu>
     </div>
     <div>
