@@ -6,7 +6,6 @@ import { AutoTableModule } from '@berlingoqc/ngx-autotable';
 import { ModuleStatusDotComponent } from './component/module-status-dot/module-status-dot.component';
 import { GrowbeModuleDataTableComponent } from './component/growbe-module-data-table/growbe-module-data-table.component';
 import { GrowbeModuleDefComponent } from './component/growbe-module-def/growbe-module-def.component';
-import { GrowbeModuleDetailComponent } from './component/growbe-module-detail/growbe-module-detail.component';
 import { MatListModule } from '@angular/material/list';
 import { FuseWidgetModule } from '@berlingoqc/fuse';
 import { LoopbackRestPipeModule } from '@berlingoqc/ngx-loopback';
@@ -21,7 +20,6 @@ import { UnitModule } from 'src/app/shared/unit/unit.module';
         ModuleStatusDotComponent,
         GrowbeModuleDataTableComponent,
         GrowbeModuleDefComponent,
-        GrowbeModuleDetailComponent,
     ],
     imports: [
         CommonModule,

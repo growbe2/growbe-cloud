@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { GrowbeManagerDashboardComponent } from './growbe-manager-dashboard/growbe-manager-dashboard.component';
 import { GrowbeManagerDetailComponent } from './growbe-manager-detail/growbe-manager-detail.component';
 import { GrowbeMainboardAPI } from '../api/growbe-mainboard';
-import { GrowbeModuleDetailComponent } from '../module/component/growbe-module-detail/growbe-module-detail.component';
 import { GrowbeModuleAPI } from '../api/growbe-module';
 import { GrowbeModuleDashboardComponent } from '../module/growbe-module-dashboard/growbe-module-dashboard.component';
 
