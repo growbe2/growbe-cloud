@@ -1,6 +1,36 @@
-<div style="height: 100px"></div>
-<div *ngFor="let stream of streams | async">
-    <button (click)="streamSelected.next(stream)">
-        {{ stream.streamName }}
+<div class="full frow jend">
+    <button 
+        mat-mini-fab
+        [formComponent]="newEditFormComponent"
+    >
+        <mat-icon>add</mat-icon>
     </button>
 </div>
+
+<ngx-autotable
+    *ngIf="source"
+    [columns]="columns"
+    [source]="source"
+></ngx-autotable>
+
+<ng-template #launch let-context="context">
+    <button
+        mat-stroked-button
+        class="accent"
+        (click)="streamSelected.next(context)"
+    >
+        {{ context.active }}
+    </button>
+</ng-template>
+
+<ng-template #delete let-context="context">
+    <button
+        mat-mini-fab
+        class="warn"
+        (click)="deleteStream(context)"
+    >
+        <mat-icon>delete</mat-icon>
+    </button>
+</ng-template>
+
+<autoform-form #newEditFormComponent [formData]="newEditFormData"></autoform-form>

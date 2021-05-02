@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 export class GrowbeStreamAPI {
     constructor(private httpClient: HttpClient) {}
 
-    getLivetream(growbeId: string): Observable<GrowbeStream[]> {
-        return this.httpClient.get<any[]>(
+    getLiveStream(growbeId: string): Observable<GrowbeStream[]> {
+        return this.httpClient.get<GrowbeStream[]>(
             `${envConfig.growbeCloud}/growbeStream/${growbeId}/live`,
         );
     }
