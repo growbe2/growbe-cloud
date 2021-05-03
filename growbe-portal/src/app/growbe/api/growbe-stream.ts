@@ -10,7 +10,7 @@ export class GrowbeStreamAPI {
 
     getLiveStreams(growbeId: string): Observable<GrowbeStream[]> {
         return this.httpClient.get<GrowbeStream[]>(
-            `${envConfig.growbeCloud}/growbeStream/${growbeId}/live`,
+            `${envConfig.growbeCloud}/growbeStreams/${growbeId}/live`,
         );
     }
 
@@ -19,7 +19,7 @@ export class GrowbeStreamAPI {
         streamName: string,
     ): Observable<GrowbeStream> {
         return this.httpClient.post<GrowbeStream>(
-            `${envConfig.growbeCloud}/growbeStream`,
+            `${envConfig.growbeCloud}/growbeStreams`,
             {
                 growbeMainboardId,
                 streamName,
@@ -29,7 +29,7 @@ export class GrowbeStreamAPI {
 
     deleteLiveStream(streamId: string): Observable<void> {
         return this.httpClient.delete<void>(
-            `${envConfig.growbeCloud}/growbeStream/${streamId}`
+            `${envConfig.growbeCloud}/growbeStreams/${streamId}`
         );
     }
 }
