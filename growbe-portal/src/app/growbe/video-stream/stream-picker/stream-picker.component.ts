@@ -4,26 +4,15 @@ import { TableColumn } from '@berlingoqc/ngx-autotable';
 import { StaticDataSource } from '@berlingoqc/ngx-loopback';
 import { notify } from '@berlingoqc/ngx-notification';
 import { GrowbeStream } from '@growbe2/ngx-cloud-api/lib/cloud/model/growbeStream';
-import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { GrowbeStreamAPI } from 'src/app/growbe/api/growbe-stream';
 
-/*
-
-TODO :
-
-1. Dialogue and autoform for stream new / edit
-2. Directive / class to style buttons based on stream state
-
-*/
-
 @Directive({ selector: '[formComponent]'})
 export class NewEditFormDirective {
-
     @Input() formComponent: AutoFormComponent;
-
     @HostListener('click') click() {
-        console.log(this.formComponent);
+        this.formComponent.exposition.open();
+        console.log(this.formComponent.exposition.this.formGroup.controls);
     }
 }
 
@@ -36,10 +25,8 @@ export class StreamPickerComponent implements OnInit, AfterViewInit {
 
     @Input() growbeId: string;
     @Output() streamSelected = new EventEmitter<any>();
-
     @ViewChild('launch') launch: TemplateRef<any>; 
     @ViewChild('delete') delete: TemplateRef<any>;
-
     source: StaticDataSource<GrowbeStream>;
 
     constructor(public growbeStreamAPI: GrowbeStreamAPI) {}
@@ -47,7 +34,7 @@ export class StreamPickerComponent implements OnInit, AfterViewInit {
     async ngOnInit() {
         this.source = new StaticDataSource(
             await this.growbeStreamAPI
-                .getLiveStream(this.growbeId)
+                .getLiveStreams(this.growbeId)
                 .pipe(take(1))
                 .toPromise()
         );
@@ -72,14 +59,16 @@ export class StreamPickerComponent implements OnInit, AfterViewInit {
     }
 
     deleteStream(stream: GrowbeStream): void {
-        of({}).pipe(
-            notify({
-                title: 'Stream supprimé',
-                titleFailed: 'Échec. Veuillez réssayer.',
-                body: () => stream.streamName
-            })
-        )
-        .subscribe();
+        this.growbeStreamAPI
+            .deleteLiveStream(stream.id)
+            .pipe(
+                notify({
+                    title: 'Stream supprimé',
+                    titleFailed: 'Échec. Veuillez réssayer.',
+                    body: () => stream.streamName
+                })
+            )
+            .subscribe();
     }
 
 
@@ -118,13 +107,13 @@ export class StreamPickerComponent implements OnInit, AfterViewInit {
                         type: 'string',
                         name: 'streamName',
                         displayName: 'Nom du stream',
+                        required: true,
                         component: {
                             name: 'input',
                             type: 'mat',
                             options: {
-                                displayTitle: 'Nom du stream'
+                                displayTitle: 'Nom du stream',
                             }
-
                         } as any
                     }
                 ]

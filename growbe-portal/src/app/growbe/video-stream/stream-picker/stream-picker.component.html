@@ -16,10 +16,11 @@
 <ng-template #launch let-context="context">
     <button
         mat-stroked-button
-        class="accent"
+        [class]="context.active ? 'accent' : 'inactiveStream'"
+        [disabled]="!context.active"
         (click)="streamSelected.next(context)"
     >
-        {{ context.active }}
+        {{ context.active ? 'Lancer' : 'Hors connexion' }}
     </button>
 </ng-template>
 

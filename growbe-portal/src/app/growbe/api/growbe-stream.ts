@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class GrowbeStreamAPI {
     constructor(private httpClient: HttpClient) {}
 
-    getLiveStream(growbeId: string): Observable<GrowbeStream[]> {
+    getLiveStreams(growbeId: string): Observable<GrowbeStream[]> {
         return this.httpClient.get<GrowbeStream[]>(
             `${envConfig.growbeCloud}/growbeStream/${growbeId}/live`,
         );
@@ -24,6 +24,12 @@ export class GrowbeStreamAPI {
                 growbeMainboardId,
                 streamName,
             },
+        );
+    }
+
+    deleteLiveStream(streamId: string): Observable<void> {
+        return this.httpClient.delete<void>(
+            `${envConfig.growbeCloud}/growbeStream/${streamId}`
         );
     }
 }
