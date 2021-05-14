@@ -165,7 +165,7 @@ export class AppModule {
         service: DashboardRegistryService,
     ) {
         DASHBOARD_ITEMS.forEach((t) => service.addItem(t));
-        moduleService.loadModuleSystemJS(
+        /*moduleService.loadModuleSystemJS(
             {
                 path: '/assets/umd.js',
                 location: '/assets/greenhouse.umd.js',
@@ -177,6 +177,6 @@ export class AppModule {
             },
             injector,
         );
-        console.log('SERVICE', service);
+        console.log('SERVICE', service);*/
     }
 }
