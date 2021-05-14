@@ -5,11 +5,13 @@ WORKDIR /app
 COPY package*.json ./
 
 RUN npm ci
-RUN npx ng build dashboard
 
 FROM base as source
 
 COPY . .
+
+# prebuild the library
+RUN npx ng build dashboard
 
 FROM source as test_unit
 
