@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 
 RUN npm ci
-RUN ng build dashboard
+RUN npx ng build dashboard
 
 FROM base as source
 
