@@ -152,5 +152,3 @@ export class DashboardLastValueElement extends BaseDashboardElement {
   @property()
   graphDataConfig: ModuleDataRequest;
 }
-
-
