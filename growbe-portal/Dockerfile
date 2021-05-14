@@ -10,6 +10,9 @@ FROM base as source
 
 COPY . .
 
+# prebuild the library
+RUN npx ng build dashboard
+
 FROM source as test_unit
 
 # TODO: Run lint after all files have been linted to the proper config

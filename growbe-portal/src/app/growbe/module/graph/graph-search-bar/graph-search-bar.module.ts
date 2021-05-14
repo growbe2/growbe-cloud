@@ -9,12 +9,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { GraphSearchBarComponent } from './graph-search-bar.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { SelectControlModule } from '@berlingoqc/ngx-common';
+import { TimeframeModule } from 'src/app/shared/timeframe/timeframe.module';
 
 @NgModule({
     declarations: [GraphSearchBarComponent],
     imports: [
         CommonModule,
         ReactiveFormsModule,
+
+        TimeframeModule,
 
         MatDatepickerModule,
         MatIconModule,
