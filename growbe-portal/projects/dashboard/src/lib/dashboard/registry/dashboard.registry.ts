@@ -10,7 +10,11 @@ export interface DashboardRegistryItem {
   component: string;
   componentType: Type<any>;
 
-  inputs: {
+  inputs?: {
+    [id: string]: InputProperty;
+  }
+
+  outputs?: {
     [id: string]: InputProperty;
   }
 }

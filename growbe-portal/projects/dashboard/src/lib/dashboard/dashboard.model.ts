@@ -1,3 +1,4 @@
+import { Observable } from "rxjs";
 
 export interface Style {
   class?: string[]//string | string[] | {[id: string]: boolean}
@@ -8,6 +9,8 @@ export interface DashboardItem {
   name: string;
   component: string;
   inputs: {[id:string]: any};
+  outputs: {[id: string]: (obs: Observable<any>) => void};
+  copy: boolean;
 }
 
 export interface DashboardPanel extends Style {

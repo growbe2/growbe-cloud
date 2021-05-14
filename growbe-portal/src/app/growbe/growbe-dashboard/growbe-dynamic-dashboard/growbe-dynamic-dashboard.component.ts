@@ -1,10 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations, FuseSidebarService } from '@berlingoqc/fuse';
-import { TableColumn } from '@berlingoqc/ngx-autotable';
-import { Include, Where } from '@berlingoqc/ngx-loopback';
-import { DashboardPanel } from 'src/app/dashboard/dashboard.model';
-import { GrowbeWarningAPI } from '../../api/growbe-warning';
 
 @Component({
     selector: 'app-growbe-dynamic-dashboard',

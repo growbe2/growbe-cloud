@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, Directive, Host, HostBinding, HostListener, Injector, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, Directive, EventEmitter, Host, HostBinding, HostListener, Injector, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { fuseAnimations } from '@berlingoqc/fuse';
 import { AutoFormComponent, AutoFormData } from '@berlingoqc/ngx-autoform';
@@ -66,9 +66,20 @@ export class ItemContentDirective implements OnInit {
 
     this.componentRef = this.viewRef.createComponent(factory);
 
-    for(const [name, data] of Object.entries(this.dashboardItem.inputs)) {
-      this.componentRef.instance[name] = data
+    if (this.dashboardItem.inputs) {
+      for(const [name, data] of Object.entries(this.dashboardItem.inputs)) {
+        this.componentRef.instance[name] = data
+      }
     }
+    if (this.dashboardItem.outputs) {
+      for(const [name, data] of Object.entries(this.dashboardItem.outputs)) {
+        const ee = this.componentRef.instance[name] as EventEmitter<any>;
+        if (ee) {
+          data(ee.asObservable());
+        }
+      }
+    }
+
 
   }
 
@@ -98,6 +109,8 @@ export class DashboardItemComponent extends DashboardItemDirective implements On
   formData: AutoFormData;
   subjectPanel = new BehaviorSubject([]);
 
+  menu: {[id: string]: boolean} = {};
+
   constructor(
     private dashboardService: DashboardService,
   ) {
@@ -109,6 +122,12 @@ export class DashboardItemComponent extends DashboardItemDirective implements On
     this.classes = this.dashboardItem.class;
     this.formData = getCopyDashboardForm(this.dashboardService, this.subjectPanel, this.dashboardItem);
     this.formData.type = 'dialog';
+    if (!this.static) {
+      this.menu['delete'] = true;
+    }
+    if (this.dashboardItem.copy === undefined || this.dashboardItem.copy === true) {
+      this.menu['copy'] = true;
+    }
   }
 
 

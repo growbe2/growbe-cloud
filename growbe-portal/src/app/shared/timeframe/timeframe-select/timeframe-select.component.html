@@ -1,6 +1,17 @@
-<mat-tab-group>
+<mat-tab-group [(selectedIndex)]="tabIndex">
+  <mat-tab label="Relative">
+    <autoform-form [formData]="relativeFormData"></autoform-form>
+    <div>
+      <ul>
+        <li *ngFor="let preset of presets">
+          <a [routerLink]="" (click)="presetSelect(preset.lastX, preset.unit)">
+            {{preset.text}}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </mat-tab>
   <mat-tab label="Absolute">
     <autoform-form [formData]="absoluteFormData"></autoform-form>
   </mat-tab>
-  <mat-tab label="Relative"></mat-tab>
 </mat-tab-group>

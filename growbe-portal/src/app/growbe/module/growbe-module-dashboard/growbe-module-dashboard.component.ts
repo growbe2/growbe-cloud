@@ -1,20 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { unsubscriber } from '@berlingoqc/ngx-common';
 import { DashboardGraphElement, GrowbeModuleDef, GrowbeModuleWithRelations } from '@growbe2/ngx-cloud-api';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { DashboardPanel, ProjectDashboard } from 'src/app/dashboard/dashboard.model';
+import { Observable, Subscription } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { DashboardPanel, ProjectDashboard } from '@growbe2/growbe-dashboard';
 import { GrowbeModuleDefAPI } from '../../api/growbe-module-def';
 
 @Component({
   selector: 'app-growbe-module-dashboard',
   templateUrl: './growbe-module-dashboard.component.html',
-  styleUrls: ['./growbe-module-dashboard.component.scss']
+  styleUrls: ['./growbe-module-dashboard.component.scss'],
 })
+@unsubscriber
 export class GrowbeModuleDashboardComponent implements OnInit {
   module: GrowbeModuleWithRelations;
 
   panel$: Observable<DashboardPanel>;
+
+  subChartSelect: Subscription;
+
+
+  interval = {
+    lastX: 2,
+    lastXUnit: 'Hours',
+    liveUpdate: true,
+    from: undefined,
+    to: undefined,
+  }
+
 
   constructor(
      private activatedRoute: ActivatedRoute,
@@ -44,7 +58,29 @@ export class GrowbeModuleDashboardComponent implements OnInit {
         style: {
           'grid-template-columns': '1fr 1fr 1fr 1fr 1fr'
         },
-        items: moduleDef.properties.map(prop => ({
+        items: [
+          {
+            name: '',
+            component: 'timeframe-select',
+            style: {
+              'grid-column-start': '1',
+              'grid-column-end': '6'
+            },
+            inputs: {
+              mode: (this.interval.from) ? 'absolute' : 'relative',
+              interval: this.interval,
+            },
+            outputs: {
+                timeSelected: (ts: Observable<any>) => {
+                  this.subChartSelect = ts.subscribe((data) => {
+                    this.interval = data;
+                    this.setGraphPanel();
+                  });
+                }
+            },
+            copy: false,
+          },
+          ...moduleDef.properties.map(prop => ({
           name: '',
           component: 'growbe-module-sensor-value-graph',
           inputs: {
@@ -65,9 +101,11 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                 fields: [prop.name],
                 growbeId: this.module.mainboardId,
                 moduleId: this.module.uid,
-                liveUpdate: true,
-                lastX: 2,
-                lastXUnit: 'Hours',
+                from: this.interval.from,
+                to: this.interval.to,
+                liveUpdate: this.interval.liveUpdate,
+                lastX: this.interval.lastX,
+                lastXUnit: this.interval.lastXUnit,
               }
             } as DashboardGraphElement,
           },
@@ -76,11 +114,13 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                 'grid-column-end': '4'
           }
         })),
+      ]
       }
     }));
   }
 
   private getRawPanel() {
+    if (this.subChartSelect) { this.subChartSelect.unsubscribe() }
     return this.moduleDefAPI.getById(this.module.moduleName).pipe(map((moduleDef: GrowbeModuleDef) => {
         return {
           name: '',
@@ -95,6 +135,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
               inputs: {
                 moduleDefId: this.module.moduleName,
               },
+
               style: {
                 'grid-column-start': '1',
                 'grid-column-end': '4'

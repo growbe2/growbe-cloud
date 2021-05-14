@@ -22,6 +22,8 @@ import {
     envConfig,
     PathIDResolver,
     IDResolver,
+    DynamicModuleModule,
+    DynamicModuleService,
 } from '@berlingoqc/ngx-common';
 
 import { navigation } from './fuse/navigation/navigation';
@@ -49,9 +51,10 @@ import { HomeComponent } from './home/home.component';
 import { GrowbeAuthModule } from './auth/auth.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NavigationComponent } from './home/navigation.component';
-import { DashboardService } from './dashboard/dashboard.service';
 import { GrowbeDashboardAPI } from './growbe/api/growbe-dashboard';
-import { DashboardModule } from './dashboard/dashboard.module';
+
+import * as Dashboard from '@growbe2/growbe-dashboard';
+import { DashboardModule, DashboardRegistryService } from '@growbe2/growbe-dashboard';
 import { DASHBOARD_ITEMS } from './growbe/growbe-dashboard/items';
 @Injectable({
     providedIn: 'root',
@@ -83,13 +86,15 @@ export class NavigationWrapper {
         AuthModule.forRoot(),
         NotificationModule.forRoot({} as any),
 
-        DashboardModule.forRoot(DASHBOARD_ITEMS),
+        DynamicModuleModule,
 
         EmailModule,
         AccountModule,
         OrganisationModule,
 
         GrowbeAuthModule,
+
+        DashboardModule.forRoot(GrowbeDashboardAPI),
     ],
     providers: [
         EnvConfigurationService,
@@ -140,10 +145,10 @@ export class NavigationWrapper {
             provide: 'FAQResolver',
             useValue: () => FAQS,
         },
-        {
-            provide: DashboardService,
-            useClass: GrowbeDashboardAPI,
-        }
+        /*{
+          provide: DashboardService,
+          useClass: GrowbeDashboardAPI,
+        },*/
     ],
     bootstrap: [AppComponent],
 })
@@ -152,5 +157,20 @@ export class AppModule {
         authService: AuthService,
         layourService: LayoutEventService,
         navigationService: FuseNavigationService,
-    ) {}
+        injector: Injector,
+        moduleService: DynamicModuleService,
+        service: DashboardRegistryService,
+    ) {
+      DASHBOARD_ITEMS.forEach((t) => service.addItem(t))
+      moduleService.loadModuleSystemJS({
+        path: '/assets/umd.js',
+        location: 'http://localhost:4200/assets/umd.js',
+        moduleName: '/assets/umd.js',
+        description: '123',
+        modules: {
+          '@growbe2/growbe-dashboard': Dashboard,
+        }
+      }, injector);
+      console.log('SERVICE', service);
+    }
 }

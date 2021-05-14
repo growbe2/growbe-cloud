@@ -10,8 +10,7 @@ import {
 import { GrowbeDashboardWithRelations } from '@growbe2/ngx-cloud-api';
 import { Observable, Subject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Dashboard, DashboardItem, DashboardPanel } from 'src/app/dashboard/dashboard.model';
-import { DashboardRef, DashboardService, PanelDashboardRef, PanelItemRef } from 'src/app/dashboard/dashboard.service';
+import { Dashboard, DashboardItem, DashboardPanel,  DashboardRef, DashboardService, PanelDashboardRef, PanelItemRef } from '@growbe2/growbe-dashboard';
 
 @Injectable({ providedIn: 'root' })
 export class GrowbeDashboardAPI extends Resolving(

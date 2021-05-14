@@ -7,6 +7,7 @@ import { ModuleStatusDotComponent } from './component/module-status-dot/module-s
 import { GrowbeModuleDataTableComponent } from './component/growbe-module-data-table/growbe-module-data-table.component';
 import { GrowbeModuleDefComponent } from './component/growbe-module-def/growbe-module-def.component';
 import { MatListModule } from '@angular/material/list';
+
 import { FuseWidgetModule } from '@berlingoqc/fuse';
 import { LoopbackRestPipeModule } from '@berlingoqc/ngx-loopback';
 import { ButtonsRowModule } from 'src/app/shared/buttons-row/buttons-row.module';

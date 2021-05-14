@@ -6,17 +6,16 @@ import { DashboardRegistryItem } from "./dashboard.registry";
 export const DASHBOARDS_ITEM_DEFAULT = new InjectionToken<DashboardRegistryItem[]>('dashboards_item');
 
 
+const items: { [id:string]: DashboardRegistryItem} = {};
 
 @Injectable()
 export class DashboardRegistryService {
-  private items: { [id:string]: DashboardRegistryItem} = {};
-
 
   addItem(item: DashboardRegistryItem) {
-    this.items[item.component] = item;
+    items[item.component] = item;
   }
 
   getItem(component: string) {
-    return this.items[component];
+    return items[component];
   }
 }

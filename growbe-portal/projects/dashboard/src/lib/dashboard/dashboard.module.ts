@@ -1,4 +1,4 @@
-import { Inject, ModuleWithProviders, NgModule, Optional } from '@angular/core';
+import { Inject, ModuleWithProviders, NgModule, Optional, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardItemComponent, DashboardItemRegistryCopyDirective, ItemContentDirective } from './components/dashboard-item/dashboard-item.component';
 import { DashboardPanelComponent } from './components/dashboard-panel/dashboard-panel.component';
@@ -13,18 +13,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { MatMenuModule } from '@angular/material/menu';
 import { DashboardRegistryItem } from './registry/dashboard.registry';
+import { DashboardService } from './dashboard.service';
 
 
-@NgModule()
-export class NullDashboardModule {
-  constructor(
-    @Optional()
-    @Inject(DASHBOARDS_ITEM_DEFAULT) items: DashboardRegistryItem[],
-    private registrty: DashboardRegistryService
-  ) {
-    if (items) items.forEach((item) => this.registrty.addItem(item));
-  }
-}
 
 @NgModule({
   declarations: [DashboardItemComponent, DashboardPanelComponent, DashboardProjectComponent, ItemContentDirective, DashboardItemRegistryCopyDirective],
@@ -47,14 +38,14 @@ export class NullDashboardModule {
   exports: [DashboardPanelComponent, DashboardProjectComponent, DashboardItemComponent]
 })
 export class DashboardModule {
-  static forRoot(items: DashboardRegistryItem[]): ModuleWithProviders<NullDashboardModule> {
+  static forRoot(service: Type<DashboardService>): ModuleWithProviders<DashboardModule> {
     return {
-      ngModule: NullDashboardModule,
+      ngModule: DashboardModule,
       providers: [
         DashboardRegistryService,
         {
-          provide: DASHBOARDS_ITEM_DEFAULT,
-          useValue: items,
+          provide: DashboardService,
+          useClass: service,
         }
       ]
     }

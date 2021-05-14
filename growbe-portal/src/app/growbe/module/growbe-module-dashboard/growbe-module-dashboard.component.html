@@ -1,6 +1,16 @@
-<div>
-  <button (click)="setRawPanel()">Data brut</button>
-  <button (click)="setGraphPanel()">Graphique</button>
-</div>
+<div class="fcol full">
+<mat-toolbar>
+  <span></span>
+  <span class="spacer"></span>
+  <mat-chip-list>
+    <mat-chip  (click)="setRawPanel()">
+      Donnée brute
+    </mat-chip>
+    <mat-chip (click)="setGraphPanel()">
+    Générateur graphique
+    </mat-chip>
+  </mat-chip-list>
+</mat-toolbar>
 
 <app-dashboard-panel [static]="true" [panel]="panel$ | async"></app-dashboard-panel>
+</div>

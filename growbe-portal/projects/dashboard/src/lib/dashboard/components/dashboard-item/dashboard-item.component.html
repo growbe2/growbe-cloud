@@ -2,15 +2,16 @@
   <div class="fuse-widget-front">
     <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="end">
       <span fxFlex="100">{{dashboardItem.name}}</span>
-      <button mat-icon-button aria-label="more" [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item *ngIf="!static" fuseWidgetToggle>Options</button>
-        <button mat-menu-item appDashboardItemRegistryCopy [item]="copyForm">Copy</button>
-        <button mat-menu-item *ngIf="!static">Editer</button>
-        <button mat-menu-item *ngIf="!static" (click)="delete()">Supprimé</button>
-      </mat-menu>
+      <ng-container *ngIf="(menu | keyvalue).length > 0">
+        <button mat-icon-button aria-label="more" [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item fuseWidgetToggle>Edit</button>
+          <button mat-menu-item appDashboardItemRegistryCopy [item]="copyForm">Copy</button>
+          <button mat-menu-item (click)="delete()">Supprimé</button>
+        </mat-menu>
+      </ng-container>
     </div>
     <div>
       <ng-template [dashboardItemContent] [dashboardItem]="dashboardItem"></ng-template>
