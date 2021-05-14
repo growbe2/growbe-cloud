@@ -28,18 +28,23 @@
                     [label]="panel.name"
                 >
                     <ng-template matTabContent>
-                      <app-dashboard-panel [dashboard]="{dashboardId: projectDashboard.id}" [panel]="panel"></app-dashboard-panel>
+                        <app-dashboard-panel
+                            [dashboard]="{ dashboardId: projectDashboard.id }"
+                            [panel]="panel"
+                        ></app-dashboard-panel>
                     </ng-template>
                 </mat-tab>
 
                 <mat-tab label="+">
-                  <autoform-form [formData]="newPanelForm"></autoform-form>
+                    <autoform-form [formData]="newPanelForm"></autoform-form>
                 </mat-tab>
             </mat-tab-group>
         </fuseLayoutContent>
 
         <fuseLayoutSidebar *ngIf="projectDashboard.sidePanel">
-          <app-dashboard-panel [panel]="projectDashboard.sidePanel"></app-dashboard-panel>
+            <app-dashboard-panel
+                [panel]="projectDashboard.sidePanel"
+            ></app-dashboard-panel>
         </fuseLayoutSidebar>
     </project-dashboard>
 </ng-container>

@@ -54,7 +54,10 @@ import { NavigationComponent } from './home/navigation.component';
 import { GrowbeDashboardAPI } from './growbe/api/growbe-dashboard';
 
 import * as Dashboard from '@growbe2/growbe-dashboard';
-import { DashboardModule, DashboardRegistryService } from '@growbe2/growbe-dashboard';
+import {
+    DashboardModule,
+    DashboardRegistryService,
+} from '@growbe2/growbe-dashboard';
 import { DASHBOARD_ITEMS } from './growbe/growbe-dashboard/items';
 @Injectable({
     providedIn: 'root',
@@ -161,16 +164,19 @@ export class AppModule {
         moduleService: DynamicModuleService,
         service: DashboardRegistryService,
     ) {
-      DASHBOARD_ITEMS.forEach((t) => service.addItem(t))
-      moduleService.loadModuleSystemJS({
-        path: '/assets/umd.js',
-        location: 'http://localhost:4200/assets/umd.js',
-        moduleName: '/assets/umd.js',
-        description: '123',
-        modules: {
-          '@growbe2/growbe-dashboard': Dashboard,
-        }
-      }, injector);
-      console.log('SERVICE', service);
+        DASHBOARD_ITEMS.forEach((t) => service.addItem(t));
+        moduleService.loadModuleSystemJS(
+            {
+                path: '/assets/umd.js',
+                location: '/assets/greenhouse.umd.js',
+                moduleName: '/assets/umd.js',
+                description: '123',
+                modules: {
+                    '@growbe2/growbe-dashboard': Dashboard,
+                },
+            },
+            injector,
+        );
+        console.log('SERVICE', service);
     }
 }

@@ -5,18 +5,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { RouterModule } from '@angular/router';
 
-
-
 @NgModule({
-  declarations: [TimeframeSelectComponent],
-  imports: [
-    CommonModule,
-    MatTabsModule,
-
-    RouterModule,
-
-    AutoFormModule,
-  ],
-  exports: [TimeframeSelectComponent],
+    declarations: [TimeframeSelectComponent],
+    imports: [CommonModule, MatTabsModule, RouterModule, AutoFormModule],
+    exports: [TimeframeSelectComponent],
 })
-export class TimeframeModule { }
+export class TimeframeModule {}

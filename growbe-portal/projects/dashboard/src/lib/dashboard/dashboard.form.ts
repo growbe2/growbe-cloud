@@ -1,33 +1,39 @@
-import { AutoFormData, DialogFormContainer, InputProperty } from '@berlingoqc/ngx-autoform';
+import {
+    AutoFormData,
+    DialogFormContainer,
+    InputProperty,
+} from '@berlingoqc/ngx-autoform';
 import { notify } from '@berlingoqc/ngx-notification';
 import { Subject } from 'rxjs';
 import { DashboardItem } from './dashboard.model';
 import { DashboardRef, DashboardService } from './dashboard.service';
 
-
 export const addPanelForm = (
-  service: DashboardService,
-  dashboardRef: DashboardRef,
+    service: DashboardService,
+    dashboardRef: DashboardRef,
 ): AutoFormData => ({
-  type: 'simple',
-  items: [
-    {
-      type: 'object',
-      name: 'item',
-      properties: [
+    type: 'simple',
+    items: [
         {
-          name: 'name',
-          type: 'string',
-          displayName: 'Name of the panel'
-        }
-      ]
-    }
-  ],
-  event: {
-    submit: (data: any) => {
-      return service.addPanelToDasboard(dashboardRef, {name: data.item.name, items: []})
-    }
-  }
+            type: 'object',
+            name: 'item',
+            properties: [
+                {
+                    name: 'name',
+                    type: 'string',
+                    displayName: 'Name of the panel',
+                },
+            ],
+        },
+    ],
+    event: {
+        submit: (data: any) => {
+            return service.addPanelToDasboard(dashboardRef, {
+                name: data.item.name,
+                items: [],
+            });
+        },
+    },
 });
 
 export const getCopyDashboardForm = (
@@ -37,18 +43,25 @@ export const getCopyDashboardForm = (
 ): AutoFormData => ({
     type: 'dialog',
     typeData: {
-      width: '600px',
-      height: '400px'
+        width: '600px',
+        height: '400px',
     } as DialogFormContainer,
     event: {
-      submit: (data: any) => {
-        return service.addItemToPanelDashboard({
-          dashboardId: data.item.dashboard.id,
-          panelName: data.item.panel.name,
-        }, item).pipe(notify({
-          title: 'Copy !!'
-        }));
-      }
+        submit: (data: any) => {
+            return service
+                .addItemToPanelDashboard(
+                    {
+                        dashboardId: data.item.dashboard.id,
+                        panelName: data.item.panel.name,
+                    },
+                    item,
+                )
+                .pipe(
+                    notify({
+                        title: 'Copy !!',
+                    }),
+                );
+        },
     },
     items: [
         {
@@ -90,5 +103,5 @@ export const getCopyDashboardForm = (
                 } as InputProperty,
             ],
         },
-      ]
+    ],
 });

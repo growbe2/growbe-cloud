@@ -10,12 +10,20 @@ import {
 import { GrowbeDashboardWithRelations } from '@growbe2/ngx-cloud-api';
 import { Observable, Subject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Dashboard, DashboardItem, DashboardPanel,  DashboardRef, DashboardService, PanelDashboardRef, PanelItemRef } from '@growbe2/growbe-dashboard';
+import {
+    Dashboard,
+    DashboardItem,
+    DashboardPanel,
+    DashboardRef,
+    DashboardService,
+    PanelDashboardRef,
+    PanelItemRef,
+} from '@growbe2/growbe-dashboard';
 
 @Injectable({ providedIn: 'root' })
-export class GrowbeDashboardAPI extends Resolving(
-    LoopbackRestClientMixin<GrowbeDashboardWithRelations>(),
-) implements DashboardService {
+export class GrowbeDashboardAPI
+    extends Resolving(LoopbackRestClientMixin<GrowbeDashboardWithRelations>())
+    implements DashboardService {
     dashboardSubject = new Subject();
 
     constructor(httpClient: HttpClient, private authService: AuthService) {
@@ -23,70 +31,86 @@ export class GrowbeDashboardAPI extends Resolving(
         this.baseURL = envConfig.growbeCloud;
     }
 
+    addPanelToDasboard(
+        dashboard: DashboardRef,
+        panel: DashboardPanel,
+        element?: string,
+    ): Observable<Dashboard> {
+        return this.modifyDashboard(dashboard, (d: Dashboard) => {
+            d.panels.push(panel);
+            return d;
+        });
+    }
 
-  addPanelToDasboard(dashboard: DashboardRef, panel: DashboardPanel, element?: string): Observable<Dashboard> {
-    return this.modifyDashboard(dashboard, (d: Dashboard) => {
-      d.panels.push(panel);
-      return d;
-    });
-  }
+    addItemToPanelDashboard(
+        panel: PanelDashboardRef,
+        item: DashboardItem,
+    ): Observable<Dashboard> {
+        return this.modifyDashboard(panel, (d: Dashboard) => {
+            const panelIndex = this.getPanelIndex(d, panel);
+            d.panels[panelIndex].items.push(item);
+            return d;
+        });
+    }
 
-  addItemToPanelDashboard(panel: PanelDashboardRef, item: DashboardItem): Observable<Dashboard> {
-    return this.modifyDashboard(panel, (d: Dashboard) => {
-      const panelIndex = this.getPanelIndex(d, panel);
-      d.panels[panelIndex].items.push(item);
-      return d;
-    });
-  }
+    removeItemFromPanel(item: PanelItemRef): Observable<Dashboard> {
+        return this.modifyDashboard(item, (d: Dashboard) => {
+            const panelIndex = this.getPanelIndex(d, item);
+            const itemIndex = this.getItemPanelIndex(
+                d.panels[panelIndex],
+                item,
+            );
+            d.panels[panelIndex].items.splice(itemIndex, 1);
+            return d;
+        });
+    }
 
-  removeItemFromPanel(item: PanelItemRef): Observable<Dashboard> {
-     return this.modifyDashboard(item, (d: Dashboard) => {
-      const panelIndex = this.getPanelIndex(d, item);
-      const itemIndex = this.getItemPanelIndex(d.panels[panelIndex], item);
-      d.panels[panelIndex].items.splice(itemIndex, 1);
-      return d;
-    });
-  }
+    removePanelFromDashboard(panel: PanelDashboardRef): Observable<Dashboard> {
+        return this.modifyDashboard(panel, (d: Dashboard) => {
+            const panelIndex = this.getPanelIndex(d, panel);
+            d.panels.splice(panelIndex, 1);
+            return d;
+        });
+    }
 
-  removePanelFromDashboard(panel: PanelDashboardRef): Observable<Dashboard> {
-    return this.modifyDashboard(panel, (d: Dashboard) => {
-      const panelIndex = this.getPanelIndex(d, panel);
-      d.panels.splice(panelIndex, 1);
-      return d;
-    })
-  }
+    removeDashboard(dashboard: DashboardRef): Observable<void> {
+        return this.delete(dashboard.dashboardId);
+    }
 
-  removeDashboard(dashboard: DashboardRef): Observable<void> {
-    return this.delete(dashboard.dashboardId);
-  }
+    getDashboards() {
+        return this.get({
+            where: {
+                userId: this.authService.profile.id,
+            },
+        }) as Observable<Dashboard[]>;
+    }
 
+    private getPanelIndex(
+        dashboard: Dashboard,
+        panel: PanelDashboardRef,
+    ): number {
+        return dashboard.panels.findIndex((x) => x.name === panel.panelName);
+    }
 
-  getDashboards() {
-    return this.get({
-      where: {
-        userId: this.authService.profile.id
-      }
-    }) as Observable<Dashboard[]>;
-  }
+    private getItemPanelIndex(
+        panel: DashboardPanel,
+        item: PanelItemRef,
+    ): number {
+        return panel.items.findIndex((x) => x.name === item.itemName);
+    }
 
-
-  private getPanelIndex(dashboard: Dashboard, panel: PanelDashboardRef): number {
-    return dashboard.panels.findIndex(x => x.name === panel.panelName);
-  }
-
-  private getItemPanelIndex(panel: DashboardPanel, item: PanelItemRef): number {
-    return panel.items.findIndex(x => x.name == item.itemName);
-  }
-
-  private modifyDashboard(ref: DashboardRef, callback: (d: Dashboard) => Dashboard) {
-    return this.getById(ref.dashboardId).pipe(
-      switchMap(
-        (dashboard: Dashboard) => {
-          dashboard = callback(dashboard)
-          this.dashboardSubject.next(dashboard);
-          return this.updateById(ref.dashboardId, dashboard).pipe(map(() => dashboard))
-        }
-     )
-    ) as Observable<Dashboard>;
-  }
+    private modifyDashboard(
+        ref: DashboardRef,
+        callback: (d: Dashboard) => Dashboard,
+    ) {
+        return this.getById(ref.dashboardId).pipe(
+            switchMap((dashboard: Dashboard) => {
+                dashboard = callback(dashboard);
+                this.dashboardSubject.next(dashboard);
+                return this.updateById(ref.dashboardId, dashboard).pipe(
+                    map(() => dashboard),
+                );
+            }),
+        ) as Observable<Dashboard>;
+    }
 }

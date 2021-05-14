@@ -20,7 +20,10 @@ import { GraphSearchBarModule } from '../module/graph/graph-search-bar/graph-sea
 
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { GrowbeMainboardModule } from '../growbe-mainboard/growbe-mainboard.module';
-import { DashboardModule, DashboardRegistryService } from '@growbe2/growbe-dashboard';
+import {
+    DashboardModule,
+    DashboardRegistryService,
+} from '@growbe2/growbe-dashboard';
 import { DASHBOARD_ITEMS } from './items';
 import { TimeframeModule } from 'src/app/shared/timeframe/timeframe.module';
 import { inject } from '@angular/core/testing';
@@ -57,9 +60,7 @@ import { inject } from '@angular/core/testing';
     ],
 })
 export class GrowbeDashboardModule {
-  constructor(
-    service: DashboardRegistryService,
-  ) {
-    console.log('SERVICES', service);
-  }
+    constructor(service: DashboardRegistryService) {
+        console.log('SERVICES', service);
+    }
 }

@@ -76,11 +76,12 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
             },
         ],
         event: {
-            initialData: () => this.mainboardAPI.getById(this.id).pipe(
-              map((mainboard) => ({
-                mainboard: mainboard
-              }))
-            ),
+            initialData: () =>
+                this.mainboardAPI.getById(this.id).pipe(
+                    map((mainboard) => ({
+                        mainboard,
+                    })),
+                ),
             submit: (d) =>
                 this.mainboardAPI.updateById(this.id, d.mainboard).pipe(
                     notify({

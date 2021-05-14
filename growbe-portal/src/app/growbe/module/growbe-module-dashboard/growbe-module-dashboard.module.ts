@@ -9,20 +9,18 @@ import { TimeframeModule } from 'src/app/shared/timeframe/timeframe.module';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatChipsModule } from '@angular/material/chips';
 
-
-
 @NgModule({
-  declarations: [GrowbeModuleDashboardComponent],
-  imports: [
-    CommonModule,
+    declarations: [GrowbeModuleDashboardComponent],
+    imports: [
+        CommonModule,
 
-    MatChipsModule,
-    MatToolbarModule,
-    TimeframeModule,
-    DashboardModule,
-    GraphModule,
-    UnitModule,
-    GrowbeModuleModule
-  ]
+        MatChipsModule,
+        MatToolbarModule,
+        TimeframeModule,
+        DashboardModule,
+        GraphModule,
+        UnitModule,
+        GrowbeModuleModule,
+    ],
 })
-export class GrowbeModuleDashboardModule { }
+export class GrowbeModuleDashboardModule {}

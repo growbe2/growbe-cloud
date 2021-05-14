@@ -23,8 +23,7 @@ const routes: Routes = [
     {
         path: ':id',
         component: GrowbeDynamicDashboardComponent,
-        data: {
-        },
+        data: {},
         resolve: {
             dashboard: GrowbeDashboardAPI,
         },

@@ -9,33 +9,33 @@ import { Dashboard, ProjectDashboard } from '../../dashboard.model';
 import { DashboardService } from '../../dashboard.service';
 
 @Component({
-  selector: 'app-dashboard-project',
-  templateUrl: './dashboard-project.component.html',
-  styleUrls: ['./dashboard-project.component.scss'],
-  animations: fuseAnimations,
+    selector: 'app-dashboard-project',
+    templateUrl: './dashboard-project.component.html',
+    styleUrls: ['./dashboard-project.component.scss'],
+    animations: fuseAnimations,
 })
 @unsubscriber
 export class DashboardProjectComponent implements OnInit {
+    @Input() projectDashboard: ProjectDashboard;
 
-  @Input() projectDashboard: ProjectDashboard
+    sub: Subscription;
 
-  sub: Subscription;
+    newPanelForm: AutoFormData;
 
+    constructor(private dashboardService: DashboardService) {}
 
-  newPanelForm: AutoFormData;
+    ngOnInit(): void {
+        this.sub = this.dashboardService.dashboardSubject
+            .asObservable()
+            .pipe(
+                filter((d: Dashboard) => d.name === this.projectDashboard.name),
+            )
+            .subscribe((dashboard) => {
+                this.projectDashboard = dashboard;
+            });
 
-  constructor(
-    private dashboardService: DashboardService,
-  ) { }
-
-  ngOnInit(): void {
-    this.sub = this.dashboardService.dashboardSubject.asObservable()
-      .pipe(filter((d: Dashboard) => d.name === this.projectDashboard.name))
-      .subscribe((dashboard) => {
-        this.projectDashboard = dashboard;
-      });
-
-    this.newPanelForm = addPanelForm(this.dashboardService, {dashboardId: this.projectDashboard.id})
-  }
-
+        this.newPanelForm = addPanelForm(this.dashboardService, {
+            dashboardId: this.projectDashboard.id,
+        });
+    }
 }

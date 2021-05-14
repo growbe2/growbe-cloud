@@ -4,14 +4,14 @@
     "compilerOptions": {
         "baseUrl": "./",
         "paths": {
-          "@growbe2/growbe-dashboard": [
-            "dist/dashboard/dashboard",
-            "dist/dashboard"
-          ],
-          "@growbe2/growbe-greenhouse-module": [
-            "dist/greenhouse/greenhouse",
-            "dist/greenhouse"
-          ]
+            "@growbe2/growbe-dashboard": [
+                "dist/dashboard/dashboard",
+                "dist/dashboard"
+            ],
+            "@growbe2/growbe-greenhouse-module": [
+                "dist/greenhouse/greenhouse",
+                "dist/greenhouse"
+            ]
         },
         "outDir": "./dist/out-tsc",
         "sourceMap": true,
@@ -25,7 +25,7 @@
         "module": "es2020",
         "lib": ["es2018", "dom"]
     },
-    "angularCompilerOptions": {
-      "enableIvy": true
+    "angularCompilerOptions": {
+        "enableIvy": true
     }
 }

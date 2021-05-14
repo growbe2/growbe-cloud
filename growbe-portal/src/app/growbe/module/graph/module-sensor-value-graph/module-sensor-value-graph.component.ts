@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy,
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     Input,
@@ -35,13 +35,16 @@ export class ModuleSensorValueGraphComponent implements OnInit, OnDestroy {
     ) {}
 
     async ngOnInit() {
-      console.log(this.data);
+        console.log(this.data);
         if (!this.data) {
             return;
         }
         this.graphService
             .getGraph(this.data.type, this.data.graphDataConfig)
-            .subscribe((serie) => {(this.chartSerie = serie); this.changeDetection.markForCheck() });
+            .subscribe((serie) => {
+                this.chartSerie = serie;
+                this.changeDetection.markForCheck();
+            });
         if (this.data.graphDataConfig.liveUpdate) {
             this.sub = this.topic
                 .getGrowbeEvent(

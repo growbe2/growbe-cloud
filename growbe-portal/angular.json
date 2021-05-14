@@ -36,9 +36,7 @@
                             "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
                             "src/styles.scss"
                         ],
-                        "scripts": [
-                            "node_modules/systemjs/dist/system.js"
-                        ]
+                        "scripts": ["node_modules/systemjs/dist/system.js"]
                     },
                     "configurations": {
                         "production": {
@@ -161,9 +159,7 @@
                             "projects/dashboard/tsconfig.lib.json",
                             "projects/dashboard/tsconfig.spec.json"
                         ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
+                        "exclude": ["**/node_modules/**"]
                     }
                 }
             }
@@ -201,9 +197,7 @@
                             "projects/greenhouse/tsconfig.lib.json",
                             "projects/greenhouse/tsconfig.spec.json"
                         ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
+                        "exclude": ["**/node_modules/**"]
                     }
                 }
             }

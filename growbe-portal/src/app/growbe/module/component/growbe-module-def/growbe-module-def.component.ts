@@ -38,7 +38,9 @@ export class GrowbeModuleDefComponent implements OnInit {
     constructor(private moduleDefAPI: GrowbeModuleDefAPI) {}
 
     async ngOnInit(): Promise<void> {
-        if (!this.moduleDefId) {return;}
+        if (!this.moduleDefId) {
+            return;
+        }
         this.moduleDef = await this.moduleDefAPI
             .getById(this.moduleDefId)
             .pipe(take(1))
