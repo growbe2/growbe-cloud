@@ -6,10 +6,11 @@ import {
     GrowbeModuleDef,
     GrowbeModuleWithRelations,
 } from '@growbe2/ngx-cloud-api';
-import { Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Observable, of, Subscription } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 import { DashboardPanel, ProjectDashboard } from '@growbe2/growbe-dashboard';
 import { GrowbeModuleDefAPI } from '../../api/growbe-module-def';
+import { growbeModuleDefForm } from '../component/growbe-module-def/growbe-module-def.form';
 
 @Component({
     selector: 'app-growbe-module-dashboard',
@@ -62,7 +63,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                 },
                 items: [
                     {
-                        name: '',
+                        name: `Graph Builder`,
                         component: 'timeframe-select',
                         style: {
                             'grid-column-start': '1',
@@ -82,8 +83,10 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         },
                         copy: false,
                     },
-                    ...moduleDef.properties.map((prop) => ({
-                        name: '',
+                    ...Object.values(moduleDef.properties).map((prop) => ({
+                        name: moduleDef.properties[prop.name].displayName
+                            ? moduleDef.properties[prop.name].displayName
+                            : moduleDef.properties[prop.name].name,
                         component: 'growbe-module-sensor-value-graph',
                         inputs: {
                             data: {
@@ -139,7 +142,22 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         inputs: {
                             moduleDefId: this.module.moduleName,
                         },
-
+                        edit: growbeModuleDefForm(moduleDef, (data) => {
+                            const updateObs = this.moduleDefAPI.updateById(
+                                this.module.moduleName,
+                                data,
+                            );
+                            if (moduleDef.id.includes(':')) {
+                                return updateObs;
+                            } else {
+                                return this.moduleDefAPI
+                                    .override({
+                                        moduleId: this.module.uid,
+                                        moduleName: moduleDef.id,
+                                    })
+                                    .pipe(switchMap(() => updateObs));
+                            }
+                        }),
                         style: {
                             'grid-column-start': '1',
                             'grid-column-end': '4',
@@ -156,8 +174,10 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                             'grid-column-end': '6',
                         },
                     },
-                    ...moduleDef.properties.map((prop) => ({
-                        name: '',
+                    ...Object.values(moduleDef.properties).map((prop) => ({
+                        name: moduleDef.properties[prop.name].displayName
+                            ? moduleDef.properties[prop.name].displayName
+                            : moduleDef.properties[prop.name].name,
                         component: 'growbe-module-last-value',
                         inputs: {
                             data: {

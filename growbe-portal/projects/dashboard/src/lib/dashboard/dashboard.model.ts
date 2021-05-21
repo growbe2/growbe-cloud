@@ -1,3 +1,4 @@
+import { AutoFormData } from '@berlingoqc/ngx-autoform';
 import { Observable } from 'rxjs';
 
 export interface Style {
@@ -11,6 +12,7 @@ export interface DashboardItem {
     inputs: { [id: string]: any };
     outputs: { [id: string]: (obs: Observable<any>) => void };
     copy: boolean;
+    edit?: AutoFormData;
 }
 
 export interface DashboardPanel extends Style {

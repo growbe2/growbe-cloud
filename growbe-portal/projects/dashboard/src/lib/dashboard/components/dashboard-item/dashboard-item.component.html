@@ -11,7 +11,10 @@
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item fuseWidgetToggle>Edit</button>
+                    <button mat-menu-item
+                      *ngIf="dashboardItem.edit"
+                      (click)="editForm.exposition.open()"
+                    >Edit</button>
                     <button
                         mat-menu-item
                         appDashboardItemRegistryCopy
@@ -30,9 +33,12 @@
             ></ng-template>
         </div>
     </div>
-    <div class="fuse-widget-back" fusePerfectScrollbar>
+    <!--<div *ngIf="dashboardItem.edit" class="fuse-widget-back" fusePerfectScrollbar>
         <button fuseWidgetToggle>cancel</button>
-    </div>
+
+        <autoform-form [formData]="dashboardItem.edit"></autoform-form>
+    </div>-->
 </fuse-widget>
 
 <autoform-form #copyForm [formData]="formData"></autoform-form>
+<autoform-form #editForm [formData]="dashboardItem?.edit"></autoform-form>

@@ -7,7 +7,10 @@ import {
   GrowbeStreamRepository,
   NMSBindings,
 } from '../component';
-import {GrowbeMainboardController} from './controllers';
+import {
+  GrowbeMainboardController,
+  GrowbeModuleDefController,
+} from './controllers';
 import {CRUD_CONTROLLERS} from './crud-controller';
 
 export class CloudComponent implements Component {
@@ -28,6 +31,6 @@ export class CloudComponent implements Component {
     }
   }
 
-  controllers = [GrowbeMainboardController];
+  controllers = [GrowbeMainboardController, GrowbeModuleDefController];
   bindings = [];
 }
