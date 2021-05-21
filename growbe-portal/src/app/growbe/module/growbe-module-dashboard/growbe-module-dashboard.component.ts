@@ -84,7 +84,9 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         copy: false,
                     },
                     ...Object.values(moduleDef.properties).map((prop) => ({
-                        name: (moduleDef.properties[prop.name].displayName) ? moduleDef.properties[prop.name].displayName : moduleDef.properties[prop.name].name,
+                        name: moduleDef.properties[prop.name].displayName
+                            ? moduleDef.properties[prop.name].displayName
+                            : moduleDef.properties[prop.name].name,
                         component: 'growbe-module-sensor-value-graph',
                         inputs: {
                             data: {
@@ -141,16 +143,20 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                             moduleDefId: this.module.moduleName,
                         },
                         edit: growbeModuleDefForm(moduleDef, (data) => {
-                          const updateObs =
-                            this.moduleDefAPI.updateById(this.module.moduleName, data);
-                          if (moduleDef.id.includes(':')) {
-                            return updateObs;
-                          } else {
-                            return this.moduleDefAPI.override({
-                              moduleId: this.module.uid,
-                              moduleName: moduleDef.id
-                            }).pipe(switchMap(() => updateObs))
-                          }
+                            const updateObs = this.moduleDefAPI.updateById(
+                                this.module.moduleName,
+                                data,
+                            );
+                            if (moduleDef.id.includes(':')) {
+                                return updateObs;
+                            } else {
+                                return this.moduleDefAPI
+                                    .override({
+                                        moduleId: this.module.uid,
+                                        moduleName: moduleDef.id,
+                                    })
+                                    .pipe(switchMap(() => updateObs));
+                            }
                         }),
                         style: {
                             'grid-column-start': '1',
@@ -169,7 +175,9 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         },
                     },
                     ...Object.values(moduleDef.properties).map((prop) => ({
-                        name: (moduleDef.properties[prop.name].displayName) ? (moduleDef.properties[prop.name].displayName) : moduleDef.properties[prop.name].name,
+                        name: moduleDef.properties[prop.name].displayName
+                            ? moduleDef.properties[prop.name].displayName
+                            : moduleDef.properties[prop.name].name,
                         component: 'growbe-module-last-value',
                         inputs: {
                             data: {

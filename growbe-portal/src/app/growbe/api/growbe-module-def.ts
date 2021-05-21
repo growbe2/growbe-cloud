@@ -14,8 +14,7 @@ export class GrowbeModuleDefAPI extends Caching(
         this.baseURL = envConfig.growbeCloud;
     }
 
-    override(data: {moduleId: string, moduleName: string}): Observable<void> {
-      return this.httpClient.post<void>(`${this.url}/override`, data);
+    override(data: { moduleId: string; moduleName: string }): Observable<void> {
+        return this.httpClient.post<void>(`${this.url}/override`, data);
     }
-
 }

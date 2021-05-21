@@ -60,7 +60,7 @@ export class GrowbeModuleDataTableComponent implements OnInit {
                     },
                     ...Object.values(def.properties).map((prop: any) => ({
                         id: prop.name,
-                        title: (prop.displayName) ? prop.displayName : prop.name,
+                        title: prop.displayName ? prop.displayName : prop.name,
                         content: (e) => e[prop.name],
                     })),
                     {
