@@ -36,9 +36,7 @@ export class GrowbeModuleDefService {
              id: moduleName
            },
            {
-             id: {
-               like: `${moduleName}:%`
-             }
+             id: `${moduleName}:%`
            }
          ]
        }

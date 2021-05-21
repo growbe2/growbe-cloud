@@ -11,7 +11,7 @@ export class Range {
 export class PropertyModule {
   @property()
   name: string;
-  @property()
+  @property({jsonSchema: {nullable: true}})
   displayName?: string;
   @property()
   definition: string;
@@ -31,7 +31,7 @@ export class GrowbeModuleDef extends Entity {
   @property({id: true, generated: false})
   id: string;
 
-  @property()
+  @property({jsonSchema: {nullable: true}})
   displayName?: string;
 
   @property()
