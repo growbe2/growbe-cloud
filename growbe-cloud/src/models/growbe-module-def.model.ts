@@ -23,7 +23,7 @@ export class PropertyModule {
 
 @model({settings: {strict: false}})
 export class PropertiesModule {
-  [id: string]: PropertyModule,
+  [id: string]: PropertyModule;
 }
 
 @model()
@@ -44,7 +44,7 @@ export class GrowbeModuleDef extends Entity {
   pbModelName: string;
 
   @property()
-  properties: any;// bug de parsing PropertiesModules thx lb4
+  properties: any; // bug de parsing PropertiesModules thx lb4
 
   constructor(data?: Partial<GrowbeModuleDef>) {
     super(data);
