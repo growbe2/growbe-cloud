@@ -11,7 +11,7 @@
     "publishnpm": "cd out/ && npm publish",
     "setversion": "sed \"s/REPLACE/$npm_package_version/g\" version_cloud.h > out/version_cloud.h",
     "version": "node -p \"require('./package.json').version\"",
-    "copyc": "cp out/*pb* ../../../growbe2/AWS_LPC54018_Growbe_Mainboard/source/cloud/pb_struct/"
+    "copyc": "cp out/*pb* ../../growbe_mainboard/source/cloud/pb_struct/"
   },
   "license": "MIT",
   "keywords": [],

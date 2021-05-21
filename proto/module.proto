@@ -76,6 +76,13 @@ message RelayOutletConfig {
     }    
 }
 
+message WCModuleData {
+    repeated RelayOutletData relays = 1;
+}
+
+message WCModuleConfig {
+    repeated RelayOutletConfig relays = 1;
+}
 
 enum MessageType {
     MT_UNKNOW = 0;
@@ -87,4 +94,6 @@ enum MessageType {
     MT_THLMODULEDATA = 6;
     MT_SOILMODULEDATA = 7;
     MT_WAMODULEDATA = 8;
+    MT_WCMODULEDATA = 9;
+    MT_WCMODULECONFIG = 10;
 }
