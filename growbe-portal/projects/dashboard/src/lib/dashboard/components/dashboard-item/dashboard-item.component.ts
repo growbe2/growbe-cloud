@@ -78,6 +78,9 @@ export class ItemContentDirective implements OnInit {
     ) {}
 
     ngOnInit() {
+      if (this.dashboardItem.edit) {
+        this.this.dashboardItem.edit.type = 'dialog';
+      }
         this.registryItem = this.registry.getItem(this.dashboardItem.component);
         const factory = this.componentFactoryResolver.resolveComponentFactory(
             this.registryItem.componentType,

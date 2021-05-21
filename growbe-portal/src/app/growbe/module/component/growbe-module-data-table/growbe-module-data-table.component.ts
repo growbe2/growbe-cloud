@@ -2,11 +2,14 @@ import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AutoTableComponent, TableColumn } from '@berlingoqc/ngx-autotable';
+import { unsubscriber } from '@berlingoqc/ngx-common';
 import { Where } from '@berlingoqc/ngx-loopback';
 import {
     GrowbeModule,
     GrowbeModuleDefWithRelations,
 } from '@growbe2/ngx-cloud-api';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
 import { GrowbeSensorValueAPI } from 'src/app/growbe/api/growbe-sensor-value';
@@ -18,6 +21,7 @@ import { ButtonsRowComponent } from 'src/app/shared/buttons-row/buttons-row/butt
     styleUrls: ['./growbe-module-data-table.component.scss'],
     providers: [DatePipe],
 })
+@unsubscriber
 export class GrowbeModuleDataTableComponent implements OnInit {
     @ViewChild(AutoTableComponent) table: AutoTableComponent;
 
@@ -28,6 +32,8 @@ export class GrowbeModuleDataTableComponent implements OnInit {
     where: Where;
 
     orderBy: string[] = ['createdAt DESC'];
+
+    sub: Subscription;
 
     constructor(
         private datePipe: DatePipe,
@@ -42,7 +48,7 @@ export class GrowbeModuleDataTableComponent implements OnInit {
         this.where = {
             moduleId: this.module.uid,
         };
-        this.moduleDefAPI
+        this.sub = this.moduleDefAPI
             .getById(this.module.moduleName)
             .subscribe((def: GrowbeModuleDefWithRelations) => {
                 this.columns = [
@@ -52,9 +58,9 @@ export class GrowbeModuleDataTableComponent implements OnInit {
                         content: (d) =>
                             this.datePipe.transform(d.createdAt, 'short'),
                     },
-                    ...Object.values(def.properties).map((prop) => ({
+                    ...Object.values(def.properties).map((prop: any) => ({
                         id: prop.name,
-                        title: prop.name,
+                        title: (prop.displayName) ? prop.displayName : prop.name,
                         content: (e) => e[prop.name],
                     })),
                     {
@@ -78,6 +84,7 @@ export class GrowbeModuleDataTableComponent implements OnInit {
                                             ) => {
                                                 this.sensorValueAPI
                                                     .delete(context.id)
+                                                    .pipe(take(1))
                                                     .subscribe(() => {
                                                         this.table.refreshData();
                                                         this.table.length -= 1;

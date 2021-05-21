@@ -7,7 +7,7 @@ import {
     GrowbeModuleWithRelations,
 } from '@growbe2/ngx-cloud-api';
 import { Observable, of, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { DashboardPanel, ProjectDashboard } from '@growbe2/growbe-dashboard';
 import { GrowbeModuleDefAPI } from '../../api/growbe-module-def';
 import { growbeModuleDefForm } from '../component/growbe-module-def/growbe-module-def.form';
@@ -63,7 +63,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                 },
                 items: [
                     {
-                        name: '',
+                        name: `Graph Builder`,
                         component: 'timeframe-select',
                         style: {
                             'grid-column-start': '1',
@@ -84,7 +84,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         copy: false,
                     },
                     ...Object.values(moduleDef.properties).map((prop) => ({
-                        name: moduleDef.properties[prop.name].displayName,
+                        name: (moduleDef.properties[prop.name].displayName) ? moduleDef.properties[prop.name].displayName : moduleDef.properties[prop.name].name,
                         component: 'growbe-module-sensor-value-graph',
                         inputs: {
                             data: {
@@ -141,7 +141,16 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                             moduleDefId: this.module.moduleName,
                         },
                         edit: growbeModuleDefForm(moduleDef, (data) => {
-                          return this.moduleDefAPI.updateById(this.module.moduleName, data);
+                          const updateObs =
+                            this.moduleDefAPI.updateById(this.module.moduleName, data);
+                          if (moduleDef.id.includes(':')) {
+                            return updateObs;
+                          } else {
+                            return this.moduleDefAPI.override({
+                              moduleId: this.module.uid,
+                              moduleName: moduleDef.id
+                            }).pipe(switchMap(() => updateObs))
+                          }
                         }),
                         style: {
                             'grid-column-start': '1',

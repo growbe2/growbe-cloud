@@ -1,10 +1,13 @@
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
-import { ArrayProperty, AutoFormData, InputProperty } from "@berlingoqc/ngx-autoform";
+import { ArrayProperty, AutoFormData, DialogFormContainer, InputProperty } from "@berlingoqc/ngx-autoform";
 import { GrowbeModuleDef } from "@growbe2/ngx-cloud-api";
 import { Observable, of } from "rxjs";
 
 export const growbeModuleDefForm = (moduleDef: GrowbeModuleDef, callback: (data: any) => Observable<any>): AutoFormData => ({
-  type: 'simple',
+  type: 'dialog',
+  typeData: {
+    minWidth: '50%'
+  } as DialogFormContainer,
   items: [
     {
       type: 'object',
@@ -42,6 +45,20 @@ export const growbeModuleDefForm = (moduleDef: GrowbeModuleDef, callback: (data:
                   type: 'string',
                   name: 'definition',
                   displayName: 'Definition'
+                },
+                {
+                  type: 'object',
+                  name: 'operationalRange',
+                  properties: [
+                    {
+                      type: 'number',
+                      name: 'min'
+                    },
+                    {
+                      type: 'number',
+                      name: 'max'
+                    }
+                  ]
                 }
               ]
             } as any))
