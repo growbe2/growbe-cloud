@@ -12,4 +12,5 @@ export class GrowbeModuleDefAPI extends Caching(
         super(httpClient, '/growbeModuleDefs');
         this.baseURL = envConfig.growbeCloud;
     }
+
 }

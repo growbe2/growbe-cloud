@@ -6,10 +6,11 @@ import {
     GrowbeModuleDef,
     GrowbeModuleWithRelations,
 } from '@growbe2/ngx-cloud-api';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { DashboardPanel, ProjectDashboard } from '@growbe2/growbe-dashboard';
 import { GrowbeModuleDefAPI } from '../../api/growbe-module-def';
+import { growbeModuleDefForm } from '../component/growbe-module-def/growbe-module-def.form';
 
 @Component({
     selector: 'app-growbe-module-dashboard',
@@ -82,8 +83,8 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         },
                         copy: false,
                     },
-                    ...moduleDef.properties.map((prop) => ({
-                        name: '',
+                    ...Object.values(moduleDef.properties).map((prop) => ({
+                        name: moduleDef.properties[prop.name].displayName,
                         component: 'growbe-module-sensor-value-graph',
                         inputs: {
                             data: {
@@ -139,7 +140,9 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         inputs: {
                             moduleDefId: this.module.moduleName,
                         },
-
+                        edit: growbeModuleDefForm(moduleDef, (data) => {
+                          return this.moduleDefAPI.updateById(this.module.moduleName, data);
+                        }),
                         style: {
                             'grid-column-start': '1',
                             'grid-column-end': '4',
@@ -156,8 +159,8 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                             'grid-column-end': '6',
                         },
                     },
-                    ...moduleDef.properties.map((prop) => ({
-                        name: '',
+                    ...Object.values(moduleDef.properties).map((prop) => ({
+                        name: (moduleDef.properties[prop.name].displayName) ? (moduleDef.properties[prop.name].displayName) : moduleDef.properties[prop.name].name,
                         component: 'growbe-module-last-value',
                         inputs: {
                             data: {

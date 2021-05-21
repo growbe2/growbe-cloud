@@ -18,7 +18,7 @@ export class GrowbeModuleDefComponent implements OnInit {
         {
             id: 'name',
             title: 'Name',
-            content: (p) => p.name,
+            content: (p) => (p.displayName) ? p.displayName : p.name,
         },
         {
             id: 'definition',
@@ -45,7 +45,6 @@ export class GrowbeModuleDefComponent implements OnInit {
             .getById(this.moduleDefId)
             .pipe(take(1))
             .toPromise();
-        this.source = new StaticDataSource(this.moduleDef.properties);
-        console.log('SOURce');
+        this.source = new StaticDataSource(Object.values(this.moduleDef.properties));
     }
 }

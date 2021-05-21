@@ -6,10 +6,15 @@ import {
     OnDestroy,
     OnInit,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { GrowbeGraphService } from '../service/growbe-graph.service';
 import { THLModuleData } from '@growbe2/growbe-pb';
+import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
+import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
+import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
+import { map, take } from 'rxjs/operators';
+import { GrowbeModuleDef, GrowbeModuleWithRelations } from '@growbe2/ngx-cloud-api';
 
 @Component({
     selector: 'app-module-last-value',
@@ -22,16 +27,18 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
 
     sub: Subscription;
 
+    moduleDef: Observable<GrowbeModuleDef>;
+
     value: number;
     lastValue: number;
     at: Date;
-
     historic: number[] = [];
 
     constructor(
         private topic: GrowbeEventService,
         private graphService: GrowbeGraphService,
         private changeDetection: ChangeDetectorRef,
+        private moduleAPI: GrowbeModuleAPI,
     ) {}
 
     ngOnInit(): void {
@@ -41,6 +48,8 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
         this.graphService
             .getGraph('lastread', this.data.graphDataConfig)
             .subscribe(async (data: any) => {
+                this.moduleDef = this.moduleAPI.get({where: { uid: this.data.graphDataConfig.moduleId }, include: [{relation: 'moduleDef'}]})
+                    .pipe(map((modules: GrowbeModuleWithRelations[]) => modules[0].moduleDef));
                 this.value = data[this.data.graphDataConfig.fields[0]];
                 this.at = data.createdAt;
                 this.changeDetection.markForCheck();

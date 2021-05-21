@@ -18,9 +18,9 @@ import {
 } from '@growbe2/ngx-cloud-api';
 
 @Injectable({ providedIn: 'root' })
-export class GrowbeModuleAPI extends Resolving(
+export class GrowbeModuleAPI extends Caching(Resolving(
     LoopbackRestClientMixin<GrowbeModuleWithRelations>(),
-) {
+)) {
     growbeSensorValues = addLoopbackRelation(
         this,
         LoopbackRelationClientMixin<GrowbeSensorValueWithRelations>(),

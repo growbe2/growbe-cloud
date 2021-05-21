@@ -52,7 +52,7 @@ export class GrowbeModuleDataTableComponent implements OnInit {
                         content: (d) =>
                             this.datePipe.transform(d.createdAt, 'short'),
                     },
-                    ...def.properties.map((prop) => ({
+                    ...Object.values(def.properties).map((prop) => ({
                         id: prop.name,
                         title: prop.name,
                         content: (e) => e[prop.name],
