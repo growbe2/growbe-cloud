@@ -10,6 +10,7 @@ const GrowbePB = require('@growbe2/growbe-pb');
 const mapType = {
     'config': 3,
     'setTime': 5,
+    'AAB': 10,
 }
 
 
@@ -45,9 +46,13 @@ client.on('connect', () => {
         const topicItems = topic.split('/');
         const lastItem = topicItems[topicItems.length - 1];
 
+        const item = Object.entries(mapType).find(entrie => lasItem.includes(entrie[0]));
+
+        console.log('MESSAGE TYPE', item);
+
         const data = GrowbePB.GrowbeMessage.encode(new GrowbePB.GrowbeMessage({
             topic,
-            messageType: mapType[lastItem],
+            messageType: item[1],
             body: message,
         })).finish();
 
