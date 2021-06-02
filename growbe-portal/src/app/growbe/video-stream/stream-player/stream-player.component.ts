@@ -4,7 +4,6 @@ import {
     ElementRef,
     Input,
     OnInit,
-    Output,
     ViewChild,
 } from '@angular/core';
 import { envConfig } from '@berlingoqc/ngx-common';
@@ -17,7 +16,6 @@ import flvjs from 'flv.js';
     styleUrls: ['./stream-player.component.scss'],
 })
 export class StreamPlayerComponent implements OnInit, AfterViewInit {
-    @Input() width = 500;
     @ViewChild('element') element: ElementRef<HTMLMediaElement>;
     player: flvjs.Player;
 

@@ -4,15 +4,17 @@ import { TableColumn } from '@berlingoqc/ngx-autotable';
 import { StaticDataSource } from '@berlingoqc/ngx-loopback';
 import { notify } from '@berlingoqc/ngx-notification';
 import { GrowbeStream } from '@growbe2/ngx-cloud-api/lib/cloud/model/growbeStream';
-import { take } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { GrowbeStreamAPI } from 'src/app/growbe/api/growbe-stream';
+
+type newEditFormValue = { streamControl: { name: string }};
 
 @Directive({ selector: '[formComponent]'})
 export class NewEditFormDirective {
     @Input() formComponent: AutoFormComponent;
     @HostListener('click') click() {
+        this.formComponent.exposition.this.formGroup.reset();
         this.formComponent.exposition.open();
-        console.log(this.formComponent.exposition.this.formGroup.controls);
     }
 }
 
@@ -29,15 +31,10 @@ export class StreamPickerComponent implements OnInit, AfterViewInit {
     @ViewChild('delete') delete: TemplateRef<any>;
     source: StaticDataSource<GrowbeStream>;
 
-    constructor(public growbeStreamAPI: GrowbeStreamAPI) {}
+    constructor(public growbeStreamAPI: GrowbeStreamAPI) { }
 
-    async ngOnInit() {
-        this.source = new StaticDataSource(
-            await this.growbeStreamAPI
-                .getLiveStreams(this.growbeId)
-                .pipe(take(1))
-                .toPromise()
-        );
+    ngOnInit() {
+        this.getStreamList();
     }
 
     ngAfterViewInit() {
@@ -45,17 +42,13 @@ export class StreamPickerComponent implements OnInit, AfterViewInit {
         (this.columns[2].content as any).content = this.delete;
     }
 
-    createStream(): void {
-        this.growbeStreamAPI
-            .createLiveStream(this.growbeId, 'bc_test_3')
-            .pipe(
-                notify({
-                    title: 'Stream ajouté.',
-                    titleFailed: 'Échec. Veuillez réssayer.',
-                    body: () => 'bc_test_3',
-                })
-            )
-            .subscribe();
+    async getStreamList() {
+        this.source = new StaticDataSource(
+            await this.growbeStreamAPI
+                .getLiveStreams(this.growbeId)
+                .pipe(take(1))
+                .toPromise()
+        );
     }
 
     deleteStream(stream: GrowbeStream): void {
@@ -65,18 +58,18 @@ export class StreamPickerComponent implements OnInit, AfterViewInit {
                 notify({
                     title: 'Stream supprimé',
                     titleFailed: 'Échec. Veuillez réssayer.',
-                    body: () => stream.streamName
-                })
+                    body: () => stream.streamName,
+                }),
+                tap(() => this.getStreamList())
             )
             .subscribe();
     }
-
 
     columns: TableColumn[] = [
         {
             id: 'streamName',
             title: 'Nom',
-            content: (g) => g.streamName,
+            content: (data) => data.streamName,
         },
         {
             id: 'launcher',
@@ -98,14 +91,27 @@ export class StreamPickerComponent implements OnInit, AfterViewInit {
 
     newEditFormData: AutoFormData = {
         type: 'dialog',
+        event: {
+            submit: (data: newEditFormValue) => 
+                this.growbeStreamAPI
+                    .createLiveStream(this.growbeId, data.streamControl.name)
+                    .pipe(
+                        notify({
+                            title: 'Stream ajouté.',
+                            titleFailed: 'Échec. Veuillez réssayer.',
+                            body: () => data.streamControl.name,
+                        }),
+                        tap(() => this.getStreamList())
+                    )
+        },
         items: [
             {
                 type: 'object',
-                name: 'streamName',
+                name: 'streamControl',
                 properties: [
                     {
                         type: 'string',
-                        name: 'streamName',
+                        name: 'name',
                         displayName: 'Nom du stream',
                         required: true,
                         component: {
