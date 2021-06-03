@@ -74,10 +74,10 @@ export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
         component: 'growbe-module-config',
         componentType: GrowbeModuleConfigComponent,
         inputs: {
-          moduleId: {
-            type: 'string'
-          }
-        }
+            moduleId: {
+                type: 'string',
+            },
+        },
     },
     {
         name: '',

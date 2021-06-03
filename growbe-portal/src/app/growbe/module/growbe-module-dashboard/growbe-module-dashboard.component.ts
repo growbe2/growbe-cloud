@@ -165,15 +165,15 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         },
                     },
                     {
-                      name: 'Module config',
-                      component: 'growbe-module-config',
-                      inputs: {
-                        moduleId: this.module.uid,
-                      },
-                      style: {
+                        name: 'Module config',
+                        component: 'growbe-module-config',
+                        inputs: {
+                            moduleId: this.module.uid,
+                        },
+                        style: {
                             'grid-column-start': '4',
                             'grid-column-end': '6',
-                      },
+                        },
                     },
                     {
                         name: 'Module State',
@@ -200,7 +200,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                     moduleId: this.module.uid,
                                 },
                             },
-                            moduleType: this.module.uid.slice(0, 3)
+                            moduleType: this.module.uid.slice(0, 3),
                         },
                     })),
                     {

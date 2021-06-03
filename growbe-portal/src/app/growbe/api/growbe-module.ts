@@ -33,10 +33,7 @@ export class GrowbeModuleAPI extends Caching(
         this.baseURL = envConfig.growbeCloud;
     }
 
-
     updateModuleConfig(id: string, config: any): Observable<any> {
-      return this.httpClient.post<any>(`${this.url}/${id}/config`, config);
+        return this.httpClient.post<any>(`${this.url}/${id}/config`, config);
     }
-
-
 }

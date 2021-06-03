@@ -11,7 +11,7 @@ import {
   GrowbeMainboardController,
   GrowbeModuleDefController,
 } from './controllers';
-import { GrowbeModuleController } from './controllers/growbe-module.controllers';
+import {GrowbeModuleController} from './controllers/growbe-module.controllers';
 import {CRUD_CONTROLLERS} from './crud-controller';
 
 export class CloudComponent implements Component {
@@ -32,6 +32,10 @@ export class CloudComponent implements Component {
     }
   }
 
-  controllers = [GrowbeMainboardController, GrowbeModuleDefController, GrowbeModuleController];
+  controllers = [
+    GrowbeMainboardController,
+    GrowbeModuleDefController,
+    GrowbeModuleController,
+  ];
   bindings = [];
 }

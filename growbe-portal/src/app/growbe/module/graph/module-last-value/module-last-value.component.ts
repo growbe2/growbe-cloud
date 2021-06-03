@@ -26,15 +26,12 @@ import { transformModuleValue } from '../../module.def';
     templateUrl: './module-last-value.component.html',
     styleUrls: ['./module-last-value.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [
-      DecimalPipe,
-    ]
+    providers: [DecimalPipe],
 })
 export class ModuleLastValueComponent implements OnInit, OnDestroy {
     @Input() data: any;
 
     @Input() moduleType?: string;
-
 
     sub: Subscription;
 
@@ -52,7 +49,7 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
         private graphService: GrowbeGraphService,
         private changeDetection: ChangeDetectorRef,
         private moduleAPI: GrowbeModuleAPI,
-        private number: DecimalPipe,
+        private numberPipe: DecimalPipe,
     ) {}
 
     ngOnInit(): void {
@@ -73,7 +70,9 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
                                 modules[0].moduleDef,
                         ),
                     );
-                this.value = this.transformValue(data[this.data.graphDataConfig.fields[0]]);
+                this.value = this.transformValue(
+                    data[this.data.graphDataConfig.fields[0]],
+                );
                 this.at = data.createdAt;
                 this.changeDetection.markForCheck();
                 if (this.data.graphDataConfig.liveUpdate) {
@@ -90,8 +89,9 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
                         if (graphData) {
                             this.lastValue = this.value;
                             this.historic.push(this.lastValue);
-                            this.value =
-                                this.transformValue(graphData[this.data.graphDataConfig.fields[0]]);
+                            this.value = this.transformValue(
+                                graphData[this.data.graphDataConfig.fields[0]],
+                            );
                             this.at = graphData.createdAt;
                             this.changeDetection.markForCheck();
                         }
@@ -106,12 +106,11 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
         }
     }
 
-
     private transformValue(value) {
-      value = transformModuleValue(this.moduleType, value);
-      if (typeof value === 'number') {
-        value = this.number.transform(value);
-      }
-      return value;
+        value = transformModuleValue(this.moduleType, value);
+        if (typeof value === 'number') {
+            value = this.numberPipe.transform(value);
+        }
+        return value;
     }
 }

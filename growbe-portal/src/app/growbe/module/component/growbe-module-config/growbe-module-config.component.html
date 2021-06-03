@@ -1,7 +1,7 @@
 <ng-container *ngIf="configForm$ | async as data; else noconfig">
-  <autoform-form [formData]="data"></autoform-form>
+    <autoform-form [formData]="data"></autoform-form>
 </ng-container>
 
 <ng-template #noconfig>
-  There is no config for this module my dude
+    There is no config for this module my dude
 </ng-template>

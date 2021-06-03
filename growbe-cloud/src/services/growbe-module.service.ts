@@ -1,7 +1,7 @@
 import * as pb from '@growbe2/growbe-pb';
 import {BindingScope, inject, injectable, service} from '@loopback/core';
 import {repository} from '@loopback/repository';
-import { HttpErrors } from '@loopback/rest';
+import {HttpErrors} from '@loopback/rest';
 import {Subject} from 'rxjs';
 import {GrowbeMainboardBindings} from '../keys';
 import {
@@ -22,7 +22,6 @@ import {
 import {GrowbeLogsService} from './growbe-logs.service';
 import {getTopic, MQTTService} from './mqtt.service';
 
-
 const pbDef = require('@growbe2/growbe-pb');
 
 const mapType: any = {
@@ -33,7 +32,7 @@ const mapType: any = {
 
 const mapTypeConfig: any = {
   AAB: 'WCModuleConfig',
-}
+};
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeModuleService {
@@ -131,12 +130,13 @@ export class GrowbeModuleService {
     module.config = config;
     await this.moduleRepository.update(module);
     const model = pbDef[mapTypeConfig[module.uid.slice(0, 3)]];
-    const payload = model.encode(config).finish()
+    const payload = model.encode(config).finish();
     return this.mqttService
       .send(
         getTopic(module.mainboardId, `/board/mconfig/${module.uid}`),
-        payload
-      ).then(() => {
+        payload,
+      )
+      .then(() => {
         return this.logsService.addLog({
           group: GroupEnum.MODULES,
           type: LogTypeEnum.MODULE_CONFIG_CHANGE,
@@ -178,8 +178,6 @@ export class GrowbeModuleService {
     //module.moduleDef = def;
     return module;
   }
-
-
 
   private getModuleIdAndType(id: string): {id: string; type: string} {
     return {
