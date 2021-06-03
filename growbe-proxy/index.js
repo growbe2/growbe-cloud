@@ -52,7 +52,7 @@ client.on('connect', () => {
 
         const data = GrowbePB.GrowbeMessage.encode(new GrowbePB.GrowbeMessage({
             topic,
-            messageType: item[1],
+            messageType: item?.[1],
             body: message,
         })).finish();
 
