@@ -93,20 +93,20 @@ export const getModuleWaterControlConfig: (
                 object: {
                     p0: {
                         config: {
-                            type: config.p0.mode === 0 ? 'manual' : 'alarm',
-                            data: config.p0.manual,
+                            type: config?.p0.mode === 0 ? 'manual' : 'alarm',
+                            data: config?.p0.manual,
                         },
                     },
                     p1: {
                         config: {
-                            type: config.p1.mode === 0 ? 'manual' : 'alarm',
-                            data: config.p1.manual,
+                            type: config?.p1.mode === 0 ? 'manual' : 'alarm',
+                            data: config?.p1.manual,
                         },
                     },
                     p2: {
                         config: {
-                            type: config.p2.mode === 0 ? 'manual' : 'alarm',
-                            data: config.p2.manual,
+                            type: config?.p2.mode === 0 ? 'manual' : 'alarm',
+                            data: config?.p2.manual,
                         },
                     },
                 },
