@@ -11,6 +11,7 @@ import { map, switchMap, take } from 'rxjs/operators';
 import { DashboardPanel, ProjectDashboard } from '@growbe2/growbe-dashboard';
 import { GrowbeModuleDefAPI } from '../../api/growbe-module-def';
 import { growbeModuleDefForm } from '../component/growbe-module-def/growbe-module-def.form';
+import { moduleDefPropertyDisplayer } from '../module.def';
 
 @Component({
     selector: 'app-growbe-module-dashboard',
@@ -137,7 +138,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                 },
                 items: [
                     {
-                        name: '',
+                        name: this.module.moduleName,
                         component: 'growbe-module-def',
                         inputs: {
                             moduleDefId: this.module.moduleName,
@@ -164,13 +165,24 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         },
                     },
                     {
-                        name: '',
+                      name: 'Module config',
+                      component: 'growbe-module-config',
+                      inputs: {
+                        moduleId: this.module.uid,
+                      },
+                      style: {
+                            'grid-column-start': '4',
+                            'grid-column-end': '6',
+                      },
+                    },
+                    {
+                        name: 'Module State',
                         component: 'growbe-module-state',
                         inputs: {
                             module: this.module,
                         },
                         style: {
-                            'grid-column-start': '4',
+                            'grid-column-start': '1',
                             'grid-column-end': '6',
                         },
                     },
@@ -188,10 +200,11 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                     moduleId: this.module.uid,
                                 },
                             },
+                            moduleType: this.module.uid.slice(0, 3)
                         },
                     })),
                     {
-                        name: '',
+                        name: 'Data historic',
                         component: 'growbe-module-data-table',
                         inputs: {
                             module: this.module,

@@ -16,6 +16,7 @@ import {
     GrowbeSensorValue,
     GrowbeSensorValueWithRelations,
 } from '@growbe2/ngx-cloud-api';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class GrowbeModuleAPI extends Caching(
@@ -31,4 +32,11 @@ export class GrowbeModuleAPI extends Caching(
         super(httpClient, '/growbeModules');
         this.baseURL = envConfig.growbeCloud;
     }
+
+
+    updateModuleConfig(id: string, config: any): Observable<any> {
+      return this.httpClient.post<any>(`${this.url}/${id}/config`, config);
+    }
+
+
 }

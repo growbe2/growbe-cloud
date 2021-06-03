@@ -1,12 +1,18 @@
-export interface ModuleDef {
-    name: string;
-    fields: string[];
+
+export const moduleDefPropertyDisplayer = {
+  'AAB': {
+    property: 'state',
+    type: 'boolean',
+  }
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const ModuleDefs = [
-    {
-        name: 'thl',
-        fields: ['airTemperature', 'humidity'],
-    },
-];
+
+export const transformModuleValue = (moduleType: string, value: any) => {
+  const item = moduleDefPropertyDisplayer[moduleType];
+  if (item) {
+    if (item.property) {
+      value = value[item.property]
+    }
+  }
+  return value;
+}
