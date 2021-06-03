@@ -3,12 +3,3 @@
 ModuleData.boardVersion max_size:5
 ModuleData.id max_size:13
 ModuleData.name max_size:23
-
-SOILModuleData.values max_count:8 fixed_count:true
-
-
-WaterControlModuleData.relays max_count:3 fixed_count:true
-WaterControlModuleConfig.relays max_count:3 fixed_count:true
-
-RelayModuleConfig.outlets max_count:8 fixed_count:true
-RelayModuleData.outlets max_count:8 fixed_count:true
