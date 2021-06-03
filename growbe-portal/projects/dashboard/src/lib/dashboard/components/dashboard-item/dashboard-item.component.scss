@@ -1,10 +1,15 @@
 
-
-.fuse-widget-front {
-  padding: 5px;
+.mat-card {
+  height: 100%;
 }
 
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+}
 
-.fuse-widget-back {
-  padding: 5px;
+.spacer {
+  flex-grow: 1;
 }

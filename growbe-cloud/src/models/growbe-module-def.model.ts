@@ -44,6 +44,9 @@ export class GrowbeModuleDef extends Entity {
   pbModelName: string;
 
   @property()
+  pbModelConfig: string;
+
+  @property()
   properties: any; // bug de parsing PropertiesModules thx lb4
 
   constructor(data?: Partial<GrowbeModuleDef>) {

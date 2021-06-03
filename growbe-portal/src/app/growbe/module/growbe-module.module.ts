@@ -13,6 +13,8 @@ import { LoopbackRestPipeModule } from '@berlingoqc/ngx-loopback';
 import { ButtonsRowModule } from 'src/app/shared/buttons-row/buttons-row.module';
 import { GraphModule } from './graph/graph.module';
 import { UnitModule } from 'src/app/shared/unit/unit.module';
+import { GrowbeModuleConfigComponent } from './component/growbe-module-config/growbe-module-config.component';
+import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 
 @NgModule({
     declarations: [
@@ -21,6 +23,7 @@ import { UnitModule } from 'src/app/shared/unit/unit.module';
         ModuleStatusDotComponent,
         GrowbeModuleDataTableComponent,
         GrowbeModuleDefComponent,
+        GrowbeModuleConfigComponent,
     ],
     imports: [
         CommonModule,
@@ -29,6 +32,7 @@ import { UnitModule } from 'src/app/shared/unit/unit.module';
         GraphModule,
         UnitModule,
         AutoTableModule,
+        AutoFormModule,
         ButtonsRowModule,
         LoopbackRestPipeModule,
     ],

@@ -38,11 +38,11 @@ enum RelayOutletMode {
 }
 
 message CronItem {
-    string minute = 1;
-    string hour = 2;
-    string dayMonth = 3;
-    string month = 4;
-    string dayWeek = 5;
+    int32 minute = 1;
+    int32 hour = 2;
+    int32 dayMonth = 3;
+    int32 month = 4;
+    int32 dayWeek = 5;
 }
 
 message AlarmConfig {
@@ -60,22 +60,35 @@ message RelayOutletData {
 }
 
 message RelayModuleData {
-    repeated RelayOutletData outlets = 1;
+    RelayOutletData p0 = 1;
+    RelayOutletData p1 = 2;
+    RelayOutletData p2 = 3;
 }
 
 message RelayModuleConfig {
-    repeated RelayOutletConfig outlets = 1;
+    RelayOutletConfig p0 = 1;
+    RelayOutletConfig p1 = 2;
+    RelayOutletConfig p2 = 3;
 }
 
 message RelayOutletConfig {
     RelayOutletMode mode = 1;
     
-    oneof config {
-        AlarmConfig alarm = 2;
-        ManualConfig manual =3;
-    }    
+    AlarmConfig alarm = 2;
+    ManualConfig manual =3;
 }
 
+message WCModuleData {
+    RelayOutletData p0 = 1;
+    RelayOutletData p1 = 2;
+    RelayOutletData p2 = 3;
+}
+
+message WCModuleConfig {
+    RelayOutletConfig p0 = 1;
+    RelayOutletConfig p1 = 2;
+    RelayOutletConfig p2 = 3;
+}
 
 enum MessageType {
     MT_UNKNOW = 0;
@@ -87,4 +100,6 @@ enum MessageType {
     MT_THLMODULEDATA = 6;
     MT_SOILMODULEDATA = 7;
     MT_WAMODULEDATA = 8;
+    MT_WCMODULEDATA = 9;
+    MT_WCMODULECONFIG = 10;
 }

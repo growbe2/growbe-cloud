@@ -30,6 +30,7 @@ import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { MatMenuModule } from '@angular/material/menu';
 import { DashboardRegistryItem } from './registry/dashboard.registry';
 import { DashboardService } from './dashboard.service';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
     declarations: [
@@ -46,9 +47,7 @@ import { DashboardService } from './dashboard.service';
 
         AutoFormModule,
 
-        FuseWidgetModule,
-        FuseSharedModule,
-
+        MatCardModule,
         MatGridListModule,
         MatMenuModule,
         MatTabsModule,

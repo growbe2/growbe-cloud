@@ -14,6 +14,7 @@ import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
 import { GrowbeSensorValueAPI } from 'src/app/growbe/api/growbe-sensor-value';
 import { ButtonsRowComponent } from 'src/app/shared/buttons-row/buttons-row/buttons-row.component';
+import { transformModuleValue } from '../../module.def';
 
 @Component({
     selector: 'app-growbe-module-data-table',
@@ -61,7 +62,11 @@ export class GrowbeModuleDataTableComponent implements OnInit {
                     ...Object.values(def.properties).map((prop: any) => ({
                         id: prop.name,
                         title: prop.displayName ? prop.displayName : prop.name,
-                        content: (e) => e[prop.name],
+                        content: (e) =>
+                            transformModuleValue(
+                                this.module.uid.slice(0, 3),
+                                e[prop.name],
+                            ),
                     })),
                     {
                         id: 'options',

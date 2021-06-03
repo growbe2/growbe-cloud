@@ -1,6 +1,7 @@
 import * as pb from '@growbe2/growbe-pb';
 import {BindingScope, inject, injectable, service} from '@loopback/core';
 import {repository} from '@loopback/repository';
+import {HttpErrors} from '@loopback/rest';
 import {Subject} from 'rxjs';
 import {GrowbeMainboardBindings} from '../keys';
 import {
@@ -21,9 +22,16 @@ import {
 import {GrowbeLogsService} from './growbe-logs.service';
 import {getTopic, MQTTService} from './mqtt.service';
 
+const pbDef = require('@growbe2/growbe-pb');
+
 const mapType: any = {
   AAA: 'THLModuleData',
   AAS: 'SOILModuleData',
+  AAB: 'WCModuleData',
+};
+
+const mapTypeConfig: any = {
+  AAB: 'WCModuleConfig',
 };
 
 @injectable({scope: BindingScope.TRANSIENT})
@@ -84,7 +92,7 @@ export class GrowbeModuleService {
       throw new Error('pbObjectName not found in map for ' + info.id);
     }
 
-    const parseData = require('@growbe2/growbe-pb')[pbObjectName].decode(data);
+    const parseData = pbDef[pbObjectName].decode(data);
 
     let value = new GrowbeSensorValue(
       Object.assign(parseData, {
@@ -112,6 +120,32 @@ export class GrowbeModuleService {
       module.new = true;
     }
     return module;
+  }
+
+  async setModuleConfig(id: string, config: any) {
+    const module = await this.moduleRepository.findById(id);
+    if (!module) {
+      throw new HttpErrors[404]();
+    }
+    module.config = config;
+    await this.moduleRepository.update(module);
+    const model = pbDef[mapTypeConfig[module.uid.slice(0, 3)]];
+    const payload = model.encode(config).finish();
+    return this.mqttService
+      .send(
+        getTopic(module.mainboardId, `/board/mconfig/${module.uid}`),
+        payload,
+      )
+      .then(() => {
+        return this.logsService.addLog({
+          group: GroupEnum.MODULES,
+          type: LogTypeEnum.MODULE_CONFIG_CHANGE,
+          severity: SeverityEnum.LOW,
+          growbeMainboardId: module.mainboardId,
+          growbeModuleId: module.uid,
+          message: '',
+        });
+      });
   }
 
   private async updateModuleState(growbeId: string, module: GrowbeModule) {

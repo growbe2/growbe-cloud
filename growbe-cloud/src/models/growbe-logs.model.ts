@@ -7,6 +7,7 @@ export enum GroupEnum {
 
 export enum LogTypeEnum {
   MODULE_STATE_CHANGE = 'module',
+  MODULE_CONFIG_CHANGE = 'module_config',
   CONNECTION_STATE_CHANGE = 'connection',
   WARNING_CREATED = 'new_warning',
   RTC_UPDATE = 'update_rtc',
