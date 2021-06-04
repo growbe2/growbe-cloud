@@ -6,13 +6,15 @@ import { AutoTableModule } from '@berlingoqc/ngx-autotable';
 import { ModuleStatusDotComponent } from './component/module-status-dot/module-status-dot.component';
 import { GrowbeModuleDataTableComponent } from './component/growbe-module-data-table/growbe-module-data-table.component';
 import { GrowbeModuleDefComponent } from './component/growbe-module-def/growbe-module-def.component';
-import { GrowbeModuleDetailComponent } from './component/growbe-module-detail/growbe-module-detail.component';
 import { MatListModule } from '@angular/material/list';
+
 import { FuseWidgetModule } from '@berlingoqc/fuse';
 import { LoopbackRestPipeModule } from '@berlingoqc/ngx-loopback';
 import { ButtonsRowModule } from 'src/app/shared/buttons-row/buttons-row.module';
 import { GraphModule } from './graph/graph.module';
 import { UnitModule } from 'src/app/shared/unit/unit.module';
+import { GrowbeModuleConfigComponent } from './component/growbe-module-config/growbe-module-config.component';
+import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 
 @NgModule({
     declarations: [
@@ -21,7 +23,7 @@ import { UnitModule } from 'src/app/shared/unit/unit.module';
         ModuleStatusDotComponent,
         GrowbeModuleDataTableComponent,
         GrowbeModuleDefComponent,
-        GrowbeModuleDetailComponent,
+        GrowbeModuleConfigComponent,
     ],
     imports: [
         CommonModule,
@@ -30,6 +32,7 @@ import { UnitModule } from 'src/app/shared/unit/unit.module';
         GraphModule,
         UnitModule,
         AutoTableModule,
+        AutoFormModule,
         ButtonsRowModule,
         LoopbackRestPipeModule,
     ],

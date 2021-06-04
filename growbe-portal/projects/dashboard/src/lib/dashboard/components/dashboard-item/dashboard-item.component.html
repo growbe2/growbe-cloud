@@ -1,0 +1,40 @@
+<mat-card [@animate]="{ value: '*', params: { y: '100%' } }">
+    <div >
+        <div class="header">
+            <h2>{{ dashboardItem.name }}</h2>
+            <div class="spacer"></div>
+            <ng-container *ngIf="(menu | keyvalue).length > 0">
+                <button
+                    mat-icon-button
+                    aria-label="more"
+                    [matMenuTriggerFor]="menu"
+                >
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item
+                      *ngIf="dashboardItem.edit"
+                      (click)="editForm.exposition.open()"
+                    >Edit</button>
+                    <button
+                        mat-menu-item
+                        appDashboardItemRegistryCopy
+                        [item]="copyForm"
+                    >
+                        Copy
+                    </button>
+                    <button mat-menu-item (click)="delete()">Supprimé</button>
+                </mat-menu>
+            </ng-container>
+        </div>
+        <div>
+            <ng-template
+                [dashboardItemContent]
+                [dashboardItem]="dashboardItem"
+            ></ng-template>
+        </div>
+    </div>
+</mat-card>
+
+<autoform-form #copyForm [formData]="formData"></autoform-form>
+<autoform-form #editForm [formData]="dashboardItem?.edit"></autoform-form>

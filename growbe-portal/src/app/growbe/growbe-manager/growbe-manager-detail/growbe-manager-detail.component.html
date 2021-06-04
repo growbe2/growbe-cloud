@@ -12,26 +12,8 @@
     <fuseLayoutContent>
         <mat-tab-group class="ipad">
             <mat-tab label="Detail">
-                <autoform-form
-                    [formData]="detailMainboardForm"
-                    [initialData]="{
-                        mainboard: {
-                            id: mainboard$.id,
-                            version: mainboard$.version,
-                            cloudVersion: mainboard$.cloudVersion,
-                            name: mainboard$.name
-                        }
-                    }"
-                >
+                <autoform-form [formData]="detailMainboardForm">
                 </autoform-form>
-                <!--
-                <autoform-form
-                  #form
-                  [formData]="dialogForm"
-                >
-                </autoform-form>
-                <button (click)="form.exposition.open()">Click to open</button>
-                -->
             </mat-tab>
             <mat-tab label="Modules">
                 <ng-template #status let-context="context">
@@ -42,6 +24,8 @@
 
                 <ng-template #moduleOptions let-context="context">
                     <button
+                        mat-stroked-button
+                        color="primary"
                         [routerLink]="[
                             '/',
                             'growbe',
@@ -50,7 +34,7 @@
                             context.id
                         ]"
                     >
-                        Options
+                        Dashboard
                     </button>
                 </ng-template>
 

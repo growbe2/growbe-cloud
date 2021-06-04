@@ -16,10 +16,11 @@ import {
     GrowbeSensorValue,
     GrowbeSensorValueWithRelations,
 } from '@growbe2/ngx-cloud-api';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class GrowbeModuleAPI extends Resolving(
-    LoopbackRestClientMixin<GrowbeModuleWithRelations>(),
+export class GrowbeModuleAPI extends Caching(
+    Resolving(LoopbackRestClientMixin<GrowbeModuleWithRelations>()),
 ) {
     growbeSensorValues = addLoopbackRelation(
         this,
@@ -30,5 +31,9 @@ export class GrowbeModuleAPI extends Resolving(
     constructor(httpClient: HttpClient) {
         super(httpClient, '/growbeModules');
         this.baseURL = envConfig.growbeCloud;
+    }
+
+    updateModuleConfig(id: string, config: any): Observable<any> {
+        return this.httpClient.post<any>(`${this.url}/${id}/config`, config);
     }
 }

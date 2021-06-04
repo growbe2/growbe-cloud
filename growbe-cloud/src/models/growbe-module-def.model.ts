@@ -11,6 +11,8 @@ export class Range {
 export class PropertyModule {
   @property()
   name: string;
+  @property({jsonSchema: {nullable: true}})
+  displayName?: string;
   @property()
   definition: string;
   @property()
@@ -19,10 +21,18 @@ export class PropertyModule {
   operationalRange?: Range;
 }
 
+@model({settings: {strict: false}})
+export class PropertiesModule {
+  [id: string]: PropertyModule;
+}
+
 @model()
 export class GrowbeModuleDef extends Entity {
   @property({id: true, generated: false})
   id: string;
+
+  @property({jsonSchema: {nullable: true}})
+  displayName?: string;
 
   @property()
   name: string;
@@ -33,8 +43,11 @@ export class GrowbeModuleDef extends Entity {
   @property()
   pbModelName: string;
 
-  @property.array(() => PropertyModule)
-  properties: PropertyModule[];
+  @property()
+  pbModelConfig: string;
+
+  @property()
+  properties: any; // bug de parsing PropertiesModules thx lb4
 
   constructor(data?: Partial<GrowbeModuleDef>) {
     super(data);

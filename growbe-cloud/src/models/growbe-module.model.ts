@@ -29,6 +29,9 @@ export class GrowbeModule extends Entity {
   @property()
   readCount: number;
 
+  @property()
+  config?: any;
+
   @hasMany(() => GrowbeSensorValue, {keyTo: 'moduleId'})
   growbeSensorValues: GrowbeSensorValue[];
 

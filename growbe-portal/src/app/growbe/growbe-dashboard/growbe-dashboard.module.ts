@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GrowbeDynamicDashboardComponent } from './growbe-dynamic-dashboard/growbe-dynamic-dashboard.component';
 
@@ -20,9 +20,13 @@ import { GraphSearchBarModule } from '../module/graph/graph-search-bar/graph-sea
 
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { GrowbeMainboardModule } from '../growbe-mainboard/growbe-mainboard.module';
-import { DashboardModule } from 'src/app/dashboard/dashboard.module';
-import { DashboardRegistryService } from 'src/app/dashboard/registry/dashboard-registry.service';
+import {
+    DashboardModule,
+    DashboardRegistryService,
+} from '@growbe2/growbe-dashboard';
 import { DASHBOARD_ITEMS } from './items';
+import { TimeframeModule } from 'src/app/shared/timeframe/timeframe.module';
+import { inject } from '@angular/core/testing';
 
 @NgModule({
     declarations: [
@@ -42,6 +46,8 @@ import { DASHBOARD_ITEMS } from './items';
         GraphSearchBarModule,
         GrowbeMainboardModule,
 
+        TimeframeModule,
+
         FuseWidgetModule,
         FuseSharedModule,
 
@@ -54,7 +60,7 @@ import { DASHBOARD_ITEMS } from './items';
     ],
 })
 export class GrowbeDashboardModule {
-    constructor(private registrty: DashboardRegistryService) {
-        DASHBOARD_ITEMS.forEach((item) => this.registrty.addItem(item));
+    constructor(service: DashboardRegistryService) {
+        console.log('SERVICES', service);
     }
 }

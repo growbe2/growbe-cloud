@@ -1,0 +1,21 @@
+<ng-container *ngIf="mPanel">
+    <div
+        *ngFor="let item of mPanel.items"
+        style="padding: 10px "
+        [ngClass]="item.class"
+        [ngStyle]="item.style"
+    >
+        <app-dashboard-item
+            [panelRef]="
+                dashboard
+                    ? {
+                          dashboardId: dashboard.dashboardId,
+                          panelName: mPanel.name
+                      }
+                    : null
+            "
+            [dashboardItem]="item"
+            [static]="static"
+        ></app-dashboard-item>
+    </div>
+</ng-container>

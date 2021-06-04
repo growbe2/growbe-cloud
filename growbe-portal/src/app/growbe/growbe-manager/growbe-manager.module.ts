@@ -22,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonPipeModule } from '@berlingoqc/ngx-common';
 import { VideoStreamModule } from '../video-stream/video-stream.module';
+import { GrowbeModuleDashboardModule } from '../module/growbe-module-dashboard/growbe-module-dashboard.module';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,8 @@ import { VideoStreamModule } from '../video-stream/video-stream.module';
 
         GrowbeManagerRoutingModule,
         VideoStreamModule,
+
+        GrowbeModuleDashboardModule,
 
         GrowbeModuleModule,
         GrowbeMainboardModule,
