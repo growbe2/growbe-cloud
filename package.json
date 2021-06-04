@@ -8,7 +8,7 @@
   },
   "scripts": {
     "prepr": "npm run prepr:cloud && npm run prepr:portal",
-    "prepr:cloud": "cd growbe-cloud && npm run lint:fix && npm run test:dev",
+    "prepr:cloud": "cd growbe-cloud && npm run lint:fix",
     "prepr:portal": "cd growbe-portal && npm run lint:write && npm run ut:run",
     "version": "node -p \"require('./package.json').version\"",
     "setversion": "export VERSION=$(npm run version --silent) && cd proto && npm --no-git-tag-version version $VERSION && cd ../growbe-proxy && npm --no-git-tag-version version $VERSION && cd ../growbe-portal && npm --no-git-tag-version version $VERSION",

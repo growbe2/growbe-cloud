@@ -11,15 +11,8 @@
  */
 
 
-/**
- * (tsType: Omit<Partial<GrowbeDashboard>, >, schemaOptions: { title: \'\', partial: true, exclude: [] })
- */
-export interface GrowbeDashboardPartial { 
-  [key: string]: object | any;
-
-
-    id?: string;
-    userId?: string;
-    name?: string;
+export interface OverrideModuleDefRequest { 
+    moduleId?: string;
+    moduleName?: string;
 }
 

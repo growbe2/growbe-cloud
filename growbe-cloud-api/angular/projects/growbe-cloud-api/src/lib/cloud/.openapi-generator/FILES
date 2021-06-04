@@ -7,7 +7,6 @@ api/growbeMainboardController.service.ts
 api/growbeModuleController.service.ts
 api/growbeModuleDefController.service.ts
 api/growbeSensorValueController.service.ts
-api/growbeStreamController.service.ts
 api/growbeWarningController.service.ts
 api/pingController.service.ts
 configuration.ts
@@ -23,15 +22,8 @@ model/growbeDashboard.ts
 model/growbeDashboardExcludingId.ts
 model/growbeDashboardFilter.ts
 model/growbeDashboardFilter1.ts
-model/growbeDashboardIncludeFilterItems.ts
-model/growbeDashboardItem.ts
-model/growbeDashboardItemExcludingId.ts
-model/growbeDashboardItemPartial.ts
-model/growbeDashboardItemPartialExcludingId.ts
-model/growbeDashboardItemWithRelations.ts
 model/growbeDashboardPartial.ts
 model/growbeDashboardPartialExcludingId.ts
-model/growbeDashboardScopeFilter.ts
 model/growbeDashboardWithRelations.ts
 model/growbeLogs.ts
 model/growbeLogsPartial.ts
@@ -71,8 +63,6 @@ model/growbeSensorValuePartial.ts
 model/growbeSensorValuePartialExcludingId.ts
 model/growbeSensorValueScopeFilter.ts
 model/growbeSensorValueWithRelations.ts
-model/growbeStream.ts
-model/growbeStreamExcludingIdActiveExpiredAtKey.ts
 model/growbeWarning.ts
 model/growbeWarningExcludingId.ts
 model/growbeWarningFilter.ts
@@ -89,11 +79,8 @@ model/moduleDataRequest.ts
 model/orgUserLinkWithRelations.ts
 model/organisationInvitationWithRelations.ts
 model/organisationWithRelations.ts
+model/overrideModuleDefRequest.ts
 model/pingResponse.ts
-model/propertyModule.ts
-model/propertyModuleWithRelations.ts
-model/range.ts
-model/rangeWithRelations.ts
 model/userCredentialsWithRelations.ts
 model/userRoleMappingWithRelations.ts
 model/userWithRelations.ts

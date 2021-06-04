@@ -9,7 +9,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { GrowbeDashboardItemWithRelations } from './growbeDashboardItemWithRelations';
 
 
 /**
@@ -22,7 +21,5 @@ export interface GrowbeDashboardWithRelations {
     id?: string;
     userId?: string;
     name?: string;
-    sidePanel?: Array<GrowbeDashboardItemWithRelations>;
-    growbeDashboardItems?: Array<GrowbeDashboardItemWithRelations>;
 }
 

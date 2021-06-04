@@ -9,14 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { PropertyModule } from './propertyModule';
 
 
 export interface GrowbeModuleDef { 
     id?: string;
+    displayName?: string | null;
     name?: string;
     description?: string;
     pbModelName?: string;
-    properties?: Array<PropertyModule>;
+    pbModelConfig?: string;
+    properties?: object;
 }
 

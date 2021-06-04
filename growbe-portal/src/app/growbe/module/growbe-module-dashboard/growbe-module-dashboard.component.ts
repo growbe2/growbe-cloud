@@ -12,6 +12,7 @@ import { DashboardPanel, ProjectDashboard } from '@growbe2/growbe-dashboard';
 import { GrowbeModuleDefAPI } from '../../api/growbe-module-def';
 import { growbeModuleDefForm } from '../component/growbe-module-def/growbe-module-def.form';
 import { moduleDefPropertyDisplayer } from '../module.def';
+import { GrowbeModuleAPI } from '../../api/growbe-module';
 
 @Component({
     selector: 'app-growbe-module-dashboard',
@@ -37,6 +38,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
     constructor(
         private activatedRoute: ActivatedRoute,
         private moduleDefAPI: GrowbeModuleDefAPI,
+        private moduleAPI: GrowbeModuleAPI,
     ) {}
 
     ngOnInit(): void {
@@ -138,25 +140,39 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                 },
                 items: [
                     {
-                        name: this.module.moduleName,
+                        name:
+                            this.module.moduleName +
+                            ` - ${
+                                moduleDef.displayName
+                                    ? moduleDef.displayName
+                                    : moduleDef.name
+                            }`,
                         component: 'growbe-module-def',
                         inputs: {
                             moduleDefId: this.module.moduleName,
                         },
                         edit: growbeModuleDefForm(moduleDef, (data) => {
-                            const updateObs = this.moduleDefAPI.updateById(
-                                this.module.moduleName,
-                                data,
-                            );
                             if (moduleDef.id.includes(':')) {
-                                return updateObs;
+                                return this.moduleDefAPI.updateById(
+                                    this.module.moduleName,
+                                    data,
+                                );
                             } else {
                                 return this.moduleDefAPI
                                     .override({
                                         moduleId: this.module.uid,
                                         moduleName: moduleDef.id,
                                     })
-                                    .pipe(switchMap(() => updateObs));
+                                    .pipe(
+                                        switchMap((newModuleDef: any) => {
+                                            this.module.moduleName =
+                                                newModuleDef.id;
+                                            return this.moduleDefAPI.updateById(
+                                                this.module.moduleName,
+                                                data,
+                                            );
+                                        }),
+                                    );
                             }
                         }),
                         style: {
@@ -169,6 +185,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         component: 'growbe-module-config',
                         inputs: {
                             moduleId: this.module.uid,
+                            moduleName: this.module.moduleName,
                         },
                         style: {
                             'grid-column-start': '4',

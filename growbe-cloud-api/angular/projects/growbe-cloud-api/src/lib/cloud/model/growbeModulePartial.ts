@@ -22,6 +22,7 @@ export interface GrowbeModulePartial {
     uid?: string;
     connected?: boolean;
     readCount?: number;
+    config?: object;
     mainboardId?: string;
     moduleName?: string;
 }

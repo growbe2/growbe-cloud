@@ -7,7 +7,6 @@ import { GrowbeMainboardControllerService } from './api/growbeMainboardControlle
 import { GrowbeModuleControllerService } from './api/growbeModuleController.service';
 import { GrowbeModuleDefControllerService } from './api/growbeModuleDefController.service';
 import { GrowbeSensorValueControllerService } from './api/growbeSensorValueController.service';
-import { GrowbeStreamControllerService } from './api/growbeStreamController.service';
 import { GrowbeWarningControllerService } from './api/growbeWarningController.service';
 import { PingControllerService } from './api/pingController.service';
 
