@@ -129,6 +129,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
         if (this.subChartSelect) {
             this.subChartSelect.unsubscribe();
         }
+        console.log('GET RAW PANEL', this.module.moduleName)
         return this.moduleDefAPI.getById(this.module.moduleName).pipe(
             map((moduleDef: GrowbeModuleDef) => ({
                 name: '',
@@ -144,19 +145,22 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                             moduleDefId: this.module.moduleName,
                         },
                         edit: growbeModuleDefForm(moduleDef, (data) => {
-                            const updateObs = this.moduleDefAPI.updateById(
-                                this.module.moduleName,
-                                data,
-                            );
                             if (moduleDef.id.includes(':')) {
-                                return updateObs;
+                                return this.moduleDefAPI.updateById(
+                                  this.module.moduleName, data
+                                );
                             } else {
                                 return this.moduleDefAPI
                                     .override({
                                         moduleId: this.module.uid,
                                         moduleName: moduleDef.id,
                                     })
-                                    .pipe(switchMap(() => updateObs));
+                                    .pipe(switchMap((moduleDef: any) => {
+                                      this.module.moduleName = moduleDef.id
+                                      return this.moduleDefAPI.updateById(
+                                        this.module.moduleName, data,
+                                      );
+                                    }));
                             }
                         }),
                         style: {
