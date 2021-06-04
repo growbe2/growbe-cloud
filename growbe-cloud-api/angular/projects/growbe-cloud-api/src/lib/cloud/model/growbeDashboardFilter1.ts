@@ -9,7 +9,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { GrowbeDashboardIncludeFilterItems } from './growbeDashboardIncludeFilterItems';
 
 
 export interface GrowbeDashboardFilter1 { 
@@ -19,6 +18,5 @@ export interface GrowbeDashboardFilter1 {
     order?: string | Array<string>;
     where?: { [key: string]: object; };
     fields?: any | Set<string>;
-    include?: Array<GrowbeDashboardIncludeFilterItems | string>;
 }
 

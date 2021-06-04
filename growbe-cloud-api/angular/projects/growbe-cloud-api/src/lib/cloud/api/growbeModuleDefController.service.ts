@@ -23,6 +23,7 @@ import { GrowbeModuleDefFilter1 } from '../model/models';
 import { GrowbeModuleDefPartial } from '../model/models';
 import { GrowbeModuleDefWithRelations } from '../model/models';
 import { LoopbackCount } from '../model/models';
+import { OverrideModuleDefRequest } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -363,6 +364,56 @@ export class GrowbeModuleDefControllerService {
         return this.httpClient.get<GrowbeModuleDefWithRelations>(`${this.configuration.basePath}/growbeModuleDefs/${encodeURIComponent(String(id))}`,
             {
                 params: queryParameters,
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param overrideModuleDefRequest 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public growbeModuleDefControllerOverrideModuleDef(overrideModuleDefRequest?: OverrideModuleDefRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public growbeModuleDefControllerOverrideModuleDef(overrideModuleDefRequest?: OverrideModuleDefRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public growbeModuleDefControllerOverrideModuleDef(overrideModuleDefRequest?: OverrideModuleDefRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public growbeModuleDefControllerOverrideModuleDef(overrideModuleDefRequest?: OverrideModuleDefRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.post<any>(`${this.configuration.basePath}/growbeModuleDefs/override`,
+            overrideModuleDefRequest,
+            {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

@@ -9,7 +9,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { GrowbeDashboardItemExcludingId } from './growbeDashboardItemExcludingId';
 
 
 /**
@@ -21,6 +20,5 @@ export interface GrowbeDashboardExcludingId {
 
     userId?: string;
     name?: string;
-    sidePanel?: Array<GrowbeDashboardItemExcludingId>;
 }
 

@@ -26,6 +26,7 @@ export interface GrowbeModuleWithRelations {
     uid?: string;
     connected?: boolean;
     readCount?: number;
+    config?: object;
     mainboardId?: string;
     moduleName?: string;
     growbeSensorValues?: Array<GrowbeSensorValueWithRelations>;
