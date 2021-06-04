@@ -6,6 +6,38 @@ import {
 } from '@berlingoqc/ngx-autoform';
 import { of } from 'rxjs';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
+import { timeFieldComponent } from 'src/app/shared/timeframe/timeframe-select/timeframe-select.component';
+
+const transformFieldSubmit = (property: string, data: any) => {
+    return {
+        mode: data.object[property].config.type === 'manual' ? 0 : 1,
+        [data.object[property].config.type]:
+            data.object[property].config.type === 'manual'
+                ? data.object[property].config.data
+                : {
+                  begining: {
+                    hour: +data.object[property].config.data.begining.split(':')[0],
+                    minute: +data.object[property].config.data.begining.split(':')[0],
+                  },
+                  end: {
+                    hour: +data.object[property].config.data.end.split(':')[0],
+                    minute: +data.object[property].config.data.end.split(':')[0],
+                  }
+                },
+    };
+};
+
+const transformFieldInit = (property: string, config: any) => {
+    return {
+        config: {
+            type: config?.[property].mode === 0 ? 'manual' : 'alarm',
+            data: config?.[property].mode === 0 ? config?.[property].manual : {
+              begining: config?.[property].alarm?.begining?.hour+':'+ config?.[property].alarm?.begining?.minute,
+              end: config?.[property].alarm?.end?.hour+':'+ config?.[property].alarm?.end?.minute,
+            },
+        },
+    };
+};
 
 export const getModuleWaterControlConfig: (
     moduleId: string,
@@ -58,7 +90,15 @@ export const getModuleWaterControlConfig: (
                                             properties: [
                                                 {
                                                     type: 'string',
-                                                    name: 'hour',
+                                                    name: 'begining',
+                                                    displayName: 'Opening time',
+                                                    component: timeFieldComponent,
+                                                },
+                                                {
+                                                    type: 'string',
+                                                    name: 'end',
+                                                    displayName: 'Closing time',
+                                                    component: timeFieldComponent,
                                                 },
                                             ],
                                         },
@@ -72,43 +112,20 @@ export const getModuleWaterControlConfig: (
     ],
     event: {
         submit: (data) => {
+            console.log('DATA', data);
             const d = {
-                p0: {
-                    mode: data.object.p0.config.type === 'manual' ? 0 : 1,
-                    [data.object.p0.config.type]: data.object.p0.config.data,
-                },
-                p1: {
-                    mode: data.object.p1.config.type === 'manual' ? 0 : 1,
-                    [data.object.p1.config.type]: data.object.p1.config.data,
-                },
-                p2: {
-                    mode: data.object.p2.config.type === 'manual' ? 0 : 1,
-                    [data.object.p2.config.type]: data.object.p2.config.data,
-                },
+                p0: transformFieldSubmit('p0', data),
+                p1: transformFieldSubmit('p1', data),
+                p2: transformFieldSubmit('p2', data),
             };
             return growbeModuleAPI.updateModuleConfig(moduleId, d);
         },
         initialData: () =>
             of({
                 object: {
-                    p0: {
-                        config: {
-                            type: config?.p0.mode === 0 ? 'manual' : 'alarm',
-                            data: config?.p0.manual,
-                        },
-                    },
-                    p1: {
-                        config: {
-                            type: config?.p1.mode === 0 ? 'manual' : 'alarm',
-                            data: config?.p1.manual,
-                        },
-                    },
-                    p2: {
-                        config: {
-                            type: config?.p2.mode === 0 ? 'manual' : 'alarm',
-                            data: config?.p2.manual,
-                        },
-                    },
+                    p0: transformFieldInit('p0', config),
+                    p1: transformFieldInit('p1', config),
+                    p2: transformFieldInit('p2', config)
                 },
             }),
     },
