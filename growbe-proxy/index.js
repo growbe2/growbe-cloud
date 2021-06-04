@@ -46,13 +46,13 @@ client.on('connect', () => {
         const topicItems = topic.split('/');
         const lastItem = topicItems[topicItems.length - 1];
 
-        const item = Object.entries(mapType).find(entrie => lasItem.includes(entrie[0]));
+        const item = Object.entries(mapType).find(([entrie,value]) => lastItem.includes(entrie));
 
         console.log('MESSAGE TYPE', item);
 
         const data = GrowbePB.GrowbeMessage.encode(new GrowbePB.GrowbeMessage({
             topic,
-            messageType: item?.[1],
+            messageType: item ? item[1] : undefined,
             body: message,
         })).finish();
 
