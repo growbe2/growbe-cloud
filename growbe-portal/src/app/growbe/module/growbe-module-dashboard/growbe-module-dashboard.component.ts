@@ -140,7 +140,13 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                 },
                 items: [
                     {
-                        name: this.module.moduleName + ` - ${moduleDef.displayName ? moduleDef.displayName : moduleDef.name}`,
+                        name:
+                            this.module.moduleName +
+                            ` - ${
+                                moduleDef.displayName
+                                    ? moduleDef.displayName
+                                    : moduleDef.name
+                            }`,
                         component: 'growbe-module-def',
                         inputs: {
                             moduleDefId: this.module.moduleName,
@@ -148,7 +154,8 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         edit: growbeModuleDefForm(moduleDef, (data) => {
                             if (moduleDef.id.includes(':')) {
                                 return this.moduleDefAPI.updateById(
-                                  this.module.moduleName, data
+                                    this.module.moduleName,
+                                    data,
                                 );
                             } else {
                                 return this.moduleDefAPI
@@ -156,12 +163,16 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                         moduleId: this.module.uid,
                                         moduleName: moduleDef.id,
                                     })
-                                    .pipe(switchMap((moduleDef: any) => {
-                                      this.module.moduleName = moduleDef.id
-                                      return this.moduleDefAPI.updateById(
-                                        this.module.moduleName, data,
-                                      );
-                                    }));
+                                    .pipe(
+                                        switchMap((newModuleDef: any) => {
+                                            this.module.moduleName =
+                                                newModuleDef.id;
+                                            return this.moduleDefAPI.updateById(
+                                                this.module.moduleName,
+                                                data,
+                                            );
+                                        }),
+                                    );
                             }
                         }),
                         style: {

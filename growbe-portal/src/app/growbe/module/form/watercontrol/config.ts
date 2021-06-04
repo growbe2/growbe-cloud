@@ -8,36 +8,49 @@ import { of } from 'rxjs';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { timeFieldComponent } from 'src/app/shared/timeframe/timeframe-select/timeframe-select.component';
 
-const transformFieldSubmit = (property: string, data: any) => {
-    return {
-        mode: data.object[property].config.type === 'manual' ? 0 : 1,
-        [data.object[property].config.type]:
-            data.object[property].config.type === 'manual'
-                ? data.object[property].config.data
-                : {
+const transformFieldSubmit = (property: string, data: any) => ({
+    mode: data.object[property].config.type === 'manual' ? 0 : 1,
+    [data.object[property].config.type]:
+        data.object[property].config.type === 'manual'
+            ? data.object[property].config.data
+            : {
                   begining: {
-                    hour: +data.object[property].config.data.begining.split(':')[0],
-                    minute: +data.object[property].config.data.begining.split(':')[0],
+                      hour: +data.object[property].config.data.begining.split(
+                          ':',
+                      )[0],
+                      minute: +data.object[property].config.data.begining.split(
+                          ':',
+                      )[0],
                   },
                   end: {
-                    hour: +data.object[property].config.data.end.split(':')[0],
-                    minute: +data.object[property].config.data.end.split(':')[0],
-                  }
-                },
-    };
-};
+                      hour: +data.object[property].config.data.end.split(
+                          ':',
+                      )[0],
+                      minute: +data.object[property].config.data.end.split(
+                          ':',
+                      )[0],
+                  },
+              },
+});
 
-const transformFieldInit = (property: string, config: any) => {
-    return {
-        config: {
-            type: config?.[property].mode === 0 ? 'manual' : 'alarm',
-            data: config?.[property].mode === 0 ? config?.[property].manual : {
-              begining: config?.[property].alarm?.begining?.hour+':'+ config?.[property].alarm?.begining?.minute,
-              end: config?.[property].alarm?.end?.hour+':'+ config?.[property].alarm?.end?.minute,
-            },
-        },
-    };
-};
+const transformFieldInit = (property: string, config: any) => ({
+    config: {
+        type: config?.[property].mode === 0 ? 'manual' : 'alarm',
+        data:
+            config?.[property].mode === 0
+                ? config?.[property].manual
+                : {
+                      begining:
+                          config?.[property].alarm?.begining?.hour +
+                          ':' +
+                          config?.[property].alarm?.begining?.minute,
+                      end:
+                          config?.[property].alarm?.end?.hour +
+                          ':' +
+                          config?.[property].alarm?.end?.minute,
+                  },
+    },
+});
 
 export const getModuleWaterControlConfig: (
     moduleId: string,
@@ -125,7 +138,7 @@ export const getModuleWaterControlConfig: (
                 object: {
                     p0: transformFieldInit('p0', config),
                     p1: transformFieldInit('p1', config),
-                    p2: transformFieldInit('p2', config)
+                    p2: transformFieldInit('p2', config),
                 },
             }),
     },

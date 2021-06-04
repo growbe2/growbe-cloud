@@ -18,8 +18,8 @@ export class GrowbeModuleConfigComponent implements OnInit {
     configForm$: Observable<AutoFormData>;
 
     constructor(
-      private growbeModuleAPI: GrowbeModuleAPI,
-      private growbeModuleDefAPI: GrowbeModuleDefAPI,
+        private growbeModuleAPI: GrowbeModuleAPI,
+        private growbeModuleDefAPI: GrowbeModuleDefAPI,
     ) {}
 
     ngOnInit(): void {
@@ -28,24 +28,23 @@ export class GrowbeModuleConfigComponent implements OnInit {
                 where: {
                     uid: this.moduleId,
                 },
-              }),
-            this.growbeModuleDefAPI.getById(this.moduleName)
-            ])
-            .pipe(
-                map(([modules, moduleDef]) => {
-                    const config = modules[0].config;
-                    console.log('CONFIG', config);
-                    const type = modules[0].uid.slice(0, 3);
-                    const func = getConfigForm(type);
-                    return func
-                        ? func(
-                              modules[0].id,
-                              config,
-                              moduleDef,
-                              this.growbeModuleAPI,
-                          )
-                        : undefined;
-                }),
-            );
+            }),
+            this.growbeModuleDefAPI.getById(this.moduleName),
+        ]).pipe(
+            map(([modules, moduleDef]) => {
+                const config = modules[0].config;
+                console.log('CONFIG', config);
+                const type = modules[0].uid.slice(0, 3);
+                const func = getConfigForm(type);
+                return func
+                    ? func(
+                          modules[0].id,
+                          config,
+                          moduleDef,
+                          this.growbeModuleAPI,
+                      )
+                    : undefined;
+            }),
+        );
     }
 }
