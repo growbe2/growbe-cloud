@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { getTestModuleMetadata } from 'src/app/_spec/test.module.spec';
 
 import { WarningTableComponent } from './warning-table.component';
@@ -11,6 +12,7 @@ describe('WarningTableComponent', () => {
         await TestBed.configureTestingModule(
             getTestModuleMetadata({
                 data: {
+                  imports: [AutoFormModule],
                     declarations: [WarningTableComponent],
                 },
             }),
