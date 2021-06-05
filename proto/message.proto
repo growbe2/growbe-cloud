@@ -20,10 +20,10 @@ message Log {
 }
 
 message RTCTime {
-    int32 second = 1;
-    int32 minute = 2;
-    int32 hour = 3;
-    int32 day = 4;
-    int32 month = 5;
-    int32 year = 6;
+    uint32 second = 1;
+    uint32 minute = 2;
+    uint32 hour = 3;
+    uint32 day = 4;
+    uint32 month = 5;
+    uint32 year = 6;
 }
