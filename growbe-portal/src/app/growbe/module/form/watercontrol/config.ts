@@ -20,7 +20,7 @@ const transformFieldSubmit = (property: string, data: any) => ({
                       )[0],
                       minute: +data.object[property].config.data.begining.split(
                           ':',
-                      )[0],
+                      )[1],
                   },
                   end: {
                       hour: +data.object[property].config.data.end.split(
@@ -28,7 +28,7 @@ const transformFieldSubmit = (property: string, data: any) => ({
                       )[0],
                       minute: +data.object[property].config.data.end.split(
                           ':',
-                      )[0],
+                      )[1],
                   },
               },
 });

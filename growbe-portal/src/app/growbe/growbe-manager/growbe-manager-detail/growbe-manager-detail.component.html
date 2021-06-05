@@ -68,11 +68,7 @@
                 </ngx-autotable>
             </mat-tab>
             <mat-tab label="Alerts">
-                <ngx-autotable
-                    [columns]="warningColumns"
-                    [source]="mainboardAPI.growbeWarnings | lbRelation: id"
-                >
-                </ngx-autotable>
+                <app-warning-table [growbeId]="id"></app-warning-table>
             </mat-tab>
             <mat-tab label="Stream">
                 <app-stream-picker
