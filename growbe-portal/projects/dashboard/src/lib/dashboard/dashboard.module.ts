@@ -31,6 +31,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { DashboardRegistryItem } from './registry/dashboard.registry';
 import { DashboardService } from './dashboard.service';
 import { MatCardModule } from '@angular/material/card';
+import { MatTabsExtraModule } from '@berlingoqc/ngx-common';
 
 @NgModule({
     declarations: [
@@ -51,6 +52,7 @@ import { MatCardModule } from '@angular/material/card';
         MatGridListModule,
         MatMenuModule,
         MatTabsModule,
+        MatTabsExtraModule,
         MatIconModule,
         MatButtonModule,
     ],
