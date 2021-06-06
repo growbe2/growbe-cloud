@@ -1,9 +1,9 @@
 import {authenticate} from '@loopback/authentication';
 import {inject} from '@loopback/core';
-import {Filter, repository} from '@loopback/repository';
+import {repository} from '@loopback/repository';
 import {get, getModelSchemaRef, param, post, requestBody} from '@loopback/rest';
-import {createHash} from 'crypto';
 import axios from 'axios';
+import {createHash} from 'crypto';
 import {GrowbeStream} from './growbe-stream.model';
 import {GrowbeStreamRepository} from './growbe-stream.repository';
 import {NMSBindings} from './keys';
@@ -22,7 +22,7 @@ export class GrowbeStreamController {
     private growbeStreamRepository: GrowbeStreamRepository,
   ) {}
 
-  @get('/growbeStream/{id}/live', {
+  @get('/growbeStreams/{id}/live', {
     responses: {
       '200': {
         'application/json': {
@@ -52,7 +52,7 @@ export class GrowbeStreamController {
     });
   }
 
-  @post('/growbeStream')
+  @post('/growbeStreams')
   @authenticate('jwt')
   createStream(
     @requestBody({

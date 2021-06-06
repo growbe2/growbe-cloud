@@ -5,6 +5,8 @@ import {
   ModelRelation,
   OPERATION_SECURITY_SPEC,
 } from '@berlingoqc/lb-extensions';
+import {authenticate} from '@loopback/authentication';
+import {GrowbeStream, GrowbeStreamRepository} from '../component';
 import {
   GrowbeDashboard,
   GrowbeLogs,
@@ -21,7 +23,6 @@ import {
   GrowbeSensorValueRepository,
   GrowbeWarningRepository,
 } from '../repositories';
-import {authenticate} from '@loopback/authentication';
 import {GrowbeDashboardRepository} from '../repositories/growbe-dashboard.repository';
 
 const auth = {
@@ -154,6 +155,26 @@ export const CRUD_CONTROLLERS: {
       name: 'dashboards',
       specs: specSecurity,
       properties: [],
+      idType: 'string',
+    },
+    relations: [],
+  },
+  {
+    model: GrowbeStream,
+    repo: GrowbeStreamRepository,
+    options: {
+      name: 'growbeStreams',
+      specs: specSecurity,
+      properties: [],
+      disableds: [
+        'count',
+        'create',
+        'find',
+        'findById',
+        'replaceById',
+        'updateAll',
+        'updateById',
+      ],
       idType: 'string',
     },
     relations: [],

@@ -1,6 +1,22 @@
-<div style="height: 100px"></div>
-<div *ngFor="let stream of streams | async">
-    <button (click)="streamSelected.next(stream)">
-        {{ stream.streamName }}
+<div class="full frow jend">
+    <button mat-mini-fab (click)="autoFormDialogService.open(newEditFormData)">
+        <mat-icon>add</mat-icon>
     </button>
 </div>
+
+<ngx-autotable
+    *ngIf="source"
+    [columns]="columns"
+    [source]="source"
+></ngx-autotable>
+
+<ng-template #launch let-context="context">
+    <button
+        mat-stroked-button
+        [class]="context.active ? 'accent' : 'inactiveStream'"
+        [disabled]="!context.active"
+        (click)="streamSelected.next(context)"
+    >
+        {{ context.active ? 'Lancer' : 'Hors connexion' }}
+    </button>
+</ng-template>

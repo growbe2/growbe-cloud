@@ -12,7 +12,7 @@ describe('WarningTableComponent', () => {
         await TestBed.configureTestingModule(
             getTestModuleMetadata({
                 data: {
-                  imports: [AutoFormModule],
+                    imports: [AutoFormModule],
                     declarations: [WarningTableComponent],
                 },
             }),
