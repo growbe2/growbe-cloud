@@ -1,7 +1,23 @@
 import { Clipboard } from '@angular/cdk/clipboard';
-import { AfterViewInit, Component, Directive, EventEmitter, HostListener, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    Directive,
+    EventEmitter,
+    HostListener,
+    Input,
+    OnInit,
+    Output,
+    TemplateRef,
+    ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
-import { AutoFormComponent, AutoFormData, AutoFormDialogService, DialogFormContainer } from '@berlingoqc/ngx-autoform';
+import {
+    AutoFormComponent,
+    AutoFormData,
+    AutoFormDialogService,
+    DialogFormContainer,
+} from '@berlingoqc/ngx-autoform';
 import { TableColumn } from '@berlingoqc/ngx-autotable';
 import { ButtonsRowComponent, envConfig } from '@berlingoqc/ngx-common';
 import { StaticDataSource } from '@berlingoqc/ngx-loopback';
@@ -11,8 +27,7 @@ import { of } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { GrowbeStreamAPI } from 'src/app/growbe/api/growbe-stream';
 
-type newEditFormValue = { streamControl: { name: string }};
-
+type newEditFormValue = { streamControl: { name: string } };
 
 @Component({
     selector: 'app-stream-picker',
@@ -20,12 +35,10 @@ type newEditFormValue = { streamControl: { name: string }};
     styleUrls: ['./stream-picker.component.scss'],
 })
 export class StreamPickerComponent implements OnInit, AfterViewInit {
-
     @Input() growbeId: string;
     @Output() streamSelected = new EventEmitter<any>();
     @ViewChild('launch') launch: TemplateRef<any>;
     source: StaticDataSource<any>;
-
 
     columns: TableColumn[] = [
         {
@@ -48,83 +61,88 @@ export class StreamPickerComponent implements OnInit, AfterViewInit {
                 type: 'component',
                 content: ButtonsRowComponent,
                 extra: {
-                  inputs: {
-                    buttons: [
-                      {
-                        title: {
-                          type: 'icon',
-                          content: 'delete'
-                        },
-                        style: 'mat-mini-fab',
-                        click: (router: Router, stream: any) => {
-                          this.deleteStream(stream);
-                        },
-                      },
-                      {
-                        title: {
-                          type: 'icon',
-                          content: 'info'
-                        },
-                        style: 'mat-mini-fab',
-                        click: (router: Router, stream: any) => {
-                          this.autoFormDialogService.open(this.getStreamConnectionInfoForm(stream));
-                        }
-                      }
-                    ]
-                  }
-                }
+                    inputs: {
+                        buttons: [
+                            {
+                                title: {
+                                    type: 'icon',
+                                    content: 'delete',
+                                },
+                                style: 'mat-mini-fab',
+                                click: (router: Router, stream: any) => {
+                                    this.deleteStream(stream);
+                                },
+                            },
+                            {
+                                title: {
+                                    type: 'icon',
+                                    content: 'info',
+                                },
+                                style: 'mat-mini-fab',
+                                click: (router: Router, stream: any) => {
+                                    this.autoFormDialogService.open(
+                                        this.getStreamConnectionInfoForm(
+                                            stream,
+                                        ),
+                                    );
+                                },
+                            },
+                        ],
+                    },
+                },
             },
         },
     ];
 
-
     getStreamConnectionInfoForm = (stream: any): AutoFormData => ({
-      type: 'dialog',
-      typeData: {
-        minWidth: '50%',
-      } as DialogFormContainer,
-      event: {
-        submit: () => of(),
-        initialData: {
-          info: {
-            server: `${envConfig.nms.replace('https', 'rtmp')}/live`,
-            apiKey: `${stream.streamName}${stream.url}`,
-          }
-        }
-      },
-      items: [
-        {
-          type: 'object',
-          name: 'info',
-          properties: [
-            {
-              type: 'string',
-              name: 'server',
+        type: 'dialog',
+        typeData: {
+            minWidth: '50%',
+        } as DialogFormContainer,
+        event: {
+            submit: () => of(),
+            initialData: {
+                info: {
+                    server: `${envConfig.nms.replace('https', 'rtmp')}/live`,
+                    apiKey: `${stream.streamName}${stream.url}`,
+                },
             },
+        },
+        items: [
             {
-              type: 'string',
-              name: 'apiKey'
-            }
-          ]
-        }
-      ]
+                type: 'object',
+                name: 'info',
+                properties: [
+                    {
+                        type: 'string',
+                        name: 'server',
+                    },
+                    {
+                        type: 'string',
+                        name: 'apiKey',
+                    },
+                ],
+            },
+        ],
     });
-
 
     newEditFormData: AutoFormData = {
         type: 'dialog',
         event: {
             submit: (data: newEditFormValue) =>
                 this.growbeStreamAPI
-                    .createLiveStream(this.growbeId, this.growbeId + '-' + data.streamControl.name)
+                    .createLiveStream(
+                        this.growbeId,
+                        this.growbeId + '-' + data.streamControl.name,
+                    )
                     .pipe(
                         notify({
                             title: 'Stream ajouté.',
                             titleFailed: 'Échec. Veuillez réssayer.',
                             body: () => data.streamControl.name,
                         }),
-                        tap(() => this.getStreamList())
-                    )
+                        tap(() => this.getStreamList()),
+                    ),
         },
         items: [
             {
@@ -141,19 +159,19 @@ export class StreamPickerComponent implements OnInit, AfterViewInit {
                             type: 'mat',
                             options: {
                                 displayTitle: 'Nom du stream',
-                            }
-                        } as any
-                    }
-                ]
-            }
-        ]
-    }
+                            },
+                        } as any,
+                    },
+                ],
+            },
+        ],
+    };
 
     constructor(
-      private clipboard: Clipboard,
-      public growbeStreamAPI: GrowbeStreamAPI,
-      public autoFormDialogService: AutoFormDialogService,
-    ) { }
+        private clipboard: Clipboard,
+        public growbeStreamAPI: GrowbeStreamAPI,
+        public autoFormDialogService: AutoFormDialogService,
+    ) {}
 
     ngOnInit() {
         this.getStreamList();
@@ -168,7 +186,7 @@ export class StreamPickerComponent implements OnInit, AfterViewInit {
             await this.growbeStreamAPI
                 .getLiveStreams(this.growbeId)
                 .pipe(take(1))
-                .toPromise()
+                .toPromise(),
         );
     }
 
@@ -181,9 +199,8 @@ export class StreamPickerComponent implements OnInit, AfterViewInit {
                     titleFailed: 'Échec. Veuillez réssayer.',
                     body: () => stream.streamName,
                 }),
-                tap(() => this.getStreamList())
+                tap(() => this.getStreamList()),
             )
             .subscribe();
     }
-
 }

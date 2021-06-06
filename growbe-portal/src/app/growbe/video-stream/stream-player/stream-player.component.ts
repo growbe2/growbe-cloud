@@ -33,14 +33,13 @@ export class StreamPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
         this.player.play();
     }
 
-    constructor(
-    ) {}
+    constructor() {}
 
     ngOnInit(): void {}
 
     ngAfterViewInit() {}
 
     ngOnDestroy(): void {
-      this.player?.destroy();
+        this.player?.destroy();
     }
 }

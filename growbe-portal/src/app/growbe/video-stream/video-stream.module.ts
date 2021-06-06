@@ -10,10 +10,7 @@ import { ButtonsRowModule } from '@berlingoqc/ngx-common';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
-    declarations: [
-        StreamPlayerComponent,
-        StreamPickerComponent,
-    ],
+    declarations: [StreamPlayerComponent, StreamPickerComponent],
     imports: [
         CommonModule,
         ButtonsRowModule,
@@ -23,9 +20,6 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
         MatButtonModule,
         ClipboardModule,
     ],
-    exports: [
-        StreamPlayerComponent,
-        StreamPickerComponent,
-    ],
+    exports: [StreamPlayerComponent, StreamPickerComponent],
 })
 export class VideoStreamModule {}

@@ -8,31 +8,24 @@ import { Observable } from 'rxjs';
 export class GrowbeStreamAPI {
     url: string;
     constructor(private httpClient: HttpClient) {
-      this.url = `${envConfig.growbeCloud}/growbeStreams`
+        this.url = `${envConfig.growbeCloud}/growbeStreams`;
     }
 
     getLiveStreams(growbeId: string): Observable<any[]> {
-        return this.httpClient.get<any[]>(
-            `${this.url}/${growbeId}/live`,
-        );
+        return this.httpClient.get<any[]>(`${this.url}/${growbeId}/live`);
     }
 
     createLiveStream(
         growbeMainboardId: string,
         streamName: string,
     ): Observable<any> {
-        return this.httpClient.post<any>(
-            `${this.url}`,
-            {
-                growbeMainboardId,
-                streamName,
-            },
-        );
+        return this.httpClient.post<any>(`${this.url}`, {
+            growbeMainboardId,
+            streamName,
+        });
     }
 
     deleteLiveStream(streamId: string): Observable<void> {
-        return this.httpClient.delete<void>(
-            `${this.url}/${streamId}`
-        );
+        return this.httpClient.delete<void>(`${this.url}/${streamId}`);
     }
 }
