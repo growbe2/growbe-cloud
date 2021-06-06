@@ -1,7 +1,7 @@
 <div class="full frow jend">
-    <button 
+    <button
         mat-mini-fab
-        [formComponent]="newEditFormComponent"
+        (click)="autoFormDialogService.open(newEditFormData)"
     >
         <mat-icon>add</mat-icon>
     </button>
@@ -23,15 +23,3 @@
         {{ context.active ? 'Lancer' : 'Hors connexion' }}
     </button>
 </ng-template>
-
-<ng-template #delete let-context="context">
-    <button
-        mat-mini-fab
-        class="warn"
-        (click)="deleteStream(context)"
-    >
-        <mat-icon>delete</mat-icon>
-    </button>
-</ng-template>
-
-<autoform-form #newEditFormComponent [formData]="newEditFormData"></autoform-form>

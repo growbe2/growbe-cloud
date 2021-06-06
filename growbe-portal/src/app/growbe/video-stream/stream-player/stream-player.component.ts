@@ -3,6 +3,7 @@ import {
     Component,
     ElementRef,
     Input,
+    OnDestroy,
     OnInit,
     ViewChild,
 } from '@angular/core';
@@ -15,7 +16,7 @@ import flvjs from 'flv.js';
     templateUrl: './stream-player.component.html',
     styleUrls: ['./stream-player.component.scss'],
 })
-export class StreamPlayerComponent implements OnInit, AfterViewInit {
+export class StreamPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('element') element: ElementRef<HTMLMediaElement>;
     player: flvjs.Player;
 
@@ -32,9 +33,14 @@ export class StreamPlayerComponent implements OnInit, AfterViewInit {
         this.player.play();
     }
 
-    constructor() {}
+    constructor(
+    ) {}
 
     ngOnInit(): void {}
 
     ngAfterViewInit() {}
+
+    ngOnDestroy(): void {
+      this.player?.destroy();
+    }
 }
