@@ -107,14 +107,6 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
         },
     ];
 
-    warningColumns: TableColumn[] = [
-        {
-            id: 'type',
-            title: 'Type',
-            content: (w) => w.warningKeyId,
-        },
-    ];
-
     sub: Subscription;
 
     streamSelected: any;

@@ -76,7 +76,16 @@ export class GrowbeService {
     );
     await this.mainboardRepository
       .growbeMainboardConfig(growbeId)
-      .patch({config});
+      .patch({config})
+      .then(value => {
+        return this.logsService.addLog({
+          group: GroupEnum.MAINBOARD,
+          type: LogTypeEnum.GROWBE_CONFIG_CHANGE,
+          severity: SeverityEnum.LOW,
+          growbeMainboardId: growbeId,
+          message: `config send`,
+        });
+      });
   }
 
   async setRTC(growbeId: string, rtcTime: RTCTime) {
@@ -91,7 +100,7 @@ export class GrowbeService {
           type: LogTypeEnum.RTC_UPDATE,
           severity: SeverityEnum.LOW,
           growbeMainboardId: growbeId,
-          message: `rtc set : ${rtcTime.toJSON()}`,
+          message: `rtc set : ${JSON.stringify(rtcTime)}`,
         });
       });
   }

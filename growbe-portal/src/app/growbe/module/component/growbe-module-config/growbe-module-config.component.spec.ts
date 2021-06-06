@@ -20,6 +20,8 @@ describe('GrowbeModuleConfigComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(GrowbeModuleConfigComponent);
         component = fixture.componentInstance;
+        component.moduleName = '';
+        component.moduleId = '';
         fixture.detectChanges();
     });
 

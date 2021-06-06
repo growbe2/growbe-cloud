@@ -9,7 +9,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { GrowbeDashboardItem } from './growbeDashboardItem';
 
 
 export interface GrowbeDashboard { 
@@ -19,6 +18,5 @@ export interface GrowbeDashboard {
     id?: string;
     userId?: string;
     name?: string;
-    sidePanel?: Array<GrowbeDashboardItem>;
 }
 
