@@ -1,7 +1,7 @@
-import {HearthBeath, HelloWord, ModuleData} from '@growbe2/growbe-pb';
+import {HearthBeath, HelloWord, ModuleData, ActionResponse } from '@growbe2/growbe-pb';
 import {Binding, Component} from '@loopback/core';
 import {GrowbeMainboardBindings} from '../keys';
-import {GrowbeModuleService, GrowbeStateService} from '../services';
+import {GrowbeActionReponseService, GrowbeModuleService, GrowbeStateService} from '../services';
 import {
   GrowbeDataSubjectObserver,
   GrowbeStateWatcherObserver,
@@ -42,6 +42,14 @@ const watchers: DataSubject[] = [
     regexTopic: 'state',
     service: GrowbeModuleService,
   },
+  {
+    func: (id, service: GrowbeActionReponseService, action: any) => {
+      return service.receiveActionResponse(action);
+    },
+    model: ActionResponse,
+    regexTopic: 'response',
+    service: GrowbeActionReponseService,
+  }
 ];
 
 export class WatcherComponent implements Component {

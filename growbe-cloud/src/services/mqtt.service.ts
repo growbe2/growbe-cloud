@@ -1,7 +1,10 @@
-import {BindingScope, inject, injectable} from '@loopback/core';
+import {BindingScope, inject, injectable, service} from '@loopback/core';
 import mqtt from 'async-mqtt';
-import {Observable} from 'rxjs';
+import { map } from 'lodash';
+import {from, Observable, of} from 'rxjs';
+import { catchError, retryWhen, switchMap } from 'rxjs/operators';
 import {MQTTBindings} from '../keys';
+import { genericRetryStrategy, GrowbeActionReponseService, WaitResponseOptions } from './growbe-response.service';
 
 export const getTopic = (growbeId: string, subtopic: string) => {
   return `/growbe/${growbeId}${subtopic}`;
@@ -16,6 +19,8 @@ export class MQTTService {
   constructor(
     @inject(MQTTBindings.URL)
     private url: string,
+    @service(GrowbeActionReponseService)
+    private actionResponseService: GrowbeActionReponseService,
   ) {}
 
   async connect() {
@@ -33,5 +38,18 @@ export class MQTTService {
 
   async send(topic: string, body: any) {
     return this.client.publish(topic, body);
+  }
+
+  async sendWithResponse(topic: string, body: any, options: WaitResponseOptions) {
+    return from(this.send(topic, body))
+      .pipe(
+        switchMap(() => this.actionResponseService.waitForResponse(options))
+      )
+      .pipe(
+        retryWhen(genericRetryStrategy({
+          scalingDuration: 2000,
+        })),
+        catchError(error => of(error))
+      )
   }
 }

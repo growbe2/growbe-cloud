@@ -6,3 +6,4 @@ export * from './module-value-graph.service';
 export * from './growbe-module.service';
 export * from './growbe-logs.service';
 export * from './growbe-module-def.service';
+export * from './growbe-response.service';

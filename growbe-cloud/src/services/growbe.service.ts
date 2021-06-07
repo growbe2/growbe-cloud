@@ -90,9 +90,13 @@ export class GrowbeService {
 
   async setRTC(growbeId: string, rtcTime: RTCTime) {
     return this.mqttService
-      .send(
+      .sendWithResponse(
         getTopic(growbeId, '/board/setTime'),
         pb.RTCTime.encode(rtcTime).finish(),
+        {
+          responseCode: 0,
+          waitingTime: 1000,
+        }
       )
       .then(value => {
         return this.logsService.addLog({
@@ -102,6 +106,10 @@ export class GrowbeService {
           growbeMainboardId: growbeId,
           message: `rtc set : ${JSON.stringify(rtcTime)}`,
         });
+      })
+      .catch((error) => {
+        console.log('ERROR DIDNT GET RESPONSE');
+        return error;
       });
   }
 
