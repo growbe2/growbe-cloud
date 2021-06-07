@@ -19,6 +19,24 @@ message Log {
     string log = 2;
 }
 
+
+enum ActionCode {
+    PARSING_FAILED = 0;
+    MODULE_CONFIG = 1;
+    MAINBOARD_CONFIG = 2;
+    RTC_SET = 3;
+    SYNC_REQUEST = 4;
+}
+
+message ActionResponse {
+    // the response code is different for any action
+    // that is made for a mainboard
+    int32 responseCode = 1;
+    // statusCode of the success of the action
+    int32 statusCode = 2;
+    string message = 3;
+}
+
 message RTCTime {
     uint32 second = 1;
     uint32 minute = 2;
