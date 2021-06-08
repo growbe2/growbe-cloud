@@ -34,7 +34,6 @@ message ActionResponse {
     int32 responseCode = 1;
     // statusCode of the success of the action
     int32 statusCode = 2;
-    string message = 3;
 }
 
 message RTCTime {

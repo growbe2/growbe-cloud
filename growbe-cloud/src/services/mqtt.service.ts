@@ -37,17 +37,19 @@ export class MQTTService {
   }
 
   async send(topic: string, body: any) {
+    console.log('SENDING MQTT ', topic);
     return this.client.publish(topic, body);
   }
 
-  async sendWithResponse(topic: string, body: any, options: WaitResponseOptions) {
-    return from(this.send(topic, body))
+  sendWithResponse(topic: string, body: any, options: WaitResponseOptions) {
+    const source = from(this.send(topic, body));
+    return source
       .pipe(
-        switchMap(() => this.actionResponseService.waitForResponse(options))
-      )
-      .pipe(
+        switchMap(() => {
+          return this.actionResponseService.waitForResponse(options)
+        }),
         retryWhen(genericRetryStrategy({
-          scalingDuration: 2000,
+          scalingDuration: 1000,
         })),
         catchError(error => of(error))
       )

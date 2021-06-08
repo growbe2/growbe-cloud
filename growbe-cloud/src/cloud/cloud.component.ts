@@ -1,18 +1,34 @@
 import {addCRUDModelsControllerWithRelations} from '@berlingoqc/lb-extensions';
-import {Component, CoreBindings, inject} from '@loopback/core';
+import {Binding, Component, CoreBindings, inject} from '@loopback/core';
 import {ApplicationWithRepositories} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
+import {ActionResponse} from '@growbe2/growbe-pb';
 import {
   GrowbeStreamComponent,
   GrowbeStreamRepository,
   NMSBindings,
 } from '../component';
+import { GrowbeMainboardBindings } from '../keys';
+import { DataSubject } from '../observers/data-subject.model';
+import { GrowbeActionReponseService } from '../services';
 import {
   GrowbeMainboardController,
   GrowbeModuleDefController,
 } from './controllers';
 import {GrowbeModuleController} from './controllers/growbe-module.controllers';
 import {CRUD_CONTROLLERS} from './crud-controller';
+
+const watchers: DataSubject[] = [
+  {
+    func: (id, service: GrowbeActionReponseService, action: any) => {
+      console.log('ACTION REPONSE');
+      return service.receiveActionResponse(action);
+    },
+    model: ActionResponse,
+    regexTopic: 'response',
+    service: GrowbeActionReponseService,
+  }
+];
 
 export class CloudComponent implements Component {
   constructor(
@@ -37,5 +53,7 @@ export class CloudComponent implements Component {
     GrowbeModuleDefController,
     GrowbeModuleController,
   ];
-  bindings = [];
+  bindings = [
+    Binding.bind(GrowbeMainboardBindings.WATCHERS).to(watchers)
+  ];
 }

@@ -2,7 +2,7 @@ import { throwError } from '@berlingoqc/sso';
 import { ActionResponse } from '@growbe2/growbe-pb';
 import { BindingScope, injectable } from "@loopback/context";
 import { Observable, Subject, timer } from "rxjs";
-import { filter, finalize, mergeMap, timeout } from 'rxjs/operators';
+import { filter, finalize, map, mergeMap, timeout } from 'rxjs/operators';
 
 export interface WaitResponseOptions {
     responseCode: number;
@@ -53,6 +53,10 @@ export class GrowbeActionReponseService {
 
   waitForResponse(options: WaitResponseOptions): Observable<ActionResponse> {
       return this.actionReponse.asObservable().pipe(
+          map(x => {
+            console.log('YEYEYEYE', x);
+            return x;
+          }),
           filter(item => item.responseCode === options.responseCode),
           timeout(options.waitingTime)
       );

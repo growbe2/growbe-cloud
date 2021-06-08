@@ -95,9 +95,9 @@ export class GrowbeService {
         pb.RTCTime.encode(rtcTime).finish(),
         {
           responseCode: 0,
-          waitingTime: 1000,
+          waitingTime: 3000,
         }
-      )
+      ).toPromise()
       .then(value => {
         return this.logsService.addLog({
           group: GroupEnum.MAINBOARD,
