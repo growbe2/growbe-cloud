@@ -12,7 +12,7 @@ export class GrowbeSensorValue extends Entity {
   })
   id?: string;
 
-  @property()
+  @property({description: 'type of the module ex: AAB'})
   moduleType: string;
 
   @property()
@@ -21,10 +21,17 @@ export class GrowbeSensorValue extends Entity {
   @belongsTo(() => GrowbeMainboard)
   growbeMainboardId: string;
 
-  @property()
+  @property({description: 'starting point of the growbe sensor value document'})
   createdAt: Date;
 
-  [prop: string]: any;
+  @property({description: 'ending point of the growbe sensor value document'})
+  endingAt: Date;
+
+  @property({description: 'last value'})
+  values: {[prop: string]: any};
+  
+  @property({description: 'historic of data during this minutes'})
+  samples: {[prop: string]: any;}[];
 
   constructor(data?: Partial<GrowbeSensorValue>) {
     super(data);

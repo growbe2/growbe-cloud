@@ -1,5 +1,6 @@
 import * as pb from '@growbe2/growbe-pb';
 import {BindingScope, inject, injectable, service} from '@loopback/core';
+import { addMinutes } from 'date-fns';
 import {repository} from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
 import {Subject} from 'rxjs';
@@ -94,21 +95,45 @@ export class GrowbeModuleService {
 
     const parseData = pbDef[pbObjectName].decode(data);
 
-    let value = new GrowbeSensorValue(
-      Object.assign(parseData, {
+    // get the document of create it
+    const currentTime = new Date();
+
+    let document = await this.sensorValueRepository.findOne({
+      where: {
+        createdAt: {
+          gte: currentTime
+        },
+        endingAt: {
+          lte: currentTime,
+        }
+      }
+    });
+    if (!document) {
+      document = await this.sensorValueRepository.create({
+        moduleId,
         moduleType: info.id,
-        moduleId: moduleId,
         growbeMainboardId: boardId,
-        createdAt: new Date(),
-      }),
-    );
-    delete value.id;
-    value = await this.sensorValueRepository.create(value);
+        createdAt: currentTime,
+        endingAt: addMinutes(currentTime, 1),
+        values: undefined,
+        samples: [],
+      })
+    }
+
+    const values = Object.assign(parseData, { createdAt: currentTime });
+
+    // if there is value add to samples
+    if(document.values) {
+      document.samples.push(document.values);
+    }
+
+    document.values = values;
+
     await this.mqttService.send(
       getTopic(boardId, `/cloud/m/${moduleId}/data`),
       JSON.stringify(parseData),
     );
-    return value;
+    return document;
   }
 
   async findOrCreate(boardId: string, moduleId: string) {
