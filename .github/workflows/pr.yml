@@ -17,6 +17,8 @@ jobs:
         run: docker run docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud npm run lint
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+      - name: Integration test
+        run: ./scripts/integration.sh test
   growbe-portal:
     runs-on: ubuntu-latest
     steps:

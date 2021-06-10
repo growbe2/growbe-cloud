@@ -1,0 +1,6 @@
+version: '3'
+services:
+  growbe-cloud:
+     command: node dist/migrate.js
+  sso:
+     command: bash -c "npm run migrate && npm run start"
