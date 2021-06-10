@@ -31,7 +31,7 @@ export class GrowbeSensorValue extends Entity {
   values: {[prop: string]: any};
   
   @property({description: 'historic of data during this minutes'})
-  samples: {[prop: string]: any;}[];
+  samples: any;
 
   constructor(data?: Partial<GrowbeSensorValue>) {
     super(data);

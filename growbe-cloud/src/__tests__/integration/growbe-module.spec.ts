@@ -101,8 +101,8 @@ describe('Growbe Mainboard', () => {
           thlData,
         );
 
-        expect(item.humidity).to.eql(30);
-        expect(item.airTemperature).to.eql(20);
+        expect(item.values.humidity).to.eql(30);
+        expect(item.values.airTemperature).to.eql(20);
         expect(item.createdAt).to.be.Date();
         expect(item.growbeMainboardId).to.eql(boardId);
         expect(item.moduleType).to.eql('AAA');
