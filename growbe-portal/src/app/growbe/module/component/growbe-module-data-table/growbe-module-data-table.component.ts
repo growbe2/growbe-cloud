@@ -65,7 +65,7 @@ export class GrowbeModuleDataTableComponent implements OnInit {
                         content: (e) =>
                             transformModuleValue(
                                 this.module.uid.slice(0, 3),
-                                e[prop.name],
+                                e.values[prop.name],
                             ),
                     })),
                     {
