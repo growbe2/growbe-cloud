@@ -54,11 +54,10 @@ export class ModuleValueGraphService {
   // retourne la dernière lecture des trucs
   async getLastRead(request: ModuleDataRequest): Promise<GrowbeSensorValue> {
     const data = await this.valueService.sensorValueRepository.findOne({
-      fields: [...request.fields, 'createdAt'],
+      fields: ['values', 'createdAt'],
       where: {
         moduleId: request.moduleId,
         growbeMainboardId: request.growbeId,
-        or: request.fields.map(field => ({[field]: {neq: null}})),
       },
       order: ['createdAt DESC'],
     });
@@ -110,12 +109,12 @@ export class ModuleValueGraphService {
   }
 
   private getValue(object: any, propAny: string) {
-    return object[propAny];
+    return object.values[propAny];
   }
 
   private async getModuleSensorData(request: ModuleDataRequest) {
     const entries = await this.valueService.sensorValueRepository.find({
-      fields: [...request.fields, 'createdAt'],
+      fields: ['values', 'createdAt'],
       where: {
         moduleId: request.moduleId,
         and: [...this.getDateCondifition(request)],
@@ -132,19 +131,19 @@ export class ModuleValueGraphService {
       return [
         {
           createdAt: {
-            gte: request.from,
+            gte: request.from.getTime(),
           },
         },
         {
           createdAt: {
-            lte: request.to,
+            lte: request.to.getTime(),
           },
         },
       ];
     } else if (request.from) {
-      return [{createAt: {gte: request.from}}];
+      return [{createdAt: {gte: request.from.getTime()}}];
     } else if (request.to) {
-      return [{createAt: {lte: request.from}}];
+      return [{createdAt: {lte: request.to.getTime()}}];
     } else if (request.lastX) {
       const date: any = new Date();
       const unit = request.lastXUnit ?? 'Date';

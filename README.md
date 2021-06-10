@@ -79,12 +79,28 @@ All database must be destroy before doing the restoring.
 
 ```bash
 ## Backup of database
-./docker/migration.sh pg-backup cloud
-./docker/migration.sh mongo-backup cloud
+./scripts/migration.sh pg-backup cloud
+./scripts/migration.sh mongo-backup cloud
 
 ## Restoring of database
-./docker/migration.sh pg-restore local ./backups/cloud_pg_...sh
-./docker/migration.sh mongo-restore local ./backups/cloud_mongo_...sh
+./scripts/migration.sh pg-restore local ./backups/cloud_pg_...sh
+./scripts/migration.sh mongo-restore local ./backups/cloud_mongo_...sh
+```
+
+## Integration test environment
+
+```
+# Start ressource to run unit test
+./scripts/integration.sh start 
+
+cd growbe-cloud && npm run ut:run
+
+# Stop when your finish
+./scripts/integration.sh stop
+
+
+# Run unit test with lastest docker image for growbe-cloud
+./scripts/integration.sh test
 ```
 
 ## How to contribute

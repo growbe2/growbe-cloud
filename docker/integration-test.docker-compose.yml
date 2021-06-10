@@ -1,0 +1,4 @@
+version: '3'
+services:
+  growbe-cloud:
+     command: npm run test:dev
