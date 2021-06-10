@@ -96,28 +96,38 @@ export class GrowbeModuleService {
     const parseData = pbDef[pbObjectName].decode(data);
 
     // get the document of create it
-    const currentTime = new Date();
+    const currentTime = Date.now();
 
     let document = await this.sensorValueRepository.findOne({
       where: {
-        createdAt: {
-          gte: currentTime
-        },
-        endingAt: {
-          lte: currentTime,
-        }
-      }
+        and: [
+          {
+            moduleId,
+          },
+          {
+            createdAt: {
+              lte: currentTime
+            }
+          },
+          {
+            endingAt: {
+              gte: currentTime,
+            }
+          }
+        ],
+         }
     });
+
     if (!document) {
-      document = await this.sensorValueRepository.create({
+      document = new GrowbeSensorValue({
         moduleId,
         moduleType: info.id,
         growbeMainboardId: boardId,
         createdAt: currentTime,
-        endingAt: addMinutes(currentTime, 1),
+        endingAt: addMinutes(currentTime, 1).getTime(),
         values: undefined,
         samples: [],
-      })
+      });
     }
 
     const values = Object.assign(parseData, { createdAt: currentTime });
@@ -128,6 +138,15 @@ export class GrowbeModuleService {
     }
 
     document.values = values;
+
+    if (document.id) {
+      await this.sensorValueRepository.updateById(document.id, {
+        samples: document.samples,
+        values: document.values,
+      });
+    } else {
+      document = await this.sensorValueRepository.create(document);
+    }
 
     await this.mqttService.send(
       getTopic(boardId, `/cloud/m/${moduleId}/data`),

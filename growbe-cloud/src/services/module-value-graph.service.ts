@@ -58,7 +58,6 @@ export class ModuleValueGraphService {
       where: {
         moduleId: request.moduleId,
         growbeMainboardId: request.growbeId,
-        or: request.fields.map(field => ({[field]: {neq: null}})),
       },
       order: ['createdAt DESC'],
     });
@@ -132,19 +131,19 @@ export class ModuleValueGraphService {
       return [
         {
           createdAt: {
-            gte: request.from,
+            gte: request.from.getTime(),
           },
         },
         {
           createdAt: {
-            lte: request.to,
+            lte: request.to.getTime(),
           },
         },
       ];
     } else if (request.from) {
-      return [{createdAt: {gte: request.from}}];
+      return [{createdAt: {gte: request.from.getTime()}}];
     } else if (request.to) {
-      return [{createdAt: {lte: request.from}}];
+      return [{createdAt: {lte: request.to.getTime()}}];
     } else if (request.lastX) {
       const date: any = new Date();
       const unit = request.lastXUnit ?? 'Date';

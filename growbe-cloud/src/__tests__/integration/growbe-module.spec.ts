@@ -1,9 +1,13 @@
 import pb from '@growbe2/growbe-pb';
 import {expect} from '@loopback/testlab';
+import { addMinutes } from 'date-fns';
+import sinon from 'sinon';
 import {GrowbeCloudApplication} from '../../application';
 import {GrowbeModuleService} from '../../services';
 import {setupApplication} from '../fixtures/app';
 import {boardId, moduleId} from '../fixtures/data';
+import { waitAsync } from '../helpers/general';
+
 
 describe('Growbe Mainboard', () => {
   let app: GrowbeCloudApplication;
@@ -85,6 +89,9 @@ describe('Growbe Mainboard', () => {
       const thlData = pb.THLModuleData.encode(
         new pb.THLModuleData({airTemperature: 20, humidity: 30}),
       ).finish();
+      const thlData2 = pb.THLModuleData.encode(
+        new pb.THLModuleData({airTemperature: 10, humidity: 20}),
+      ).finish();
 
       afterEach(async () => {
         await moduleService.sensorValueRepository.deleteAll();
@@ -103,9 +110,52 @@ describe('Growbe Mainboard', () => {
 
         expect(item.values.humidity).to.eql(30);
         expect(item.values.airTemperature).to.eql(20);
-        expect(item.createdAt).to.be.Date();
+        expect(item.createdAt).to.be.Number();
+        expect(item.samples).to.be.Array();
+        expect(item.samples).length(0);
         expect(item.growbeMainboardId).to.eql(boardId);
         expect(item.moduleType).to.eql('AAA');
+      });
+
+      it('Reception de plusieurs valeurs dans la même minute', async () => {
+        const item = await moduleService.onModuleDataChange(
+          boardId,
+          moduleId,
+          thlData
+        );
+
+        const item2 = await moduleService.onModuleDataChange(
+          boardId,
+          moduleId,
+          thlData2
+        );
+
+        expect(item.samples).length(0);
+        expect(item.id?.toString()).to.eql(item2.id?.toString());
+        expect(item2.values.airTemperature).to.eql(10);
+        expect(item2.samples).length(1);
+        expect(item2.samples[0].airTemperature).to.eql(20);
+      });
+
+      it('Reception de valeur separer de une minute', async () => {
+        const item = await moduleService.onModuleDataChange(
+          boardId,
+          moduleId,
+          thlData
+        );
+
+        sinon.useFakeTimers({
+          now: addMinutes(new Date(), 2),
+        });
+
+        const item2 = await moduleService.onModuleDataChange(
+          boardId,
+          moduleId,
+          thlData
+        );
+
+        expect(item.id?.toString()).not.eql(item2.id?.toString());
+
       });
     });
   });

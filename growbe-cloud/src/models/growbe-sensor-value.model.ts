@@ -22,10 +22,10 @@ export class GrowbeSensorValue extends Entity {
   growbeMainboardId: string;
 
   @property({description: 'starting point of the growbe sensor value document'})
-  createdAt: Date;
+  createdAt: number;
 
   @property({description: 'ending point of the growbe sensor value document'})
-  endingAt: Date;
+  endingAt: number;
 
   @property({description: 'last value'})
   values: {[prop: string]: any};

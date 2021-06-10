@@ -7,11 +7,7 @@ import {setupApplication} from '../fixtures/app';
 
 import pb from '@growbe2/growbe-pb';
 import {GrowbeWarningService} from '../../services/growbe-warning.service';
-import {getDate} from '../helpers/date';
-import {boardId} from '../fixtures/data';
-import {RTC_OFFSET_KEY} from '../../data';
 import {MockMQTTService} from '../fixtures/mock-mqtt.service';
-import {waitAsync} from '../helpers/general';
 
 describe('Growbe Mainboard', () => {
   let app: GrowbeCloudApplication;
