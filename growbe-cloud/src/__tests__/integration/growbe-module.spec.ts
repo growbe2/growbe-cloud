@@ -1,13 +1,12 @@
 import pb from '@growbe2/growbe-pb';
 import {expect} from '@loopback/testlab';
-import { addMinutes } from 'date-fns';
+import {addMinutes} from 'date-fns';
 import sinon from 'sinon';
 import {GrowbeCloudApplication} from '../../application';
 import {GrowbeModuleService} from '../../services';
 import {setupApplication} from '../fixtures/app';
 import {boardId, moduleId} from '../fixtures/data';
-import { waitAsync } from '../helpers/general';
-
+import {waitAsync} from '../helpers/general';
 
 describe('Growbe Mainboard', () => {
   let app: GrowbeCloudApplication;
@@ -121,13 +120,13 @@ describe('Growbe Mainboard', () => {
         const item = await moduleService.onModuleDataChange(
           boardId,
           moduleId,
-          thlData
+          thlData,
         );
 
         const item2 = await moduleService.onModuleDataChange(
           boardId,
           moduleId,
-          thlData2
+          thlData2,
         );
 
         expect(item.samples).length(0);
@@ -141,7 +140,7 @@ describe('Growbe Mainboard', () => {
         const item = await moduleService.onModuleDataChange(
           boardId,
           moduleId,
-          thlData
+          thlData,
         );
 
         sinon.useFakeTimers({
@@ -151,11 +150,10 @@ describe('Growbe Mainboard', () => {
         const item2 = await moduleService.onModuleDataChange(
           boardId,
           moduleId,
-          thlData
+          thlData,
         );
 
         expect(item.id?.toString()).not.eql(item2.id?.toString());
-
       });
     });
   });

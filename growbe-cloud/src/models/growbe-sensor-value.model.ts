@@ -29,7 +29,7 @@ export class GrowbeSensorValue extends Entity {
 
   @property({description: 'last value'})
   values: {[prop: string]: any};
-  
+
   @property({description: 'historic of data during this minutes'})
   samples: any;
 

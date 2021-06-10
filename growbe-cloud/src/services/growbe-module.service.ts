@@ -1,6 +1,6 @@
 import * as pb from '@growbe2/growbe-pb';
 import {BindingScope, inject, injectable, service} from '@loopback/core';
-import { addMinutes } from 'date-fns';
+import {addMinutes} from 'date-fns';
 import {repository} from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
 import {Subject} from 'rxjs';
@@ -106,16 +106,16 @@ export class GrowbeModuleService {
           },
           {
             createdAt: {
-              lte: currentTime
-            }
+              lte: currentTime,
+            },
           },
           {
             endingAt: {
               gte: currentTime,
-            }
-          }
+            },
+          },
         ],
-         }
+      },
     });
 
     if (!document) {
@@ -130,10 +130,10 @@ export class GrowbeModuleService {
       });
     }
 
-    const values = Object.assign(parseData, { createdAt: currentTime });
+    const values = Object.assign(parseData, {createdAt: currentTime});
 
     // if there is value add to samples
-    if(document.values) {
+    if (document.values) {
       document.samples.push(document.values);
     }
 
