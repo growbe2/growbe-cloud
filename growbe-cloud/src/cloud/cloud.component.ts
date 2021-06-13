@@ -13,6 +13,7 @@ import {
 } from './controllers';
 import {GrowbeModuleController} from './controllers/growbe-module.controllers';
 import {CRUD_CONTROLLERS} from './crud-controller';
+import { ModuleValueGraphService } from './services';
 
 export class CloudComponent implements Component {
   constructor(
@@ -31,6 +32,10 @@ export class CloudComponent implements Component {
       app.repository(GrowbeStreamRepository);
     }
   }
+
+  services = [
+    ModuleValueGraphService,
+  ];
 
   controllers = [
     GrowbeMainboardController,

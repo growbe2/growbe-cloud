@@ -16,7 +16,7 @@ import {GrowbeRegisterRequest, GrowbeService} from '../../services';
 import {
   GraphModuleRequest,
   ModuleValueGraphService,
-} from '../../services/module-value-graph.service';
+} from '../services/module-value-graph.service';
 import {schemaJsonOf} from '../../utility/oa3model';
 
 // import {inject} from '@loopback/core';
