@@ -1,7 +1,8 @@
-import {/* inject, */ BindingScope, injectable, service} from '@loopback/core';
+import {inject, BindingScope, injectable, service} from '@loopback/core';
 import {Entity, model, property, Where} from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
 import {format} from 'date-fns';
+import {MongoDataSource} from '../datasources';
 import {GrowbeSensorValue, ModuleDataRequest} from '../models';
 import {GrowbeModuleService} from './growbe-module.service';
 
@@ -47,6 +48,8 @@ export class ModuleAverageData {
 @injectable({scope: BindingScope.TRANSIENT})
 export class ModuleValueGraphService {
   constructor(
+    @inject('datasources.mongo')
+    private dataSource: MongoDataSource,
     @service(GrowbeModuleService)
     private valueService: GrowbeModuleService,
   ) {}
@@ -54,10 +57,11 @@ export class ModuleValueGraphService {
   // retourne la dernière lecture des trucs
   async getLastRead(request: ModuleDataRequest): Promise<GrowbeSensorValue> {
     const data = await this.valueService.sensorValueRepository.findOne({
-      fields: ['values', 'createdAt'],
+      //fields: [...request.fields, 'createdAt'],
       where: {
         moduleId: request.moduleId,
         growbeMainboardId: request.growbeId,
+        or: request.fields.map(field => ({[field]: {neq: null}})),
       },
       order: ['createdAt DESC'],
     });
@@ -109,50 +113,109 @@ export class ModuleValueGraphService {
   }
 
   private getValue(object: any, propAny: string) {
-    return object.values[propAny];
+    return object[propAny];
   }
 
-  private async getModuleSensorData(request: ModuleDataRequest) {
-    const entries = await this.valueService.sensorValueRepository.find({
-      fields: ['values', 'createdAt'],
-      where: {
-        moduleId: request.moduleId,
-        and: [...this.getDateCondifition(request)],
-        or: request.fields.map(field => ({[field]: {neq: null}})),
+  /**
+   * get the series data for the time range
+   *
+   */
+  private async getModuleSensorData(
+    request: ModuleDataRequest,
+    stages: any[] = [],
+  ) {
+    const fieldProjects = Object.fromEntries(
+      request.fields.map(field => [field, `$values.${field}`]),
+    );
+    const fieldGroup = Object.fromEntries(
+      request.fields.map(field => [field, {$avg: `$${field}`}]),
+    );
+    const dateConfig = this.getDateCondifition(request);
+    const aggregateRequest = [
+      {
+        $match: {
+          moduleId: request.moduleId,
+          ...dateConfig,
+        },
       },
-    });
-    return entries;
+      {
+        $project: {
+          createdAt: {
+            $toDate: '$createdAt',
+          },
+          endingAt: {
+            $toDate: '$createdAt',
+          },
+          ...fieldProjects,
+        },
+      },
+      {
+        $group: {
+          _id: {
+            hour: {
+              $hour: '$createdAt',
+            },
+            dayOfYear: {
+              $dayOfYear: '$createdAt',
+            },
+            year: {
+              $year: '$createdAt',
+            },
+            interval: {
+              "$subtract": [
+                { "$minute": "$createdAt" },
+                { "$mod": [{ "$minute": "$createdAt"}, 30]}
+              ]
+            }
+          },
+          createdAt: {
+            $first: '$createdAt',
+          },
+          ...fieldGroup,
+        },
+      },
+      ...stages,
+      {
+        $sort: {
+          "createdAt": 1
+        }
+      }
+    ];
+
+    const datas = await (this.dataSource.executeCustom(
+      'GrowbeSensorValue',
+      'aggregate',
+      aggregateRequest,
+    ).then((item: any) => item.get()))
+
+
+    return datas as any[];
   }
 
   private getDateCondifition(
     request: ModuleDataRequest,
-  ): Where<GrowbeSensorValue>[] {
+  ): any {
+    const condition: any = {};
     if (request.from && request.to) {
-      return [
-        {
-          createdAt: {
-            gte: request.from.getTime(),
-          },
-        },
-        {
-          createdAt: {
-            lte: request.to.getTime(),
-          },
-        },
-      ];
-    } else if (request.from) {
-      return [{createdAt: {gte: request.from.getTime()}}];
-    } else if (request.to) {
-      return [{createdAt: {lte: request.to.getTime()}}];
-    } else if (request.lastX) {
+      condition.createdAt = {
+        "$gte": request.from.getTime(),
+        "$lt": request.to.getTime(),
+      }
+    } else if(request.from) {
+      condition.createdAt = { "$gte": request.from.getTime()}
+    } else if(request.to) {
+      condition.createdAt = { "$lte": request.to.getTime() } 
+    } else if(request.lastX) {
       const date: any = new Date();
       const unit = request.lastXUnit ?? 'Date';
       const set = `set${unit}`;
       const get = `get${unit}`;
       const d = date[get]() - request.lastX;
       date[set](d);
-      return [{createdAt: {gte: date}}];
+      condition.createdAt = { '$gte': date.getTime() };
     }
-    return [];
+
+    console.log('CONIRTION', condition);
+    return condition;
   }
 }
