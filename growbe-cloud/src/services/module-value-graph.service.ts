@@ -3,7 +3,7 @@ import {Entity, model, property, Where} from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
 import {format} from 'date-fns';
 import {MongoDataSource} from '../datasources';
-import {GrowbeSensorValue, ModuleDataRequest} from '../models';
+import {GroupingDataRequest, GrowbeSensorValue, ModuleDataRequest} from '../models';
 import {GrowbeModuleService} from './growbe-module.service';
 
 @model()
@@ -55,39 +55,8 @@ export class ModuleValueGraphService {
   ) {}
 
   // retourne la dernière lecture des trucs
-  async getLastRead(request: ModuleDataRequest): Promise<GrowbeSensorValue> {
-    const data = await this.valueService.sensorValueRepository.findOne({
-      //fields: [...request.fields, 'createdAt'],
-      where: {
-        moduleId: request.moduleId,
-        growbeMainboardId: request.growbeId,
-        or: request.fields.map(field => ({[field]: {neq: null}})),
-      },
-      order: ['createdAt DESC'],
-    });
-    if (!data) throw new HttpErrors[404]('');
-    return data;
-  }
-
-  // retourne la valeur moyen pour une durée x
-  async getAverage(request: ModuleDataRequest): Promise<GraphSerie[]> {
-    const entries = await this.getModuleSensorData(request);
-    const series = request.fields.map(
-      f => ({name: f, series: [{name: f, value: 0, reads: 0}]} as any),
-    );
-    for (const e of entries) {
-      for (let i = 0; i < request.fields.length; i++) {
-        const field = request.fields[i];
-        const value = this.getValue(e, field);
-        if (!value) continue;
-        series[i].series[0].value += value;
-        series[i].series[0].reads += 1;
-      }
-    }
-    series.forEach(
-      x => (x.series[0].value = x.series[0].value / x.series[0].reads),
-    );
-    return series;
+  async getOneReading(request: ModuleDataRequest): Promise<any> {
+    return this.getModuleSensorData(request, [ { $sort: { createdAt: -1}}, { $limit: 1}]);
   }
 
   // retourne une graphique des valeurs d'une module
@@ -96,14 +65,14 @@ export class ModuleValueGraphService {
     for (const field of request.fields) {
       series.push({name: field, series: []});
     }
-    const entries = await this.getModuleSensorData(request);
+    const entries = await this.getModuleSensorData(request, [ { $sort: { createdAt: 1}}]);
     for (const e of entries) {
       let i = 0;
       for (const field of request.fields) {
         const value = this.getValue(e, field);
         if (!value) continue;
         series[i].series.push({
-          name: format(e.createdAt, 'MM/dd/yyyy HH:mm:ss'),
+          name: e.createdAt,
           value,
         });
         i++;
@@ -130,6 +99,9 @@ export class ModuleValueGraphService {
     const fieldGroup = Object.fromEntries(
       request.fields.map(field => [field, {$avg: `$${field}`}]),
     );
+    const fieldGroupProject = Object.fromEntries(
+      request.fields.map(field => [field, '$' + field])
+    );
     const dateConfig = this.getDateCondifition(request);
     const aggregateRequest = [
       {
@@ -144,43 +116,32 @@ export class ModuleValueGraphService {
             $toDate: '$createdAt',
           },
           endingAt: {
-            $toDate: '$createdAt',
+            $toDate: '$endingAt',
           },
+          createdAtNumber: '$createdAt',
           ...fieldProjects,
         },
       },
-      {
+      ...((request.grouping) ?
+      [{
         $group: {
-          _id: {
-            hour: {
-              $hour: '$createdAt',
-            },
-            dayOfYear: {
-              $dayOfYear: '$createdAt',
-            },
-            year: {
-              $year: '$createdAt',
-            },
-            interval: {
-              "$subtract": [
-                { "$minute": "$createdAt" },
-                { "$mod": [{ "$minute": "$createdAt"}, 30]}
-              ]
-            }
-          },
+          _id: this.getGroupingId(request.grouping),
           createdAt: {
-            $first: '$createdAt',
+              $avg: '$createdAtNumber',
           },
           ...fieldGroup,
         },
+
       },
-      ...stages,
       {
-        $sort: {
-          "createdAt": 1
+        $project: {
+          createdAt: {$toDate: '$createdAt'},
+          ...fieldGroupProject,
         }
       }
-    ];
+    ] : []),
+      ...stages,
+    ].filter(item => item);
 
     const datas = await (this.dataSource.executeCustom(
       'GrowbeSensorValue',
@@ -188,8 +149,32 @@ export class ModuleValueGraphService {
       aggregateRequest,
     ).then((item: any) => item.get()))
 
-
     return datas as any[];
+  }
+
+
+  private getGroupingId(
+    request: GroupingDataRequest
+  ): any {
+      const groupingId: any = {};
+      if (request.baseGroup) {
+        request.baseGroup.forEach((bg) => {
+          const property = `$${bg}`;
+          groupingId[bg] = {
+            [property]: '$createdAt'
+          };
+        })
+      }
+      if (request.intervalValue) {
+        const property = `$${request.intervalUnit ?? 'minute'}`
+        groupingId['interval'] = {
+          "$subtract": [
+            { [property]: "$createdAt" },
+            { "$mod": [{ [property]: "$createdAt"}, request.intervalValue]}
+          ]
+        }
+      }
+      return groupingId;
   }
 
   private getDateCondifition(
@@ -214,8 +199,6 @@ export class ModuleValueGraphService {
       date[set](d);
       condition.createdAt = { '$gte': date.getTime() };
     }
-
-    console.log('CONIRTION', condition);
     return condition;
   }
 }

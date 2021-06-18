@@ -51,24 +51,7 @@ export class GrowbeMainboardController {
   setGrowbeRTC(@param.path.string('id') id: string, @requestBody() body: any) {
     return this.growbeService.setRTC(id, body);
   }
-
-  @post('/growbe/graph')
-  @authenticate('jwt')
-  getGraph(@requestBody() request: GraphModuleRequest) {
-    return this.graphService.getGraph(request);
-  }
-
-  @post('/growbe/average')
-  @authenticate('jwt')
-  getAverage(@requestBody() request: ModuleDataRequest) {
-    return this.graphService.getAverage(request);
-  }
-
-  @post('/growbe/lastread')
-  @authenticate('jwt')
-  getLastValue(@requestBody() request: ModuleDataRequest) {
-    return this.graphService.getLastRead(request);
-  }
+  
 
   @get('/model/graphDataConfig', schemaJsonOf(GraphDataConfig))
   graphDataConfig() {
