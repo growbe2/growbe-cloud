@@ -16,8 +16,6 @@ import { FuseSharedModule, FuseWidgetModule } from '@berlingoqc/fuse';
 import { GrowbeDashboardFormComponent } from './growbe-dashboard-form/growbe-dashboard-form.component';
 import { GrowbeDashboardHomeComponent } from './growbe-dashboard-home/growbe-dashboard-home.component';
 
-import { GraphSearchBarModule } from '../module/graph/graph-search-bar/graph-search-bar.module';
-
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { GrowbeMainboardModule } from '../growbe-mainboard/growbe-mainboard.module';
 import {
@@ -43,7 +41,6 @@ import { inject } from '@angular/core/testing';
         LayoutDirectiveModule,
 
         GraphModule,
-        GraphSearchBarModule,
         GrowbeMainboardModule,
 
         TimeframeModule,
@@ -60,7 +57,5 @@ import { inject } from '@angular/core/testing';
     ],
 })
 export class GrowbeDashboardModule {
-    constructor(service: DashboardRegistryService) {
-        console.log('SERVICES', service);
-    }
+    constructor(service: DashboardRegistryService) {}
 }

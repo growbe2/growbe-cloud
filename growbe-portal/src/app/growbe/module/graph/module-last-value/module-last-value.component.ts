@@ -57,8 +57,9 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
             return;
         }
         this.graphService
-            .getGraph('lastread', this.data.graphDataConfig)
+            .getGraph('one', this.data.graphDataConfig)
             .subscribe(async (data: any) => {
+                data = data[0];
                 this.moduleDef = this.moduleAPI
                     .get({
                         where: { uid: this.data.graphDataConfig.moduleId },
@@ -71,7 +72,7 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
                         ),
                     );
                 this.value = this.transformValue(
-                    data.values[this.data.graphDataConfig.fields[0]],
+                    data[this.data.graphDataConfig.fields[0]],
                 );
                 this.at = data.createdAt;
                 this.changeDetection.markForCheck();

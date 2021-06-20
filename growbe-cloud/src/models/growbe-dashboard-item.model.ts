@@ -20,6 +20,25 @@ export enum LastXUnitEnum {
   DATE = 'Date',
 }
 
+
+export enum IntervalUnit {
+  MINUTE = 'minute',
+  HOUR = 'hour',
+  DAY_OF_YEAR = 'dayOfYear',
+  YEAR = 'year',
+}
+
+
+@model()
+export class GroupingDataRequest extends Model {
+  @property.array(String, {jsonSchema: {enum: Object.values(IntervalUnit)}})
+  baseGroup?: IntervalUnit[];
+  @property({description: '', type: 'string', jsonSchema: {enum: Object.values(IntervalUnit)}})
+  intervalUnit?: IntervalUnit;
+  @property({description: ''})
+  intervalValue?: number;
+}
+
 @model()
 export class ModuleDataRequest extends Model {
   @property({description: 'ID of the growbe to get data'})
@@ -45,6 +64,8 @@ export class ModuleDataRequest extends Model {
     description: 'if true the data will be fetch , only possible with lastX',
   })
   liveUpdate?: boolean;
+  @property()
+  grouping?: GroupingDataRequest;
 }
 
 @model()

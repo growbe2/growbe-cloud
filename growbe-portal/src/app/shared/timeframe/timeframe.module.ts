@@ -4,10 +4,11 @@ import { TimeframeSelectComponent } from './timeframe-select/timeframe-select.co
 import { MatTabsModule } from '@angular/material/tabs';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { RouterModule } from '@angular/router';
+import { TimeframeGroupingSelectFormComponent } from './timeframe-grouping-select-form/timeframe-grouping-select-form.component';
 
 @NgModule({
-    declarations: [TimeframeSelectComponent],
+    declarations: [TimeframeSelectComponent, TimeframeGroupingSelectFormComponent],
     imports: [CommonModule, MatTabsModule, RouterModule, AutoFormModule],
-    exports: [TimeframeSelectComponent],
+    exports: [TimeframeSelectComponent, TimeframeGroupingSelectFormComponent],
 })
 export class TimeframeModule {}

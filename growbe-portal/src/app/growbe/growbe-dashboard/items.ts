@@ -6,6 +6,7 @@ import { GrowbeModuleConfigComponent } from '../module/component/growbe-module-c
 import { GrowbeModuleDataTableComponent } from '../module/component/growbe-module-data-table/growbe-module-data-table.component';
 import { GrowbeModuleDefComponent } from '../module/component/growbe-module-def/growbe-module-def.component';
 import { ModuleStatusDotComponent } from '../module/component/module-status-dot/module-status-dot.component';
+import { ModuleGraphBuilderComponent } from '../module/graph/module-graph-builder/module-graph-builder.component';
 import { ModuleLastValueComponent } from '../module/graph/module-last-value/module-last-value.component';
 
 export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
@@ -81,8 +82,8 @@ export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
     },
     {
         name: '',
-        component: 'timeframe-select',
-        componentType: TimeframeSelectComponent,
+        component: 'graph-builder',
+        componentType: ModuleGraphBuilderComponent,
         inputs: {},
         outputs: {
             timeSelected: {

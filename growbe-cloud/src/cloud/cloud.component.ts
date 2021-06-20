@@ -1,5 +1,5 @@
 import {addCRUDModelsControllerWithRelations} from '@berlingoqc/lb-extensions';
-import {Component, CoreBindings, inject} from '@loopback/core';
+import {Component, CoreBindings, createServiceBinding, inject} from '@loopback/core';
 import {ApplicationWithRepositories} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {
@@ -10,10 +10,10 @@ import {
 import {
   GrowbeMainboardController,
   GrowbeModuleDefController,
+  GrowbeModuleController,
+  GrowbeModuleGraphController,
 } from './controllers';
-import {GrowbeModuleController} from './controllers/growbe-module.controllers';
 import {CRUD_CONTROLLERS} from './crud-controller';
-import { ModuleValueGraphService } from './services';
 
 export class CloudComponent implements Component {
   constructor(
@@ -33,14 +33,12 @@ export class CloudComponent implements Component {
     }
   }
 
-  services = [
-    ModuleValueGraphService,
-  ];
-
   controllers = [
     GrowbeMainboardController,
     GrowbeModuleDefController,
+    GrowbeModuleGraphController,
     GrowbeModuleController,
   ];
-  bindings = [];
+  bindings = [
+  ];
 }
