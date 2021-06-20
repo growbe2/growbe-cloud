@@ -40,9 +40,15 @@
 .full {
     width: 100%;
 }
+.half {
+  width: 50%;
+}
 .frow {
     display: flex;
     flex-direction: row;
+}
+.evenly {
+  justify-content: space-evenly;
 }
 .fcol {
     display: flex;

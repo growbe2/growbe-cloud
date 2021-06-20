@@ -18,3 +18,10 @@ export class GrowbeModuleDefAPI extends Caching(
         return this.httpClient.post<void>(`${this.url}/override`, data);
     }
 }
+
+
+export function getModuleDefPropName(moduleDef: any, prop: any) {
+  return moduleDef.properties[prop.name].displayName
+                            ? moduleDef.properties[prop.name].displayName
+                            : moduleDef.properties[prop.name].name;
+}

@@ -1,7 +1,7 @@
 // eslint-disable @typescript-eslint/member-ordering
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AutoFormData } from '@berlingoqc/ngx-autoform';
+import { AutoFormComponent, AutoFormData } from '@berlingoqc/ngx-autoform';
 import { of } from 'rxjs';
 
 export const timeFieldComponent = {
@@ -82,12 +82,12 @@ export class TimeframeSelectComponent implements OnInit {
             text: 'Last Hour',
         },
         {
-            unit: 'Day',
+            unit: 'Date',
             lastX: 1,
             text: 'Last Day',
         },
         {
-            unit: 'Day',
+            unit: 'Date',
             lastX: 7,
             text: 'Last Week',
         },
@@ -98,6 +98,8 @@ export class TimeframeSelectComponent implements OnInit {
         },
     ];
 
+
+    absoluteFormGroup: FormGroup;
     absoluteFormData: AutoFormData = {
         type: 'simple',
         items: [
@@ -139,7 +141,9 @@ export class TimeframeSelectComponent implements OnInit {
                 ],
             },
         ],
+        actionsButtons: {},
         event: {
+            afterFormCreated: (fg) => (this.absoluteFormGroup = fg),
             submit: (value: any) => {
                 const from = value.rangeDate.absoluteRange.start;
                 const to = value.rangeDate.absoluteRange.end;
@@ -153,22 +157,26 @@ export class TimeframeSelectComponent implements OnInit {
                 of({
                     rangeDate: {
                         absoluteDate: {
-                            start: this.interval.from,
-                            end: this.interval.to,
+                            start: this.interval?.from,
+                            end: this.interval?.to,
                         },
                     },
                 }),
         },
     };
 
+    relativeFormGroup: FormGroup;
     relativeFormData: AutoFormData = {
         type: 'simple',
+        actionsButtons: {},
         items: [
             {
                 name: 'object',
                 type: 'object',
                 decorators: {
                     class: ['frow'],
+                },
+                templates: {
                 },
                 properties: [
                     {
@@ -192,7 +200,6 @@ export class TimeframeSelectComponent implements OnInit {
                                             'Month',
                                             'Hours',
                                             'Minutes',
-                                            'Day',
                                             'Date',
                                         ]),
                                 },
@@ -238,8 +245,6 @@ export class TimeframeSelectComponent implements OnInit {
         },
     };
 
-    relativeFormGroup: FormGroup;
-
     @Input()
     set mode(m: 'relative' | 'absolute') {
         this.tabIndex = m === 'relative' ? 0 : 1;
@@ -254,5 +259,10 @@ export class TimeframeSelectComponent implements OnInit {
                 unit: lastXUnit,
             },
         });
+    }
+
+
+    getValue() {
+      return (this.tabIndex === 0) ? this.relativeFormGroup.value : this.absoluteFormGroup.value;
     }
 }
