@@ -183,13 +183,13 @@ export class ModuleValueGraphService {
     const condition: any = {};
     if (request.from && request.to) {
       condition.createdAt = {
-        "$gte": request.from.getTime(),
-        "$lt": request.to.getTime(),
+        "$gte": new Date(request.from).getTime(),
+        "$lt": new Date(request.to).getTime(),
       }
     } else if(request.from) {
-      condition.createdAt = { "$gte": request.from.getTime()}
+      condition.createdAt = { "$gte": new Date(request.from).getTime()}
     } else if(request.to) {
-      condition.createdAt = { "$lte": request.to.getTime() } 
+      condition.createdAt = { "$lte": new Date(request.to).getTime() } 
     } else if(request.lastX) {
       const date: any = new Date();
       const unit = request.lastXUnit ?? 'Date';
@@ -199,6 +199,7 @@ export class ModuleValueGraphService {
       date[set](d);
       condition.createdAt = { '$gte': date.getTime() };
     }
+    
     return condition;
   }
 }
