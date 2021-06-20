@@ -17,6 +17,7 @@ export class ModuleGraphBuilderComponent implements OnInit {
   }
 
   submit(timeframeData: any, propertiesData: any, groupingData: any) {
+    if (!this.module) { return; }
     const request: any = {
       growbeId: this.module.mainboardId,
       moduleId: this.module.uid,
