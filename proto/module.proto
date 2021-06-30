@@ -82,12 +82,24 @@ message WCModuleData {
     RelayOutletData p0 = 1;
     RelayOutletData p1 = 2;
     RelayOutletData p2 = 3;
+
+    RelayOutletData drain = 4;
+    RelayOutletData pump0 = 5;
+    RelayOutletData pump1 = 6;
+    RelayOutletData pump2 = 7;
+    RelayOutletData pump3 = 8;
 }
 
 message WCModuleConfig {
     RelayOutletConfig p0 = 1;
     RelayOutletConfig p1 = 2;
     RelayOutletConfig p2 = 3;
+
+    RelayOutletConfig drain = 4;
+    RelayOutletConfig pump0 = 5;
+    RelayOutletConfig pump1 = 6;
+    RelayOutletConfig pump2 = 7;
+    RelayOutletConfig pump3 = 8;
 }
 
 enum MessageType {

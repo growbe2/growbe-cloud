@@ -35,11 +35,10 @@ const transformFieldSubmit = (property: string, data: any) => ({
 
 const transformFieldInit = (property: string, config: any) => ({
     config: {
-        type: config?.[property].mode === 0 ? 'manual' : 'alarm',
+        type: config?.[property]?.mode === 1 ? 'alarm' : 'manual',
         data:
-            config?.[property].mode === 0
-                ? config?.[property].manual
-                : {
+            config?.[property]?.mode === 1
+                ? {
                       begining:
                           config?.[property].alarm?.begining?.hour +
                           ':' +
@@ -48,7 +47,8 @@ const transformFieldInit = (property: string, config: any) => ({
                           config?.[property].alarm?.end?.hour +
                           ':' +
                           config?.[property].alarm?.end?.minute,
-                  },
+                  }
+                : config?.[property]?.manual
     },
 });
 
@@ -69,7 +69,7 @@ export const getModuleWaterControlConfig: (
             type: 'object',
             name: 'object',
             properties: [
-                ...['p0', 'p1', 'p2'].map(
+                ...['p0', 'p1', 'p2', 'drain', 'pump0', 'pump1', 'pump2', 'pump3'].map(
                     (itext) =>
                         ({
                             type: 'object',
@@ -130,6 +130,11 @@ export const getModuleWaterControlConfig: (
                 p0: transformFieldSubmit('p0', data),
                 p1: transformFieldSubmit('p1', data),
                 p2: transformFieldSubmit('p2', data),
+                drain: transformFieldSubmit('drain', data),
+                pump0: transformFieldSubmit('pump0', data),
+                pump1: transformFieldSubmit('pump1', data),
+                pump2: transformFieldSubmit('pump2', data),
+                pump3: transformFieldSubmit('pump3', data),
             };
             return growbeModuleAPI.updateModuleConfig(moduleId, d);
         },
@@ -139,6 +144,11 @@ export const getModuleWaterControlConfig: (
                     p0: transformFieldInit('p0', config),
                     p1: transformFieldInit('p1', config),
                     p2: transformFieldInit('p2', config),
+                    drain: transformFieldInit('drain', config),
+                    pump0: transformFieldInit('pump0', config),
+                    pump1: transformFieldInit('pump1', config),
+                    pump2: transformFieldInit('pump2', config),
+                    pump3: transformFieldInit('pump3', config),
                 },
             }),
     },
