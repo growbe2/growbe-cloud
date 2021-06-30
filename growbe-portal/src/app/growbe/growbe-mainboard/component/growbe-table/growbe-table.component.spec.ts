@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
 import { getTestModuleMetadata } from 'src/app/_spec/test.module.spec';
 
 import { GrowbeTableComponent } from './growbe-table.component';
@@ -11,6 +12,7 @@ describe('GrowbeTableComponent', () => {
         await TestBed.configureTestingModule(
             getTestModuleMetadata({
                 data: {
+                    imports: [MatDialogModule],
                     declarations: [GrowbeTableComponent],
                 },
             }),
