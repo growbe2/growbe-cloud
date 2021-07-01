@@ -31,7 +31,7 @@ export class MQTTService {
     return this.client.subscribe(topic);
   }
 
-  async send(topic: string, body: any) {
-    return this.client.publish(topic, body);
+  async send(topic: string, body: any, options?: any) {
+    return this.client.publish(topic, body, options);
   }
 }

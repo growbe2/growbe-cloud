@@ -179,6 +179,7 @@ export class GrowbeModuleService {
       .send(
         getTopic(module.mainboardId, `/board/mconfig/${module.uid}`),
         payload,
+        { qos: 2 }
       )
       .then(() => {
         return this.logsService.addLog({

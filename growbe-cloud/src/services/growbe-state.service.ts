@@ -114,7 +114,7 @@ export class GrowbeStateService {
    */
   private sendSyncRequest(growbeId: string) {
     return this.mqttService
-      .send(getTopic(growbeId, '/board/sync'), '')
+      .send(getTopic(growbeId, '/board/sync'), '', { qos: 2})
       .then(value => {
         return this.logsService.addLog({
           group: GroupEnum.MAINBOARD,
