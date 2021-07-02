@@ -5,7 +5,7 @@ import {
     UnionProperty,
 } from '@berlingoqc/ngx-autoform';
 import { of } from 'rxjs';
-import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
+import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
 import { timeFieldComponent } from 'src/app/shared/timeframe/timeframe-select/timeframe-select.component';
 
 const transformFieldSubmit = (property: string, data: any) => ({
@@ -53,15 +53,17 @@ const transformFieldInit = (property: string, config: any) => ({
 });
 
 export const getModuleWaterControlConfig: (
+    mainboardId: string,
     moduleId: string,
     config: any,
     moduleDef: any,
-    growbeModuleAPI: GrowbeModuleAPI,
+    growbeActionAPI: GrowbeActionAPI,
 ) => AutoFormData = (
+    mainboardId: string,
     moduleId: string,
     config: any,
     moduleDef: any,
-    growbeModuleAPI: GrowbeModuleAPI,
+    growbeActionAPI: GrowbeActionAPI,
 ) => ({
     type: 'simple',
     items: [
@@ -136,7 +138,7 @@ export const getModuleWaterControlConfig: (
                 pump2: transformFieldSubmit('pump2', data),
                 pump3: transformFieldSubmit('pump3', data),
             };
-            return growbeModuleAPI.updateModuleConfig(moduleId, d);
+            return growbeActionAPI.executeActionModule('GROWBE_CONFIG_UPDATE', mainboardId, moduleId, d);
         },
         initialData: () =>
             of({
