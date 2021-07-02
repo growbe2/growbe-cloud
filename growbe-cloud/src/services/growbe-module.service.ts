@@ -177,10 +177,10 @@ export class GrowbeModuleService {
     const payload = model.encode(config).finish();
     return this.mqttService
       .sendWithResponse(
-        id,
+        module.mainboardId,
         getTopic(module.mainboardId, `/board/mconfig/${module.uid}`),
         payload,
-        { waitingTime: 4000, responseCode: 4}
+        { waitingTime: 6000, responseCode: 4}
       ).toPromise()
       .then(() => {
         return this.logsService.addLog({
