@@ -65,7 +65,7 @@ export class GrowbeActionAPI {
         notify({
           title: 'Sucesss',
           titleFailed: 'Error',
-          body: (data) => data.response.msg,
+          body: (data) => data.response?.msg,
           bodyFailed: (error) => error,
         })
       )
