@@ -7,11 +7,13 @@ export const moduleDefPropertyDisplayer = {
 };
 
 export const transformModuleValue = (moduleType: string, value: any) => {
-    const item = moduleDefPropertyDisplayer[moduleType];
-    if (item) {
-        if (item.property) {
-            value = value[item.property];
-        }
+    if (value) {
+      const item = moduleDefPropertyDisplayer[moduleType];
+      if (item) {
+          if (item.property) {
+              value = value[item.property];
+          }
+      }
     }
     return value;
 };

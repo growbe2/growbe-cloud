@@ -4,12 +4,20 @@
 
 <ng-template #options let-context="context">
     <button
-        mat-stroked-button
+        mat-button
         class="accent"
         [routerLink]="['/', 'growbe', context.id]"
     >
-        Detail
+        <mat-icon>settings</mat-icon>
     </button>
+    <button
+        mat-button
+        class="primary"
+        (click)="delete(context)"
+    >
+        <mat-icon>delete</mat-icon>
+    </button>
+
 </ng-template>
 
 <div>

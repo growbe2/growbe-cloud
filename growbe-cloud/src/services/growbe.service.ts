@@ -73,6 +73,7 @@ export class GrowbeService {
     await this.mqttService.send(
       getTopic(growbeId, '/board/config'),
       pb.GrowbeMainboardConfig.encode(config).finish(),
+      { qos: 2 }
     );
     await this.mainboardRepository
       .growbeMainboardConfig(growbeId)

@@ -9,7 +9,7 @@ import {
 import { Observable, of, Subscription } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { DashboardPanel, ProjectDashboard } from '@growbe2/growbe-dashboard';
-import { GrowbeModuleDefAPI } from '../../api/growbe-module-def';
+import { getModuleDefPropName, GrowbeModuleDefAPI } from '../../api/growbe-module-def';
 import { growbeModuleDefForm } from '../component/growbe-module-def/growbe-module-def.form';
 import { moduleDefPropertyDisplayer } from '../module.def';
 import { GrowbeModuleAPI } from '../../api/growbe-module';
@@ -33,6 +33,8 @@ export class GrowbeModuleDashboardComponent implements OnInit {
         liveUpdate: true,
         from: undefined,
         to: undefined,
+        grouping: undefined,
+        fields: [],
     };
 
     constructor(
@@ -67,17 +69,18 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                 items: [
                     {
                         name: `Graph Builder`,
-                        component: 'timeframe-select',
+                        component: 'graph-builder',
                         style: {
                             'grid-column-start': '1',
                             'grid-column-end': '6',
                         },
                         inputs: {
+                            module: this.module,
                             mode: this.interval.from ? 'absolute' : 'relative',
                             interval: this.interval,
                         },
                         outputs: {
-                            timeSelected: (ts: Observable<any>) => {
+                            onRequest: (ts: Observable<any>) => {
                                 this.subChartSelect = ts.subscribe((data) => {
                                     this.interval = data;
                                     this.setGraphPanel();
@@ -86,10 +89,10 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         },
                         copy: false,
                     },
-                    ...Object.values(moduleDef.properties).map((prop) => ({
-                        name: moduleDef.properties[prop.name].displayName
-                            ? moduleDef.properties[prop.name].displayName
-                            : moduleDef.properties[prop.name].name,
+                    ...Object.values(this.interval.fields).map((field) => {
+                      const prop = moduleDef.properties[field];
+                      return ({
+                        name: getModuleDefPropName(moduleDef, prop),
                         component: 'growbe-module-sensor-value-graph',
                         inputs: {
                             data: {
@@ -101,7 +104,12 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                     showXAxisLabel: true,
                                     showYAxisLabel: true,
                                     xAxis: true,
+                                    trimXAxisTicks: true,
                                     yAxis: true,
+                                    dateTickFormatting: (val: any) => {
+                                      const date = new Date(val);
+                                      return date.toLocaleString();
+                                    },
                                     yScaleMin: prop.operationalRange.min,
                                     yScaleMax: prop.operationalRange.max,
                                 },
@@ -114,6 +122,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                     liveUpdate: this.interval.liveUpdate,
                                     lastX: this.interval.lastX,
                                     lastXUnit: this.interval.lastXUnit,
+                                    grouping: this.interval.grouping,
                                 },
                             } as DashboardGraphElement,
                         },
@@ -121,7 +130,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                             'grid-column-start': '1',
                             'grid-column-end': '4',
                         },
-                    })),
+                    })}),
                 ],
             })),
         );

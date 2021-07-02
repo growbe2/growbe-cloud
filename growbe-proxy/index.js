@@ -32,7 +32,7 @@ const parser = port.pipe(new InterByteTimeout({ interval: 30 }));
 
 const topicControl = `/growbe/${config.growbeId}/board/#`;
 
-const paddingBuffer = Buffer.from(Array.from({ length: 80 }, () => 0x00));
+const paddingBuffer = Buffer.from(Array.from({ length: 130 }, () => 0x00));
 
 const client = mqtt.connect(config.mqtt);
 client.on('connect', () => {
@@ -58,6 +58,7 @@ client.on('connect', () => {
 
         console.log('RECEIVE', topic, data.toString());
 
+	const paddingBuffer = Buffer.from(Array.from({ length: 150 - data.length - 5 }, () => 0x00));
         port.write(Buffer.concat(
             [
                 Buffer.from([0x00, 0x00, 0xDE, 0xAD, data.length]),

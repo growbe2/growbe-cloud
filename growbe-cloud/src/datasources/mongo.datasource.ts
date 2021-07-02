@@ -30,4 +30,16 @@ export class MongoDataSource
   ) {
     super(dsConfig);
   }
+
+  async executeCustom(table: string, commande: string, args: any) {
+    if (!this.connector?.execute) {
+      throw new Error('no connector');
+    }
+    return new Promise((resolve, reject) => {
+      (this.connector as any).execute(table, commande, args, (err: any, data: any) => {
+        if (err) reject(err);
+        else resolve(data);
+      });
+    });
+  }
 }

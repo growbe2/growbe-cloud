@@ -36,9 +36,8 @@ export class MQTTService {
     return this.client.subscribe(topic);
   }
 
-  async send(topic: string, body: any) {
-    console.log('SENDING MQTT ', topic);
-    return this.client.publish(topic, body);
+  async send(topic: string, body: any, options?: any) {
+    return this.client.publish(topic, body, options);
   }
 
   sendWithResponse(topic: string, body: any, options: WaitResponseOptions) {

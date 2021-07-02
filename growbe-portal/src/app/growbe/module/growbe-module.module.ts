@@ -15,6 +15,7 @@ import { GraphModule } from './graph/graph.module';
 import { UnitModule } from 'src/app/shared/unit/unit.module';
 import { GrowbeModuleConfigComponent } from './component/growbe-module-config/growbe-module-config.component';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
+import { GrowbeModulePropertiesSelectFormComponent } from './component/growbe-module-properties-select-form/growbe-module-properties-select-form.component';
 
 @NgModule({
     declarations: [
@@ -24,18 +25,18 @@ import { AutoFormModule } from '@berlingoqc/ngx-autoform';
         GrowbeModuleDataTableComponent,
         GrowbeModuleDefComponent,
         GrowbeModuleConfigComponent,
+        GrowbeModulePropertiesSelectFormComponent,
     ],
     imports: [
         CommonModule,
         MatListModule,
         FuseWidgetModule,
-        GraphModule,
         UnitModule,
         AutoTableModule,
         AutoFormModule,
         ButtonsRowModule,
         LoopbackRestPipeModule,
     ],
-    exports: [ModuleStatusDotComponent],
+    exports: [ModuleStatusDotComponent, GrowbeModulePropertiesSelectFormComponent],
 })
 export class GrowbeModuleModule {}

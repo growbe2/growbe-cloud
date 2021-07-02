@@ -8,6 +8,8 @@ import { GrowbeStatusDotComponent } from './component/growbe-status-dot/growbe-s
 import { GrowbeStateComponent } from './component/growbe-state/growbe-state.component';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { ConfirmationModule } from '@berlingoqc/ngx-common';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
     declarations: [
@@ -17,12 +19,19 @@ import { RouterModule } from '@angular/router';
         GrowbeStatusDotComponent,
         GrowbeStateComponent,
     ],
-    imports: [CommonModule, RouterModule, AutoTableModule, MatButtonModule],
+    imports: [
+      CommonModule,
+      RouterModule,
+      AutoTableModule,
+      MatButtonModule,
+      ConfirmationModule,
+      MatIconModule
+    ],
     exports: [
-        GrowbeTableComponent,
-        GrowbeDetailComponent,
-        GrowbeRegisterComponent,
-        GrowbeStateComponent,
+      GrowbeTableComponent,
+      GrowbeDetailComponent,
+      GrowbeRegisterComponent,
+      GrowbeStateComponent,
     ],
 })
 export class GrowbeMainboardModule {}
