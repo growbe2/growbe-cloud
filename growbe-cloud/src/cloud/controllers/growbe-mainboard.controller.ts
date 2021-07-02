@@ -39,11 +39,12 @@ export class GrowbeMainboardController {
 
   @patch('/growbe/{id}/config')
   @authenticate('jwt')
-  setGrowbeConfig(
+  async setGrowbeConfig(
     @param.path.string('id') id: string,
     @requestBody() body: any,
   ) {
-    return this.growbeService.updateConfig(id, body);
+    const d = await this.growbeService.updateConfig(id, body);
+    return d;
   }
 
   @patch('/growbe/{id}/rtc')

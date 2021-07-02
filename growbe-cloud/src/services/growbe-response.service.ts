@@ -57,7 +57,7 @@ export class GrowbeActionReponseService {
           map(x => {
             return x.action;
           }),
-          //filter(item => item.action === options.responseCode),
+          filter(item => item.action === options.responseCode),
           timeout(options.waitingTime)
       );
   }

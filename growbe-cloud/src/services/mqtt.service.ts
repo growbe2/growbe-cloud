@@ -50,9 +50,6 @@ export class MQTTService {
         }),
         take(1),
         retry(3),
-        //retryWhen(genericRetryStrategy({
-        //  scalingDuration: 2000,
-        //})),
         finalize(() => {
           this.client.unsubscribe(subReponse);
         })

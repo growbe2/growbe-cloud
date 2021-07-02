@@ -2,7 +2,7 @@ import {addCRUDModelsControllerWithRelations} from '@berlingoqc/lb-extensions';
 import {Binding, Component, CoreBindings, inject} from '@loopback/core';
 import {ApplicationWithRepositories} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
-import {ActionResponse, HelloWord} from '@growbe2/growbe-pb';
+import {ActionResponse, HelloWord, ResponseAction} from '@growbe2/growbe-pb';
 import {
   GrowbeStreamComponent,
   GrowbeStreamRepository,
@@ -22,7 +22,6 @@ import {CRUD_CONTROLLERS} from './crud-controller';
 const watchers: DataSubject[] = [
   {
     func: (id, service: GrowbeActionReponseService, action: any) => {
-      console.log('ACTION REPONSE', id, action);
       return service.receiveActionResponse(id, action);
     },
     model: ActionResponse,

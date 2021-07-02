@@ -180,9 +180,9 @@ export class GrowbeModuleService {
         module.mainboardId,
         getTopic(module.mainboardId, `/board/mconfig/${module.uid}`),
         payload,
-        { waitingTime: 6000, responseCode: 4}
+        { waitingTime: 6000, responseCode: pb.ActionCode.MODULE_CONFIG}
       ).toPromise()
-      .then(() => {
+      .then((response) => {
         return this.logsService.addLog({
           group: GroupEnum.MODULES,
           type: LogTypeEnum.MODULE_CONFIG_CHANGE,
@@ -190,7 +190,7 @@ export class GrowbeModuleService {
           growbeMainboardId: module.mainboardId,
           growbeModuleId: module.uid,
           message: '',
-        });
+        }).then((log) => ({log, response}));
       }).catch(error => error);
   }
 
