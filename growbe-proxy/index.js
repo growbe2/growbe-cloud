@@ -31,7 +31,7 @@ const port = new SerialPort(config.port, config.portConfig);
 const parser = port.pipe(new InterByteTimeout({ interval: 30 }));
 
 const topicsControl = [
-    `/growbe/${config.growbeId}/board/setTime`
+    `/growbe/${config.growbeId}/board/setTime`,
     `/growbe/${config.growbeId}/board/mconfig/+`
 ];
 
@@ -93,6 +93,10 @@ parser.on('data', (e) => {
     try {
         const message = GrowbePB.GrowbeMessage.decode(e);
         console.log(message.toJSON());
+	if (message.topic.includes("response")) {
+	//	const response = GrowbePB.HelloWord.decode(e);
+	//	console.log('RESPONSE', response);
+	}
         client.publish(message.topic, message.body);
     } catch (e) {
         console.log('ERROR', e);
