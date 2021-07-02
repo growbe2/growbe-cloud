@@ -176,11 +176,12 @@ export class GrowbeModuleService {
     const model = pbDef[mapTypeConfig[module.uid.slice(0, 3)]];
     const payload = model.encode(config).finish();
     return this.mqttService
-      .send(
+      .sendWithResponse(
+        id,
         getTopic(module.mainboardId, `/board/mconfig/${module.uid}`),
         payload,
-        { qos: 2 }
-      )
+        { waitingTime: 4000, responseCode: 4}
+      ).toPromise()
       .then(() => {
         return this.logsService.addLog({
           group: GroupEnum.MODULES,
@@ -190,7 +191,7 @@ export class GrowbeModuleService {
           growbeModuleId: module.uid,
           message: '',
         });
-      });
+      }).catch(error => error);
   }
 
   private async updateModuleState(growbeId: string, module: GrowbeModule) {

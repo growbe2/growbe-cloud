@@ -1,8 +1,7 @@
 import {BindingScope, inject, injectable, service} from '@loopback/core';
 import mqtt from 'async-mqtt';
-import { map } from 'lodash';
-import {from, Observable, of} from 'rxjs';
-import { catchError, retryWhen, switchMap } from 'rxjs/operators';
+import {from, Observable, of, defer} from 'rxjs';
+import { catchError, finalize, retry, retryWhen, switchMap, take } from 'rxjs/operators';
 import {MQTTBindings} from '../keys';
 import { genericRetryStrategy, GrowbeActionReponseService, WaitResponseOptions } from './growbe-response.service';
 
@@ -36,21 +35,27 @@ export class MQTTService {
     return this.client.subscribe(topic);
   }
 
+
   async send(topic: string, body: any, options?: any) {
     return this.client.publish(topic, body, options);
   }
 
-  sendWithResponse(topic: string, body: any, options: WaitResponseOptions) {
-    const source = from(this.send(topic, body));
-    return source
+  sendWithResponse(mainboardId: string, topic: string, body: any, options: WaitResponseOptions) {
+    const subReponse = `${topic}/response`;
+    this.addSubscription(subReponse);
+    return defer(() => this.send(topic, body, { qos: 2 }))
       .pipe(
         switchMap(() => {
-          return this.actionResponseService.waitForResponse(options)
+          return this.actionResponseService.waitForResponse(mainboardId, options)
         }),
-        retryWhen(genericRetryStrategy({
-          scalingDuration: 1000,
-        })),
-        catchError(error => of(error))
+        take(1),
+        retry(3),
+        //retryWhen(genericRetryStrategy({
+        //  scalingDuration: 2000,
+        //})),
+        finalize(() => {
+          this.client.unsubscribe(subReponse);
+        })
       )
   }
 }

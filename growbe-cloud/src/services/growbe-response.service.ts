@@ -2,7 +2,7 @@ import { throwError } from '@berlingoqc/sso';
 import { ActionResponse } from '@growbe2/growbe-pb';
 import { BindingScope, injectable } from "@loopback/context";
 import { Observable, Subject, timer } from "rxjs";
-import { filter, finalize, map, mergeMap, timeout } from 'rxjs/operators';
+import { filter, finalize, map, mergeMap, switchAll, switchMap, timeout } from 'rxjs/operators';
 
 export interface WaitResponseOptions {
     responseCode: number;
@@ -11,7 +11,7 @@ export interface WaitResponseOptions {
 
 export const genericRetryStrategy = ({
     maxRetryAttempts = 3,
-    scalingDuration = 1000,
+    scalingDuration = 2000,
   }: {
     maxRetryAttempts?: number,
     scalingDuration?: number,
@@ -27,11 +27,11 @@ export const genericRetryStrategy = ({
           return throwError(error);
         }
         console.log(
-          `Attempt ${retryAttempt}: retrying in ${retryAttempt *
+          `Attempt ${retryAttempt}: retrying in ${1 *
             scalingDuration}ms`
         );
         // retry after 1s, 2s, etc...
-        return timer(retryAttempt * scalingDuration);
+        return timer(1 * scalingDuration);
       }),
       finalize(() => console.log('We are done!'))
     );
@@ -40,24 +40,24 @@ export const genericRetryStrategy = ({
 @injectable({scope: BindingScope.SINGLETON})
 export class GrowbeActionReponseService {
 
-  private actionReponse: Subject<ActionResponse>;
+  private actionReponse: Subject<{ id: string; action: ActionResponse}>;
 
   constructor() {
-      this.actionReponse = new Subject<ActionResponse>();
+      this.actionReponse = new Subject<{ id: string; action: ActionResponse}>();
   }
 
 
-  async receiveActionResponse(response: ActionResponse): Promise<void> {
-      this.actionReponse.next(response);
+  async receiveActionResponse(id: string, response: ActionResponse): Promise<void> {
+      this.actionReponse.next({ id, action: response});
   }
 
-  waitForResponse(options: WaitResponseOptions): Observable<ActionResponse> {
+  waitForResponse(id: string, options: WaitResponseOptions): Observable<ActionResponse> {
       return this.actionReponse.asObservable().pipe(
+          filter(x => x.id === id),
           map(x => {
-            console.log('YEYEYEYE', x);
-            return x;
+            return x.action;
           }),
-          filter(item => item.responseCode === options.responseCode),
+          //filter(item => item.action === options.responseCode),
           timeout(options.waitingTime)
       );
   }

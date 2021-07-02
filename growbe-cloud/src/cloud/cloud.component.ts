@@ -22,8 +22,8 @@ import {CRUD_CONTROLLERS} from './crud-controller';
 const watchers: DataSubject[] = [
   {
     func: (id, service: GrowbeActionReponseService, action: any) => {
-      console.log('ACTION REPONSE');
-      return service.receiveActionResponse(action);
+      console.log('ACTION REPONSE', id, action);
+      return service.receiveActionResponse(id, action);
     },
     model: ActionResponse,
     regexTopic: 'response',

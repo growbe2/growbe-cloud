@@ -70,12 +70,13 @@ export class GrowbeService {
   }
 
   async updateConfig(growbeId: string, config: pb.GrowbeMainboardConfig) {
-    await this.mqttService.send(
+    return this.mqttService.sendWithResponse(
+      growbeId,
       getTopic(growbeId, '/board/config'),
       pb.GrowbeMainboardConfig.encode(config).finish(),
-      { qos: 2 }
-    );
-    await this.mainboardRepository
+      {responseCode: 1, waitingTime: 4000}
+    ).toPromise()
+      .then(() => this.mainboardRepository
       .growbeMainboardConfig(growbeId)
       .patch({config})
       .then(value => {
@@ -86,17 +87,18 @@ export class GrowbeService {
           growbeMainboardId: growbeId,
           message: `config send`,
         });
-      });
+      }));
   }
 
   async setRTC(growbeId: string, rtcTime: RTCTime) {
     return this.mqttService
       .sendWithResponse(
+        growbeId,
         getTopic(growbeId, '/board/setTime'),
         pb.RTCTime.encode(rtcTime).finish(),
         {
-          responseCode: 0,
-          waitingTime: 3000,
+          responseCode: 3,
+          waitingTime: 4000,
         }
       ).toPromise()
       .then(value => {
@@ -109,7 +111,6 @@ export class GrowbeService {
         });
       })
       .catch((error) => {
-        console.log('ERROR DIDNT GET RESPONSE');
         return error;
       });
   }
