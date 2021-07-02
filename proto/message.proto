@@ -21,7 +21,7 @@ message Log {
 
 
 enum ActionCode {
-    PARSING_FAILED = 0;
+    PARSING = 0;
     MODULE_CONFIG = 1;
     MAINBOARD_CONFIG = 2;
     RTC_SET = 3;
@@ -29,11 +29,8 @@ enum ActionCode {
 }
 
 message ActionResponse {
-    // the response code is different for any action
-    // that is made for a mainboard
-    int32 responseCode = 1;
-    // statusCode of the success of the action
-    int32 statusCode = 2;
+    ActionCode action = 1;
+    uint32 status = 2;
     string msg = 3;
 }
 
