@@ -5,7 +5,7 @@ import { ActionConfirmationDialogComponent, envConfig } from '@berlingoqc/ngx-co
 import { notify } from '@berlingoqc/ngx-notification';
 import { GrowbeMainboard, GrowbeModule } from '@growbe2/ngx-cloud-api';
 import { Observable, throwError } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from './growbe-mainboard';
 import { GrowbeModuleAPI } from './growbe-module';
 
@@ -53,6 +53,7 @@ export class GrowbeActionAPI {
 
     private pipeValue(obs: Observable<any>, condition: (ressource) => boolean, action, id, moduleId, data) {
       return obs.pipe(
+        take(1),
         switchMap((ressource) => {
           if (condition(ressource)) {
             if (!moduleId)
@@ -66,7 +67,7 @@ export class GrowbeActionAPI {
           title: 'Sucesss',
           titleFailed: 'Error',
           body: (data) => data.response?.msg,
-          bodyFailed: (error) => error,
+          bodyFailed: (error) => error.error?.message?.message || error,
         })
       )
     }
