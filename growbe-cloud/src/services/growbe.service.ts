@@ -109,9 +109,6 @@ export class GrowbeService {
           growbeMainboardId: growbeId,
           message: `rtc set : ${JSON.stringify(rtcTime)}`,
         }).then((log) => ({log, response}));
-      })
-      .catch((error) => {
-        return error;
       });
   }
 

@@ -70,6 +70,12 @@ export const getModuleWaterControlConfig: (
         {
             type: 'object',
             name: 'object',
+            decorators: {
+              style: {
+                'max-height': '400px',
+                'overflow': 'auto'
+              }
+            },
             properties: [
                 ...['p0', 'p1', 'p2', 'drain', 'pump0', 'pump1', 'pump2', 'pump3'].map(
                     (itext) =>
@@ -127,7 +133,6 @@ export const getModuleWaterControlConfig: (
     ],
     event: {
         submit: (data) => {
-            console.log('DATA', data);
             const d = {
                 p0: transformFieldSubmit('p0', data),
                 p1: transformFieldSubmit('p1', data),

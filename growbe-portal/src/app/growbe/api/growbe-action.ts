@@ -67,7 +67,7 @@ export class GrowbeActionAPI {
           title: 'Sucesss',
           titleFailed: 'Error',
           body: (data) => data.response?.msg,
-          bodyFailed: (error) => error.error?.message?.message || error,
+          bodyFailed: (error) => JSON.stringify(error.error?.message || error)
         })
       )
     }

@@ -1,8 +1,8 @@
 import {BindingScope, inject, injectable, service} from '@loopback/core';
 import { HttpErrors } from '@loopback/rest';
 import mqtt from 'async-mqtt';
-import {from, Observable, of, defer} from 'rxjs';
-import { catchError, finalize, retry, retryWhen, switchMap, take } from 'rxjs/operators';
+import {from, Observable, of, defer, timer, throwError} from 'rxjs';
+import { catchError, finalize, mergeMap, retry, retryWhen, switchMap, take } from 'rxjs/operators';
 import {MQTTBindings} from '../keys';
 import { GrowbeActionReponseService, WaitResponseOptions } from './growbe-response.service';
 
@@ -50,7 +50,17 @@ export class MQTTService {
           return this.actionResponseService.waitForResponse(mainboardId, options)
         }),
         take(1),
-        retry(options.retry ?? 3),
+        retryWhen((attempts: Observable<any>) => {
+          return attempts.pipe(
+            mergeMap((error, i): any => {
+              const retryAttempt = i + 1;
+              if (retryAttempt > (options.retry ?? 3) || error.status >= 400) {
+                return throwError(error)
+              }
+              return timer(1);
+            })
+          )
+        }),
         catchError(err => { throw new HttpErrors[400](err) }),
         finalize(() => {
           this.client.unsubscribe(subReponse);

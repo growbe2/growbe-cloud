@@ -17,7 +17,7 @@ import { growbeWarningActions } from '../growbe-warning-action';
 import { GrowbeWarning } from '@growbe2/ngx-cloud-api';
 import { GrowbeActionAPI } from '../../api/growbe-action';
 import { Observable, Subscriber, Subscription } from 'rxjs';
-import { filter, finalize, map, tap } from 'rxjs/operators';
+import { catchError, filter, finalize, map, tap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-warning-table',
@@ -101,7 +101,10 @@ export class WarningTableComponent implements OnInit, AfterViewInit {
                                                     context.warningKeyId,
                                                     this.growbeId,
                                                     data,
-                                                ).pipe(finalize(() => loadingResolver?.complete()));
+                                                )
+                                                .pipe(
+                                                  finalize(() => loadingResolver?.complete(),
+                                                ));
                                             }),
                                             this.autoformDialog.open(form).afterClosed().pipe(
                                               filter(x => typeof x !== 'object'),
