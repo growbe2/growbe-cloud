@@ -93,10 +93,6 @@ parser.on('data', (e) => {
     try {
         const message = GrowbePB.GrowbeMessage.decode(e);
         console.log(message.toJSON());
-	if (message.topic.includes("response")) {
-	//	const response = GrowbePB.HelloWord.decode(e);
-	//	console.log('RESPONSE', response);
-	}
         client.publish(message.topic, message.body);
     } catch (e) {
         console.log('ERROR', e);
