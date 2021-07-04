@@ -1,7 +1,7 @@
 import {GrowbeMainboardConfig} from '@growbe2/growbe-pb';
 import {Binding, BindingKey} from '@loopback/core';
 import {Subject} from 'rxjs';
-import {DataSubject} from './watcher/observers/model';
+import { DataSubject } from './observers/data-subject.model';
 
 export namespace MQTTBindings {
   export const URL = BindingKey.create('mqtt.url');

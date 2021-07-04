@@ -5,3 +5,4 @@ export * from './growbe-warning.service';
 export * from './growbe-module.service';
 export * from './growbe-logs.service';
 export * from './growbe-module-def.service';
+export * from './growbe-response.service';

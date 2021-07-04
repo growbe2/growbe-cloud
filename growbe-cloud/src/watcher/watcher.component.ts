@@ -1,12 +1,11 @@
-import {HearthBeath, HelloWord, ModuleData} from '@growbe2/growbe-pb';
+import {HearthBeath, HelloWord, ModuleData } from '@growbe2/growbe-pb';
 import {Binding, Component} from '@loopback/core';
 import {GrowbeMainboardBindings} from '../keys';
-import {GrowbeModuleService, GrowbeStateService} from '../services';
+import { DataSubject, funcModuleSubject } from '../observers/data-subject.model';
+import {GrowbeActionReponseService, GrowbeModuleService, GrowbeStateService} from '../services';
 import {
-  GrowbeDataSubjectObserver,
   GrowbeStateWatcherObserver,
 } from './observers';
-import {DataSubject, funcModuleSubject} from './observers/model';
 
 const watchers: DataSubject[] = [
   {
@@ -48,5 +47,5 @@ export class WatcherComponent implements Component {
   constructor() {}
   controllers = [];
   bindings = [Binding.bind(GrowbeMainboardBindings.WATCHERS).to(watchers)];
-  lifeCycleObservers = [GrowbeDataSubjectObserver, GrowbeStateWatcherObserver];
+  lifeCycleObservers = [GrowbeStateWatcherObserver];
 }

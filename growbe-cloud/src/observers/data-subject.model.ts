@@ -1,4 +1,4 @@
-import {Constructor} from '@loopback/repository';
+import { Constructor } from "@loopback/repository";
 
 export type DataSubjectFunc = (
   id: string,

@@ -70,39 +70,45 @@ export class GrowbeService {
   }
 
   async updateConfig(growbeId: string, config: pb.GrowbeMainboardConfig) {
-    await this.mqttService.send(
+    return this.mqttService.sendWithResponse(
+      growbeId,
       getTopic(growbeId, '/board/config'),
       pb.GrowbeMainboardConfig.encode(config).finish(),
-      { qos: 2 }
-    );
-    await this.mainboardRepository
-      .growbeMainboardConfig(growbeId)
-      .patch({config})
-      .then(value => {
-        return this.logsService.addLog({
-          group: GroupEnum.MAINBOARD,
-          type: LogTypeEnum.GROWBE_CONFIG_CHANGE,
-          severity: SeverityEnum.LOW,
-          growbeMainboardId: growbeId,
-          message: `config send`,
-        });
-      });
+      {responseCode: pb.ActionCode.RTC_SET, waitingTime: 4000}
+    ).toPromise()
+      .then((responseA) => this.mainboardRepository
+        .growbeMainboardConfig(growbeId)
+        .patch({config})
+        .then(response => {
+          return this.logsService.addLog({
+            group: GroupEnum.MAINBOARD,
+            type: LogTypeEnum.GROWBE_CONFIG_CHANGE,
+            severity: SeverityEnum.LOW,
+            growbeMainboardId: growbeId,
+            message: `config send`,
+          }).then((log) => ({log, response: responseA}));
+      }));
   }
 
   async setRTC(growbeId: string, rtcTime: RTCTime) {
     return this.mqttService
-      .send(
+      .sendWithResponse(
+        growbeId,
         getTopic(growbeId, '/board/setTime'),
         pb.RTCTime.encode(rtcTime).finish(),
-      )
-      .then(value => {
+        {
+          responseCode: 3,
+          waitingTime: 4000,
+        }
+      ).toPromise()
+      .then(response => {
         return this.logsService.addLog({
           group: GroupEnum.MAINBOARD,
           type: LogTypeEnum.RTC_UPDATE,
           severity: SeverityEnum.LOW,
           growbeMainboardId: growbeId,
           message: `rtc set : ${JSON.stringify(rtcTime)}`,
-        });
+        }).then((log) => ({log, response}));
       });
   }
 

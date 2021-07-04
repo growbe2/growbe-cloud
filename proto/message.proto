@@ -19,6 +19,21 @@ message Log {
     string log = 2;
 }
 
+
+enum ActionCode {
+    PARSING = 0;
+    MODULE_CONFIG = 1;
+    MAINBOARD_CONFIG = 2;
+    RTC_SET = 3;
+    SYNC_REQUEST = 4;
+}
+
+message ActionResponse {
+    ActionCode action = 1;
+    uint32 status = 2;
+    string msg = 3;
+}
+
 message RTCTime {
     uint32 second = 1;
     uint32 minute = 2;

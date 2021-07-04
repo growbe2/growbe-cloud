@@ -1,7 +1,10 @@
-import {BindingScope, inject, injectable} from '@loopback/core';
+import {BindingScope, inject, injectable, service} from '@loopback/core';
+import { HttpErrors } from '@loopback/rest';
 import mqtt from 'async-mqtt';
-import {Observable} from 'rxjs';
+import {from, Observable, of, defer, timer, throwError} from 'rxjs';
+import { catchError, finalize, mergeMap, retry, retryWhen, switchMap, take } from 'rxjs/operators';
 import {MQTTBindings} from '../keys';
+import { GrowbeActionReponseService, WaitResponseOptions } from './growbe-response.service';
 
 export const getTopic = (growbeId: string, subtopic: string) => {
   return `/growbe/${growbeId}${subtopic}`;
@@ -16,6 +19,8 @@ export class MQTTService {
   constructor(
     @inject(MQTTBindings.URL)
     private url: string,
+    @service(GrowbeActionReponseService)
+    private actionResponseService: GrowbeActionReponseService,
   ) {}
 
   async connect() {
@@ -31,7 +36,35 @@ export class MQTTService {
     return this.client.subscribe(topic);
   }
 
+
   async send(topic: string, body: any, options?: any) {
     return this.client.publish(topic, body, options);
+  }
+
+  sendWithResponse(mainboardId: string, topic: string, body: any, options: WaitResponseOptions) {
+    const subReponse = `${topic}/response`;
+    this.addSubscription(subReponse);
+    return defer(() => this.send(topic, body, { qos: 2 }))
+      .pipe(
+        switchMap(() => {
+          return this.actionResponseService.waitForResponse(mainboardId, options)
+        }),
+        take(1),
+        retryWhen((attempts: Observable<any>) => {
+          return attempts.pipe(
+            mergeMap((error, i): any => {
+              const retryAttempt = i + 1;
+              if (retryAttempt > (options.retry ?? 3) || error.status >= 400) {
+                return throwError(error)
+              }
+              return timer(1);
+            })
+          )
+        }),
+        catchError(err => { throw new HttpErrors[400](err) }),
+        finalize(() => {
+          this.client.unsubscribe(subReponse);
+        })
+      )
   }
 }

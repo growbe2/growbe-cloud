@@ -30,21 +30,41 @@ const port = new SerialPort(config.port, config.portConfig);
 
 const parser = port.pipe(new InterByteTimeout({ interval: 30 }));
 
-const topicControl = `/growbe/${config.growbeId}/board/#`;
-
-const paddingBuffer = Buffer.from(Array.from({ length: 130 }, () => 0x00));
+const topicsControl = [
+    `/growbe/${config.growbeId}/board/setTime`,
+    `/growbe/${config.growbeId}/board/mconfig/+`
+];
 
 const client = mqtt.connect(config.mqtt);
+
+let lastMessageReceive = { topic: undefined, at: undefined}
+
 client.on('connect', () => {
-    client.subscribe(topicControl, (err) => {
-        if (err) {
-            throw (err);
-        }
-        console.log('CONNECTED TO', topicControl);
+    topicsControl.forEach((topicControl) => {
+        client.subscribe(topicControl, (err) => {
+            if (err) {
+                throw (err);
+            }
+            console.log('CONNECTED TO', topicControl);
+        });
     });
     client.on('message', (topic, message) => {
         const topicItems = topic.split('/');
         const lastItem = topicItems[topicItems.length - 1];
+
+        // PROTECTION SI JE RECOIS LE MEME TOPIC PLUSIEURS FOIS DANS 2 SEC j'ignore.s
+        if (lastMessageReceive.at && lastMessageReceive.topic === topic) {
+            // if timeout is pass we reset the thing
+            if (lastMessageReceive.at - 2000 <= Date.now()) {
+                lastMessageReceive.at = Date.now();
+            } else {
+                console.log('SKIPPING');
+                return;
+            }
+        } else {
+            lastMessageReceive.topic = topic;
+            lastMessageReceive.at = Date.now();
+        }
 
         const item = Object.entries(mapType).find(([entrie,value]) => lastItem.includes(entrie));
 

@@ -85,10 +85,10 @@ export class GrowbeTableComponent implements OnInit, AfterViewInit {
         ).subscribe(() => {
           // TEMPORARY FIXE UNTIL I UPDATE CACHING
           Object.values(this.source.requestGet.items).forEach((item) => {
-            item.subject.next();
+            item.subject.next(null);
           });
           Object.values(this.source.requestCount.items).forEach((item) => {
-            item.subject.next()
+            item.subject.next(null)
           });
         });
     }

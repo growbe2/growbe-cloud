@@ -114,4 +114,6 @@ enum MessageType {
     MT_WAMODULEDATA = 8;
     MT_WCMODULEDATA = 9;
     MT_WCMODULECONFIG = 10;
+
+    MT_ACTIONRESPONSE = 50;
 }
