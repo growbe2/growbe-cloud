@@ -74,19 +74,19 @@ export class GrowbeService {
       growbeId,
       getTopic(growbeId, '/board/config'),
       pb.GrowbeMainboardConfig.encode(config).finish(),
-      {responseCode: 1, waitingTime: 4000}
+      {responseCode: pb.ActionCode.RTC_SET, waitingTime: 4000}
     ).toPromise()
-      .then(() => this.mainboardRepository
-      .growbeMainboardConfig(growbeId)
-      .patch({config})
-      .then(value => {
-        return this.logsService.addLog({
-          group: GroupEnum.MAINBOARD,
-          type: LogTypeEnum.GROWBE_CONFIG_CHANGE,
-          severity: SeverityEnum.LOW,
-          growbeMainboardId: growbeId,
-          message: `config send`,
-        });
+      .then((responseA) => this.mainboardRepository
+        .growbeMainboardConfig(growbeId)
+        .patch({config})
+        .then(response => {
+          return this.logsService.addLog({
+            group: GroupEnum.MAINBOARD,
+            type: LogTypeEnum.GROWBE_CONFIG_CHANGE,
+            severity: SeverityEnum.LOW,
+            growbeMainboardId: growbeId,
+            message: `config send`,
+          }).then((log) => ({log, response: responseA}));
       }));
   }
 
@@ -101,17 +101,14 @@ export class GrowbeService {
           waitingTime: 4000,
         }
       ).toPromise()
-      .then(value => {
+      .then(response => {
         return this.logsService.addLog({
           group: GroupEnum.MAINBOARD,
           type: LogTypeEnum.RTC_UPDATE,
           severity: SeverityEnum.LOW,
           growbeMainboardId: growbeId,
           message: `rtc set : ${JSON.stringify(rtcTime)}`,
-        });
-      })
-      .catch((error) => {
-        return error;
+        }).then((log) => ({log, response}));
       });
   }
 

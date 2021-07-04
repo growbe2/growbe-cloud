@@ -10,10 +10,3 @@ message HelloWord {
     string cloudVersion = 2;
     string RTC = 3;
 }
-
-message ResponseAction {
-    int32 id = 1;
-    int32 code = 2;
-    int32 status = 3;
-    string msg = 4;
-}
