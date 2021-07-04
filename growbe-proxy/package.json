@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@growbe2/growbe-pb": "1.1.5-SNAPSHOT-8961a55",
+    "@growbe2/growbe-pb": "1.1.5-SNAPSHOT-8961a56",
     "@serialport/binding-mock": "^9.0.2",
     "@serialport/bindings": "^9.0.4",
     "@serialport/parser-delimiter": "^9.0.1",
