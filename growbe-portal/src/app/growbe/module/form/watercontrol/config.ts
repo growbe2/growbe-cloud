@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms';
 import {
     AutoFormData,
     FormObject,
@@ -64,7 +65,9 @@ export const getModuleWaterControlConfig: (
     config: any,
     moduleDef: any,
     growbeActionAPI: GrowbeActionAPI,
-) => ({
+) => {
+  let formGroup: FormGroup;
+  return {
     type: 'simple',
     items: [
         {
@@ -139,16 +142,20 @@ export const getModuleWaterControlConfig: (
         },
     ],
     event: {
+        afterFormCreated: (fG: FormGroup) => {
+          formGroup = fG;
+        },
         submit: (data) => {
+            const controls = (formGroup.controls.object as FormGroup).controls;
             const d = {
-                p0: transformFieldSubmit('p0', data),
-                p1: transformFieldSubmit('p1', data),
-                p2: transformFieldSubmit('p2', data),
-                drain: transformFieldSubmit('drain', data),
-                pump0: transformFieldSubmit('pump0', data),
-                pump1: transformFieldSubmit('pump1', data),
-                pump2: transformFieldSubmit('pump2', data),
-                pump3: transformFieldSubmit('pump3', data),
+                p0: controls.p0.touched ? transformFieldSubmit('p0', data): undefined,
+                p1: controls.p1.touched ? transformFieldSubmit('p1', data): undefined,
+                p2: controls.p2.touched ? transformFieldSubmit('p2', data): undefined,
+                drain: controls.drain.touched ? transformFieldSubmit('drain', data): undefined,
+                pump0: controls.pump0.touched ? transformFieldSubmit('pump0', data): undefined,
+                pump1: controls.pump1.touched ? transformFieldSubmit('pump1', data): undefined,
+                pump2: controls.pump2.touched ? transformFieldSubmit('pump2', data): undefined,
+                pump3: controls.pump3.touched ? transformFieldSubmit('pump3', data): undefined,
             };
             return growbeActionAPI.executeActionModule('GROWBE_CONFIG_UPDATE', mainboardId, moduleId, d);
         },
@@ -166,4 +173,5 @@ export const getModuleWaterControlConfig: (
                 },
             }),
     },
-});
+}
+};
