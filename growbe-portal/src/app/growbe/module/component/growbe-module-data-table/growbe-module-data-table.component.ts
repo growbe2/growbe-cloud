@@ -90,10 +90,7 @@ export class GrowbeModuleDataTableComponent implements OnInit {
                                                 this.sensorValueAPI
                                                     .delete(context.id)
                                                     .pipe(take(1))
-                                                    .subscribe(() => {
-                                                        this.table.refreshData();
-                                                        this.table.length -= 1;
-                                                    });
+                                                    .subscribe(() => {});
                                             },
                                         },
                                     ],

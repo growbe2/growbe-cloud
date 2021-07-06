@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { startWith } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { startWith, switchMap } from 'rxjs/operators';
+import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 
 @Component({
@@ -12,7 +14,10 @@ export class ModuleStatusDotComponent implements OnInit {
 
     status;
 
-    constructor(private growbeEventService: GrowbeEventService) {}
+    constructor(
+      private growbeEventService: GrowbeEventService,
+      private growbeModuleAPI: GrowbeModuleAPI,
+    ) {}
 
     ngOnInit(): void {
         if (this.module) {
@@ -22,7 +27,12 @@ export class ModuleStatusDotComponent implements OnInit {
                     `/cloud/m/${this.module.uid}/state`,
                     JSON.parse,
                 )
-                .pipe(startWith(this.module));
+                .pipe(
+                  startWith(this.module),
+                  switchMap((data) => {
+                    return this.growbeModuleAPI.requestFind.onModif(of(data))
+                  })
+                );
         }
     }
 }
