@@ -95,6 +95,9 @@ export const getModuleWaterControlConfig: (
                                         manual: {
                                             name: 'manual',
                                             type: 'object',
+                                            decorators: {
+                                              class: []
+                                            },
                                             properties: [
                                                 {
                                                     type: 'bool',
@@ -103,6 +106,10 @@ export const getModuleWaterControlConfig: (
                                                         name: 'checkbox',
                                                     },
                                                 },
+                                                {
+                                                    type: 'number',
+                                                    name: 'duration',
+                                                }
                                             ],
                                         },
                                         alarm: {

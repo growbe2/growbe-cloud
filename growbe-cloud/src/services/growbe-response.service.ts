@@ -23,6 +23,7 @@ export class GrowbeActionReponseService {
 
   waitForResponse(id: string, options: WaitResponseOptions): Observable<ActionResponse> {
       return this.actionReponse.asObservable().pipe(
+          tap(console.log),
           filter(x => x.id === id),
           tap(console.log),
           switchMap(x => (x.action.status < 400) ? of(x.action): throwError(x.action)),
