@@ -13,10 +13,6 @@ jobs:
         run: cd growbe-cloud && npm run docker:build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-      - name: Running linting
-        run: docker run docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud npm run lint
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Integration test
         run: ./scripts/integration.sh test
   growbe-portal:
@@ -32,9 +28,6 @@ jobs:
         env:
           STAGE: 'source'
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-      - name: Running linting
-        run: docker run docker.pkg.github.com/growbe2/growbe-cloud/growbe-portal-ci npm run lint:check
-
       - name: Running unittest
         run: cd growbe-portal && npm run docker:build:stage
         env:
