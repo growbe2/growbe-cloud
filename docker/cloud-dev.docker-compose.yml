@@ -19,7 +19,7 @@ services:
     networks:
       - net
     ports:
-      - '0.0.0.0:27017:27017'
+      - '0.0.0.0:27018:27017'
     volumes:
       - mongo:/data/db
     environment:
@@ -56,7 +56,7 @@ services:
       NMS_API_URL: http://nms:8000
       SSO_URL: 'http://sso:3001'
       DB_URL: 'postgres://test:test@pgsql:5432/defaultdb'
-      MONGO_URL: 'mongodb://doadmin:test@mongo:27017/growbe?authSource=admin'
+      MONGO_URL: 'mongodb://doadmin:test@mongo:27018/growbe?authSource=admin'
       MQTT_URL: 'mqtt://broker:1883'
     command: node dist/growbe-cloud.js
   growbe-cloud-watcher:
@@ -74,7 +74,7 @@ services:
       PORT: 3005
       SSO_URL: 'http://sso:3001'
       DB_URL: 'postgres://test:test@pgsql:5432/defaultdb'
-      MONGO_URL: 'mongodb://doadmin:test@mongo:27017/growbe?authSource=admin'
+      MONGO_URL: 'mongodb://doadmin:test@mongo:27018/growbe?authSource=admin'
       MQTT_URL: 'mqtt://broker:1883'
     command: node dist/growbe-watcher.js
   sso:
