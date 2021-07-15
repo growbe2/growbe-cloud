@@ -13,6 +13,7 @@ export enum LogTypeEnum {
   RTC_UPDATE = 'update_rtc',
   SYNC_REQUEST = 'sync_request',
   GROWBE_CONFIG_CHANGE = 'growbe_config',
+  ALARM = 'alarm',
 }
 
 export enum SeverityEnum {

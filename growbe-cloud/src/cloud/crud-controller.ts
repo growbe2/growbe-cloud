@@ -3,7 +3,7 @@ import {
   InjectableRepository,
   ModelDef,
   ModelRelation,
-  OPERATION_SECURITY_SPEC,
+  OPERATION_SECURITY_SPEC
 } from '@berlingoqc/lb-extensions';
 import {authenticate} from '@loopback/authentication';
 import {GrowbeStream, GrowbeStreamRepository} from '../component';
@@ -14,14 +14,14 @@ import {
   GrowbeModule,
   GrowbeModuleDef,
   GrowbeSensorValue,
-  GrowbeWarning,
+  GrowbeWarning
 } from '../models';
 import {
   GrowbeMainboardRepository,
   GrowbeModuleDefRepository,
   GrowbeModuleRepository,
   GrowbeSensorValueRepository,
-  GrowbeWarningRepository,
+  GrowbeWarningRepository
 } from '../repositories';
 import {GrowbeDashboardRepository} from '../repositories/growbe-dashboard.repository';
 
