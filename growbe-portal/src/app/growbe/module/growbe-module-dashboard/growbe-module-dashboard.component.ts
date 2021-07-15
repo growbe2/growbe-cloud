@@ -202,6 +202,15 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         },
                     },
                     {
+                      name: 'Module info',
+                      component: 'svg-soil-module',
+                      inputs: {},
+                      style: {
+                        'grid-column-start': '1',
+                        'grid-column-end': '6',
+                      }
+                    },
+                    {
                         name: 'Module State',
                         component: 'growbe-module-state',
                         inputs: {

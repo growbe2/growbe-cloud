@@ -1,0 +1,10 @@
+<svg style="height: 500px; width: 100%">
+  <g soil-probe position="bottom" transform="translate(200,0) scale(2)"></g>
+  <g soil-probe position="bottom" transform="translate(260,0) scale(2)"></g>
+  <g soil-probe position="left" transform="translate(400,50) scale(2)"></g>
+  <g soil-probe position="left" transform="translate(400,150) scale(2)"></g>
+  <g soil-probe position="left" transform="translate(400,250) scale(2)"></g>
+  <g soil-probe position="left" transform="translate(400,350) scale(2)"></g>
+  <g soil-probe position="right" transform="translate(150,50) scale(2)"></g>
+  <g soil-probe position="right" transform="translate(150,150) scale(2)"></g>
+</svg>

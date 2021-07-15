@@ -8,6 +8,8 @@ import { GrowbeModuleDefComponent } from '../module/component/growbe-module-def/
 import { ModuleStatusDotComponent } from '../module/component/module-status-dot/module-status-dot.component';
 import { ModuleGraphBuilderComponent } from '../module/graph/module-graph-builder/module-graph-builder.component';
 import { ModuleLastValueComponent } from '../module/graph/module-last-value/module-last-value.component';
+import { SoilModuleComponent } from '../module/svg/soil/soil-module/soil-module.component';
+import { SoilProbeComponent } from '../module/svg/soil/soil-probe/soil-probe.component';
 
 export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
     {
@@ -91,4 +93,11 @@ export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
             },
         },
     },
+    {
+        name: '',
+        component: 'svg-soil-module',
+        componentType: SoilModuleComponent,
+        inputs: {},
+        outputs: {}
+    }
 ];

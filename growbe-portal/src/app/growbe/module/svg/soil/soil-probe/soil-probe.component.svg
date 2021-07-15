@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   id="svg342"
+   width="67.774849"
+   height="50.319191"
+   sodipodi:docname="soil-probe.component.svg"
+   inkscape:version="1.1 (c4e8f9ed74, 2021-05-24)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs14" />
+  <sodipodi:namedview
+     id="namedview12"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="8.5951302"
+     inkscape:cx="8.4931814"
+     inkscape:cy="20.069504"
+     inkscape:window-width="1265"
+     inkscape:window-height="1018"
+     inkscape:window-x="5122"
+     inkscape:window-y="51"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-41.158478,-18.760345)">
+    <circle
+       style="fill:#ff0000;stroke-width:0.264583"
+       id="path280-3-6-7"
+       cx="74.985641"
+       cy="36.063099"
+       r="17.302753" />
+    <rect
+       style="fill:#ececec;stroke-width:0.279282"
+       id="left_bar"
+       style="display: {{position !== 'left' ? 'none': 'inherit'}}"
+       width="22.207098"
+       height="5.6558948"
+       x="41.158478"
+       y="32.689854" />
+    <rect
+       style="fill:#ececec;stroke-width:0.279282"
+       id="right_bar"
+       style="display: {{position !== 'right' ? 'none': 'inherit'}}"
+       width="22.207098"
+       height="5.6558948"
+       x="86.726227"
+       y="33.226894" />
+    <rect
+       style="fill:#ececec;stroke-width:0.279282"
+       id="bottom_bar"
+       style="display: {{position !== 'bottom' ? 'none': 'inherit'}}"
+       width="22.207098"
+       height="5.6558948"
+       x="46.87244"
+       y="-77.053818"
+       transform="rotate(90)" />
+    <circle
+       style="fill:#ececec;stroke-width:0.191487"
+       id="path280-3-6-7-5"
+       cx="74.803741"
+       cy="35.854618"
+       r="12.522568" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="65.88765"
+       y="38.918385"
+       id="text3806"><tspan
+         sodipodi:role="line"
+         style="stroke-width:0.264583"
+         x="65.88765"
+         y="38.918385"
+         id="tspan3808">902</tspan></text>
+  </g>
+</svg>
