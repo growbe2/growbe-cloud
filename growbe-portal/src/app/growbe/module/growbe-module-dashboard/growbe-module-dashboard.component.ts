@@ -202,6 +202,18 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         },
                     },
                     {
+                      name: 'Module info',
+                      component: this.module.moduleName + '-module',
+                      inputs: {
+                        module: this.module,
+                        moduleDef: moduleDef,
+                      },
+                      style: {
+                        'grid-column-start': '1',
+                        'grid-column-end': '6',
+                      }
+                    },
+                    {
                         name: 'Module State',
                         component: 'growbe-module-state',
                         inputs: {

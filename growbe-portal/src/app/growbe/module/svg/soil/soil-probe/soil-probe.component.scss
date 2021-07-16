@@ -1,0 +1,22 @@
+
+.hidden {
+  display: none !important;
+}
+
+.ok {
+  fill: green !important;
+}
+
+.unknow {
+  fill: grey !important;
+}
+
+.disconnected {
+  display: black !important;
+}
+
+
+.pulse-circle {
+	transform: scale(1);
+  transform-origin: unset;
+}
