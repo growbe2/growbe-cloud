@@ -117,6 +117,7 @@ enum MessageType {
 
 
     MT_FIELDALARMEVENT = 40;
+    MT_FIELDALARM = 41;
 
     MT_ACTIONRESPONSE = 50;
 }
