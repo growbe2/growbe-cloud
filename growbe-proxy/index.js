@@ -11,6 +11,8 @@ const mapType = {
     'config': 3,
     'setTime': 5,
     'AAB': 10,
+    'aAl': 41,
+    'rAl': 41
 }
 
 
@@ -32,7 +34,9 @@ const parser = port.pipe(new InterByteTimeout({ interval: 30 }));
 
 const topicsControl = [
     `/growbe/${config.growbeId}/board/setTime`,
-    `/growbe/${config.growbeId}/board/mconfig/+`
+    `/growbe/${config.growbeId}/board/mconfig/+`,
+    `/growbe/${config.growbeId}/board/aAl`,
+    `/growbe/${config.growbeId}/board/rAl`
 ];
 
 const client = mqtt.connect(config.mqtt);
