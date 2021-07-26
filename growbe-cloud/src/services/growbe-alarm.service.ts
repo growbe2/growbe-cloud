@@ -35,13 +35,13 @@ export class GrowbeHardwareAlarmService {
 		if(module.moduleDef?.properties[alarm.property]) {
 			module.moduleDef.properties[alarm.property].alarm = alarm;
 		}
-		return this.mqttService.sendWithResponse(
+		await this.mqttService.sendWithResponse(
 			mainboardId,
 			getTopic(mainboardId, `/board/aAl`),
 			FieldAlarm.encode(alarm).finish(),
 			{ waitingTime: 3000, responseCode: 10}
 		).toPromise()
-		.then((response) => this.moduleDefRepository.update(module.moduleDef as GrowbeModuleDef));
+		return this.moduleDefRepository.update(module.moduleDef as GrowbeModuleDef);
 	}
 
 	async removeHardwareAlarm(mainboardId: string, alarm: FieldAlarm): Promise<void>  {

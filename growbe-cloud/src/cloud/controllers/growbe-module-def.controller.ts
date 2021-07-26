@@ -27,7 +27,7 @@ export class GrowbeModuleDefController {
     return this.growbeHardwareAlarmService.addHardwareAlarm(mainboardId, alarm)
   }
 
-  @del('/growbeModuleDefs/{id}/removeAlarm')
+  @post('/growbeModuleDefs/{id}/removeAlarm')
   removeHardwareAlarm(
     @param.path.string('id') mainboardId: string,
     @requestBody() alarm: FieldAlarm
