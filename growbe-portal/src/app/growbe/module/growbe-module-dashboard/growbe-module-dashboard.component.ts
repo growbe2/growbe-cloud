@@ -219,14 +219,20 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                       }
                     },
                     {
-                        name: 'Module State',
-                        component: 'growbe-module-state',
+                        name: 'Module Alarm event',
+                        component: 'logs-terminal',
                         inputs: {
-                            module: this.module,
+                          growbeId: this.module.mainboardId,
+                          moduleId: this.module.uid,
+                          disableSearch: true,
+                          where: {
+                            moduleId: this.module.uid,
+                            type: 'alarm'
+                          }
                         },
                         style: {
                             'grid-column-start': '1',
-                            'grid-column-end': '3',
+                            'grid-column-end': '6',
                         },
                     },
                     {
@@ -239,7 +245,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                           removeElement: (element) => this.moduleDefAPI.removeAlarm(this.module.mainboardId, element),
                         },
                         style: {
-                          'grid-column-start': '3',
+                          'grid-column-start': '1',
                           'grid-column-end': '6',
                       },
                     },
