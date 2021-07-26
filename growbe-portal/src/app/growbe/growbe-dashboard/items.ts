@@ -1,6 +1,6 @@
 import { DashboardRegistryItem } from '@growbe2/growbe-dashboard';
 import { ModuleSensorValueGraphComponent } from 'src/app/growbe/module/graph/module-sensor-value-graph/module-sensor-value-graph.component';
-import { TimeframeSelectComponent } from 'src/app/shared/timeframe/timeframe-select/timeframe-select.component';
+import { TableLayoutComponent } from 'src/app/shared/table-layout/table-layout/table-layout.component';
 import { GrowbeStateComponent } from '../growbe-mainboard/component/growbe-state/growbe-state.component';
 import { GrowbeModuleConfigComponent } from '../module/component/growbe-module-config/growbe-module-config.component';
 import { GrowbeModuleDataTableComponent } from '../module/component/growbe-module-data-table/growbe-module-data-table.component';
@@ -73,6 +73,12 @@ export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
                 type: 'object',
             },
         },
+    },
+    {
+        name: '',
+        component: 'growbe-alarm',
+        componentType: TableLayoutComponent,
+        inputs: {}
     },
     {
         name: '',

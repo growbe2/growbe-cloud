@@ -1,0 +1,13 @@
+<div class="topbar">
+  <div>
+    <button mat-mini-fab (click)="autoForm.open(formData)">
+     <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
+<ngx-autotable
+    [columns]="columns"
+    [where]="where"
+    [source]="source"
+>
+</ngx-autotable>

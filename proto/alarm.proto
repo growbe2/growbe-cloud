@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+enum AlarmZone {
+	UNKNOW = 0;
+	MIDDLE = 1;
+	VERY_LOW = 2;
+	LOW = 3;
+	HIGH = 4;
+	VERY_HIGH = 5;
+}
+
+message AlarmZoneValue {
+	uint32 value = 1;
+	uint32 offset = 2;
+}
+
+message FieldAlarm {
+	string moduleId = 1;
+	string property = 2;
+	AlarmZoneValue veryLow = 3;
+	AlarmZoneValue low = 4;
+	AlarmZoneValue high = 5;
+	AlarmZoneValue veryHigh = 6;
+}
+
+
+message FieldAlarmEvent {
+	string moduleId = 1;
+	string property = 2;
+
+	AlarmZone previousZone = 3;
+	AlarmZone currentZone = 4;
+
+	uint32 currentValue = 5;
+	uint32 previousValue = 6;
+}
+

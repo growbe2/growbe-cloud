@@ -13,6 +13,9 @@ import { getModuleDefPropName, GrowbeModuleDefAPI } from '../../api/growbe-modul
 import { growbeModuleDefForm } from '../component/growbe-module-def/growbe-module-def.form';
 import { moduleDefPropertyDisplayer } from '../module.def';
 import { GrowbeModuleAPI } from '../../api/growbe-module';
+import { StaticDataSource } from '@berlingoqc/ngx-loopback';
+import { hardwareAlarmColumns } from '../hardware-alarm/hardware-alarm.table';
+import { getHardwareAlarmForm } from '../hardware-alarm/hardware-alarm.form';
 
 @Component({
     selector: 'app-growbe-module-dashboard',
@@ -141,7 +144,9 @@ export class GrowbeModuleDashboardComponent implements OnInit {
             this.subChartSelect.unsubscribe();
         }
         return this.moduleDefAPI.getById(this.module.moduleName).pipe(
-            map((moduleDef: GrowbeModuleDef) => ({
+            map((moduleDef: GrowbeModuleDef) => {
+              const alarms = Object.values(moduleDef.properties).filter((md) => md.alarm).map((md) => md.alarm);
+              return ({
                 name: '',
                 class: ['grid'],
                 style: {
@@ -203,7 +208,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                     },
                     {
                       name: 'Module info',
-                      component: this.module.moduleName + '-module',
+                      component: this.module.moduleName.split(':')[0] + '-module',
                       inputs: {
                         module: this.module,
                         moduleDef: moduleDef,
@@ -221,8 +226,22 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         },
                         style: {
                             'grid-column-start': '1',
-                            'grid-column-end': '6',
+                            'grid-column-end': '3',
                         },
+                    },
+                    {
+                        name: 'Module Alarm',
+                        component: 'growbe-alarm',
+                        inputs: {
+                          columns: hardwareAlarmColumns,
+                          source: new StaticDataSource(alarms),
+                          formData: getHardwareAlarmForm(Object.assign(this.module, {moduleDef}), alarms.map(a => a.property) ,this.moduleDefAPI),
+                          removeElement: (element) => this.moduleDefAPI.removeAlarm(this.module.mainboardId, element),
+                        },
+                        style: {
+                          'grid-column-start': '3',
+                          'grid-column-end': '6',
+                      },
                     },
                     ...Object.values(moduleDef.properties).map((prop) => ({
                         name: moduleDef.properties[prop.name].displayName
@@ -253,7 +272,8 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         },
                     },
                 ],
-            })),
+            })
+          }),
         );
     }
 }

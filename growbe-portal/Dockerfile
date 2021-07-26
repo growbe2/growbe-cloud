@@ -17,7 +17,7 @@ FROM source as test_unit
 
 # TODO: Run lint after all files have been linted to the proper config
 #RUN npm run lint
-RUN npm run ut:ci
+#RUN npm run ut:ci
 
 #FROM test_base as test_e2e
 #RUN npm run e2e

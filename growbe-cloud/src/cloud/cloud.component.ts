@@ -2,7 +2,7 @@ import {addCRUDModelsControllerWithRelations} from '@berlingoqc/lb-extensions';
 import {Binding, Component, CoreBindings, inject} from '@loopback/core';
 import {ApplicationWithRepositories} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
-import {ActionResponse, HelloWord, ResponseAction} from '@growbe2/growbe-pb';
+import {ActionResponse} from '@growbe2/growbe-pb';
 import {
   GrowbeStreamComponent,
   GrowbeStreamRepository,

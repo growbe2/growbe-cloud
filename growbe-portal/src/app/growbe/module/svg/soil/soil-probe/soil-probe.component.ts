@@ -50,7 +50,7 @@ export class SoilProbeComponent implements OnInit {
       this.status = 'ok';
     } else {
       this.status = 'unknow';
-      this.value = undefined;
+      this.pValue = undefined;
     }
     if (this.animate) {
       this.animate.play();

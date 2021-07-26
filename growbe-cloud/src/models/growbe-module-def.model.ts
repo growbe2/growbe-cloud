@@ -1,3 +1,4 @@
+import { FieldAlarm } from '@growbe2/growbe-pb';
 import {Entity, model, property} from '@loopback/repository';
 
 @model()
@@ -19,6 +20,8 @@ export class PropertyModule {
   unit: string;
   @property()
   operationalRange?: Range;
+  @property()
+  alarm: FieldAlarm;
 }
 
 @model({settings: {strict: false}})
