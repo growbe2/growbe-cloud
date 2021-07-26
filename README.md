@@ -19,7 +19,7 @@ The detail for every one is in there own `README.md`
 * [sso-swagger](https://auth.growbe.wquintal.ca/api/explorer)
 * [cloud-swagger](https://api.growbe.wquintal.ca/explorer)
 * [portal](https://portal.growbe.wquintal.ca)
-* broker mqtt://broker.growbe.wquintal.ca:1883
+* broker mqtt://broker.dev.growbe.ca
 
 ## Run locally
 

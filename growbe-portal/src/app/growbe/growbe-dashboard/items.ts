@@ -8,6 +8,10 @@ import { GrowbeModuleDefComponent } from '../module/component/growbe-module-def/
 import { ModuleStatusDotComponent } from '../module/component/module-status-dot/module-status-dot.component';
 import { ModuleGraphBuilderComponent } from '../module/graph/module-graph-builder/module-graph-builder.component';
 import { ModuleLastValueComponent } from '../module/graph/module-last-value/module-last-value.component';
+import { SoilModuleComponent } from '../module/svg/soil/soil-module/soil-module.component';
+import { SoilProbeComponent } from '../module/svg/soil/soil-probe/soil-probe.component';
+import { THLModuleComponent } from '../module/svg/thl/thl-module/thl-module.component';
+import { WCModuleComponent } from '../module/svg/wc/wc-module/wc-module.component';
 
 export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
     {
@@ -97,4 +101,25 @@ export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
             },
         },
     },
+    {
+        name: '',
+        component: 'AAS-module',
+        componentType: SoilModuleComponent,
+        inputs: {},
+        outputs: {}
+    },
+    {
+        name: '',
+        component: 'AAA-module',
+        componentType: THLModuleComponent,
+        inputs: {},
+        outputs: {}
+    },
+    {
+        name: '',
+        component: 'AAB-module',
+        componentType: WCModuleComponent,
+        inputs: {},
+        outputs: {},
+    }
 ];

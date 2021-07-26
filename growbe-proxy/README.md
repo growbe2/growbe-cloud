@@ -21,8 +21,8 @@ Exemple of config.json
     "portConfig": {
         "baudRate": 115200 // SHOULD NOT BE CHANGE
     },
-    "growbeId": "24DFC-2DAD", // ID OF THE GROWBE THAT YOU ARE PROXING, TO SUBSCRIBE
-    "mqtt": "mqtt://192.168.1.20:1883" // MQTT Server URL
+    "growbeId": "0xFFFFFFFF", // ID OF THE GROWBE THAT YOU ARE PROXING, TO SUBSCRIBE
+    "mqtt": "mqtt://broker.dev.growbe.ca" // MQTT Server URL
 }
 ```
 
