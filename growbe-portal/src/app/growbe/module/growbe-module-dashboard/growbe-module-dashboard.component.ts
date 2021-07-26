@@ -13,6 +13,9 @@ import { getModuleDefPropName, GrowbeModuleDefAPI } from '../../api/growbe-modul
 import { growbeModuleDefForm } from '../component/growbe-module-def/growbe-module-def.form';
 import { moduleDefPropertyDisplayer } from '../module.def';
 import { GrowbeModuleAPI } from '../../api/growbe-module';
+import { StaticDataSource } from '@berlingoqc/ngx-loopback';
+import { hardwareAlarmColumns } from '../hardware-alarm/hardware-alarm.table';
+import { getHardwareAlarmForm } from '../hardware-alarm/hardware-alarm.form';
 
 @Component({
     selector: 'app-growbe-module-dashboard',
@@ -209,8 +212,23 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         },
                         style: {
                             'grid-column-start': '1',
-                            'grid-column-end': '6',
+                            'grid-column-end': '4',
                         },
+                    },
+                    {
+                        name: 'Module Alarm',
+                        component: 'growbe-alarm',
+                        inputs: {
+                          columns: hardwareAlarmColumns,
+                          source: new StaticDataSource(
+                            Object.values(moduleDef.properties).map((md) => md.alarm)
+                          ),
+                          formData: getHardwareAlarmForm(Object.assign(this.module, {moduleDef}), this.moduleDefAPI),
+                        },
+                        style: {
+                          'grid-column-start': '4',
+                          'grid-column-end': '6',
+                      },
                     },
                     ...Object.values(moduleDef.properties).map((prop) => ({
                         name: moduleDef.properties[prop.name].displayName

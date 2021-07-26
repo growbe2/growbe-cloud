@@ -14,6 +14,15 @@ export class GrowbeModuleDefAPI extends Caching(
         this.baseURL = envConfig.growbeCloud;
     }
 
+
+    addAlarm(mainboardId: string, alarmField: any) {
+      return this.httpClient.post<void>(`${this.url}/${mainboardId}/addAlarm`, alarmField);
+    }
+
+    removeAlarm(mainboardId: string, alarmField: any) {
+      return this.httpClient.delete<void>(`${this.url}/${mainboardId}/removeAlarm`, alarmField);
+    }
+
     override(data: { moduleId: string; moduleName: string }): Observable<void> {
         return this.httpClient.post<void>(`${this.url}/override`, data);
     }
