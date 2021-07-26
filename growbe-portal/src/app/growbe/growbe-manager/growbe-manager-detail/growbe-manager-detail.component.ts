@@ -31,12 +31,6 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
 
     mainboard: Observable<any>;
 
-    logFilter: Filter<GrowbeLogs> = {
-        order: ['timestamp desc'],
-        limit: 20,
-        offset: 0,
-    };
-
     id: string;
 
     detailMainboardForm: AutoFormData = {

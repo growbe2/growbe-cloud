@@ -7,6 +7,13 @@ import { GrowbeModuleDefRepository, GrowbeModuleRepository } from "../repositori
 import { GrowbeLogsService } from "./growbe-logs.service";
 import { getTopic, MQTTService } from "./mqtt.service";
 
+
+export const AlarmZoneArray = [
+	'unknow', 'middle', 'very_low', 'low', 'high', 'very_high'
+];
+
+
+
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeHardwareAlarmService {
 	constructor(
@@ -79,7 +86,8 @@ export class GrowbeHardwareAlarmService {
 			severity: SeverityEnum.MEDIUM,
 			type: LogTypeEnum.ALARM,
 			newState: alarmEvent,
-			message: `alarm for ${alarmEvent.property} transition from ${alarmEvent.previousZone} to ${alarmEvent.currentZone}`,
+			growbeModuleId: alarmEvent.moduleId,
+			message: `alarm for ${alarmEvent.property} transition from ${AlarmZoneArray[alarmEvent.previousZone]} to ${AlarmZoneArray[alarmEvent.currentZone]}`,
 		});
 	}
 }

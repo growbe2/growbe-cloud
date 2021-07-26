@@ -10,6 +10,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatChipsModule } from '@angular/material/chips';
 import { TableLayoutModule } from 'src/app/shared/table-layout/table-layout.module';
 import { SvgModuleModule } from '../svg/svg-module.module';
+import { TerminalModule } from 'src/app/shared/terminal/terminal.module';
 
 @NgModule({
     declarations: [GrowbeModuleDashboardComponent],
@@ -18,6 +19,8 @@ import { SvgModuleModule } from '../svg/svg-module.module';
 
 
         SvgModuleModule,
+
+        TerminalModule,
 
         MatChipsModule,
         MatToolbarModule,

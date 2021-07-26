@@ -1,7 +1,10 @@
-<div class="container">
+<div>
+    <autoform-form *ngIf="!disableSearch" [formData]="searchBarForm"></autoform-form>
     <div style="padding: 10px">
-        <div *ngFor="let log of logs | async">
-            {{ log }}
-        </div>
+      <cdk-virtual-scroll-viewport class="container" itemSize="15">
+        <li *cdkVirtualFor="let p of logs | async; let i = index" class="animated lightSpeedIn">
+            {{ p }}
+        </li>
+      </cdk-virtual-scroll-viewport>
     </div>
 </div>

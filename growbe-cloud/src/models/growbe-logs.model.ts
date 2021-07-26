@@ -16,6 +16,9 @@ export enum LogTypeEnum {
   ALARM = 'alarm',
 }
 
+export const LogTypEnumArray = [LogTypeEnum.MODULE_STATE_CHANGE, LogTypeEnum.MODULE_CONFIG_CHANGE,LogTypeEnum.CONNECTION_STATE_CHANGE,
+LogTypeEnum.WARNING_CREATED, LogTypeEnum.RTC_UPDATE, LogTypeEnum.SYNC_REQUEST, LogTypeEnum.GROWBE_CONFIG_CHANGE, LogTypeEnum.ALARM];
+
 export enum SeverityEnum {
   LOW = '0',
   MEDIUM = '1',
