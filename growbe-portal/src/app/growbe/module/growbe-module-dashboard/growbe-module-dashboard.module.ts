@@ -8,6 +8,7 @@ import { GrowbeModuleModule } from '../growbe-module.module';
 import { TimeframeModule } from 'src/app/shared/timeframe/timeframe.module';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatChipsModule } from '@angular/material/chips';
+import { TableLayoutModule } from 'src/app/shared/table-layout/table-layout.module';
 
 @NgModule({
     declarations: [GrowbeModuleDashboardComponent],
@@ -21,6 +22,7 @@ import { MatChipsModule } from '@angular/material/chips';
         GraphModule,
         UnitModule,
         GrowbeModuleModule,
+        TableLayoutModule,
     ],
 })
 export class GrowbeModuleDashboardModule {}

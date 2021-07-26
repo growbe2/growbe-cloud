@@ -1,15 +1,17 @@
 import { AutoFormData } from "@berlingoqc/ngx-autoform";
-import { GrowbeModule } from "@growbe2/ngx-cloud-api";
+import { GrowbeModule, GrowbeModuleWithRelations } from "@growbe2/ngx-cloud-api";
+import { of } from "rxjs";
 import { GrowbeModuleDefAPI } from "../../api/growbe-module-def";
 
 
-export const alarmField = (name) => (          {
+export const alarmField = (name) => ({
   name,
   type: 'object',
   properties: [
     {
       name: 'value',
-      type: 'number'
+      type: 'number',
+      required: true,
     },
     {
       name: 'offset',
@@ -19,15 +21,20 @@ export const alarmField = (name) => (          {
 });
 
 export const getHardwareAlarmForm = (
-  module: GrowbeModule,
+  module: GrowbeModuleWithRelations,
+  existingAlarmProperties: string[],
   moduleDefService: GrowbeModuleDefAPI,
 ) => {
   return {
-    type: 'simple',
+    type: 'dialog',
+    typeData: {
+      minWidth: '50%'
+    },
     event: {
-      initialData: () => ({object: { moduleId: module.uid}}),
+      initialData: () => of(({object: { moduleId: module.uid}})),
       submit: (value: any) => {
-        console.log('value', value);
+        const alarm = Object.assign(value.object, {moduleId: module.uid});
+        return moduleDefService.addAlarm(module.mainboardId, alarm);
       },
     },
     items: [
@@ -45,6 +52,20 @@ export const getHardwareAlarmForm = (
             name: 'property',
             type: 'string',
             displayName: 'Property',
+            required: true,
+            component: {
+              name: 'select',
+              type: 'mat',
+              options: {
+                displayTitle: 'Property',
+                displayContent: (e) => e,
+                options: {
+                  value: () => of(Object.keys(module.moduleDef.properties).filter(
+                    item => existingAlarmProperties.indexOf(item) === -1
+                  ))
+                }
+              }
+            }
           },
           alarmField('low'),
           alarmField('high'),

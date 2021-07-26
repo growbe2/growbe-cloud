@@ -144,7 +144,9 @@ export class GrowbeModuleDashboardComponent implements OnInit {
             this.subChartSelect.unsubscribe();
         }
         return this.moduleDefAPI.getById(this.module.moduleName).pipe(
-            map((moduleDef: GrowbeModuleDef) => ({
+            map((moduleDef: GrowbeModuleDef) => {
+              const alarms = Object.values(moduleDef.properties).filter((md) => md.alarm).map((md) => md.alarm);
+              return ({
                 name: '',
                 class: ['grid'],
                 style: {
@@ -212,7 +214,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         },
                         style: {
                             'grid-column-start': '1',
-                            'grid-column-end': '4',
+                            'grid-column-end': '3',
                         },
                     },
                     {
@@ -220,13 +222,12 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         component: 'growbe-alarm',
                         inputs: {
                           columns: hardwareAlarmColumns,
-                          source: new StaticDataSource(
-                            Object.values(moduleDef.properties).map((md) => md.alarm)
-                          ),
-                          formData: getHardwareAlarmForm(Object.assign(this.module, {moduleDef}), this.moduleDefAPI),
+                          source: new StaticDataSource(alarms),
+                          formData: getHardwareAlarmForm(Object.assign(this.module, {moduleDef}), alarms.map(a => a.property) ,this.moduleDefAPI),
+                          removeElement: (element) => this.moduleDefAPI.removeAlarm(this.module.mainboardId, element),
                         },
                         style: {
-                          'grid-column-start': '4',
+                          'grid-column-start': '3',
                           'grid-column-end': '6',
                       },
                     },
@@ -259,7 +260,8 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         },
                     },
                 ],
-            })),
+            })
+          }),
         );
     }
 }
