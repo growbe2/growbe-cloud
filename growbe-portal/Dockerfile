@@ -25,7 +25,7 @@ FROM source as test_unit
 # Stage build
 FROM source AS prod
 
-RUN npm run build -- --prod
+RUN npm run build -- --configuration production
 
 # Stage release
 FROM nginx:alpine AS release

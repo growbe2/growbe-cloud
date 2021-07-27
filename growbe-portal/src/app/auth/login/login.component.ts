@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { fuseAnimations } from '@berlingoqc/fuse';
 
-import { version } from '../../../../package.json';
+import pkg from '../../../../package.json';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -10,7 +10,7 @@ import { version } from '../../../../package.json';
     animations: fuseAnimations,
 })
 export class LoginComponent implements OnInit {
-    version = version;
+    version = pkg.version;
 
     constructor(public router: Router) {}
 
