@@ -1,9 +1,9 @@
-import { growbeRtcForm } from '../growbe-action/forms';
+import { growbeRtcForm } from './forms';
 
 /**
  * Map with the configuration on how to handle the configuration
  */
-export const growbeWarningActions = {
+export const growbeActions = {
     RTC_OFFSET: {
         displayData: {
             type: 'func',
@@ -23,4 +23,7 @@ export const growbeWarningActions = {
             };
         },
     },
+    DESYNC: {
+      displayData: 'Sync'
+    }
 };

@@ -9,7 +9,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { GrowbeMainboardAPI } from '../../api/growbe-mainboard';
 import { AutoTableComponent, TableColumn } from '@berlingoqc/ngx-autotable';
-import { AutoFormData, InputProperty } from '@berlingoqc/ngx-autoform';
+import { AutoFormData, AutoFormDialogService, InputProperty } from '@berlingoqc/ngx-autoform';
 import { notify } from '@berlingoqc/ngx-notification';
 import { Observable, of, Subscription } from 'rxjs';
 import { Filter, Include, Where } from '@berlingoqc/ngx-loopback';
@@ -17,8 +17,9 @@ import { GrowbeLogs, GrowbeModule } from '@growbe2/ngx-cloud-api';
 import { fuseAnimations } from '@berlingoqc/fuse';
 import { GrowbeEventService } from '../../services/growbe-event.service';
 import { TemplateContentData, unsubscriber } from '@berlingoqc/ngx-common';
-import { DialogFormContainer } from '@berlingoqc/ngx-autoform';
+import {getGrowbeActionTableColumns, growbeActionsSource } from 'src/app/growbe/growbe-action/growbe-action.table';
 import { map } from 'rxjs/operators';
+import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
 @Component({
     selector: 'app-growbe-manager-detail',
     templateUrl: './growbe-manager-detail.component.html',
@@ -105,10 +106,15 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
 
     streamSelected: any;
 
+    actionsColumns: TableColumn[];
+    actionsSource = growbeActionsSource;
+
     constructor(
         private activatedRoute: ActivatedRoute,
         public mainboardAPI: GrowbeMainboardAPI,
         private growbeEventService: GrowbeEventService,
+        private growbeActionAPI: GrowbeActionAPI,
+        private autoformDialog: AutoFormDialogService,
     ) {}
 
     ngOnInit(): void {
@@ -117,6 +123,12 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
         if (!this.id) {
             return;
         }
+
+        this.actionsColumns = getGrowbeActionTableColumns(
+          this.id,
+          this.growbeActionAPI,
+          this.autoformDialog,
+        );
 
         this.mainboard = this.mainboardAPI.getById(this.id);
 
