@@ -52,7 +52,12 @@ export class GrowbeMainboardController {
   setGrowbeRTC(@param.path.string('id') id: string, @requestBody() body: any) {
     return this.growbeService.setRTC(id, body);
   }
-  
+
+  @patch('/growbe/{id}/sync')
+  @authenticate('jwt')
+  setGrowbeSync(@param.path.string('id') id: string, @requestBody() body: any) {
+    return this.growbeService.sendSyncRequest(id);
+  }
 
   @get('/model/graphDataConfig', schemaJsonOf(GraphDataConfig))
   graphDataConfig() {

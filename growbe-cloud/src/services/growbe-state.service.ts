@@ -1,7 +1,7 @@
 import {HelloWord} from '@growbe2/growbe-pb';
 import {BindingScope, inject, injectable, service} from '@loopback/core';
 import * as _ from 'lodash';
-import {Subject} from 'rxjs';
+import {lastValueFrom, Subject} from 'rxjs';
 import {RTC_OFFSET_KEY} from '../data';
 import {GrowbeMainboardBindings} from '../keys';
 import {GrowbeMainboard} from '../models';
@@ -71,7 +71,7 @@ export class GrowbeStateService {
       await this.stateChange(
         _.omit(mainboard, 'growbeMainboardConfig') as GrowbeMainboard,
       );
-      await this.sendSyncRequest(mainboard.id);
+      await this.growbeService.sendSyncRequest(mainboard.id);
     }
     await this.notifyState(
       new GrowbeMainboard({
@@ -106,25 +106,6 @@ export class GrowbeStateService {
     }, hearthBeathRate * 2000);
   }
 
-  /**
-   * send request to growbe to ask to
-   * sync all is modules informations
-   * with the cloud , trigger on reconnection.
-   * @param growbeId
-   */
-  private sendSyncRequest(growbeId: string) {
-    return this.mqttService
-      .send(getTopic(growbeId, '/board/sync'), '', { qos: 2})
-      .then(value => {
-        return this.logsService.addLog({
-          group: GroupEnum.MAINBOARD,
-          type: LogTypeEnum.SYNC_REQUEST,
-          severity: SeverityEnum.LOW,
-          growbeMainboardId: growbeId,
-          message: `sync requested`,
-        });
-      });
-  }
 
   private stateChange(mainboard: GrowbeMainboard) {
     return this.logsService.addLog({
