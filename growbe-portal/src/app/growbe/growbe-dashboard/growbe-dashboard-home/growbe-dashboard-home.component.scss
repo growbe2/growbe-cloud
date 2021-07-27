@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@berlingoqc/fuse/scss/fuse';
 
 :host {
@@ -32,7 +33,7 @@
                 cursor: pointer;
 
                 &:hover:not(.add-new-board) {
-                    @include mat-elevation(8);
+                    @include mat.elevation(8);
                 }
 
                 .board-name {
