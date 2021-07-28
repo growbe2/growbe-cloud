@@ -87,7 +87,7 @@ export class GrowbeActionAPI {
         );
     }
 
-    SYNC_REQUEST(growbeId: string, data: any) {
+    DESYNC(growbeId: string, data: any) {
         return this.httpClient.patch<void>(
             `${this.url}/growbe/${growbeId}/sync`,
             data,

@@ -1,3 +1,4 @@
+import { growbeSyncForm } from 'src/app/growbe/growbe-action/forms/sync.form';
 import { growbeRtcForm } from './forms';
 
 /**
@@ -24,6 +25,8 @@ export const growbeActions = {
         },
     },
     DESYNC: {
-      displayData: 'Sync'
+      displayData: 'Sync',
+      formFunc: growbeSyncForm,
+      formFuncTransform: () => ({}),
     }
 };
