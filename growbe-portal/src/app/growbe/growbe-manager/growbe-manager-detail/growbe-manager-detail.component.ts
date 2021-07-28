@@ -16,10 +16,12 @@ import { Filter, Include, Where } from '@berlingoqc/ngx-loopback';
 import { GrowbeLogs, GrowbeModule } from '@growbe2/ngx-cloud-api';
 import { fuseAnimations } from '@berlingoqc/fuse';
 import { GrowbeEventService } from '../../services/growbe-event.service';
-import { TemplateContentData, unsubscriber } from '@berlingoqc/ngx-common';
+import { ActionConfirmationDialogComponent, TemplateContentData, unsubscriber } from '@berlingoqc/ngx-common';
 import {getGrowbeActionTableColumns, growbeActionsSource } from 'src/app/growbe/growbe-action/growbe-action.table';
-import { map } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
+import { MatDialog } from '@angular/material/dialog';
+import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 @Component({
     selector: 'app-growbe-manager-detail',
     templateUrl: './growbe-manager-detail.component.html',
@@ -109,12 +111,15 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
     actionsColumns: TableColumn[];
     actionsSource = growbeActionsSource;
 
+
     constructor(
         private activatedRoute: ActivatedRoute,
         public mainboardAPI: GrowbeMainboardAPI,
+        public moduleAPI: GrowbeModuleAPI,
         private growbeEventService: GrowbeEventService,
         private growbeActionAPI: GrowbeActionAPI,
         private autoformDialog: AutoFormDialogService,
+        private matDialog: MatDialog,
     ) {}
 
     ngOnInit(): void {
@@ -150,5 +155,18 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
 
     onStreamSelected(stream: any) {
         this.streamSelected = stream;
+    }
+
+    deleteModule(moduleId: string) {
+      this.matDialog.open(ActionConfirmationDialogComponent, {
+        data: {
+          title: ''
+        }
+      })
+        .afterClosed().pipe(
+          filter(x => x),
+          switchMap(() => this.moduleAPI.delete(moduleId)),
+        )
+        .subscribe(() => {})
     }
 }

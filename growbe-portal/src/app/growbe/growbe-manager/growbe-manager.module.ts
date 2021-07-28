@@ -24,6 +24,7 @@ import { CommonPipeModule, MatTabsExtraModule } from '@berlingoqc/ngx-common';
 import { VideoStreamModule } from '../video-stream/video-stream.module';
 import { GrowbeModuleDashboardModule } from '../module/growbe-module-dashboard/growbe-module-dashboard.module';
 import { GrowbeWarningModule } from '../growbe-warning/growbe-warning.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,8 @@ import { GrowbeWarningModule } from '../growbe-warning/growbe-warning.module';
 
         AutoTableModule,
         AutoFormModule,
+
+        MatDialogModule,
 
         GrowbeManagerRoutingModule,
         VideoStreamModule,

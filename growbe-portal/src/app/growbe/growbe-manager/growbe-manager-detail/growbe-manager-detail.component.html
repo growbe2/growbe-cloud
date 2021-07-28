@@ -36,6 +36,14 @@
                     >
                         Dashboard
                     </button>
+
+                    <button
+                      mat-stroked-button
+                      color="accent"
+                      (click)="deleteModule(context.id)"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
                 </ng-template>
 
                 <ngx-autotable
@@ -63,7 +71,7 @@
                     "
                     [where]="moduleWhere"
                     [includes]="moduleIncludes"
-                    [source]="mainboardAPI.growbeModules | lbRelation: id"
+                    [source]="moduleAPI"
                 >
                 </ngx-autotable>
             </mat-tab>
