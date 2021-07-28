@@ -70,6 +70,9 @@
             <mat-tab label="Alerts">
                 <app-warning-table [growbeId]="id"></app-warning-table>
             </mat-tab>
+            <mat-tab label="Action">
+              <ngx-autotable [columns]="actionsColumns" [source]="actionsSource"></ngx-autotable>
+            </mat-tab>
             <mat-tab label="Stream">
                 <app-stream-picker
                     [growbeId]="id"

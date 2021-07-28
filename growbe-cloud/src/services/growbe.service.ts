@@ -6,6 +6,7 @@ import {
   property,
   repository,
 } from '@loopback/repository';
+import { lastValueFrom } from 'rxjs';
 import {GrowbeMainboardBindings} from '../keys';
 import {GrowbeMainboard} from '../models';
 import {
@@ -111,6 +112,30 @@ export class GrowbeService {
         }).then((log) => ({log, response}));
       });
   }
+
+    /**
+   * send request to growbe to ask to
+   * sync all is modules informations
+   * with the cloud , trigger on reconnection.
+   * @param growbeId
+   */
+  public sendSyncRequest(growbeId: string) {
+    return lastValueFrom(this.mqttService
+      .sendWithResponse(growbeId,getTopic(growbeId, '/board/sync'), '', {
+        responseCode: 11,
+        waitingTime: 3000
+      }))
+      .then(value => {
+        return this.logsService.addLog({
+          group: GroupEnum.MAINBOARD,
+          type: LogTypeEnum.SYNC_REQUEST,
+          severity: SeverityEnum.LOW,
+          growbeMainboardId: growbeId,
+          message: `sync requested`,
+        });
+      });
+  }
+
 
   async register(userId: string, request: GrowbeRegisterRequest) {
     const response = new GrowbeRegisterResponse();

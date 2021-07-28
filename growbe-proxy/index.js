@@ -12,7 +12,7 @@ const mapType = {
     'setTime': 5,
     'AAB': 10,
     'aAl': 41,
-    'rAl': 41
+    'rAl': 41,
 }
 
 
@@ -36,7 +36,8 @@ const topicsControl = [
     `/growbe/${config.growbeId}/board/setTime`,
     `/growbe/${config.growbeId}/board/mconfig/+`,
     `/growbe/${config.growbeId}/board/aAl`,
-    `/growbe/${config.growbeId}/board/rAl`
+    `/growbe/${config.growbeId}/board/rAl`,
+    `/growbe/${config.growbeId}/board/sync`
 ];
 
 const client = mqtt.connect(config.mqtt);

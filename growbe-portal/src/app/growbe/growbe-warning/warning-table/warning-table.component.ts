@@ -13,7 +13,7 @@ import { Include, Where } from '@berlingoqc/ngx-loopback';
 import { AutoFormData, AutoFormDialogService } from '@berlingoqc/ngx-autoform';
 import { GrowbeMainboardAPI } from '../../api/growbe-mainboard';
 import { GrowbeWarningAPI } from '../../api/growbe-warning';
-import { growbeWarningActions } from '../growbe-warning-action';
+import { growbeActions } from '../../growbe-action/growbe-warning-action';
 import { GrowbeWarning } from '@growbe2/ngx-cloud-api';
 import { GrowbeActionAPI } from '../../api/growbe-action';
 import { Observable, Subscriber, Subscription } from 'rxjs';
@@ -25,7 +25,7 @@ import { catchError, filter, finalize, map, tap } from 'rxjs/operators';
     styleUrls: ['./warning-table.component.scss'],
 })
 export class WarningTableComponent implements OnInit, AfterViewInit {
-    actions = growbeWarningActions;
+    actions = growbeActions;
     @ViewChild('informations') informationTemplate: TemplateRef<any>;
 
     @Input() growbeId: string;
@@ -85,7 +85,7 @@ export class WarningTableComponent implements OnInit, AfterViewInit {
                                         context: GrowbeWarning,
                                     ) => {
                                         const action =
-                                            growbeWarningActions[
+                                            growbeActions[
                                                 context.warningKeyId
                                             ];
                                         let loadingResolver: Subscriber<unknown>;
