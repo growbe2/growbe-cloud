@@ -1,4 +1,4 @@
-import {FieldAlarmEvent, HearthBeath, HelloWord, ModuleData } from '@growbe2/growbe-pb';
+import {ActionResponse, FieldAlarmEvent, HearthBeath, HelloWord, ModuleData } from '@growbe2/growbe-pb';
 import {Binding, Component} from '@loopback/core';
 import {GrowbeMainboardBindings} from '../keys';
 import { DataSubject, funcModuleSubject } from '../observers/data-subject.model';
@@ -48,6 +48,14 @@ const watchers: DataSubject[] = [
     model: FieldAlarmEvent,
     regexTopic: 'alarm',
     service: GrowbeHardwareAlarmService,
+  },
+  {
+    func: (id, service: GrowbeActionReponseService, action: any) => {
+      return service.receiveActionResponse(id, action);
+    },
+    model: ActionResponse,
+    regexTopic: 'response',
+    service: GrowbeActionReponseService,
   }
 ];
 

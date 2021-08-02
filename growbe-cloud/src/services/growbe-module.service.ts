@@ -176,9 +176,23 @@ export class GrowbeModuleService {
     }
     module.config = config;
     await this.moduleRepository.update(module);
-    const model = pbDef[mapTypeConfig[module.uid.slice(0, 3)]];
-    const payload = model.encode(config).finish();
-    return this.mqttService
+    return this.sendConfigToMainboard(module);
+  }
+
+  async syncModulesConfig(growbeId: string, connected?: boolean) {
+    const modules = await this.moduleRepository.find({
+      where: { mainboardId: growbeId, config: { neq: null } },
+    });
+    for (const module of modules) {
+      console.log('CONFIF', module.config);
+      await this.sendConfigToMainboard(module);
+    }
+  }
+
+  private sendConfigToMainboard(module: GrowbeModule) {
+     const model = pbDef[mapTypeConfig[module.uid.slice(0, 3)]];
+     const payload = model.encode(module.config).finish();
+     return this.mqttService
       .sendWithResponse(
         module.mainboardId,
         getTopic(module.mainboardId, `/board/mconfig/${module.uid}`),

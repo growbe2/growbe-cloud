@@ -12,6 +12,7 @@ import {
 } from '../models/growbe-logs.model';
 import {GrowbeLogsService} from './growbe-logs.service';
 import {GrowbeModuleService} from './growbe-module.service';
+import { GrowbeSyncService } from './growbe-sync.service';
 import {GrowbeWarningService} from './growbe-warning.service';
 import {GrowbeService} from './growbe.service';
 import {getTopic, MQTTService} from './mqtt.service';
@@ -29,6 +30,8 @@ export class GrowbeStateService {
     public growbeModuleService: GrowbeModuleService,
     @service(GrowbeWarningService) public warningService: GrowbeWarningService,
     @service(GrowbeLogsService) public logsService: GrowbeLogsService,
+    @service(GrowbeSyncService)
+    private growbeSyncService: GrowbeSyncService,
     @inject(GrowbeMainboardBindings.WATCHER_STATE_EVENT)
     private stateSubject: Subject<string>,
   ) {}
@@ -55,6 +58,7 @@ export class GrowbeStateService {
     await this.notifyState(
       new GrowbeMainboard(_.omit(mainboard, 'growbeMainboardConfig')),
     );
+    await this.growbeSyncService.syncConfig(mainboard.id);
   }
 
   async valideState(id: string) {
