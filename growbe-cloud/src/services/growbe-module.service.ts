@@ -22,6 +22,7 @@ import {
 } from '../repositories';
 import {GrowbeLogsService} from './growbe-logs.service';
 import {getTopic, MQTTService} from './mqtt.service';
+import { GrowbeModuleDefService } from './growbe-module-def.service';
 
 const pbDef = require('@growbe2/growbe-pb');
 
@@ -49,6 +50,8 @@ export class GrowbeModuleService {
     public sensorValueRepository: GrowbeSensorValueRepository,
     @service(MQTTService) public mqttService: MQTTService,
     @service(GrowbeLogsService) public logsService: GrowbeLogsService,
+    @service(GrowbeModuleDefService)
+    private growbeModuleDefService: GrowbeModuleDefService,
     @inject(GrowbeMainboardBindings.WATCHER_STATE_EVENT)
     private stateSubject: Subject<string>,
   ) {}
@@ -221,6 +224,7 @@ export class GrowbeModuleService {
       mainboardId: boardId,
       moduleName: def.id,
     })) as GrowbeModuleWithRelations;
+    await this.growbeModuleDefService.overrideMainboardModuleDef(moduleId, def.id);
     //module.moduleDef = def;
     return module;
   }
