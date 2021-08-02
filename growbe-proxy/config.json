@@ -3,7 +3,6 @@
     "portConfig": {
         "baudRate": 115200
     },
-    "growbeId": "0xFFFFFFFF",
-    "mqtt": "mqtt://broker.dev.growbe.ca
-"
+    "growbeId": "FFFFFFFF",
+    "mqtt": "mqtt://broker.dev.growbe.ca"
 }
