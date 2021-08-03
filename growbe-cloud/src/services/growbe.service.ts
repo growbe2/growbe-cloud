@@ -1,11 +1,14 @@
 import pb, {RTCTime} from '@growbe2/growbe-pb';
 import {BindingScope, inject, injectable, service} from '@loopback/core';
 import {
+  Filter,
   FilterExcludingWhere,
   model,
   property,
   repository,
+  Where,
 } from '@loopback/repository';
+import { cond } from 'lodash';
 import { lastValueFrom } from 'rxjs';
 import {GrowbeMainboardBindings} from '../keys';
 import {GrowbeMainboard} from '../models';
@@ -55,6 +58,22 @@ export class GrowbeService {
     @service(GrowbeLogsService)
     private logsService: GrowbeLogsService,
   ) {}
+
+
+  find(
+    condition: Where<GrowbeMainboard>,
+    filter: Filter<GrowbeMainboard> = {}
+  ) {
+    filter.where = Object.assign(filter.where ?? {}, condition);
+    return this.mainboardRepository.find(filter);
+  }
+
+  count(
+    condition: Where<GrowbeMainboard>,
+    where: Where<GrowbeMainboard> = {}
+  ) {
+    return this.mainboardRepository.count(Object.assign(where, condition));
+  }
 
   async findOrCreate(
     id: string,
