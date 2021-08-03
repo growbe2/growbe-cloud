@@ -93,10 +93,11 @@ services:
     environment:
       PORT: 3001
       DB_URL: 'postgres://test:test@pgsql:5432/defaultdb'
-      SSO_SETTINGS: '{}'
-      EMAIL_FROM: '"Growbe" <>'
+      SSO_SETTINGS: '{"publicCreation":true,"multiFactor":false,"accountValidation":true, "defaultRoles": []}'
+      EMAIL_FROM: '"Growbe Cloud" <robot@growbe.ca>'
       EMAIL_USER: 'apikey'
-      EMAIL_PASSWORD: ''
+      EMAIL_PASSWORD: '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'
+      EMAIL_REDIRECT: https://cloud.dev.growbe.ca
       SMS_SID: ''
       SMS_TOKEN: ''
       SMS_NUMBER: ''
