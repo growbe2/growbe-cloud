@@ -79,6 +79,16 @@ export class GrowbeMainboardController {
     return this.growbeService.register(user.id, request);
   }
 
+  @post('/growbes/{id}/register/org/{orgId}')
+  @authenticate('jwt')
+  registerOrganisation(
+    @inject(SecurityBindings.USER) user: UserProfile,
+    @param.path.string('id') growbeId: string,
+    @param.path.string('orgId') orgId: string,
+  ) {
+    return this.growbeService.registerOrganisation(user.id, growbeId, orgId);
+  }
+
   @patch('/growbe/{id}/config')
   @authenticate('jwt')
   async setGrowbeConfig(

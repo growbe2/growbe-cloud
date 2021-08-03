@@ -28,7 +28,10 @@ export type GrowbeRegisterState =
   | 'UNBEATH_REGISTER'
   | 'UNREGISTER'
   | 'REGISTER'
-  | 'ALREADY_REGISTER';
+  | 'ALREADY_REGISTER'
+  | 'NOT_ACCESSIBLE'
+  | 'ALREADY_REGISTER_ORGANISATION'
+  | 'REGISTER_ORGANISATION';
 
 @model()
 export class GrowbeRegisterResponse {
@@ -169,6 +172,23 @@ export class GrowbeService {
       response.state = 'ALREADY_REGISTER';
     }
     response.growbe = mainboard;
+    return response;
+  }
+
+  async registerOrganisation(userId: string, growbeId: string, organisationId: string) {
+    const response = new GrowbeRegisterResponse();
+    const mainboard = await this.mainboardRepository.findOne({where: {userId, id: growbeId}});
+    if (!mainboard) {
+      response.state = 'NOT_ACCESSIBLE';
+    } else if (mainboard.organisationId) {
+      response.state = 'ALREADY_REGISTER_ORGANISATION';
+      response.growbe = mainboard;
+    } else {
+      await this.mainboardRepository.updateById(growbeId, {organisationId});
+      mainboard.organisationId = organisationId;
+      response.state = 'REGISTER_ORGANISATION';
+      response.growbe = mainboard;
+    }
     return response;
   }
 
