@@ -1,19 +1,4 @@
-<login-2 style="width: 100%">
-    <fuseLayoutHeader>
-        <fuse-widget
-            [@animate]="{ value: '*', params: { y: '100%' } }"
-            class="pb-0"
-        >
-            <div class="fuse-widget-front welcome-card">
-                <h1>Growbe Cloud</h1>
-                <span class="filler"></span>
-            </div>
-        </fuse-widget>
-    </fuseLayoutHeader>
-    <alb-auth-dialog
-        (connected)="router.navigate(['/', 'home'])"
-    ></alb-auth-dialog>
-    <div>
-        <h5>Version {{ version }}</h5>
-    </div>
-</login-2>
+<alb-auth-dialog albCatchRedirection (connected)="router.navigate(['/', 'home'])"></alb-auth-dialog>
+<div>
+  <h5>Version {{ version }}</h5>
+</div>

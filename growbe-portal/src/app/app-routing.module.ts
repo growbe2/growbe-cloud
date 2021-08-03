@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '@berlingoqc/auth';
 import { FAQRoutes } from '@berlingoqc/fuse-extra';
+import { AuthComponent } from 'src/app/auth/auth.component';
 import { LoginComponent } from './auth/login/login.component';
 import { MqttConnectGuard } from './growbe/guard/mqtt-connect.guard';
 import { HomeComponent } from './home/home.component';
@@ -12,10 +13,21 @@ const routes: Routes = [
         redirectTo: 'auth',
         pathMatch: 'full',
     },
-    {
-        path: 'auth',
-        component: LoginComponent,
-    },
+     {
+        path: '',
+        component: AuthComponent,
+        children: [
+          {
+            path: 'auth',
+            component: LoginComponent,
+          },
+          {
+            path: 'account',
+            loadChildren: () => import('./wrapper/account').then((m) => m.AuthWrapperModule)
+          }
+        ]
+
+      },
     {
         path: 'home',
         component: HomeComponent,
@@ -43,6 +55,14 @@ const routes: Routes = [
         path: 'admin',
         loadChildren: () =>
             import('./wrapper/user-managing').then((m) => m.UserManagingModule),
+    },
+    {
+        path: 'orgs',
+       loadChildren: () => import('./wrapper/organisation').then(m => m.OrganisationWrapperModule),
+    },
+    {
+        path: 'me',
+        loadChildren: () => import('./wrapper/user-account').then(m => m.UserAccountWrapperModule),
     },
     ...FAQRoutes,
 ];
