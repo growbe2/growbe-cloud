@@ -1,6 +1,6 @@
 <carded-fullwidth-1>
-    <fuseLayoutHeader>
-        <h2>Vos Growbe</h2>
+    <fuseLayoutHeader class="full frow">
+        <autoform-form [formData]="autoFormData"></autoform-form>
     </fuseLayoutHeader>
     <fuseLayoutToolbar class="full">
         <div class="full frow jend">
@@ -9,5 +9,5 @@
             </div>
         </div>
     </fuseLayoutToolbar>
-    <app-growbe-table></app-growbe-table>
+    <app-growbe-table [source]="source"></app-growbe-table>
 </carded-fullwidth-1>

@@ -30,6 +30,8 @@ export class GrowbeTableComponent implements OnInit, AfterViewInit {
     @ViewChild('status') status: TemplateRef<any>;
     @ViewChild('options') options: TemplateRef<any>;
 
+    @Input() source: CRUDDataSource<GrowbeMainboard>;
+
     @Input() where: Where = {};
     // Include pour requête loopback
     @Input() includes: Include[] = [];
@@ -63,7 +65,7 @@ export class GrowbeTableComponent implements OnInit, AfterViewInit {
         },
     ];
 
-    constructor(public source: GrowbeMainboardAPI, private dialog: MatDialog) {}
+    constructor(private dialog: MatDialog) {}
 
     ngOnInit(): void {}
 
@@ -84,12 +86,12 @@ export class GrowbeTableComponent implements OnInit, AfterViewInit {
           switchMap(() => this.source.delete(mainboard.id))
         ).subscribe(() => {
           // TEMPORARY FIXE UNTIL I UPDATE CACHING
-          Object.values(this.source.requestGet.items).forEach((item) => {
-            item.subject.next(null);
-          });
-          Object.values(this.source.requestCount.items).forEach((item) => {
-            item.subject.next(null)
-          });
+          //Object.values(this.source.requestGet.items).forEach((item) => {
+          //  item.subject.next(null);
+          //});
+          //Object.values(this.source.requestCount.items).forEach((item) => {
+          //  item.subject.next(null)
+          //});
         });
     }
 }
