@@ -42,9 +42,11 @@ import {
     AccountModule,
     AuthService,
     AuthSettingConfig,
+    NavigateService,
     AUTH_APP_INITALIZER,
     EmailModule,
     OrganisationModule,
+    Actions,
 } from '@berlingoqc/auth';
 import { HomeComponent } from './home/home.component';
 
@@ -59,6 +61,7 @@ import {
     DashboardRegistryService,
 } from '@growbe2/growbe-dashboard';
 import { DASHBOARD_ITEMS } from './growbe/growbe-dashboard/items';
+import { TranslateModule } from '@ngx-translate/core';
 @Injectable({
     providedIn: 'root',
 })
@@ -81,6 +84,7 @@ export class NavigationWrapper {
         FuseModule.forRoot(fuseConfig),
         LayoutModule,
         FaqModule,
+        TranslateModule.forRoot(),
         ServiceWorkerModule.register('ngsw-worker.js', {
             enabled: environment.production,
         }),
@@ -105,17 +109,17 @@ export class NavigationWrapper {
         AUTH_APP_INITALIZER({
             component: AuthDialogComponent,
             navigate: NavigationWrapper,
-            actions: {
-                validate: '/full/account/validate/invitation',
-                confirm: '/full/account/validate/account',
-            },
             config: {
-                img: '/assets/icons/android/android-launchericon-192-192.png',
+                img: '/assets/icons/android/android-launchericon-96-96.png',
                 mainContainerClass: 'auth-dialog',
                 itemClass: {},
                 noProfileImg: '/assets/icons/android-chrome-96x96.png',
             },
         }),
+        {
+          provide: NavigateService,
+          useClass: NavigationWrapper,
+        },
         {
             provide: TOOLBAR_NAVIGATION,
             useValue: navigation,
@@ -148,6 +152,13 @@ export class NavigationWrapper {
             provide: 'FAQResolver',
             useValue: () => FAQS,
         },
+        {
+          provide: Actions,
+          useValue: {
+                validate: '/account/validate/invitation',
+                confirm: '/account/validate/account',
+		      },
+        }
         /*{
           provide: DashboardService,
           useClass: GrowbeDashboardAPI,

@@ -8,12 +8,13 @@ import { AuthModule, RoleGuard, AdminControlComponent } from '@berlingoqc/auth';
         RouterModule.forChild([
             {
                 path: '',
-                // canActivate: [RoleGuard],
+                canActivate: [RoleGuard],
                 component: AdminControlComponent,
                 data: {
                     roles: ['ADMIN'],
                 },
             },
+
         ]),
     ],
     exports: [],

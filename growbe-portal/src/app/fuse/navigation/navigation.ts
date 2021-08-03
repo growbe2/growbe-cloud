@@ -25,9 +25,32 @@ export const navigation: FuseNavigation[] = [
     {
         id: 'admin',
         title: 'Admin',
-        type: 'item',
+        type: 'collapsable',
         icon: 'admin_panel_settings',
-        url: '/admin',
+        roles: ['ADMIN'],
+        children: [
+          {
+            id: 'user',
+            title: 'User',
+            type: 'item',
+            icon: 'supervised_user_circle',
+            url: '/admin'
+          },
+          {
+            id: 'orgs',
+            title: 'Organisations',
+            type: 'item',
+            icon: 'groups',
+            url: '/orgs'
+          }
+        ],
+    },
+    {
+        id: 'me',
+        title: 'My account',
+        type: 'item',
+        icon: 'account_circle',
+        url: '/me'
     },
     {
         id: 'faq',

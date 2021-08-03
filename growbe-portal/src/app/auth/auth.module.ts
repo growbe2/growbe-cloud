@@ -7,9 +7,10 @@ import { PageLayoutModule } from '@berlingoqc/fuse-extra';
 import { Login2Module } from '@berlingoqc/fuse-extra';
 import { RouterModule } from '@angular/router';
 import { FuseSharedModule, FuseWidgetModule } from '@berlingoqc/fuse';
+import { AuthComponent } from 'src/app/auth/auth.component';
 
 @NgModule({
-    declarations: [LoginComponent],
+    declarations: [LoginComponent, AuthComponent],
     imports: [
         CommonModule,
         AccountModule,

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { OrganisationRouting } from '@berlingoqc/auth';
+import { OrganisationModule, OrganisationRouting } from '@berlingoqc/auth';
 
 @NgModule({
-    imports: [OrganisationRouting],
+    imports: [OrganisationRouting, OrganisationModule],
 })
 export class OrganisationWrapperModule {}
