@@ -32,6 +32,7 @@ describe('Growbe Mainboard', () => {
     describe('État du module', () => {
       afterEach(async () => {
         await moduleService.moduleRepository.deleteAll();
+        await moduleService.moduleDefRepository.deleteAll({id: { like: '%:%'}})
       });
       it('Lors de réception état , si existe pas crée un module', async () => {
         await moduleService.onModuleStateChange(
@@ -51,7 +52,7 @@ describe('Growbe Mainboard', () => {
 
         expect(module).to.be.Object();
         expect(module.id).is.String();
-        expect(module.moduleName).to.eql('AAA');
+        expect(module.moduleName).to.eql('AAA:'+moduleId);
         expect(module.uid).to.eql(moduleId);
         expect(module.mainboardId).to.eql(boardId);
         expect(module.moduleDef).to.be.Object();
