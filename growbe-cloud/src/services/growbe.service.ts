@@ -23,19 +23,20 @@ import {GrowbeMainboardConfigRepository} from '../repositories/growbe-mainboard-
 import {GrowbeLogsService} from './growbe-logs.service';
 import {getTopic, MQTTService} from './mqtt.service';
 
-export type GrowbeRegisterState =
-  | 'BEATH_UNREGISTER'
-  | 'UNBEATH_REGISTER'
-  | 'UNREGISTER'
-  | 'REGISTER'
-  | 'ALREADY_REGISTER'
-  | 'NOT_ACCESSIBLE'
-  | 'ALREADY_REGISTER_ORGANISATION'
-  | 'REGISTER_ORGANISATION';
+export enum GrowbeRegisterState {
+  BEATH_UNREGISTER = 'BEATH_UNREGISTER',
+  UNBEATH_REGISTER = 'UNBEATH_REGISTER',
+  UNREGISTER = 'UNREGISTER',
+  REGISTER = 'REGISTER',
+  ALREADY_REGISTER = 'ALREADY_REGISTER',
+  NOT_ACCESSIBLE = 'NOT_ACCESSIBLE',
+  ALREADY_REGISTER_ORGANISATION = 'ALREADY_REGISTER_ORGANISATION',
+  REGISTER_ORGANISATION = 'REGISTER_ORGANISATION',
+}
 
 @model()
 export class GrowbeRegisterResponse {
-  @property()
+  @property({jsonSchema: {enum: Object.values(GrowbeRegisterState)}})
   state: GrowbeRegisterState;
   @property()
   growbe: GrowbeMainboard;
@@ -163,13 +164,13 @@ export class GrowbeService {
     const response = new GrowbeRegisterResponse();
     const mainboard = await this.findOrCreate(request.id);
     if (mainboard.new === true) {
-      response.state = 'UNBEATH_REGISTER';
+      response.state = GrowbeRegisterState.UNBEATH_REGISTER;
       await this.mainboardRepository.updateById(request.id, {userId});
     } else if (!mainboard.userId) {
-      response.state = 'REGISTER';
+      response.state = GrowbeRegisterState.REGISTER;
       await this.mainboardRepository.updateById(request.id, {userId});
     } else {
-      response.state = 'ALREADY_REGISTER';
+      response.state = GrowbeRegisterState.ALREADY_REGISTER;
     }
     response.growbe = mainboard;
     return response;
@@ -179,14 +180,14 @@ export class GrowbeService {
     const response = new GrowbeRegisterResponse();
     const mainboard = await this.mainboardRepository.findOne({where: {userId, id: growbeId}});
     if (!mainboard) {
-      response.state = 'NOT_ACCESSIBLE';
+      response.state = GrowbeRegisterState.NOT_ACCESSIBLE;
     } else if (mainboard.organisationId) {
-      response.state = 'ALREADY_REGISTER_ORGANISATION';
+      response.state = GrowbeRegisterState.ALREADY_REGISTER_ORGANISATION;
       response.growbe = mainboard;
     } else {
       await this.mainboardRepository.updateById(growbeId, {organisationId});
       mainboard.organisationId = organisationId;
-      response.state = 'REGISTER_ORGANISATION';
+      response.state = GrowbeRegisterState.REGISTER_ORGANISATION;
       response.growbe = mainboard;
     }
     return response;

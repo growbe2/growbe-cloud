@@ -2,8 +2,17 @@
 
 import {authenticate} from '@loopback/authentication';
 import {inject, service} from '@loopback/core';
-import { Filter, Where } from '@loopback/filter';
-import {get, getFilterSchemaFor, getWhereSchemaFor, param, patch, post, requestBody} from '@loopback/openapi-v3';
+import {Filter, Where} from '@loopback/filter';
+import {
+  get,
+  getFilterSchemaFor,
+  getModelSchemaRef,
+  getWhereSchemaFor,
+  param,
+  patch,
+  post,
+  requestBody,
+} from '@loopback/openapi-v3';
 import {SecurityBindings, UserProfile} from '@loopback/security';
 import {
   BaseDashboardElement,
@@ -14,13 +23,16 @@ import {
   GrowbeMainboard,
   ModuleDataRequest,
 } from '../../models';
-import {GrowbeRegisterRequest, GrowbeService} from '../../services';
+import {
+  GrowbeRegisterRequest,
+  GrowbeRegisterResponse,
+  GrowbeService,
+} from '../../services';
 import {
   GraphModuleRequest,
   ModuleValueGraphService,
 } from '../../services/module-value-graph.service';
 import {schemaJsonOf} from '../../utility/oa3model';
-import { userId } from '../../__tests__/fixtures/data';
 
 // import {inject} from '@loopback/core';
 
@@ -32,12 +44,12 @@ export class GrowbeMainboardController {
     private graphService: ModuleValueGraphService,
   ) {}
 
-
   @get('/growbes/organisations/{id}')
   @authenticate('jwt')
   findGrowbeOrganisation(
     @param.path.string('id') organisationId: string,
-    @param.query.object('filter', getFilterSchemaFor(GrowbeMainboard)) filter?: Filter<GrowbeMainboard> 
+    @param.query.object('filter', getFilterSchemaFor(GrowbeMainboard))
+    filter?: Filter<GrowbeMainboard>,
   ) {
     return this.growbeService.find({organisationId}, filter);
   }
@@ -46,31 +58,43 @@ export class GrowbeMainboardController {
   @authenticate('jwt')
   findGrowbeOrganisationCount(
     @param.path.string('id') organisationId: string,
-    @param.query.object('where', getWhereSchemaFor(GrowbeMainboard)) where?: Where<GrowbeMainboard> 
+    @param.query.object('where', getWhereSchemaFor(GrowbeMainboard))
+    where?: Where<GrowbeMainboard>,
   ) {
-    return this.growbeService.count({organisationId},where);
+    return this.growbeService.count({organisationId}, where);
   }
 
   @get('/growbes/user/{id}')
   @authenticate('jwt')
   findGrowbeUser(
     @param.path.string('id') userId: string,
-    @param.query.object('filter', getFilterSchemaFor(GrowbeMainboard)) filter?: Filter<GrowbeMainboard> 
+    @param.query.object('filter', getFilterSchemaFor(GrowbeMainboard))
+    filter?: Filter<GrowbeMainboard>,
   ) {
-    return this.growbeService.find({userId}, filter)
+    return this.growbeService.find({userId}, filter);
   }
 
   @get('/growbes/user/{id}/count')
   @authenticate('jwt')
   findGrowbeUserCount(
     @param.path.string('id') userId: string,
-    @param.query.object('where', getWhereSchemaFor(GrowbeMainboard)) where?: Where<GrowbeMainboard> 
+    @param.query.object('where', getWhereSchemaFor(GrowbeMainboard))
+    where?: Where<GrowbeMainboard>,
   ) {
     return this.growbeService.count({userId}, where);
   }
 
-
-  @post('/growbe/register')
+  @post('/growbe/register', {
+    responses: {
+      '200': {
+        content: {
+          'application/json': {
+            schema: getModelSchemaRef(GrowbeRegisterResponse),
+          },
+        },
+      },
+    },
+  })
   @authenticate('jwt')
   registerGrowbe(
     @inject(SecurityBindings.USER) user: UserProfile,
@@ -79,7 +103,7 @@ export class GrowbeMainboardController {
     return this.growbeService.register(user.id, request);
   }
 
-  @post('/growbes/{id}/register/org/{orgId}')
+  @post('/growbe/{id}/register/org/{orgId}')
   @authenticate('jwt')
   registerOrganisation(
     @inject(SecurityBindings.USER) user: UserProfile,
