@@ -355,40 +355,16 @@
         "operationId": "GrowbeDashboardController.find"
       }
     },
-    "/growbe/average": {
-      "post": {
-        "x-controller-name": "GrowbeMainboardController",
-        "x-operation-name": "getAverage",
-        "tags": [
-          "GrowbeMainboardController"
-        ],
-        "responses": {
-          "200": {
-            "description": "Return value of GrowbeMainboardController.getAverage"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ModuleDataRequest"
-              }
-            }
-          }
-        },
-        "operationId": "GrowbeMainboardController.getAverage"
-      }
-    },
     "/growbe/graph": {
       "post": {
-        "x-controller-name": "GrowbeMainboardController",
+        "x-controller-name": "GrowbeModuleGraphController",
         "x-operation-name": "getGraph",
         "tags": [
-          "GrowbeMainboardController"
+          "GrowbeModuleGraphController"
         ],
         "responses": {
           "200": {
-            "description": "Return value of GrowbeMainboardController.getGraph"
+            "description": "Return value of GrowbeModuleGraphController.getGraph"
           }
         },
         "requestBody": {
@@ -400,19 +376,19 @@
             }
           }
         },
-        "operationId": "GrowbeMainboardController.getGraph"
+        "operationId": "GrowbeModuleGraphController.getGraph"
       }
     },
-    "/growbe/lastread": {
+    "/growbe/one": {
       "post": {
-        "x-controller-name": "GrowbeMainboardController",
+        "x-controller-name": "GrowbeModuleGraphController",
         "x-operation-name": "getLastValue",
         "tags": [
-          "GrowbeMainboardController"
+          "GrowbeModuleGraphController"
         ],
         "responses": {
           "200": {
-            "description": "Return value of GrowbeMainboardController.getLastValue"
+            "description": "Return value of GrowbeModuleGraphController.getLastValue"
           }
         },
         "requestBody": {
@@ -424,7 +400,7 @@
             }
           }
         },
-        "operationId": "GrowbeMainboardController.getLastValue"
+        "operationId": "GrowbeModuleGraphController.getLastValue"
       }
     },
     "/growbe/register": {
@@ -436,7 +412,13 @@
         ],
         "responses": {
           "200": {
-            "description": "Return value of GrowbeMainboardController.registerGrowbe"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GrowbeRegisterResponse"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -446,8 +428,7 @@
                 "$ref": "#/components/schemas/GrowbeRegisterRequest"
               }
             }
-          },
-          "x-parameter-index": 1
+          }
         },
         "operationId": "GrowbeMainboardController.registerGrowbe"
       }
@@ -522,6 +503,41 @@
         "operationId": "GrowbeMainboardController.setGrowbeRTC"
       }
     },
+    "/growbe/{id}/sync": {
+      "patch": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "setGrowbeSync",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return value of GrowbeMainboardController.setGrowbeSync"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          },
+          "x-parameter-index": 1
+        },
+        "operationId": "GrowbeMainboardController.setGrowbeSync"
+      }
+    },
     "/growbeModuleDefs/count": {
       "get": {
         "x-controller-name": "GrowbeModuleDefController",
@@ -588,6 +604,76 @@
           }
         },
         "operationId": "GrowbeModuleDefController.overrideModuleDef"
+      }
+    },
+    "/growbeModuleDefs/{id}/addAlarm": {
+      "post": {
+        "x-controller-name": "GrowbeModuleDefController",
+        "x-operation-name": "addHardwareAlarm",
+        "tags": [
+          "GrowbeModuleDefController"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return value of GrowbeModuleDefController.addHardwareAlarm"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FieldAlarm"
+              }
+            }
+          },
+          "x-parameter-index": 1
+        },
+        "operationId": "GrowbeModuleDefController.addHardwareAlarm"
+      }
+    },
+    "/growbeModuleDefs/{id}/removeAlarm": {
+      "post": {
+        "x-controller-name": "GrowbeModuleDefController",
+        "x-operation-name": "removeHardwareAlarm",
+        "tags": [
+          "GrowbeModuleDefController"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return value of GrowbeModuleDefController.removeHardwareAlarm"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FieldAlarm"
+              }
+            }
+          },
+          "x-parameter-index": 1
+        },
+        "operationId": "GrowbeModuleDefController.removeHardwareAlarm"
       }
     },
     "/growbeModuleDefs/{id}": {
@@ -1843,6 +1929,100 @@
         "operationId": "GrowbeSensorValueController.find"
       }
     },
+    "/growbeStreams/{id}/live": {
+      "get": {
+        "x-controller-name": "GrowbeStreamController",
+        "x-operation-name": "getLiveStream",
+        "tags": [
+          "GrowbeStreamController"
+        ],
+        "responses": {
+          "200": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrowbeStream",
+                "definitions": {
+                  "GrowbeStream": {
+                    "$ref": "#/components/schemas/GrowbeStream"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "operationId": "GrowbeStreamController.getLiveStream"
+      }
+    },
+    "/growbeStreams/{id}": {
+      "delete": {
+        "x-controller-name": "GrowbeStreamController",
+        "x-operation-name": "deleteById",
+        "tags": [
+          "GrowbeStreamController"
+        ],
+        "description": "Delete a instance of GrowbeStream",
+        "responses": {
+          "200": {
+            "description": "DELETE success",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "operationId": "GrowbeStreamController.deleteById"
+      }
+    },
+    "/growbeStreams": {
+      "post": {
+        "x-controller-name": "GrowbeStreamController",
+        "x-operation-name": "createStream",
+        "tags": [
+          "GrowbeStreamController"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return value of GrowbeStreamController.createStream"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrowbeStreamExcluding_id-active-expiredAt-key_"
+              }
+            }
+          }
+        },
+        "operationId": "GrowbeStreamController.createStream"
+      }
+    },
     "/growbes/count": {
       "get": {
         "x-controller-name": "GrowbeMainboardController",
@@ -1885,6 +2065,156 @@
           }
         ],
         "operationId": "GrowbeMainboardController.count"
+      }
+    },
+    "/growbes/organisations/{id}/count": {
+      "get": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "findGrowbeOrganisationCount",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return value of GrowbeMainboardController.findGrowbeOrganisationCount"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "where",
+            "in": "query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "GrowbeMainboard.WhereFilter",
+                  "additionalProperties": true,
+                  "x-typescript-type": "@loopback/repository#Where<GrowbeMainboard>"
+                }
+              }
+            }
+          }
+        ],
+        "operationId": "GrowbeMainboardController.findGrowbeOrganisationCount"
+      }
+    },
+    "/growbes/organisations/{id}": {
+      "get": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "findGrowbeOrganisation",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return value of GrowbeMainboardController.findGrowbeOrganisation"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GrowbeMainboard.Filter"
+                }
+              }
+            }
+          }
+        ],
+        "operationId": "GrowbeMainboardController.findGrowbeOrganisation"
+      }
+    },
+    "/growbes/user/{id}/count": {
+      "get": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "findGrowbeUserCount",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return value of GrowbeMainboardController.findGrowbeUserCount"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "where",
+            "in": "query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "GrowbeMainboard.WhereFilter",
+                  "additionalProperties": true,
+                  "x-typescript-type": "@loopback/repository#Where<GrowbeMainboard>"
+                }
+              }
+            }
+          }
+        ],
+        "operationId": "GrowbeMainboardController.findGrowbeUserCount"
+      }
+    },
+    "/growbes/user/{id}": {
+      "get": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "findGrowbeUser",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return value of GrowbeMainboardController.findGrowbeUser"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GrowbeMainboard.Filter"
+                }
+              }
+            }
+          }
+        ],
+        "operationId": "GrowbeMainboardController.findGrowbeUser"
       }
     },
     "/growbes/{id}/growbeLogs/{fk}": {
@@ -2795,6 +3125,39 @@
         "operationId": "GrowbeMainboardController.findRelationModel"
       }
     },
+    "/growbes/{id}/register/org/{orgId}": {
+      "post": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "registerOrganisation",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return value of GrowbeMainboardController.registerOrganisation"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "orgId",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "operationId": "GrowbeMainboardController.registerOrganisation"
+      }
+    },
     "/growbes/{id}": {
       "put": {
         "x-controller-name": "GrowbeMainboardController",
@@ -2923,7 +3286,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GrowbeMainboard.Filter"
+                  "$ref": "#/components/schemas/GrowbeMainboard.Filter1"
                 }
               }
             }
@@ -3087,7 +3450,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GrowbeMainboard.Filter1"
+                  "$ref": "#/components/schemas/GrowbeMainboard.Filter"
                 }
               }
             }
@@ -3594,6 +3957,9 @@
           "userId": {
             "type": "string"
           },
+          "organisationId": {
+            "type": "string"
+          },
           "lastUpdateAt": {
             "type": "string",
             "format": "date-time"
@@ -3621,6 +3987,9 @@
           "userId": {
             "type": "string"
           },
+          "organisationId": {
+            "type": "string"
+          },
           "lastUpdateAt": {
             "type": "string",
             "format": "date-time"
@@ -3644,7 +4013,8 @@
             "type": "string"
           },
           "moduleType": {
-            "type": "string"
+            "type": "string",
+            "description": "type of the module ex: AAB"
           },
           "moduleId": {
             "type": "string"
@@ -3653,8 +4023,20 @@
             "type": "string"
           },
           "createdAt": {
-            "type": "string",
-            "format": "date-time"
+            "type": "number",
+            "description": "starting point of the growbe sensor value document"
+          },
+          "endingAt": {
+            "type": "number",
+            "description": "ending point of the growbe sensor value document"
+          },
+          "values": {
+            "type": "object",
+            "description": "last value"
+          },
+          "samples": {
+            "type": "object",
+            "description": "historic of data during this minutes"
           },
           "growbeMainboard": {
             "$ref": "#/components/schemas/GrowbeMainboardWithRelations"
@@ -4041,7 +4423,9 @@
               "connection",
               "new_warning",
               "update_rtc",
-              "sync_request"
+              "sync_request",
+              "growbe_config",
+              "alarm"
             ]
           },
           "message": {
@@ -4128,6 +4512,9 @@
           "userId": {
             "type": "string"
           },
+          "organisationId": {
+            "type": "string"
+          },
           "lastUpdateAt": {
             "type": "string",
             "format": "date-time"
@@ -4139,6 +4526,9 @@
             "type": "string"
           },
           "user": {
+            "$ref": "#/components/schemas/UserWithRelations"
+          },
+          "organisation": {
             "$ref": "#/components/schemas/UserWithRelations"
           },
           "growbeMainboardConfig": {
@@ -4189,6 +4579,9 @@
           "userId": {
             "type": "string"
           },
+          "organisationId": {
+            "type": "string"
+          },
           "lastUpdateAt": {
             "type": "string",
             "format": "date-time"
@@ -4215,6 +4608,9 @@
             "type": "string"
           },
           "userId": {
+            "type": "string"
+          },
+          "organisationId": {
             "type": "string"
           },
           "lastUpdateAt": {
@@ -4403,7 +4799,8 @@
             "type": "string"
           },
           "moduleType": {
-            "type": "string"
+            "type": "string",
+            "description": "type of the module ex: AAB"
           },
           "moduleId": {
             "type": "string"
@@ -4412,8 +4809,20 @@
             "type": "string"
           },
           "createdAt": {
-            "type": "string",
-            "format": "date-time"
+            "type": "number",
+            "description": "starting point of the growbe sensor value document"
+          },
+          "endingAt": {
+            "type": "number",
+            "description": "ending point of the growbe sensor value document"
+          },
+          "values": {
+            "type": "object",
+            "description": "last value"
+          },
+          "samples": {
+            "type": "object",
+            "description": "historic of data during this minutes"
           }
         },
         "additionalProperties": true
@@ -4424,7 +4833,8 @@
         "description": "(tsType: Omit<Partial<GrowbeSensorValue>, 'id'>, schemaOptions: { title: '', partial: true, exclude: [ 'id' ] })",
         "properties": {
           "moduleType": {
-            "type": "string"
+            "type": "string",
+            "description": "type of the module ex: AAB"
           },
           "moduleId": {
             "type": "string"
@@ -4433,8 +4843,20 @@
             "type": "string"
           },
           "createdAt": {
-            "type": "string",
-            "format": "date-time"
+            "type": "number",
+            "description": "starting point of the growbe sensor value document"
+          },
+          "endingAt": {
+            "type": "number",
+            "description": "ending point of the growbe sensor value document"
+          },
+          "values": {
+            "type": "object",
+            "description": "last value"
+          },
+          "samples": {
+            "type": "object",
+            "description": "historic of data during this minutes"
           }
         },
         "additionalProperties": true,
@@ -4449,7 +4871,8 @@
             "type": "string"
           },
           "moduleType": {
-            "type": "string"
+            "type": "string",
+            "description": "type of the module ex: AAB"
           },
           "moduleId": {
             "type": "string"
@@ -4458,8 +4881,20 @@
             "type": "string"
           },
           "createdAt": {
-            "type": "string",
-            "format": "date-time"
+            "type": "number",
+            "description": "starting point of the growbe sensor value document"
+          },
+          "endingAt": {
+            "type": "number",
+            "description": "ending point of the growbe sensor value document"
+          },
+          "values": {
+            "type": "object",
+            "description": "last value"
+          },
+          "samples": {
+            "type": "object",
+            "description": "historic of data during this minutes"
           }
         },
         "additionalProperties": true,
@@ -4499,7 +4934,9 @@
               "connection",
               "new_warning",
               "update_rtc",
-              "sync_request"
+              "sync_request",
+              "growbe_config",
+              "alarm"
             ]
           },
           "message": {
@@ -4552,7 +4989,9 @@
               "connection",
               "new_warning",
               "update_rtc",
-              "sync_request"
+              "sync_request",
+              "growbe_config",
+              "alarm"
             ]
           },
           "message": {
@@ -4609,7 +5048,9 @@
               "connection",
               "new_warning",
               "update_rtc",
-              "sync_request"
+              "sync_request",
+              "growbe_config",
+              "alarm"
             ]
           },
           "message": {
@@ -4749,7 +5190,8 @@
         "description": "(tsType: Omit<GrowbeSensorValue, 'id'>, schemaOptions: { title: '', partial: undefined, exclude: [ 'id' ] })",
         "properties": {
           "moduleType": {
-            "type": "string"
+            "type": "string",
+            "description": "type of the module ex: AAB"
           },
           "moduleId": {
             "type": "string"
@@ -4758,8 +5200,20 @@
             "type": "string"
           },
           "createdAt": {
-            "type": "string",
-            "format": "date-time"
+            "type": "number",
+            "description": "starting point of the growbe sensor value document"
+          },
+          "endingAt": {
+            "type": "number",
+            "description": "ending point of the growbe sensor value document"
+          },
+          "values": {
+            "type": "object",
+            "description": "last value"
+          },
+          "samples": {
+            "type": "object",
+            "description": "historic of data during this minutes"
           }
         },
         "additionalProperties": true,
@@ -4847,112 +5301,53 @@
         "additionalProperties": true,
         "x-typescript-type": "Omit<Partial<GrowbeDashboard>, 'id'>"
       },
+      "GrowbeStreamExcluding_id-active-expiredAt-key_": {
+        "title": "GrowbeStreamExcluding_id-active-expiredAt-key_",
+        "type": "object",
+        "description": "(tsType: Omit<GrowbeStream, 'id' | 'active' | 'expiredAt' | 'key'>, schemaOptions: { exclude: [ 'id', 'active', 'expiredAt', 'key' ] })",
+        "properties": {
+          "growbeMainboardId": {
+            "type": "string"
+          },
+          "streamName": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true,
+        "x-typescript-type": "Omit<GrowbeStream, 'id' | 'active' | 'expiredAt' | 'key'>"
+      },
+      "GrowbeRegisterResponse": {
+        "title": "GrowbeRegisterResponse",
+        "type": "object",
+        "properties": {
+          "state": {
+            "type": "string",
+            "enum": [
+              "BEATH_UNREGISTER",
+              "UNBEATH_REGISTER",
+              "UNREGISTER",
+              "REGISTER",
+              "ALREADY_REGISTER",
+              "NOT_ACCESSIBLE",
+              "ALREADY_REGISTER_ORGANISATION",
+              "REGISTER_ORGANISATION"
+            ]
+          },
+          "growbe": {
+            "$ref": "#/components/schemas/GrowbeMainboard"
+          }
+        },
+        "additionalProperties": false
+      },
       "GrowbeRegisterRequest": {
         "title": "GrowbeRegisterRequest",
         "type": "object",
         "properties": {
           "id": {
             "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "GraphModuleRequest": {
-        "title": "GraphModuleRequest",
-        "type": "object",
-        "properties": {
-          "growbeId": {
-            "type": "string",
-            "description": "ID of the growbe to get data"
-          },
-          "moduleId": {
-            "type": "string",
-            "description": "Module to get the data from"
-          },
-          "lastX": {
-            "type": "number",
-            "description": "Last X Unit of time , default to Date"
-          },
-          "lastXUnit": {
-            "type": "string",
-            "enum": [
-              "Month",
-              "Hours",
-              "Minutes",
-              "Day",
-              "Date"
-            ]
-          },
-          "from": {
-            "type": "string",
-            "format": "date-time",
-            "description": "if specify , get data from interval from this date"
-          },
-          "to": {
-            "type": "string",
-            "format": "date-time",
-            "description": "if specify , get data from interval before this date"
-          },
-          "fields": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "description": "list of fields of the module to get, create one series pet fields"
-            }
-          },
-          "liveUpdate": {
-            "type": "boolean",
-            "description": "if true the data will be fetch , only possible with lastX"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ModuleDataRequest": {
-        "title": "GraphModuleRequest",
-        "type": "object",
-        "properties": {
-          "growbeId": {
-            "type": "string",
-            "description": "ID of the growbe to get data"
-          },
-          "moduleId": {
-            "type": "string",
-            "description": "Module to get the data from"
-          },
-          "lastX": {
-            "type": "number",
-            "description": "Last X Unit of time , default to Date"
-          },
-          "lastXUnit": {
-            "type": "string",
-            "enum": [
-              "Month",
-              "Hours",
-              "Minutes",
-              "Day",
-              "Date"
-            ]
-          },
-          "from": {
-            "type": "string",
-            "format": "date-time",
-            "description": "if specify , get data from interval from this date"
-          },
-          "to": {
-            "type": "string",
-            "format": "date-time",
-            "description": "if specify , get data from interval before this date"
-          },
-          "fields": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "description": "list of fields of the module to get, create one series pet fields"
-            }
-          },
-          "liveUpdate": {
-            "type": "boolean",
-            "description": "if true the data will be fetch , only possible with lastX"
           }
         },
         "additionalProperties": false
@@ -5060,6 +5455,90 @@
         },
         "additionalProperties": false
       },
+      "GroupingDataRequest": {
+        "title": "GroupingDataRequest",
+        "type": "object",
+        "properties": {
+          "baseGroup": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "minute",
+                "hour",
+                "dayOfYear",
+                "year"
+              ]
+            }
+          },
+          "intervalUnit": {
+            "type": "string",
+            "enum": [
+              "minute",
+              "hour",
+              "dayOfYear",
+              "year"
+            ]
+          },
+          "intervalValue": {
+            "type": "number"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ModuleDataRequest": {
+        "title": "GraphModuleRequest",
+        "type": "object",
+        "properties": {
+          "growbeId": {
+            "type": "string",
+            "description": "ID of the growbe to get data"
+          },
+          "moduleId": {
+            "type": "string",
+            "description": "Module to get the data from"
+          },
+          "lastX": {
+            "type": "number",
+            "description": "Last X Unit of time , default to Date"
+          },
+          "lastXUnit": {
+            "type": "string",
+            "enum": [
+              "Month",
+              "Hours",
+              "Minutes",
+              "Day",
+              "Date"
+            ]
+          },
+          "from": {
+            "type": "string",
+            "format": "date-time",
+            "description": "if specify , get data from interval from this date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date-time",
+            "description": "if specify , get data from interval before this date"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "list of fields of the module to get, create one series pet fields"
+            }
+          },
+          "liveUpdate": {
+            "type": "boolean",
+            "description": "if true the data will be fetch , only possible with lastX"
+          },
+          "grouping": {
+            "$ref": "#/components/schemas/GroupingDataRequest"
+          }
+        },
+        "additionalProperties": false
+      },
       "DashboardGraphElement": {
         "title": "DashboardGraphElement",
         "type": "object",
@@ -5120,6 +5599,60 @@
           },
           "moduleName": {
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FieldAlarm": {},
+      "GraphModuleRequest": {
+        "title": "GraphModuleRequest",
+        "type": "object",
+        "properties": {
+          "growbeId": {
+            "type": "string",
+            "description": "ID of the growbe to get data"
+          },
+          "moduleId": {
+            "type": "string",
+            "description": "Module to get the data from"
+          },
+          "lastX": {
+            "type": "number",
+            "description": "Last X Unit of time , default to Date"
+          },
+          "lastXUnit": {
+            "type": "string",
+            "enum": [
+              "Month",
+              "Hours",
+              "Minutes",
+              "Day",
+              "Date"
+            ]
+          },
+          "from": {
+            "type": "string",
+            "format": "date-time",
+            "description": "if specify , get data from interval from this date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date-time",
+            "description": "if specify , get data from interval before this date"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "list of fields of the module to get, create one series pet fields"
+            }
+          },
+          "liveUpdate": {
+            "type": "boolean",
+            "description": "if true the data will be fetch , only possible with lastX"
+          },
+          "grouping": {
+            "$ref": "#/components/schemas/GroupingDataRequest"
           }
         },
         "additionalProperties": false
@@ -5435,6 +5968,7 @@
         "x-typescript-type": "@loopback/repository#Filter<GrowbeModuleDef>"
       },
       "GrowbeModule.ScopeFilter": {
+        "type": "object",
         "properties": {
           "offset": {
             "type": "integer",
@@ -5688,6 +6222,7 @@
         "x-typescript-type": "@loopback/repository#Filter<GrowbeModule>"
       },
       "GrowbeSensorValue.ScopeFilter": {
+        "type": "object",
         "properties": {
           "offset": {
             "type": "integer",
@@ -5808,6 +6343,15 @@
                   },
                   "createdAt": {
                     "type": "boolean"
+                  },
+                  "endingAt": {
+                    "type": "boolean"
+                  },
+                  "values": {
+                    "type": "boolean"
+                  },
+                  "samples": {
+                    "type": "boolean"
                   }
                 },
                 "additionalProperties": true
@@ -5895,6 +6439,15 @@
                   },
                   "createdAt": {
                     "type": "boolean"
+                  },
+                  "endingAt": {
+                    "type": "boolean"
+                  },
+                  "values": {
+                    "type": "boolean"
+                  },
+                  "samples": {
+                    "type": "boolean"
                   }
                 },
                 "additionalProperties": true
@@ -5928,7 +6481,33 @@
         "additionalProperties": false,
         "x-typescript-type": "@loopback/repository#Filter<GrowbeSensorValue>"
       },
+      "GrowbeStream": {
+        "title": "GrowbeStream",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "growbeMainboardId": {
+            "type": "string"
+          },
+          "streamName": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "expiredAt": {
+            "type": "number"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
       "GrowbeMainboard.ScopeFilter": {
+        "type": "object",
         "properties": {
           "offset": {
             "type": "integer",
@@ -6030,6 +6609,11 @@
               }
             ]
           },
+          "where": {
+            "title": "GrowbeMainboard.WhereFilter",
+            "type": "object",
+            "additionalProperties": true
+          },
           "fields": {
             "oneOf": [
               {
@@ -6045,6 +6629,9 @@
                     "type": "boolean"
                   },
                   "userId": {
+                    "type": "boolean"
+                  },
+                  "organisationId": {
                     "type": "boolean"
                   },
                   "lastUpdateAt": {
@@ -6068,6 +6655,7 @@
                     "name",
                     "state",
                     "userId",
+                    "organisationId",
                     "lastUpdateAt",
                     "version",
                     "cloudVersion"
@@ -6127,11 +6715,6 @@
               }
             ]
           },
-          "where": {
-            "title": "GrowbeMainboard.WhereFilter",
-            "type": "object",
-            "additionalProperties": true
-          },
           "fields": {
             "oneOf": [
               {
@@ -6147,6 +6730,9 @@
                     "type": "boolean"
                   },
                   "userId": {
+                    "type": "boolean"
+                  },
+                  "organisationId": {
                     "type": "boolean"
                   },
                   "lastUpdateAt": {
@@ -6170,6 +6756,7 @@
                     "name",
                     "state",
                     "userId",
+                    "organisationId",
                     "lastUpdateAt",
                     "version",
                     "cloudVersion"
@@ -6224,6 +6811,7 @@
         }
       },
       "GrowbeWarning.ScopeFilter": {
+        "type": "object",
         "properties": {
           "offset": {
             "type": "integer",

@@ -5,15 +5,19 @@ import {GrowbeService, GrowbeStateService} from '../../services';
 import {setupApplication} from '../fixtures/app';
 
 import pb from '@growbe2/growbe-pb';
-import {boardId, userId} from '../fixtures/data';
+import {boardId, orgId, userId} from '../fixtures/data';
 import {MockMQTTService} from '../fixtures/mock-mqtt.service';
+import { CloudComponent } from '../../cloud';
+import { getDate } from '../helpers/date';
+import { sleep } from '@berlingoqc/sso';
+import { GrowbeStateWatcherObserver } from '../../watcher/observers';
 
 describe('Growbe Mainboard', () => {
   let app: GrowbeCloudApplication;
 
   before('setupApplication', async function () {
     ({app} = await setupApplication(
-      null,
+      CloudComponent,
       async (portailApp: GrowbeCloudApplication) => {},
     ));
   });
@@ -54,22 +58,52 @@ describe('Growbe Mainboard', () => {
       );
     });
 
-    /*
     it('Register un growbe par un user qui a recu un hearthbeath', async () => {
-        const rtcValid = getDate((defaultConfig.hearthBeath as any)  / 2);
-        await stateService.onBeath(boardId, new pb.HearthBeath({rtc: rtcValid}))
+        await stateService.valideState(boardId);
 
         const response = await mainboardService.register(userId, request);
         expect(response).to.be.Object();
         expect(response.state).to.eql("REGISTER");
     });
-    */
 
     it('Register un growbe par un user qui a deja été register', async () => {
       await mainboardService.register(userId, request);
       const response = await mainboardService.register(userId, request);
       expect(response).to.be.Object();
       expect(response.state).to.eql('ALREADY_REGISTER');
+    });
+
+    describe('organisation', () => {
+      it('Essaye register avant detre lier a un user', async () => {
+        const response = await mainboardService.registerOrganisation(userId, boardId, orgId);
+
+        expect(response.state).to.eql('NOT_ACCESSIBLE');
+      });
+
+      it('register a une organisation apres etre lier a un user', async () => {
+        let response = await mainboardService.register(userId, request);
+
+        expect(response.state).to.eql('UNBEATH_REGISTER');
+
+        response = await mainboardService.registerOrganisation(userId, boardId, orgId);
+
+        expect(response.state).to.eql('REGISTER_ORGANISATION');
+      });
+
+      it('deja register a une organisation', async () => {
+
+        let response = await mainboardService.register(userId, request);
+
+        expect(response.state).to.eql('UNBEATH_REGISTER');
+
+        response = await mainboardService.registerOrganisation(userId, boardId, orgId);
+
+        expect(response.state).to.eql('REGISTER_ORGANISATION');
+
+        response = await mainboardService.registerOrganisation(userId, boardId, orgId);
+
+        expect(response.state).to.eql('ALREADY_REGISTER_ORGANISATION');
+      });
     });
   });
 });

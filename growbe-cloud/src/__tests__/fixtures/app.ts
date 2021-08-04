@@ -37,6 +37,8 @@ export async function setupApplication(
 
   await init(app);
 
+
+  app.bind(GrowbeMainboardBindings.WATCHERS).to([]);
   app.bind(GrowbeMainboardBindings.DEFAULT_CONFIG).to({hearthBeath: 5});
 
   await app.boot();

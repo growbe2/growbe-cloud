@@ -64,6 +64,10 @@ const routes: Routes = [
         path: 'me',
         loadChildren: () => import('./wrapper/user-account').then(m => m.UserAccountWrapperModule),
     },
+    {
+        path: 'register',
+        loadChildren: () => import('./growbe/growbe-manager/growbe-register/growbe-register.module').then(m => m.GrowbeRegisterModule),
+    },
     ...FAQRoutes,
 ];
 

@@ -5,7 +5,7 @@ function start() {
   docker-compose -f ./docker/cloud-dev.docker-compose.yml -f ./docker/integration.docker-compose.yml -p growbe_integration up -d pgsql broker mongo growbe-cloud sso
 
   echo "Waiting for migration to be over"
-  sleep 2
+  sleep 10
 
   . ./docker/envs/local.sh
 
@@ -20,7 +20,7 @@ function stop() {
 
 function test() {
   stop && start && \
-  docker-compose -f ./docker/cloud-dev.docker-compose.yml -f ./docker/integration-test.docker-compose.yml -p growbe_integration up growbe-cloud && \
+  docker-compose -f ./docker/cloud-dev.docker-compose.yml -f ./docker/integration-test.docker-compose.yml -p growbe_integration run growbe-cloud && \
   stop
 }
 

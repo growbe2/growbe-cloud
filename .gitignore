@@ -6,3 +6,5 @@ backups/
 docker/envs/*
 !docker/envs/local.sh
 *.DS_Store
+
+growbe-cloud-api/angular/projects/growbe-cloud-api/src/lib/cloud

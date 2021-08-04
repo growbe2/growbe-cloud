@@ -88,3 +88,25 @@ alb-admin-page {
   top: calc(50% - 10px);
   left: calc(50% - 10px);
 }
+
+.truc {
+  width: 100%;
+
+  .button-row {
+      width: 100%;
+     div {
+          width: 100%;
+          margin-bottom: 10px;
+
+          button {
+            width: 100%;
+          }
+    }
+    flex-direction: column;
+    display: flex;
+    justify-content: space-around;
+    button {
+      min-width: 40% !important;
+    }
+  }
+}

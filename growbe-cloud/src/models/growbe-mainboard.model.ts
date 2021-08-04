@@ -29,7 +29,10 @@ export class GrowbeMainboard extends Entity {
   state: GrowbeState;
 
   @belongsTo(() => User)
-  userId: string;
+  userId?: string;
+
+  @belongsTo(() => User)
+  organisationId?: string;
 
   @property()
   lastUpdateAt: Date;
