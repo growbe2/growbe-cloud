@@ -21,7 +21,10 @@ import {
     GrowbeModuleWithRelations,
     GrowbeSensorValueWithRelations,
     GrowbeLogsWithRelations,
+    GrowbeRegisterResponse,
+    GrowbeMainboard
 } from '@growbe2/ngx-cloud-api';
+
 
 export const addCustomCRUDDatasource = <T>(
     parent: LoopbackRestClient<any>,
@@ -67,12 +70,12 @@ export class GrowbeMainboardAPI extends Caching(
         'growbeLogs',
     );
 
-    orgGrowbeMainboard = addCustomCRUDDatasource(
+    orgGrowbeMainboard = addCustomCRUDDatasource<GrowbeMainboard>(
       this,
       '/organisations'
     );
 
-    userGrowbeMainboard = addCustomCRUDDatasource(
+    userGrowbeMainboard = addCustomCRUDDatasource<GrowbeMainboard>(
       this,
       '/user',
     );
@@ -80,5 +83,13 @@ export class GrowbeMainboardAPI extends Caching(
     constructor(httpClient: HttpClient) {
         super(httpClient, '/growbes');
         this.baseURL = envConfig.growbeCloud;
+    }
+
+    register(id: string) {
+      return this.httpClient.post<GrowbeRegisterResponse>(`${this.baseURL}/growbe/register`, {id})
+    }
+
+    registerOrganisation(id: string, orgId: string) {
+      return this.httpClient.post<GrowbeRegisterResponse>(`${this.baseURL}/growbe/${id}/register/org/${orgId}`, {})
     }
 }

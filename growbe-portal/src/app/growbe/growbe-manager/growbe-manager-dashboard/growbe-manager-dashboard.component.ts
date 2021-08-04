@@ -48,6 +48,8 @@ export class GrowbeManagerDashboardComponent implements OnInit {
         },
     };
 
+    value: any;
+
     constructor(
         public authService: AuthService,
         public growbeMainboardAPI: GrowbeMainboardAPI,
@@ -89,6 +91,7 @@ export class GrowbeManagerDashboardComponent implements OnInit {
     }
 
     private getSource(value: any) {
+        this.value = value;
         switch (value.mode) {
             case 'admin':
                 return this.growbeMainboardAPI;

@@ -5,7 +5,7 @@
     <fuseLayoutToolbar class="full">
         <div class="full frow jend">
             <div>
-                <button mat-mini-fab><mat-icon>add</mat-icon></button>
+                <button [routerLink]="(value.mode == 'org') ? ['/register/org', value.extra]: ['/register']" mat-mini-fab><mat-icon>add</mat-icon></button>
             </div>
         </div>
     </fuseLayoutToolbar>

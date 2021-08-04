@@ -1,0 +1,41 @@
+<mat-stepper linear #stepper>
+  <mat-step [stepControl]="registrationForm">
+    <ng-template matStepLabel>Registration</ng-template>
+    <div [formGroup]="registrationForm">
+      <div>
+        <h3>Entrer le ID de votre mainboard</h3>
+        <p></p>
+      </div>
+      <mat-form-field class="full">
+        <mat-label>ID</mat-label>
+        <input matInput formControlName="id" placeholder="1F53D23">
+        <mat-error *ngIf="registrationForm.controls.id.errors?.invalideState">
+          {{registrationForm.controls.id.errors.invalideState}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="truc">
+      <div class="button-row">
+        <div>
+          <button mat-stroked-button class="accent" (click)="onFirstStep(stepper)">Next</button>
+        </div>
+        <div>
+          <button mat-stroked-button class="primary" routerLink="/growbe">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Next step</ng-template>
+    <div>
+      <span>Current state : {{lastData?.state}}</span>
+    </div>
+    <div class="truc">
+      <div class="button-row">
+        <div>
+          <button mat-stroked-button class="accent" routerLink="/growbe">To my growbe</button>
+        </div>
+      </div>
+    </div>
+  </mat-step>
+</mat-stepper>
