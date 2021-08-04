@@ -14,6 +14,7 @@ import {
   requestBody,
 } from '@loopback/openapi-v3';
 import {SecurityBindings, UserProfile} from '@loopback/security';
+import {authorize, AuthorizationDecision} from '@loopback/authorization';
 import {
   BaseDashboardElement,
   DashboardClockStateElement,
@@ -105,6 +106,15 @@ export class GrowbeMainboardController {
 
   @post('/growbe/{id}/register/org/{orgId}')
   @authenticate('jwt')
+  @authorize({
+    allowedRoles: [],
+    voters: [
+      async (ctx, metada) => {
+        console.log('REGISTER', ctx, metada)
+        return AuthorizationDecision.ALLOW;
+      }
+    ]
+  })
   registerOrganisation(
     @inject(SecurityBindings.USER) user: UserProfile,
     @param.path.string('id') growbeId: string,
