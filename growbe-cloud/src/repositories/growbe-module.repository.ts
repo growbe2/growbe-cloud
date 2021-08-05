@@ -76,6 +76,10 @@ export class GrowbeModuleRepository extends DefaultCrudRepository<
       'mainboard',
       growbeMainboardRepositoryGetter,
     );
+    this.registerInclusionResolver(
+      'mainboard',
+      this.mainboard.inclusionResolver,
+    )
     this.growbeSensorValues = this.createHasManyRepositoryFactoryFor(
       'growbeSensorValues',
       growbeSensorValueRepositoryGetter,

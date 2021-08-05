@@ -33,6 +33,7 @@ import {
   ModuleValueGraphService,
 } from '../../services/module-value-graph.service';
 import {schemaJsonOf} from '../../utility/oa3model';
+import { authorizeGrowbe } from '../authorization';
 
 // import {inject} from '@loopback/core';
 
@@ -45,7 +46,9 @@ export class GrowbeMainboardController {
   ) {}
 
   @get('/growbes/organisations/{id}')
-  @authenticate('jwt')
+  @authorizeGrowbe({
+    orgIdIndex: 0,
+  })
   findGrowbeOrganisation(
     @param.path.string('id') organisationId: string,
     @param.query.object('filter', getFilterSchemaFor(GrowbeMainboard))
@@ -55,7 +58,9 @@ export class GrowbeMainboardController {
   }
 
   @get('/growbes/organisations/{id}/count')
-  @authenticate('jwt')
+  @authorizeGrowbe({
+    orgIdIndex: 0,
+  })
   findGrowbeOrganisationCount(
     @param.path.string('id') organisationId: string,
     @param.query.object('where', getWhereSchemaFor(GrowbeMainboard))
@@ -65,7 +70,9 @@ export class GrowbeMainboardController {
   }
 
   @get('/growbes/user/{id}')
-  @authenticate('jwt')
+  @authorizeGrowbe({
+    userIdIndex: 0,
+  })
   findGrowbeUser(
     @param.path.string('id') userId: string,
     @param.query.object('filter', getFilterSchemaFor(GrowbeMainboard))
@@ -75,7 +82,9 @@ export class GrowbeMainboardController {
   }
 
   @get('/growbes/user/{id}/count')
-  @authenticate('jwt')
+  @authorizeGrowbe({
+    userIdIndex: 0,
+  })
   findGrowbeUserCount(
     @param.path.string('id') userId: string,
     @param.query.object('where', getWhereSchemaFor(GrowbeMainboard))
@@ -104,7 +113,10 @@ export class GrowbeMainboardController {
   }
 
   @post('/growbe/{id}/register/org/{orgId}')
-  @authenticate('jwt')
+  @authorizeGrowbe({
+    growbeIdIndex: 1,
+    orgIdIndex: 2,
+  })
   registerOrganisation(
     @inject(SecurityBindings.USER) user: UserProfile,
     @param.path.string('id') growbeId: string,
@@ -114,7 +126,9 @@ export class GrowbeMainboardController {
   }
 
   @patch('/growbe/{id}/config')
-  @authenticate('jwt')
+  @authorizeGrowbe({
+    growbeIdIndex: 0,
+  })
   async setGrowbeConfig(
     @param.path.string('id') id: string,
     @requestBody() body: any,
@@ -124,13 +138,17 @@ export class GrowbeMainboardController {
   }
 
   @patch('/growbe/{id}/rtc')
-  @authenticate('jwt')
+  @authorizeGrowbe({
+    growbeIdIndex: 0,
+  })
   setGrowbeRTC(@param.path.string('id') id: string, @requestBody() body: any) {
     return this.growbeService.setRTC(id, body);
   }
 
   @patch('/growbe/{id}/sync')
-  @authenticate('jwt')
+  @authorizeGrowbe({
+    growbeIdIndex: 0,
+  })
   setGrowbeSync(@param.path.string('id') id: string, @requestBody() body: any) {
     return this.growbeService.sendSyncRequest(id);
   }

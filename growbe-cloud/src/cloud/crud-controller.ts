@@ -12,18 +12,19 @@ import {
   GrowbeLogs,
   GrowbeMainboard,
   GrowbeModule,
-  GrowbeModuleDef,
   GrowbeSensorValue,
   GrowbeWarning
 } from '../models';
 import {
   GrowbeMainboardRepository,
-  GrowbeModuleDefRepository,
   GrowbeModuleRepository,
-  GrowbeSensorValueRepository,
-  GrowbeWarningRepository
 } from '../repositories';
 import {GrowbeDashboardRepository} from '../repositories/growbe-dashboard.repository';
+
+import {
+  authorize,
+} from '@loopback/authorization'
+import { getVoterMainboardUserOrOrganisation, getMainboardByModule } from './authorization';
 
 const auth = {
   func: authenticate,
@@ -43,6 +44,84 @@ const specSecurity: any = {
   updateById: security,
 };
 
+const authorizeGrowbeId = {
+  func: authorize,
+   args: [
+        {
+          voters: [
+            getVoterMainboardUserOrOrganisation(
+              0,
+            ),
+          ],
+        },
+      ],
+}
+
+const authorizeGrowbeModuleId = {
+  func: authorize,
+   args: [
+        {
+          voters: [
+            getVoterMainboardUserOrOrganisation(
+              0,
+              undefined,
+              undefined,
+              undefined,
+              undefined,
+              getMainboardByModule,
+            ),
+          ],
+        },
+      ],
+}
+
+const authorizeAdmin = {
+  func: authorize,
+  args: [
+    {
+      allowedRoles: ['ADMIN']
+    }
+  ]
+}
+
+const protectByMainboardProperties = {
+  'count': [auth, authorizeAdmin],
+  'create': [auth, authorizeAdmin],
+  'find': [auth, authorizeAdmin],
+  'updateAll': [auth, authorizeAdmin],
+  'deleteById': [auth, authorizeGrowbeId],
+  'findById': [auth, authorizeGrowbeId],
+  'replaceById': [auth, authorizeGrowbeId],
+  'updateById': [auth, authorizeGrowbeId],
+}
+
+const protectByMainboardRelationProperties = {
+  'create': [auth, authorizeGrowbeId],
+  'deleteById': [auth, authorizeGrowbeId],
+  'updateById': [auth, authorizeGrowbeId],
+  'find': [auth, authorizeGrowbeId],
+  'findById': [auth, authorizeGrowbeId],
+}
+
+const protectByModuleProperties = {
+  'count': [auth, authorizeAdmin],
+  'create': [auth, authorizeAdmin],
+  'find': [auth, authorizeAdmin],
+  'updateAll': [auth, authorizeAdmin],
+  'deleteById': [auth, authorizeGrowbeModuleId],
+  'findById': [auth, authorizeGrowbeModuleId],
+  'replaceById': [auth, authorizeGrowbeModuleId],
+  'updateById': [auth, authorizeGrowbeModuleId],
+}
+
+const protectByModuleRelationProperties = {
+  'create': [auth, authorizeGrowbeModuleId],
+  'deleteById': [auth, authorizeGrowbeModuleId],
+  'updateById': [auth, authorizeGrowbeModuleId],
+  'find': [auth, authorizeGrowbeModuleId],
+  'findById': [auth, authorizeGrowbeModuleId],
+}
+
 export const CRUD_CONTROLLERS: {
   model: ModelDef;
   repo: InjectableRepository<any, any>;
@@ -57,7 +136,7 @@ export const CRUD_CONTROLLERS: {
       name: 'growbes',
       specs: specSecurity,
       idType: 'string',
-      properties: [],
+      properties: protectByMainboardProperties,
     },
     relations: [
       {
@@ -66,6 +145,8 @@ export const CRUD_CONTROLLERS: {
           accessorType: 'HasMany',
           name: 'growbeWarnings',
           idType: 'string',
+          specs: specSecurity,
+          properties: protectByMainboardRelationProperties
         },
       },
       {
@@ -74,6 +155,8 @@ export const CRUD_CONTROLLERS: {
           accessorType: 'HasMany',
           name: 'growbeModules',
           idType: 'string',
+          specs: specSecurity,
+          properties: protectByMainboardRelationProperties
         },
       },
       {
@@ -82,29 +165,21 @@ export const CRUD_CONTROLLERS: {
           accessorType: 'HasMany',
           name: 'growbeSensorValues',
           idType: 'string',
+          specs: specSecurity,
+          properties: protectByMainboardRelationProperties
         },
       },
       {
         modelRelationDef: GrowbeLogs,
         optionsRelation: {
           accessorType: 'HasMany',
+          specs: specSecurity,
           name: 'growbeLogs',
           idType: 'string',
+          properties: protectByMainboardRelationProperties
         },
       },
     ],
-  },
-  {
-    model: GrowbeModuleDef,
-    repo: GrowbeModuleDefRepository,
-    options: {
-      name: 'growbeModuleDefs',
-      specs: specSecurity,
-      idType: 'string',
-      omitId: false,
-      properties: [],
-    },
-    relations: [],
   },
   {
     model: GrowbeModule,
@@ -113,7 +188,7 @@ export const CRUD_CONTROLLERS: {
       name: 'growbeModules',
       specs: specSecurity,
       idType: 'string',
-      properties: [],
+      properties: protectByModuleProperties
     },
     relations: [
       {
@@ -122,31 +197,11 @@ export const CRUD_CONTROLLERS: {
           accessorType: 'HasMany',
           name: 'growbeSensorValues',
           idType: 'string',
+          specs: specSecurity,
+          properties: protectByModuleRelationProperties
         },
       },
     ],
-  },
-  {
-    model: GrowbeWarning,
-    repo: GrowbeWarningRepository,
-    options: {
-      name: 'warnings',
-      specs: specSecurity,
-      idType: 'string',
-      properties: [],
-    },
-    relations: [],
-  },
-  {
-    model: GrowbeSensorValue,
-    repo: GrowbeSensorValueRepository,
-    options: {
-      name: 'growbeSensorValues',
-      specs: specSecurity,
-      idType: 'string',
-      properties: [],
-    },
-    relations: [],
   },
   {
     model: GrowbeDashboard,
@@ -154,8 +209,10 @@ export const CRUD_CONTROLLERS: {
     options: {
       name: 'dashboards',
       specs: specSecurity,
-      properties: [],
       idType: 'string',
+      properties: [
+        auth,
+      ]
     },
     relations: [],
   },
@@ -165,7 +222,7 @@ export const CRUD_CONTROLLERS: {
     options: {
       name: 'growbeStreams',
       specs: specSecurity,
-      properties: [],
+      properties: [auth],
       disableds: [
         'count',
         'create',

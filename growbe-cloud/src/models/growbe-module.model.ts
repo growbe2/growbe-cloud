@@ -53,6 +53,7 @@ export class GrowbeModule extends Entity {
 export interface GrowbeModuleRelations {
   // describe navigational properties here
   moduleDef?: GrowbeModuleDef;
+  mainboard?: GrowbeMainboard;
 }
 
 export type GrowbeModuleWithRelations = GrowbeModule & GrowbeModuleRelations;

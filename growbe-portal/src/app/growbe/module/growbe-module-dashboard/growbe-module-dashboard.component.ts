@@ -205,6 +205,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                         .override({
                                             moduleId: this.module.uid,
                                             moduleName: moduleDef.id,
+                                            growbeId: this.module.mainboardId,
                                         })
                                         .pipe(
                                             switchMap((newModuleDef: any) => {
