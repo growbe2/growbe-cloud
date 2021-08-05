@@ -25,8 +25,8 @@ export const getVoterMainboardUserOrOrganisation = (
 	async (ctx: AuthorizationContext, metadata: AuthorizationMetadata) => {
 		const user = ctx.principals[0] as any as UserWithRelations;
 
-		const growbeId = (growbeIdIndex) ? ctx.invocationContext.args[growbeIdIndex]: undefined;
-		const orgId = (orgIdIndex) ? ctx.invocationContext.args[orgIdIndex]: undefined;
+		const growbeId = (growbeIdIndex !== undefined) ? ctx.invocationContext.args[growbeIdIndex]: undefined;
+		const orgId = (orgIdIndex !== undefined) ? ctx.invocationContext.args[orgIdIndex]: undefined;
 
 		const mainboardRepo = (await ctx.invocationContext.get(`repositories.${GrowbeMainboardRepository.name}`)) as GrowbeMainboardRepository;
 
@@ -65,7 +65,7 @@ export const getVoterMainboardUserOrOrganisation = (
 
 			}
 		} else {
-			if (growbeIdIndex) {
+			if (growbeId) {
 				const mainboard = await mainboardRepo.findOne({
 					where: {
 						userId: user.id,
@@ -75,7 +75,7 @@ export const getVoterMainboardUserOrOrganisation = (
 				if (mainboard) {
 					return AuthorizationDecision.ALLOW;
 				} else {
-					return AuthorizationDecision.ABSTAIN;
+					return AuthorizationDecision.DENY;
 				}
 			}
 		}
