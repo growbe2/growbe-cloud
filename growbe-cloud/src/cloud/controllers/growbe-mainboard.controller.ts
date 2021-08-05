@@ -34,6 +34,7 @@ import {
   ModuleValueGraphService,
 } from '../../services/module-value-graph.service';
 import {schemaJsonOf} from '../../utility/oa3model';
+import { getVoterMainboardUserOrOrganisation } from '../authorization';
 
 // import {inject} from '@loopback/core';
 
@@ -47,6 +48,11 @@ export class GrowbeMainboardController {
 
   @get('/growbes/organisations/{id}')
   @authenticate('jwt')
+  @authorize({
+    voters: [
+      getVoterMainboardUserOrOrganisation(),
+    ]
+  })
   findGrowbeOrganisation(
     @param.path.string('id') organisationId: string,
     @param.query.object('filter', getFilterSchemaFor(GrowbeMainboard))
@@ -106,15 +112,6 @@ export class GrowbeMainboardController {
 
   @post('/growbe/{id}/register/org/{orgId}')
   @authenticate('jwt')
-  @authorize({
-    allowedRoles: [],
-    voters: [
-      async (ctx, metada) => {
-        console.log('REGISTER', ctx, metada)
-        return AuthorizationDecision.ALLOW;
-      }
-    ]
-  })
   registerOrganisation(
     @inject(SecurityBindings.USER) user: UserProfile,
     @param.path.string('id') growbeId: string,
