@@ -12,7 +12,6 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
-import { GrowbeSensorValueAPI } from 'src/app/growbe/api/growbe-sensor-value';
 import { ButtonsRowComponent } from 'src/app/shared/buttons-row/buttons-row/buttons-row.component';
 import { transformModuleValue } from '../../module.def';
 
@@ -39,7 +38,7 @@ export class GrowbeModuleDataTableComponent implements OnInit {
     constructor(
         private datePipe: DatePipe,
         private moduleDefAPI: GrowbeModuleDefAPI,
-        public sensorValueAPI: GrowbeSensorValueAPI,
+        public moduleAPI: GrowbeModuleAPI,
     ) {}
 
     ngOnInit(): void {
@@ -87,7 +86,7 @@ export class GrowbeModuleDataTableComponent implements OnInit {
                                                 router: Router,
                                                 context: any,
                                             ) => {
-                                                this.sensorValueAPI
+                                                this.moduleAPI.growbeSensorValues(this.module.id)
                                                     .delete(context.id)
                                                     .pipe(take(1))
                                                     .subscribe(() => {});

@@ -12,7 +12,6 @@ import { ButtonsRowComponent } from '@berlingoqc/ngx-common';
 import { Include, Where } from '@berlingoqc/ngx-loopback';
 import { AutoFormData, AutoFormDialogService } from '@berlingoqc/ngx-autoform';
 import { GrowbeMainboardAPI } from '../../api/growbe-mainboard';
-import { GrowbeWarningAPI } from '../../api/growbe-warning';
 import { growbeActions } from '../../growbe-action/growbe-warning-action';
 import { GrowbeWarning } from '@growbe2/ngx-cloud-api';
 import { GrowbeActionAPI } from '../../api/growbe-action';
@@ -36,7 +35,6 @@ export class WarningTableComponent implements OnInit, AfterViewInit {
 
     constructor(
         public mainboardAPI: GrowbeMainboardAPI,
-        public warningAPI: GrowbeWarningAPI,
         public actionAPI: GrowbeActionAPI,
         private autoformDialog: AutoFormDialogService,
     ) {
