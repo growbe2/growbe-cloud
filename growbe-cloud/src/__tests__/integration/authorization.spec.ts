@@ -5,17 +5,14 @@ import { getVoterMainboardUserOrOrganisation } from "../../cloud/authorization";
 import { setupApplication } from "../fixtures/app";
 import { boardId, orgId, userId } from "../fixtures/data";
 import { GrowbeMainboardRepository } from "../../repositories";
-import { sleep } from "@berlingoqc/sso";
+import { OrganisationRepository, sleep } from "@berlingoqc/sso";
 
-
-
-
-
-describe.only('authorization growbe', () => {
+describe('authorization growbe', () => {
 
     let app: GrowbeCloudApplication;
 
     let mainboardRepo: GrowbeMainboardRepository;
+    let orgRepo: OrganisationRepository;
 
     const getAuthorizationContext = (args: any[], organisations: any[], roles: any[]) => {
         const ctx = {
@@ -68,6 +65,7 @@ describe.only('authorization growbe', () => {
         async (portailApp: GrowbeCloudApplication) => {},
       ));
       mainboardRepo = await app.getRepository(GrowbeMainboardRepository);
+      orgRepo = await app.getRepository(OrganisationRepository);
       await mainboardRepo.deleteAll();
     });
   
@@ -77,6 +75,7 @@ describe.only('authorization growbe', () => {
 
     afterEach(async () => {
         await mainboardRepo.deleteAll();
+        await orgRepo.deleteAll();
     });
 
     describe('user ownership', () => {
@@ -113,6 +112,29 @@ describe.only('authorization growbe', () => {
 
     describe('organisation ownership', () => {
 
+
+        it('user wanted growne owned by organisation that is in, allow', async () => {
+            const result = await testCaseAuthorization({
+                growbeIdIndex: 0,
+                orgId: orgId,
+                args: [boardId],
+                orgs: [{id: orgId}],
+            });
+
+            expect(result).to.eql(AuthorizationDecision.ALLOW);
+        });
+
+        it('user wanted growne owned by organisation that is in, denied', async () => {
+            const result = await testCaseAuthorization({
+                growbeIdIndex: 0,
+                orgId: 'not-my-org-id',
+                args: [boardId],
+                orgs: [{id: orgId}],
+            });
+
+            expect(result).to.eql(AuthorizationDecision.DENY);
+        });
+
         it('user wanted growbes of is organisation, allowed', async () => {
             const result = await testCaseAuthorization({
                 orgIdIndex: 0,
@@ -138,44 +160,64 @@ describe.only('authorization growbe', () => {
         it('user access growbe owned by a organisation is in, allow', async () => {
             const result = await testCaseAuthorization({
                 growbeIdIndex: 0,
+                orgIdIndex: 1,
                 userId: undefined,
-                args: [boardId],
+                orgId: orgId,
+                args: [boardId, orgId],
+                orgs: [{id: orgId}]
             });
 
-            //expect(result).to.eql(AuthorizationDecision.DENY);
+            expect(result).to.eql(AuthorizationDecision.ALLOW);
         });
 
         it('user access growbe owned by a organisation is not in, denied', async () => {
             const result = await testCaseAuthorization({
                 growbeIdIndex: 0,
+                orgIdIndex: 1,
+                orgId: orgId,
                 userId: undefined,
                 args: [boardId],
+                orgs: [],
             });
 
-            //expect(result).to.eql(AuthorizationDecision.DENY);
+            expect(result).to.eql(AuthorizationDecision.DENY);
         });
 
         it('user is manager of organisation and endpoint only for manager only, allowed', async () => {
-            const result = await testCaseAuthorization({
-                growbeIdIndex: 0,
-                userId: undefined,
-                args: [boardId],
+            await orgRepo.create({
+                id: orgId,
+                managerId: userId,
             });
 
-            //expect(result).to.eql(AuthorizationDecision.DENY);
+            const result = await testCaseAuthorization({
+                growbeIdIndex: 0,
+                orgIdIndex: 1,
+                userId: undefined,
+                managerOnly: true,
+                args: [boardId, orgId],
+            });
+
+            expect(result).to.eql(AuthorizationDecision.ALLOW);
         });
 
         it('user is not manager of organisation and endpoint only for manager only, denied', async () => {
-            const result = await testCaseAuthorization({
-                growbeIdIndex: 0,
-                userId: undefined,
-                args: [boardId],
+            orgRepo.create({
+                id: orgId,
+                managerId: 'not-my-id',
             });
 
-            //expect(result).to.eql(AuthorizationDecision.DENY);
+            const result = await testCaseAuthorization({
+                growbeIdIndex: 0,
+                orgIdIndex: 1,
+                userId: undefined,
+                managerOnly: true,
+                args: [boardId, orgId],
+            });
+
+            expect(result).to.eql(AuthorizationDecision.DENY);
         });
 
-        it('user have role inside organisation that is required, allow',async () => {
+        /*it('user have role inside organisation that is required, allow',async () => {
             const result = await testCaseAuthorization({
                 growbeIdIndex: 0,
                 userId: undefined,
@@ -193,6 +235,6 @@ describe.only('authorization growbe', () => {
             });
 
             //expect(result).to.eql(AuthorizationDecision.DENY);
-        });
+        });*/
     });
 });
