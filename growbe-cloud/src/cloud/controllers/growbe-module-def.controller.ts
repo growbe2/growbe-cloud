@@ -6,25 +6,9 @@ import { authorizeGrowbe } from '../authorization';
 
 export class GrowbeModuleDefController {
   constructor(
-    @service(GrowbeModuleDefService)
-    private moduleDefService: GrowbeModuleDefService,
     @service(GrowbeHardwareAlarmService)
     private growbeHardwareAlarmService: GrowbeHardwareAlarmService,
   ) {}
-
-  @post('/growbes/{id}/growbeModuleDefs/override')
-  @authorizeGrowbe({
-    growbeIdIndex: 0,
-  })
-  overrideModuleDef(
-    @param.path.string('id') id: string,
-    @requestBody() request: OverrideModuleDefRequest
-  ) {
-    return this.moduleDefService.overrideMainboardModuleDef(
-      request.moduleId,
-      request.moduleName,
-    );
-  }
 
   @post('/growbes/{id}/alarm/hardware')
   @authorizeGrowbe({

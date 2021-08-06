@@ -4,7 +4,7 @@ import {authenticate} from '@loopback/authentication';
 import {authorize, AuthorizationDecision, AuthorizationContext, AuthorizationMetadata} from '@loopback/authorization';
 import {Provider} from '@loopback/context';
 import {GrowbeMainboard, GrowbeMainboardWithRelations} from '../models';
-import {GrowbeMainboardRepository, GrowbeModuleRepository} from '../repositories';
+import {GrowbeMainboardRepository, GrowbeModuleDefRepository, GrowbeModuleRepository} from '../repositories';
 
 type GetMainboard = (ctx: AuthorizationContext, id: string, args: any) => Promise<GrowbeMainboardWithRelations | null>;
 
@@ -19,6 +19,26 @@ export async function getMainboardByModule(ctx: AuthorizationContext, id: string
   const moduleRepo = (await ctx.invocationContext.get(`repositories.${GrowbeModuleRepository.name}`)) as GrowbeModuleRepository;
   delete args.id;
   return moduleRepo
+    .findOne({
+      where: {
+        id: id,
+      },
+      include: [
+        {
+          relation: 'mainboard',
+          scope: {
+            where: args,
+          }
+        },
+      ],
+    })
+    .then(i => i?.mainboard as GrowbeMainboardWithRelations);
+}
+
+export async function getMainboardByModuleDef(ctx: AuthorizationContext, id: string, args: any) {
+  const moduleDefRepo = (await ctx.invocationContext.get(`repositories.${GrowbeModuleDefRepository.name}`)) as GrowbeModuleDefRepository;
+  delete args.id;
+  return moduleDefRepo
     .findOne({
       where: {
         id: id,

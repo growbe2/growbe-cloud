@@ -238,7 +238,7 @@ export class GrowbeModuleService {
       mainboardId: boardId,
       moduleName: def.id,
     })) as GrowbeModuleWithRelations;
-    await this.growbeModuleDefService.overrideMainboardModuleDef(moduleId, def.id);
+    await this.growbeModuleDefService.overrideMainboardModuleDef(moduleId, def.id, boardId);
     //module.moduleDef = def;
     return module;
   }

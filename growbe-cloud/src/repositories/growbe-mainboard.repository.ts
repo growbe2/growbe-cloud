@@ -12,8 +12,7 @@ import {
   GrowbeWarning,
   GrowbeSensorValue,
   GrowbeModule,
-  GrowbeLogs,
-} from '../models';
+  GrowbeLogs, GrowbeModuleDef} from '../models';
 import {PgsqlDataSource} from '../datasources';
 import {Getter, inject} from '@loopback/core';
 import {UserRepository, User} from '@berlingoqc/sso';
@@ -22,6 +21,7 @@ import {GrowbeWarningRepository} from './growbe-warning.repository';
 import {GrowbeSensorValueRepository} from './growbe-sensor-value.repository';
 import {GrowbeModuleRepository} from './growbe-module.repository';
 import {GrowbeLogsRepository} from './growbe-logs.repository';
+import {GrowbeModuleDefRepository} from './growbe-module-def.repository';
 
 export class GrowbeMainboardRepository extends DefaultCrudRepository<
   GrowbeMainboard,
@@ -55,6 +55,8 @@ export class GrowbeMainboardRepository extends DefaultCrudRepository<
     typeof GrowbeMainboard.prototype.id
   >;
 
+  public readonly growbeModuleDefs: HasManyRepositoryFactory<GrowbeModuleDef, typeof GrowbeMainboard.prototype.id>;
+
   constructor(
     @inject('datasources.pgsql') dataSource: PgsqlDataSource,
     @repository.getter('repositories.UserRepository')
@@ -68,9 +70,10 @@ export class GrowbeMainboardRepository extends DefaultCrudRepository<
     @repository.getter('GrowbeModuleRepository')
     protected growbeModuleRepositoryGetter: Getter<GrowbeModuleRepository>,
     @repository.getter('GrowbeLogsRepository')
-    protected growbeLogsRepositoryGetter: Getter<GrowbeLogsRepository>,
+    protected growbeLogsRepositoryGetter: Getter<GrowbeLogsRepository>, @repository.getter('GrowbeModuleDefRepository') protected growbeModuleDefRepositoryGetter: Getter<GrowbeModuleDefRepository>,
   ) {
     super(GrowbeMainboard, dataSource);
+    this.growbeModuleDefs = this.createHasManyRepositoryFactoryFor('growbeModuleDefs', growbeModuleDefRepositoryGetter,);
     this.growbeLogs = this.createHasManyRepositoryFactoryFor(
       'growbeLogs',
       growbeLogsRepositoryGetter,

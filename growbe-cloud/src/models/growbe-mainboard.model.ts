@@ -14,6 +14,7 @@ import {GrowbeWarning} from './growbe-warning.model';
 import {GrowbeSensorValue} from './growbe-sensor-value.model';
 import {GrowbeModule} from './growbe-module.model';
 import {GrowbeLogs} from './growbe-logs.model';
+import {GrowbeModuleDef} from './growbe-module-def.model';
 
 export type GrowbeState = 'CONNECTED' | 'DISCONNECTED';
 
@@ -57,6 +58,9 @@ export class GrowbeMainboard extends Entity {
 
   @hasMany(() => GrowbeLogs)
   growbeLogs: GrowbeLogs[];
+
+  @hasMany(() => GrowbeModuleDef, {keyTo: 'mainboardId'})
+  growbeModuleDefs: GrowbeModuleDef[];
 
   constructor(data?: Partial<GrowbeMainboard>) {
     super(data);

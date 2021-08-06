@@ -33,6 +33,7 @@ export class GrowbeModuleDefService {
   async overrideMainboardModuleDef(
     moduleId: string,
     moduleName: string,
+    boardId: string,
   ): Promise<GrowbeModuleDef> {
     const defs = await this.moduleDefRepo.find({
       where: {
@@ -55,7 +56,7 @@ export class GrowbeModuleDefService {
     );
 
     const d = await this.moduleRepo.updateAll(
-      {moduleName: newModuleName},
+      {moduleName: newModuleName, mainboardId: boardId},
       {uid: moduleId},
     );
     console.log(d.count);

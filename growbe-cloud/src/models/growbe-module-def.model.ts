@@ -1,5 +1,6 @@
 import { FieldAlarm } from '@growbe2/growbe-pb';
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {GrowbeMainboard} from './growbe-mainboard.model';
 
 @model()
 export class Range {
@@ -50,7 +51,10 @@ export class GrowbeModuleDef extends Entity {
   pbModelConfig: string;
 
   @property()
-  properties: any; // bug de parsing PropertiesModules thx lb4
+  properties: any;
+
+  @belongsTo(() => GrowbeMainboard)
+  mainboardId: string;
 
   constructor(data?: Partial<GrowbeModuleDef>) {
     super(data);
@@ -59,6 +63,7 @@ export class GrowbeModuleDef extends Entity {
 
 export interface GrowbeModuleDefRelations {
   // describe navigational properties here
+  mainboard?: GrowbeMainboard;
 }
 
 export type GrowbeModuleDefWithRelations = GrowbeModuleDef &

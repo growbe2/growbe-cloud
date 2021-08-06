@@ -26,7 +26,7 @@ import {GrowbeDashboardRepository} from '../repositories/growbe-dashboard.reposi
 import {
   authorize,
 } from '@loopback/authorization'
-import { getVoterMainboardUserOrOrganisation, getMainboardByModule } from './authorization';
+import { getVoterMainboardUserOrOrganisation, getMainboardByModule, getMainboardByModuleDef } from './authorization';
 
 const auth = {
   func: authenticate,
@@ -77,6 +77,24 @@ const authorizeGrowbeModuleId = {
       ],
 }
 
+const authorizeGrowbeModuleDefId = {
+  func: authorize,
+   args: [
+        {
+          voters: [
+            getVoterMainboardUserOrOrganisation(
+              0,
+              undefined,
+              undefined,
+              undefined,
+              undefined,
+              getMainboardByModuleDef,
+            ),
+          ],
+        },
+      ],
+}
+
 const authorizeAdmin = {
   func: authorize,
   args: [
@@ -114,6 +132,11 @@ const protectByModuleProperties = {
   'findById': [auth, authorizeGrowbeModuleId],
   'replaceById': [auth, authorizeGrowbeModuleId],
   'updateById': [auth, authorizeGrowbeModuleId],
+}
+
+const protectByModuleDefProperties = {
+  'findById': [auth, authorizeGrowbeModuleDefId],
+  'updateById': [auth, authorizeGrowbeModuleDefId],
 }
 
 const protectByModuleRelationProperties = {
@@ -213,7 +236,8 @@ export const CRUD_CONTROLLERS: {
       specs: specSecurity,
       idType: 'string',
       omitId: false,
-      properties: [],
+      properties: protectByModuleDefProperties,
+      disableds: ['count', 'create', 'deleteById', 'find', 'replaceById', 'updateAll']
     },
     relations: [],
   },
