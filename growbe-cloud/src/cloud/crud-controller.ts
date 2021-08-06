@@ -12,11 +12,13 @@ import {
   GrowbeLogs,
   GrowbeMainboard,
   GrowbeModule,
+  GrowbeModuleDef,
   GrowbeSensorValue,
   GrowbeWarning
 } from '../models';
 import {
   GrowbeMainboardRepository,
+  GrowbeModuleDefRepository,
   GrowbeModuleRepository,
 } from '../repositories';
 import {GrowbeDashboardRepository} from '../repositories/growbe-dashboard.repository';
@@ -202,6 +204,18 @@ export const CRUD_CONTROLLERS: {
         },
       },
     ],
+  },
+  {
+    model: GrowbeModuleDef,
+    repo: GrowbeModuleDefRepository,
+    options: {
+      name: 'growbeModuleDefs',
+      specs: specSecurity,
+      idType: 'string',
+      omitId: false,
+      properties: [],
+    },
+    relations: [],
   },
   {
     model: GrowbeDashboard,

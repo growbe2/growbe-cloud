@@ -11,13 +11,13 @@ export class GrowbeModuleDefAPI extends Caching(
     LoopbackRestClientMixin<GrowbeModuleDefWithRelations>(),
 ) {
     constructor(httpClient: HttpClient) {
-        super(httpClient, '/growbes');
+        super(httpClient, '/growbeModuleDefs');
         this.baseURL = envConfig.growbeCloud;
     }
 
 
     addAlarm(mainboardId: string, alarmField: any) {
-      return this.httpClient.post<void>(`${this.url}/${mainboardId}/alarm/hardware`, alarmField).pipe(
+      return this.httpClient.post<void>(`${this.url}/growbes/${mainboardId}/alarm/hardware`, alarmField).pipe(
         // TODO devrait mieux targeter
         tap(() => Object.values(this.requestFind.items).forEach((item) => {
             item.subject.next(null);
@@ -26,7 +26,7 @@ export class GrowbeModuleDefAPI extends Caching(
     }
 
     removeAlarm(mainboardId: string, alarmField: any) {
-      return this.httpClient.post<void>(`${this.url}/${mainboardId}/alarm/hardware/rm`, alarmField).pipe(
+      return this.httpClient.post<void>(`${this.url}/growbes/${mainboardId}/alarm/hardware/rm`, alarmField).pipe(
         // TODO devrait mieux targeter
         tap(() => Object.values(this.requestFind.items).forEach((item) => {
             item.subject.next(null);
