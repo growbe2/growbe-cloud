@@ -55,6 +55,14 @@ export async function getMainboardByModuleDef(ctx: AuthorizationContext, id: str
     .then(i => i?.mainboard as GrowbeMainboardWithRelations);
 }
 
+
+export const getVoterRole = (roles: string[]) => {
+  return async (ctx: AuthorizationContext, metadata: AuthorizationMetadata) => {
+    const user = ctx.principals[0] as any as UserWithRelations;
+    return ((user.roles as any as string[]).some(r => roles.findIndex(rr => rr == r) > -1)) ? AuthorizationDecision.ALLOW : AuthorizationDecision.ABSTAIN;
+  }
+}
+
 /**
  *
  * @param growbeIdIndex if growbeId valid that the user possess the growbeId
@@ -87,7 +95,7 @@ export const getVoterMainboardUserOrOrganisation =
         if (org.managerId === user.id) {
           return AuthorizationDecision.ALLOW;
         }
-        return AuthorizationDecision.DENY;
+        return AuthorizationDecision.ABSTAIN;
       } else {
         if (!growbeIdIndex) {
           // valide que je suis dans l'organisation
@@ -95,7 +103,7 @@ export const getVoterMainboardUserOrOrganisation =
           if (indexOrg > -1) {
             return AuthorizationDecision.ALLOW;
           } else {
-            return AuthorizationDecision.DENY;
+            return AuthorizationDecision.ABSTAIN;
           }
         } else {
           // valid que le growbe est posséder par l'org
@@ -104,7 +112,7 @@ export const getVoterMainboardUserOrOrganisation =
           if (mainboard) {
             return AuthorizationDecision.ALLOW;
           } else {
-            return AuthorizationDecision.DENY;
+            return AuthorizationDecision.ABSTAIN;
           }
         }
       }
@@ -114,7 +122,7 @@ export const getVoterMainboardUserOrOrganisation =
         if (mainboard) {
           return AuthorizationDecision.ALLOW;
         } else {
-          return AuthorizationDecision.DENY;
+          return AuthorizationDecision.ABSTAIN;
         }
       }
     }
@@ -146,8 +154,10 @@ export function authorizeGrowbe({
       func: authorize,
       args: [
         {
-          allowedRoles: ['ADMIN'],
-          voters: [getVoterMainboardUserOrOrganisation(growbeIdIndex, orgIdIndex, managerOnly, orgRoles, userIdIndex, getFunc)],
+          voters: [
+            getVoterRole(['ADMIN']),
+            getVoterMainboardUserOrOrganisation(growbeIdIndex, orgIdIndex, managerOnly, orgRoles, userIdIndex, getFunc)
+          ],
         },
       ],
     },
