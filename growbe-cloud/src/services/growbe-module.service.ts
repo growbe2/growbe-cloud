@@ -160,7 +160,7 @@ export class GrowbeModuleService {
 
   async findOrCreate(boardId: string, moduleId: string) {
     let module: any = await this.moduleRepository.findOne({
-      where: {uid: moduleId},
+      where: {id: moduleId},
     });
     if (!module) {
       module = await this.createModule(boardId, moduleId);
@@ -184,18 +184,17 @@ export class GrowbeModuleService {
       where: { mainboardId: growbeId, config: { neq: null } },
     });
     for (const module of modules) {
-      console.log('CONFIF', module.config);
       await this.sendConfigToMainboard(module);
     }
   }
 
   private sendConfigToMainboard(module: GrowbeModule) {
-     const model = pbDef[mapTypeConfig[module.uid.slice(0, 3)]];
+     const model = pbDef[mapTypeConfig[module.id.slice(0, 3)]];
      const payload = model.encode(module.config).finish();
      return this.mqttService
       .sendWithResponse(
         module.mainboardId,
-        getTopic(module.mainboardId, `/board/mconfig/${module.uid}`),
+        getTopic(module.mainboardId, `/board/mconfig/${module.id}`),
         payload,
         { waitingTime: 6000, responseCode: pb.ActionCode.MODULE_CONFIG}
       ).toPromise()
@@ -205,7 +204,7 @@ export class GrowbeModuleService {
           type: LogTypeEnum.MODULE_CONFIG_CHANGE,
           severity: SeverityEnum.LOW,
           growbeMainboardId: module.mainboardId,
-          growbeModuleId: module.uid,
+          growbeModuleId: module.id,
           message: '',
         }).then((log) => ({log, response}));
       });
@@ -214,7 +213,7 @@ export class GrowbeModuleService {
   private async updateModuleState(growbeId: string, module: GrowbeModule) {
     await this.moduleRepository.update(module);
     await this.mqttService.send(
-      getTopic(growbeId, `/cloud/m/${module.uid}/state`),
+      getTopic(growbeId, `/cloud/m/${module.id}/state`),
       JSON.stringify(module),
     );
     await this.logsService.addLog({
@@ -229,18 +228,15 @@ export class GrowbeModuleService {
 
   private async createModule(boardId: string, moduleId: string) {
     const info = this.getModuleIdAndType(moduleId);
-    const def = await this.moduleDefRepository.findOne({where: {id: info.id}});
+    let def = await this.moduleDefRepository.findOne({where: {moduleId: info.id}});
     if (!def) {
       throw new Error(`def not found ${info.id} ${moduleId} ${boardId}`);
     }
     const module = (await this.moduleRepository.create({
       id: moduleId,
-      uid: moduleId,
       mainboardId: boardId,
-      moduleName: def.id,
     })) as GrowbeModuleWithRelations;
-    await this.growbeModuleDefService.overrideMainboardModuleDef(moduleId, def.id, boardId);
-    //module.moduleDef = def;
+    def = await this.growbeModuleDefService.createMainboardModuleDef(def, moduleId, boardId);
     return module;
   }
 

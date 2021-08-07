@@ -30,37 +30,13 @@ export class GrowbeModuleDefService {
    * be modified by the user
    * @param mainboardId
    */
-  async overrideMainboardModuleDef(
+  async createMainboardModuleDef(
+    def: GrowbeModuleDef,
     moduleId: string,
-    moduleName: string,
     boardId: string,
   ): Promise<GrowbeModuleDef> {
-    const defs = await this.moduleDefRepo.find({
-      where: {
-        or: [
-          {
-            id: moduleName,
-          },
-          {
-            id: `${moduleName}:%`,
-          },
-        ],
-      },
-    });
-    if (defs.length === 2) {
-      throw new HttpErrors[409]('already existing');
-    }
-    const newModuleName = `${moduleName}:${moduleId}`;
-    const newDef = await this.moduleDefRepo.create(
-      Object.assign(defs[0], {id: newModuleName}),
+    return this.moduleDefRepo.create(
+      Object.assign(def, {id: undefined, moduleId, mainboardId: boardId}),
     );
-
-    const d = await this.moduleRepo.updateAll(
-      {moduleName: newModuleName, mainboardId: boardId},
-      {uid: moduleId},
-    );
-    console.log(d.count);
-
-    return newDef;
   }
 }

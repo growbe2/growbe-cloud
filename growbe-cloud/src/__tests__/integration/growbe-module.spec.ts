@@ -3,6 +3,7 @@ import {expect} from '@loopback/testlab';
 import {addMinutes} from 'date-fns';
 import sinon from 'sinon';
 import {GrowbeCloudApplication} from '../../application';
+import { GrowbeModuleDefWithRelations, GrowbeModuleWithRelations } from '../../models';
 import {GrowbeModuleService} from '../../services';
 import {setupApplication} from '../fixtures/app';
 import {boardId, moduleId} from '../fixtures/data';
@@ -27,13 +28,16 @@ describe('Growbe Mainboard', () => {
 
     before(async () => {
       moduleService = await app.get('services.' + GrowbeModuleService.name);
+      await moduleService.moduleRepository.deleteAll();
+    });
+
+    afterEach(async () => {
+        await moduleService.moduleRepository.deleteAll();
+        await moduleService.moduleDefRepository.deleteAll({moduleId: {neq: undefined}});
     });
 
     describe('État du module', () => {
-      afterEach(async () => {
-        await moduleService.moduleRepository.deleteAll();
-        await moduleService.moduleDefRepository.deleteAll({id: { like: '%:%'}})
-      });
+
       it('Lors de réception état , si existe pas crée un module', async () => {
         await moduleService.onModuleStateChange(
           boardId,
@@ -45,7 +49,7 @@ describe('Growbe Mainboard', () => {
 
         const module: any = await moduleService.moduleRepository.findOne({
           where: {
-            uid: moduleId,
+            id: moduleId,
           },
           include: ['moduleDef'],
         });
@@ -53,8 +57,6 @@ describe('Growbe Mainboard', () => {
         expect(module).to.be.Object();
         expect(module.id).is.String();
         expect(module.id).to.eql(moduleId);
-        expect(module.moduleName).to.eql('AAA:'+moduleId);
-        expect(module.uid).to.eql(moduleId);
         expect(module.mainboardId).to.eql(boardId);
         expect(module.moduleDef).to.be.Object();
       });
@@ -116,6 +118,17 @@ describe('Growbe Mainboard', () => {
         expect(item.samples).length(0);
         expect(item.growbeMainboardId).to.eql(boardId);
         expect(item.moduleType).to.eql('AAA');
+      });
+
+      it('Reception de donnée accecible avec resolver de module', async () => {
+        const item = await moduleService.onModuleDataChange(
+          boardId,
+          moduleId,
+          thlData,
+        );
+
+        const sensorData = await moduleService.moduleRepository.growbeSensorValues(moduleId).find();
+        expect(sensorData.length).to.eql(1);
       });
 
       it('Reception de plusieurs valeurs dans la même minute', async () => {
