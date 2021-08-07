@@ -52,6 +52,7 @@ describe('Growbe Mainboard', () => {
 
         expect(module).to.be.Object();
         expect(module.id).is.String();
+        expect(module.id).to.eql(moduleId);
         expect(module.moduleName).to.eql('AAA:'+moduleId);
         expect(module.uid).to.eql(moduleId);
         expect(module.mainboardId).to.eql(boardId);

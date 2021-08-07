@@ -15,7 +15,7 @@ export class GrowbeModule extends Entity {
   @property({
     type: 'string',
     id: true,
-    generated: true,
+    generated: false,
     mongodb: {dataType: 'ObjectID'},
   })
   id?: string;

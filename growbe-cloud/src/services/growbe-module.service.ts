@@ -234,6 +234,7 @@ export class GrowbeModuleService {
       throw new Error(`def not found ${info.id} ${moduleId} ${boardId}`);
     }
     const module = (await this.moduleRepository.create({
+      id: moduleId,
       uid: moduleId,
       mainboardId: boardId,
       moduleName: def.id,
