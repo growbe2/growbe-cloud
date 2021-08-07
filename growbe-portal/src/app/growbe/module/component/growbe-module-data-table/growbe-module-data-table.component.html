@@ -4,7 +4,7 @@
     [orderBy]="orderBy"
     pageSize="10"
     [columns]="columns"
-    [source]="moduleAPI | lbRelation: module.id"
+    [source]="moduleAPI.growbeSensorValues | lbRelation: module.id"
     [pageSize]="10"
 >
 </ngx-autotable>

@@ -6,9 +6,9 @@ import { envConfig } from '@berlingoqc/ngx-common';
 export class GrowbeGraphService {
     constructor(private httpClient: HttpClient) {}
 
-    getGraph(mode: string, data: any) {
+    getGraph(growbeId: string, mode: string, data: any) {
         return this.httpClient.post(
-            `${envConfig.growbeCloud}/growbe/` + mode,
+            `${envConfig.growbeCloud}/growbes/${growbeId}/${mode}`,
             data,
         );
     }

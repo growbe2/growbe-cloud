@@ -27,7 +27,7 @@ export class BaseSVGModuleComponent implements OnInit {
 
   ngOnInit(): void {
     this.sub = merge(
-      this.graphService.getGraph('one', {
+      this.graphService.getGraph(this.module.mainboardId, 'one', {
         moduleId: this.module.uid,
         growbeId: this.module.mainboardId,
         fields: Object.keys(this.moduleDef.properties),

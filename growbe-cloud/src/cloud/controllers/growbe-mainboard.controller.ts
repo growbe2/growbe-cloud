@@ -114,8 +114,8 @@ export class GrowbeMainboardController {
 
   @post('/growbe/{id}/register/org/{orgId}')
   @authorizeGrowbe({
-    growbeIdIndex: 1,
-    orgIdIndex: 2,
+    growbeIdIndex: 0,
+    orgIdIndex: 1,
   })
   registerOrganisation(
     @inject(SecurityBindings.USER) user: UserProfile,

@@ -22,7 +22,7 @@ export class GrowbeModuleGraphController {
     return this.graphService.getGraph(request);
   }
 
-  @post('/growbe/one')
+  @post('/growbes/{id}/one')
   @authorizeGrowbe({
     growbeIdIndex: 0,
   })

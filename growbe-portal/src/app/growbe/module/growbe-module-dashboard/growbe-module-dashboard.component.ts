@@ -195,29 +195,10 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                 moduleDefId: this.module.moduleName,
                             },
                             edit: growbeModuleDefForm(moduleDef, (data) => {
-                                if (moduleDef.id.includes(':')) {
                                     return this.moduleDefAPI.updateById(
                                         this.module.moduleName,
                                         data,
                                     );
-                                } else {
-                                    return this.moduleDefAPI
-                                        .override({
-                                            moduleId: this.module.uid,
-                                            moduleName: moduleDef.id,
-                                            growbeId: this.module.mainboardId,
-                                        })
-                                        .pipe(
-                                            switchMap((newModuleDef: any) => {
-                                                this.module.moduleName =
-                                                    newModuleDef.id;
-                                                return this.moduleDefAPI.updateById(
-                                                    this.module.moduleName,
-                                                    data,
-                                                );
-                                            }),
-                                        );
-                                }
                             }),
                             style: {
                                 'grid-column-start': '1',

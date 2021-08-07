@@ -146,6 +146,7 @@ export function authorizeGrowbe({
       func: authorize,
       args: [
         {
+          allowedRoles: ['ADMIN'],
           voters: [getVoterMainboardUserOrOrganisation(growbeIdIndex, orgIdIndex, managerOnly, orgRoles, userIdIndex, getFunc)],
         },
       ],

@@ -13,15 +13,6 @@ const routes: Routes = [
         component: GrowbeManagerDetailComponent,
         data: {
             include: [
-                {
-                    relation: 'growbeModules',
-                },
-                {
-                    relation: 'growbeWarnings',
-                },
-                {
-                    relation: 'growbeMainboardConfig',
-                },
             ],
         },
         resolve: {

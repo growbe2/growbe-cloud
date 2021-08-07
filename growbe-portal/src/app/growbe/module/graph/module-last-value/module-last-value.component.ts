@@ -57,7 +57,7 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
             return;
         }
         this.graphService
-            .getGraph('one', this.data.graphDataConfig)
+            .getGraph(this.data.graphDataConfig.growbeId, 'one', this.data.graphDataConfig)
             .subscribe(async (data: any) => {
                 data = data[0];
                 this.moduleDef = this.moduleAPI

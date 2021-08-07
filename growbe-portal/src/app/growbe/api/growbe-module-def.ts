@@ -17,7 +17,7 @@ export class GrowbeModuleDefAPI extends Caching(
 
 
     addAlarm(mainboardId: string, alarmField: any) {
-      return this.httpClient.post<void>(`${this.url}/growbes/${mainboardId}/alarm/hardware`, alarmField).pipe(
+      return this.httpClient.post<void>(`${this.baseURL}/growbes/${mainboardId}/alarm/hardware`, alarmField).pipe(
         // TODO devrait mieux targeter
         tap(() => Object.values(this.requestFind.items).forEach((item) => {
             item.subject.next(null);
@@ -26,16 +26,12 @@ export class GrowbeModuleDefAPI extends Caching(
     }
 
     removeAlarm(mainboardId: string, alarmField: any) {
-      return this.httpClient.post<void>(`${this.url}/growbes/${mainboardId}/alarm/hardware/rm`, alarmField).pipe(
+      return this.httpClient.post<void>(`${this.baseURL}/growbes/${mainboardId}/alarm/hardware/rm`, alarmField).pipe(
         // TODO devrait mieux targeter
         tap(() => Object.values(this.requestFind.items).forEach((item) => {
             item.subject.next(null);
           }))
       );
-    }
-
-    override(data: { moduleId: string; moduleName: string, growbeId: string }): Observable<void> {
-        return this.httpClient.post<void>(`${this.url}/${data.growbeId}/override`, data);
     }
 }
 

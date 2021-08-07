@@ -45,9 +45,7 @@ export class GrowbeModuleDataTableComponent implements OnInit {
         if (!this.module) {
             return;
         }
-        this.where = {
-            moduleId: this.module.uid,
-        };
+        this.where = {};
         this.sub = this.moduleDefAPI
             .getById(this.module.moduleName)
             .subscribe((def: GrowbeModuleDefWithRelations) => {

@@ -40,7 +40,7 @@ export class ModuleSensorValueGraphComponent implements OnInit, OnDestroy {
             return;
         }
         this.graphService
-            .getGraph(this.data.type, this.data.graphDataConfig)
+            .getGraph(this.data.graphDataConfig.growbeId,this.data.type, this.data.graphDataConfig)
             .subscribe((serie) => {
                 this.chartSerie = serie;
                 this.changeDetection.markForCheck();
