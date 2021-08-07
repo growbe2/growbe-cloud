@@ -17,7 +17,6 @@ import { GrowbeDashboardFilter1 } from '../model/models';
 import { GrowbeDashboardWithRelations } from '../model/models';
 import { LoopbackCount } from '../model/models';
 import { Configuration } from '../configuration';
-import * as ɵngcc0 from '@angular/core';
 export declare class GrowbeDashboardControllerService {
     protected httpClient: HttpClient;
     protected basePath: string;
@@ -181,7 +180,4 @@ export declare class GrowbeDashboardControllerService {
     }, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpEvent<any>>;
-    static ɵfac: ɵngcc0.ɵɵFactoryDeclaration<GrowbeDashboardControllerService, [null, { optional: true; }, { optional: true; }]>;
 }
-
-//# sourceMappingURL=growbeDashboardController.service.d.ts.map

@@ -706,6 +706,12 @@
                 throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerCreateRelationModel.');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -737,13 +743,19 @@
                 reportProgress: reportProgress
             });
         };
-        GrowbeMainboardControllerService.prototype.growbeMainboardControllerCreateRelationModel_1 = function (id, requestBody, observe, reportProgress, options) {
+        GrowbeMainboardControllerService.prototype.growbeMainboardControllerCreateRelationModel_1 = function (id, growbeModulePartialExcludingId, observe, reportProgress, options) {
             if (observe === void 0) { observe = 'body'; }
             if (reportProgress === void 0) { reportProgress = false; }
             if (id === null || id === undefined) {
                 throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerCreateRelationModel_1.');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -767,7 +779,7 @@
             if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
                 responseType = 'text';
             }
-            return this.httpClient.post(this.configuration.basePath + "/growbes/" + encodeURIComponent(String(id)) + "/growbeModules", requestBody, {
+            return this.httpClient.post(this.configuration.basePath + "/growbes/" + encodeURIComponent(String(id)) + "/growbeModules", growbeModulePartialExcludingId, {
                 responseType: responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -782,6 +794,12 @@
                 throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerCreateRelationModel_2.');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -820,6 +838,12 @@
                 throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerCreateRelationModel_3.');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -942,6 +966,12 @@
                 throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerDelRelationModel.');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -975,6 +1005,12 @@
                 throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerDelRelationModel_4.');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -1008,6 +1044,12 @@
                 throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerDelRelationModel_5.');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -1041,6 +1083,12 @@
                 throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerDelRelationModel_6.');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -1322,6 +1370,12 @@
                 queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -1357,6 +1411,12 @@
                 queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -1392,6 +1452,12 @@
                 queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -1427,6 +1493,12 @@
                 queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -1465,6 +1537,12 @@
                 queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -1503,6 +1581,12 @@
                 queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -1541,6 +1625,12 @@
                 queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -1579,6 +1669,12 @@
                 queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -1640,6 +1736,12 @@
                 throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerPutRelationModelById.');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -1671,7 +1773,7 @@
                 reportProgress: reportProgress
             });
         };
-        GrowbeMainboardControllerService.prototype.growbeMainboardControllerPutRelationModelById_13 = function (id, fk, requestBody, observe, reportProgress, options) {
+        GrowbeMainboardControllerService.prototype.growbeMainboardControllerPutRelationModelById_13 = function (id, fk, growbeModulePartial, observe, reportProgress, options) {
             if (observe === void 0) { observe = 'body'; }
             if (reportProgress === void 0) { reportProgress = false; }
             if (id === null || id === undefined) {
@@ -1681,6 +1783,12 @@
                 throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerPutRelationModelById_13.');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -1704,7 +1812,7 @@
             if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
                 responseType = 'text';
             }
-            return this.httpClient.put(this.configuration.basePath + "/growbes/" + encodeURIComponent(String(id)) + "/growbeModules/" + encodeURIComponent(String(fk)), requestBody, {
+            return this.httpClient.put(this.configuration.basePath + "/growbes/" + encodeURIComponent(String(id)) + "/growbeModules/" + encodeURIComponent(String(fk)), growbeModulePartial, {
                 responseType: responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -1722,6 +1830,12 @@
                 throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerPutRelationModelById_14.');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -1763,6 +1877,12 @@
                 throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerPutRelationModelById_15.');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -1852,7 +1972,7 @@
             if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
                 responseType = 'text';
             }
-            return this.httpClient.post(this.configuration.basePath + "/growbes/" + encodeURIComponent(String(id)) + "/register/org/" + encodeURIComponent(String(orgId)), null, {
+            return this.httpClient.post(this.configuration.basePath + "/growbe/" + encodeURIComponent(String(id)) + "/register/org/" + encodeURIComponent(String(orgId)), null, {
                 responseType: responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -2220,7 +2340,7 @@
                 reportProgress: reportProgress
             });
         };
-        GrowbeModuleControllerService.prototype.growbeModuleControllerCreate = function (requestBody, observe, reportProgress, options) {
+        GrowbeModuleControllerService.prototype.growbeModuleControllerCreate = function (growbeModuleExcludingId, observe, reportProgress, options) {
             if (observe === void 0) { observe = 'body'; }
             if (reportProgress === void 0) { reportProgress = false; }
             var headers = this.defaultHeaders;
@@ -2253,7 +2373,7 @@
             if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
                 responseType = 'text';
             }
-            return this.httpClient.post(this.configuration.basePath + "/growbeModules", requestBody, {
+            return this.httpClient.post(this.configuration.basePath + "/growbeModules", growbeModuleExcludingId, {
                 responseType: responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -2268,6 +2388,12 @@
                 throw new Error('Required parameter id was null or undefined when calling growbeModuleControllerCreateRelationModel.');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -2309,6 +2435,12 @@
                 throw new Error('Required parameter fk was null or undefined when calling growbeModuleControllerDelRelationModel.');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -2458,6 +2590,12 @@
                 queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -2496,6 +2634,12 @@
                 queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -2530,6 +2674,12 @@
                 throw new Error('Required parameter fk was null or undefined when calling growbeModuleControllerPutRelationModelById.');
             }
             var headers = this.defaultHeaders;
+            var credential;
+            // authentication (bearerAuth) required
+            credential = this.configuration.lookupCredential('bearerAuth');
+            if (credential) {
+                headers = headers.set('Authorization', 'Bearer ' + credential);
+            }
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
                 // to determine the Accept header
@@ -2605,9 +2755,12 @@
                 reportProgress: reportProgress
             });
         };
-        GrowbeModuleControllerService.prototype.growbeModuleControllerSetConfig = function (id, body, observe, reportProgress, options) {
+        GrowbeModuleControllerService.prototype.growbeModuleControllerSetConfig = function (boardId, id, body, observe, reportProgress, options) {
             if (observe === void 0) { observe = 'body'; }
             if (reportProgress === void 0) { reportProgress = false; }
+            if (boardId === null || boardId === undefined) {
+                throw new Error('Required parameter boardId was null or undefined when calling growbeModuleControllerSetConfig.');
+            }
             if (id === null || id === undefined) {
                 throw new Error('Required parameter id was null or undefined when calling growbeModuleControllerSetConfig.');
             }
@@ -2633,7 +2786,7 @@
             if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
                 responseType = 'text';
             }
-            return this.httpClient.post(this.configuration.basePath + "/growbeModules/" + encodeURIComponent(String(id)) + "/config", body, {
+            return this.httpClient.post(this.configuration.basePath + "/growbes/" + encodeURIComponent(String(boardId)) + "/modules/" + encodeURIComponent(String(id)) + "/config", body, {
                 responseType: responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -2641,7 +2794,7 @@
                 reportProgress: reportProgress
             });
         };
-        GrowbeModuleControllerService.prototype.growbeModuleControllerUpdateAll = function (where, requestBody, observe, reportProgress, options) {
+        GrowbeModuleControllerService.prototype.growbeModuleControllerUpdateAll = function (where, growbeModulePartial, observe, reportProgress, options) {
             if (observe === void 0) { observe = 'body'; }
             if (reportProgress === void 0) { reportProgress = false; }
             var queryParameters = new i1.HttpParams({ encoder: this.encoder });
@@ -2678,7 +2831,7 @@
             if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
                 responseType = 'text';
             }
-            return this.httpClient.patch(this.configuration.basePath + "/growbeModules", requestBody, {
+            return this.httpClient.patch(this.configuration.basePath + "/growbeModules", growbeModulePartial, {
                 params: queryParameters,
                 responseType: responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -2687,7 +2840,7 @@
                 reportProgress: reportProgress
             });
         };
-        GrowbeModuleControllerService.prototype.growbeModuleControllerUpdateById = function (id, requestBody, observe, reportProgress, options) {
+        GrowbeModuleControllerService.prototype.growbeModuleControllerUpdateById = function (id, growbeModulePartialExcludingId, observe, reportProgress, options) {
             if (observe === void 0) { observe = 'body'; }
             if (reportProgress === void 0) { reportProgress = false; }
             if (id === null || id === undefined) {
@@ -2723,7 +2876,7 @@
             if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
                 responseType = 'text';
             }
-            return this.httpClient.patch(this.configuration.basePath + "/growbeModules/" + encodeURIComponent(String(id)), requestBody, {
+            return this.httpClient.patch(this.configuration.basePath + "/growbeModules/" + encodeURIComponent(String(id)), growbeModulePartialExcludingId, {
                 responseType: responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -2839,160 +2992,7 @@
             if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
                 responseType = 'text';
             }
-            return this.httpClient.post(this.configuration.basePath + "/growbeModuleDefs/" + encodeURIComponent(String(id)) + "/addAlarm", body, {
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeModuleDefControllerService.prototype.growbeModuleDefControllerCount = function (where, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            var queryParameters = new i1.HttpParams({ encoder: this.encoder });
-            if (where !== undefined && where !== null) {
-                queryParameters = this.addToHttpParams(queryParameters, where, 'where');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.get(this.configuration.basePath + "/growbeModuleDefs/count", {
-                params: queryParameters,
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeModuleDefControllerService.prototype.growbeModuleDefControllerCreate = function (growbeModuleDef, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            // to determine the Content-Type header
-            var consumes = [
-                'application/json'
-            ];
-            var httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-            if (httpContentTypeSelected !== undefined) {
-                headers = headers.set('Content-Type', httpContentTypeSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.post(this.configuration.basePath + "/growbeModuleDefs", growbeModuleDef, {
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeModuleDefControllerService.prototype.growbeModuleDefControllerDeleteById = function (id, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            if (id === null || id === undefined) {
-                throw new Error('Required parameter id was null or undefined when calling growbeModuleDefControllerDeleteById.');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.delete(this.configuration.basePath + "/growbeModuleDefs/" + encodeURIComponent(String(id)), {
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeModuleDefControllerService.prototype.growbeModuleDefControllerFind = function (filter, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            var queryParameters = new i1.HttpParams({ encoder: this.encoder });
-            if (filter !== undefined && filter !== null) {
-                queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.get(this.configuration.basePath + "/growbeModuleDefs", {
-                params: queryParameters,
+            return this.httpClient.post(this.configuration.basePath + "/growbes/" + encodeURIComponent(String(id)) + "/alarm/hardware", body, {
                 responseType: responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -3041,39 +3041,6 @@
                 reportProgress: reportProgress
             });
         };
-        GrowbeModuleDefControllerService.prototype.growbeModuleDefControllerOverrideModuleDef = function (overrideModuleDefRequest, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            var headers = this.defaultHeaders;
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            // to determine the Content-Type header
-            var consumes = [
-                'application/json'
-            ];
-            var httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-            if (httpContentTypeSelected !== undefined) {
-                headers = headers.set('Content-Type', httpContentTypeSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.post(this.configuration.basePath + "/growbeModuleDefs/override", overrideModuleDefRequest, {
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
         GrowbeModuleDefControllerService.prototype.growbeModuleDefControllerRemoveHardwareAlarm = function (id, body, observe, reportProgress, options) {
             if (observe === void 0) { observe = 'body'; }
             if (reportProgress === void 0) { reportProgress = false; }
@@ -3102,97 +3069,7 @@
             if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
                 responseType = 'text';
             }
-            return this.httpClient.post(this.configuration.basePath + "/growbeModuleDefs/" + encodeURIComponent(String(id)) + "/removeAlarm", body, {
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeModuleDefControllerService.prototype.growbeModuleDefControllerReplaceById = function (id, body, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            if (id === null || id === undefined) {
-                throw new Error('Required parameter id was null or undefined when calling growbeModuleDefControllerReplaceById.');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            // to determine the Content-Type header
-            var consumes = [
-                'application/json'
-            ];
-            var httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-            if (httpContentTypeSelected !== undefined) {
-                headers = headers.set('Content-Type', httpContentTypeSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.put(this.configuration.basePath + "/growbeModuleDefs/" + encodeURIComponent(String(id)), body, {
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeModuleDefControllerService.prototype.growbeModuleDefControllerUpdateAll = function (where, growbeModuleDefPartial, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            var queryParameters = new i1.HttpParams({ encoder: this.encoder });
-            if (where !== undefined && where !== null) {
-                queryParameters = this.addToHttpParams(queryParameters, where, 'where');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            // to determine the Content-Type header
-            var consumes = [
-                'application/json'
-            ];
-            var httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-            if (httpContentTypeSelected !== undefined) {
-                headers = headers.set('Content-Type', httpContentTypeSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.patch(this.configuration.basePath + "/growbeModuleDefs", growbeModuleDefPartial, {
-                params: queryParameters,
+            return this.httpClient.post(this.configuration.basePath + "/growbes/" + encodeURIComponent(String(id)) + "/alarm/hardware/rm", body, {
                 responseType: responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -3269,6 +3146,116 @@
      * https://openapi-generator.tech
      * Do not edit the class manually.
      */
+    var GrowbeModuleDefGrowbeMainboardControllerService = /** @class */ (function () {
+        function GrowbeModuleDefGrowbeMainboardControllerService(httpClient, basePath, configuration) {
+            this.httpClient = httpClient;
+            this.basePath = 'http://localhost/api';
+            this.defaultHeaders = new i1.HttpHeaders();
+            this.configuration = new Configuration();
+            if (configuration) {
+                this.configuration = configuration;
+            }
+            if (typeof this.configuration.basePath !== 'string') {
+                if (typeof basePath !== 'string') {
+                    basePath = this.basePath;
+                }
+                this.configuration.basePath = basePath;
+            }
+            this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
+        }
+        GrowbeModuleDefGrowbeMainboardControllerService.prototype.addToHttpParams = function (httpParams, value, key) {
+            if (typeof value === "object" && value instanceof Date === false) {
+                httpParams = this.addToHttpParamsRecursive(httpParams, value);
+            }
+            else {
+                httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
+            }
+            return httpParams;
+        };
+        GrowbeModuleDefGrowbeMainboardControllerService.prototype.addToHttpParamsRecursive = function (httpParams, value, key) {
+            var _this = this;
+            if (value == null) {
+                return httpParams;
+            }
+            if (typeof value === "object") {
+                if (Array.isArray(value)) {
+                    value.forEach(function (elem) { return httpParams = _this.addToHttpParamsRecursive(httpParams, elem, key); });
+                }
+                else if (value instanceof Date) {
+                    if (key != null) {
+                        httpParams = httpParams.append(key, value.toISOString().substr(0, 10));
+                    }
+                    else {
+                        throw Error("key may not be null if value is Date");
+                    }
+                }
+                else {
+                    Object.keys(value).forEach(function (k) { return httpParams = _this.addToHttpParamsRecursive(httpParams, value[k], key != null ? key + "." + k : k); });
+                }
+            }
+            else if (key != null) {
+                httpParams = httpParams.append(key, value);
+            }
+            else {
+                throw Error("key may not be null if value is not object or array");
+            }
+            return httpParams;
+        };
+        GrowbeModuleDefGrowbeMainboardControllerService.prototype.growbeModuleDefGrowbeMainboardControllerGetGrowbeMainboard = function (id, observe, reportProgress, options) {
+            if (observe === void 0) { observe = 'body'; }
+            if (reportProgress === void 0) { reportProgress = false; }
+            if (id === null || id === undefined) {
+                throw new Error('Required parameter id was null or undefined when calling growbeModuleDefGrowbeMainboardControllerGetGrowbeMainboard.');
+            }
+            var headers = this.defaultHeaders;
+            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
+            if (httpHeaderAcceptSelected === undefined) {
+                // to determine the Accept header
+                var httpHeaderAccepts = [
+                    'application/json'
+                ];
+                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            }
+            if (httpHeaderAcceptSelected !== undefined) {
+                headers = headers.set('Accept', httpHeaderAcceptSelected);
+            }
+            var responseType = 'json';
+            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+                responseType = 'text';
+            }
+            return this.httpClient.get(this.configuration.basePath + "/growbe-module-defs/" + encodeURIComponent(String(id)) + "/growbe-mainboard", {
+                responseType: responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            });
+        };
+        return GrowbeModuleDefGrowbeMainboardControllerService;
+    }());
+    GrowbeModuleDefGrowbeMainboardControllerService.ɵprov = i0.ɵɵdefineInjectable({ factory: function GrowbeModuleDefGrowbeMainboardControllerService_Factory() { return new GrowbeModuleDefGrowbeMainboardControllerService(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); }, token: GrowbeModuleDefGrowbeMainboardControllerService, providedIn: "root" });
+    GrowbeModuleDefGrowbeMainboardControllerService.decorators = [
+        { type: i0.Injectable, args: [{
+                    providedIn: 'root'
+                },] }
+    ];
+    GrowbeModuleDefGrowbeMainboardControllerService.ctorParameters = function () { return [
+        { type: i1.HttpClient },
+        { type: String, decorators: [{ type: i0.Optional }, { type: i0.Inject, args: [BASE_PATH,] }] },
+        { type: Configuration, decorators: [{ type: i0.Optional }] }
+    ]; };
+
+    /**
+     * growbe-cloud
+     * Cloud server for Growbe
+     *
+     * The version of the OpenAPI document: 0.0.0
+     * Contact: wquintal@berlingoqc.com
+     *
+     * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
+     * https://openapi-generator.tech
+     * Do not edit the class manually.
+     */
     var GrowbeModuleGraphControllerService = /** @class */ (function () {
         function GrowbeModuleGraphControllerService(httpClient, basePath, configuration) {
             this.httpClient = httpClient;
@@ -3324,9 +3311,12 @@
             }
             return httpParams;
         };
-        GrowbeModuleGraphControllerService.prototype.growbeModuleGraphControllerGetGraph = function (graphModuleRequest, observe, reportProgress, options) {
+        GrowbeModuleGraphControllerService.prototype.growbeModuleGraphControllerGetGraph = function (id, graphModuleRequest, observe, reportProgress, options) {
             if (observe === void 0) { observe = 'body'; }
             if (reportProgress === void 0) { reportProgress = false; }
+            if (id === null || id === undefined) {
+                throw new Error('Required parameter id was null or undefined when calling growbeModuleGraphControllerGetGraph.');
+            }
             var headers = this.defaultHeaders;
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
@@ -3349,7 +3339,7 @@
             if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
                 responseType = 'text';
             }
-            return this.httpClient.post(this.configuration.basePath + "/growbe/graph", graphModuleRequest, {
+            return this.httpClient.post(this.configuration.basePath + "/growbes/" + encodeURIComponent(String(id)) + "/graph", graphModuleRequest, {
                 responseType: responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -3357,9 +3347,12 @@
                 reportProgress: reportProgress
             });
         };
-        GrowbeModuleGraphControllerService.prototype.growbeModuleGraphControllerGetLastValue = function (moduleDataRequest, observe, reportProgress, options) {
+        GrowbeModuleGraphControllerService.prototype.growbeModuleGraphControllerGetLastValue = function (id, moduleDataRequest, observe, reportProgress, options) {
             if (observe === void 0) { observe = 'body'; }
             if (reportProgress === void 0) { reportProgress = false; }
+            if (id === null || id === undefined) {
+                throw new Error('Required parameter id was null or undefined when calling growbeModuleGraphControllerGetLastValue.');
+            }
             var headers = this.defaultHeaders;
             var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
             if (httpHeaderAcceptSelected === undefined) {
@@ -3382,7 +3375,7 @@
             if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
                 responseType = 'text';
             }
-            return this.httpClient.post(this.configuration.basePath + "/growbe/one", moduleDataRequest, {
+            return this.httpClient.post(this.configuration.basePath + "/growbes/" + encodeURIComponent(String(id)) + "/one", moduleDataRequest, {
                 responseType: responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -3399,414 +3392,6 @@
                 },] }
     ];
     GrowbeModuleGraphControllerService.ctorParameters = function () { return [
-        { type: i1.HttpClient },
-        { type: String, decorators: [{ type: i0.Optional }, { type: i0.Inject, args: [BASE_PATH,] }] },
-        { type: Configuration, decorators: [{ type: i0.Optional }] }
-    ]; };
-
-    /**
-     * growbe-cloud
-     * Cloud server for Growbe
-     *
-     * The version of the OpenAPI document: 0.0.0
-     * Contact: wquintal@berlingoqc.com
-     *
-     * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
-     * https://openapi-generator.tech
-     * Do not edit the class manually.
-     */
-    var GrowbeSensorValueControllerService = /** @class */ (function () {
-        function GrowbeSensorValueControllerService(httpClient, basePath, configuration) {
-            this.httpClient = httpClient;
-            this.basePath = 'http://localhost/api';
-            this.defaultHeaders = new i1.HttpHeaders();
-            this.configuration = new Configuration();
-            if (configuration) {
-                this.configuration = configuration;
-            }
-            if (typeof this.configuration.basePath !== 'string') {
-                if (typeof basePath !== 'string') {
-                    basePath = this.basePath;
-                }
-                this.configuration.basePath = basePath;
-            }
-            this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
-        }
-        GrowbeSensorValueControllerService.prototype.addToHttpParams = function (httpParams, value, key) {
-            if (typeof value === "object" && value instanceof Date === false) {
-                httpParams = this.addToHttpParamsRecursive(httpParams, value);
-            }
-            else {
-                httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
-            }
-            return httpParams;
-        };
-        GrowbeSensorValueControllerService.prototype.addToHttpParamsRecursive = function (httpParams, value, key) {
-            var _this = this;
-            if (value == null) {
-                return httpParams;
-            }
-            if (typeof value === "object") {
-                if (Array.isArray(value)) {
-                    value.forEach(function (elem) { return httpParams = _this.addToHttpParamsRecursive(httpParams, elem, key); });
-                }
-                else if (value instanceof Date) {
-                    if (key != null) {
-                        httpParams = httpParams.append(key, value.toISOString().substr(0, 10));
-                    }
-                    else {
-                        throw Error("key may not be null if value is Date");
-                    }
-                }
-                else {
-                    Object.keys(value).forEach(function (k) { return httpParams = _this.addToHttpParamsRecursive(httpParams, value[k], key != null ? key + "." + k : k); });
-                }
-            }
-            else if (key != null) {
-                httpParams = httpParams.append(key, value);
-            }
-            else {
-                throw Error("key may not be null if value is not object or array");
-            }
-            return httpParams;
-        };
-        GrowbeSensorValueControllerService.prototype.growbeSensorValueControllerCount = function (where, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            var queryParameters = new i1.HttpParams({ encoder: this.encoder });
-            if (where !== undefined && where !== null) {
-                queryParameters = this.addToHttpParams(queryParameters, where, 'where');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.get(this.configuration.basePath + "/growbeSensorValues/count", {
-                params: queryParameters,
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeSensorValueControllerService.prototype.growbeSensorValueControllerCreate = function (requestBody, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            // to determine the Content-Type header
-            var consumes = [
-                'application/json'
-            ];
-            var httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-            if (httpContentTypeSelected !== undefined) {
-                headers = headers.set('Content-Type', httpContentTypeSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.post(this.configuration.basePath + "/growbeSensorValues", requestBody, {
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeSensorValueControllerService.prototype.growbeSensorValueControllerDeleteById = function (id, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            if (id === null || id === undefined) {
-                throw new Error('Required parameter id was null or undefined when calling growbeSensorValueControllerDeleteById.');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.delete(this.configuration.basePath + "/growbeSensorValues/" + encodeURIComponent(String(id)), {
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeSensorValueControllerService.prototype.growbeSensorValueControllerFind = function (filter, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            var queryParameters = new i1.HttpParams({ encoder: this.encoder });
-            if (filter !== undefined && filter !== null) {
-                queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.get(this.configuration.basePath + "/growbeSensorValues", {
-                params: queryParameters,
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeSensorValueControllerService.prototype.growbeSensorValueControllerFindById = function (id, filter, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            if (id === null || id === undefined) {
-                throw new Error('Required parameter id was null or undefined when calling growbeSensorValueControllerFindById.');
-            }
-            var queryParameters = new i1.HttpParams({ encoder: this.encoder });
-            if (filter !== undefined && filter !== null) {
-                queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.get(this.configuration.basePath + "/growbeSensorValues/" + encodeURIComponent(String(id)), {
-                params: queryParameters,
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeSensorValueControllerService.prototype.growbeSensorValueControllerReplaceById = function (id, body, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            if (id === null || id === undefined) {
-                throw new Error('Required parameter id was null or undefined when calling growbeSensorValueControllerReplaceById.');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            // to determine the Content-Type header
-            var consumes = [
-                'application/json'
-            ];
-            var httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-            if (httpContentTypeSelected !== undefined) {
-                headers = headers.set('Content-Type', httpContentTypeSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.put(this.configuration.basePath + "/growbeSensorValues/" + encodeURIComponent(String(id)), body, {
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeSensorValueControllerService.prototype.growbeSensorValueControllerUpdateAll = function (where, requestBody, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            var queryParameters = new i1.HttpParams({ encoder: this.encoder });
-            if (where !== undefined && where !== null) {
-                queryParameters = this.addToHttpParams(queryParameters, where, 'where');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            // to determine the Content-Type header
-            var consumes = [
-                'application/json'
-            ];
-            var httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-            if (httpContentTypeSelected !== undefined) {
-                headers = headers.set('Content-Type', httpContentTypeSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.patch(this.configuration.basePath + "/growbeSensorValues", requestBody, {
-                params: queryParameters,
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeSensorValueControllerService.prototype.growbeSensorValueControllerUpdateById = function (id, requestBody, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            if (id === null || id === undefined) {
-                throw new Error('Required parameter id was null or undefined when calling growbeSensorValueControllerUpdateById.');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            // to determine the Content-Type header
-            var consumes = [
-                'application/json'
-            ];
-            var httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-            if (httpContentTypeSelected !== undefined) {
-                headers = headers.set('Content-Type', httpContentTypeSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.patch(this.configuration.basePath + "/growbeSensorValues/" + encodeURIComponent(String(id)), requestBody, {
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        return GrowbeSensorValueControllerService;
-    }());
-    GrowbeSensorValueControllerService.ɵprov = i0.ɵɵdefineInjectable({ factory: function GrowbeSensorValueControllerService_Factory() { return new GrowbeSensorValueControllerService(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); }, token: GrowbeSensorValueControllerService, providedIn: "root" });
-    GrowbeSensorValueControllerService.decorators = [
-        { type: i0.Injectable, args: [{
-                    providedIn: 'root'
-                },] }
-    ];
-    GrowbeSensorValueControllerService.ctorParameters = function () { return [
         { type: i1.HttpClient },
         { type: String, decorators: [{ type: i0.Optional }, { type: i0.Inject, args: [BASE_PATH,] }] },
         { type: Configuration, decorators: [{ type: i0.Optional }] }
@@ -4000,414 +3585,6 @@
      * https://openapi-generator.tech
      * Do not edit the class manually.
      */
-    var GrowbeWarningControllerService = /** @class */ (function () {
-        function GrowbeWarningControllerService(httpClient, basePath, configuration) {
-            this.httpClient = httpClient;
-            this.basePath = 'http://localhost/api';
-            this.defaultHeaders = new i1.HttpHeaders();
-            this.configuration = new Configuration();
-            if (configuration) {
-                this.configuration = configuration;
-            }
-            if (typeof this.configuration.basePath !== 'string') {
-                if (typeof basePath !== 'string') {
-                    basePath = this.basePath;
-                }
-                this.configuration.basePath = basePath;
-            }
-            this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
-        }
-        GrowbeWarningControllerService.prototype.addToHttpParams = function (httpParams, value, key) {
-            if (typeof value === "object" && value instanceof Date === false) {
-                httpParams = this.addToHttpParamsRecursive(httpParams, value);
-            }
-            else {
-                httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
-            }
-            return httpParams;
-        };
-        GrowbeWarningControllerService.prototype.addToHttpParamsRecursive = function (httpParams, value, key) {
-            var _this = this;
-            if (value == null) {
-                return httpParams;
-            }
-            if (typeof value === "object") {
-                if (Array.isArray(value)) {
-                    value.forEach(function (elem) { return httpParams = _this.addToHttpParamsRecursive(httpParams, elem, key); });
-                }
-                else if (value instanceof Date) {
-                    if (key != null) {
-                        httpParams = httpParams.append(key, value.toISOString().substr(0, 10));
-                    }
-                    else {
-                        throw Error("key may not be null if value is Date");
-                    }
-                }
-                else {
-                    Object.keys(value).forEach(function (k) { return httpParams = _this.addToHttpParamsRecursive(httpParams, value[k], key != null ? key + "." + k : k); });
-                }
-            }
-            else if (key != null) {
-                httpParams = httpParams.append(key, value);
-            }
-            else {
-                throw Error("key may not be null if value is not object or array");
-            }
-            return httpParams;
-        };
-        GrowbeWarningControllerService.prototype.growbeWarningControllerCount = function (where, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            var queryParameters = new i1.HttpParams({ encoder: this.encoder });
-            if (where !== undefined && where !== null) {
-                queryParameters = this.addToHttpParams(queryParameters, where, 'where');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.get(this.configuration.basePath + "/warnings/count", {
-                params: queryParameters,
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeWarningControllerService.prototype.growbeWarningControllerCreate = function (growbeWarningExcludingId, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            // to determine the Content-Type header
-            var consumes = [
-                'application/json'
-            ];
-            var httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-            if (httpContentTypeSelected !== undefined) {
-                headers = headers.set('Content-Type', httpContentTypeSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.post(this.configuration.basePath + "/warnings", growbeWarningExcludingId, {
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeWarningControllerService.prototype.growbeWarningControllerDeleteById = function (id, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            if (id === null || id === undefined) {
-                throw new Error('Required parameter id was null or undefined when calling growbeWarningControllerDeleteById.');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.delete(this.configuration.basePath + "/warnings/" + encodeURIComponent(String(id)), {
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeWarningControllerService.prototype.growbeWarningControllerFind = function (filter, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            var queryParameters = new i1.HttpParams({ encoder: this.encoder });
-            if (filter !== undefined && filter !== null) {
-                queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.get(this.configuration.basePath + "/warnings", {
-                params: queryParameters,
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeWarningControllerService.prototype.growbeWarningControllerFindById = function (id, filter, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            if (id === null || id === undefined) {
-                throw new Error('Required parameter id was null or undefined when calling growbeWarningControllerFindById.');
-            }
-            var queryParameters = new i1.HttpParams({ encoder: this.encoder });
-            if (filter !== undefined && filter !== null) {
-                queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.get(this.configuration.basePath + "/warnings/" + encodeURIComponent(String(id)), {
-                params: queryParameters,
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeWarningControllerService.prototype.growbeWarningControllerReplaceById = function (id, body, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            if (id === null || id === undefined) {
-                throw new Error('Required parameter id was null or undefined when calling growbeWarningControllerReplaceById.');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            // to determine the Content-Type header
-            var consumes = [
-                'application/json'
-            ];
-            var httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-            if (httpContentTypeSelected !== undefined) {
-                headers = headers.set('Content-Type', httpContentTypeSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.put(this.configuration.basePath + "/warnings/" + encodeURIComponent(String(id)), body, {
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeWarningControllerService.prototype.growbeWarningControllerUpdateAll = function (where, growbeWarningPartial, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            var queryParameters = new i1.HttpParams({ encoder: this.encoder });
-            if (where !== undefined && where !== null) {
-                queryParameters = this.addToHttpParams(queryParameters, where, 'where');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            // to determine the Content-Type header
-            var consumes = [
-                'application/json'
-            ];
-            var httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-            if (httpContentTypeSelected !== undefined) {
-                headers = headers.set('Content-Type', httpContentTypeSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.patch(this.configuration.basePath + "/warnings", growbeWarningPartial, {
-                params: queryParameters,
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        GrowbeWarningControllerService.prototype.growbeWarningControllerUpdateById = function (id, growbeWarningPartialExcludingId, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            if (id === null || id === undefined) {
-                throw new Error('Required parameter id was null or undefined when calling growbeWarningControllerUpdateById.');
-            }
-            var headers = this.defaultHeaders;
-            var credential;
-            // authentication (bearerAuth) required
-            credential = this.configuration.lookupCredential('bearerAuth');
-            if (credential) {
-                headers = headers.set('Authorization', 'Bearer ' + credential);
-            }
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [
-                    'application/json'
-                ];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            // to determine the Content-Type header
-            var consumes = [
-                'application/json'
-            ];
-            var httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-            if (httpContentTypeSelected !== undefined) {
-                headers = headers.set('Content-Type', httpContentTypeSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.patch(this.configuration.basePath + "/warnings/" + encodeURIComponent(String(id)), growbeWarningPartialExcludingId, {
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
-        return GrowbeWarningControllerService;
-    }());
-    GrowbeWarningControllerService.ɵprov = i0.ɵɵdefineInjectable({ factory: function GrowbeWarningControllerService_Factory() { return new GrowbeWarningControllerService(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); }, token: GrowbeWarningControllerService, providedIn: "root" });
-    GrowbeWarningControllerService.decorators = [
-        { type: i0.Injectable, args: [{
-                    providedIn: 'root'
-                },] }
-    ];
-    GrowbeWarningControllerService.ctorParameters = function () { return [
-        { type: i1.HttpClient },
-        { type: String, decorators: [{ type: i0.Optional }, { type: i0.Inject, args: [BASE_PATH,] }] },
-        { type: Configuration, decorators: [{ type: i0.Optional }] }
-    ]; };
-
-    /**
-     * growbe-cloud
-     * Cloud server for Growbe
-     *
-     * The version of the OpenAPI document: 0.0.0
-     * Contact: wquintal@berlingoqc.com
-     *
-     * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
-     * https://openapi-generator.tech
-     * Do not edit the class manually.
-     */
     var PingControllerService = /** @class */ (function () {
         function PingControllerService(httpClient, basePath, configuration) {
             this.httpClient = httpClient;
@@ -4504,7 +3681,7 @@
         { type: Configuration, decorators: [{ type: i0.Optional }] }
     ]; };
 
-    var APIS = [GrowbeDashboardControllerService, GrowbeMainboardControllerService, GrowbeModuleControllerService, GrowbeModuleDefControllerService, GrowbeModuleGraphControllerService, GrowbeSensorValueControllerService, GrowbeStreamControllerService, GrowbeWarningControllerService, PingControllerService];
+    var APIS = [GrowbeDashboardControllerService, GrowbeMainboardControllerService, GrowbeModuleControllerService, GrowbeModuleDefControllerService, GrowbeModuleDefGrowbeMainboardControllerService, GrowbeModuleGraphControllerService, GrowbeStreamControllerService, PingControllerService];
 
     /**
      * growbe-cloud
@@ -4778,10 +3955,9 @@
     exports.GrowbeMainboardControllerService = GrowbeMainboardControllerService;
     exports.GrowbeModuleControllerService = GrowbeModuleControllerService;
     exports.GrowbeModuleDefControllerService = GrowbeModuleDefControllerService;
+    exports.GrowbeModuleDefGrowbeMainboardControllerService = GrowbeModuleDefGrowbeMainboardControllerService;
     exports.GrowbeModuleGraphControllerService = GrowbeModuleGraphControllerService;
-    exports.GrowbeSensorValueControllerService = GrowbeSensorValueControllerService;
     exports.GrowbeStreamControllerService = GrowbeStreamControllerService;
-    exports.GrowbeWarningControllerService = GrowbeWarningControllerService;
     exports.PingControllerService = PingControllerService;
 
     Object.defineProperty(exports, '__esModule', { value: true });

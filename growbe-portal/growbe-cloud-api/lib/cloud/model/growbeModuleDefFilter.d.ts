@@ -9,10 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { GrowbeModuleDefIncludeFilterItems } from './growbeModuleDefIncludeFilterItems';
 export interface GrowbeModuleDefFilter {
     offset?: number;
     limit?: number;
     skip?: number;
     order?: string | Array<string>;
     fields?: object | Set<string>;
+    include?: Array<GrowbeModuleDefIncludeFilterItems | string>;
 }

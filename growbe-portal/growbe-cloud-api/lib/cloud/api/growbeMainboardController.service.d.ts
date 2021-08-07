@@ -23,6 +23,8 @@ import { GrowbeMainboardPartial } from '../model/models';
 import { GrowbeMainboardPartialExcludingId } from '../model/models';
 import { GrowbeMainboardWithRelations } from '../model/models';
 import { GrowbeModule } from '../model/models';
+import { GrowbeModulePartial } from '../model/models';
+import { GrowbeModulePartialExcludingId } from '../model/models';
 import { GrowbeRegisterRequest } from '../model/models';
 import { GrowbeRegisterResponse } from '../model/models';
 import { GrowbeSensorValue } from '../model/models';
@@ -31,7 +33,6 @@ import { GrowbeWarningPartial } from '../model/models';
 import { GrowbeWarningPartialExcludingId } from '../model/models';
 import { LoopbackCount } from '../model/models';
 import { Configuration } from '../configuration';
-import * as ɵngcc0 from '@angular/core';
 export declare class GrowbeMainboardControllerService {
     protected httpClient: HttpClient;
     protected basePath: string;
@@ -115,23 +116,17 @@ export declare class GrowbeMainboardControllerService {
     /**
      * Create a new instance of GrowbeMainboard
      * @param id
-     * @param requestBody
+     * @param growbeModulePartialExcludingId
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    growbeMainboardControllerCreateRelationModel_1(id: string, requestBody?: {
-        [key: string]: object;
-    }, observe?: 'body', reportProgress?: boolean, options?: {
+    growbeMainboardControllerCreateRelationModel_1(id: string, growbeModulePartialExcludingId?: GrowbeModulePartialExcludingId, observe?: 'body', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<GrowbeModule>;
-    growbeMainboardControllerCreateRelationModel_1(id: string, requestBody?: {
-        [key: string]: object;
-    }, observe?: 'response', reportProgress?: boolean, options?: {
+    growbeMainboardControllerCreateRelationModel_1(id: string, growbeModulePartialExcludingId?: GrowbeModulePartialExcludingId, observe?: 'response', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpResponse<GrowbeModule>>;
-    growbeMainboardControllerCreateRelationModel_1(id: string, requestBody?: {
-        [key: string]: object;
-    }, observe?: 'events', reportProgress?: boolean, options?: {
+    growbeMainboardControllerCreateRelationModel_1(id: string, growbeModulePartialExcludingId?: GrowbeModulePartialExcludingId, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpEvent<GrowbeModule>>;
     /**
@@ -613,23 +608,17 @@ export declare class GrowbeMainboardControllerService {
      * Replace a instance of GrowbeMainboard
      * @param id
      * @param fk
-     * @param requestBody
+     * @param growbeModulePartial
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    growbeMainboardControllerPutRelationModelById_13(id: string, fk: string, requestBody?: {
-        [key: string]: object;
-    }, observe?: 'body', reportProgress?: boolean, options?: {
+    growbeMainboardControllerPutRelationModelById_13(id: string, fk: string, growbeModulePartial?: GrowbeModulePartial, observe?: 'body', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<GrowbeModule>;
-    growbeMainboardControllerPutRelationModelById_13(id: string, fk: string, requestBody?: {
-        [key: string]: object;
-    }, observe?: 'response', reportProgress?: boolean, options?: {
+    growbeMainboardControllerPutRelationModelById_13(id: string, fk: string, growbeModulePartial?: GrowbeModulePartial, observe?: 'response', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpResponse<GrowbeModule>>;
-    growbeMainboardControllerPutRelationModelById_13(id: string, fk: string, requestBody?: {
-        [key: string]: object;
-    }, observe?: 'events', reportProgress?: boolean, options?: {
+    growbeMainboardControllerPutRelationModelById_13(id: string, fk: string, growbeModulePartial?: GrowbeModulePartial, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpEvent<GrowbeModule>>;
     /**
@@ -800,7 +789,4 @@ export declare class GrowbeMainboardControllerService {
     growbeMainboardControllerUpdateById(id: string, growbeMainboardPartialExcludingId?: GrowbeMainboardPartialExcludingId, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpEvent<any>>;
-    static ɵfac: ɵngcc0.ɵɵFactoryDeclaration<GrowbeMainboardControllerService, [null, { optional: true; }, { optional: true; }]>;
 }
-
-//# sourceMappingURL=growbeMainboardController.service.d.ts.map

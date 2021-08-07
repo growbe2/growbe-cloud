@@ -14,7 +14,6 @@ import { Observable } from 'rxjs';
 import { GraphModuleRequest } from '../model/models';
 import { ModuleDataRequest } from '../model/models';
 import { Configuration } from '../configuration';
-import * as ɵngcc0 from '@angular/core';
 export declare class GrowbeModuleGraphControllerService {
     protected httpClient: HttpClient;
     protected basePath: string;
@@ -25,34 +24,33 @@ export declare class GrowbeModuleGraphControllerService {
     private addToHttpParams;
     private addToHttpParamsRecursive;
     /**
+     * @param id
      * @param graphModuleRequest
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    growbeModuleGraphControllerGetGraph(graphModuleRequest?: GraphModuleRequest, observe?: 'body', reportProgress?: boolean, options?: {
+    growbeModuleGraphControllerGetGraph(id: string, graphModuleRequest?: GraphModuleRequest, observe?: 'body', reportProgress?: boolean, options?: {
         httpHeaderAccept?: undefined;
     }): Observable<any>;
-    growbeModuleGraphControllerGetGraph(graphModuleRequest?: GraphModuleRequest, observe?: 'response', reportProgress?: boolean, options?: {
+    growbeModuleGraphControllerGetGraph(id: string, graphModuleRequest?: GraphModuleRequest, observe?: 'response', reportProgress?: boolean, options?: {
         httpHeaderAccept?: undefined;
     }): Observable<HttpResponse<any>>;
-    growbeModuleGraphControllerGetGraph(graphModuleRequest?: GraphModuleRequest, observe?: 'events', reportProgress?: boolean, options?: {
+    growbeModuleGraphControllerGetGraph(id: string, graphModuleRequest?: GraphModuleRequest, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: undefined;
     }): Observable<HttpEvent<any>>;
     /**
+     * @param id
      * @param moduleDataRequest
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    growbeModuleGraphControllerGetLastValue(moduleDataRequest?: ModuleDataRequest, observe?: 'body', reportProgress?: boolean, options?: {
+    growbeModuleGraphControllerGetLastValue(id: string, moduleDataRequest?: ModuleDataRequest, observe?: 'body', reportProgress?: boolean, options?: {
         httpHeaderAccept?: undefined;
     }): Observable<any>;
-    growbeModuleGraphControllerGetLastValue(moduleDataRequest?: ModuleDataRequest, observe?: 'response', reportProgress?: boolean, options?: {
+    growbeModuleGraphControllerGetLastValue(id: string, moduleDataRequest?: ModuleDataRequest, observe?: 'response', reportProgress?: boolean, options?: {
         httpHeaderAccept?: undefined;
     }): Observable<HttpResponse<any>>;
-    growbeModuleGraphControllerGetLastValue(moduleDataRequest?: ModuleDataRequest, observe?: 'events', reportProgress?: boolean, options?: {
+    growbeModuleGraphControllerGetLastValue(id: string, moduleDataRequest?: ModuleDataRequest, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: undefined;
     }): Observable<HttpEvent<any>>;
-    static ɵfac: ɵngcc0.ɵɵFactoryDeclaration<GrowbeModuleGraphControllerService, [null, { optional: true; }, { optional: true; }]>;
 }
-
-//# sourceMappingURL=growbeModuleGraphController.service.d.ts.map

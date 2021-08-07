@@ -12,7 +12,6 @@
 import { HttpClient, HttpHeaders, HttpResponse, HttpEvent, HttpParameterCodec } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Configuration } from '../configuration';
-import * as ɵngcc0 from '@angular/core';
 export declare class GrowbeStreamControllerService {
     protected httpClient: HttpClient;
     protected basePath: string;
@@ -71,7 +70,4 @@ export declare class GrowbeStreamControllerService {
     growbeStreamControllerGetLiveStream(id: string, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: undefined;
     }): Observable<HttpEvent<any>>;
-    static ɵfac: ɵngcc0.ɵɵFactoryDeclaration<GrowbeStreamControllerService, [null, { optional: true; }, { optional: true; }]>;
 }
-
-//# sourceMappingURL=growbeStreamController.service.d.ts.map

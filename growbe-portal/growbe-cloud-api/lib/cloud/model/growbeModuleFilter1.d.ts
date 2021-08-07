@@ -18,6 +18,6 @@ export interface GrowbeModuleFilter1 {
     where?: {
         [key: string]: object;
     };
-    fields?: any | Set<string>;
+    fields?: object | Set<string>;
     include?: Array<GrowbeModuleIncludeFilterItems | string>;
 }

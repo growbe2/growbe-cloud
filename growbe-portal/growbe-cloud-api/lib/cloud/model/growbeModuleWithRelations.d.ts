@@ -17,16 +17,14 @@ import { GrowbeMainboardWithRelations } from './growbeMainboardWithRelations';
  * (tsType: GrowbeModuleWithRelations, schemaOptions: { includeRelations: true })
  */
 export interface GrowbeModuleWithRelations {
-    [key: string]: object | any;
     id?: string;
-    uid?: string;
     connected?: boolean;
     readCount?: number;
     config?: object;
     mainboardId?: string;
-    moduleName?: string;
-    growbeSensorValues?: Array<GrowbeSensorValueWithRelations>;
+    atIndex?: number;
     mainboard?: GrowbeMainboardWithRelations;
+    growbeSensorValues?: Array<GrowbeSensorValueWithRelations>;
     moduleDef?: GrowbeModuleDefWithRelations;
     growbeLogs?: Array<GrowbeLogsWithRelations>;
 }

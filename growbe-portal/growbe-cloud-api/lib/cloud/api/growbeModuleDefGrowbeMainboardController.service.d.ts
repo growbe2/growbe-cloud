@@ -11,9 +11,9 @@
  */
 import { HttpClient, HttpHeaders, HttpResponse, HttpEvent, HttpParameterCodec } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PingResponse } from '../model/models';
+import { GrowbeMainboard } from '../model/models';
 import { Configuration } from '../configuration';
-export declare class PingControllerService {
+export declare class GrowbeModuleDefGrowbeMainboardControllerService {
     protected httpClient: HttpClient;
     protected basePath: string;
     defaultHeaders: HttpHeaders;
@@ -23,16 +23,17 @@ export declare class PingControllerService {
     private addToHttpParams;
     private addToHttpParamsRecursive;
     /**
+     * @param id
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    pingControllerPing(observe?: 'body', reportProgress?: boolean, options?: {
+    growbeModuleDefGrowbeMainboardControllerGetGrowbeMainboard(id: string, observe?: 'body', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
-    }): Observable<PingResponse>;
-    pingControllerPing(observe?: 'response', reportProgress?: boolean, options?: {
+    }): Observable<Array<GrowbeMainboard>>;
+    growbeModuleDefGrowbeMainboardControllerGetGrowbeMainboard(id: string, observe?: 'response', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
-    }): Observable<HttpResponse<PingResponse>>;
-    pingControllerPing(observe?: 'events', reportProgress?: boolean, options?: {
+    }): Observable<HttpResponse<Array<GrowbeMainboard>>>;
+    growbeModuleDefGrowbeMainboardControllerGetGrowbeMainboard(id: string, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
-    }): Observable<HttpEvent<PingResponse>>;
+    }): Observable<HttpEvent<Array<GrowbeMainboard>>>;
 }

@@ -9,13 +9,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-/**
- * (tsType: Omit<Partial<GrowbeModule>, \'id\'>, schemaOptions: { title: \'\', partial: true, exclude: [ \'id\' ] })
- */
-export interface GrowbeModulePartialExcludingId {
-    connected?: boolean;
-    readCount?: number;
-    config?: object;
-    mainboardId?: string;
-    atIndex?: number;
+import { GrowbeModuleDefScopeFilter } from './growbeModuleDefScopeFilter';
+export interface GrowbeModuleDefIncludeFilterItems {
+    relation?: string;
+    scope?: GrowbeModuleDefScopeFilter;
 }

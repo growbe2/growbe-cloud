@@ -13,12 +13,10 @@
  * (tsType: Omit<Partial<GrowbeModule>, >, schemaOptions: { title: \'\', partial: true, exclude: [] })
  */
 export interface GrowbeModulePartial {
-    [key: string]: object | any;
     id?: string;
-    uid?: string;
     connected?: boolean;
     readCount?: number;
     config?: object;
     mainboardId?: string;
-    moduleName?: string;
+    atIndex?: number;
 }

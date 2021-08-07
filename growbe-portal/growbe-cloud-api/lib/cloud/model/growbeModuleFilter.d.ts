@@ -15,6 +15,6 @@ export interface GrowbeModuleFilter {
     limit?: number;
     skip?: number;
     order?: string | Array<string>;
-    fields?: any | Set<string>;
+    fields?: object | Set<string>;
     include?: Array<GrowbeModuleIncludeFilterItems | string>;
 }

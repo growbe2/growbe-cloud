@@ -11,6 +11,7 @@
  */
 import { GrowbeMainboardConfigWithRelations } from './growbeMainboardConfigWithRelations';
 import { GrowbeModuleWithRelations } from './growbeModuleWithRelations';
+import { GrowbeModuleDefWithRelations } from './growbeModuleDefWithRelations';
 import { GrowbeWarningWithRelations } from './growbeWarningWithRelations';
 import { GrowbeSensorValueWithRelations } from './growbeSensorValueWithRelations';
 import { UserWithRelations } from './userWithRelations';
@@ -34,4 +35,5 @@ export interface GrowbeMainboardWithRelations {
     growbeSensorValues?: Array<GrowbeSensorValueWithRelations>;
     growbeModules?: Array<GrowbeModuleWithRelations>;
     growbeLogs?: Array<GrowbeLogsWithRelations>;
+    growbeModuleDefs?: Array<GrowbeModuleDefWithRelations>;
 }
