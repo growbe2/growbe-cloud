@@ -9,6 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Login docker
+        run: docker login https://docker.pkg.github.com -u berlingoqc -p $GITHUB_ACCESS_TOKEN
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Build
         run: cd growbe-cloud && npm run docker:build
         env:
@@ -23,18 +27,7 @@ jobs:
         run: docker login https://docker.pkg.github.com -u berlingoqc -p $GITHUB_ACCESS_TOKEN
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-      - name: Create test container
-        run: cd growbe-portal && npm run docker:build:stage
-        env:
-          STAGE: 'source'
-          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-      - name: Running unittest
-        run: cd growbe-portal && npm run docker:build:stage
-        env:
-          STAGE: 'test_unit'
-          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Running build
-        run: cd growbe-portal && npm run docker:build:stage
+        run: cd growbe-portal && npm run docker:build
         env:
-          STAGE: 'prod'
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
