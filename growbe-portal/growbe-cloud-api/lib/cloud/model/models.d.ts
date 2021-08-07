@@ -45,8 +45,6 @@ export * from './growbeSensorValue';
 export * from './growbeSensorValuePartial';
 export * from './growbeSensorValuePartialExcludingId';
 export * from './growbeSensorValueWithRelations';
-export * from './growbeStream';
-export * from './growbeStreamExcludingIdActiveExpiredAtKey';
 export * from './growbeWarning';
 export * from './growbeWarningKeyWithRelations';
 export * from './growbeWarningPartial';

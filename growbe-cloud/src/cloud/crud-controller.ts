@@ -226,20 +226,18 @@ export const CRUD_CONTROLLERS: {
           properties: protectByModuleRelationProperties
         },
       },
+      {
+        modelRelationDef: GrowbeModuleDef,
+        optionsRelation: {
+          accessorType: 'HasOne',
+          name: 'moduleDef',
+          idType: 'number',
+          specs: specSecurity,
+          properties: protectByModuleRelationProperties,
+          disableds: ['deleteById', 'create'],
+        }
+      }
     ],
-  },
-  {
-    model: GrowbeModuleDef,
-    repo: GrowbeModuleDefRepository,
-    options: {
-      name: 'growbeModuleDefs',
-      specs: specSecurity,
-      idType: 'string',
-      omitId: false,
-      properties: protectByModuleDefProperties,
-      disableds: ['count', 'create', 'deleteById', 'find', 'replaceById', 'updateAll']
-    },
-    relations: [],
   },
   {
     model: GrowbeDashboard,

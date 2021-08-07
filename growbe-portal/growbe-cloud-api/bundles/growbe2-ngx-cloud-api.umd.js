@@ -4,6 +4,29 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.growbe2 = global.growbe2 || {}, global.growbe2['ngx-cloud-api'] = {}), global.ng.core, global.ng.common.http));
 }(this, (function (exports, i0, i1) { 'use strict';
 
+    function _interopNamespace(e) {
+        if (e && e.__esModule) return e;
+        var n = Object.create(null);
+        if (e) {
+            Object.keys(e).forEach(function (k) {
+                if (k !== 'default') {
+                    var d = Object.getOwnPropertyDescriptor(e, k);
+                    Object.defineProperty(n, k, d.get ? d : {
+                        enumerable: true,
+                        get: function () {
+                            return e[k];
+                        }
+                    });
+                }
+            });
+        }
+        n['default'] = e;
+        return Object.freeze(n);
+    }
+
+    var i0__namespace = /*#__PURE__*/_interopNamespace(i0);
+    var i1__namespace = /*#__PURE__*/_interopNamespace(i1);
+
     /**
      * Custom HttpParameterCodec
      * Workaround for https://github.com/angular/angular/issues/18261
@@ -515,17 +538,25 @@
         };
         return GrowbeDashboardControllerService;
     }());
-    GrowbeDashboardControllerService.ɵprov = i0.ɵɵdefineInjectable({ factory: function GrowbeDashboardControllerService_Factory() { return new GrowbeDashboardControllerService(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); }, token: GrowbeDashboardControllerService, providedIn: "root" });
-    GrowbeDashboardControllerService.decorators = [
-        { type: i0.Injectable, args: [{
-                    providedIn: 'root'
-                },] }
-    ];
-    GrowbeDashboardControllerService.ctorParameters = function () { return [
-        { type: i1.HttpClient },
-        { type: String, decorators: [{ type: i0.Optional }, { type: i0.Inject, args: [BASE_PATH,] }] },
-        { type: Configuration, decorators: [{ type: i0.Optional }] }
-    ]; };
+    GrowbeDashboardControllerService.ɵfac = function GrowbeDashboardControllerService_Factory(t) { return new (t || GrowbeDashboardControllerService)(i0__namespace.ɵɵinject(i1__namespace.HttpClient), i0__namespace.ɵɵinject(BASE_PATH, 8), i0__namespace.ɵɵinject(Configuration, 8)); };
+    GrowbeDashboardControllerService.ɵprov = /*@__PURE__*/ i0__namespace.ɵɵdefineInjectable({ token: GrowbeDashboardControllerService, factory: GrowbeDashboardControllerService.ɵfac, providedIn: 'root' });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(GrowbeDashboardControllerService, [{
+                type: i0.Injectable,
+                args: [{
+                        providedIn: 'root'
+                    }]
+            }], function () {
+            return [{ type: i1__namespace.HttpClient }, { type: undefined, decorators: [{
+                            type: i0.Optional
+                        }, {
+                            type: i0.Inject,
+                            args: [BASE_PATH]
+                        }] }, { type: Configuration, decorators: [{
+                            type: i0.Optional
+                        }] }];
+        }, null);
+    })();
 
     /**
      * growbe-cloud
@@ -2224,17 +2255,25 @@
         };
         return GrowbeMainboardControllerService;
     }());
-    GrowbeMainboardControllerService.ɵprov = i0.ɵɵdefineInjectable({ factory: function GrowbeMainboardControllerService_Factory() { return new GrowbeMainboardControllerService(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); }, token: GrowbeMainboardControllerService, providedIn: "root" });
-    GrowbeMainboardControllerService.decorators = [
-        { type: i0.Injectable, args: [{
-                    providedIn: 'root'
-                },] }
-    ];
-    GrowbeMainboardControllerService.ctorParameters = function () { return [
-        { type: i1.HttpClient },
-        { type: String, decorators: [{ type: i0.Optional }, { type: i0.Inject, args: [BASE_PATH,] }] },
-        { type: Configuration, decorators: [{ type: i0.Optional }] }
-    ]; };
+    GrowbeMainboardControllerService.ɵfac = function GrowbeMainboardControllerService_Factory(t) { return new (t || GrowbeMainboardControllerService)(i0__namespace.ɵɵinject(i1__namespace.HttpClient), i0__namespace.ɵɵinject(BASE_PATH, 8), i0__namespace.ɵɵinject(Configuration, 8)); };
+    GrowbeMainboardControllerService.ɵprov = /*@__PURE__*/ i0__namespace.ɵɵdefineInjectable({ token: GrowbeMainboardControllerService, factory: GrowbeMainboardControllerService.ɵfac, providedIn: 'root' });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(GrowbeMainboardControllerService, [{
+                type: i0.Injectable,
+                args: [{
+                        providedIn: 'root'
+                    }]
+            }], function () {
+            return [{ type: i1__namespace.HttpClient }, { type: undefined, decorators: [{
+                            type: i0.Optional
+                        }, {
+                            type: i0.Inject,
+                            args: [BASE_PATH]
+                        }] }, { type: Configuration, decorators: [{
+                            type: i0.Optional
+                        }] }];
+        }, null);
+    })();
 
     /**
      * growbe-cloud
@@ -2886,17 +2925,25 @@
         };
         return GrowbeModuleControllerService;
     }());
-    GrowbeModuleControllerService.ɵprov = i0.ɵɵdefineInjectable({ factory: function GrowbeModuleControllerService_Factory() { return new GrowbeModuleControllerService(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); }, token: GrowbeModuleControllerService, providedIn: "root" });
-    GrowbeModuleControllerService.decorators = [
-        { type: i0.Injectable, args: [{
-                    providedIn: 'root'
-                },] }
-    ];
-    GrowbeModuleControllerService.ctorParameters = function () { return [
-        { type: i1.HttpClient },
-        { type: String, decorators: [{ type: i0.Optional }, { type: i0.Inject, args: [BASE_PATH,] }] },
-        { type: Configuration, decorators: [{ type: i0.Optional }] }
-    ]; };
+    GrowbeModuleControllerService.ɵfac = function GrowbeModuleControllerService_Factory(t) { return new (t || GrowbeModuleControllerService)(i0__namespace.ɵɵinject(i1__namespace.HttpClient), i0__namespace.ɵɵinject(BASE_PATH, 8), i0__namespace.ɵɵinject(Configuration, 8)); };
+    GrowbeModuleControllerService.ɵprov = /*@__PURE__*/ i0__namespace.ɵɵdefineInjectable({ token: GrowbeModuleControllerService, factory: GrowbeModuleControllerService.ɵfac, providedIn: 'root' });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(GrowbeModuleControllerService, [{
+                type: i0.Injectable,
+                args: [{
+                        providedIn: 'root'
+                    }]
+            }], function () {
+            return [{ type: i1__namespace.HttpClient }, { type: undefined, decorators: [{
+                            type: i0.Optional
+                        }, {
+                            type: i0.Inject,
+                            args: [BASE_PATH]
+                        }] }, { type: Configuration, decorators: [{
+                            type: i0.Optional
+                        }] }];
+        }, null);
+    })();
 
     /**
      * growbe-cloud
@@ -3123,17 +3170,25 @@
         };
         return GrowbeModuleDefControllerService;
     }());
-    GrowbeModuleDefControllerService.ɵprov = i0.ɵɵdefineInjectable({ factory: function GrowbeModuleDefControllerService_Factory() { return new GrowbeModuleDefControllerService(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); }, token: GrowbeModuleDefControllerService, providedIn: "root" });
-    GrowbeModuleDefControllerService.decorators = [
-        { type: i0.Injectable, args: [{
-                    providedIn: 'root'
-                },] }
-    ];
-    GrowbeModuleDefControllerService.ctorParameters = function () { return [
-        { type: i1.HttpClient },
-        { type: String, decorators: [{ type: i0.Optional }, { type: i0.Inject, args: [BASE_PATH,] }] },
-        { type: Configuration, decorators: [{ type: i0.Optional }] }
-    ]; };
+    GrowbeModuleDefControllerService.ɵfac = function GrowbeModuleDefControllerService_Factory(t) { return new (t || GrowbeModuleDefControllerService)(i0__namespace.ɵɵinject(i1__namespace.HttpClient), i0__namespace.ɵɵinject(BASE_PATH, 8), i0__namespace.ɵɵinject(Configuration, 8)); };
+    GrowbeModuleDefControllerService.ɵprov = /*@__PURE__*/ i0__namespace.ɵɵdefineInjectable({ token: GrowbeModuleDefControllerService, factory: GrowbeModuleDefControllerService.ɵfac, providedIn: 'root' });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(GrowbeModuleDefControllerService, [{
+                type: i0.Injectable,
+                args: [{
+                        providedIn: 'root'
+                    }]
+            }], function () {
+            return [{ type: i1__namespace.HttpClient }, { type: undefined, decorators: [{
+                            type: i0.Optional
+                        }, {
+                            type: i0.Inject,
+                            args: [BASE_PATH]
+                        }] }, { type: Configuration, decorators: [{
+                            type: i0.Optional
+                        }] }];
+        }, null);
+    })();
 
     /**
      * growbe-cloud
@@ -3233,17 +3288,25 @@
         };
         return GrowbeModuleDefGrowbeMainboardControllerService;
     }());
-    GrowbeModuleDefGrowbeMainboardControllerService.ɵprov = i0.ɵɵdefineInjectable({ factory: function GrowbeModuleDefGrowbeMainboardControllerService_Factory() { return new GrowbeModuleDefGrowbeMainboardControllerService(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); }, token: GrowbeModuleDefGrowbeMainboardControllerService, providedIn: "root" });
-    GrowbeModuleDefGrowbeMainboardControllerService.decorators = [
-        { type: i0.Injectable, args: [{
-                    providedIn: 'root'
-                },] }
-    ];
-    GrowbeModuleDefGrowbeMainboardControllerService.ctorParameters = function () { return [
-        { type: i1.HttpClient },
-        { type: String, decorators: [{ type: i0.Optional }, { type: i0.Inject, args: [BASE_PATH,] }] },
-        { type: Configuration, decorators: [{ type: i0.Optional }] }
-    ]; };
+    GrowbeModuleDefGrowbeMainboardControllerService.ɵfac = function GrowbeModuleDefGrowbeMainboardControllerService_Factory(t) { return new (t || GrowbeModuleDefGrowbeMainboardControllerService)(i0__namespace.ɵɵinject(i1__namespace.HttpClient), i0__namespace.ɵɵinject(BASE_PATH, 8), i0__namespace.ɵɵinject(Configuration, 8)); };
+    GrowbeModuleDefGrowbeMainboardControllerService.ɵprov = /*@__PURE__*/ i0__namespace.ɵɵdefineInjectable({ token: GrowbeModuleDefGrowbeMainboardControllerService, factory: GrowbeModuleDefGrowbeMainboardControllerService.ɵfac, providedIn: 'root' });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(GrowbeModuleDefGrowbeMainboardControllerService, [{
+                type: i0.Injectable,
+                args: [{
+                        providedIn: 'root'
+                    }]
+            }], function () {
+            return [{ type: i1__namespace.HttpClient }, { type: undefined, decorators: [{
+                            type: i0.Optional
+                        }, {
+                            type: i0.Inject,
+                            args: [BASE_PATH]
+                        }] }, { type: Configuration, decorators: [{
+                            type: i0.Optional
+                        }] }];
+        }, null);
+    })();
 
     /**
      * growbe-cloud
@@ -3385,17 +3448,25 @@
         };
         return GrowbeModuleGraphControllerService;
     }());
-    GrowbeModuleGraphControllerService.ɵprov = i0.ɵɵdefineInjectable({ factory: function GrowbeModuleGraphControllerService_Factory() { return new GrowbeModuleGraphControllerService(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); }, token: GrowbeModuleGraphControllerService, providedIn: "root" });
-    GrowbeModuleGraphControllerService.decorators = [
-        { type: i0.Injectable, args: [{
-                    providedIn: 'root'
-                },] }
-    ];
-    GrowbeModuleGraphControllerService.ctorParameters = function () { return [
-        { type: i1.HttpClient },
-        { type: String, decorators: [{ type: i0.Optional }, { type: i0.Inject, args: [BASE_PATH,] }] },
-        { type: Configuration, decorators: [{ type: i0.Optional }] }
-    ]; };
+    GrowbeModuleGraphControllerService.ɵfac = function GrowbeModuleGraphControllerService_Factory(t) { return new (t || GrowbeModuleGraphControllerService)(i0__namespace.ɵɵinject(i1__namespace.HttpClient), i0__namespace.ɵɵinject(BASE_PATH, 8), i0__namespace.ɵɵinject(Configuration, 8)); };
+    GrowbeModuleGraphControllerService.ɵprov = /*@__PURE__*/ i0__namespace.ɵɵdefineInjectable({ token: GrowbeModuleGraphControllerService, factory: GrowbeModuleGraphControllerService.ɵfac, providedIn: 'root' });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(GrowbeModuleGraphControllerService, [{
+                type: i0.Injectable,
+                args: [{
+                        providedIn: 'root'
+                    }]
+            }], function () {
+            return [{ type: i1__namespace.HttpClient }, { type: undefined, decorators: [{
+                            type: i0.Optional
+                        }, {
+                            type: i0.Inject,
+                            args: [BASE_PATH]
+                        }] }, { type: Configuration, decorators: [{
+                            type: i0.Optional
+                        }] }];
+        }, null);
+    })();
 
     /**
      * growbe-cloud
@@ -3463,39 +3534,6 @@
             }
             return httpParams;
         };
-        GrowbeStreamControllerService.prototype.growbeStreamControllerCreateStream = function (requestBody, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            var headers = this.defaultHeaders;
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            // to determine the Content-Type header
-            var consumes = [
-                'application/json'
-            ];
-            var httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-            if (httpContentTypeSelected !== undefined) {
-                headers = headers.set('Content-Type', httpContentTypeSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.post(this.configuration.basePath + "/growbeStreams", requestBody, {
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
         GrowbeStreamControllerService.prototype.growbeStreamControllerDeleteById = function (id, observe, reportProgress, options) {
             if (observe === void 0) { observe = 'body'; }
             if (reportProgress === void 0) { reportProgress = false; }
@@ -3532,47 +3570,27 @@
                 reportProgress: reportProgress
             });
         };
-        GrowbeStreamControllerService.prototype.growbeStreamControllerGetLiveStream = function (id, observe, reportProgress, options) {
-            if (observe === void 0) { observe = 'body'; }
-            if (reportProgress === void 0) { reportProgress = false; }
-            if (id === null || id === undefined) {
-                throw new Error('Required parameter id was null or undefined when calling growbeStreamControllerGetLiveStream.');
-            }
-            var headers = this.defaultHeaders;
-            var httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-            if (httpHeaderAcceptSelected === undefined) {
-                // to determine the Accept header
-                var httpHeaderAccepts = [];
-                httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-            }
-            if (httpHeaderAcceptSelected !== undefined) {
-                headers = headers.set('Accept', httpHeaderAcceptSelected);
-            }
-            var responseType = 'json';
-            if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-                responseType = 'text';
-            }
-            return this.httpClient.get(this.configuration.basePath + "/growbeStreams/" + encodeURIComponent(String(id)) + "/live", {
-                responseType: responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            });
-        };
         return GrowbeStreamControllerService;
     }());
-    GrowbeStreamControllerService.ɵprov = i0.ɵɵdefineInjectable({ factory: function GrowbeStreamControllerService_Factory() { return new GrowbeStreamControllerService(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); }, token: GrowbeStreamControllerService, providedIn: "root" });
-    GrowbeStreamControllerService.decorators = [
-        { type: i0.Injectable, args: [{
-                    providedIn: 'root'
-                },] }
-    ];
-    GrowbeStreamControllerService.ctorParameters = function () { return [
-        { type: i1.HttpClient },
-        { type: String, decorators: [{ type: i0.Optional }, { type: i0.Inject, args: [BASE_PATH,] }] },
-        { type: Configuration, decorators: [{ type: i0.Optional }] }
-    ]; };
+    GrowbeStreamControllerService.ɵfac = function GrowbeStreamControllerService_Factory(t) { return new (t || GrowbeStreamControllerService)(i0__namespace.ɵɵinject(i1__namespace.HttpClient), i0__namespace.ɵɵinject(BASE_PATH, 8), i0__namespace.ɵɵinject(Configuration, 8)); };
+    GrowbeStreamControllerService.ɵprov = /*@__PURE__*/ i0__namespace.ɵɵdefineInjectable({ token: GrowbeStreamControllerService, factory: GrowbeStreamControllerService.ɵfac, providedIn: 'root' });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(GrowbeStreamControllerService, [{
+                type: i0.Injectable,
+                args: [{
+                        providedIn: 'root'
+                    }]
+            }], function () {
+            return [{ type: i1__namespace.HttpClient }, { type: undefined, decorators: [{
+                            type: i0.Optional
+                        }, {
+                            type: i0.Inject,
+                            args: [BASE_PATH]
+                        }] }, { type: Configuration, decorators: [{
+                            type: i0.Optional
+                        }] }];
+        }, null);
+    })();
 
     /**
      * growbe-cloud
@@ -3669,17 +3687,25 @@
         };
         return PingControllerService;
     }());
-    PingControllerService.ɵprov = i0.ɵɵdefineInjectable({ factory: function PingControllerService_Factory() { return new PingControllerService(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); }, token: PingControllerService, providedIn: "root" });
-    PingControllerService.decorators = [
-        { type: i0.Injectable, args: [{
-                    providedIn: 'root'
-                },] }
-    ];
-    PingControllerService.ctorParameters = function () { return [
-        { type: i1.HttpClient },
-        { type: String, decorators: [{ type: i0.Optional }, { type: i0.Inject, args: [BASE_PATH,] }] },
-        { type: Configuration, decorators: [{ type: i0.Optional }] }
-    ]; };
+    PingControllerService.ɵfac = function PingControllerService_Factory(t) { return new (t || PingControllerService)(i0__namespace.ɵɵinject(i1__namespace.HttpClient), i0__namespace.ɵɵinject(BASE_PATH, 8), i0__namespace.ɵɵinject(Configuration, 8)); };
+    PingControllerService.ɵprov = /*@__PURE__*/ i0__namespace.ɵɵdefineInjectable({ token: PingControllerService, factory: PingControllerService.ɵfac, providedIn: 'root' });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(PingControllerService, [{
+                type: i0.Injectable,
+                args: [{
+                        providedIn: 'root'
+                    }]
+            }], function () {
+            return [{ type: i1__namespace.HttpClient }, { type: undefined, decorators: [{
+                            type: i0.Optional
+                        }, {
+                            type: i0.Inject,
+                            args: [BASE_PATH]
+                        }] }, { type: Configuration, decorators: [{
+                            type: i0.Optional
+                        }] }];
+        }, null);
+    })();
 
     var APIS = [GrowbeDashboardControllerService, GrowbeMainboardControllerService, GrowbeModuleControllerService, GrowbeModuleDefControllerService, GrowbeModuleDefGrowbeMainboardControllerService, GrowbeModuleGraphControllerService, GrowbeStreamControllerService, PingControllerService];
 
@@ -3694,6 +3720,7 @@
      * https://openapi-generator.tech
      * Do not edit the class manually.
      */
+    exports.BaseDashboardElement = void 0;
     (function (BaseDashboardElement) {
         BaseDashboardElement.TypeEnum = {
             Graph: 'graph',
@@ -3703,6 +3730,7 @@
         };
     })(exports.BaseDashboardElement || (exports.BaseDashboardElement = {}));
 
+    exports.DashboardGraphElement = void 0;
     (function (DashboardGraphElement) {
         DashboardGraphElement.TypeEnum = {
             Graph: 'graph',
@@ -3716,6 +3744,7 @@
         };
     })(exports.DashboardGraphElement || (exports.DashboardGraphElement = {}));
 
+    exports.GraphModuleRequest = void 0;
     (function (GraphModuleRequest) {
         GraphModuleRequest.LastXUnitEnum = {
             Month: 'Month',
@@ -3737,6 +3766,7 @@
      * https://openapi-generator.tech
      * Do not edit the class manually.
      */
+    exports.GroupingDataRequest = void 0;
     (function (GroupingDataRequest) {
         GroupingDataRequest.BaseGroupEnum = {
             Minute: 'minute',
@@ -3763,6 +3793,7 @@
      * https://openapi-generator.tech
      * Do not edit the class manually.
      */
+    exports.GrowbeLogs = void 0;
     (function (GrowbeLogs) {
         GrowbeLogs.SeverityEnum = {
             _0: '0',
@@ -3796,6 +3827,7 @@
      * https://openapi-generator.tech
      * Do not edit the class manually.
      */
+    exports.GrowbeLogsPartial = void 0;
     (function (GrowbeLogsPartial) {
         GrowbeLogsPartial.SeverityEnum = {
             _0: '0',
@@ -3829,6 +3861,7 @@
      * https://openapi-generator.tech
      * Do not edit the class manually.
      */
+    exports.GrowbeLogsPartialExcludingId = void 0;
     (function (GrowbeLogsPartialExcludingId) {
         GrowbeLogsPartialExcludingId.SeverityEnum = {
             _0: '0',
@@ -3862,6 +3895,7 @@
      * https://openapi-generator.tech
      * Do not edit the class manually.
      */
+    exports.GrowbeLogsWithRelations = void 0;
     (function (GrowbeLogsWithRelations) {
         GrowbeLogsWithRelations.SeverityEnum = {
             _0: '0',
@@ -3884,6 +3918,7 @@
         };
     })(exports.GrowbeLogsWithRelations || (exports.GrowbeLogsWithRelations = {}));
 
+    exports.GrowbeRegisterResponse = void 0;
     (function (GrowbeRegisterResponse) {
         GrowbeRegisterResponse.StateEnum = {
             BeathUnregister: 'BEATH_UNREGISTER',
@@ -3897,6 +3932,7 @@
         };
     })(exports.GrowbeRegisterResponse || (exports.GrowbeRegisterResponse = {}));
 
+    exports.ModuleDataRequest = void 0;
     (function (ModuleDataRequest) {
         ModuleDataRequest.LastXUnitEnum = {
             Month: 'Month',
@@ -3925,18 +3961,28 @@
         };
         return ApiModule;
     }());
-    ApiModule.decorators = [
-        { type: i0.NgModule, args: [{
-                    imports: [],
-                    declarations: [],
-                    exports: [],
-                    providers: []
-                },] }
-    ];
-    ApiModule.ctorParameters = function () { return [
-        { type: ApiModule, decorators: [{ type: i0.Optional }, { type: i0.SkipSelf }] },
-        { type: i1.HttpClient, decorators: [{ type: i0.Optional }] }
-    ]; };
+    ApiModule.ɵfac = function ApiModule_Factory(t) { return new (t || ApiModule)(i0__namespace.ɵɵinject(ApiModule, 12), i0__namespace.ɵɵinject(i1__namespace.HttpClient, 8)); };
+    ApiModule.ɵmod = /*@__PURE__*/ i0__namespace.ɵɵdefineNgModule({ type: ApiModule });
+    ApiModule.ɵinj = /*@__PURE__*/ i0__namespace.ɵɵdefineInjector({ providers: [], imports: [[]] });
+    (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0__namespace.ɵsetClassMetadata(ApiModule, [{
+                type: i0.NgModule,
+                args: [{
+                        imports: [],
+                        declarations: [],
+                        exports: [],
+                        providers: []
+                    }]
+            }], function () {
+            return [{ type: ApiModule, decorators: [{
+                            type: i0.Optional
+                        }, {
+                            type: i0.SkipSelf
+                        }] }, { type: i1__namespace.HttpClient, decorators: [{
+                            type: i0.Optional
+                        }] }];
+        }, null);
+    })();
 
     /*
      * Public API Surface of growbe-cloud-api

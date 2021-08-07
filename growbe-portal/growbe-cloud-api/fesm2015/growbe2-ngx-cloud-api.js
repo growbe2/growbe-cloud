@@ -1,5 +1,7 @@
-import { InjectionToken, ɵɵdefineInjectable, ɵɵinject, Injectable, Optional, Inject, NgModule, SkipSelf } from '@angular/core';
-import { HttpHeaders, HttpParams, HttpClient } from '@angular/common/http';
+import * as i0 from '@angular/core';
+import { InjectionToken, Injectable, Optional, Inject, NgModule, SkipSelf } from '@angular/core';
+import * as i1 from '@angular/common/http';
+import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 /**
  * Custom HttpParameterCodec
@@ -486,17 +488,21 @@ class GrowbeDashboardControllerService {
         });
     }
 }
-GrowbeDashboardControllerService.ɵprov = ɵɵdefineInjectable({ factory: function GrowbeDashboardControllerService_Factory() { return new GrowbeDashboardControllerService(ɵɵinject(HttpClient), ɵɵinject(BASE_PATH, 8), ɵɵinject(Configuration, 8)); }, token: GrowbeDashboardControllerService, providedIn: "root" });
-GrowbeDashboardControllerService.decorators = [
-    { type: Injectable, args: [{
+GrowbeDashboardControllerService.ɵfac = function GrowbeDashboardControllerService_Factory(t) { return new (t || GrowbeDashboardControllerService)(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); };
+GrowbeDashboardControllerService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: GrowbeDashboardControllerService, factory: GrowbeDashboardControllerService.ɵfac, providedIn: 'root' });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(GrowbeDashboardControllerService, [{
+        type: Injectable,
+        args: [{
                 providedIn: 'root'
-            },] }
-];
-GrowbeDashboardControllerService.ctorParameters = () => [
-    { type: HttpClient },
-    { type: String, decorators: [{ type: Optional }, { type: Inject, args: [BASE_PATH,] }] },
-    { type: Configuration, decorators: [{ type: Optional }] }
-];
+            }]
+    }], function () { return [{ type: i1.HttpClient }, { type: undefined, decorators: [{
+                type: Optional
+            }, {
+                type: Inject,
+                args: [BASE_PATH]
+            }] }, { type: Configuration, decorators: [{
+                type: Optional
+            }] }]; }, null); })();
 
 /**
  * growbe-cloud
@@ -2109,17 +2115,21 @@ class GrowbeMainboardControllerService {
         });
     }
 }
-GrowbeMainboardControllerService.ɵprov = ɵɵdefineInjectable({ factory: function GrowbeMainboardControllerService_Factory() { return new GrowbeMainboardControllerService(ɵɵinject(HttpClient), ɵɵinject(BASE_PATH, 8), ɵɵinject(Configuration, 8)); }, token: GrowbeMainboardControllerService, providedIn: "root" });
-GrowbeMainboardControllerService.decorators = [
-    { type: Injectable, args: [{
+GrowbeMainboardControllerService.ɵfac = function GrowbeMainboardControllerService_Factory(t) { return new (t || GrowbeMainboardControllerService)(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); };
+GrowbeMainboardControllerService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: GrowbeMainboardControllerService, factory: GrowbeMainboardControllerService.ɵfac, providedIn: 'root' });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(GrowbeMainboardControllerService, [{
+        type: Injectable,
+        args: [{
                 providedIn: 'root'
-            },] }
-];
-GrowbeMainboardControllerService.ctorParameters = () => [
-    { type: HttpClient },
-    { type: String, decorators: [{ type: Optional }, { type: Inject, args: [BASE_PATH,] }] },
-    { type: Configuration, decorators: [{ type: Optional }] }
-];
+            }]
+    }], function () { return [{ type: i1.HttpClient }, { type: undefined, decorators: [{
+                type: Optional
+            }, {
+                type: Inject,
+                args: [BASE_PATH]
+            }] }, { type: Configuration, decorators: [{
+                type: Optional
+            }] }]; }, null); })();
 
 /**
  * growbe-cloud
@@ -2741,17 +2751,21 @@ class GrowbeModuleControllerService {
         });
     }
 }
-GrowbeModuleControllerService.ɵprov = ɵɵdefineInjectable({ factory: function GrowbeModuleControllerService_Factory() { return new GrowbeModuleControllerService(ɵɵinject(HttpClient), ɵɵinject(BASE_PATH, 8), ɵɵinject(Configuration, 8)); }, token: GrowbeModuleControllerService, providedIn: "root" });
-GrowbeModuleControllerService.decorators = [
-    { type: Injectable, args: [{
+GrowbeModuleControllerService.ɵfac = function GrowbeModuleControllerService_Factory(t) { return new (t || GrowbeModuleControllerService)(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); };
+GrowbeModuleControllerService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: GrowbeModuleControllerService, factory: GrowbeModuleControllerService.ɵfac, providedIn: 'root' });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(GrowbeModuleControllerService, [{
+        type: Injectable,
+        args: [{
                 providedIn: 'root'
-            },] }
-];
-GrowbeModuleControllerService.ctorParameters = () => [
-    { type: HttpClient },
-    { type: String, decorators: [{ type: Optional }, { type: Inject, args: [BASE_PATH,] }] },
-    { type: Configuration, decorators: [{ type: Optional }] }
-];
+            }]
+    }], function () { return [{ type: i1.HttpClient }, { type: undefined, decorators: [{
+                type: Optional
+            }, {
+                type: Inject,
+                args: [BASE_PATH]
+            }] }, { type: Configuration, decorators: [{
+                type: Optional
+            }] }]; }, null); })();
 
 /**
  * growbe-cloud
@@ -2968,17 +2982,21 @@ class GrowbeModuleDefControllerService {
         });
     }
 }
-GrowbeModuleDefControllerService.ɵprov = ɵɵdefineInjectable({ factory: function GrowbeModuleDefControllerService_Factory() { return new GrowbeModuleDefControllerService(ɵɵinject(HttpClient), ɵɵinject(BASE_PATH, 8), ɵɵinject(Configuration, 8)); }, token: GrowbeModuleDefControllerService, providedIn: "root" });
-GrowbeModuleDefControllerService.decorators = [
-    { type: Injectable, args: [{
+GrowbeModuleDefControllerService.ɵfac = function GrowbeModuleDefControllerService_Factory(t) { return new (t || GrowbeModuleDefControllerService)(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); };
+GrowbeModuleDefControllerService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: GrowbeModuleDefControllerService, factory: GrowbeModuleDefControllerService.ɵfac, providedIn: 'root' });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(GrowbeModuleDefControllerService, [{
+        type: Injectable,
+        args: [{
                 providedIn: 'root'
-            },] }
-];
-GrowbeModuleDefControllerService.ctorParameters = () => [
-    { type: HttpClient },
-    { type: String, decorators: [{ type: Optional }, { type: Inject, args: [BASE_PATH,] }] },
-    { type: Configuration, decorators: [{ type: Optional }] }
-];
+            }]
+    }], function () { return [{ type: i1.HttpClient }, { type: undefined, decorators: [{
+                type: Optional
+            }, {
+                type: Inject,
+                args: [BASE_PATH]
+            }] }, { type: Configuration, decorators: [{
+                type: Optional
+            }] }]; }, null); })();
 
 /**
  * growbe-cloud
@@ -3074,17 +3092,21 @@ class GrowbeModuleDefGrowbeMainboardControllerService {
         });
     }
 }
-GrowbeModuleDefGrowbeMainboardControllerService.ɵprov = ɵɵdefineInjectable({ factory: function GrowbeModuleDefGrowbeMainboardControllerService_Factory() { return new GrowbeModuleDefGrowbeMainboardControllerService(ɵɵinject(HttpClient), ɵɵinject(BASE_PATH, 8), ɵɵinject(Configuration, 8)); }, token: GrowbeModuleDefGrowbeMainboardControllerService, providedIn: "root" });
-GrowbeModuleDefGrowbeMainboardControllerService.decorators = [
-    { type: Injectable, args: [{
+GrowbeModuleDefGrowbeMainboardControllerService.ɵfac = function GrowbeModuleDefGrowbeMainboardControllerService_Factory(t) { return new (t || GrowbeModuleDefGrowbeMainboardControllerService)(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); };
+GrowbeModuleDefGrowbeMainboardControllerService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: GrowbeModuleDefGrowbeMainboardControllerService, factory: GrowbeModuleDefGrowbeMainboardControllerService.ɵfac, providedIn: 'root' });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(GrowbeModuleDefGrowbeMainboardControllerService, [{
+        type: Injectable,
+        args: [{
                 providedIn: 'root'
-            },] }
-];
-GrowbeModuleDefGrowbeMainboardControllerService.ctorParameters = () => [
-    { type: HttpClient },
-    { type: String, decorators: [{ type: Optional }, { type: Inject, args: [BASE_PATH,] }] },
-    { type: Configuration, decorators: [{ type: Optional }] }
-];
+            }]
+    }], function () { return [{ type: i1.HttpClient }, { type: undefined, decorators: [{
+                type: Optional
+            }, {
+                type: Inject,
+                args: [BASE_PATH]
+            }] }, { type: Configuration, decorators: [{
+                type: Optional
+            }] }]; }, null); })();
 
 /**
  * growbe-cloud
@@ -3220,17 +3242,21 @@ class GrowbeModuleGraphControllerService {
         });
     }
 }
-GrowbeModuleGraphControllerService.ɵprov = ɵɵdefineInjectable({ factory: function GrowbeModuleGraphControllerService_Factory() { return new GrowbeModuleGraphControllerService(ɵɵinject(HttpClient), ɵɵinject(BASE_PATH, 8), ɵɵinject(Configuration, 8)); }, token: GrowbeModuleGraphControllerService, providedIn: "root" });
-GrowbeModuleGraphControllerService.decorators = [
-    { type: Injectable, args: [{
+GrowbeModuleGraphControllerService.ɵfac = function GrowbeModuleGraphControllerService_Factory(t) { return new (t || GrowbeModuleGraphControllerService)(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); };
+GrowbeModuleGraphControllerService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: GrowbeModuleGraphControllerService, factory: GrowbeModuleGraphControllerService.ɵfac, providedIn: 'root' });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(GrowbeModuleGraphControllerService, [{
+        type: Injectable,
+        args: [{
                 providedIn: 'root'
-            },] }
-];
-GrowbeModuleGraphControllerService.ctorParameters = () => [
-    { type: HttpClient },
-    { type: String, decorators: [{ type: Optional }, { type: Inject, args: [BASE_PATH,] }] },
-    { type: Configuration, decorators: [{ type: Optional }] }
-];
+            }]
+    }], function () { return [{ type: i1.HttpClient }, { type: undefined, decorators: [{
+                type: Optional
+            }, {
+                type: Inject,
+                args: [BASE_PATH]
+            }] }, { type: Configuration, decorators: [{
+                type: Optional
+            }] }]; }, null); })();
 
 /**
  * growbe-cloud
@@ -3297,37 +3323,6 @@ class GrowbeStreamControllerService {
         }
         return httpParams;
     }
-    growbeStreamControllerCreateStream(requestBody, observe = 'body', reportProgress = false, options) {
-        let headers = this.defaultHeaders;
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        // to determine the Content-Type header
-        const consumes = [
-            'application/json'
-        ];
-        const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.post(`${this.configuration.basePath}/growbeStreams`, requestBody, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
     growbeStreamControllerDeleteById(id, observe = 'body', reportProgress = false, options) {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling growbeStreamControllerDeleteById.');
@@ -3362,44 +3357,22 @@ class GrowbeStreamControllerService {
             reportProgress: reportProgress
         });
     }
-    growbeStreamControllerGetLiveStream(id, observe = 'body', reportProgress = false, options) {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeStreamControllerGetLiveStream.');
-        }
-        let headers = this.defaultHeaders;
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.get(`${this.configuration.basePath}/growbeStreams/${encodeURIComponent(String(id))}/live`, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
 }
-GrowbeStreamControllerService.ɵprov = ɵɵdefineInjectable({ factory: function GrowbeStreamControllerService_Factory() { return new GrowbeStreamControllerService(ɵɵinject(HttpClient), ɵɵinject(BASE_PATH, 8), ɵɵinject(Configuration, 8)); }, token: GrowbeStreamControllerService, providedIn: "root" });
-GrowbeStreamControllerService.decorators = [
-    { type: Injectable, args: [{
+GrowbeStreamControllerService.ɵfac = function GrowbeStreamControllerService_Factory(t) { return new (t || GrowbeStreamControllerService)(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); };
+GrowbeStreamControllerService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: GrowbeStreamControllerService, factory: GrowbeStreamControllerService.ɵfac, providedIn: 'root' });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(GrowbeStreamControllerService, [{
+        type: Injectable,
+        args: [{
                 providedIn: 'root'
-            },] }
-];
-GrowbeStreamControllerService.ctorParameters = () => [
-    { type: HttpClient },
-    { type: String, decorators: [{ type: Optional }, { type: Inject, args: [BASE_PATH,] }] },
-    { type: Configuration, decorators: [{ type: Optional }] }
-];
+            }]
+    }], function () { return [{ type: i1.HttpClient }, { type: undefined, decorators: [{
+                type: Optional
+            }, {
+                type: Inject,
+                args: [BASE_PATH]
+            }] }, { type: Configuration, decorators: [{
+                type: Optional
+            }] }]; }, null); })();
 
 /**
  * growbe-cloud
@@ -3492,17 +3465,21 @@ class PingControllerService {
         });
     }
 }
-PingControllerService.ɵprov = ɵɵdefineInjectable({ factory: function PingControllerService_Factory() { return new PingControllerService(ɵɵinject(HttpClient), ɵɵinject(BASE_PATH, 8), ɵɵinject(Configuration, 8)); }, token: PingControllerService, providedIn: "root" });
-PingControllerService.decorators = [
-    { type: Injectable, args: [{
+PingControllerService.ɵfac = function PingControllerService_Factory(t) { return new (t || PingControllerService)(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); };
+PingControllerService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: PingControllerService, factory: PingControllerService.ɵfac, providedIn: 'root' });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(PingControllerService, [{
+        type: Injectable,
+        args: [{
                 providedIn: 'root'
-            },] }
-];
-PingControllerService.ctorParameters = () => [
-    { type: HttpClient },
-    { type: String, decorators: [{ type: Optional }, { type: Inject, args: [BASE_PATH,] }] },
-    { type: Configuration, decorators: [{ type: Optional }] }
-];
+            }]
+    }], function () { return [{ type: i1.HttpClient }, { type: undefined, decorators: [{
+                type: Optional
+            }, {
+                type: Inject,
+                args: [BASE_PATH]
+            }] }, { type: Configuration, decorators: [{
+                type: Optional
+            }] }]; }, null); })();
 
 const APIS = [GrowbeDashboardControllerService, GrowbeMainboardControllerService, GrowbeModuleControllerService, GrowbeModuleDefControllerService, GrowbeModuleDefGrowbeMainboardControllerService, GrowbeModuleGraphControllerService, GrowbeStreamControllerService, PingControllerService];
 
@@ -4101,30 +4078,6 @@ var GrowbeRegisterResponse;
  * Do not edit the class manually.
  */
 
-/**
- * growbe-cloud
- * Cloud server for Growbe
- *
- * The version of the OpenAPI document: 0.0.0
- * Contact: wquintal@berlingoqc.com
- *
- * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
- * https://openapi-generator.tech
- * Do not edit the class manually.
- */
-
-/**
- * growbe-cloud
- * Cloud server for Growbe
- *
- * The version of the OpenAPI document: 0.0.0
- * Contact: wquintal@berlingoqc.com
- *
- * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
- * https://openapi-generator.tech
- * Do not edit the class manually.
- */
-
 var ModuleDataRequest;
 (function (ModuleDataRequest) {
     ModuleDataRequest.LastXUnitEnum = {
@@ -4189,18 +4142,24 @@ class ApiModule {
         };
     }
 }
-ApiModule.decorators = [
-    { type: NgModule, args: [{
+ApiModule.ɵfac = function ApiModule_Factory(t) { return new (t || ApiModule)(i0.ɵɵinject(ApiModule, 12), i0.ɵɵinject(i1.HttpClient, 8)); };
+ApiModule.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: ApiModule });
+ApiModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ providers: [], imports: [[]] });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(ApiModule, [{
+        type: NgModule,
+        args: [{
                 imports: [],
                 declarations: [],
                 exports: [],
                 providers: []
-            },] }
-];
-ApiModule.ctorParameters = () => [
-    { type: ApiModule, decorators: [{ type: Optional }, { type: SkipSelf }] },
-    { type: HttpClient, decorators: [{ type: Optional }] }
-];
+            }]
+    }], function () { return [{ type: ApiModule, decorators: [{
+                type: Optional
+            }, {
+                type: SkipSelf
+            }] }, { type: i1.HttpClient, decorators: [{
+                type: Optional
+            }] }]; }, null); })();
 
 /*
  * Public API Surface of growbe-cloud-api

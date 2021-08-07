@@ -1248,40 +1248,6 @@
         "operationId": "GrowbeModuleController.find"
       }
     },
-    "/growbeStreams/{id}/live": {
-      "get": {
-        "x-controller-name": "GrowbeStreamController",
-        "x-operation-name": "getLiveStream",
-        "tags": [
-          "GrowbeStreamController"
-        ],
-        "responses": {
-          "200": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GrowbeStream",
-                "definitions": {
-                  "GrowbeStream": {
-                    "$ref": "#/components/schemas/GrowbeStream"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
-        "operationId": "GrowbeStreamController.getLiveStream"
-      }
-    },
     "/growbeStreams/{id}": {
       "delete": {
         "x-controller-name": "GrowbeStreamController",
@@ -1316,30 +1282,6 @@
           }
         ],
         "operationId": "GrowbeStreamController.deleteById"
-      }
-    },
-    "/growbeStreams": {
-      "post": {
-        "x-controller-name": "GrowbeStreamController",
-        "x-operation-name": "createStream",
-        "tags": [
-          "GrowbeStreamController"
-        ],
-        "responses": {
-          "200": {
-            "description": "Return value of GrowbeStreamController.createStream"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GrowbeStreamExcluding_id-active-expiredAt-key_"
-              }
-            }
-          }
-        },
-        "operationId": "GrowbeStreamController.createStream"
       }
     },
     "/growbes/count": {
@@ -4445,24 +4387,6 @@
         "additionalProperties": true,
         "x-typescript-type": "Omit<Partial<GrowbeDashboard>, 'id'>"
       },
-      "GrowbeStreamExcluding_id-active-expiredAt-key_": {
-        "title": "GrowbeStreamExcluding_id-active-expiredAt-key_",
-        "type": "object",
-        "description": "(tsType: Omit<GrowbeStream, 'id' | 'active' | 'expiredAt' | 'key'>, schemaOptions: { exclude: [ 'id', 'active', 'expiredAt', 'key' ] })",
-        "properties": {
-          "growbeMainboardId": {
-            "type": "string"
-          },
-          "streamName": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": true,
-        "x-typescript-type": "Omit<GrowbeStream, 'id' | 'active' | 'expiredAt' | 'key'>"
-      },
       "GrowbeRegisterResponse": {
         "title": "GrowbeRegisterResponse",
         "type": "object",
@@ -5368,31 +5292,6 @@
         },
         "additionalProperties": false,
         "x-typescript-type": "@loopback/repository#Filter<GrowbeModule>"
-      },
-      "GrowbeStream": {
-        "title": "GrowbeStream",
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "growbeMainboardId": {
-            "type": "string"
-          },
-          "streamName": {
-            "type": "string"
-          },
-          "active": {
-            "type": "boolean"
-          },
-          "expiredAt": {
-            "type": "number"
-          },
-          "url": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": true
       },
       "GrowbeMainboard.ScopeFilter": {
         "type": "object",

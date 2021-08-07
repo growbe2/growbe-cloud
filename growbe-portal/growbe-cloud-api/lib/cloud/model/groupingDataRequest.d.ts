@@ -24,9 +24,9 @@ export declare namespace GroupingDataRequest {
     };
     type IntervalUnitEnum = 'minute' | 'hour' | 'dayOfYear' | 'year';
     const IntervalUnitEnum: {
-        Minute: BaseGroupEnum;
-        Hour: BaseGroupEnum;
-        DayOfYear: BaseGroupEnum;
-        Year: BaseGroupEnum;
+        Minute: IntervalUnitEnum;
+        Hour: IntervalUnitEnum;
+        DayOfYear: IntervalUnitEnum;
+        Year: IntervalUnitEnum;
     };
 }
