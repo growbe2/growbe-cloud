@@ -82,7 +82,7 @@ export class GrowbeActionAPI {
     GROWBE_CONFIG_UPDATE(growbeId: string, moduleId: string, data: any) {
       console.log(growbeId, moduleId, data);
         return this.httpClient.post<void>(
-            `${this.url}/growbes/${growbeId}/modules/${moduleId}/config`,
+            `${this.url}/growbeModules/${moduleId}/config`,
             data,
         );
     }
