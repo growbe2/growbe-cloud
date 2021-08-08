@@ -33,6 +33,7 @@
     "prestart": "npm run rebuild",
     "start:cloud": "node -r source-map-support/register ./dist/growbe-cloud.js",
     "start:watcher": "node -r source-map-support/register ./dist/growbe-watcher.js",
+    "start:virtualdevice": "node -r source-map-support/register ./dist/growbe-virtualdevice.js",
     "clean": "lb-clean dist *.tsbuildinfo .eslintcache"
   },
   "repository": {
