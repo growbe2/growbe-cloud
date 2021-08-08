@@ -95,7 +95,7 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
         {
             id: 'uid',
             title: 'UID',
-            content: (c) => c.uid,
+            content: (c) => c.id,
         },
         {
             id: 'name',
@@ -143,7 +143,7 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
             .getGrowbeEvent(this.id, '/cloud/m/+/state', JSON.parse)
             .subscribe((state) => {
                 const index = this.table.dataSource.data.findIndex(
-                    (x) => x.uid === state.uid,
+                    (x) => x.id === state.id,
                 );
                 if (index === -1) {
                     this.table.refreshData();

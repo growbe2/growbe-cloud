@@ -7,11 +7,9 @@ import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
-export class GrowbeModuleDefAPI extends Caching(
-    LoopbackRestClientMixin<GrowbeModuleDefWithRelations>(),
-) {
-    constructor(httpClient: HttpClient) {
-        super(httpClient, '/growbeModuleDefs');
+export class GrowbeModuleDefAPI  {
+    baseURL: string;
+    constructor(private httpClient: HttpClient) {
         this.baseURL = envConfig.growbeCloud;
     }
 
@@ -19,18 +17,14 @@ export class GrowbeModuleDefAPI extends Caching(
     addAlarm(mainboardId: string, alarmField: any) {
       return this.httpClient.post<void>(`${this.baseURL}/growbes/${mainboardId}/alarm/hardware`, alarmField).pipe(
         // TODO devrait mieux targeter
-        tap(() => Object.values(this.requestFind.items).forEach((item) => {
-            item.subject.next(null);
-          }))
+
       );
     }
 
     removeAlarm(mainboardId: string, alarmField: any) {
       return this.httpClient.post<void>(`${this.baseURL}/growbes/${mainboardId}/alarm/hardware/rm`, alarmField).pipe(
         // TODO devrait mieux targeter
-        tap(() => Object.values(this.requestFind.items).forEach((item) => {
-            item.subject.next(null);
-          }))
+
       );
     }
 }

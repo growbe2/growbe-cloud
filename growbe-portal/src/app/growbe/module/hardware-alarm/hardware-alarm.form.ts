@@ -31,9 +31,9 @@ export const getHardwareAlarmForm = (
       minWidth: '50%'
     },
     event: {
-      initialData: () => of(({object: { moduleId: module.uid}})),
+      initialData: () => of(({object: { moduleId: module.id}})),
       submit: (value: any) => {
-        const alarm = Object.assign(value.object, {moduleId: module.uid});
+        const alarm = Object.assign(value.object, {moduleId: module.id});
         return moduleDefService.addAlarm(module.mainboardId, alarm);
       },
     },

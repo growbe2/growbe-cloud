@@ -9,14 +9,9 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { GrowbeGraphService } from '../service/growbe-graph.service';
-import { THLModuleData } from '@growbe2/growbe-pb';
-import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
-import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
-import { map, take } from 'rxjs/operators';
 import {
-    GrowbeModuleDef,
-    GrowbeModuleWithRelations,
+    GrowbeModuleDefWithRelations,
 } from '@growbe2/ngx-cloud-api';
 import { DecimalPipe } from '@angular/common';
 import { transformModuleValue } from '../../module.def';
@@ -35,7 +30,7 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
 
     sub: Subscription;
 
-    moduleDef: Observable<GrowbeModuleDef>;
+    moduleDef: Observable<GrowbeModuleDefWithRelations>;
 
     value: any;
 
@@ -59,18 +54,13 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
         this.graphService
             .getGraph(this.data.graphDataConfig.growbeId, 'one', this.data.graphDataConfig)
             .subscribe(async (data: any) => {
+                if (data.length === 0) {
+                  return;
+                }
                 data = data[0];
                 this.moduleDef = this.moduleAPI
-                    .get({
-                        where: { uid: this.data.graphDataConfig.moduleId },
-                        include: [{ relation: 'moduleDef' }],
-                    })
-                    .pipe(
-                        map(
-                            (modules: GrowbeModuleWithRelations[]) =>
-                                modules[0].moduleDef,
-                        ),
-                    );
+                  .moduleDef(this.data.graphDataConfig.moduleId)
+                  .get() as any;
                 this.value = this.transformValue(
                     data[this.data.graphDataConfig.fields[0]],
                 );

@@ -1,15 +1,12 @@
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import {
-    ArrayProperty,
     AutoFormData,
     DialogFormContainer,
-    InputProperty,
 } from '@berlingoqc/ngx-autoform';
-import { GrowbeModuleDef } from '@growbe2/ngx-cloud-api';
+import { GrowbeModuleDefWithRelations } from '@growbe2/ngx-cloud-api';
 import { Observable, of } from 'rxjs';
 
 export const growbeModuleDefForm = (
-    moduleDef: GrowbeModuleDef,
+    moduleDef: GrowbeModuleDefWithRelations,
     callback: (data: any) => Observable<any>,
 ): AutoFormData => ({
     type: 'dialog',

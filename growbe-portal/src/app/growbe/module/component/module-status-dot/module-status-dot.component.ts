@@ -24,7 +24,7 @@ export class ModuleStatusDotComponent implements OnInit {
             this.status = this.growbeEventService
                 .getGrowbeEvent(
                     this.module.mainboardId,
-                    `/cloud/m/${this.module.uid}/state`,
+                    `/cloud/m/${this.module.id}/state`,
                     JSON.parse,
                 )
                 .pipe(
