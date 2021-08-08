@@ -9,15 +9,21 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { GrowbeModuleWithRelations } from './growbeModuleWithRelations';
+import { GrowbeMainboardWithRelations } from './growbeMainboardWithRelations';
 /**
  * (tsType: GrowbeModuleDefWithRelations, schemaOptions: { includeRelations: true })
  */
 export interface GrowbeModuleDefWithRelations {
-    id?: string;
+    id?: number;
+    moduleId?: string;
     displayName?: string | null;
     name?: string;
     description?: string;
     pbModelName?: string;
     pbModelConfig?: string;
     properties?: object;
+    mainboardId?: string;
+    module?: GrowbeModuleWithRelations;
+    mainboard?: GrowbeMainboardWithRelations;
 }

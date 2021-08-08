@@ -46,9 +46,10 @@ export class GrowbeModuleDataTableComponent implements OnInit {
             return;
         }
         this.where = {};
-        this.sub = this.moduleDefAPI
-            .getById(this.module.moduleName)
-            .subscribe((def: GrowbeModuleDefWithRelations) => {
+        this.sub = this.moduleAPI
+            .moduleDef(this.module.id)
+            .get()
+            .subscribe((def: any) => {
                 this.columns = [
                     {
                         id: 'createdat',
@@ -61,7 +62,7 @@ export class GrowbeModuleDataTableComponent implements OnInit {
                         title: prop.displayName ? prop.displayName : prop.name,
                         content: (e) =>
                             transformModuleValue(
-                                this.module.uid.slice(0, 3),
+                                this.module.id.slice(0, 3),
                                 e.values[prop.name],
                             ),
                     })),

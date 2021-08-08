@@ -20,7 +20,7 @@ export class ModuleGraphBuilderComponent implements OnInit {
     if (!this.module) { return; }
     const request: any = {
       growbeId: this.module.mainboardId,
-      moduleId: this.module.uid,
+      moduleId: this.module.id,
     };
     if (timeframeData.object?.timeSpan) {
       request['lastX'] = timeframeData.object.timeSpan;

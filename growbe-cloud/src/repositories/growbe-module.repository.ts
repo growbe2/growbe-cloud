@@ -3,6 +3,7 @@ import {
   repository,
   HasManyRepositoryFactory,
   BelongsToAccessor,
+  HasOneRepositoryFactory,
 } from '@loopback/repository';
 import {
   GrowbeModule,
@@ -18,6 +19,7 @@ import {GrowbeSensorValueRepository} from './growbe-sensor-value.repository';
 import {GrowbeMainboardRepository} from './growbe-mainboard.repository';
 import {GrowbeModuleDefRepository} from './growbe-module-def.repository';
 import {GrowbeLogsRepository} from './growbe-logs.repository';
+import { PgsqlDataSource } from '@berlingoqc/sso/dist/datasources';
 
 export class GrowbeModuleRepository extends DefaultCrudRepository<
   GrowbeModule,
@@ -34,7 +36,7 @@ export class GrowbeModuleRepository extends DefaultCrudRepository<
     typeof GrowbeModule.prototype.id
   >;
 
-  public readonly moduleDef: BelongsToAccessor<
+  public readonly moduleDef: HasOneRepositoryFactory<
     GrowbeModuleDef,
     typeof GrowbeModule.prototype.id
   >;
@@ -45,7 +47,7 @@ export class GrowbeModuleRepository extends DefaultCrudRepository<
   >;
 
   constructor(
-    @inject('datasources.mongo') dataSource: MongoDataSource,
+    @inject('datasources.pgsql') dataSource: PgsqlDataSource,
     @repository.getter('GrowbeSensorValueRepository')
     protected growbeSensorValueRepositoryGetter: Getter<GrowbeSensorValueRepository>,
     @repository.getter('GrowbeMainboardRepository')
@@ -64,7 +66,7 @@ export class GrowbeModuleRepository extends DefaultCrudRepository<
       'growbeLogs',
       this.growbeLogs.inclusionResolver,
     );
-    this.moduleDef = this.createBelongsToAccessorFor(
+    this.moduleDef = this.createHasOneRepositoryFactoryFor(
       'moduleDef',
       growbeModuleDefRepositoryGetter,
     );

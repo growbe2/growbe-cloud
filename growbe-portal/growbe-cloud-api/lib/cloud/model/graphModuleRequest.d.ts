@@ -42,10 +42,10 @@ export interface GraphModuleRequest {
 export declare namespace GraphModuleRequest {
     type LastXUnitEnum = 'Month' | 'Hours' | 'Minutes' | 'Day' | 'Date';
     const LastXUnitEnum: {
-        Month: import("./moduleDataRequest").ModuleDataRequest.LastXUnitEnum;
-        Hours: import("./moduleDataRequest").ModuleDataRequest.LastXUnitEnum;
-        Minutes: import("./moduleDataRequest").ModuleDataRequest.LastXUnitEnum;
-        Day: import("./moduleDataRequest").ModuleDataRequest.LastXUnitEnum;
-        Date: import("./moduleDataRequest").ModuleDataRequest.LastXUnitEnum;
+        Month: LastXUnitEnum;
+        Hours: LastXUnitEnum;
+        Minutes: LastXUnitEnum;
+        Day: LastXUnitEnum;
+        Date: LastXUnitEnum;
     };
 }

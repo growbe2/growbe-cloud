@@ -21,10 +21,10 @@ export interface DashboardGraphElement {
 export declare namespace DashboardGraphElement {
     type TypeEnum = 'graph' | 'average' | 'lastread' | 'clock';
     const TypeEnum: {
-        Graph: import("./baseDashboardElement").BaseDashboardElement.TypeEnum;
-        Average: import("./baseDashboardElement").BaseDashboardElement.TypeEnum;
-        Lastread: import("./baseDashboardElement").BaseDashboardElement.TypeEnum;
-        Clock: import("./baseDashboardElement").BaseDashboardElement.TypeEnum;
+        Graph: TypeEnum;
+        Average: TypeEnum;
+        Lastread: TypeEnum;
+        Clock: TypeEnum;
     };
     type GraphTypeEnum = 'line' | 'bar-vertical';
     const GraphTypeEnum: {

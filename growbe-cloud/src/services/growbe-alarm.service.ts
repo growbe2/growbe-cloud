@@ -32,7 +32,7 @@ export class GrowbeHardwareAlarmService {
 	async addHardwareAlarm(mainboardId: string, alarm: FieldAlarm): Promise<void> {
 		// get the module def end add FieldAlarm to it
 		const module = await this.moduleRepository.findOne({
-			where: { uid: alarm.moduleId},
+			where: { id: alarm.moduleId},
 			include: [ 'moduleDef' ]
 		});
 		if (!module) {
@@ -54,7 +54,7 @@ export class GrowbeHardwareAlarmService {
 	async removeHardwareAlarm(mainboardId: string, alarm: FieldAlarm): Promise<void>  {
 		// get the module def end add FieldAlarm to it
 		const module = await this.moduleRepository.findOne({
-			where: { uid: alarm.moduleId},
+			where: { id: alarm.moduleId},
 			include: [ 'moduleDef' ]
 		});
 		if (!module) {

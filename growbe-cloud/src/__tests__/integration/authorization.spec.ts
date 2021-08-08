@@ -96,7 +96,7 @@ describe('authorization growbe', () => {
                 args: [boardId],
             });
 
-            expect(result).to.eql(AuthorizationDecision.DENY);
+            expect(result).to.eql(AuthorizationDecision.ABSTAIN);
         });
 
         it('user try to access mp that is not owned, denied', async () => {
@@ -106,7 +106,7 @@ describe('authorization growbe', () => {
                 args: [boardId],
             });
 
-            expect(result).to.eql(AuthorizationDecision.DENY);
+            expect(result).to.eql(AuthorizationDecision.ABSTAIN);
         });
     })
 
@@ -132,7 +132,7 @@ describe('authorization growbe', () => {
                 orgs: [{id: orgId}],
             });
 
-            expect(result).to.eql(AuthorizationDecision.DENY);
+            expect(result).to.eql(AuthorizationDecision.ABSTAIN);
         });
 
         it('user wanted growbes of is organisation, allowed', async () => {
@@ -154,7 +154,7 @@ describe('authorization growbe', () => {
                 orgs: [],
             });
 
-            expect(result).to.eql(AuthorizationDecision.DENY);
+            expect(result).to.eql(AuthorizationDecision.ABSTAIN);
         });
 
         it('user access growbe owned by a organisation is in, allow', async () => {
@@ -180,7 +180,7 @@ describe('authorization growbe', () => {
                 orgs: [],
             });
 
-            expect(result).to.eql(AuthorizationDecision.DENY);
+            expect(result).to.eql(AuthorizationDecision.ABSTAIN);
         });
 
         it('user is manager of organisation and endpoint only for manager only, allowed', async () => {
@@ -214,7 +214,7 @@ describe('authorization growbe', () => {
                 args: [boardId, orgId],
             });
 
-            expect(result).to.eql(AuthorizationDecision.DENY);
+            expect(result).to.eql(AuthorizationDecision.ABSTAIN);
         });
 
         /*it('user have role inside organisation that is required, allow',async () => {

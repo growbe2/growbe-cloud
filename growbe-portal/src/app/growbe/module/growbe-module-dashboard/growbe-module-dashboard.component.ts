@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { unsubscriber } from '@berlingoqc/ngx-common';
 import {
     DashboardGraphElement,
-    GrowbeModuleDef,
+    GrowbeModuleDefWithRelations,
     GrowbeModuleWithRelations,
 } from '@growbe2/ngx-cloud-api';
 import { Observable, of, Subscription } from 'rxjs';
@@ -69,21 +69,21 @@ export class GrowbeModuleDashboardComponent implements OnInit {
     ngOnInit(): void {
         if (this.activatedRoute.snapshot.data.module) {
             this.module = this.activatedRoute.snapshot.data.module;
-            this.panel$ = this.getRawPanel();
+            this.panel$ = this.getRawPanel()  as any as Observable<DashboardPanel>;
         }
     }
 
     setRawPanel() {
-        this.panel$ = this.getRawPanel();
+        this.panel$ = this.getRawPanel() as any as Observable<DashboardPanel>;
     }
 
     setGraphPanel() {
-        this.panel$ = this.getGraphPanel();
+        this.panel$ = this.getGraphPanel()  as any as Observable<DashboardPanel>;
     }
 
     private getGraphPanel() {
-        return this.moduleDefAPI.getById(this.module.moduleName).pipe(
-            map((moduleDef: GrowbeModuleDef) => ({
+        return this.moduleAPI.moduleDef(this.module.id).get().pipe(
+            map((moduleDef: any) => ({
                 name: '',
                 class: ['grid'],
                 style: {
@@ -145,7 +145,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                     graphDataConfig: {
                                         fields: [prop.name],
                                         growbeId: this.module.mainboardId,
-                                        moduleId: this.module.uid,
+                                        moduleId: this.module.id,
                                         from: this.interval.from,
                                         to: this.interval.to,
                                         liveUpdate: this.interval.liveUpdate,
@@ -170,11 +170,11 @@ export class GrowbeModuleDashboardComponent implements OnInit {
         if (this.subChartSelect) {
             this.subChartSelect.unsubscribe();
         }
-        return this.moduleDefAPI.getById(this.module.moduleName).pipe(
-            map((moduleDef: GrowbeModuleDef) => {
+        return this.moduleAPI.moduleDef(this.module.id).get().pipe(
+            map((moduleDef: any) => {
                 const alarms = Object.values(moduleDef.properties)
-                    .filter((md) => md.alarm)
-                    .map((md) => md.alarm);
+                    .filter((md: any) => md.alarm)
+                    .map((md: any) => md.alarm);
                 return {
                     name: '',
                     class: ['grid'],
@@ -184,7 +184,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                     items: [
                         {
                             name:
-                                this.module.moduleName +
+                                this.module.id +
                                 ` - ${
                                     moduleDef.displayName
                                         ? moduleDef.displayName
@@ -192,11 +192,11 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                 }`,
                             component: 'growbe-module-def',
                             inputs: {
-                                moduleDefId: this.module.moduleName,
+                                moduleDefId: this.module.id,
                             },
                             edit: growbeModuleDefForm(moduleDef, (data) => {
-                                    return this.moduleDefAPI.updateById(
-                                        this.module.moduleName,
+                                    return this.moduleAPI.moduleDef(this.module.id).updateById(
+                                        moduleDef.id,
                                         data,
                                     );
                             }),
@@ -209,8 +209,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                             name: 'Module config',
                             component: 'growbe-module-config',
                             inputs: {
-                                moduleId: this.module.uid,
-                                moduleName: this.module.moduleName,
+                                moduleId: this.module.id,
                             },
                             style: {
                                 'grid-column-start': '4',
@@ -220,7 +219,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         {
                             name: 'Module info',
                             component:
-                                this.module.moduleName.split(':')[0] +
+                                this.module.id.substring(0, 3) +
                                 '-module',
                             inputs: {
                                 module: this.module,
@@ -236,10 +235,10 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                             component: 'logs-terminal',
                             inputs: {
                                 growbeId: this.module.mainboardId,
-                                moduleId: this.module.uid,
+                                moduleId: this.module.id,
                                 disableSearch: true,
                                 where: {
-                                    growbwModuleId: this.module.uid,
+                                    growbwModuleId: this.module.id,
                                     type: 'alarm',
                                 },
                             },
@@ -270,7 +269,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                 'grid-column-end': '6',
                             },
                         },
-                        ...Object.values(moduleDef.properties).map((prop) => ({
+                        ...Object.values(moduleDef.properties).map((prop: any) => ({
                             name: moduleDef.properties[prop.name].displayName
                                 ? moduleDef.properties[prop.name].displayName
                                 : moduleDef.properties[prop.name].name,
@@ -281,10 +280,10 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                         fields: [prop.name],
                                         liveUpdate: true,
                                         growbeId: this.module.mainboardId,
-                                        moduleId: this.module.uid,
+                                        moduleId: this.module.id,
                                     },
                                 },
-                                moduleType: this.module.uid.slice(0, 3),
+                                moduleType: this.module.id.slice(0, 3),
                             },
                         })),
                         {

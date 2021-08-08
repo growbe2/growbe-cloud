@@ -13,11 +13,13 @@
  * (tsType: Omit<Partial<GrowbeModuleDef>, >, schemaOptions: { title: \'\', partial: true, exclude: [] })
  */
 export interface GrowbeModuleDefPartial {
-    id?: string;
+    id?: number;
+    moduleId?: string;
     displayName?: string | null;
     name?: string;
     description?: string;
     pbModelName?: string;
     pbModelConfig?: string;
     properties?: object;
+    mainboardId?: string;
 }

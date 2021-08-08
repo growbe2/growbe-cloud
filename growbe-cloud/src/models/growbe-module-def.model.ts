@@ -1,6 +1,7 @@
 import { FieldAlarm } from '@growbe2/growbe-pb';
 import {Entity, model, property, belongsTo} from '@loopback/repository';
 import {GrowbeMainboard} from './growbe-mainboard.model';
+import { GrowbeModule } from './growbe-module.model';
 
 @model()
 export class Range {
@@ -32,8 +33,11 @@ export class PropertiesModule {
 
 @model()
 export class GrowbeModuleDef extends Entity {
-  @property({id: true, generated: false})
-  id: string;
+  @property({id: true, generated: true})
+  id: number;
+
+  @belongsTo(() => GrowbeModule)
+  moduleId?: string;
 
   @property({jsonSchema: {nullable: true}})
   displayName?: string;

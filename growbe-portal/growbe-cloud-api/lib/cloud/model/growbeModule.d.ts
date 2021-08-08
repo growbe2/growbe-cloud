@@ -10,12 +10,10 @@
  * Do not edit the class manually.
  */
 export interface GrowbeModule {
-    [key: string]: object | any;
     id?: string;
-    uid?: string;
     connected?: boolean;
     readCount?: number;
     config?: object;
     mainboardId?: string;
-    moduleName?: string;
+    atIndex?: number;
 }

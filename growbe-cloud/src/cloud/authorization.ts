@@ -41,7 +41,7 @@ export async function getMainboardByModuleDef(ctx: AuthorizationContext, id: str
   return moduleDefRepo
     .findOne({
       where: {
-        id: id,
+        moduleId: id,
       },
       include: [
         {

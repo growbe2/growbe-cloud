@@ -27,21 +27,17 @@ export class GrowbeModuleConfigComponent implements OnInit {
 
     ngOnInit(): void {
         this.configForm$ = combineLatest([
-            this.growbeModuleAPI.get({
-                where: {
-                    uid: this.moduleId,
-                },
-            }),
-            this.growbeModuleDefAPI.getById(this.moduleName),
+            this.growbeModuleAPI.getById(this.moduleId),
+            this.growbeModuleAPI.moduleDef(this.moduleId).get(),
         ]).pipe(
-            map(([modules, moduleDef]) => {
-                const config = modules[0].config;
-                const type = modules[0].uid.slice(0, 3);
+            map(([module, moduleDef]: [any, any]) => {
+                const config = module.config;
+                const type = module.id.slice(0, 3);
                 const func = getConfigForm(type);
                 return func
                     ? func(
-                          modules[0].mainboardId,
-                          modules[0].id,
+                          module.mainboardId,
+                          module.id,
                           config,
                           moduleDef,
                           this.growbeActionAPI,

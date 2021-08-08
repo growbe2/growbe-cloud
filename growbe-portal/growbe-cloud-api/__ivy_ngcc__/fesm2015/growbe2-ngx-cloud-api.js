@@ -1,12 +1,12 @@
-import { InjectionToken, ɵɵdefineInjectable, ɵɵinject, Injectable, Optional, Inject, NgModule, SkipSelf } from '@angular/core';
-import { HttpHeaders, HttpParams, HttpClient } from '@angular/common/http';
+import * as i0 from '@angular/core';
+import { InjectionToken, Injectable, Optional, Inject, NgModule, SkipSelf } from '@angular/core';
+import * as i1 from '@angular/common/http';
+import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 /**
  * Custom HttpParameterCodec
  * Workaround for https://github.com/angular/angular/issues/18261
  */
-import * as ɵngcc0 from '@angular/core';
-import * as ɵngcc1 from '@angular/common/http';
 class CustomHttpParameterCodec {
     encodeKey(k) {
         return encodeURIComponent(k);
@@ -488,19 +488,14 @@ class GrowbeDashboardControllerService {
         });
     }
 }
-GrowbeDashboardControllerService.ɵfac = function GrowbeDashboardControllerService_Factory(t) { return new (t || GrowbeDashboardControllerService)(ɵngcc0.ɵɵinject(ɵngcc1.HttpClient), ɵngcc0.ɵɵinject(BASE_PATH, 8), ɵngcc0.ɵɵinject(Configuration, 8)); };
-GrowbeDashboardControllerService.ɵprov = ɵɵdefineInjectable({ factory: function GrowbeDashboardControllerService_Factory() { return new GrowbeDashboardControllerService(ɵɵinject(HttpClient), ɵɵinject(BASE_PATH, 8), ɵɵinject(Configuration, 8)); }, token: GrowbeDashboardControllerService, providedIn: "root" });
-GrowbeDashboardControllerService.ctorParameters = () => [
-    { type: HttpClient },
-    { type: String, decorators: [{ type: Optional }, { type: Inject, args: [BASE_PATH,] }] },
-    { type: Configuration, decorators: [{ type: Optional }] }
-];
-(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵngcc0.ɵsetClassMetadata(GrowbeDashboardControllerService, [{
+GrowbeDashboardControllerService.ɵfac = function GrowbeDashboardControllerService_Factory(t) { return new (t || GrowbeDashboardControllerService)(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); };
+GrowbeDashboardControllerService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: GrowbeDashboardControllerService, factory: GrowbeDashboardControllerService.ɵfac, providedIn: 'root' });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(GrowbeDashboardControllerService, [{
         type: Injectable,
         args: [{
                 providedIn: 'root'
             }]
-    }], function () { return [{ type: ɵngcc1.HttpClient }, { type: String, decorators: [{
+    }], function () { return [{ type: i1.HttpClient }, { type: undefined, decorators: [{
                 type: Optional
             }, {
                 type: Inject,
@@ -679,6 +674,12 @@ class GrowbeMainboardControllerService {
             throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerCreateRelationModel.');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -710,11 +711,17 @@ class GrowbeMainboardControllerService {
             reportProgress: reportProgress
         });
     }
-    growbeMainboardControllerCreateRelationModel_1(id, requestBody, observe = 'body', reportProgress = false, options) {
+    growbeMainboardControllerCreateRelationModel_1(id, growbeModulePartialExcludingId, observe = 'body', reportProgress = false, options) {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerCreateRelationModel_1.');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -738,7 +745,7 @@ class GrowbeMainboardControllerService {
         if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
             responseType = 'text';
         }
-        return this.httpClient.post(`${this.configuration.basePath}/growbes/${encodeURIComponent(String(id))}/growbeModules`, requestBody, {
+        return this.httpClient.post(`${this.configuration.basePath}/growbes/${encodeURIComponent(String(id))}/growbeModules`, growbeModulePartialExcludingId, {
             responseType: responseType,
             withCredentials: this.configuration.withCredentials,
             headers: headers,
@@ -751,6 +758,12 @@ class GrowbeMainboardControllerService {
             throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerCreateRelationModel_2.');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -787,6 +800,12 @@ class GrowbeMainboardControllerService {
             throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerCreateRelationModel_3.');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -901,6 +920,12 @@ class GrowbeMainboardControllerService {
             throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerDelRelationModel.');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -932,6 +957,12 @@ class GrowbeMainboardControllerService {
             throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerDelRelationModel_4.');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -963,6 +994,12 @@ class GrowbeMainboardControllerService {
             throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerDelRelationModel_5.');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -994,6 +1031,12 @@ class GrowbeMainboardControllerService {
             throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerDelRelationModel_6.');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -1259,6 +1302,12 @@ class GrowbeMainboardControllerService {
             queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -1292,6 +1341,12 @@ class GrowbeMainboardControllerService {
             queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -1325,6 +1380,12 @@ class GrowbeMainboardControllerService {
             queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -1358,6 +1419,12 @@ class GrowbeMainboardControllerService {
             queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -1394,6 +1461,12 @@ class GrowbeMainboardControllerService {
             queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -1430,6 +1503,12 @@ class GrowbeMainboardControllerService {
             queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -1466,6 +1545,12 @@ class GrowbeMainboardControllerService {
             queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -1502,6 +1587,12 @@ class GrowbeMainboardControllerService {
             queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -1559,6 +1650,12 @@ class GrowbeMainboardControllerService {
             throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerPutRelationModelById.');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -1590,7 +1687,7 @@ class GrowbeMainboardControllerService {
             reportProgress: reportProgress
         });
     }
-    growbeMainboardControllerPutRelationModelById_13(id, fk, requestBody, observe = 'body', reportProgress = false, options) {
+    growbeMainboardControllerPutRelationModelById_13(id, fk, growbeModulePartial, observe = 'body', reportProgress = false, options) {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling growbeMainboardControllerPutRelationModelById_13.');
         }
@@ -1598,6 +1695,12 @@ class GrowbeMainboardControllerService {
             throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerPutRelationModelById_13.');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -1621,7 +1724,7 @@ class GrowbeMainboardControllerService {
         if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
             responseType = 'text';
         }
-        return this.httpClient.put(`${this.configuration.basePath}/growbes/${encodeURIComponent(String(id))}/growbeModules/${encodeURIComponent(String(fk))}`, requestBody, {
+        return this.httpClient.put(`${this.configuration.basePath}/growbes/${encodeURIComponent(String(id))}/growbeModules/${encodeURIComponent(String(fk))}`, growbeModulePartial, {
             responseType: responseType,
             withCredentials: this.configuration.withCredentials,
             headers: headers,
@@ -1637,6 +1740,12 @@ class GrowbeMainboardControllerService {
             throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerPutRelationModelById_14.');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -1676,6 +1785,12 @@ class GrowbeMainboardControllerService {
             throw new Error('Required parameter fk was null or undefined when calling growbeMainboardControllerPutRelationModelById_15.');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -1761,7 +1876,7 @@ class GrowbeMainboardControllerService {
         if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
             responseType = 'text';
         }
-        return this.httpClient.post(`${this.configuration.basePath}/growbes/${encodeURIComponent(String(id))}/register/org/${encodeURIComponent(String(orgId))}`, null, {
+        return this.httpClient.post(`${this.configuration.basePath}/growbe/${encodeURIComponent(String(id))}/register/org/${encodeURIComponent(String(orgId))}`, null, {
             responseType: responseType,
             withCredentials: this.configuration.withCredentials,
             headers: headers,
@@ -2000,19 +2115,14 @@ class GrowbeMainboardControllerService {
         });
     }
 }
-GrowbeMainboardControllerService.ɵfac = function GrowbeMainboardControllerService_Factory(t) { return new (t || GrowbeMainboardControllerService)(ɵngcc0.ɵɵinject(ɵngcc1.HttpClient), ɵngcc0.ɵɵinject(BASE_PATH, 8), ɵngcc0.ɵɵinject(Configuration, 8)); };
-GrowbeMainboardControllerService.ɵprov = ɵɵdefineInjectable({ factory: function GrowbeMainboardControllerService_Factory() { return new GrowbeMainboardControllerService(ɵɵinject(HttpClient), ɵɵinject(BASE_PATH, 8), ɵɵinject(Configuration, 8)); }, token: GrowbeMainboardControllerService, providedIn: "root" });
-GrowbeMainboardControllerService.ctorParameters = () => [
-    { type: HttpClient },
-    { type: String, decorators: [{ type: Optional }, { type: Inject, args: [BASE_PATH,] }] },
-    { type: Configuration, decorators: [{ type: Optional }] }
-];
-(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵngcc0.ɵsetClassMetadata(GrowbeMainboardControllerService, [{
+GrowbeMainboardControllerService.ɵfac = function GrowbeMainboardControllerService_Factory(t) { return new (t || GrowbeMainboardControllerService)(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); };
+GrowbeMainboardControllerService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: GrowbeMainboardControllerService, factory: GrowbeMainboardControllerService.ɵfac, providedIn: 'root' });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(GrowbeMainboardControllerService, [{
         type: Injectable,
         args: [{
                 providedIn: 'root'
             }]
-    }], function () { return [{ type: ɵngcc1.HttpClient }, { type: String, decorators: [{
+    }], function () { return [{ type: i1.HttpClient }, { type: undefined, decorators: [{
                 type: Optional
             }, {
                 type: Inject,
@@ -2122,7 +2232,7 @@ class GrowbeModuleControllerService {
             reportProgress: reportProgress
         });
     }
-    growbeModuleControllerCreate(requestBody, observe = 'body', reportProgress = false, options) {
+    growbeModuleControllerCreate(growbeModuleExcludingId, observe = 'body', reportProgress = false, options) {
         let headers = this.defaultHeaders;
         let credential;
         // authentication (bearerAuth) required
@@ -2153,7 +2263,7 @@ class GrowbeModuleControllerService {
         if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
             responseType = 'text';
         }
-        return this.httpClient.post(`${this.configuration.basePath}/growbeModules`, requestBody, {
+        return this.httpClient.post(`${this.configuration.basePath}/growbeModules`, growbeModuleExcludingId, {
             responseType: responseType,
             withCredentials: this.configuration.withCredentials,
             headers: headers,
@@ -2166,6 +2276,12 @@ class GrowbeModuleControllerService {
             throw new Error('Required parameter id was null or undefined when calling growbeModuleControllerCreateRelationModel.');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -2205,6 +2321,12 @@ class GrowbeModuleControllerService {
             throw new Error('Required parameter fk was null or undefined when calling growbeModuleControllerDelRelationModel.');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -2346,6 +2468,12 @@ class GrowbeModuleControllerService {
             queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -2382,6 +2510,12 @@ class GrowbeModuleControllerService {
             queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -2414,6 +2548,12 @@ class GrowbeModuleControllerService {
             throw new Error('Required parameter fk was null or undefined when calling growbeModuleControllerPutRelationModelById.');
         }
         let headers = this.defaultHeaders;
+        let credential;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -2487,7 +2627,10 @@ class GrowbeModuleControllerService {
             reportProgress: reportProgress
         });
     }
-    growbeModuleControllerSetConfig(id, body, observe = 'body', reportProgress = false, options) {
+    growbeModuleControllerSetConfig(boardId, id, body, observe = 'body', reportProgress = false, options) {
+        if (boardId === null || boardId === undefined) {
+            throw new Error('Required parameter boardId was null or undefined when calling growbeModuleControllerSetConfig.');
+        }
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling growbeModuleControllerSetConfig.');
         }
@@ -2513,7 +2656,7 @@ class GrowbeModuleControllerService {
         if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
             responseType = 'text';
         }
-        return this.httpClient.post(`${this.configuration.basePath}/growbeModules/${encodeURIComponent(String(id))}/config`, body, {
+        return this.httpClient.post(`${this.configuration.basePath}/growbes/${encodeURIComponent(String(boardId))}/modules/${encodeURIComponent(String(id))}/config`, body, {
             responseType: responseType,
             withCredentials: this.configuration.withCredentials,
             headers: headers,
@@ -2521,7 +2664,7 @@ class GrowbeModuleControllerService {
             reportProgress: reportProgress
         });
     }
-    growbeModuleControllerUpdateAll(where, requestBody, observe = 'body', reportProgress = false, options) {
+    growbeModuleControllerUpdateAll(where, growbeModulePartial, observe = 'body', reportProgress = false, options) {
         let queryParameters = new HttpParams({ encoder: this.encoder });
         if (where !== undefined && where !== null) {
             queryParameters = this.addToHttpParams(queryParameters, where, 'where');
@@ -2556,7 +2699,7 @@ class GrowbeModuleControllerService {
         if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
             responseType = 'text';
         }
-        return this.httpClient.patch(`${this.configuration.basePath}/growbeModules`, requestBody, {
+        return this.httpClient.patch(`${this.configuration.basePath}/growbeModules`, growbeModulePartial, {
             params: queryParameters,
             responseType: responseType,
             withCredentials: this.configuration.withCredentials,
@@ -2565,7 +2708,7 @@ class GrowbeModuleControllerService {
             reportProgress: reportProgress
         });
     }
-    growbeModuleControllerUpdateById(id, requestBody, observe = 'body', reportProgress = false, options) {
+    growbeModuleControllerUpdateById(id, growbeModulePartialExcludingId, observe = 'body', reportProgress = false, options) {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling growbeModuleControllerUpdateById.');
         }
@@ -2599,7 +2742,7 @@ class GrowbeModuleControllerService {
         if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
             responseType = 'text';
         }
-        return this.httpClient.patch(`${this.configuration.basePath}/growbeModules/${encodeURIComponent(String(id))}`, requestBody, {
+        return this.httpClient.patch(`${this.configuration.basePath}/growbeModules/${encodeURIComponent(String(id))}`, growbeModulePartialExcludingId, {
             responseType: responseType,
             withCredentials: this.configuration.withCredentials,
             headers: headers,
@@ -2608,19 +2751,14 @@ class GrowbeModuleControllerService {
         });
     }
 }
-GrowbeModuleControllerService.ɵfac = function GrowbeModuleControllerService_Factory(t) { return new (t || GrowbeModuleControllerService)(ɵngcc0.ɵɵinject(ɵngcc1.HttpClient), ɵngcc0.ɵɵinject(BASE_PATH, 8), ɵngcc0.ɵɵinject(Configuration, 8)); };
-GrowbeModuleControllerService.ɵprov = ɵɵdefineInjectable({ factory: function GrowbeModuleControllerService_Factory() { return new GrowbeModuleControllerService(ɵɵinject(HttpClient), ɵɵinject(BASE_PATH, 8), ɵɵinject(Configuration, 8)); }, token: GrowbeModuleControllerService, providedIn: "root" });
-GrowbeModuleControllerService.ctorParameters = () => [
-    { type: HttpClient },
-    { type: String, decorators: [{ type: Optional }, { type: Inject, args: [BASE_PATH,] }] },
-    { type: Configuration, decorators: [{ type: Optional }] }
-];
-(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵngcc0.ɵsetClassMetadata(GrowbeModuleControllerService, [{
+GrowbeModuleControllerService.ɵfac = function GrowbeModuleControllerService_Factory(t) { return new (t || GrowbeModuleControllerService)(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); };
+GrowbeModuleControllerService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: GrowbeModuleControllerService, factory: GrowbeModuleControllerService.ɵfac, providedIn: 'root' });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(GrowbeModuleControllerService, [{
         type: Injectable,
         args: [{
                 providedIn: 'root'
             }]
-    }], function () { return [{ type: ɵngcc1.HttpClient }, { type: String, decorators: [{
+    }], function () { return [{ type: i1.HttpClient }, { type: undefined, decorators: [{
                 type: Optional
             }, {
                 type: Inject,
@@ -2720,152 +2858,7 @@ class GrowbeModuleDefControllerService {
         if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
             responseType = 'text';
         }
-        return this.httpClient.post(`${this.configuration.basePath}/growbeModuleDefs/${encodeURIComponent(String(id))}/addAlarm`, body, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeModuleDefControllerCount(where, observe = 'body', reportProgress = false, options) {
-        let queryParameters = new HttpParams({ encoder: this.encoder });
-        if (where !== undefined && where !== null) {
-            queryParameters = this.addToHttpParams(queryParameters, where, 'where');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.get(`${this.configuration.basePath}/growbeModuleDefs/count`, {
-            params: queryParameters,
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeModuleDefControllerCreate(growbeModuleDef, observe = 'body', reportProgress = false, options) {
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        // to determine the Content-Type header
-        const consumes = [
-            'application/json'
-        ];
-        const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.post(`${this.configuration.basePath}/growbeModuleDefs`, growbeModuleDef, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeModuleDefControllerDeleteById(id, observe = 'body', reportProgress = false, options) {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeModuleDefControllerDeleteById.');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.delete(`${this.configuration.basePath}/growbeModuleDefs/${encodeURIComponent(String(id))}`, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeModuleDefControllerFind(filter, observe = 'body', reportProgress = false, options) {
-        let queryParameters = new HttpParams({ encoder: this.encoder });
-        if (filter !== undefined && filter !== null) {
-            queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.get(`${this.configuration.basePath}/growbeModuleDefs`, {
-            params: queryParameters,
+        return this.httpClient.post(`${this.configuration.basePath}/growbes/${encodeURIComponent(String(id))}/alarm/hardware`, body, {
             responseType: responseType,
             withCredentials: this.configuration.withCredentials,
             headers: headers,
@@ -2912,37 +2905,6 @@ class GrowbeModuleDefControllerService {
             reportProgress: reportProgress
         });
     }
-    growbeModuleDefControllerOverrideModuleDef(overrideModuleDefRequest, observe = 'body', reportProgress = false, options) {
-        let headers = this.defaultHeaders;
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        // to determine the Content-Type header
-        const consumes = [
-            'application/json'
-        ];
-        const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.post(`${this.configuration.basePath}/growbeModuleDefs/override`, overrideModuleDefRequest, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
     growbeModuleDefControllerRemoveHardwareAlarm(id, body, observe = 'body', reportProgress = false, options) {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling growbeModuleDefControllerRemoveHardwareAlarm.');
@@ -2969,93 +2931,7 @@ class GrowbeModuleDefControllerService {
         if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
             responseType = 'text';
         }
-        return this.httpClient.post(`${this.configuration.basePath}/growbeModuleDefs/${encodeURIComponent(String(id))}/removeAlarm`, body, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeModuleDefControllerReplaceById(id, body, observe = 'body', reportProgress = false, options) {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeModuleDefControllerReplaceById.');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        // to determine the Content-Type header
-        const consumes = [
-            'application/json'
-        ];
-        const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.put(`${this.configuration.basePath}/growbeModuleDefs/${encodeURIComponent(String(id))}`, body, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeModuleDefControllerUpdateAll(where, growbeModuleDefPartial, observe = 'body', reportProgress = false, options) {
-        let queryParameters = new HttpParams({ encoder: this.encoder });
-        if (where !== undefined && where !== null) {
-            queryParameters = this.addToHttpParams(queryParameters, where, 'where');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        // to determine the Content-Type header
-        const consumes = [
-            'application/json'
-        ];
-        const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.patch(`${this.configuration.basePath}/growbeModuleDefs`, growbeModuleDefPartial, {
-            params: queryParameters,
+        return this.httpClient.post(`${this.configuration.basePath}/growbes/${encodeURIComponent(String(id))}/alarm/hardware/rm`, body, {
             responseType: responseType,
             withCredentials: this.configuration.withCredentials,
             headers: headers,
@@ -3106,19 +2982,124 @@ class GrowbeModuleDefControllerService {
         });
     }
 }
-GrowbeModuleDefControllerService.ɵfac = function GrowbeModuleDefControllerService_Factory(t) { return new (t || GrowbeModuleDefControllerService)(ɵngcc0.ɵɵinject(ɵngcc1.HttpClient), ɵngcc0.ɵɵinject(BASE_PATH, 8), ɵngcc0.ɵɵinject(Configuration, 8)); };
-GrowbeModuleDefControllerService.ɵprov = ɵɵdefineInjectable({ factory: function GrowbeModuleDefControllerService_Factory() { return new GrowbeModuleDefControllerService(ɵɵinject(HttpClient), ɵɵinject(BASE_PATH, 8), ɵɵinject(Configuration, 8)); }, token: GrowbeModuleDefControllerService, providedIn: "root" });
-GrowbeModuleDefControllerService.ctorParameters = () => [
-    { type: HttpClient },
-    { type: String, decorators: [{ type: Optional }, { type: Inject, args: [BASE_PATH,] }] },
-    { type: Configuration, decorators: [{ type: Optional }] }
-];
-(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵngcc0.ɵsetClassMetadata(GrowbeModuleDefControllerService, [{
+GrowbeModuleDefControllerService.ɵfac = function GrowbeModuleDefControllerService_Factory(t) { return new (t || GrowbeModuleDefControllerService)(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); };
+GrowbeModuleDefControllerService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: GrowbeModuleDefControllerService, factory: GrowbeModuleDefControllerService.ɵfac, providedIn: 'root' });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(GrowbeModuleDefControllerService, [{
         type: Injectable,
         args: [{
                 providedIn: 'root'
             }]
-    }], function () { return [{ type: ɵngcc1.HttpClient }, { type: String, decorators: [{
+    }], function () { return [{ type: i1.HttpClient }, { type: undefined, decorators: [{
+                type: Optional
+            }, {
+                type: Inject,
+                args: [BASE_PATH]
+            }] }, { type: Configuration, decorators: [{
+                type: Optional
+            }] }]; }, null); })();
+
+/**
+ * growbe-cloud
+ * Cloud server for Growbe
+ *
+ * The version of the OpenAPI document: 0.0.0
+ * Contact: wquintal@berlingoqc.com
+ *
+ * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
+ * https://openapi-generator.tech
+ * Do not edit the class manually.
+ */
+class GrowbeModuleDefGrowbeMainboardControllerService {
+    constructor(httpClient, basePath, configuration) {
+        this.httpClient = httpClient;
+        this.basePath = 'http://localhost/api';
+        this.defaultHeaders = new HttpHeaders();
+        this.configuration = new Configuration();
+        if (configuration) {
+            this.configuration = configuration;
+        }
+        if (typeof this.configuration.basePath !== 'string') {
+            if (typeof basePath !== 'string') {
+                basePath = this.basePath;
+            }
+            this.configuration.basePath = basePath;
+        }
+        this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
+    }
+    addToHttpParams(httpParams, value, key) {
+        if (typeof value === "object" && value instanceof Date === false) {
+            httpParams = this.addToHttpParamsRecursive(httpParams, value);
+        }
+        else {
+            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
+        }
+        return httpParams;
+    }
+    addToHttpParamsRecursive(httpParams, value, key) {
+        if (value == null) {
+            return httpParams;
+        }
+        if (typeof value === "object") {
+            if (Array.isArray(value)) {
+                value.forEach(elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
+            }
+            else if (value instanceof Date) {
+                if (key != null) {
+                    httpParams = httpParams.append(key, value.toISOString().substr(0, 10));
+                }
+                else {
+                    throw Error("key may not be null if value is Date");
+                }
+            }
+            else {
+                Object.keys(value).forEach(k => httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k));
+            }
+        }
+        else if (key != null) {
+            httpParams = httpParams.append(key, value);
+        }
+        else {
+            throw Error("key may not be null if value is not object or array");
+        }
+        return httpParams;
+    }
+    growbeModuleDefGrowbeMainboardControllerGetGrowbeMainboard(id, observe = 'body', reportProgress = false, options) {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling growbeModuleDefGrowbeMainboardControllerGetGrowbeMainboard.');
+        }
+        let headers = this.defaultHeaders;
+        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+        let responseType = 'json';
+        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+        return this.httpClient.get(`${this.configuration.basePath}/growbe-module-defs/${encodeURIComponent(String(id))}/growbe-mainboard`, {
+            responseType: responseType,
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress
+        });
+    }
+}
+GrowbeModuleDefGrowbeMainboardControllerService.ɵfac = function GrowbeModuleDefGrowbeMainboardControllerService_Factory(t) { return new (t || GrowbeModuleDefGrowbeMainboardControllerService)(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); };
+GrowbeModuleDefGrowbeMainboardControllerService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: GrowbeModuleDefGrowbeMainboardControllerService, factory: GrowbeModuleDefGrowbeMainboardControllerService.ɵfac, providedIn: 'root' });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(GrowbeModuleDefGrowbeMainboardControllerService, [{
+        type: Injectable,
+        args: [{
+                providedIn: 'root'
+            }]
+    }], function () { return [{ type: i1.HttpClient }, { type: undefined, decorators: [{
                 type: Optional
             }, {
                 type: Inject,
@@ -3192,7 +3173,10 @@ class GrowbeModuleGraphControllerService {
         }
         return httpParams;
     }
-    growbeModuleGraphControllerGetGraph(graphModuleRequest, observe = 'body', reportProgress = false, options) {
+    growbeModuleGraphControllerGetGraph(id, graphModuleRequest, observe = 'body', reportProgress = false, options) {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling growbeModuleGraphControllerGetGraph.');
+        }
         let headers = this.defaultHeaders;
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
@@ -3215,7 +3199,7 @@ class GrowbeModuleGraphControllerService {
         if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
             responseType = 'text';
         }
-        return this.httpClient.post(`${this.configuration.basePath}/growbe/graph`, graphModuleRequest, {
+        return this.httpClient.post(`${this.configuration.basePath}/growbes/${encodeURIComponent(String(id))}/graph`, graphModuleRequest, {
             responseType: responseType,
             withCredentials: this.configuration.withCredentials,
             headers: headers,
@@ -3223,7 +3207,10 @@ class GrowbeModuleGraphControllerService {
             reportProgress: reportProgress
         });
     }
-    growbeModuleGraphControllerGetLastValue(moduleDataRequest, observe = 'body', reportProgress = false, options) {
+    growbeModuleGraphControllerGetLastValue(id, moduleDataRequest, observe = 'body', reportProgress = false, options) {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling growbeModuleGraphControllerGetLastValue.');
+        }
         let headers = this.defaultHeaders;
         let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
@@ -3246,7 +3233,7 @@ class GrowbeModuleGraphControllerService {
         if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
             responseType = 'text';
         }
-        return this.httpClient.post(`${this.configuration.basePath}/growbe/one`, moduleDataRequest, {
+        return this.httpClient.post(`${this.configuration.basePath}/growbes/${encodeURIComponent(String(id))}/one`, moduleDataRequest, {
             responseType: responseType,
             withCredentials: this.configuration.withCredentials,
             headers: headers,
@@ -3255,418 +3242,14 @@ class GrowbeModuleGraphControllerService {
         });
     }
 }
-GrowbeModuleGraphControllerService.ɵfac = function GrowbeModuleGraphControllerService_Factory(t) { return new (t || GrowbeModuleGraphControllerService)(ɵngcc0.ɵɵinject(ɵngcc1.HttpClient), ɵngcc0.ɵɵinject(BASE_PATH, 8), ɵngcc0.ɵɵinject(Configuration, 8)); };
-GrowbeModuleGraphControllerService.ɵprov = ɵɵdefineInjectable({ factory: function GrowbeModuleGraphControllerService_Factory() { return new GrowbeModuleGraphControllerService(ɵɵinject(HttpClient), ɵɵinject(BASE_PATH, 8), ɵɵinject(Configuration, 8)); }, token: GrowbeModuleGraphControllerService, providedIn: "root" });
-GrowbeModuleGraphControllerService.ctorParameters = () => [
-    { type: HttpClient },
-    { type: String, decorators: [{ type: Optional }, { type: Inject, args: [BASE_PATH,] }] },
-    { type: Configuration, decorators: [{ type: Optional }] }
-];
-(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵngcc0.ɵsetClassMetadata(GrowbeModuleGraphControllerService, [{
+GrowbeModuleGraphControllerService.ɵfac = function GrowbeModuleGraphControllerService_Factory(t) { return new (t || GrowbeModuleGraphControllerService)(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); };
+GrowbeModuleGraphControllerService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: GrowbeModuleGraphControllerService, factory: GrowbeModuleGraphControllerService.ɵfac, providedIn: 'root' });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(GrowbeModuleGraphControllerService, [{
         type: Injectable,
         args: [{
                 providedIn: 'root'
             }]
-    }], function () { return [{ type: ɵngcc1.HttpClient }, { type: String, decorators: [{
-                type: Optional
-            }, {
-                type: Inject,
-                args: [BASE_PATH]
-            }] }, { type: Configuration, decorators: [{
-                type: Optional
-            }] }]; }, null); })();
-
-/**
- * growbe-cloud
- * Cloud server for Growbe
- *
- * The version of the OpenAPI document: 0.0.0
- * Contact: wquintal@berlingoqc.com
- *
- * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
- * https://openapi-generator.tech
- * Do not edit the class manually.
- */
-class GrowbeSensorValueControllerService {
-    constructor(httpClient, basePath, configuration) {
-        this.httpClient = httpClient;
-        this.basePath = 'http://localhost/api';
-        this.defaultHeaders = new HttpHeaders();
-        this.configuration = new Configuration();
-        if (configuration) {
-            this.configuration = configuration;
-        }
-        if (typeof this.configuration.basePath !== 'string') {
-            if (typeof basePath !== 'string') {
-                basePath = this.basePath;
-            }
-            this.configuration.basePath = basePath;
-        }
-        this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
-    }
-    addToHttpParams(httpParams, value, key) {
-        if (typeof value === "object" && value instanceof Date === false) {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value);
-        }
-        else {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
-        }
-        return httpParams;
-    }
-    addToHttpParamsRecursive(httpParams, value, key) {
-        if (value == null) {
-            return httpParams;
-        }
-        if (typeof value === "object") {
-            if (Array.isArray(value)) {
-                value.forEach(elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
-            }
-            else if (value instanceof Date) {
-                if (key != null) {
-                    httpParams = httpParams.append(key, value.toISOString().substr(0, 10));
-                }
-                else {
-                    throw Error("key may not be null if value is Date");
-                }
-            }
-            else {
-                Object.keys(value).forEach(k => httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k));
-            }
-        }
-        else if (key != null) {
-            httpParams = httpParams.append(key, value);
-        }
-        else {
-            throw Error("key may not be null if value is not object or array");
-        }
-        return httpParams;
-    }
-    growbeSensorValueControllerCount(where, observe = 'body', reportProgress = false, options) {
-        let queryParameters = new HttpParams({ encoder: this.encoder });
-        if (where !== undefined && where !== null) {
-            queryParameters = this.addToHttpParams(queryParameters, where, 'where');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.get(`${this.configuration.basePath}/growbeSensorValues/count`, {
-            params: queryParameters,
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeSensorValueControllerCreate(requestBody, observe = 'body', reportProgress = false, options) {
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        // to determine the Content-Type header
-        const consumes = [
-            'application/json'
-        ];
-        const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.post(`${this.configuration.basePath}/growbeSensorValues`, requestBody, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeSensorValueControllerDeleteById(id, observe = 'body', reportProgress = false, options) {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeSensorValueControllerDeleteById.');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.delete(`${this.configuration.basePath}/growbeSensorValues/${encodeURIComponent(String(id))}`, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeSensorValueControllerFind(filter, observe = 'body', reportProgress = false, options) {
-        let queryParameters = new HttpParams({ encoder: this.encoder });
-        if (filter !== undefined && filter !== null) {
-            queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.get(`${this.configuration.basePath}/growbeSensorValues`, {
-            params: queryParameters,
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeSensorValueControllerFindById(id, filter, observe = 'body', reportProgress = false, options) {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeSensorValueControllerFindById.');
-        }
-        let queryParameters = new HttpParams({ encoder: this.encoder });
-        if (filter !== undefined && filter !== null) {
-            queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.get(`${this.configuration.basePath}/growbeSensorValues/${encodeURIComponent(String(id))}`, {
-            params: queryParameters,
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeSensorValueControllerReplaceById(id, body, observe = 'body', reportProgress = false, options) {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeSensorValueControllerReplaceById.');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        // to determine the Content-Type header
-        const consumes = [
-            'application/json'
-        ];
-        const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.put(`${this.configuration.basePath}/growbeSensorValues/${encodeURIComponent(String(id))}`, body, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeSensorValueControllerUpdateAll(where, requestBody, observe = 'body', reportProgress = false, options) {
-        let queryParameters = new HttpParams({ encoder: this.encoder });
-        if (where !== undefined && where !== null) {
-            queryParameters = this.addToHttpParams(queryParameters, where, 'where');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        // to determine the Content-Type header
-        const consumes = [
-            'application/json'
-        ];
-        const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.patch(`${this.configuration.basePath}/growbeSensorValues`, requestBody, {
-            params: queryParameters,
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeSensorValueControllerUpdateById(id, requestBody, observe = 'body', reportProgress = false, options) {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeSensorValueControllerUpdateById.');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        // to determine the Content-Type header
-        const consumes = [
-            'application/json'
-        ];
-        const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.patch(`${this.configuration.basePath}/growbeSensorValues/${encodeURIComponent(String(id))}`, requestBody, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-}
-GrowbeSensorValueControllerService.ɵfac = function GrowbeSensorValueControllerService_Factory(t) { return new (t || GrowbeSensorValueControllerService)(ɵngcc0.ɵɵinject(ɵngcc1.HttpClient), ɵngcc0.ɵɵinject(BASE_PATH, 8), ɵngcc0.ɵɵinject(Configuration, 8)); };
-GrowbeSensorValueControllerService.ɵprov = ɵɵdefineInjectable({ factory: function GrowbeSensorValueControllerService_Factory() { return new GrowbeSensorValueControllerService(ɵɵinject(HttpClient), ɵɵinject(BASE_PATH, 8), ɵɵinject(Configuration, 8)); }, token: GrowbeSensorValueControllerService, providedIn: "root" });
-GrowbeSensorValueControllerService.ctorParameters = () => [
-    { type: HttpClient },
-    { type: String, decorators: [{ type: Optional }, { type: Inject, args: [BASE_PATH,] }] },
-    { type: Configuration, decorators: [{ type: Optional }] }
-];
-(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵngcc0.ɵsetClassMetadata(GrowbeSensorValueControllerService, [{
-        type: Injectable,
-        args: [{
-                providedIn: 'root'
-            }]
-    }], function () { return [{ type: ɵngcc1.HttpClient }, { type: String, decorators: [{
+    }], function () { return [{ type: i1.HttpClient }, { type: undefined, decorators: [{
                 type: Optional
             }, {
                 type: Inject,
@@ -3740,37 +3323,6 @@ class GrowbeStreamControllerService {
         }
         return httpParams;
     }
-    growbeStreamControllerCreateStream(requestBody, observe = 'body', reportProgress = false, options) {
-        let headers = this.defaultHeaders;
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        // to determine the Content-Type header
-        const consumes = [
-            'application/json'
-        ];
-        const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.post(`${this.configuration.basePath}/growbeStreams`, requestBody, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
     growbeStreamControllerDeleteById(id, observe = 'body', reportProgress = false, options) {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling growbeStreamControllerDeleteById.');
@@ -3805,445 +3357,15 @@ class GrowbeStreamControllerService {
             reportProgress: reportProgress
         });
     }
-    growbeStreamControllerGetLiveStream(id, observe = 'body', reportProgress = false, options) {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeStreamControllerGetLiveStream.');
-        }
-        let headers = this.defaultHeaders;
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.get(`${this.configuration.basePath}/growbeStreams/${encodeURIComponent(String(id))}/live`, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
 }
-GrowbeStreamControllerService.ɵfac = function GrowbeStreamControllerService_Factory(t) { return new (t || GrowbeStreamControllerService)(ɵngcc0.ɵɵinject(ɵngcc1.HttpClient), ɵngcc0.ɵɵinject(BASE_PATH, 8), ɵngcc0.ɵɵinject(Configuration, 8)); };
-GrowbeStreamControllerService.ɵprov = ɵɵdefineInjectable({ factory: function GrowbeStreamControllerService_Factory() { return new GrowbeStreamControllerService(ɵɵinject(HttpClient), ɵɵinject(BASE_PATH, 8), ɵɵinject(Configuration, 8)); }, token: GrowbeStreamControllerService, providedIn: "root" });
-GrowbeStreamControllerService.ctorParameters = () => [
-    { type: HttpClient },
-    { type: String, decorators: [{ type: Optional }, { type: Inject, args: [BASE_PATH,] }] },
-    { type: Configuration, decorators: [{ type: Optional }] }
-];
-(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵngcc0.ɵsetClassMetadata(GrowbeStreamControllerService, [{
+GrowbeStreamControllerService.ɵfac = function GrowbeStreamControllerService_Factory(t) { return new (t || GrowbeStreamControllerService)(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); };
+GrowbeStreamControllerService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: GrowbeStreamControllerService, factory: GrowbeStreamControllerService.ɵfac, providedIn: 'root' });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(GrowbeStreamControllerService, [{
         type: Injectable,
         args: [{
                 providedIn: 'root'
             }]
-    }], function () { return [{ type: ɵngcc1.HttpClient }, { type: String, decorators: [{
-                type: Optional
-            }, {
-                type: Inject,
-                args: [BASE_PATH]
-            }] }, { type: Configuration, decorators: [{
-                type: Optional
-            }] }]; }, null); })();
-
-/**
- * growbe-cloud
- * Cloud server for Growbe
- *
- * The version of the OpenAPI document: 0.0.0
- * Contact: wquintal@berlingoqc.com
- *
- * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
- * https://openapi-generator.tech
- * Do not edit the class manually.
- */
-class GrowbeWarningControllerService {
-    constructor(httpClient, basePath, configuration) {
-        this.httpClient = httpClient;
-        this.basePath = 'http://localhost/api';
-        this.defaultHeaders = new HttpHeaders();
-        this.configuration = new Configuration();
-        if (configuration) {
-            this.configuration = configuration;
-        }
-        if (typeof this.configuration.basePath !== 'string') {
-            if (typeof basePath !== 'string') {
-                basePath = this.basePath;
-            }
-            this.configuration.basePath = basePath;
-        }
-        this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
-    }
-    addToHttpParams(httpParams, value, key) {
-        if (typeof value === "object" && value instanceof Date === false) {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value);
-        }
-        else {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
-        }
-        return httpParams;
-    }
-    addToHttpParamsRecursive(httpParams, value, key) {
-        if (value == null) {
-            return httpParams;
-        }
-        if (typeof value === "object") {
-            if (Array.isArray(value)) {
-                value.forEach(elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
-            }
-            else if (value instanceof Date) {
-                if (key != null) {
-                    httpParams = httpParams.append(key, value.toISOString().substr(0, 10));
-                }
-                else {
-                    throw Error("key may not be null if value is Date");
-                }
-            }
-            else {
-                Object.keys(value).forEach(k => httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k));
-            }
-        }
-        else if (key != null) {
-            httpParams = httpParams.append(key, value);
-        }
-        else {
-            throw Error("key may not be null if value is not object or array");
-        }
-        return httpParams;
-    }
-    growbeWarningControllerCount(where, observe = 'body', reportProgress = false, options) {
-        let queryParameters = new HttpParams({ encoder: this.encoder });
-        if (where !== undefined && where !== null) {
-            queryParameters = this.addToHttpParams(queryParameters, where, 'where');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.get(`${this.configuration.basePath}/warnings/count`, {
-            params: queryParameters,
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeWarningControllerCreate(growbeWarningExcludingId, observe = 'body', reportProgress = false, options) {
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        // to determine the Content-Type header
-        const consumes = [
-            'application/json'
-        ];
-        const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.post(`${this.configuration.basePath}/warnings`, growbeWarningExcludingId, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeWarningControllerDeleteById(id, observe = 'body', reportProgress = false, options) {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeWarningControllerDeleteById.');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.delete(`${this.configuration.basePath}/warnings/${encodeURIComponent(String(id))}`, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeWarningControllerFind(filter, observe = 'body', reportProgress = false, options) {
-        let queryParameters = new HttpParams({ encoder: this.encoder });
-        if (filter !== undefined && filter !== null) {
-            queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.get(`${this.configuration.basePath}/warnings`, {
-            params: queryParameters,
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeWarningControllerFindById(id, filter, observe = 'body', reportProgress = false, options) {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeWarningControllerFindById.');
-        }
-        let queryParameters = new HttpParams({ encoder: this.encoder });
-        if (filter !== undefined && filter !== null) {
-            queryParameters = this.addToHttpParams(queryParameters, filter, 'filter');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.get(`${this.configuration.basePath}/warnings/${encodeURIComponent(String(id))}`, {
-            params: queryParameters,
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeWarningControllerReplaceById(id, body, observe = 'body', reportProgress = false, options) {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeWarningControllerReplaceById.');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        // to determine the Content-Type header
-        const consumes = [
-            'application/json'
-        ];
-        const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.put(`${this.configuration.basePath}/warnings/${encodeURIComponent(String(id))}`, body, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeWarningControllerUpdateAll(where, growbeWarningPartial, observe = 'body', reportProgress = false, options) {
-        let queryParameters = new HttpParams({ encoder: this.encoder });
-        if (where !== undefined && where !== null) {
-            queryParameters = this.addToHttpParams(queryParameters, where, 'where');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        // to determine the Content-Type header
-        const consumes = [
-            'application/json'
-        ];
-        const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.patch(`${this.configuration.basePath}/warnings`, growbeWarningPartial, {
-            params: queryParameters,
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-    growbeWarningControllerUpdateById(id, growbeWarningPartialExcludingId, observe = 'body', reportProgress = false, options) {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling growbeWarningControllerUpdateById.');
-        }
-        let headers = this.defaultHeaders;
-        let credential;
-        // authentication (bearerAuth) required
-        credential = this.configuration.lookupCredential('bearerAuth');
-        if (credential) {
-            headers = headers.set('Authorization', 'Bearer ' + credential);
-        }
-        let httpHeaderAcceptSelected = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-        // to determine the Content-Type header
-        const consumes = [
-            'application/json'
-        ];
-        const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-        let responseType = 'json';
-        if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-        return this.httpClient.patch(`${this.configuration.basePath}/warnings/${encodeURIComponent(String(id))}`, growbeWarningPartialExcludingId, {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        });
-    }
-}
-GrowbeWarningControllerService.ɵfac = function GrowbeWarningControllerService_Factory(t) { return new (t || GrowbeWarningControllerService)(ɵngcc0.ɵɵinject(ɵngcc1.HttpClient), ɵngcc0.ɵɵinject(BASE_PATH, 8), ɵngcc0.ɵɵinject(Configuration, 8)); };
-GrowbeWarningControllerService.ɵprov = ɵɵdefineInjectable({ factory: function GrowbeWarningControllerService_Factory() { return new GrowbeWarningControllerService(ɵɵinject(HttpClient), ɵɵinject(BASE_PATH, 8), ɵɵinject(Configuration, 8)); }, token: GrowbeWarningControllerService, providedIn: "root" });
-GrowbeWarningControllerService.ctorParameters = () => [
-    { type: HttpClient },
-    { type: String, decorators: [{ type: Optional }, { type: Inject, args: [BASE_PATH,] }] },
-    { type: Configuration, decorators: [{ type: Optional }] }
-];
-(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵngcc0.ɵsetClassMetadata(GrowbeWarningControllerService, [{
-        type: Injectable,
-        args: [{
-                providedIn: 'root'
-            }]
-    }], function () { return [{ type: ɵngcc1.HttpClient }, { type: String, decorators: [{
+    }], function () { return [{ type: i1.HttpClient }, { type: undefined, decorators: [{
                 type: Optional
             }, {
                 type: Inject,
@@ -4343,19 +3465,14 @@ class PingControllerService {
         });
     }
 }
-PingControllerService.ɵfac = function PingControllerService_Factory(t) { return new (t || PingControllerService)(ɵngcc0.ɵɵinject(ɵngcc1.HttpClient), ɵngcc0.ɵɵinject(BASE_PATH, 8), ɵngcc0.ɵɵinject(Configuration, 8)); };
-PingControllerService.ɵprov = ɵɵdefineInjectable({ factory: function PingControllerService_Factory() { return new PingControllerService(ɵɵinject(HttpClient), ɵɵinject(BASE_PATH, 8), ɵɵinject(Configuration, 8)); }, token: PingControllerService, providedIn: "root" });
-PingControllerService.ctorParameters = () => [
-    { type: HttpClient },
-    { type: String, decorators: [{ type: Optional }, { type: Inject, args: [BASE_PATH,] }] },
-    { type: Configuration, decorators: [{ type: Optional }] }
-];
-(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵngcc0.ɵsetClassMetadata(PingControllerService, [{
+PingControllerService.ɵfac = function PingControllerService_Factory(t) { return new (t || PingControllerService)(i0.ɵɵinject(i1.HttpClient), i0.ɵɵinject(BASE_PATH, 8), i0.ɵɵinject(Configuration, 8)); };
+PingControllerService.ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: PingControllerService, factory: PingControllerService.ɵfac, providedIn: 'root' });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(PingControllerService, [{
         type: Injectable,
         args: [{
                 providedIn: 'root'
             }]
-    }], function () { return [{ type: ɵngcc1.HttpClient }, { type: String, decorators: [{
+    }], function () { return [{ type: i1.HttpClient }, { type: undefined, decorators: [{
                 type: Optional
             }, {
                 type: Inject,
@@ -4364,7 +3481,7 @@ PingControllerService.ctorParameters = () => [
                 type: Optional
             }] }]; }, null); })();
 
-const APIS = [GrowbeDashboardControllerService, GrowbeMainboardControllerService, GrowbeModuleControllerService, GrowbeModuleDefControllerService, GrowbeModuleGraphControllerService, GrowbeSensorValueControllerService, GrowbeStreamControllerService, GrowbeWarningControllerService, PingControllerService];
+const APIS = [GrowbeDashboardControllerService, GrowbeMainboardControllerService, GrowbeModuleControllerService, GrowbeModuleDefControllerService, GrowbeModuleDefGrowbeMainboardControllerService, GrowbeModuleGraphControllerService, GrowbeStreamControllerService, PingControllerService];
 
 /**
  * growbe-cloud
@@ -4851,42 +3968,6 @@ var GrowbeLogsWithRelations;
  * Do not edit the class manually.
  */
 
-/**
- * growbe-cloud
- * Cloud server for Growbe
- *
- * The version of the OpenAPI document: 0.0.0
- * Contact: wquintal@berlingoqc.com
- *
- * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
- * https://openapi-generator.tech
- * Do not edit the class manually.
- */
-
-/**
- * growbe-cloud
- * Cloud server for Growbe
- *
- * The version of the OpenAPI document: 0.0.0
- * Contact: wquintal@berlingoqc.com
- *
- * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
- * https://openapi-generator.tech
- * Do not edit the class manually.
- */
-
-/**
- * growbe-cloud
- * Cloud server for Growbe
- *
- * The version of the OpenAPI document: 0.0.0
- * Contact: wquintal@berlingoqc.com
- *
- * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
- * https://openapi-generator.tech
- * Do not edit the class manually.
- */
-
 var GrowbeRegisterResponse;
 (function (GrowbeRegisterResponse) {
     GrowbeRegisterResponse.StateEnum = {
@@ -4900,78 +3981,6 @@ var GrowbeRegisterResponse;
         RegisterOrganisation: 'REGISTER_ORGANISATION'
     };
 })(GrowbeRegisterResponse || (GrowbeRegisterResponse = {}));
-
-/**
- * growbe-cloud
- * Cloud server for Growbe
- *
- * The version of the OpenAPI document: 0.0.0
- * Contact: wquintal@berlingoqc.com
- *
- * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
- * https://openapi-generator.tech
- * Do not edit the class manually.
- */
-
-/**
- * growbe-cloud
- * Cloud server for Growbe
- *
- * The version of the OpenAPI document: 0.0.0
- * Contact: wquintal@berlingoqc.com
- *
- * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
- * https://openapi-generator.tech
- * Do not edit the class manually.
- */
-
-/**
- * growbe-cloud
- * Cloud server for Growbe
- *
- * The version of the OpenAPI document: 0.0.0
- * Contact: wquintal@berlingoqc.com
- *
- * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
- * https://openapi-generator.tech
- * Do not edit the class manually.
- */
-
-/**
- * growbe-cloud
- * Cloud server for Growbe
- *
- * The version of the OpenAPI document: 0.0.0
- * Contact: wquintal@berlingoqc.com
- *
- * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
- * https://openapi-generator.tech
- * Do not edit the class manually.
- */
-
-/**
- * growbe-cloud
- * Cloud server for Growbe
- *
- * The version of the OpenAPI document: 0.0.0
- * Contact: wquintal@berlingoqc.com
- *
- * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
- * https://openapi-generator.tech
- * Do not edit the class manually.
- */
-
-/**
- * growbe-cloud
- * Cloud server for Growbe
- *
- * The version of the OpenAPI document: 0.0.0
- * Contact: wquintal@berlingoqc.com
- *
- * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
- * https://openapi-generator.tech
- * Do not edit the class manually.
- */
 
 /**
  * growbe-cloud
@@ -5116,18 +4125,6 @@ var ModuleDataRequest;
  * Do not edit the class manually.
  */
 
-/**
- * growbe-cloud
- * Cloud server for Growbe
- *
- * The version of the OpenAPI document: 0.0.0
- * Contact: wquintal@berlingoqc.com
- *
- * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
- * https://openapi-generator.tech
- * Do not edit the class manually.
- */
-
 class ApiModule {
     constructor(parentModule, http) {
         if (parentModule) {
@@ -5145,14 +4142,10 @@ class ApiModule {
         };
     }
 }
-ApiModule.ɵfac = function ApiModule_Factory(t) { return new (t || ApiModule)(ɵngcc0.ɵɵinject(ApiModule, 12), ɵngcc0.ɵɵinject(ɵngcc1.HttpClient, 8)); };
-ApiModule.ɵmod = /*@__PURE__*/ ɵngcc0.ɵɵdefineNgModule({ type: ApiModule });
-ApiModule.ɵinj = /*@__PURE__*/ ɵngcc0.ɵɵdefineInjector({ providers: [], imports: [[]] });
-ApiModule.ctorParameters = () => [
-    { type: ApiModule, decorators: [{ type: Optional }, { type: SkipSelf }] },
-    { type: HttpClient, decorators: [{ type: Optional }] }
-];
-(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵngcc0.ɵsetClassMetadata(ApiModule, [{
+ApiModule.ɵfac = function ApiModule_Factory(t) { return new (t || ApiModule)(i0.ɵɵinject(ApiModule, 12), i0.ɵɵinject(i1.HttpClient, 8)); };
+ApiModule.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: ApiModule });
+ApiModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ providers: [], imports: [[]] });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(ApiModule, [{
         type: NgModule,
         args: [{
                 imports: [],
@@ -5164,7 +4157,7 @@ ApiModule.ctorParameters = () => [
                 type: Optional
             }, {
                 type: SkipSelf
-            }] }, { type: ɵngcc1.HttpClient, decorators: [{
+            }] }, { type: i1.HttpClient, decorators: [{
                 type: Optional
             }] }]; }, null); })();
 
@@ -5176,6 +4169,6 @@ ApiModule.ctorParameters = () => [
  * Generated bundle index. Do not edit.
  */
 
-export { APIS, ApiModule, BASE_PATH, BaseDashboardElement, COLLECTION_FORMATS, Configuration, DashboardGraphElement, GraphModuleRequest, GroupingDataRequest, GrowbeDashboardControllerService, GrowbeLogs, GrowbeLogsPartial, GrowbeLogsPartialExcludingId, GrowbeLogsWithRelations, GrowbeMainboardControllerService, GrowbeModuleControllerService, GrowbeModuleDefControllerService, GrowbeModuleGraphControllerService, GrowbeRegisterResponse, GrowbeSensorValueControllerService, GrowbeStreamControllerService, GrowbeWarningControllerService, ModuleDataRequest, PingControllerService };
+export { APIS, ApiModule, BASE_PATH, BaseDashboardElement, COLLECTION_FORMATS, Configuration, DashboardGraphElement, GraphModuleRequest, GroupingDataRequest, GrowbeDashboardControllerService, GrowbeLogs, GrowbeLogsPartial, GrowbeLogsPartialExcludingId, GrowbeLogsWithRelations, GrowbeMainboardControllerService, GrowbeModuleControllerService, GrowbeModuleDefControllerService, GrowbeModuleDefGrowbeMainboardControllerService, GrowbeModuleGraphControllerService, GrowbeRegisterResponse, GrowbeStreamControllerService, ModuleDataRequest, PingControllerService };
 
 //# sourceMappingURL=growbe2-ngx-cloud-api.js.map

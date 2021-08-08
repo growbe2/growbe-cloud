@@ -13,11 +13,9 @@
  * (tsType: Omit<Partial<GrowbeModule>, \'id\'>, schemaOptions: { title: \'\', partial: true, exclude: [ \'id\' ] })
  */
 export interface GrowbeModulePartialExcludingId {
-    [key: string]: object | any;
-    uid?: string;
     connected?: boolean;
     readCount?: number;
     config?: object;
     mainboardId?: string;
-    moduleName?: string;
+    atIndex?: number;
 }

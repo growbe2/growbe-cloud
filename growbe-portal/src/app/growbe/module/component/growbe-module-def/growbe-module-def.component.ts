@@ -4,6 +4,7 @@ import { StaticDataSource } from '@berlingoqc/ngx-loopback';
 import { GrowbeModuleDefWithRelations } from '@growbe2/ngx-cloud-api';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
 
 @Component({
@@ -32,17 +33,18 @@ export class GrowbeModuleDefComponent implements OnInit {
         },
     ];
 
-    moduleDef: GrowbeModuleDefWithRelations;
+    moduleDef: any;//GrowbeModuleDefWithRelations;
     source;
 
-    constructor(private moduleDefAPI: GrowbeModuleDefAPI) {}
+    constructor(private moduleAPI: GrowbeModuleAPI) {}
 
     async ngOnInit(): Promise<void> {
         if (!this.moduleDefId) {
             return;
         }
-        this.moduleDef = await this.moduleDefAPI
-            .getById(this.moduleDefId)
+        this.moduleDef = await this.moduleAPI
+            .moduleDef(this.moduleDefId)
+            .get()
             .pipe(take(1))
             .toPromise();
         this.source = new StaticDataSource(
