@@ -20,26 +20,38 @@ export class StreamPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('element') element: ElementRef<HTMLMediaElement>;
     player: flvjs.Player;
 
+    private mStream: any;
     @Input() set stream(stream: any) {
         if (!stream) {
             return;
         }
-        this.player = flvjs.createPlayer({
-            type: 'flv',
-            url: `${envConfig.nms}/live/${stream.streamName}.flv` + stream.url,
-        });
-        this.player.attachMediaElement(this.element.nativeElement);
-        this.player.load();
-        this.player.play();
+        this.mStream = stream;
+        this.startPlayer();
     }
 
     constructor() {}
 
     ngOnInit(): void {}
 
-    ngAfterViewInit() {}
+    ngAfterViewInit() {
+      if (this.mStream) {
+        this.startPlayer();
+      }
+    }
 
     ngOnDestroy(): void {
         this.player?.destroy();
+    }
+
+    private startPlayer() {
+      if (this.element) {
+          this.player = flvjs.createPlayer({
+            type: 'flv',
+            url: `${envConfig.nms}/live/${this.mStream.streamName}.flv` + this.mStream.url,
+          });
+          this.player.attachMediaElement(this.element.nativeElement);
+          this.player.load();
+          this.player.play();
+        }
     }
 }

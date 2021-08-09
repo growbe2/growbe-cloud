@@ -1,5 +1,6 @@
 import { DashboardRegistryItem } from '@growbe2/growbe-dashboard';
 import { ModuleSensorValueGraphComponent } from 'src/app/growbe/module/graph/module-sensor-value-graph/module-sensor-value-graph.component';
+import { StreamPlayerComponent } from 'src/app/growbe/video-stream/stream-player/stream-player.component';
 import { TableLayoutComponent } from 'src/app/shared/table-layout/table-layout/table-layout.component';
 import { TerminalComponent } from 'src/app/shared/terminal/terminal/terminal.component';
 import { GrowbeStateComponent } from '../growbe-mainboard/component/growbe-state/growbe-state.component';
@@ -106,6 +107,11 @@ export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
         name: '',
         component: 'logs-terminal',
         componentType: TerminalComponent,
+    },
+    {
+        name: '',
+        component: 'video-stream',
+        componentType: StreamPlayerComponent,
     },
     {
         name: '',

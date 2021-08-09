@@ -106,11 +106,8 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
 
     sub: Subscription;
 
-    streamSelected: any;
-
     actionsColumns: TableColumn[];
     actionsSource = growbeActionsSource;
-
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -152,10 +149,6 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {}
-
-    onStreamSelected(stream: any) {
-        this.streamSelected = stream;
-    }
 
     deleteModule(moduleId: string) {
       this.matDialog.open(ActionConfirmationDialogComponent, {

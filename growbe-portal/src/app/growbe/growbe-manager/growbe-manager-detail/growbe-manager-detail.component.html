@@ -82,23 +82,7 @@
               <ngx-autotable [columns]="actionsColumns" [source]="actionsSource"></ngx-autotable>
             </mat-tab>
             <mat-tab label="Stream">
-                <app-stream-picker
-                    [growbeId]="id"
-                    (streamSelected)="onStreamSelected($event)"
-                ></app-stream-picker>
-                <div
-                    fxLayout="row"
-                    fxLayoutAlign="start start"
-                    class="card"
-                    [hidden]="!streamSelected"
-                >
-                    <app-stream-player
-                        [stream]="streamSelected"
-                    ></app-stream-player>
-                    <button (click)="streamSelected = null" mat-icon-button>
-                        <mat-icon> cancel_presentation</mat-icon>
-                    </button>
-                </div>
+              <app-video-stream-page [growbeId]="id"></app-video-stream-page>
             </mat-tab>
             <mat-tab label="Logs">
                 <app-terminal [growbeId]="id"></app-terminal>
