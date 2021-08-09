@@ -37,6 +37,9 @@ export class GrowbeDashboardAPI
         element?: string,
     ): Observable<Dashboard> {
         return this.modifyDashboard(dashboard, (d: Dashboard) => {
+          if (!d.panels) {
+            d.panels = [];
+          }
             d.panels.push(panel);
             return d;
         });

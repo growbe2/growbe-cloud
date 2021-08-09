@@ -21,6 +21,7 @@ export const addPanelForm = (
                 {
                     name: 'name',
                     type: 'string',
+                    required: true,
                     displayName: 'Name of the panel',
                 },
             ],
