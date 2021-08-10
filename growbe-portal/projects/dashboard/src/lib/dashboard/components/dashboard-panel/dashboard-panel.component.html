@@ -1,7 +1,8 @@
 <ng-container *ngIf="mPanel">
     <div
         *ngFor="let item of mPanel.items"
-        style="padding: 10px "
+        style="padding: 10px"
+        class="grid"
         [ngClass]="item.class"
         [ngStyle]="item.style"
     >

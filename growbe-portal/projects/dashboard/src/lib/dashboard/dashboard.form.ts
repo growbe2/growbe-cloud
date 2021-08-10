@@ -8,6 +8,8 @@ import { Subject } from 'rxjs';
 import { DashboardItem } from './dashboard.model';
 import { DashboardRef, DashboardService } from './dashboard.service';
 
+//export const modifyStyleDialog
+
 export const addPanelForm = (
     service: DashboardService,
     dashboardRef: DashboardRef,
