@@ -22,6 +22,7 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
 import { MatDialog } from '@angular/material/dialog';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
+//import { DictionnayProperty } from '@berlingoqc/ngx-autoform';
 @Component({
     selector: 'app-growbe-manager-detail',
     templateUrl: './growbe-manager-detail.component.html',
@@ -69,6 +70,17 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
                         displayName: 'Nom',
                         required: false,
                     },
+                    /*{
+                        name: 'dictext',
+                        type: 'dic',
+                        displayName: 'Dictext',
+                        availableProperty: [
+                          {
+                            type: 'string',
+                            name: 'grid-size',
+                          }
+                        ]
+                    } as DictionnayProperty*/
                 ],
             },
         ],
@@ -106,11 +118,8 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
 
     sub: Subscription;
 
-    streamSelected: any;
-
     actionsColumns: TableColumn[];
     actionsSource = growbeActionsSource;
-
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -152,10 +161,6 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {}
-
-    onStreamSelected(stream: any) {
-        this.streamSelected = stream;
-    }
 
     deleteModule(moduleId: string) {
       this.matDialog.open(ActionConfirmationDialogComponent, {

@@ -8,11 +8,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { ButtonsRowModule } from '@berlingoqc/ngx-common';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { VideoStreamPageComponent } from './video-stream-page/video-stream-page.component';
+import { DashboardModule } from '@growbe2/growbe-dashboard';
 
 @NgModule({
-    declarations: [StreamPlayerComponent, StreamPickerComponent],
+    declarations: [StreamPlayerComponent, StreamPickerComponent, VideoStreamPageComponent],
     imports: [
         CommonModule,
+        DashboardModule,
         ButtonsRowModule,
         AutoTableModule,
         AutoFormModule,
@@ -20,6 +23,6 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
         MatButtonModule,
         ClipboardModule,
     ],
-    exports: [StreamPlayerComponent, StreamPickerComponent],
+    exports: [StreamPlayerComponent, StreamPickerComponent, VideoStreamPageComponent],
 })
 export class VideoStreamModule {}

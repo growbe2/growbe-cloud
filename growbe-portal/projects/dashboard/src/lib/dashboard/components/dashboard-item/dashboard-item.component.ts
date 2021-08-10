@@ -160,6 +160,14 @@ export class DashboardItemComponent
         ) {
             this.menu['copy'] = true;
         }
+        if (this.panelRef) {
+          this.menu['delete'] = true;
+        }
+        if (this.dashboardItem.extraMenus) {
+          for( const k of Object.keys(this.dashboardItem.extraMenus)) {
+            this.menu[k] = true;
+          }
+        }
     }
 
     delete() {

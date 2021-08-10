@@ -12,6 +12,13 @@
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
+                    <button
+                      mat-menu-item
+                      *ngFor="let extra of (dashboardItem.extraMenus || {}) | keyvalue"
+                      (click)="extra.value.callback(dashboardItem)"
+                    >
+                      {{ extra.value.name}}
+                    </button>
                     <button mat-menu-item
                       *ngIf="dashboardItem.edit"
                       (click)="editForm.exposition.open()"
@@ -23,7 +30,7 @@
                     >
                         Copy
                     </button>
-                    <button mat-menu-item (click)="delete()">Supprimé</button>
+                    <button *ngIf="panelRef" mat-menu-item (click)="delete()">Supprimé</button>
                 </mat-menu>
             </ng-container>
         </div>
