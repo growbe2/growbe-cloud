@@ -1,6 +1,7 @@
 import {
     AutoFormData,
     DialogFormContainer,
+    FormObject,
 } from '@berlingoqc/ngx-autoform';
 import { GrowbeModuleDefWithRelations } from '@growbe2/ngx-cloud-api';
 import { Observable, of } from 'rxjs';
@@ -73,7 +74,7 @@ export const growbeModuleDefForm = (
                     ],
                 },
             ],
-        },
+        } as FormObject,
     ],
     event: {
         submit: (d: any) => {

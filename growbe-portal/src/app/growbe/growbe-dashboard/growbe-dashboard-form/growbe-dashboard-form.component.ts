@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@berlingoqc/auth';
 import { fuseAnimations } from '@berlingoqc/fuse';
-import { AutoFormData } from '@berlingoqc/ngx-autoform';
+import { AutoFormData, FormObject } from '@berlingoqc/ngx-autoform';
 import { GrowbeDashboard } from '@growbe2/ngx-cloud-api';
 import { map } from 'rxjs/operators';
 import { GrowbeDashboardAPI } from '../../api/growbe-dashboard';
@@ -38,7 +38,7 @@ export class GrowbeDashboardFormComponent {
                         required: true,
                     },
                 ],
-            },
+            } as FormObject,
         ],
         event: {
             submit: (data) =>

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { GrowbeModule } from 'growbe-cloud-api/lib';
 import { of } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
+import { startWith, switchMap, take } from 'rxjs/operators';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 
@@ -10,7 +11,7 @@ import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service
     styleUrls: ['./module-status-dot.component.scss'],
 })
 export class ModuleStatusDotComponent implements OnInit {
-    @Input() module: any;
+    @Input() moduleId: any;
 
     status;
 
@@ -20,19 +21,22 @@ export class ModuleStatusDotComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        if (this.module) {
-            this.status = this.growbeEventService
-                .getGrowbeEvent(
-                    this.module.mainboardId,
-                    `/cloud/m/${this.module.id}/state`,
-                    JSON.parse,
-                )
-                .pipe(
-                  startWith(this.module),
-                  switchMap((data) => {
-                    return this.growbeModuleAPI.requestFind.onModif(of(data))
-                  })
-                );
-        }
+        this.growbeModuleAPI.getById(this.moduleId).
+          pipe(take(1)).subscribe((module: GrowbeModule) => {
+            if (module) {
+              this.status = this.growbeEventService
+                  .getGrowbeEvent(
+                      module.mainboardId,
+                      `/cloud/m/${module.id}/state`,
+                      JSON.parse,
+                  )
+                  .pipe(
+                    startWith(module),
+                    switchMap((data) => {
+                      return this.growbeModuleAPI.requestFind.onModif(of(data))
+                    })
+                  );
+            }
+        })
     }
 }

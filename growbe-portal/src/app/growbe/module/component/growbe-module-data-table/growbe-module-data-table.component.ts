@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AutoTableComponent, TableColumn } from '@berlingoqc/ngx-autotable';
-import { unsubscriber } from '@berlingoqc/ngx-common';
+import { ButtonsRowComponent, unsubscriber } from '@berlingoqc/ngx-common';
 import { Where } from '@berlingoqc/ngx-loopback';
 import {
     GrowbeModule,
@@ -12,7 +12,6 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
-import { ButtonsRowComponent } from 'src/app/shared/buttons-row/buttons-row/buttons-row.component';
 import { transformModuleValue } from '../../module.def';
 
 @Component({

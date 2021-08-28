@@ -1,16 +1,14 @@
 import { Type } from '@angular/core';
-
-export interface InputProperty {
-    type: string;
-}
+import { InputProperty, IProperty } from '@berlingoqc/ngx-autoform';
 
 export interface DashboardRegistryItem {
     name: string;
     component: string;
     componentType: Type<any>;
+    description?: string;
 
     inputs?: {
-        [id: string]: InputProperty;
+        [id: string]: IProperty;
     };
 
     outputs?: {

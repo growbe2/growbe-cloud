@@ -1,4 +1,7 @@
+import { Inject, inject, Injector } from '@angular/core';
+import { InputProperty } from '@berlingoqc/ngx-autoform';
 import { DashboardRegistryItem } from '@growbe2/growbe-dashboard';
+import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { ModuleSensorValueGraphComponent } from 'src/app/growbe/module/graph/module-sensor-value-graph/module-sensor-value-graph.component';
 import { StreamPlayerComponent } from 'src/app/growbe/video-stream/stream-player/stream-player.component';
 import { TableLayoutComponent } from 'src/app/shared/table-layout/table-layout/table-layout.component';
@@ -11,19 +14,43 @@ import { ModuleStatusDotComponent } from '../module/component/module-status-dot/
 import { ModuleGraphBuilderComponent } from '../module/graph/module-graph-builder/module-graph-builder.component';
 import { ModuleLastValueComponent } from '../module/graph/module-last-value/module-last-value.component';
 import { SoilModuleComponent } from '../module/svg/soil/soil-module/soil-module.component';
-import { SoilProbeComponent } from '../module/svg/soil/soil-probe/soil-probe.component';
 import { THLModuleComponent } from '../module/svg/thl/thl-module/thl-module.component';
 import { WCModuleComponent } from '../module/svg/wc/wc-module/wc-module.component';
 
-export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
+const getDashboardAndModuleProperty = (injector: Injector, includeModule) => {
+  const mainboardAPI = injector.get(GrowbeMainboardAPI);
+  const formProperty = [];
+
+  formProperty.push({
+    name: 'mainboardId',
+    type: 'string',
+    displayName: 'Growbe',
+    component: {
+      name: 'select',
+
+    }
+
+  });
+
+  if (includeModule) {
+    formProperty.push({});
+  }status
+
+  return formProperty;
+};
+
+const moduleIdProperty = {
+  type: 'string',
+  name: 'moduleId',
+} as InputProperty;
+
+export const DASHBOARD_ITEMS: (injector: Injector) => DashboardRegistryItem[] = (injector: Injector) => [
     {
         name: '',
         component: 'growbe-module-data-table',
         componentType: GrowbeModuleDataTableComponent,
         inputs: {
-            module: {
-                type: 'object',
-            },
+            moduleId: moduleIdProperty,
         },
     },
     {
@@ -33,6 +60,7 @@ export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
         inputs: {
             data: {
                 type: 'object',
+                name: 'string',
             },
         },
     },
@@ -41,9 +69,6 @@ export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
         component: 'growbe-module-last-value',
         componentType: ModuleLastValueComponent,
         inputs: {
-            data: {
-                type: 'object',
-            },
         },
     },
     {
@@ -51,9 +76,6 @@ export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
         component: 'growbe-state',
         componentType: GrowbeStateComponent,
         inputs: {
-            data: {
-                type: 'object',
-            },
         },
     },
     {
@@ -61,9 +83,6 @@ export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
         component: 'growbe-module-def',
         componentType: GrowbeModuleDefComponent,
         inputs: {
-            moduleDefId: {
-                type: 'string',
-            },
         },
     },
     {
@@ -71,9 +90,6 @@ export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
         component: 'growbe-module-state',
         componentType: ModuleStatusDotComponent,
         inputs: {
-            module: {
-                type: 'object',
-            },
         },
     },
     {
@@ -85,10 +101,13 @@ export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
     {
         name: '',
         component: 'growbe-module-config',
+        description: '',
         componentType: GrowbeModuleConfigComponent,
         inputs: {
             moduleId: {
                 type: 'string',
+                name: 'moduleId',
+                required: true,
             },
         },
     },
@@ -100,6 +119,7 @@ export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
         outputs: {
             timeSelected: {
                 type: 'object',
+                name: 'timeSelected',
             },
         },
     },

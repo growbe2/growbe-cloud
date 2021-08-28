@@ -18,13 +18,13 @@ import {
     ViewContainerRef,
     ViewEncapsulation,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { fuseAnimations } from '@berlingoqc/fuse';
-import { AutoFormComponent, AutoFormData } from '@berlingoqc/ngx-autoform';
+import { AutoFormComponent, AutoFormData, AutoFormDialogService } from '@berlingoqc/ngx-autoform';
 import { notify } from '@berlingoqc/ngx-notification';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { getCopyDashboardForm } from '../../dashboard.form';
-import { DashboardItem, Style } from '../../dashboard.model';
+import { getCopyDashboardForm, modifyDialog } from '../../dashboard.form';
+import { DashboardItem, DashboardPanel, Style } from '../../dashboard.model';
 import { DashboardService, PanelDashboardRef } from '../../dashboard.service';
 import { DashboardRegistryService } from '../../registry/dashboard-registry.service';
 import { DashboardRegistryItem } from '../../registry/dashboard.registry';
@@ -57,6 +57,20 @@ export class DashboardItemRegistryCopyDirective {
                     });
             },
         );
+      this.item.exposition.this.formGroup.controls.item.controls.panel.valueChanges.subscribe((panel) => {
+        if (panel) {
+          this.item.exposition.this.formGroup.controls.item.controls.name.enable();
+          (this.item.exposition.this.formGroup.controls.item.controls.name as FormControl)
+            .setValidators((validator: FormControl) => {
+              const value = validator.value;
+              const index = panel.items.findIndex((item) => item.name === value);
+              if(index > -1) {
+                return { alreadyExists: true };
+              }
+              return null;
+            })
+        }
+      });
     }
 }
 
@@ -131,19 +145,42 @@ export class DashboardItemComponent
     dashboardItem: DashboardItem & Style;
 
     @Input()
+    index: number;
+
+    @Input()
     panelRef?: PanelDashboardRef;
+
+    @Input()
+    panel?: DashboardPanel;
 
     formData: AutoFormData;
     subjectPanel = new BehaviorSubject([]);
 
     menu: { [id: string]: boolean } = {};
 
-    constructor(private dashboardService: DashboardService) {
+    constructor(
+      private dashboardService: DashboardService,
+      private autoformDialogService: AutoFormDialogService,
+    ) {
         super();
     }
 
     ngOnInit(): void {
         if (!this.dashboardItem) return;
+        if (!this.dashboardItem.extraMenus) {
+          this.dashboardItem.extraMenus = {};
+        }
+        if (this.dashboardItem.dashboardEdit) {
+          this.dashboardItem.extraMenus['dashboardEdit'] = {
+            name: 'Dashboard edit',
+            callback: (item: DashboardItem) => {
+              this.autoformDialogService.open(
+                modifyDialog(
+                  this.index, this.panelRef, this.dashboardItem, this.dashboardService
+                ));
+            }
+          }
+        }
         this.classes = this.dashboardItem.class;
         this.formData = getCopyDashboardForm(
             this.dashboardService,

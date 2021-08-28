@@ -10,13 +10,12 @@ import { MatListModule } from '@angular/material/list';
 
 import { FuseWidgetModule } from '@berlingoqc/fuse';
 import { LoopbackRestPipeModule } from '@berlingoqc/ngx-loopback';
-import { ButtonsRowModule } from 'src/app/shared/buttons-row/buttons-row.module';
-import { GraphModule } from './graph/graph.module';
 import { UnitModule } from 'src/app/shared/unit/unit.module';
 import { GrowbeModuleConfigComponent } from './component/growbe-module-config/growbe-module-config.component';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { GrowbeModulePropertiesSelectFormComponent } from './component/growbe-module-properties-select-form/growbe-module-properties-select-form.component';
 import { HardwareAlarmModule } from './hardware-alarm/hardware-alarm.module';
+import { ButtonsRowModule } from '@berlingoqc/ngx-common';
 
 @NgModule({
     declarations: [

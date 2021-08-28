@@ -14,6 +14,7 @@ export interface DashboardItem {
     outputs: { [id: string]: (obs: Observable<any>) => void };
     copy: boolean;
     edit?: AutoFormData;
+    dashboardEdit?: boolean;
     extraMenus?: {[id: string]: { callback: (self: DashboardItem) => void, name: string }}
 }
 

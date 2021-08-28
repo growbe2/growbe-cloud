@@ -1,4 +1,4 @@
-import { AutoFormData, AutoFormModule } from '@berlingoqc/ngx-autoform';
+import { AutoFormData, AutoFormModule, FormObject } from '@berlingoqc/ngx-autoform';
 
 export const growbeSyncForm = (): AutoFormData => ({
     type: 'dialog',
@@ -8,7 +8,7 @@ export const growbeSyncForm = (): AutoFormData => ({
             type: 'object',
             name: 'object',
             properties: [],
-        },
+        } as FormObject,
     ],
     event: {
         submit: null,

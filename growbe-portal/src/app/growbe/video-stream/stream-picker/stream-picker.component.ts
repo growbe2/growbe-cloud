@@ -17,6 +17,7 @@ import {
     AutoFormData,
     AutoFormDialogService,
     DialogFormContainer,
+    FormObject,
 } from '@berlingoqc/ngx-autoform';
 import { TableColumn } from '@berlingoqc/ngx-autotable';
 import { ButtonsRowComponent, envConfig } from '@berlingoqc/ngx-common';
@@ -122,7 +123,7 @@ export class StreamPickerComponent implements OnInit, AfterViewInit {
                         name: 'apiKey',
                     },
                 ],
-            },
+            } as FormObject,
         ],
     });
 
@@ -163,7 +164,7 @@ export class StreamPickerComponent implements OnInit, AfterViewInit {
                         } as any,
                     },
                 ],
-            },
+            }  as FormObject,
         ],
     };
 

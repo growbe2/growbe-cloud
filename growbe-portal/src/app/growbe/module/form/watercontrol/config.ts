@@ -2,7 +2,6 @@ import { FormGroup } from '@angular/forms';
 import {
     AutoFormData,
     FormObject,
-    FormProperty,
     UnionProperty,
 } from '@berlingoqc/ngx-autoform';
 import { of } from 'rxjs';

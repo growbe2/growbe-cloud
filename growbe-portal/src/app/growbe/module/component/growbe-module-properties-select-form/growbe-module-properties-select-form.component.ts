@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AutoFormData } from '@berlingoqc/ngx-autoform';
+import { AutoFormData, FormObject } from '@berlingoqc/ngx-autoform';
 import { GrowbeModuleDefWithRelations } from '@growbe2/ngx-cloud-api';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -47,7 +47,7 @@ export class GrowbeModulePropertiesSelectFormComponent implements OnInit {
                   name: 'checkbox',
                 }
               })),
-            }
+            }  as FormObject,
           ],
           event: {
             submit: () => {},

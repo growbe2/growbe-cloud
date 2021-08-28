@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AutoFormData } from '@berlingoqc/ngx-autoform';
+import { AutoFormData, FormObject } from '@berlingoqc/ngx-autoform';
 import { of } from 'rxjs';
 
 @Component({
@@ -48,7 +48,7 @@ export class TimeframeGroupingSelectFormComponent implements OnInit {
             } as any,
           }
         ]
-      }
+      } as FormObject,
     ],
     event: {
       submit: () => {},

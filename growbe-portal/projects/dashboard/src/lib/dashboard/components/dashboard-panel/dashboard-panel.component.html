@@ -1,8 +1,7 @@
 <ng-container *ngIf="mPanel">
     <div
-        *ngFor="let item of mPanel.items"
-        style="padding: 10px"
-        class="grid"
+        *ngFor="let item of mPanel.items; index as i"
+        style="padding: 10px; display: grid"
         [ngClass]="item.class"
         [ngStyle]="item.style"
     >
@@ -15,8 +14,10 @@
                       }
                     : null
             "
+            [panel]="mPanel"
             [dashboardItem]="item"
             [static]="static"
+            [index]="i"
         ></app-dashboard-item>
     </div>
 </ng-container>

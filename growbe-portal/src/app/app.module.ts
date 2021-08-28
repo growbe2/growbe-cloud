@@ -175,7 +175,7 @@ export class AppModule {
         moduleService: DynamicModuleService,
         service: DashboardRegistryService,
     ) {
-        DASHBOARD_ITEMS.forEach((t) => service.addItem(t));
+        DASHBOARD_ITEMS(injector).forEach((t) => service.addItem(t));
         /*moduleService.loadModuleSystemJS(
             {
                 path: '/assets/umd.js',

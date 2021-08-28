@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AutoFormData } from '@berlingoqc/ngx-autoform';
+import { AutoFormData, FormObject } from '@berlingoqc/ngx-autoform';
 import { unsubscriber } from '@berlingoqc/ngx-common';
 import { CRUDDataSource, Filter, Where } from '@berlingoqc/ngx-loopback';
 import { GrowbeLogs } from '@growbe2/ngx-cloud-api';
@@ -89,7 +89,7 @@ export class TerminalComponent implements OnInit {
                             } as any,
                         },
                     ],
-                },
+                }  as FormObject,
             ],
             actionsButtons: {},
             event: {
@@ -110,7 +110,7 @@ export class TerminalComponent implements OnInit {
 
         if (this.moduleId) return;
 
-        this.searchBarForm.items[0].properties.splice(0, 0, {
+        (this.searchBarForm.items[0] as FormObject).properties.splice(0, 0, {
             name: 'group',
             type: 'string',
             decorators: {

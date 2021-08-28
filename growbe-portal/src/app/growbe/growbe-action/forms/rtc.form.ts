@@ -1,4 +1,4 @@
-import { AutoFormData, AutoFormModule } from '@berlingoqc/ngx-autoform';
+import { AutoFormData, AutoFormModule, FormObject } from '@berlingoqc/ngx-autoform';
 import { of } from 'rxjs';
 import { timeFieldComponent } from 'src/app/shared/timeframe/timeframe-select/timeframe-select.component';
 
@@ -20,7 +20,7 @@ export const growbeRtcForm = (): AutoFormData => ({
                     component: timeFieldComponent,
                 },
             ],
-        },
+        } as FormObject,
     ],
     event: {
         submit: null,
