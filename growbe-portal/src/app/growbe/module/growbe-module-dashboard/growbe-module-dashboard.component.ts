@@ -290,7 +290,8 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                             name: 'Data historic',
                             component: 'growbe-module-data-table',
                             inputs: {
-                                module: this.module,
+                                mainboardId: this.module.mainboardId,
+                                moduleId: this.module.id,
                             },
                             style: {
                                 'grid-column-start': '1',

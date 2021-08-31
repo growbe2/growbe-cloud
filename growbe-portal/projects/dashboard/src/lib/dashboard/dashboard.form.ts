@@ -14,42 +14,7 @@ import {
     DashboardService,
     PanelDashboardRef,
 } from './dashboard.service';
-
-const moduleIdProperty: IProperty = {
-    type: 'string',
-    name: 'moduleId',
-};
-
-/**
-                            {
-                                type: 'object',
-                                name: 'data',
-                                properties: [
-                                    {
-                                        type: 'object',
-                                        name: 'graphDataConfig',
-                                        properties: [
-                                            {
-                                                type: 'string',
-                                                name: 'growbeId',
-                                            },
-                                            {
-                                                type: 'string',
-                                                name: 'moduleId'
-                                            },
-                                            {
-                                                type: 'bool',
-                                                name: 'liveUpdate'
-                                            },
-                                            {
-                                                type: 'array',
-                                                name: 'fields',
-                                            }
-                                        ],
-                                    },
-                                ],
-                            } as FormObject,
- */
+import { getRegistryItems } from './registry';
 
 export const modifyDialog = (
     myIndex: number,
@@ -57,7 +22,6 @@ export const modifyDialog = (
     dashboardItem: DashboardItem & Style,
     dashboardService: DashboardService,
 ): AutoFormData => {
-    console.log('ITEM', dashboardItem);
     return {
         type: 'dialog',
         typeData: {
@@ -72,7 +36,7 @@ export const modifyDialog = (
                     {
                         type: 'dic',
                         name: 'inputs',
-                        availableProperty: [],
+                        availableProperty: Object.values(getRegistryItems(dashboardItem.component)?.inputs) ?? [],
                     } as any,
                     {
                         type: 'dic',

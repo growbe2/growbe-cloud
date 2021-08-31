@@ -57,5 +57,7 @@ import { inject } from '@angular/core/testing';
     ],
 })
 export class GrowbeDashboardModule {
-    constructor(service: DashboardRegistryService) {}
+    constructor(service: DashboardRegistryService, injector: Injector) {
+        DASHBOARD_ITEMS(injector).forEach((t) => service.addItem(t));
+    }
 }

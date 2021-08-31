@@ -1,5 +1,5 @@
 import { Inject, inject, Injector } from '@angular/core';
-import { InputProperty } from '@berlingoqc/ngx-autoform';
+import { InputProperty, IProperty } from '@berlingoqc/ngx-autoform';
 import { DashboardRegistryItem } from '@growbe2/growbe-dashboard';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { ModuleSensorValueGraphComponent } from 'src/app/growbe/module/graph/module-sensor-value-graph/module-sensor-value-graph.component';
@@ -17,32 +17,31 @@ import { SoilModuleComponent } from '../module/svg/soil/soil-module/soil-module.
 import { THLModuleComponent } from '../module/svg/thl/thl-module/thl-module.component';
 import { WCModuleComponent } from '../module/svg/wc/wc-module/wc-module.component';
 
-const getDashboardAndModuleProperty = (injector: Injector, includeModule) => {
-  const mainboardAPI = injector.get(GrowbeMainboardAPI);
-  const formProperty = [];
+let mainboardAPI: GrowbeMainboardAPI;
 
-  formProperty.push({
+const getDashboardAndModuleProperty = (injector: Injector, includeModule) => {
+  if (!mainboardAPI)
+    mainboardAPI = injector.get(GrowbeMainboardAPI);
+  const formProperty: { [id: string]: IProperty} = {};
+
+  formProperty['mainboardId'] = {
     name: 'mainboardId',
     type: 'string',
     displayName: 'Growbe',
-    component: {
+    valuesChanges: (control, value) => {
+      console.log('CONTROL', control, value);
+    }
+    /*component: {
       name: 'select',
 
-    }
-
-  });
+    }*/
+  };
 
   if (includeModule) {
-    formProperty.push({});
-  }status
+  };
 
   return formProperty;
 };
-
-const moduleIdProperty = {
-  type: 'string',
-  name: 'moduleId',
-} as InputProperty;
 
 export const DASHBOARD_ITEMS: (injector: Injector) => DashboardRegistryItem[] = (injector: Injector) => [
     {
@@ -50,7 +49,7 @@ export const DASHBOARD_ITEMS: (injector: Injector) => DashboardRegistryItem[] = 
         component: 'growbe-module-data-table',
         componentType: GrowbeModuleDataTableComponent,
         inputs: {
-            moduleId: moduleIdProperty,
+            ...getDashboardAndModuleProperty(injector, true),
         },
     },
     {

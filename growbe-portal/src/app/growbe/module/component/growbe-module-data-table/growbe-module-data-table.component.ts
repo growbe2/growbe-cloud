@@ -5,10 +5,13 @@ import { AutoTableComponent, TableColumn } from '@berlingoqc/ngx-autotable';
 import { ButtonsRowComponent, unsubscriber } from '@berlingoqc/ngx-common';
 import { Where } from '@berlingoqc/ngx-loopback';
 import {
+  GrowbeMainboard,
     GrowbeModule,
     GrowbeModuleDefWithRelations,
 } from '@growbe2/ngx-cloud-api';
-import { Subscription } from 'rxjs';
+import { GrowbeModuleDef } from 'growbe-cloud-api/lib/cloud/model/growbeModuleDef';
+import { forkJoin } from 'rxjs';
+import { Subscription, combineLatest } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
@@ -24,7 +27,8 @@ import { transformModuleValue } from '../../module.def';
 export class GrowbeModuleDataTableComponent implements OnInit {
     @ViewChild(AutoTableComponent) table: AutoTableComponent;
 
-    @Input() module: GrowbeModule;
+    @Input() mainboardId: GrowbeMainboard['id'];
+    @Input() moduleId: GrowbeModule['id'];
 
     columns: TableColumn[];
 
@@ -36,19 +40,20 @@ export class GrowbeModuleDataTableComponent implements OnInit {
 
     constructor(
         private datePipe: DatePipe,
-        private moduleDefAPI: GrowbeModuleDefAPI,
         public moduleAPI: GrowbeModuleAPI,
     ) {}
 
     ngOnInit(): void {
-        if (!this.module) {
+        if (!this.moduleId) {
             return;
         }
         this.where = {};
-        this.sub = this.moduleAPI
-            .moduleDef(this.module.id)
-            .get()
-            .subscribe((def: any) => {
+
+        this.sub = combineLatest([
+          this.moduleAPI.moduleDef(this.moduleId).get(),
+          this.moduleAPI.getById(this.moduleId),
+        ]).subscribe(([def, module]: any) => {
+              console.log('UPDATE TABLE', def, module)
                 this.columns = [
                     {
                         id: 'createdat',
@@ -61,7 +66,7 @@ export class GrowbeModuleDataTableComponent implements OnInit {
                         title: prop.displayName ? prop.displayName : prop.name,
                         content: (e) =>
                             transformModuleValue(
-                                this.module.id.slice(0, 3),
+                                module.id.slice(0, 3),
                                 e.values[prop.name],
                             ),
                     })),
@@ -84,7 +89,7 @@ export class GrowbeModuleDataTableComponent implements OnInit {
                                                 router: Router,
                                                 context: any,
                                             ) => {
-                                                this.moduleAPI.growbeSensorValues(this.module.id)
+                                                this.moduleAPI.growbeSensorValues(module.id)
                                                     .delete(context.id)
                                                     .pipe(take(1))
                                                     .subscribe(() => {});

@@ -7,6 +7,8 @@ export const DASHBOARDS_ITEM_DEFAULT = new InjectionToken<
 
 const items: { [id: string]: DashboardRegistryItem } = {};
 
+export const getRegistryItems = (component: string) => items[component];
+
 @Injectable()
 export class DashboardRegistryService {
     addItem(item: DashboardRegistryItem) {
