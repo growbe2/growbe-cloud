@@ -60,8 +60,8 @@ import {
     DashboardModule,
     DashboardRegistryService,
 } from '@growbe2/growbe-dashboard';
-import { DASHBOARD_ITEMS } from './growbe/growbe-dashboard/items';
 import { TranslateModule } from '@ngx-translate/core';
+
 @Injectable({
     providedIn: 'root',
 })
@@ -175,7 +175,6 @@ export class AppModule {
         moduleService: DynamicModuleService,
         service: DashboardRegistryService,
     ) {
-        //DASHBOARD_ITEMS(injector).forEach((t) => service.addItem(t));
         /*moduleService.loadModuleSystemJS(
             {
                 path: '/assets/umd.js',

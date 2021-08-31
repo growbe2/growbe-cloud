@@ -19,12 +19,10 @@ import { GrowbeDashboardHomeComponent } from './growbe-dashboard-home/growbe-das
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { GrowbeMainboardModule } from '../growbe-mainboard/growbe-mainboard.module';
 import {
-    DashboardModule,
-    DashboardRegistryService,
+    DashboardModule, DashboardRegistryService,
 } from '@growbe2/growbe-dashboard';
-import { DASHBOARD_ITEMS } from './items';
 import { TimeframeModule } from 'src/app/shared/timeframe/timeframe.module';
-import { inject } from '@angular/core/testing';
+import { GrowbeDashboardRegistry } from 'src/app/growbe/growbe-dashboard/items';
 
 @NgModule({
     declarations: [
@@ -55,9 +53,13 @@ import { inject } from '@angular/core/testing';
         MatButtonModule,
         GrowbeDashboardRoutingModule,
     ],
+    providers: [
+        {
+          provide: DashboardRegistryService,
+          useClass: GrowbeDashboardRegistry,
+        }
+    ]
 })
 export class GrowbeDashboardModule {
-    constructor(service: DashboardRegistryService, injector: Injector) {
-        DASHBOARD_ITEMS(injector).forEach((t) => service.addItem(t));
-    }
+    constructor() {}
 }

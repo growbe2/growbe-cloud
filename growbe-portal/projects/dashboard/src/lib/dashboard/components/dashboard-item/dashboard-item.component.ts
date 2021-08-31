@@ -160,6 +160,7 @@ export class DashboardItemComponent
 
     constructor(
       private dashboardService: DashboardService,
+      private dashboardRegistry: DashboardRegistryService,
       private autoformDialogService: AutoFormDialogService,
     ) {
         super();
@@ -176,7 +177,7 @@ export class DashboardItemComponent
             callback: (item: DashboardItem) => {
               this.autoformDialogService.open(
                 modifyDialog(
-                  this.index, this.panelRef, this.dashboardItem, this.dashboardService
+                  this.index, this.panelRef, this.dashboardItem, this.dashboardService, this.dashboardRegistry,
                 ));
             }
           }

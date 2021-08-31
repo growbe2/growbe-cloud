@@ -1,4 +1,5 @@
 import {ApplicationConfig, GrowbeCloudApplication} from './application';
+import { CloudComponent } from './cloud';
 import {GrowbeSensorValueRepository} from './repositories';
 import {WatcherComponent} from './watcher/watcher.component';
 
@@ -10,7 +11,7 @@ export async function migrate(args: string[]) {
   options.strategy = 'remote';
   options.pkg = require('../package.json');
   options.dirname = __dirname;
-  const app = new GrowbeCloudApplication(WatcherComponent, options);
+  const app = new GrowbeCloudApplication(CloudComponent, options);
   await app.boot();
   await app.migrateSchema({existingSchema});
 

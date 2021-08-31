@@ -1,6 +1,17 @@
-import { Inject, inject, Injector } from '@angular/core';
-import { InputProperty, IProperty } from '@berlingoqc/ngx-autoform';
-import { DashboardRegistryItem } from '@growbe2/growbe-dashboard';
+import { Inject, inject, Injectable, Injector } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
+import { AuthService } from '@berlingoqc/auth';
+import {
+    InputProperty,
+    IProperty,
+    ModelsSelectComponent,
+} from '@berlingoqc/ngx-autoform';
+import {
+    DashboardRegistryItem,
+    DashboardRegistryService,
+} from '@growbe2/growbe-dashboard';
+import { of, Subject } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { ModuleSensorValueGraphComponent } from 'src/app/growbe/module/graph/module-sensor-value-graph/module-sensor-value-graph.component';
 import { StreamPlayerComponent } from 'src/app/growbe/video-stream/stream-player/stream-player.component';
@@ -17,140 +28,197 @@ import { SoilModuleComponent } from '../module/svg/soil/soil-module/soil-module.
 import { THLModuleComponent } from '../module/svg/thl/thl-module/thl-module.component';
 import { WCModuleComponent } from '../module/svg/wc/wc-module/wc-module.component';
 
-let mainboardAPI: GrowbeMainboardAPI;
+@Injectable()
+export class GrowbeDashboardRegistry implements DashboardRegistryService {
+    items: { [id: string]: DashboardRegistryItem } = {};
 
-const getDashboardAndModuleProperty = (injector: Injector, includeModule) => {
-  if (!mainboardAPI)
-    mainboardAPI = injector.get(GrowbeMainboardAPI);
-  const formProperty: { [id: string]: IProperty} = {};
-
-  formProperty['mainboardId'] = {
-    name: 'mainboardId',
-    type: 'string',
-    displayName: 'Growbe',
-    valuesChanges: (control, value) => {
-      console.log('CONTROL', control, value);
+    constructor(
+        private mainboardAPI: GrowbeMainboardAPI,
+        private authService: AuthService,
+    ) {
+        this.mainboardAPI.get({}).subscribe(() => {});
+        [
+            {
+                name: '',
+                component: 'growbe-module-data-table',
+                componentType: GrowbeModuleDataTableComponent,
+                inputs: {
+                    ...this.getDashboardAndModuleProperty(true),
+                },
+            },
+            {
+                name: '',
+                component: 'growbe-module-sensor-value-graph',
+                componentType: ModuleSensorValueGraphComponent,
+                inputs: {
+                    data: {
+                        type: 'object',
+                        name: 'string',
+                    },
+                },
+            },
+            {
+                name: '',
+                component: 'growbe-module-last-value',
+                componentType: ModuleLastValueComponent,
+                inputs: {},
+            },
+            {
+                name: '',
+                component: 'growbe-state',
+                componentType: GrowbeStateComponent,
+                inputs: {},
+            },
+            {
+                name: '',
+                component: 'growbe-module-def',
+                componentType: GrowbeModuleDefComponent,
+                inputs: {},
+            },
+            {
+                name: '',
+                component: 'growbe-module-state',
+                componentType: ModuleStatusDotComponent,
+                inputs: {},
+            },
+            {
+                name: '',
+                component: 'growbe-alarm',
+                componentType: TableLayoutComponent,
+                inputs: {},
+            },
+            {
+                name: '',
+                component: 'growbe-module-config',
+                description: '',
+                componentType: GrowbeModuleConfigComponent,
+                inputs: {
+                    moduleId: {
+                        type: 'string',
+                        name: 'moduleId',
+                        required: true,
+                    },
+                },
+            },
+            {
+                name: '',
+                component: 'graph-builder',
+                componentType: ModuleGraphBuilderComponent,
+                inputs: {},
+                outputs: {
+                    timeSelected: {
+                        type: 'object',
+                        name: 'timeSelected',
+                    },
+                },
+            },
+            {
+                name: '',
+                component: 'logs-terminal',
+                componentType: TerminalComponent,
+            },
+            {
+                name: '',
+                component: 'video-stream',
+                componentType: StreamPlayerComponent,
+            },
+            {
+                name: '',
+                component: 'AAS-module',
+                componentType: SoilModuleComponent,
+                inputs: {},
+                outputs: {},
+            },
+            {
+                name: '',
+                component: 'AAA-module',
+                componentType: THLModuleComponent,
+                inputs: {},
+                outputs: {},
+            },
+            {
+                name: '',
+                component: 'AAB-module',
+                componentType: WCModuleComponent,
+                inputs: {},
+                outputs: {},
+            },
+        ].forEach((item: any) => this.addItem(item));
     }
-    /*component: {
-      name: 'select',
 
-    }*/
-  };
-
-  if (includeModule) {
-  };
-
-  return formProperty;
-};
-
-export const DASHBOARD_ITEMS: (injector: Injector) => DashboardRegistryItem[] = (injector: Injector) => [
-    {
-        name: '',
-        component: 'growbe-module-data-table',
-        componentType: GrowbeModuleDataTableComponent,
-        inputs: {
-            ...getDashboardAndModuleProperty(injector, true),
-        },
-    },
-    {
-        name: '',
-        component: 'growbe-module-sensor-value-graph',
-        componentType: ModuleSensorValueGraphComponent,
-        inputs: {
-            data: {
-                type: 'object',
-                name: 'string',
-            },
-        },
-    },
-    {
-        name: '',
-        component: 'growbe-module-last-value',
-        componentType: ModuleLastValueComponent,
-        inputs: {
-        },
-    },
-    {
-        name: '',
-        component: 'growbe-state',
-        componentType: GrowbeStateComponent,
-        inputs: {
-        },
-    },
-    {
-        name: '',
-        component: 'growbe-module-def',
-        componentType: GrowbeModuleDefComponent,
-        inputs: {
-        },
-    },
-    {
-        name: '',
-        component: 'growbe-module-state',
-        componentType: ModuleStatusDotComponent,
-        inputs: {
-        },
-    },
-    {
-        name: '',
-        component: 'growbe-alarm',
-        componentType: TableLayoutComponent,
-        inputs: {}
-    },
-    {
-        name: '',
-        component: 'growbe-module-config',
-        description: '',
-        componentType: GrowbeModuleConfigComponent,
-        inputs: {
-            moduleId: {
-                type: 'string',
-                name: 'moduleId',
-                required: true,
-            },
-        },
-    },
-    {
-        name: '',
-        component: 'graph-builder',
-        componentType: ModuleGraphBuilderComponent,
-        inputs: {},
-        outputs: {
-            timeSelected: {
-                type: 'object',
-                name: 'timeSelected',
-            },
-        },
-    },
-    {
-        name: '',
-        component: 'logs-terminal',
-        componentType: TerminalComponent,
-    },
-    {
-        name: '',
-        component: 'video-stream',
-        componentType: StreamPlayerComponent,
-    },
-    {
-        name: '',
-        component: 'AAS-module',
-        componentType: SoilModuleComponent,
-        inputs: {},
-        outputs: {}
-    },
-    {
-        name: '',
-        component: 'AAA-module',
-        componentType: THLModuleComponent,
-        inputs: {},
-        outputs: {}
-    },
-    {
-        name: '',
-        component: 'AAB-module',
-        componentType: WCModuleComponent,
-        inputs: {},
-        outputs: {},
+    addItem(item: DashboardRegistryItem): void {
+        this.items[item.component] = item;
     }
-];
+    getItem(component: string): DashboardRegistryItem {
+        return this.items[component];
+    }
+
+    private getDashboardAndModuleProperty = (includeModule) => {
+        const formProperty: { [id: string]: IProperty } = {};
+
+        const subjectModule = new Subject();
+        let moduleControl: AbstractControl;
+        let lastMainboarId: string;
+
+        formProperty['mainboardId'] = {
+            name: 'mainboardId',
+            type: 'string',
+            displayName: 'Growbe',
+            required: true,
+            valuesChanges: (control, value) => {
+              moduleControl.enable();
+              subjectModule.next(value.id);
+              lastMainboarId = value.id;
+            },
+            component: {
+                name: 'select',
+                type: 'mat',
+                compareWith: (a, b) => {
+                  console.log('A', a,b)
+                  return true;
+                },
+                options: {
+                    displayTitle: 'Growbe',
+                    displayContent: (e) => e,
+                   options: {
+                        value: () =>
+                            this.mainboardAPI
+                                .userGrowbeMainboard(
+                                    this.authService.profile.id,
+                                )
+                                .get({}).pipe(map((items) => items.map(item => item.id))),
+                    },
+                },
+            } as any,
+        };
+
+        if (includeModule) {
+          formProperty['moduleId'] = {
+            name: 'moduleId',
+            type: 'string',
+            required: true,
+            initialize: (control) => {
+              moduleControl = control;
+              if (!control.value || !lastMainboarId) {
+                control.disable();
+              }
+            },
+            component: {
+              name: 'select',
+              type: 'mat',
+              options: {
+                displayName: 'Module',
+                displayContent: (e) => e.id,
+                options: {
+                  value: () => subjectModule.pipe(
+                    switchMap((id) => this.mainboardAPI.growbeModules(id).get({}))
+                  )
+                }
+              }
+            } as any,
+          }
+        }
+
+        return formProperty;
+    };
+}

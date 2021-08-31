@@ -14,14 +14,16 @@ import {
     DashboardService,
     PanelDashboardRef,
 } from './dashboard.service';
-import { getRegistryItems } from './registry';
+import { DashboardRegistryService, getRegistryItems } from './registry';
 
 export const modifyDialog = (
     myIndex: number,
     panel: PanelDashboardRef,
     dashboardItem: DashboardItem & Style,
     dashboardService: DashboardService,
+    registry: DashboardRegistryService,
 ): AutoFormData => {
+  console.log('ITE', dashboardItem.inputs);
     return {
         type: 'dialog',
         typeData: {
@@ -36,7 +38,7 @@ export const modifyDialog = (
                     {
                         type: 'dic',
                         name: 'inputs',
-                        availableProperty: Object.values(getRegistryItems(dashboardItem.component)?.inputs) ?? [],
+                        availableProperty: Object.values(registry.getItem(dashboardItem.component)?.inputs) ?? [],
                     } as any,
                     {
                         type: 'dic',

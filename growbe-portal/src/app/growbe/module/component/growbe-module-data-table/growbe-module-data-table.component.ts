@@ -53,7 +53,6 @@ export class GrowbeModuleDataTableComponent implements OnInit {
           this.moduleAPI.moduleDef(this.moduleId).get(),
           this.moduleAPI.getById(this.moduleId),
         ]).subscribe(([def, module]: any) => {
-              console.log('UPDATE TABLE', def, module)
                 this.columns = [
                     {
                         id: 'createdat',
