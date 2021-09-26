@@ -1,5 +1,5 @@
 {
-    "port": "COM4",
+    "port": "ROBOT",
     "portConfig": {
         "baudRate": 115200
     },
