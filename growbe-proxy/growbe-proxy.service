@@ -1,0 +1,12 @@
+[Unit]
+Description=growbe-proxy - UART to MQTT proxy for growbe dev
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/growbe/proxy
+ExecStart=/usr/bin/node index.js config.json
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
