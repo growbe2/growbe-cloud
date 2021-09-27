@@ -40,10 +40,6 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
     detailMainboardForm: AutoFormData = {
         type: 'simple',
         items: [
-            {
-                type: 'object',
-                name: 'mainboard',
-                properties: [
                     {
                         name: 'id',
                         type: 'string',
@@ -55,14 +51,12 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
                         type: 'string',
                         displayName: 'Version du mainboard',
                         disabled: true,
-                        hint: 'Version du mainboard',
                     } as InputProperty,
                     {
                         name: 'cloudVersion',
                         type: 'string',
                         displayName: 'Version protobuf',
                         disabled: true,
-                        hint: 'Version du cloud dans le mainboard',
                     } as InputProperty,
                     {
                         name: 'name',
@@ -70,57 +64,12 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
                         displayName: 'Nom',
                         required: false,
                     },
-                    {
-                        name: 'dictext',
-                        type: 'dic',
-                        displayName: 'Dictext',
-                        templates: {
-                          header: 'Free property'
-                        },
-                        availableProperty: [
-                          {
-                            type: 'string',
-                            name: 'grid-size',
-                          },
-                          {
-                            type: 'date',
-                            name: 'grid-date',
-                          },
-                          {
-                            type: 'object',
-                            name: 'test',
-                            properties: [
-                              {
-                                type: 'date',
-                                name: 'date'
-                              },
-                              {
-                                type: 'number',
-                                name: 'pipe'
-                              }
-                            ]
-                          } as FormObject
-                        ]
-                    } as DictionnayProperty
-                ],
-            } as FormObject,
         ],
         event: {
             initialData: () =>
-                this.mainboardAPI.getById(this.id).pipe(
-                    map((mainboard) => ({
-                        mainboard: Object.assign(mainboard, {
-                          dictext: {
-                            'grid-size': 2,
-                            'test': {
-                              pipe: 5
-                            }
-                          }
-                        }),
-                    })),
-                ),
+                this.mainboardAPI.getById(this.id),
             submit: (d) =>
-                this.mainboardAPI.updateById(this.id, d.mainboard).pipe(
+                this.mainboardAPI.updateById(this.id, d).pipe(
                     notify({
                         title: 'Mainboard modifié',
                         body: () => `${this.id}`,

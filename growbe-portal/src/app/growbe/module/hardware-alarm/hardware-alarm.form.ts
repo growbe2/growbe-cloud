@@ -1,4 +1,4 @@
-import { AutoFormData, FormObject } from "@berlingoqc/ngx-autoform";
+import { AutoFormData, FormObject, SelectComponent } from "@berlingoqc/ngx-autoform";
 import { GrowbeModule, GrowbeModuleWithRelations } from "@growbe2/ngx-cloud-api";
 import { of } from "rxjs";
 import { GrowbeModuleDefAPI } from "../../api/growbe-module-def";
@@ -64,13 +64,11 @@ export const getHardwareAlarmForm = (
               options: {
                 displayTitle: 'Property',
                 displayContent: (e) => e,
-                options: {
                   value: () => of(Object.keys(module.moduleDef.properties).filter(
                     item => existingAlarmProperties.indexOf(item) === -1
                   ))
-                }
               }
-            }
+            } as SelectComponent,
           },
           alarmField('low'),
           alarmField('high'),

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AutoFormData, FormObject } from '@berlingoqc/ngx-autoform';
+import { AutoFormData, FormObject, SelectComponent } from '@berlingoqc/ngx-autoform';
 import { unsubscriber } from '@berlingoqc/ngx-common';
 import { CRUDDataSource, Filter, Where } from '@berlingoqc/ngx-loopback';
 import { GrowbeLogs } from '@growbe2/ngx-cloud-api';
@@ -72,8 +72,7 @@ export class TerminalComponent implements OnInit {
                                 options: {
                                     displayTitle: '',
                                     displayContent: (e) => e[0],
-                                    options: {
-                                        value: () =>
+                                    value: () =>
                                             of([
                                                 ['Module state change','module'],
                                                 ['Module config change','module_config'],
@@ -84,9 +83,8 @@ export class TerminalComponent implements OnInit {
                                                 ['Mainboard sync request','sync_request'],
                                                 ['Mainboard config change','growbe_config'],
                                             ]),
-                                    },
                                 },
-                            } as any,
+                            } as SelectComponent,
                         },
                     ],
                 }  as FormObject,
@@ -128,11 +126,9 @@ export class TerminalComponent implements OnInit {
                 options: {
                     displayTitle: '',
                     displayContent: (e) => e,
-                    options: {
-                        value: () => of(['mainboard', 'modules']),
-                    },
+                    value: () => of(['mainboard', 'modules']),
                 },
-            } as any,
+            } as SelectComponent,
         });
     }
 

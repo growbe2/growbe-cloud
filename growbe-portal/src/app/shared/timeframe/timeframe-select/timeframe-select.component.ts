@@ -1,7 +1,7 @@
 // eslint-disable @typescript-eslint/member-ordering
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AutoFormComponent, AutoFormData, FormObject } from '@berlingoqc/ngx-autoform';
+import { AutoFormComponent, AutoFormData, FormObject, SelectComponent } from '@berlingoqc/ngx-autoform';
 import { of } from 'rxjs';
 
 export const timeFieldComponent = {
@@ -192,19 +192,17 @@ export class TimeframeSelectComponent implements OnInit {
                             name: 'select',
                             type: 'mat',
                             options: {
-                                displayName: 'Unit',
+                                displayTitle: 'Unit',
                                 displayContent: (e) => e,
-                                options: {
-                                    value: () =>
+                                value: () =>
                                         of([
                                             'Month',
                                             'Hours',
                                             'Minutes',
                                             'Date',
                                         ]),
-                                },
                             },
-                        } as any,
+                        } as SelectComponent,
                     },
                 ],
             } as FormObject,

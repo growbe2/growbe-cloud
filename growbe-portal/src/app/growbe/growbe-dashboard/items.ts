@@ -5,6 +5,7 @@ import {
     InputProperty,
     IProperty,
     ModelsSelectComponent,
+    SelectComponent,
 } from '@berlingoqc/ngx-autoform';
 import {
     DashboardRegistryItem,
@@ -180,16 +181,14 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 options: {
                     displayTitle: 'Growbe',
                     displayContent: (e) => e,
-                   options: {
-                        value: () =>
-                            this.mainboardAPI
-                                .userGrowbeMainboard(
-                                    this.authService.profile.id,
-                                )
-                                .get({}).pipe(map((items) => items.map(item => item.id))),
-                    },
+                    value: () =>
+                        this.mainboardAPI
+                            .userGrowbeMainboard(
+                                this.authService.profile.id,
+                            )
+                            .get({}).pipe(map((items) => items.map(item => item.id))),
                 },
-            } as any,
+            } as SelectComponent,
         };
 
         if (includeModule) {
@@ -207,15 +206,13 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
               name: 'select',
               type: 'mat',
               options: {
-                displayName: 'Module',
+                displayTitle: 'Module',
                 displayContent: (e) => e.id,
-                options: {
-                  value: () => subjectModule.pipe(
-                    switchMap((id) => this.mainboardAPI.growbeModules(id).get({}))
-                  )
-                }
+                value: () => subjectModule.pipe(
+                  switchMap((id) => this.mainboardAPI.growbeModules(id).get({}))
+                )
               }
-            } as any,
+            } as SelectComponent,
           }
         }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AutoFormData, FormObject } from '@berlingoqc/ngx-autoform';
+import { AutoFormData, FormObject, SelectComponent } from '@berlingoqc/ngx-autoform';
 import { of } from 'rxjs';
 
 @Component({
@@ -35,17 +35,15 @@ export class TimeframeGroupingSelectFormComponent implements OnInit {
               type: 'mat',
               options: {
                 displayContent: (e) => e.name,
-                options: {
-                  value: () => of([
+                value: () => of([
                     { name: 'Year', value: 'year'},
                     { name: 'Month', value: 'month'},
                     { name: 'Day of Year', value: 'dayOfYear'},
                     { name: 'Hour', value: 'hour'},
                     { name: 'Minute', value: 'minute'}
-                  ]),
-                }
+                ]),
               }
-            } as any,
+            } as SelectComponent,
           }
         ]
       } as FormObject,
