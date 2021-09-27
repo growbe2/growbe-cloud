@@ -1,0 +1,11 @@
+[Unit]
+Description=AutoSSH to My Server
+After=network.target
+
+[Service]
+Environment="AUTOSSH_GATETIME=0"
+ExecStart=/usr/bin/autossh -N -M 0 -o "ExitOnForwardFailure=yes" -o "ServerAliveInterval=180" -o "ServerAliveCountMax=3" -o "PubkeyAuthentication=yes" -o "PasswordAuthentication=no" -i /root/.ssh/id_rsa -R 6668:localhost:22 tunnel@server.muras.eu -p 10001
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
