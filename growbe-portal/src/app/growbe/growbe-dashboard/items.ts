@@ -11,8 +11,8 @@ import {
     DashboardRegistryItem,
     DashboardRegistryService,
 } from '@growbe2/growbe-dashboard';
-import { of, Subject } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, of, Subject } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { ModuleSensorValueGraphComponent } from 'src/app/growbe/module/graph/module-sensor-value-graph/module-sensor-value-graph.component';
 import { StreamPlayerComponent } from 'src/app/growbe/video-stream/stream-player/stream-player.component';
@@ -157,7 +157,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
     private getDashboardAndModuleProperty = (includeModule) => {
         const formProperty: { [id: string]: IProperty } = {};
 
-        const subjectModule = new Subject();
+        const subjectModule = new BehaviorSubject(null);
         let moduleControl: AbstractControl;
         let lastMainboarId: string;
 
@@ -166,27 +166,33 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
             type: 'string',
             displayName: 'Growbe',
             required: true,
+            initialize: (control) => {
+              if (control.value) {
+                subjectModule.next(control.value);
+                lastMainboarId = control.value;
+              }
+            },
             valuesChanges: (control, value) => {
               moduleControl.enable();
-              subjectModule.next(value.id);
-              lastMainboarId = value.id;
+              subjectModule.next(value);
+              lastMainboarId = value;
             },
             component: {
                 name: 'select',
                 type: 'mat',
                 compareWith: (a, b) => {
-                  console.log('A', a,b)
-                  return true;
+                  return a === b;
                 },
+                transformValue: (e) => e.id,
                 options: {
                     displayTitle: 'Growbe',
-                    displayContent: (e) => e,
+                    displayContent: (e) => e.id + ' ' + e.name,
                     value: () =>
                         this.mainboardAPI
                             .userGrowbeMainboard(
                                 this.authService.profile.id,
                             )
-                            .get({}).pipe(map((items) => items.map(item => item.id))),
+                            .get({}),
                 },
             } as SelectComponent,
         };
@@ -198,17 +204,22 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
             required: true,
             initialize: (control) => {
               moduleControl = control;
-              if (!control.value || !lastMainboarId) {
+              if (!control.value) {
                 control.disable();
               }
             },
             component: {
               name: 'select',
               type: 'mat',
+              compareWith: (a ,b) => {
+                return a === b;
+              },
+              transformValue: (e) => e.id,
               options: {
                 displayTitle: 'Module',
                 displayContent: (e) => e.id,
                 value: () => subjectModule.pipe(
+                  filter(id => id),
                   switchMap((id) => this.mainboardAPI.growbeModules(id).get({}))
                 )
               }

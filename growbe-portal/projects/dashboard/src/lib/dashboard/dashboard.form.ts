@@ -1,20 +1,20 @@
-import { AbstractControl } from '@angular/forms';
 import {
     AutoFormData,
     DialogFormContainer,
+    DictionnayProperty,
     FormObject,
     InputProperty,
-    IProperty,
+    SelectComponent,
 } from '@berlingoqc/ngx-autoform';
 import { notify } from '@berlingoqc/ngx-notification';
 import { of, Subject } from 'rxjs';
-import { DashboardItem, DashboardPanel, Style } from './dashboard.model';
+import { DashboardItem, Style } from './dashboard.model';
 import {
     DashboardRef,
     DashboardService,
     PanelDashboardRef,
 } from './dashboard.service';
-import { DashboardRegistryService, getRegistryItems } from './registry';
+import { DashboardRegistryService } from './registry';
 
 export const modifyDialog = (
     myIndex: number,
@@ -23,7 +23,7 @@ export const modifyDialog = (
     dashboardService: DashboardService,
     registry: DashboardRegistryService,
 ): AutoFormData => {
-  console.log('ITE', dashboardItem.inputs);
+    console.log('ITE', dashboardItem.inputs);
     return {
         type: 'dialog',
         typeData: {
@@ -32,47 +32,39 @@ export const modifyDialog = (
         },
         items: [
             {
-                type: 'object',
-                name: 'object',
-                properties: [
+                type: 'dic',
+                name: 'inputs',
+                availableProperty:
+                    Object.values(
+                        registry.getItem(dashboardItem.component)?.inputs,
+                    ) ?? [],
+            } as DictionnayProperty,
+            {
+                type: 'dic',
+                name: 'style',
+                availableProperty: [
                     {
-                        type: 'dic',
-                        name: 'inputs',
-                        availableProperty: Object.values(registry.getItem(dashboardItem.component)?.inputs) ?? [],
-                    } as any,
+                        name: 'grid-column-start',
+                        type: 'string',
+                    },
                     {
-                        type: 'dic',
-                        name: 'style',
-                        availableProperty: [
-                            {
-                                name: 'grid-column-start',
-                                type: 'string',
-                            },
-                            {
-                                name: 'grid-column-end',
-                                type: 'string',
-                            },
-                        ],
-                    } as any,
+                        name: 'grid-column-end',
+                        type: 'string',
+                    },
                 ],
-            } as FormObject,
+            } as DictionnayProperty,
         ],
         event: {
             initialData: of({
-                object: {
-                    index: myIndex,
-                    inputs: dashboardItem.inputs,
-                    style: dashboardItem.style,
-                },
+              index: myIndex,
+              inputs: dashboardItem.inputs,
+              style: dashboardItem.style,
             }),
             submit: (value) =>
                 dashboardService.updateItemFromPanel(
                     panel,
-                    Object.assign(dashboardItem, {
-                        style: value.object.style,
-                        edit: undefined,
-                    }),
-                    value.object.index,
+                    Object.assign(dashboardItem, { inputs: value.inputs, style: value.style }),
+                    value.index,
                 ),
         },
     };
@@ -151,11 +143,9 @@ export const getCopyDashboardForm = (
                             options: {
                                 displayTitle: 'Dashboard',
                                 displayContent: (e) => e.name,
-                                options: {
-                                    value: () => service.getDashboards(),
-                                },
+                                value: () => service.getDashboards(),
                             },
-                        } as any,
+                        } as SelectComponent,
                     },
                     {
                         name: 'panel',
@@ -168,11 +158,9 @@ export const getCopyDashboardForm = (
                             options: {
                                 displayTitle: 'Panel',
                                 displayContent: (e) => e.name,
-                                options: {
-                                    value: updatePanel.asObservable(),
-                                },
+                                value: updatePanel.asObservable(),
                             },
-                        } as any,
+                        } as SelectComponent,
                     } as InputProperty,
                     {
                         name: 'name',
