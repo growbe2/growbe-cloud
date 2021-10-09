@@ -1,5 +1,6 @@
 import { AutoFormData } from '@berlingoqc/ngx-autoform';
 import { GrowbeActionAPI } from '../../api/growbe-action';
+import { getRelayControlConfig } from './relaycontrol/config';
 import { getModuleWaterControlConfig } from './watercontrol/config';
 
 export * from './watercontrol/config';
@@ -16,6 +17,8 @@ export const getConfigForm = (
     switch (name) {
         case 'AAB':
             return getModuleWaterControlConfig;
+        case 'AAP':
+            return getRelayControlConfig;
         default:
             return null;
     }
