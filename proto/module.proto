@@ -59,23 +59,33 @@ message RelayOutletData {
     bool state = 1;
 }
 
+message RelayOutletConfig {
+    RelayOutletMode mode = 1;
+    
+    AlarmConfig alarm = 2;
+    ManualConfig manual =3;
+}
+
 message RelayModuleData {
     RelayOutletData p0 = 1;
     RelayOutletData p1 = 2;
     RelayOutletData p2 = 3;
+    RelayOutletData p3 = 4;
+    RelayOutletData p4 = 5;
+    RelayOutletData p5 = 6;
+    RelayOutletData p6 = 7;
+    RelayOutletData p7 = 8;
 }
 
 message RelayModuleConfig {
     RelayOutletConfig p0 = 1;
     RelayOutletConfig p1 = 2;
     RelayOutletConfig p2 = 3;
-}
-
-message RelayOutletConfig {
-    RelayOutletMode mode = 1;
-    
-    AlarmConfig alarm = 2;
-    ManualConfig manual =3;
+    RelayOutletConfig p3 = 4;
+    RelayOutletConfig p4 = 5;
+    RelayOutletConfig p5 = 6;
+    RelayOutletConfig p6 = 7;
+    RelayOutletConfig p7 = 8;
 }
 
 message WCModuleData {
@@ -114,6 +124,8 @@ enum MessageType {
     MT_WAMODULEDATA = 8;
     MT_WCMODULEDATA = 9;
     MT_WCMODULECONFIG = 10;
+    MT_RELAYMODULEDATA = 11;
+    MT_RELAYMODULECONFIG = 12;
 
 
     MT_FIELDALARMEVENT = 40;
