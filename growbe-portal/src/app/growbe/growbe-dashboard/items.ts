@@ -133,5 +133,12 @@ export const DASHBOARD_ITEMS: DashboardRegistryItem[] = [
         componentType: WCModuleComponent,
         inputs: {},
         outputs: {},
+    },
+    {
+        name: '',
+        component: 'AAP-module',
+        componentType: WCModuleComponent,
+        inputs: {},
+        outputs: {},
     }
 ];
