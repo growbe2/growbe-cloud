@@ -144,6 +144,14 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 inputs: {},
                 outputs: {},
             },
+            {
+                name: '',
+                component: 'AAP-module',
+                componentType: WCModuleComponent,
+                inputs: {},
+                outputs: {},
+            },
+
         ].forEach((item: any) => this.addItem(item));
     }
 

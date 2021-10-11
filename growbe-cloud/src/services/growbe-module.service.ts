@@ -30,10 +30,12 @@ const mapType: any = {
   AAA: 'THLModuleData',
   AAS: 'SOILModuleData',
   AAB: 'WCModuleData',
+  AAP: 'RelayModuleData',
 };
 
 const mapTypeConfig: any = {
   AAB: 'WCModuleConfig',
+  AAP: 'RelayModuleConfig'
 };
 
 @injectable({scope: BindingScope.TRANSIENT})

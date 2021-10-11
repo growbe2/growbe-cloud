@@ -5,6 +5,11 @@ export const moduleDefPropertyDisplayer = {
         type: 'boolean',
         default: false,
     },
+    AAP: {
+        property: 'state',
+        type: 'boolean',
+        default: false,
+    }
 };
 
 export const transformModuleValue = (moduleType: string, value: any) => {

@@ -8,6 +8,7 @@ const mapType = {
   config: 3,
   setTime: 5,
   AAB: 10,
+  AAP: 12,
   aAl: 41,
   rAl: 41,
 };
