@@ -26,7 +26,19 @@ Exemple of config.json
 }
 ```
 
-Execute
-```
-growbe-proxy config.json
+Update or install the growbe-proxy service
+
+
+```bash
+cd growbe-cloud/growbe-proxy
+git pull origin develop
+npm install
+sudo ./instal.sh
+
+# when installing
+sudo systemctl start growbe-proxy.service
+sudo systemctl enable growbe-proxy.service
+
+# when updating
+sudo systemctl restart growbe-proxy.service 
 ```
