@@ -275,15 +275,12 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                 : moduleDef.properties[prop.name].name,
                             component: 'growbe-module-last-value',
                             inputs: {
-                                data: {
-                                    graphDataConfig: {
-                                        fields: [prop.name],
-                                        liveUpdate: true,
-                                        growbeId: this.module.mainboardId,
-                                        moduleId: this.module.id,
-                                    },
+                                graphDataConfig: {
+                                  fields: [prop.name],
+                                  liveUpdate: true,
+                                  growbeId: this.module.mainboardId,
+                                  moduleId: this.module.id,
                                 },
-                                moduleType: this.module.id.slice(0, 3),
                             },
                         })),
                         {

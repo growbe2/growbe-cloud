@@ -55,11 +55,13 @@ export const modifyDialog = (
             } as DictionnayProperty,
         ],
         event: {
-            initialData: of({
-              index: myIndex,
-              inputs: dashboardItem.inputs,
-              style: dashboardItem.style,
-            }),
+            afterFormCreated: (form) => {
+              form.patchValue({
+              //index: myIndex,
+              inputs: dashboardItem.inputs ?? {},
+              style: dashboardItem.style ?? {},
+            })
+            },
             submit: (value) =>
                 dashboardService.updateItemFromPanel(
                     panel,

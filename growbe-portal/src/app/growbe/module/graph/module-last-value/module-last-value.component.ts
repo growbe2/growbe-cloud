@@ -11,7 +11,8 @@ import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service
 import { GrowbeGraphService } from '../service/growbe-graph.service';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import {
-    GrowbeModuleDefWithRelations,
+  GraphModuleRequest,
+  GrowbeModuleDefWithRelations,
 } from '@growbe2/ngx-cloud-api';
 import { DecimalPipe } from '@angular/common';
 import { transformModuleValue } from '../../module.def';
@@ -24,10 +25,12 @@ import { transformModuleValue } from '../../module.def';
     providers: [DecimalPipe],
 })
 export class ModuleLastValueComponent implements OnInit, OnDestroy {
-    @Input() data: any;
+    @Input() graphDataConfig: GraphModuleRequest;
 
-    @Input() moduleType?: string;
 
+    get moduleType(): string {
+      return this.graphDataConfig.moduleId.slice(0, 3);
+    }
     sub: Subscription;
 
     moduleDef: Observable<GrowbeModuleDefWithRelations>;
@@ -48,29 +51,29 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-        if (!this.data) {
+        if (!this.graphDataConfig) {
             return;
         }
         this.graphService
-            .getGraph(this.data.graphDataConfig.growbeId, 'one', this.data.graphDataConfig)
+            .getGraph(this.graphDataConfig.growbeId, 'one', this.graphDataConfig)
             .subscribe(async (data: any) => {
                 if (data.length === 0) {
                   return;
                 }
                 data = data[0];
                 this.moduleDef = this.moduleAPI
-                  .moduleDef(this.data.graphDataConfig.moduleId)
+                  .moduleDef(this.graphDataConfig.moduleId)
                   .get() as any;
                 this.value = this.transformValue(
-                    data[this.data.graphDataConfig.fields[0]],
+                    data[this.graphDataConfig.fields[0]],
                 );
                 this.at = data.createdAt;
                 this.changeDetection.markForCheck();
-                if (this.data.graphDataConfig.liveUpdate) {
+                if (this.graphDataConfig.liveUpdate) {
                     this.sub = (
                         await this.topic.getGrowbeEvent(
-                            this.data.graphDataConfig.growbeId,
-                            `/cloud/m/${this.data.graphDataConfig.moduleId}/data`,
+                            this.graphDataConfig.growbeId,
+                            `/cloud/m/${this.graphDataConfig.moduleId}/data`,
                             (d) =>
                                 Object.assign(JSON.parse(d), {
                                     createdAt: new Date(),
@@ -81,7 +84,7 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
                             this.lastValue = this.value;
                             this.historic.push(this.lastValue);
                             this.value = this.transformValue(
-                                graphData[this.data.graphDataConfig.fields[0]],
+                                graphData[this.graphDataConfig.fields[0]],
                             );
                             this.at = graphData.createdAt;
                             this.changeDetection.markForCheck();
