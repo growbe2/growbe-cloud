@@ -13,7 +13,6 @@ import { LoopbackRestPipeModule } from '@berlingoqc/ngx-loopback';
 import { UnitModule } from 'src/app/shared/unit/unit.module';
 import { GrowbeModuleConfigComponent } from './component/growbe-module-config/growbe-module-config.component';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
-import { GrowbeModulePropertiesSelectFormComponent } from './component/growbe-module-properties-select-form/growbe-module-properties-select-form.component';
 import { HardwareAlarmModule } from './hardware-alarm/hardware-alarm.module';
 import { ButtonsRowModule } from '@berlingoqc/ngx-common';
 
@@ -25,7 +24,6 @@ import { ButtonsRowModule } from '@berlingoqc/ngx-common';
         GrowbeModuleDataTableComponent,
         GrowbeModuleDefComponent,
         GrowbeModuleConfigComponent,
-        GrowbeModulePropertiesSelectFormComponent,
     ],
     imports: [
         CommonModule,
@@ -38,6 +36,6 @@ import { ButtonsRowModule } from '@berlingoqc/ngx-common';
         HardwareAlarmModule,
         LoopbackRestPipeModule,
     ],
-    exports: [ModuleStatusDotComponent, GrowbeModulePropertiesSelectFormComponent],
+    exports: [ModuleStatusDotComponent],
 })
 export class GrowbeModuleModule {}

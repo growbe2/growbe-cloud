@@ -192,7 +192,8 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                 }`,
                             component: 'growbe-module-def',
                             inputs: {
-                                moduleDefId: this.module.id,
+                                moduleId: this.module.id,
+                                mainboardId: this.module.mainboardId,
                             },
                             edit: growbeModuleDefForm(moduleDef, (data) => {
                                     return this.moduleAPI.moduleDef(this.module.id).updateById(
@@ -210,6 +211,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                             component: 'growbe-module-config',
                             inputs: {
                                 moduleId: this.module.id,
+                                mainboardId: this.module.mainboardId
                             },
                             style: {
                                 'grid-column-start': '4',

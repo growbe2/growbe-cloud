@@ -5,7 +5,6 @@ import { DashboardModule, DashboardRegistryService } from '@growbe2/growbe-dashb
 import { GraphModule } from '../graph/graph.module';
 import { UnitModule } from 'src/app/shared/unit/unit.module';
 import { GrowbeModuleModule } from '../growbe-module.module';
-import { TimeframeModule } from 'src/app/shared/timeframe/timeframe.module';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatChipsModule } from '@angular/material/chips';
 import { TableLayoutModule } from 'src/app/shared/table-layout/table-layout.module';
@@ -25,7 +24,6 @@ import { GrowbeDashboardRegistry } from 'src/app/growbe/growbe-dashboard/items';
 
         MatChipsModule,
         MatToolbarModule,
-        TimeframeModule,
         DashboardModule,
         GraphModule,
         UnitModule,

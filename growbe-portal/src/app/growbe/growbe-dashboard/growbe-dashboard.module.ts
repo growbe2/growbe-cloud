@@ -21,7 +21,6 @@ import { GrowbeMainboardModule } from '../growbe-mainboard/growbe-mainboard.modu
 import {
     DashboardModule, DashboardRegistryService,
 } from '@growbe2/growbe-dashboard';
-import { TimeframeModule } from 'src/app/shared/timeframe/timeframe.module';
 import { GrowbeDashboardRegistry } from 'src/app/growbe/growbe-dashboard/items';
 
 @NgModule({
@@ -40,8 +39,6 @@ import { GrowbeDashboardRegistry } from 'src/app/growbe/growbe-dashboard/items';
 
         GraphModule,
         GrowbeMainboardModule,
-
-        TimeframeModule,
 
         FuseWidgetModule,
         FuseSharedModule,

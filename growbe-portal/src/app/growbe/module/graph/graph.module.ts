@@ -10,9 +10,9 @@ import { WidgetModuleGraphComponent } from './widget-module-graph/widget-module-
 import { ModuleLastValueComponent } from './module-last-value/module-last-value.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ModuleGraphBuilderComponent } from './module-graph-builder/module-graph-builder.component';
-import { TimeframeModule } from 'src/app/shared/timeframe/timeframe.module';
 import { GrowbeModuleModule } from '../growbe-module.module';
 import { MatButtonModule } from '@angular/material/button';
+import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 
 @NgModule({
     declarations: [
@@ -21,7 +21,15 @@ import { MatButtonModule } from '@angular/material/button';
         ModuleLastValueComponent,
         ModuleGraphBuilderComponent,
     ],
-    imports: [CommonModule, MatIconModule, MatButtonModule, FuseWidgetModule, NgxChartsModule, TimeframeModule, GrowbeModuleModule],
+    imports: [
+        CommonModule,
+        MatIconModule,
+        MatButtonModule,
+        AutoFormModule,
+        FuseWidgetModule,
+        NgxChartsModule,
+        GrowbeModuleModule,
+    ],
     providers: [GrowbeGraphService],
     exports: [
         ModuleSensorValueGraphComponent,

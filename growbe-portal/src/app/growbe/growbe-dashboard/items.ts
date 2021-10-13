@@ -73,13 +73,17 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 name: '',
                 component: 'growbe-state',
                 componentType: GrowbeStateComponent,
-                inputs: {},
+                inputs: {
+                  ...this.getDashboardAndModuleProperty(false)[0],
+                },
             },
             {
                 name: '',
                 component: 'growbe-module-def',
                 componentType: GrowbeModuleDefComponent,
-                inputs: {},
+                inputs: {
+                  ...this.getDashboardAndModuleProperty(true)[0]
+                },
             },
             {
                 name: '',
@@ -99,11 +103,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 description: '',
                 componentType: GrowbeModuleConfigComponent,
                 inputs: {
-                    moduleId: {
-                        type: 'string',
-                        name: 'moduleId',
-                        required: true,
-                    },
+                  ...this.getDashboardAndModuleProperty(true)[0],
                 },
             },
             {

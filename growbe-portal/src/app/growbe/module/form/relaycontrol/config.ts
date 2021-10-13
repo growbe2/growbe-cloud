@@ -6,7 +6,7 @@ import {
 } from '@berlingoqc/ngx-autoform';
 import { of } from 'rxjs';
 import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
-import { timeFieldComponent } from 'src/app/shared/timeframe/timeframe-select/timeframe-select.component';
+import { timeFieldComponent } from '../../graph/service/growbe-graph.service';
 import { transformFieldInit, transformFieldSubmit } from '../relay-form';
 
 
