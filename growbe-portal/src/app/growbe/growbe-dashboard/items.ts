@@ -2,20 +2,17 @@ import { Inject, inject, Injectable, Injector } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { AuthService } from '@berlingoqc/auth';
 import {
-  ArrayProperty,
-  FormObject,
+    DictionnayProperty,
+    FormObject,
     IProperty,
     SelectComponent,
 } from '@berlingoqc/ngx-autoform';
-import { ArrayFieldComponent } from '@berlingoqc/ngx-autoform/lib/fields/array-field/array-field.component';
 import {
     DashboardRegistryItem,
     DashboardRegistryService,
 } from '@growbe2/growbe-dashboard';
 import { GraphModuleRequest } from '@growbe2/ngx-cloud-api';
-import { GrowbeMainboard, GrowbeModule } from 'dist/growbe-cloud-api/lib';
-import { combineLatest, of } from 'rxjs';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { ModuleSensorValueGraphComponent } from 'src/app/growbe/module/graph/module-sensor-value-graph/module-sensor-value-graph.component';
@@ -30,6 +27,7 @@ import { GrowbeModuleDefComponent } from '../module/component/growbe-module-def/
 import { ModuleStatusDotComponent } from '../module/component/module-status-dot/module-status-dot.component';
 import { ModuleGraphBuilderComponent } from '../module/graph/module-graph-builder/module-graph-builder.component';
 import { ModuleLastValueComponent } from '../module/graph/module-last-value/module-last-value.component';
+import { GrowbeGraphService } from '../module/graph/service/growbe-graph.service';
 import { SoilModuleComponent } from '../module/svg/soil/soil-module/soil-module.component';
 import { THLModuleComponent } from '../module/svg/thl/thl-module/thl-module.component';
 import { WCModuleComponent } from '../module/svg/wc/wc-module/wc-module.component';
@@ -42,6 +40,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
         private mainboardAPI: GrowbeMainboardAPI,
         private moduleAPI: GrowbeModuleAPI,
         private authService: AuthService,
+        private graphService: GrowbeGraphService,
     ) {
         this.mainboardAPI.get({}).subscribe(() => {});
         [
@@ -58,7 +57,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 component: 'growbe-module-sensor-value-graph',
                 componentType: ModuleSensorValueGraphComponent,
                 inputs: {
-                  ...this.getGraphModuleRequestProperty(false),
+                    ...this.getGraphModuleRequestProperty(),
                 },
             },
             {
@@ -66,7 +65,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 component: 'growbe-module-last-value',
                 componentType: ModuleLastValueComponent,
                 inputs: {
-                  ...this.getGraphModuleRequestProperty(true),
+                    ...this.getLatestValueModuleRequestProperty(),
                 },
             },
             {
@@ -74,7 +73,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 component: 'growbe-state',
                 componentType: GrowbeStateComponent,
                 inputs: {
-                  ...this.getDashboardAndModuleProperty(false)[0],
+                    ...this.getDashboardAndModuleProperty(false)[0],
                 },
             },
             {
@@ -82,7 +81,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 component: 'growbe-module-def',
                 componentType: GrowbeModuleDefComponent,
                 inputs: {
-                  ...this.getDashboardAndModuleProperty(true)[0]
+                    ...this.getDashboardAndModuleProperty(true)[0],
                 },
             },
             {
@@ -103,7 +102,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 description: '',
                 componentType: GrowbeModuleConfigComponent,
                 inputs: {
-                  ...this.getDashboardAndModuleProperty(true)[0],
+                    ...this.getDashboardAndModuleProperty(true)[0],
                 },
             },
             {
@@ -156,7 +155,6 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 inputs: {},
                 outputs: {},
             },
-
         ].forEach((item: any) => this.addItem(item));
     }
 
@@ -167,86 +165,164 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
         return this.items[component];
     }
 
+    private getGraphModuleRequestProperty = () => {
+        const [
+            formMM,
+            subjectMainboard,
+            subjectModule,
+        ] = this.getDashboardAndModuleProperty(true, 'growbeId');
 
-    private getGraphModuleRequestProperty = (oneValue = true) => {
-      const [formMM, subjectMainboard, subjectModule] = this.getDashboardAndModuleProperty(true, 'growbeId');
-      const formProperty: { [id: string]: IProperty } = {
-	      ...formMM,
-      };
+        const formTimeFrame = this.graphService.getGraphTimeFrameSelectForm(
+            subjectModule.asObservable(),
+        );
+        return {
+            data: {
+                type: 'object',
+                name: 'data',
+                properties: [
+                    {
+                        type: 'string',
+                        name: 'type',
+                        component: {
+                            name: 'select',
+                            transformValue: (e) => e,
+                            options: {
+                                displayContent: (e) => e,
+                                value: of(['graph']),
+                            },
+                        } as SelectComponent,
+                    },
+                    {
+                        type: 'string',
+                        name: 'graphType',
+                        component: {
+                            name: 'select',
+                            transformValue: (e) => e,
+                            options: {
+                                displayContent: (e) => e,
+                                value: () => of(['line']),
+                            },
+                        } as SelectComponent,
+                    },
+                    {
+                        name: 'graphDataConfig',
+                        type: 'object',
+                        properties: [
+                            formMM['growbeId'],
+                            formMM['moduleId'],
+                            ...formTimeFrame,
+                        ],
+                    } as FormObject,
+                    {
+                        name: 'graphConfig',
+                        type: 'dic',
+                        availableProperty: [
+                            {
+                                name: 'showLabels',
+                                type: 'bool',
+                                component: {
+                                    name: 'checkbox',
+                                },
+                            },
+                            {
+                                name: 'showXAxisLabel',
+                                type: 'bool',
+                                component: {
+                                    name: 'checkbox',
+                                },
+                            },
+                            {
+                                name: 'showYAxisLabel',
+                                type: 'bool',
+                                component: {
+                                    name: 'checkbox',
+                                },
+                            },
+                            {
+                                name: 'trimXAxisTicks',
+                                type: 'bool',
+                                component: {
+                                    name: 'checkbox',
+                                },
+                            },
+                            {
+                                name: 'xAxis',
+                                type: 'bool',
+                                component: {
+                                    name: 'checkbox',
+                                },
+                            },
+                            {
+                                name: 'yAxis',
+                                type: 'bool',
+                                component: {
+                                    name: 'checkbox',
+                                },
+                            },
+                            {
+                                name: 'yScaleMax',
+                                type: 'number',
+                            },
+                            {
+                                name: 'yScaleMin',
+                                type: 'number',
+                            },
+                        ],
+                    } as DictionnayProperty,
+                ],
+            } as FormObject,
+        };
+    };
 
-      // add shit for lastX and everythig
-      if (!oneValue) {
+    private getLatestValueModuleRequestProperty = () => {
+        const [formMM] = this.getDashboardAndModuleProperty(true, 'growbeId');
+        const formProperty: { [id: string]: IProperty } = {
+            ...formMM,
+        };
+
         formProperty['lastX'] = {
-          name: 'lastX',
-          type: 'number'
+            name: 'lastX',
+            type: 'number',
         };
         formProperty['lastXUnit'] = {
-          name: 'lastXUnit',
-          type: 'string',
-          component: {
-            name: 'select',
-            transformValue: (e) => e,
-            options: {
-              displayContent: (e) => e,
-              value: of(Object.values(GraphModuleRequest.LastXUnitEnum))
-            }
-          } as SelectComponent,
-        };
-      } else {
-        let previousMainboard;
-        formProperty['fields'] = {
-          type: 'array',
-          name: 'fields',
-          max: 1,
-          min: 1,
-          elementType: {
-            name: '',
+            name: 'lastXUnit',
             type: 'string',
             component: {
-              name: 'select',
-              transformValue: (e) => e[0],
-              compareWith: (a , b) => {
-                return a === b;
-              },
-              options: {
-                displayContent: (e) => e[1].displayName || e[1].name,
-                value: subjectModule.pipe(
-                  filter(item => item != null),
-                  switchMap((moduleId) => {
-                      return this.moduleAPI.moduleDef(moduleId).get().pipe(
-                        map((moduleDef) => Object.entries(moduleDef.properties))
-                      )
-                  }),
-                )
-              }
+                name: 'select',
+                transformValue: (e) => e,
+                options: {
+                    displayContent: (e) => e,
+                    value: of(Object.values(GraphModuleRequest.LastXUnitEnum)),
+                },
             } as SelectComponent,
-          }
-        } as ArrayProperty
-      }
+        };
 
-      formProperty['liveUpdate'] = {
-        name: 'liveUpdate',
-        type: 'bool',
-        component: {
-          name: 'checkbox',
-        }
-      };
+        formProperty['liveUpdate'] = {
+            name: 'liveUpdate',
+            type: 'bool',
+            component: {
+                name: 'checkbox',
+            },
+        };
 
-      const form = {
-        graphDataConfig: {
-          name: 'graphDataConfig',
-          type: 'object',
-          required: true,
-          properties: Object.values(formProperty)
-        } as FormObject,
-      };
-      return form;
-    }
+        const form = {
+            graphDataConfig: {
+                name: 'graphDataConfig',
+                type: 'object',
+                required: true,
+                properties: Object.values(formProperty),
+            } as FormObject,
+        };
+        return form;
+    };
 
-    private getDashboardAndModuleProperty = (includeModule: boolean, mainboardPropertyName = 'mainboardId'): [
-      {[id: string]: IProperty;},
-      BehaviorSubject<string>,
-      BehaviorSubject<string>,
+    private getDashboardAndModuleProperty = (
+        includeModule: boolean,
+        mainboardPropertyName = 'mainboardId',
+    ): [
+        { [id: string]: IProperty },
+        BehaviorSubject<string>,
+        BehaviorSubject<string>,
     ] => {
         const formProperty: { [id: string]: IProperty } = {};
 
@@ -261,21 +337,21 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
             displayName: 'Growbe',
             required: true,
             initialize: (control) => {
-              if (control.value) {
-                subjectMainboard.next(control.value);
-                lastMainboarId = control.value;
-              }
+                if (control.value) {
+                    subjectMainboard.next(control.value);
+                    lastMainboarId = control.value;
+                }
             },
             valuesChanges: (control, value) => {
-              moduleControl.enable();
-              subjectMainboard.next(value);
-              lastMainboarId = value;
+                moduleControl.enable();
+                subjectMainboard.next(value);
+                lastMainboarId = value;
             },
             component: {
                 name: 'select',
                 type: 'mat',
                 compareWith: (a, b) => {
-                  return a === b;
+                    return a === b;
                 },
                 transformValue: (e) => e.id,
                 options: {
@@ -283,48 +359,48 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                     displayContent: (e) => e.id + ' ' + e.name,
                     value: () =>
                         this.mainboardAPI
-                            .userGrowbeMainboard(
-                                this.authService.profile.id,
-                            )
+                            .userGrowbeMainboard(this.authService.profile.id)
                             .get({}),
                 },
             } as SelectComponent,
         };
 
         if (includeModule) {
-          formProperty['moduleId'] = {
-            name: 'moduleId',
-            type: 'string',
-            required: true,
-            initialize: (control) => {
-              moduleControl = control;
-              if (!control.value) {
-                control.disable();
-              } else {
-                subjectModule.next(control.value)
-              }
-            },
-            valuesChanges: (control, value) => {
-              console.log('CACA', control.disabled, value);
-              subjectModule.next(value);
-            },
-            component: {
-              name: 'select',
-              type: 'mat',
-              compareWith: (a ,b) => {
-                return a === b;
-              },
-              transformValue: (e) => e.id,
-              options: {
-                displayTitle: 'Module',
-                displayContent: (e) => e.id,
-                value: () => subjectMainboard.pipe(
-                  filter(id => id),
-                  switchMap((id) => this.mainboardAPI.growbeModules(id).get({}))
-                )
-              }
-            } as SelectComponent,
-          }
+            formProperty['moduleId'] = {
+                name: 'moduleId',
+                type: 'string',
+                required: true,
+                initialize: (control) => {
+                    moduleControl = control;
+                    if (!control.value) {
+                        control.disable();
+                    } else {
+                        subjectModule.next(control.value);
+                    }
+                },
+                valuesChanges: (control, value) => {
+                    subjectModule.next(value);
+                },
+                component: {
+                    name: 'select',
+                    type: 'mat',
+                    compareWith: (a, b) => {
+                        return a === b;
+                    },
+                    transformValue: (e) => e.id,
+                    options: {
+                        displayTitle: 'Module',
+                        displayContent: (e) => e.id,
+                        value: () =>
+                            subjectMainboard.pipe(
+                                filter((id) => id),
+                                switchMap((id) =>
+                                    this.mainboardAPI.growbeModules(id).get({}),
+                                ),
+                            ),
+                    },
+                } as SelectComponent,
+            };
         }
 
         return [formProperty, subjectMainboard, subjectModule];

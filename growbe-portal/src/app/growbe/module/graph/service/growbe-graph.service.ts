@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormArray, FormControl } from '@angular/forms';
 import {
+  ArrayProperty,
     FormObject,
     IProperty,
     SelectComponent,
@@ -9,9 +10,12 @@ import {
 import { envConfig } from '@berlingoqc/ngx-common';
 import { GrowbeModuleDefWithRelations } from 'growbe-cloud-api/lib';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
-import { getModuleDefPropName, GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
+import {
+    getModuleDefPropName,
+    GrowbeModuleDefAPI,
+} from 'src/app/growbe/api/growbe-module-def';
 
 export const timeFieldComponent = {
     name: 'multipart',
@@ -68,13 +72,11 @@ export const timeFieldComponent = {
     //validators: [Validators.pattern('^[0-9]*$')],
 };
 
-
-
 @Injectable()
 export class GrowbeGraphService {
     constructor(
-      private httpClient: HttpClient,
-      private moduleAPI: GrowbeModuleAPI,
+        private httpClient: HttpClient,
+        private moduleAPI: GrowbeModuleAPI,
     ) {}
 
     getGraph(growbeId: string, mode: string, data: any) {
@@ -84,32 +86,35 @@ export class GrowbeGraphService {
         );
     }
 
-    getPropertySelectForm(moduleId: string): Observable<IProperty[]> {
-      return this.moduleAPI.moduleDef(moduleId).get().pipe(
-        map((moduleDef: GrowbeModuleDefWithRelations) => ([
-            {
-              type: 'object',
-              name: 'fields',
-              decorators: {
-                class: ['frow', 'half', 'evenly']
-              },
-              properties: Object.values(moduleDef.properties).map((prop) => ({
-                name: prop.name, // getModuleDefPropName(moduleDef, prop),
-                type: 'bool',
-                displayName: getModuleDefPropName(moduleDef, prop),
-                component: {
-                  name: 'checkbox',
+    getPropertySelectForm(moduleId$: Observable<string>): IProperty {
+        return {
+            type: 'array',
+            name: 'fields',
+            decorators: {
+                //class: ['frow', 'half', 'evenly'],
+            },
+            elementType: {
+              name: '',
+              type: 'string',
+              required: true,
+              component: {
+                name: 'select',
+                transformValue: (e) => e.name,
+                options: {
+                  displayContent: (e) => e.displayName || e.name,
+                  value: moduleId$.pipe(
+                    filter((moduleId) => moduleId !== null),
+                    switchMap((moduleId) => this.moduleAPI.moduleDef(moduleId).get()),
+                    map((moduleDef) => Object.values(moduleDef.properties)),
+                  )
                 }
-              })),
-            }  as FormObject,
-        ]))
-      );
+              } as SelectComponent
+            },
+        } as ArrayProperty;
     }
 
-    getGraphTimeFrameSelectForm(moduleId: string): Observable<IProperty[]> {
-        // lastX , lastXUnit , liveUpdate , property[], fields, grouping
-        return this.getPropertySelectForm(moduleId).pipe(
-          map(propertiesProperty => [
+    getGraphTimeFrameSelectForm(moduleId$: Observable<string>): IProperty[] {
+        return [
             {
                 name: 'lastX',
                 type: 'number',
@@ -136,7 +141,7 @@ export class GrowbeGraphService {
                     name: 'checkbox',
                 },
             },
-            ...propertiesProperty,
+            this.getPropertySelectForm(moduleId$),
             {
                 name: 'grouping',
                 type: 'object',
@@ -171,6 +176,6 @@ export class GrowbeGraphService {
                     },
                 ],
             } as FormObject,
-        ]));
+        ];
     }
 }

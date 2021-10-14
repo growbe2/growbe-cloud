@@ -27,7 +27,7 @@ export class ModuleGraphBuilderComponent implements OnInit {
 
     @Output() onRequest = new EventEmitter<any>();
 
-    autoFormData$: Observable<AutoFormData>;
+    autoFormData: AutoFormData;
 
     constructor(private growbeGraphService: GrowbeGraphService) {}
 
@@ -38,25 +38,15 @@ export class ModuleGraphBuilderComponent implements OnInit {
         const value = this.value
             ? {
                   ...this.value,
-                  fields: this.value.fields.reduce((pr, nx) => {
-                      pr[nx] = true;
-                      return pr;
-                  }, {}),
               }
             : null;
-        this.autoFormData$ = this.growbeGraphService
-            .getGraphTimeFrameSelectForm(this.module.id)
-            .pipe(
-                map((properties) => {
-                    return {
+        const properties =  this.growbeGraphService.getGraphTimeFrameSelectForm(of(this.module.id));
+        this.autoFormData = {
                         type: 'simple',
                         items: properties,
                         event: {
                             initialData: () => of(value),
                             submit: (value) => {
-                                value.fields = Object.entries(value.fields)
-                                    .filter(([k, v]) => v)
-                                    .map(([k]) => k);
                                 if (value.grouping) {
                                     if (
                                         value.grouping?.intervalUnit ===
@@ -77,7 +67,5 @@ export class ModuleGraphBuilderComponent implements OnInit {
                             },
                         },
                     } as AutoFormData;
-                }),
-            );
     }
 }
