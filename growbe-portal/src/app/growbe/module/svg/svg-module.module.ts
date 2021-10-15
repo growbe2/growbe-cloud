@@ -4,6 +4,7 @@ import { SoilProbeComponent, AnimateMeDirective } from './soil/soil-probe/soil-p
 import { SoilModuleComponent } from './soil/soil-module/soil-module.component';
 import { THLModuleComponent } from './thl/thl-module/thl-module.component';
 import { WCModuleComponent } from './wc/wc-module/wc-module.component';
+import { ModuleSVGComponent } from './module-svg.component';
 
 
 
@@ -14,11 +15,13 @@ import { WCModuleComponent } from './wc/wc-module/wc-module.component';
     THLModuleComponent,
     WCModuleComponent,
     AnimateMeDirective,
+
+    ModuleSVGComponent,
   ],
   imports: [
     CommonModule
   ],
-  exports: [SoilModuleComponent, THLModuleComponent, WCModuleComponent],
+  exports: [ModuleSVGComponent],
   schemas: [NO_ERRORS_SCHEMA],
 })
 export class SvgModuleModule { }

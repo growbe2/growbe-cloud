@@ -1,44 +1,51 @@
-import { Directive, Input, OnInit } from "@angular/core";
-import { unsubscriber } from "@berlingoqc/ngx-common";
-import { GrowbeModule, GrowbeModuleDefWithRelations } from "@growbe2/ngx-cloud-api";
-import { Subscription, merge } from "rxjs";
-import { map } from "rxjs/operators";
-import { GrowbeModuleAPI } from "../../api/growbe-module";
-import { GrowbeEventService } from "../../services/growbe-event.service";
-import { GrowbeGraphService } from "../graph/service/growbe-graph.service";
-
+import { Directive, Input, OnInit } from '@angular/core';
+import { unsubscriber } from '@berlingoqc/ngx-common';
+import { Subscription, merge } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { GrowbeModuleAPI } from '../../api/growbe-module';
+import { GrowbeEventService } from '../../services/growbe-event.service';
+import { GrowbeGraphService } from '../graph/service/growbe-graph.service';
 
 @Directive({})
 @unsubscriber
 export class BaseSVGModuleComponent implements OnInit {
+    @Input() mainboardId: string;
+    @Input() moduleId: string;
 
-  @Input() module: GrowbeModule;
-  @Input() moduleDef: GrowbeModuleDefWithRelations;
+    data: any;
 
-  data: any;
+    sub: Subscription;
 
-  sub: Subscription;
+    constructor(
+        private topic: GrowbeEventService,
+        private moduleAPI: GrowbeModuleAPI,
+        private graphService: GrowbeGraphService,
+    ) {}
 
-  constructor(
-    private topic: GrowbeEventService,
-    private moduleAPI: GrowbeModuleAPI,
-    private graphService: GrowbeGraphService,
-  ) { }
-
-  ngOnInit(): void {
-    this.sub = merge(
-      this.graphService.getGraph(this.module.mainboardId, 'one', {
-        moduleId: this.module.id,
-        growbeId: this.module.mainboardId,
-        fields: Object.keys(this.moduleDef.properties),
-        liveUpdate: true,
-      }).pipe(map((items) => items[0])),
-      this.topic.getGrowbeEvent(
-        this.module.mainboardId,
-        `/cloud/m/${this.module.id}/data`,
-        (d) => Object.assign(JSON.parse(d), { createdAt: new Date() }),
-      )
-    ).subscribe((data) => (this.data = data));
-  }
-
+    ngOnInit(): void {
+        merge(
+            this.moduleAPI
+                .moduleDef(this.moduleId)
+                .get()
+                .pipe(
+                    switchMap((moduleDef) =>
+                        this.graphService
+                            .getGraph(this.mainboardId, 'one', {
+                                moduleId: this.moduleId,
+                                growbeId: this.mainboardId,
+                                fields: Object.keys(moduleDef.properties),
+                                liveUpdate: true,
+                            })
+                            .pipe(map((items) => items[0])),
+                    ),
+                ),
+            this.topic.getGrowbeEvent(
+                this.mainboardId,
+                `/cloud/m/${this.moduleId}/data`,
+                (d) => Object.assign(JSON.parse(d), { createdAt: new Date() }),
+            ),
+        ).subscribe((data) => {
+          (this.data = data)
+        });
+    }
 }

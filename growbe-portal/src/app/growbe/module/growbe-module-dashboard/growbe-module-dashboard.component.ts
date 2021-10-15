@@ -220,12 +220,10 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         },
                         {
                             name: 'Module info',
-                            component:
-                                this.module.id.substring(0, 3) +
-                                '-module',
+                            component: 'svg-module',
                             inputs: {
-                                module: this.module,
-                                moduleDef: moduleDef,
+                                moduleId: this.module.id,
+                                mainboardId: this.module.mainboardId,
                             },
                             style: {
                                 'grid-column-start': '1',

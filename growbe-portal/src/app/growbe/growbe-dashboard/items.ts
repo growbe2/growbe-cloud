@@ -28,6 +28,7 @@ import { ModuleStatusDotComponent } from '../module/component/module-status-dot/
 import { ModuleGraphBuilderComponent } from '../module/graph/module-graph-builder/module-graph-builder.component';
 import { ModuleLastValueComponent } from '../module/graph/module-last-value/module-last-value.component';
 import { GrowbeGraphService } from '../module/graph/service/growbe-graph.service';
+import { ModuleSVGComponent } from '../module/svg/module-svg.component';
 import { SoilModuleComponent } from '../module/svg/soil/soil-module/soil-module.component';
 import { THLModuleComponent } from '../module/svg/thl/thl-module/thl-module.component';
 import { WCModuleComponent } from '../module/svg/wc/wc-module/wc-module.component';
@@ -126,33 +127,15 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 name: '',
                 component: 'video-stream',
                 componentType: StreamPlayerComponent,
+                inputs: {}
             },
             {
                 name: '',
-                component: 'AAS-module',
-                componentType: SoilModuleComponent,
-                inputs: {},
-                outputs: {},
-            },
-            {
-                name: '',
-                component: 'AAA-module',
-                componentType: THLModuleComponent,
-                inputs: {},
-                outputs: {},
-            },
-            {
-                name: '',
-                component: 'AAB-module',
-                componentType: WCModuleComponent,
-                inputs: {},
-                outputs: {},
-            },
-            {
-                name: '',
-                component: 'AAP-module',
-                componentType: WCModuleComponent,
-                inputs: {},
+                component: 'svg-module',
+                componentType: ModuleSVGComponent,
+                inputs: {
+                  ...this.getDashboardAndModuleProperty(true)[0],
+                },
                 outputs: {},
             },
         ].forEach((item: any) => this.addItem(item));
