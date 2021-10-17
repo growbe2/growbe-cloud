@@ -36,7 +36,6 @@ export class GrowbeDashboardAPI
       return this.modifyDashboard(panel, (d) => {
         const panelIndex = this.getPanelIndex(d, panel);
         const itemIndex = this.getItemPanelIndex(d.panels[panelIndex], {itemId: item.id, ...panel});
-        console.log('Editting at index ,', itemIndex);
         d.panels[panelIndex].items[itemIndex] = item;
         return d;
       });

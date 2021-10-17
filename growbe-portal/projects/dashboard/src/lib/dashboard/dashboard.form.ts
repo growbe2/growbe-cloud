@@ -34,6 +34,11 @@ export const modifyDialog = (
         },
         items: [
             {
+              name: 'name',
+              type: 'string',
+              required: true,
+            },
+            {
                 type: 'dic',
                 name: 'inputs',
                 availableProperty:
@@ -60,6 +65,7 @@ export const modifyDialog = (
             afterFormCreated: (form) => {
               form.patchValue({
               //index: myIndex,
+              name: dashboardItem.name,
               inputs: dashboardItem.inputs ?? {},
               style: dashboardItem.style ?? {},
             })
@@ -67,7 +73,7 @@ export const modifyDialog = (
             submit: (value) =>
                 dashboardService.updateItemFromPanel(
                     panel,
-                    Object.assign(dashboardItem, { inputs: value.inputs, style: value.style }),
+                    Object.assign(dashboardItem, { inputs: value.inputs, style: value.style, name: value.name }),
                     value.index,
                 ),
         },
