@@ -19,13 +19,11 @@ import {
 import { DashboardRegistryService } from './registry';
 
 export const modifyDialog = (
-    myIndex: number,
     panel: PanelDashboardRef,
     dashboardItem: DashboardItem & Style,
     dashboardService: DashboardService,
     registry: DashboardRegistryService,
 ): AutoFormData => {
-    console.log('ITE', dashboardItem.inputs);
     return {
         type: 'dialog',
         typeData: {
@@ -51,6 +49,14 @@ export const modifyDialog = (
                 name: 'style',
                 availableProperty: [
                     {
+                        name: 'grid-column',
+                        type: 'string',
+                    },
+                    {
+                        name: 'grid-row',
+                        type: 'string',
+                    },
+                                        {
                         name: 'grid-column-start',
                         type: 'string',
                     },
@@ -58,6 +64,15 @@ export const modifyDialog = (
                         name: 'grid-column-end',
                         type: 'string',
                     },
+                   {
+                        name: 'grid-row-start',
+                        type: 'string',
+                    },
+                    {
+                        name: 'grid-row-end',
+                        type: 'string',
+                    },
+
                 ],
             } as DictionnayProperty,
         ],

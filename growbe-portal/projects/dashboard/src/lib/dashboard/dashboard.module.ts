@@ -30,6 +30,8 @@ import { DashboardService } from './dashboard.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsExtraModule } from '@berlingoqc/ngx-common';
 import { AddToDashboardDirective } from './add-dashboard.directive';
+import { DashboardFullComponent } from './components/dashboard-full/dashboard-full.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
     declarations: [
@@ -39,6 +41,8 @@ import { AddToDashboardDirective } from './add-dashboard.directive';
         ItemContentDirective,
         DashboardItemRegistryCopyDirective,
         AddToDashboardDirective,
+        DashboardFullComponent,
+        DashboardComponent,
     ],
     imports: [
         CommonModule,
@@ -57,7 +61,7 @@ import { AddToDashboardDirective } from './add-dashboard.directive';
     ],
     exports: [
         DashboardPanelComponent,
-        DashboardProjectComponent,
+        DashboardComponent,
         DashboardItemComponent,
         AddToDashboardDirective,
     ],

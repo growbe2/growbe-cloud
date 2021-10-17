@@ -188,7 +188,7 @@ export class DashboardItemComponent
             callback: (item: DashboardItem) => {
               this.autoformDialogService.open(
                 modifyDialog(
-                  this.index, this.panelRef, this.dashboardItem, this.dashboardService, this.dashboardRegistry,
+                  this.panelRef, this.dashboardItem, this.dashboardService, this.dashboardRegistry,
                 ));
             }
           }
