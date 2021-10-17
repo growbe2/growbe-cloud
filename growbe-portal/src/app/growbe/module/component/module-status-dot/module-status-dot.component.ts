@@ -11,7 +11,8 @@ import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service
     styleUrls: ['./module-status-dot.component.scss'],
 })
 export class ModuleStatusDotComponent implements OnInit {
-    @Input() moduleId: any;
+    @Input() mainboardId: string;
+    @Input() moduleId: string;
 
     status;
 

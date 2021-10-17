@@ -27,9 +27,12 @@ export class GrowbeDashboardAPI
     implements DashboardService {
     dashboardSubject = new Subject();
 
+    get url() {
+      return envConfig.growbeCloud + '/dashboards';
+    }
+
     constructor(httpClient: HttpClient, private authService: AuthService) {
         super(httpClient, '/dashboards');
-        this.baseURL = envConfig?.growbeCloud;
     }
 
     updateItemFromPanel(panel: PanelDashboardRef, item: DashboardItem & Style, index?: number): Observable<Dashboard> {

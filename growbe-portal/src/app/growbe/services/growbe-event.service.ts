@@ -21,7 +21,6 @@ export class GrowbeEventService {
     private connectPromise: Promise<AsyncClient>;
 
     async connect() {
-        console.log('CONNET');
         this.connectPromise = connectAsync(envConfig.broker);
         this.client = await this.connectPromise;
         this.client.on('message', (topic, message) => {

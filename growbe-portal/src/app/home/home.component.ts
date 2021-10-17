@@ -24,14 +24,9 @@ export class HomeComponent implements OnInit {
       public authService: AuthService,
       private userPrefService: UserPreferenceService,
       private dashboardService: GrowbeDashboardAPI,
-      private growbeMainboardAPI: GrowbeMainboardAPI,
-      private moduleService: GrowbeModuleAPI,
     ) {}
 
     ngOnInit(): void {
-      this.growbeMainboardAPI.baseURL = envConfig.growbeCloud;
-      this.dashboardService.baseURL = envConfig.growbeCloud;
-      this.moduleService.baseURL = envConfig.growbeCloud;
       this.dashboard$ = this.userPrefService.preference$.asObservable().pipe(
         filter((x) => x !== null),
         switchMap((pref) => this.dashboardService.getDashboard(pref.homeDashboard))

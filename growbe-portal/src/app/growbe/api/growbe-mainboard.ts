@@ -80,16 +80,19 @@ export class GrowbeMainboardAPI extends Caching(
       '/user',
     );
 
+    get url() {
+      return envConfig?.growbeCloud + '/growbes';
+    }
+
     constructor(httpClient: HttpClient) {
         super(httpClient, '/growbes');
-        this.baseURL = envConfig?.growbeCloud;
     }
 
     register(id: string) {
-      return this.httpClient.post<GrowbeRegisterResponse>(`${this.baseURL}/growbe/register`, {id})
+      return this.httpClient.post<GrowbeRegisterResponse>(`${envConfig.growbeCloud}/growbe/register`, {id})
     }
 
     registerOrganisation(id: string, orgId: string) {
-      return this.httpClient.post<GrowbeRegisterResponse>(`${this.baseURL}/growbe/${id}/register/org/${orgId}`, {})
+      return this.httpClient.post<GrowbeRegisterResponse>(`${envConfig.growbeCloud}/growbe/${id}/register/org/${orgId}`, {})
     }
 }

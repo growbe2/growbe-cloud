@@ -1,7 +1,6 @@
 <ngx-autotable
     *ngIf="growbeId"
     [columns]="warningColumns"
-    [source]="warningAPI"
     [source]="mainboardAPI.growbeWarnings | lbRelation: growbeId"
     [where]="warningWhere"
     [includes]="warningInclude"

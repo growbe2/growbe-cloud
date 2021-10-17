@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormArray, FormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import {
   ArrayProperty,
     FormObject,
@@ -8,14 +8,10 @@ import {
     SelectComponent,
 } from '@berlingoqc/ngx-autoform';
 import { envConfig } from '@berlingoqc/ngx-common';
-import { GrowbeModuleDefWithRelations } from 'growbe-cloud-api/lib';
 import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap} from 'rxjs/operators';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
-import {
-    getModuleDefPropName,
-    GrowbeModuleDefAPI,
-} from 'src/app/growbe/api/growbe-module-def';
+
 
 export const timeFieldComponent = {
     name: 'multipart',
@@ -117,17 +113,17 @@ export class GrowbeGraphService {
         } as ArrayProperty;
     }
 
-    getGraphTimeFrameSelectForm(moduleId$: Observable<string>, nbrProperty?: number): IProperty[] {
+    getGraphTimeFrameSelectForm(moduleId$: Observable<string>, nbrProperty?: number, optionalLastX?: boolean): IProperty[] {
         return [
             {
                 name: 'lastX',
                 type: 'number',
-                required: true,
+                required: !optionalLastX,
             },
             {
                 name: 'lastXUnit',
                 type: 'string',
-                required: true,
+                required: !optionalLastX,
                 component: {
                     name: 'select',
                     options: {

@@ -6,10 +6,12 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class GrowbeStreamAPI {
-    url: string;
-    constructor(private httpClient: HttpClient) {
-        this.url = `${envConfig.growbeCloud}/growbeStreams`;
+
+    get url(): string {
+      return envConfig.growbeCloud + '/growbeStreams';
     }
+
+    constructor(private httpClient: HttpClient) {}
 
     getLiveStreams(growbeId: string): Observable<any[]> {
         return this.httpClient.get<any[]>(`${this.url}/${growbeId}/live`);

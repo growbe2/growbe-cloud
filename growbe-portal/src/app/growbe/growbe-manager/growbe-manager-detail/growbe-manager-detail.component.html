@@ -18,7 +18,7 @@
             <mat-tab label="Modules">
                 <ng-template #status let-context="context">
                     <app-module-status-dot
-                        [module]="context"
+                        [moduleId]="context.id"
                     ></app-module-status-dot>
                 </ng-template>
 

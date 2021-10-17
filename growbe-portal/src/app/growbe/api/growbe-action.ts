@@ -11,14 +11,14 @@ import { GrowbeModuleAPI } from './growbe-module';
 
 @Injectable({ providedIn: 'root' })
 export class GrowbeActionAPI {
-    url: string;
+    get url(): string {
+      return envConfig.growbeCloud;
+    }
     constructor(
       private httpClient: HttpClient,
       private growbeAPI: GrowbeMainboardAPI,
       private growbeModuleAPI: GrowbeModuleAPI,
-    ) {
-        this.url = envConfig.growbeCloud;
-    }
+    ) {}
 
     executeAction(
         action: string,

@@ -3,22 +3,17 @@ import { ActivatedRoute } from '@angular/router';
 import { unsubscriber } from '@berlingoqc/ngx-common';
 import {
     DashboardGraphElement,
-    GrowbeModuleDefWithRelations,
     GrowbeModuleWithRelations,
 } from '@growbe2/ngx-cloud-api';
 import { Observable, of, Subscription } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
-import { DashboardPanel, ProjectDashboard } from '@growbe2/growbe-dashboard';
+import { map, } from 'rxjs/operators';
+import { DashboardPanel} from '@growbe2/growbe-dashboard';
 import {
     getModuleDefPropName,
     GrowbeModuleDefAPI,
 } from '../../api/growbe-module-def';
 import { growbeModuleDefForm } from '../component/growbe-module-def/growbe-module-def.form';
-import { moduleDefPropertyDisplayer } from '../module.def';
 import { GrowbeModuleAPI } from '../../api/growbe-module';
-import { StaticDataSource } from '@berlingoqc/ngx-loopback';
-import { hardwareAlarmColumns } from '../hardware-alarm/hardware-alarm.table';
-import { getHardwareAlarmForm } from '../hardware-alarm/hardware-alarm.form';
 
 function getReferenceLineForAlarmZone(name: string, zone: any, referenceLines: any[]) {
     if (zone.value) {
@@ -62,7 +57,6 @@ export class GrowbeModuleDashboardComponent implements OnInit {
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private moduleDefAPI: GrowbeModuleDefAPI,
         private moduleAPI: GrowbeModuleAPI,
     ) {}
 
@@ -177,10 +171,6 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                     .map((md: any) => md.alarm);
                 return {
                     name: '',
-                    class: ['grid'],
-                    style: {
-                        'grid-template-columns': '1fr 1fr 1fr 1fr 1fr',
-                    },
                     items: [
                         {
                             name:
@@ -202,8 +192,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                     );
                             }),
                             style: {
-                                'grid-column-start': '1',
-                                'grid-column-end': '4',
+                                'grid-column': '1/-2',
                             },
                         },
                         {
@@ -214,8 +203,6 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                 mainboardId: this.module.mainboardId
                             },
                             style: {
-                                'grid-column-start': '4',
-                                'grid-column-end': '6',
                             },
                         },
                         {
@@ -226,8 +213,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                 mainboardId: this.module.mainboardId,
                             },
                             style: {
-                                'grid-column-start': '1',
-                                'grid-column-end': '6',
+                                'grid-column': '1/-1',
                             },
                         },
                         {
@@ -243,8 +229,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                 },
                             },
                             style: {
-                                'grid-column-start': '1',
-                                'grid-column-end': '6',
+                                'grid-column': '1/-1',
                             },
                         },
                         {
@@ -255,8 +240,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                 moduleId: this.module.id,
                             },
                             style: {
-                                'grid-column-start': '1',
-                                'grid-column-end': '6',
+                                'grid-column': '1/-1',
                             },
                         },
                         ...Object.values(moduleDef.properties).map((prop: any) => ({
@@ -281,8 +265,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                 moduleId: this.module.id,
                             },
                             style: {
-                                'grid-column-start': '1',
-                                'grid-column-end': '6',
+                                'grid-column': '1/-1',
                             },
                         },
                     ],

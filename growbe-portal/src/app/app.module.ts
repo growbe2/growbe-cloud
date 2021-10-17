@@ -186,7 +186,6 @@ export class AppModule {
         service: DashboardRegistryService,
         userPreference: UserPreferenceService,
     ) {
-
       authService.loginEvents.asObservable().pipe(
         filter((event) => event === 'connected'),
         switchMap(() => userPreference.get()),
