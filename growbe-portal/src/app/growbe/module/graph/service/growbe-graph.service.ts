@@ -86,13 +86,15 @@ export class GrowbeGraphService {
         );
     }
 
-    getPropertySelectForm(moduleId$: Observable<string>): IProperty {
+    getPropertySelectForm(moduleId$: Observable<string>, nbrProperty?: number): IProperty {
         return {
             type: 'array',
             name: 'fields',
             decorators: {
                 //class: ['frow', 'half', 'evenly'],
             },
+            min: nbrProperty,
+            max: nbrProperty,
             elementType: {
               name: '',
               type: 'string',
@@ -113,7 +115,7 @@ export class GrowbeGraphService {
         } as ArrayProperty;
     }
 
-    getGraphTimeFrameSelectForm(moduleId$: Observable<string>): IProperty[] {
+    getGraphTimeFrameSelectForm(moduleId$: Observable<string>, nbrProperty?: number): IProperty[] {
         return [
             {
                 name: 'lastX',
@@ -141,7 +143,7 @@ export class GrowbeGraphService {
                     name: 'checkbox',
                 },
             },
-            this.getPropertySelectForm(moduleId$),
+            this.getPropertySelectForm(moduleId$, nbrProperty),
             {
                 name: 'grouping',
                 type: 'object',

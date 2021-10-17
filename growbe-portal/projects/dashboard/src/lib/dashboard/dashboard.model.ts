@@ -1,6 +1,11 @@
+import { InjectionToken } from '@angular/core';
 import { AutoFormData } from '@berlingoqc/ngx-autoform';
 
 import { Observable } from 'rxjs';
+
+
+export const DASHBOARD_REF = new InjectionToken<Dashboard>('reference of the dashboard');
+export const DASHBOARD_ITEM_REF = new InjectionToken<Dashboard>('reference of the dashboard item');
 
 export interface Style {
     class?: string[]; //string | string[] | {[id: string]: boolean}
@@ -8,7 +13,8 @@ export interface Style {
 }
 
 export interface DashboardItem {
-    name: string;
+    id?: number;
+    name?: string;
     component: string;
     inputs: { [id: string]: any };
     outputs: { [id: string]: (obs: Observable<any>) => void };

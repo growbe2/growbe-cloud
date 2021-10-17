@@ -24,11 +24,12 @@ import { AutoFormComponent, AutoFormData, AutoFormDialogService } from '@berling
 import { notify } from '@berlingoqc/ngx-notification';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { getCopyDashboardForm, modifyDialog } from '../../dashboard.form';
-import { DashboardItem, DashboardPanel, Style } from '../../dashboard.model';
+import { DashboardItem, DashboardPanel, DASHBOARD_ITEM_REF, Style } from '../../dashboard.model';
 import { DashboardService, PanelDashboardRef } from '../../dashboard.service';
 import { DashboardRegistryService } from '../../registry/dashboard-registry.service';
 import { DashboardRegistryItem } from '../../registry/dashboard.registry';
 import { DashboardItemDirective } from '../dashboard-item.directive';
+
 
 /**
  * Add on element to display a dialog to copy to another dashboard
@@ -89,6 +90,7 @@ export class ItemContentDirective implements OnInit {
         private registry: DashboardRegistryService,
         private viewRef: ViewContainerRef,
         private componentFactoryResolver: ComponentFactoryResolver,
+        private injector: Injector,
     ) {}
 
     ngOnInit() {
@@ -100,7 +102,16 @@ export class ItemContentDirective implements OnInit {
             this.registryItem.componentType,
         );
 
-        this.componentRef = this.viewRef.createComponent(factory);
+        const injector = Injector.create({
+          providers: [
+            {
+              provide: DASHBOARD_ITEM_REF,
+              useValue: this.dashboardItem
+            }
+          ],
+          parent: this.injector
+        });
+        this.componentRef = this.viewRef.createComponent(factory, undefined, injector);
 
         if (this.dashboardItem.inputs) {
             for (const [name, data] of Object.entries(
@@ -186,7 +197,7 @@ export class DashboardItemComponent
         this.formData = getCopyDashboardForm(
             this.dashboardService,
             this.subjectPanel,
-            this.dashboardItem,
+            {...this.dashboardItem},
         );
         this.formData.type = 'dialog';
         if (!this.static) {
@@ -209,11 +220,10 @@ export class DashboardItemComponent
     }
 
     delete() {
-        console.log('ITEM', this.panelRef);
         this.dashboardService
             .removeItemFromPanel({
                 ...this.panelRef,
-                itemName: this.dashboardItem.name,
+                itemId: this.dashboardItem.id,
             })
             .pipe(notify({ title: 'Item is deleted' }))
             .subscribe(() => {});

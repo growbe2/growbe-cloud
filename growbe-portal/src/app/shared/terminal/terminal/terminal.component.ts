@@ -1,114 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AutoFormData, FormObject, SelectComponent } from '@berlingoqc/ngx-autoform';
+import {
+    AutoFormData,
+    FormObject,
+    IProperty,
+    SelectComponent,
+} from '@berlingoqc/ngx-autoform';
 import { unsubscriber } from '@berlingoqc/ngx-common';
 import { CRUDDataSource, Filter, Where } from '@berlingoqc/ngx-loopback';
 import { GrowbeLogs } from '@growbe2/ngx-cloud-api';
+import { DashboardItem, DASHBOARD_ITEM_REF } from '@growbe2/growbe-dashboard';
 import { Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 
-@Component({
-    selector: 'app-terminal',
-    templateUrl: './terminal.component.html',
-    styleUrls: ['./terminal.component.scss'],
-})
-@unsubscriber
-export class TerminalComponent implements OnInit {
-    @Input()
-    growbeId: string;
-    @Input()
-    moduleId: string;
-    @Input()
-    disableSearch: boolean
-    @Input()
-    where: Where;
-
-    logs: Observable<string[]>;
-    searchBarForm: AutoFormData;
-
-    private filter: Filter<GrowbeLogs> = {
-        offset: 0,
-        limit: 200,
-        order: ['timestamp desc'],
-    };
-
-    private sub: Subscription;
-
-    constructor(
-        private eventService: GrowbeEventService,
-        private mainboardAPI: GrowbeMainboardAPI,
-    ) {}
-
-    ngOnInit(): void {
-        this.refreshLogs();
-
-        this.searchBarForm = {
-            type: 'simple',
-            items: [
-                {
-                    type: 'object',
-                    name: 'object',
-                    decorators: {
-                        class: ['frow', 'full'],
-                    },
-                    properties: [
-                        {
-                            name: 'type',
-                            type: 'string',
-                            decorators: {
-                                component: {
-                                    class: ['quarter'],
-                                },
-                            },
-                            component: {
-                                name: 'select',
-                                type: 'mat',
-                                noneOption: {
-                                    type: 'string',
-                                    content: '--',
-                                },
-                                options: {
-                                    displayTitle: '',
-                                    displayContent: (e) => e[0],
-                                    value: () =>
-                                            of([
-                                                ['Module state change','module'],
-                                                ['Module config change','module_config'],
-                                                ['Module Alarm Event','alarm'],
-                                                ['Warning','new_warning'],
-                                                ['Mainboard connection change','connection'],
-                                                ['Mainboard RTC change','update_rtc'],
-                                                ['Mainboard sync request','sync_request'],
-                                                ['Mainboard config change','growbe_config'],
-                                            ]),
-                                },
-                            } as SelectComponent,
-                        },
-                    ],
-                }  as FormObject,
-            ],
-            actionsButtons: {},
-            event: {
-                submit: () => of(),
-                afterFormCreated: (fg: FormGroup) => {
-                    this.sub = fg.valueChanges
-                        .pipe(map((value) => ({
-                          group: value.object.group,
-                          type: value.object?.type?.[1]
-                        })))
-                        .subscribe((value) => {
-                            this.where = value;
-                            this.refreshLogs();
-                        });
-                },
-            },
-        };
-
-        if (this.moduleId) return;
-
-        (this.searchBarForm.items[0] as FormObject).properties.splice(0, 0, {
+export function getTerminalSearchForm(): IProperty[] {
+    return [
+        {
             name: 'group',
             type: 'string',
             decorators: {
@@ -126,20 +35,145 @@ export class TerminalComponent implements OnInit {
                 options: {
                     displayTitle: '',
                     displayContent: (e) => e,
-                    value: () => of(['mainboard', 'modules']),
+                    value: () => of(['mainboard', 'modules']), // need to filter if for module
                 },
             } as SelectComponent,
-        });
+        },
+        {
+            name: 'type',
+            type: 'string',
+            decorators: {
+                component: {
+                    class: ['quarter'],
+                },
+            },
+            component: {
+                name: 'select',
+                type: 'mat',
+                noneOption: {
+                    type: 'string',
+                    content: '--',
+                },
+                transformValue: (e) => e[1],
+                options: {
+                    displayTitle: '',
+                    displayContent: (e) => e[0],
+                    value: () =>
+                        of([
+                            ['Module state change', 'module'],
+                            ['Module config change', 'module_config'],
+                            ['Module Alarm Event', 'alarm'],
+                            ['Warning', 'new_warning'],
+                            ['Mainboard connection change', 'connection'],
+                            ['Mainboard RTC change', 'update_rtc'],
+                            ['Mainboard sync request', 'sync_request'],
+                            ['Mainboard config change', 'growbe_config'],
+                        ]),
+                },
+            } as SelectComponent,
+        },
+    ];//.filter(x => x !== null);
+}
+
+@Component({
+    selector: 'app-terminal',
+    templateUrl: './terminal.component.html',
+    styleUrls: ['./terminal.component.scss'],
+})
+@unsubscriber
+export class TerminalComponent implements OnInit {
+    @Input()
+    growbeId: string;
+    @Input()
+    moduleId?: string;
+    @Input()
+    disableSearch: boolean;
+    @Input()
+    where: Where;
+
+    logs: Observable<string[]>;
+    searchBarForm: AutoFormData;
+
+    item: DashboardItem;
+
+    private filter: Filter<GrowbeLogs> = {
+        offset: 0,
+        limit: 200,
+        order: ['timestamp desc'],
+    };
+
+    private sub: Subscription;
+
+    constructor(
+        @Optional()
+        @Inject(DASHBOARD_ITEM_REF)
+        private refDashboardItem: DashboardItem,
+        private eventService: GrowbeEventService,
+        private mainboardAPI: GrowbeMainboardAPI,
+    ) {}
+
+    ngOnInit(): void {
+        if (!this.refDashboardItem) {
+            this.item = {
+                name: '',
+                component: 'logs-terminal',
+                copy: false,
+                inputs: {
+                    growbeId: this.growbeId,
+                    moduleId: this.moduleId,
+                },
+                outputs: {},
+            };
+        }
+
+        this.refreshLogs();
+        this.searchBarForm = {
+            type: 'simple',
+            items: [
+                {
+                    type: 'object',
+                    name: 'object',
+                    decorators: {
+                        class: ['frow', 'full'],
+                    },
+                    properties: [
+                      ...getTerminalSearchForm(),
+                    ],
+                }  as FormObject,
+            ],
+            actionsButtons: {},
+            event: {
+                submit: () => of(),
+                afterFormCreated: (fg: FormGroup) => {
+                    this.sub = fg.valueChanges
+                        .pipe(map((value) => ({
+                          group: value.object.group,
+                          type: value.object?.type
+                        })))
+                        .subscribe((value) => {
+                            this.where = value;
+                            this.refreshLogs();
+                        });
+                },
+            },
+        };
+
+
+        if (this.moduleId) return;
+
+        (this.searchBarForm.items[0] as FormObject).properties.splice(0, 0, );
     }
 
     private refreshLogs() {
-      const req = this.where ? Object.assign(this.filter, { where: this.where}): this.filter;
+        const req = this.where
+            ? Object.assign(this.filter, { where: this.where })
+            : this.filter;
         this.logs = this.eventService
             .getGrowbeEventWithSource(
                 this.growbeId,
                 '/cloud/logs',
                 (d) => JSON.parse(d),
-                this.mainboardAPI.growbeLogs(this.growbeId).get(req)
+                this.mainboardAPI.growbeLogs(this.growbeId).get(req),
             )
             .pipe(
                 map((logs) =>

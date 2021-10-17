@@ -251,18 +251,8 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                             name: 'Module Alarm',
                             component: 'growbe-alarm',
                             inputs: {
-                                columns: hardwareAlarmColumns,
-                                source: new StaticDataSource(alarms),
-                                formData: getHardwareAlarmForm(
-                                    Object.assign(this.module, { moduleDef }),
-                                    alarms.map((a) => a.property),
-                                    this.moduleDefAPI,
-                                ),
-                                removeElement: (element) =>
-                                    this.moduleDefAPI.removeAlarm(
-                                        this.module.mainboardId,
-                                        element,
-                                    ),
+                                mainboardId: this.module.mainboardId,
+                                moduleId: this.module.id,
                             },
                             style: {
                                 'grid-column-start': '1',

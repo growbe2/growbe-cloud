@@ -68,12 +68,20 @@ alb-admin-page {
     justify-content: flex-end;
 }
 
+.align-center {
+  align-items: center;
+}
+
 .ipad {
     padding: 10px;
 }
 
 .grid {
     display: grid;
+}
+
+.spacer {
+  flex-grow: 2;
 }
 
 

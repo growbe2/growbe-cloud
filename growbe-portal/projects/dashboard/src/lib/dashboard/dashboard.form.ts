@@ -1,3 +1,4 @@
+import { FormControl } from '@angular/forms';
 import {
     AutoFormData,
     DialogFormContainer,
@@ -7,7 +8,8 @@ import {
     SelectComponent,
 } from '@berlingoqc/ngx-autoform';
 import { notify } from '@berlingoqc/ngx-notification';
-import { of, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { DashboardItem, Style } from './dashboard.model';
 import {
     DashboardRef,
@@ -106,6 +108,8 @@ export const getCopyDashboardForm = (
     updatePanel: Subject<any>,
     item: DashboardItem,
 ): AutoFormData => {
+    const subject = new BehaviorSubject(null);
+    let moduleControl: FormControl;
     return {
         type: 'dialog',
         typeData: {
@@ -121,7 +125,7 @@ export const getCopyDashboardForm = (
                             dashboardId: data.item.dashboard.id,
                             panelName: data.item.panel.name,
                         },
-                        Object.assign(item, { name: data.item.name }),
+                        { ...item, name: data.item.name, id: Date.now() },
                     )
                     .pipe(
                         notify({
@@ -139,6 +143,15 @@ export const getCopyDashboardForm = (
                         name: 'dashboard',
                         type: 'string',
                         displayName: 'Dashboard',
+                        valuesChanges: (control, value) => {
+                          service.getDashboards().subscribe((dashboards) => {
+                             const dashboard = dashboards.find(
+                              (x) => x.name === value.name,
+                            );
+                            moduleControl.enable();
+                            subject.next(dashboard.panels);
+                          });
+                        },
                         component: {
                             name: 'select',
                             type: 'mat',
@@ -154,13 +167,16 @@ export const getCopyDashboardForm = (
                         type: 'string',
                         displayName: 'Panel',
                         disabled: true,
+                        initialize: (mc:FormControl) => (moduleControl = mc),
                         component: {
                             name: 'select',
                             type: 'mat',
                             options: {
                                 displayTitle: 'Panel',
                                 displayContent: (e) => e.name,
-                                value: updatePanel.asObservable(),
+                                value: subject.pipe(
+                                  filter(item => item !== null),
+                                ),
                             },
                         } as SelectComponent,
                     } as InputProperty,
@@ -168,7 +184,6 @@ export const getCopyDashboardForm = (
                         name: 'name',
                         type: 'string',
                         displayName: 'Name',
-                        disabled: true,
                         required: true,
                         errors: {
                             alreadyExists: {

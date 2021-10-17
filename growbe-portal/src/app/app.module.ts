@@ -61,6 +61,7 @@ import {
     DashboardRegistryService,
 } from '@growbe2/growbe-dashboard';
 import { TranslateModule } from '@ngx-translate/core';
+import { HelpersModule } from './helpers/helpers.module';
 
 @Injectable({
     providedIn: 'root',
@@ -94,6 +95,8 @@ export class NavigationWrapper {
         NotificationModule.forRoot({} as any),
 
         DynamicModuleModule,
+
+        HelpersModule,
 
         EmailModule,
         AccountModule,

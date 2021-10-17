@@ -22,6 +22,7 @@ import {
     DashboardModule, DashboardRegistryService,
 } from '@growbe2/growbe-dashboard';
 import { GrowbeDashboardRegistry } from 'src/app/growbe/growbe-dashboard/items';
+import { HardwareAlarmModule } from '../module/hardware-alarm/hardware-alarm.module';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import { GrowbeDashboardRegistry } from 'src/app/growbe/growbe-dashboard/items';
 
         GraphModule,
         GrowbeMainboardModule,
+        HardwareAlarmModule,
 
         FuseWidgetModule,
         FuseSharedModule,

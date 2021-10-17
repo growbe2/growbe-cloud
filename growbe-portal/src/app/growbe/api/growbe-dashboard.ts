@@ -35,7 +35,8 @@ export class GrowbeDashboardAPI
     updateItemFromPanel(panel: PanelDashboardRef, item: DashboardItem & Style, index?: number): Observable<Dashboard> {
       return this.modifyDashboard(panel, (d) => {
         const panelIndex = this.getPanelIndex(d, panel);
-        const itemIndex = this.getItemPanelIndex(d.panels[panelIndex], {itemName: item.name, ...panel});
+        const itemIndex = this.getItemPanelIndex(d.panels[panelIndex], {itemId: item.id, ...panel});
+        console.log('Editting at index ,', itemIndex);
         d.panels[panelIndex].items[itemIndex] = item;
         return d;
       });
@@ -109,7 +110,7 @@ export class GrowbeDashboardAPI
         panel: DashboardPanel,
         item: PanelItemRef,
     ): number {
-        return panel.items.findIndex((x) => x.name === item.itemName);
+        return panel.items.findIndex((x) => x.id === item.itemId);
     }
 
     private modifyDashboard(

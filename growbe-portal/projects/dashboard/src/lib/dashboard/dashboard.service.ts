@@ -10,7 +10,7 @@ export interface PanelDashboardRef extends DashboardRef {
 }
 
 export interface PanelItemRef extends PanelDashboardRef {
-    itemName: string;
+    itemId: number;
 }
 
 export abstract class DashboardService {

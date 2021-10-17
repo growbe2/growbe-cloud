@@ -2,6 +2,7 @@ import { Inject, inject, Injectable, Injector } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { AuthService } from '@berlingoqc/auth';
 import {
+  ArrayProperty,
     DictionnayProperty,
     FormObject,
     IProperty,
@@ -18,7 +19,7 @@ import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { ModuleSensorValueGraphComponent } from 'src/app/growbe/module/graph/module-sensor-value-graph/module-sensor-value-graph.component';
 import { StreamPlayerComponent } from 'src/app/growbe/video-stream/stream-player/stream-player.component';
 import { TableLayoutComponent } from 'src/app/shared/table-layout/table-layout/table-layout.component';
-import { TerminalComponent } from 'src/app/shared/terminal/terminal/terminal.component';
+import { getTerminalSearchForm, TerminalComponent } from 'src/app/shared/terminal/terminal/terminal.component';
 import { GrowbeModuleAPI } from '../api/growbe-module';
 import { GrowbeStateComponent } from '../growbe-mainboard/component/growbe-state/growbe-state.component';
 import { GrowbeModuleConfigComponent } from '../module/component/growbe-module-config/growbe-module-config.component';
@@ -28,10 +29,8 @@ import { ModuleStatusDotComponent } from '../module/component/module-status-dot/
 import { ModuleGraphBuilderComponent } from '../module/graph/module-graph-builder/module-graph-builder.component';
 import { ModuleLastValueComponent } from '../module/graph/module-last-value/module-last-value.component';
 import { GrowbeGraphService } from '../module/graph/service/growbe-graph.service';
+import { HardwareAlarmTableComponent } from '../module/hardware-alarm/hardware-alarm-table.component';
 import { ModuleSVGComponent } from '../module/svg/module-svg.component';
-import { SoilModuleComponent } from '../module/svg/soil/soil-module/soil-module.component';
-import { THLModuleComponent } from '../module/svg/thl/thl-module/thl-module.component';
-import { WCModuleComponent } from '../module/svg/wc/wc-module/wc-module.component';
 
 @Injectable()
 export class GrowbeDashboardRegistry implements DashboardRegistryService {
@@ -39,7 +38,6 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
 
     constructor(
         private mainboardAPI: GrowbeMainboardAPI,
-        private moduleAPI: GrowbeModuleAPI,
         private authService: AuthService,
         private graphService: GrowbeGraphService,
     ) {
@@ -94,8 +92,10 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
             {
                 name: '',
                 component: 'growbe-alarm',
-                componentType: TableLayoutComponent,
-                inputs: {},
+                componentType: HardwareAlarmTableComponent,
+                inputs: {
+                  ...this.getDashboardAndModuleProperty(true)[0]
+                },
             },
             {
                 name: '',
@@ -122,6 +122,14 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 name: '',
                 component: 'logs-terminal',
                 componentType: TerminalComponent,
+                inputs: {
+                  ...this.getDashboardAndModuleProperty(true, 'growbeId', true)[0],
+                  'where': {
+                    name: 'where',
+                    type: 'object',
+                    properties: getTerminalSearchForm(),
+                  } as FormObject,
+                },
             },
             {
                 name: '',
@@ -258,42 +266,18 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
     };
 
     private getLatestValueModuleRequestProperty = () => {
-        const [formMM] = this.getDashboardAndModuleProperty(true, 'growbeId');
-        const formProperty: { [id: string]: IProperty } = {
-            ...formMM,
-        };
-
-        formProperty['lastX'] = {
-            name: 'lastX',
-            type: 'number',
-        };
-        formProperty['lastXUnit'] = {
-            name: 'lastXUnit',
-            type: 'string',
-            component: {
-                name: 'select',
-                transformValue: (e) => e,
-                options: {
-                    displayContent: (e) => e,
-                    value: of(Object.values(GraphModuleRequest.LastXUnitEnum)),
-                },
-            } as SelectComponent,
-        };
-
-        formProperty['liveUpdate'] = {
-            name: 'liveUpdate',
-            type: 'bool',
-            component: {
-                name: 'checkbox',
-            },
-        };
+        const [formMM, _, subjectModule] = this.getDashboardAndModuleProperty(true, 'growbeId');
 
         const form = {
             graphDataConfig: {
                 name: 'graphDataConfig',
                 type: 'object',
                 required: true,
-                properties: Object.values(formProperty),
+                properties:  [
+                  formMM['growbeId'],
+                  formMM['moduleId'],
+                  ...this.graphService.getGraphTimeFrameSelectForm(subjectModule, 1),
+                ]
             } as FormObject,
         };
         return form;
@@ -302,6 +286,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
     private getDashboardAndModuleProperty = (
         includeModule: boolean,
         mainboardPropertyName = 'mainboardId',
+        optionalModuleId = false,
     ): [
         { [id: string]: IProperty },
         BehaviorSubject<string>,
@@ -352,10 +337,10 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
             formProperty['moduleId'] = {
                 name: 'moduleId',
                 type: 'string',
-                required: true,
+                required: !optionalModuleId,
                 initialize: (control) => {
                     moduleControl = control;
-                    if (!control.value) {
+                    if (!control.value && !lastMainboarId) {
                         control.disable();
                     } else {
                         subjectModule.next(control.value);
@@ -373,7 +358,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                     transformValue: (e) => e.id,
                     options: {
                         displayTitle: 'Module',
-                        displayContent: (e) => e.id,
+                        displayContent: (e) => e.id + ' ',
                         value: () =>
                             subjectMainboard.pipe(
                                 filter((id) => id),

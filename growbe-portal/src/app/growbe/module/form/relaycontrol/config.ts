@@ -6,6 +6,7 @@ import {
 } from '@berlingoqc/ngx-autoform';
 import { of } from 'rxjs';
 import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
+import { PreventParentScrollDirective } from 'src/app/helpers/prevent-parent-scroll.directive';
 import { timeFieldComponent } from '../../graph/service/growbe-graph.service';
 import { transformFieldInit, transformFieldSubmit } from '../relay-form';
 
@@ -34,7 +35,13 @@ export const getRelayControlConfig: (
               style: {
                 'max-height': '400px',
                 'overflow': 'auto'
-              }
+              },
+              custom: [
+                {
+                  type: PreventParentScrollDirective,
+                  resolver: (e) => [e],
+                }
+              ]
             },
             properties: [
                 ...['p0', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7'].map(
