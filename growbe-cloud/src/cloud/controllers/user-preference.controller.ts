@@ -5,10 +5,12 @@ import { get, patch, requestBody } from '@loopback/openapi-v3';
 import { inject } from '@loopback/context';
 import { SecurityBindings, UserProfile } from '@loopback/security';
 import { UserPreference } from '../../models';
+import { service } from '@loopback/core';
 
 export class UserPreferenceController {
 
 	constructor(
+		@service(UserPreferenceService)
 		private userPreferenceService: UserPreferenceService,
 	) {}
 

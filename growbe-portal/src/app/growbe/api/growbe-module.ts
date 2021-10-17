@@ -41,10 +41,9 @@ export class GrowbeModuleAPI extends Caching(
       'moduleDef'
     );
 
-
     constructor(httpClient: HttpClient) {
         super(httpClient, '/growbeModules');
-        this.baseURL = envConfig.growbeCloud;
+        this.baseURL = envConfig?.growbeCloud;
     }
 
     updateModuleConfig(boardId: string, id: string, config: any): Observable<any> {

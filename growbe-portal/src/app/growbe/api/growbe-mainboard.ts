@@ -82,7 +82,7 @@ export class GrowbeMainboardAPI extends Caching(
 
     constructor(httpClient: HttpClient) {
         super(httpClient, '/growbes');
-        this.baseURL = envConfig.growbeCloud;
+        this.baseURL = envConfig?.growbeCloud;
     }
 
     register(id: string) {

@@ -31,10 +31,18 @@
                 background: rgba(0, 0, 0, 0.12);
                 transition: box-shadow 150ms ease-in;
                 cursor: pointer;
+                position: relative;
 
                 &:hover:not(.add-new-board) {
                     @include mat.elevation(8);
                 }
+
+                .favorite {
+                  position: absolute;
+                  top: 0;
+                  right: 0;
+                }
+
 
                 .board-name {
                     padding: 16px 32px 0 32px;

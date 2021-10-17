@@ -34,8 +34,16 @@
             fxLayoutAlign="center center"
             [@animate]="{ value: '*', params: { y: '100%' } }"
         >
+          <div class="fcol align-center">
             <mat-icon class="s-56">assessment</mat-icon>
             <div class="board-name">{{ board.name }}</div>
+          </div>
+          <div class="favorite">
+            <button *ngIf="pref$ | async as pref" mat-icon-button (click)="($event.stopPropagation()); onMakeFavorite(pref, board.name)">
+              <mat-icon *ngIf="pref?.homeDashboard === board.name">favorite</mat-icon>
+              <mat-icon *ngIf="pref?.homeDashboard !== board.name">favorite_border</mat-icon>
+            </button>
+          </div>
         </div>
         <!-- / BOARD -->
 

@@ -53,10 +53,7 @@ import { HardwareAlarmModule } from '../module/hardware-alarm/hardware-alarm.mod
         GrowbeDashboardRoutingModule,
     ],
     providers: [
-        {
-          provide: DashboardRegistryService,
-          useClass: GrowbeDashboardRegistry,
-        }
+
     ]
 })
 export class GrowbeDashboardModule {

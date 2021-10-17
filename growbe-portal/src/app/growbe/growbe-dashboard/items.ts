@@ -32,7 +32,9 @@ import { GrowbeGraphService } from '../module/graph/service/growbe-graph.service
 import { HardwareAlarmTableComponent } from '../module/hardware-alarm/hardware-alarm-table.component';
 import { ModuleSVGComponent } from '../module/svg/module-svg.component';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class GrowbeDashboardRegistry implements DashboardRegistryService {
     items: { [id: string]: DashboardRegistryItem } = {};
 

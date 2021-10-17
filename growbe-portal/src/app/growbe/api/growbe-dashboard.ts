@@ -29,7 +29,7 @@ export class GrowbeDashboardAPI
 
     constructor(httpClient: HttpClient, private authService: AuthService) {
         super(httpClient, '/dashboards');
-        this.baseURL = envConfig.growbeCloud;
+        this.baseURL = envConfig?.growbeCloud;
     }
 
     updateItemFromPanel(panel: PanelDashboardRef, item: DashboardItem & Style, index?: number): Observable<Dashboard> {
@@ -96,6 +96,15 @@ export class GrowbeDashboardAPI
                 userId: this.authService.profile.id,
             },
         }) as Observable<Dashboard[]>;
+    }
+
+    getDashboard(name: string) {
+      return this.getDashboards().pipe(
+        map((items) => {
+          const index = items.findIndex((i) => i.name === name);
+          return items[index] || null;
+        })
+      )
     }
 
     private getPanelIndex(

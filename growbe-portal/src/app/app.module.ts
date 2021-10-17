@@ -62,6 +62,9 @@ import {
 } from '@growbe2/growbe-dashboard';
 import { TranslateModule } from '@ngx-translate/core';
 import { HelpersModule } from './helpers/helpers.module';
+import { filter, switchMap, tap } from 'rxjs/operators';
+import { UserPreferenceService } from './service/user-preference.service';
+import { GrowbeDashboardRegistry } from './growbe/growbe-dashboard/items';
 
 @Injectable({
     providedIn: 'root',
@@ -161,6 +164,10 @@ export class NavigationWrapper {
                 validate: '/account/validate/invitation',
                 confirm: '/account/validate/account',
 		      },
+        },
+        {
+          provide: DashboardRegistryService,
+          useClass: GrowbeDashboardRegistry,
         }
         /*{
           provide: DashboardService,
@@ -177,7 +184,13 @@ export class AppModule {
         injector: Injector,
         moduleService: DynamicModuleService,
         service: DashboardRegistryService,
+        userPreference: UserPreferenceService,
     ) {
+
+      authService.loginEvents.asObservable().pipe(
+        filter((event) => event === 'connected'),
+        switchMap(() => userPreference.get()),
+      ).subscribe(() => {})
         /*moduleService.loadModuleSystemJS(
             {
                 path: '/assets/umd.js',

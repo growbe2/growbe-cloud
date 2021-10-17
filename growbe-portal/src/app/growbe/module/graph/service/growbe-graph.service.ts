@@ -72,7 +72,9 @@ export const timeFieldComponent = {
     //validators: [Validators.pattern('^[0-9]*$')],
 };
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class GrowbeGraphService {
     constructor(
         private httpClient: HttpClient,
