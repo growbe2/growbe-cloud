@@ -1,12 +1,42 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component,ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '@berlingoqc/auth';
 import { fuseAnimations } from '@berlingoqc/fuse';
-import { AutoFormData, FormObject } from '@berlingoqc/ngx-autoform';
-import { GrowbeDashboard } from '@growbe2/ngx-cloud-api';
+import { AutoFormData, IProperty, SelectComponent } from '@berlingoqc/ngx-autoform';
+import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GrowbeDashboardAPI } from '../../api/growbe-dashboard';
-import { GrowbeMainboardAPI } from '../../api/growbe-mainboard';
+
+export const getDashboardFormProperties = (): IProperty[] => {
+    return [
+        {
+            name: 'name',
+            type: 'string',
+            displayName: {
+                type: 'string',
+                content: 'Nom du dashboard',
+            },
+            required: true,
+        },
+        {
+            name: 'layout',
+            type: 'string',
+            displayName: 'Composante de layout',
+            component: {
+              name: 'select',
+              transformValue: (e) => e.id,
+              options: {
+                displayContent: (e) => e.name,
+                value: of([
+                  { name: 'Layout de project', id: 'project'},
+                  { name: 'Layout complet', id: 'full'},
+                ]),
+              }
+            } as SelectComponent,
+
+        },
+    ];
+};
 
 @Component({
     selector: 'app-growbe-dashboard-form',
@@ -23,28 +53,13 @@ export class GrowbeDashboardFormComponent {
             linear: true,
             labelPosition: 'start',
         },
-        items: [
-            {
-                type: 'object',
-                name: 'dashboard',
-                properties: [
-                    {
-                        name: 'name',
-                        type: 'string',
-                        displayName: {
-                            type: 'string',
-                            content: 'Nom du dashboard',
-                        },
-                        required: true,
-                    },
-                ],
-            } as FormObject,
-        ],
+        items: getDashboardFormProperties(),
         event: {
             submit: (data) =>
                 this.dashboardAPI
                     .post({
-                        name: data.dashboard.name,
+                        name: data.name,
+                        layout: data.layout,
                         userId: this.authService.profile.id,
                     })
                     .pipe(
@@ -57,9 +72,7 @@ export class GrowbeDashboardFormComponent {
     };
 
     constructor(
-        private activatedRoute: ActivatedRoute,
         private dashboardAPI: GrowbeDashboardAPI,
-        private bAPI: GrowbeMainboardAPI,
         private router: Router,
         private authService: AuthService,
     ) {}
