@@ -7,3 +7,4 @@ export * from './growbe-logs.service';
 export * from './growbe-module-def.service';
 export * from './growbe-response.service';
 export * from './growbe-alarm.service';
+export * from './user-preference.service';

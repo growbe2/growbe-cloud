@@ -8,3 +8,4 @@ export * from './growbe-dashboard-item.model';
 export * from './growbe-module.model';
 export * from './growbe-module-def.model';
 export * from './growbe-logs.model';
+export * from './user-preference.model';
