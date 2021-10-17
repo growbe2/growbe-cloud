@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { AuthService } from '@berlingoqc/auth';
-import { AutoFormData, FormProperty } from '@berlingoqc/ngx-autoform';
+import { AutoFormData, FormObject, SelectComponent } from '@berlingoqc/ngx-autoform';
 import { unsubscriber } from '@berlingoqc/ngx-common';
 import { CRUDDataSource } from '@berlingoqc/ngx-loopback';
 import { GrowbeMainboard } from '@growbe2/ngx-cloud-api';
@@ -29,7 +28,7 @@ export class GrowbeManagerDashboardComponent implements OnInit {
                 type: 'object',
                 name: 'object',
                 properties: [],
-            },
+            } as FormObject,
         ],
         actionsButtons: {},
         event: {
@@ -56,7 +55,7 @@ export class GrowbeManagerDashboardComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.autoFormData.items[0].properties[0] = {
+        (this.autoFormData.items[0] as FormObject).properties[0] = {
             name: 'value',
             type: 'string',
             displayName: '',
@@ -66,7 +65,6 @@ export class GrowbeManagerDashboardComponent implements OnInit {
                 options: {
                     displayTitle: '',
                     displayContent: (e) => e.name,
-                    options: {
                         value: () => {
                             const items = [{ name: 'My growbe', mode: 'user' }];
                             if (this.authService.isAdmin) {
@@ -82,10 +80,9 @@ export class GrowbeManagerDashboardComponent implements OnInit {
                             }
                             return of(items);
                         },
-                    },
                 },
                 compareWith: (obj1, obj2) => obj1.mode === obj2?.mode,
-            } as any,
+            } as SelectComponent,
         };
         this.source = this.getSource({mode: 'user'});
     }

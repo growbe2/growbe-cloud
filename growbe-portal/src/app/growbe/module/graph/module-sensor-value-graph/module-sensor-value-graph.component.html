@@ -1,5 +1,7 @@
+<div #containerRef class="chart-container">
 <ng-container *ngIf="data && chart">
     <ngx-charts-line-chart
+        [view]="[containerRef.offsetWidth, containerRef.offsetHeight]"
         *ngIf="data.graphType == 'line'"
         [animations]="chart.animations"
         [rangeFillOpacity]="chart.rangeFillOpacity"
@@ -54,3 +56,5 @@
     >
     </ngx-charts-bar-vertical-2d>
 </ng-container>
+
+</div>

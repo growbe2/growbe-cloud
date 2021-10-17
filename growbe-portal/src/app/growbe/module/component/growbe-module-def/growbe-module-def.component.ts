@@ -3,7 +3,8 @@ import { TableColumn } from '@berlingoqc/ngx-autotable';
 import { StaticDataSource } from '@berlingoqc/ngx-loopback';
 import { GrowbeModuleDefWithRelations } from '@growbe2/ngx-cloud-api';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
+import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
 
@@ -13,7 +14,9 @@ import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
     styleUrls: ['./growbe-module-def.component.scss'],
 })
 export class GrowbeModuleDefComponent implements OnInit {
-    @Input() moduleDefId: string;
+    @Input() mainboardId: string;
+    @Input() moduleId: string;
+
 
     columns: TableColumn[] = [
         {
@@ -36,14 +39,17 @@ export class GrowbeModuleDefComponent implements OnInit {
     moduleDef: any;//GrowbeModuleDefWithRelations;
     source;
 
-    constructor(private moduleAPI: GrowbeModuleAPI) {}
+    constructor(
+      private moduleAPI: GrowbeModuleAPI
+    ) {}
 
     async ngOnInit(): Promise<void> {
-        if (!this.moduleDefId) {
+        if (!this.moduleId) {
             return;
         }
-        this.moduleDef = await this.moduleAPI
-            .moduleDef(this.moduleDefId)
+        this.moduleDef = await
+            this.moduleAPI
+            .moduleDef(this.moduleId)
             .get()
             .pipe(take(1))
             .toPromise();

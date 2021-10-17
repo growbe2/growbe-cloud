@@ -9,7 +9,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { GrowbeMainboardAPI } from '../../api/growbe-mainboard';
 import { AutoTableComponent, TableColumn } from '@berlingoqc/ngx-autotable';
-import { AutoFormData, AutoFormDialogService, InputProperty } from '@berlingoqc/ngx-autoform';
+import { AutoFormData, AutoFormDialogService, FormObject, InputProperty } from '@berlingoqc/ngx-autoform';
 import { notify } from '@berlingoqc/ngx-notification';
 import { Observable, of, Subscription } from 'rxjs';
 import { Filter, Include, Where } from '@berlingoqc/ngx-loopback';
@@ -22,7 +22,7 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
 import { MatDialog } from '@angular/material/dialog';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
-//import { DictionnayProperty } from '@berlingoqc/ngx-autoform';
+import { DictionnayProperty } from '@berlingoqc/ngx-autoform';
 @Component({
     selector: 'app-growbe-manager-detail',
     templateUrl: './growbe-manager-detail.component.html',
@@ -40,10 +40,6 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
     detailMainboardForm: AutoFormData = {
         type: 'simple',
         items: [
-            {
-                type: 'object',
-                name: 'mainboard',
-                properties: [
                     {
                         name: 'id',
                         type: 'string',
@@ -55,14 +51,12 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
                         type: 'string',
                         displayName: 'Version du mainboard',
                         disabled: true,
-                        hint: 'Version du mainboard',
                     } as InputProperty,
                     {
                         name: 'cloudVersion',
                         type: 'string',
                         displayName: 'Version protobuf',
                         disabled: true,
-                        hint: 'Version du cloud dans le mainboard',
                     } as InputProperty,
                     {
                         name: 'name',
@@ -70,29 +64,12 @@ export class GrowbeManagerDetailComponent implements OnInit, AfterViewInit {
                         displayName: 'Nom',
                         required: false,
                     },
-                    /*{
-                        name: 'dictext',
-                        type: 'dic',
-                        displayName: 'Dictext',
-                        availableProperty: [
-                          {
-                            type: 'string',
-                            name: 'grid-size',
-                          }
-                        ]
-                    } as DictionnayProperty*/
-                ],
-            },
         ],
         event: {
             initialData: () =>
-                this.mainboardAPI.getById(this.id).pipe(
-                    map((mainboard) => ({
-                        mainboard,
-                    })),
-                ),
+                this.mainboardAPI.getById(this.id),
             submit: (d) =>
-                this.mainboardAPI.updateById(this.id, d.mainboard).pipe(
+                this.mainboardAPI.updateById(this.id, d).pipe(
                     notify({
                         title: 'Mainboard modifié',
                         body: () => `${this.id}`,

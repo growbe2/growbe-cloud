@@ -21,7 +21,6 @@ import {
   DashboardLastValueElement,
   GraphDataConfig,
   GrowbeMainboard,
-  ModuleDataRequest,
 } from '../../models';
 import {
   GrowbeRegisterRequest,
@@ -29,7 +28,6 @@ import {
   GrowbeService,
 } from '../../services';
 import {
-  GraphModuleRequest,
   ModuleValueGraphService,
 } from '../../services/module-value-graph.service';
 import {schemaJsonOf} from '../../utility/oa3model';

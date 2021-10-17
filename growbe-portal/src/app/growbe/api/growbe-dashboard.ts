@@ -8,7 +8,7 @@ import {
     Resolving,
 } from '@berlingoqc/ngx-loopback';
 import { GrowbeDashboardWithRelations } from '@growbe2/ngx-cloud-api';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {
     Dashboard,
@@ -18,6 +18,7 @@ import {
     DashboardService,
     PanelDashboardRef,
     PanelItemRef,
+    Style,
 } from '@growbe2/growbe-dashboard';
 
 @Injectable({ providedIn: 'root' })
@@ -29,6 +30,15 @@ export class GrowbeDashboardAPI
     constructor(httpClient: HttpClient, private authService: AuthService) {
         super(httpClient, '/dashboards');
         this.baseURL = envConfig.growbeCloud;
+    }
+
+    updateItemFromPanel(panel: PanelDashboardRef, item: DashboardItem & Style, index?: number): Observable<Dashboard> {
+      return this.modifyDashboard(panel, (d) => {
+        const panelIndex = this.getPanelIndex(d, panel);
+        const itemIndex = this.getItemPanelIndex(d.panels[panelIndex], {itemId: item.id, ...panel});
+        d.panels[panelIndex].items[itemIndex] = item;
+        return d;
+      });
     }
 
     addPanelToDasboard(
@@ -99,7 +109,7 @@ export class GrowbeDashboardAPI
         panel: DashboardPanel,
         item: PanelItemRef,
     ): number {
-        return panel.items.findIndex((x) => x.name === item.itemName);
+        return panel.items.findIndex((x) => x.id === item.itemId);
     }
 
     private modifyDashboard(

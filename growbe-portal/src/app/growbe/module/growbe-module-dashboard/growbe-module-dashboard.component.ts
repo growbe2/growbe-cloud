@@ -192,7 +192,8 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                 }`,
                             component: 'growbe-module-def',
                             inputs: {
-                                moduleDefId: this.module.id,
+                                moduleId: this.module.id,
+                                mainboardId: this.module.mainboardId,
                             },
                             edit: growbeModuleDefForm(moduleDef, (data) => {
                                     return this.moduleAPI.moduleDef(this.module.id).updateById(
@@ -210,6 +211,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                             component: 'growbe-module-config',
                             inputs: {
                                 moduleId: this.module.id,
+                                mainboardId: this.module.mainboardId
                             },
                             style: {
                                 'grid-column-start': '4',
@@ -218,12 +220,10 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                         },
                         {
                             name: 'Module info',
-                            component:
-                                this.module.id.substring(0, 3) +
-                                '-module',
+                            component: 'svg-module',
                             inputs: {
-                                module: this.module,
-                                moduleDef: moduleDef,
+                                moduleId: this.module.id,
+                                mainboardId: this.module.mainboardId,
                             },
                             style: {
                                 'grid-column-start': '1',
@@ -251,18 +251,8 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                             name: 'Module Alarm',
                             component: 'growbe-alarm',
                             inputs: {
-                                columns: hardwareAlarmColumns,
-                                source: new StaticDataSource(alarms),
-                                formData: getHardwareAlarmForm(
-                                    Object.assign(this.module, { moduleDef }),
-                                    alarms.map((a) => a.property),
-                                    this.moduleDefAPI,
-                                ),
-                                removeElement: (element) =>
-                                    this.moduleDefAPI.removeAlarm(
-                                        this.module.mainboardId,
-                                        element,
-                                    ),
+                                mainboardId: this.module.mainboardId,
+                                moduleId: this.module.id,
                             },
                             style: {
                                 'grid-column-start': '1',
@@ -275,22 +265,20 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                 : moduleDef.properties[prop.name].name,
                             component: 'growbe-module-last-value',
                             inputs: {
-                                data: {
-                                    graphDataConfig: {
-                                        fields: [prop.name],
-                                        liveUpdate: true,
-                                        growbeId: this.module.mainboardId,
-                                        moduleId: this.module.id,
-                                    },
+                                graphDataConfig: {
+                                  fields: [prop.name],
+                                  liveUpdate: true,
+                                  growbeId: this.module.mainboardId,
+                                  moduleId: this.module.id,
                                 },
-                                moduleType: this.module.id.slice(0, 3),
                             },
                         })),
                         {
                             name: 'Data historic',
                             component: 'growbe-module-data-table',
                             inputs: {
-                                module: this.module,
+                                mainboardId: this.module.mainboardId,
+                                moduleId: this.module.id,
                             },
                             style: {
                                 'grid-column-start': '1',

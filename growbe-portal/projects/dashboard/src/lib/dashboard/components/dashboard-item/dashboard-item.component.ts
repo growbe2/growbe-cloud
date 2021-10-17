@@ -18,17 +18,18 @@ import {
     ViewContainerRef,
     ViewEncapsulation,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { fuseAnimations } from '@berlingoqc/fuse';
-import { AutoFormComponent, AutoFormData } from '@berlingoqc/ngx-autoform';
+import { AutoFormComponent, AutoFormData, AutoFormDialogService } from '@berlingoqc/ngx-autoform';
 import { notify } from '@berlingoqc/ngx-notification';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { getCopyDashboardForm } from '../../dashboard.form';
-import { DashboardItem, Style } from '../../dashboard.model';
+import { getCopyDashboardForm, modifyDialog } from '../../dashboard.form';
+import { DashboardItem, DashboardPanel, DASHBOARD_ITEM_REF, Style } from '../../dashboard.model';
 import { DashboardService, PanelDashboardRef } from '../../dashboard.service';
 import { DashboardRegistryService } from '../../registry/dashboard-registry.service';
 import { DashboardRegistryItem } from '../../registry/dashboard.registry';
 import { DashboardItemDirective } from '../dashboard-item.directive';
+
 
 /**
  * Add on element to display a dialog to copy to another dashboard
@@ -57,6 +58,20 @@ export class DashboardItemRegistryCopyDirective {
                     });
             },
         );
+      this.item.exposition.this.formGroup.controls.item.controls.panel.valueChanges.subscribe((panel) => {
+        if (panel) {
+          this.item.exposition.this.formGroup.controls.item.controls.name.enable();
+          (this.item.exposition.this.formGroup.controls.item.controls.name as FormControl)
+            .setValidators((validator: FormControl) => {
+              const value = validator.value;
+              const index = panel.items.findIndex((item) => item.name === value);
+              if(index > -1) {
+                return { alreadyExists: true };
+              }
+              return null;
+            })
+        }
+      });
     }
 }
 
@@ -75,6 +90,7 @@ export class ItemContentDirective implements OnInit {
         private registry: DashboardRegistryService,
         private viewRef: ViewContainerRef,
         private componentFactoryResolver: ComponentFactoryResolver,
+        private injector: Injector,
     ) {}
 
     ngOnInit() {
@@ -86,7 +102,16 @@ export class ItemContentDirective implements OnInit {
             this.registryItem.componentType,
         );
 
-        this.componentRef = this.viewRef.createComponent(factory);
+        const injector = Injector.create({
+          providers: [
+            {
+              provide: DASHBOARD_ITEM_REF,
+              useValue: this.dashboardItem
+            }
+          ],
+          parent: this.injector
+        });
+        this.componentRef = this.viewRef.createComponent(factory, undefined, injector);
 
         if (this.dashboardItem.inputs) {
             for (const [name, data] of Object.entries(
@@ -131,24 +156,48 @@ export class DashboardItemComponent
     dashboardItem: DashboardItem & Style;
 
     @Input()
+    index: number;
+
+    @Input()
     panelRef?: PanelDashboardRef;
+
+    @Input()
+    panel?: DashboardPanel;
 
     formData: AutoFormData;
     subjectPanel = new BehaviorSubject([]);
 
     menu: { [id: string]: boolean } = {};
 
-    constructor(private dashboardService: DashboardService) {
+    constructor(
+      private dashboardService: DashboardService,
+      private dashboardRegistry: DashboardRegistryService,
+      private autoformDialogService: AutoFormDialogService,
+    ) {
         super();
     }
 
     ngOnInit(): void {
         if (!this.dashboardItem) return;
+        if (!this.dashboardItem.extraMenus) {
+          this.dashboardItem.extraMenus = {};
+        }
+        if (this.dashboardItem.dashboardEdit) {
+          this.dashboardItem.extraMenus['dashboardEdit'] = {
+            name: 'Dashboard edit',
+            callback: (item: DashboardItem) => {
+              this.autoformDialogService.open(
+                modifyDialog(
+                  this.panelRef, this.dashboardItem, this.dashboardService, this.dashboardRegistry,
+                ));
+            }
+          }
+        }
         this.classes = this.dashboardItem.class;
         this.formData = getCopyDashboardForm(
             this.dashboardService,
             this.subjectPanel,
-            this.dashboardItem,
+            {...this.dashboardItem},
         );
         this.formData.type = 'dialog';
         if (!this.static) {
@@ -171,11 +220,10 @@ export class DashboardItemComponent
     }
 
     delete() {
-        console.log('ITEM', this.panelRef);
         this.dashboardService
             .removeItemFromPanel({
                 ...this.panelRef,
-                itemName: this.dashboardItem.name,
+                itemId: this.dashboardItem.id,
             })
             .pipe(notify({ title: 'Item is deleted' }))
             .subscribe(() => {});

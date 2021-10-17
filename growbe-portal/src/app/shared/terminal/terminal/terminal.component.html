@@ -1,10 +1,16 @@
 <div>
-    <autoform-form *ngIf="!disableSearch" [formData]="searchBarForm"></autoform-form>
+    <div class="frow align-center" [style.display]="(item) ? 'flex' : 'none'">
+      <autoform-form *ngIf="!disableSearch" [formData]="searchBarForm"></autoform-form>
+      <span class="spacer"></span>
+      <button mat-icon-button addToDashboard [dashboardItem]="item">
+        <mat-icon>content_copy</mat-icon>
+      </button>
+    </div>
     <div style="padding: 10px">
-      <cdk-virtual-scroll-viewport class="container" itemSize="15">
-        <li *cdkVirtualFor="let p of logs | async; let i = index" class="animated lightSpeedIn">
+      <div appPreventParentScroll  class="container">
+        <li *ngFor="let p of logs | async; let i = index" class="animated lightSpeedIn">
             {{ p }}
         </li>
-      </cdk-virtual-scroll-viewport>
+      </div>
     </div>
 </div>

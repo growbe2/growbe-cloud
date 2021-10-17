@@ -15,14 +15,12 @@ import { getConfigForm } from '../../form';
 })
 export class GrowbeModuleConfigComponent implements OnInit {
     @Input() moduleId: string;
-    @Input() moduleName: string;
 
     configForm$: Observable<AutoFormData>;
 
     constructor(
         private growbeModuleAPI: GrowbeModuleAPI,
         private growbeActionAPI: GrowbeActionAPI,
-        private growbeModuleDefAPI: GrowbeModuleDefAPI,
     ) {}
 
     ngOnInit(): void {

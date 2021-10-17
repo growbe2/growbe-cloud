@@ -20,7 +20,7 @@ import { Subscription } from 'rxjs';
     encapsulation: ViewEncapsulation.None,
 })
 export class GrowbeStateComponent implements OnInit, OnDestroy {
-    @Input() data: GrowbeMainboard;
+    @Input() mainboardId: GrowbeMainboard['id'];
 
     growbe: any;
 
@@ -36,15 +36,15 @@ export class GrowbeStateComponent implements OnInit, OnDestroy {
     ) {}
 
     async ngOnInit() {
-        if (!this.data) {
+        if (!this.mainboardId) {
             return;
         }
         this.growbe = await this.mainboardAPI
-            .getById(this.data.id)
+            .getById(this.mainboardId)
             .pipe(take(1))
             .toPromise();
         this.sub = (
-            await this.topic.getGrowbeEvent(this.data.id, '/heartbeath', (d) =>
+            await this.topic.getGrowbeEvent(this.mainboardId, '/heartbeath', (d) =>
                 pb.HearthBeath.decode(d),
             )
         ).subscribe((beath) => {

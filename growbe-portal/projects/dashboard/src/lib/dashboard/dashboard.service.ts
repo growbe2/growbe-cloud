@@ -1,5 +1,5 @@
 import { Observable, Subject } from 'rxjs';
-import { Dashboard, DashboardItem, DashboardPanel } from './dashboard.model';
+import { Dashboard, DashboardItem, DashboardPanel, Style } from './dashboard.model';
 
 export interface DashboardRef {
     dashboardId: string;
@@ -10,7 +10,7 @@ export interface PanelDashboardRef extends DashboardRef {
 }
 
 export interface PanelItemRef extends PanelDashboardRef {
-    itemName: string;
+    itemId: number;
 }
 
 export abstract class DashboardService {
@@ -28,6 +28,9 @@ export abstract class DashboardService {
         panel: PanelDashboardRef,
         item: DashboardItem,
     ): Observable<Dashboard>;
+
+
+    abstract updateItemFromPanel(panel: PanelDashboardRef,item: DashboardItem & Style, index?: number): Observable<Dashboard>;
 
     abstract removeItemFromPanel(item: PanelItemRef): Observable<Dashboard>;
     abstract removePanelFromDashboard(

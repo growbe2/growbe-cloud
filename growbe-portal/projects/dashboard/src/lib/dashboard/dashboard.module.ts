@@ -16,22 +16,22 @@ import {
     LayoutDirectiveModule,
     ProjectDashboardModule,
 } from '@berlingoqc/fuse-extra';
-import { FuseSharedModule, FuseWidgetModule } from '@berlingoqc/fuse';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import {
     DashboardRegistryService,
-    DASHBOARDS_ITEM_DEFAULT,
 } from './registry/dashboard-registry.service';
 import { DashboardProjectComponent } from './components/dashboard-project/dashboard-project.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { MatMenuModule } from '@angular/material/menu';
-import { DashboardRegistryItem } from './registry/dashboard.registry';
 import { DashboardService } from './dashboard.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsExtraModule } from '@berlingoqc/ngx-common';
+import { AddToDashboardDirective } from './add-dashboard.directive';
+import { DashboardFullComponent } from './components/dashboard-full/dashboard-full.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
     declarations: [
@@ -40,6 +40,9 @@ import { MatTabsExtraModule } from '@berlingoqc/ngx-common';
         DashboardProjectComponent,
         ItemContentDirective,
         DashboardItemRegistryCopyDirective,
+        AddToDashboardDirective,
+        DashboardFullComponent,
+        DashboardComponent,
     ],
     imports: [
         CommonModule,
@@ -58,8 +61,9 @@ import { MatTabsExtraModule } from '@berlingoqc/ngx-common';
     ],
     exports: [
         DashboardPanelComponent,
-        DashboardProjectComponent,
+        DashboardComponent,
         DashboardItemComponent,
+        AddToDashboardDirective,
     ],
 })
 export class DashboardModule {

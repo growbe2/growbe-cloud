@@ -1,4 +1,4 @@
-<ng-container *ngIf="projectDashboard">
+<ng-container *ngIf="dashboard">
     <project-dashboard>
         <fuseLayoutHeader>
             <div fxLayout="row" fxLayoutAlign="space-between start">
@@ -6,30 +6,30 @@
                     class="mat-display-1 my-0 my-sm-24 welcome-message"
                     [@animate]="{ value: '*', params: { x: '50px' } }"
                 >
-                    {{ projectDashboard.name }}
+                    {{ dashboard.name }}
                 </span>
 
-                <!--<button
-                    *ngIf="projectDashboard.sidePanel"
+                <button
+                    *ngIf="dashboard.sidePanel"
                     mat-icon-button
                     class="sidebar-toggle mr-8"
                     fxHide.gt-md
                     (click)="toggleSidebar('project-dashboard-right-sidebar-1')"
                 >
                     <mat-icon>menu</mat-icon>
-                </button>-->
+                </button>
             </div>
         </fuseLayoutHeader>
 
         <fuseLayoutContent>
             <mat-tab-group dynamicHeight matTabsRouting fxFlex="100">
                 <mat-tab
-                    *ngFor="let panel of projectDashboard.panels"
+                    *ngFor="let panel of dashboard.panels"
                     [label]="panel.name"
                 >
                     <ng-template matTabContent>
                         <app-dashboard-panel
-                            [dashboard]="{ dashboardId: projectDashboard.id }"
+                            [dashboard]="{ dashboardId: dashboard.id }"
                             [panel]="panel"
                         ></app-dashboard-panel>
                     </ng-template>
@@ -41,9 +41,9 @@
             </mat-tab-group>
         </fuseLayoutContent>
 
-        <fuseLayoutSidebar *ngIf="projectDashboard.sidePanel">
+        <fuseLayoutSidebar *ngIf="dashboard.sidePanel">
             <app-dashboard-panel
-                [panel]="projectDashboard.sidePanel"
+                [panel]="dashboard.sidePanel"
             ></app-dashboard-panel>
         </fuseLayoutSidebar>
     </project-dashboard>

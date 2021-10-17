@@ -1,4 +1,5 @@
-:host {
-    display: block;
-    min-height: 400px;
+.chart-container {
+  display: flex;
+  min-height: 350px;
+  min-width: 300px;
 }

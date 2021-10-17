@@ -60,8 +60,9 @@ import {
     DashboardModule,
     DashboardRegistryService,
 } from '@growbe2/growbe-dashboard';
-import { DASHBOARD_ITEMS } from './growbe/growbe-dashboard/items';
 import { TranslateModule } from '@ngx-translate/core';
+import { HelpersModule } from './helpers/helpers.module';
+
 @Injectable({
     providedIn: 'root',
 })
@@ -94,6 +95,8 @@ export class NavigationWrapper {
         NotificationModule.forRoot({} as any),
 
         DynamicModuleModule,
+
+        HelpersModule,
 
         EmailModule,
         AccountModule,
@@ -175,7 +178,6 @@ export class AppModule {
         moduleService: DynamicModuleService,
         service: DashboardRegistryService,
     ) {
-        DASHBOARD_ITEMS.forEach((t) => service.addItem(t));
         /*moduleService.loadModuleSystemJS(
             {
                 path: '/assets/umd.js',
