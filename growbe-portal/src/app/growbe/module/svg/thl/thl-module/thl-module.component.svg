@@ -1,4 +1,4 @@
-<svg style="height: 350px; width: 100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg style="height: 100%; width: 100%"  viewBox="0 0 450 300" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
   <g soil-probe="" position="left" name="Temp." bind-value="data?.airTemperature | number" transform="translate(250, 133) scale(2)"/>
   <g soil-probe="" position="left" name="Hum." bind-value="data?.humidity | number" transform="translate(250, 212) scale(2)"/>

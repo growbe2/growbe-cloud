@@ -1,4 +1,4 @@
-<svg style="height: 500px; width: 500px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg style="height: 100%; width: 100%;" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <g style="" transform="matrix(1.00212, 0, 0, 0.809187, -0.254417, 20.035336)">
     <rect width="250" height="450" transform="translate(120, 105)" style="fill: rgb(199, 193, 193);"/>
   </g>
