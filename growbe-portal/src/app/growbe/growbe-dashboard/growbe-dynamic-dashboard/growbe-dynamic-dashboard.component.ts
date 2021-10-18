@@ -2,6 +2,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations, FuseSidebarService } from '@berlingoqc/fuse';
 import { GrowbeDashboard } from 'growbe-cloud-api/lib';
+import { GrowbeDashboardRegistry } from '../items';
+
 
 @Component({
     selector: 'app-growbe-dynamic-dashboard',
@@ -15,16 +17,12 @@ export class GrowbeDynamicDashboardComponent implements OnInit {
 
     constructor(
         private fuseSidebarService: FuseSidebarService,
+        private dashboardRegistry: GrowbeDashboardRegistry,
         private activatedRoute: ActivatedRoute,
     ) {}
 
     ngOnInit(): void {
-        this.data = this.activatedRoute.snapshot.data.dashboard;
-        this.data.panels.forEach((panel) => {
-          panel.items.forEach((item) => {
-            item.dashboardEdit = true;
-          })
-        });
+        this.data = this.dashboardRegistry.modifyDashboardForDisplay(this.activatedRoute.snapshot.data.dashboard);
     }
 
     toggleSidebar(name): void {

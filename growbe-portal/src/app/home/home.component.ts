@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@berlingoqc/auth';
-import { envConfig } from '@berlingoqc/ngx-common';
-import { Dashboard, DashboardService } from '@growbe2/growbe-dashboard';
+import { Dashboard } from '@growbe2/growbe-dashboard';
 import { Observable } from 'rxjs';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { GrowbeDashboardAPI } from '../growbe/api/growbe-dashboard';
-import { GrowbeMainboardAPI } from '../growbe/api/growbe-mainboard';
-import { GrowbeModuleAPI } from '../growbe/api/growbe-module';
+import { GrowbeDashboardRegistry } from '../growbe/growbe-dashboard/items';
 import { UserPreferenceService } from '../service/user-preference.service';
 
 @Component({
@@ -23,13 +21,15 @@ export class HomeComponent implements OnInit {
     constructor(
       public authService: AuthService,
       private userPrefService: UserPreferenceService,
+      private dashboardRegistry: GrowbeDashboardRegistry,
       private dashboardService: GrowbeDashboardAPI,
     ) {}
 
     ngOnInit(): void {
       this.dashboard$ = this.userPrefService.preference$.asObservable().pipe(
         filter((x) => x !== null),
-        switchMap((pref) => this.dashboardService.getDashboard(pref.homeDashboard))
-      )
+        switchMap((pref) => this.dashboardService.getDashboard(pref.homeDashboard)),
+        map((dashboard) => this.dashboardRegistry.modifyDashboardForDisplay(dashboard))
+      );
     }
 }
