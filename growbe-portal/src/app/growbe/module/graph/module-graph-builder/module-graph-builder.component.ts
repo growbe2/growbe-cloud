@@ -40,7 +40,15 @@ export class ModuleGraphBuilderComponent implements OnInit {
                   ...this.value,
               }
             : null;
-        const properties =  this.growbeGraphService.getGraphTimeFrameSelectForm(of(this.module.id));
+        const properties =  this.growbeGraphService.getGraphTimeFrameSelectForm(of(this.module.id), undefined, undefined, [
+          {
+            name: 'oneChart',
+            type: 'bool',
+            component: {
+              name: 'checkbox'
+            }
+          },
+        ]);
         this.autoFormData = {
                         type: 'simple',
                         items: properties,

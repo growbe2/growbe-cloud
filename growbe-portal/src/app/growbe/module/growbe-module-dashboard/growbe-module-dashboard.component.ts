@@ -6,8 +6,8 @@ import {
     GrowbeModuleWithRelations,
 } from '@growbe2/ngx-cloud-api';
 import { Observable, of, Subscription } from 'rxjs';
-import { map, } from 'rxjs/operators';
-import { DashboardPanel} from '@growbe2/growbe-dashboard';
+import { map } from 'rxjs/operators';
+import { DashboardPanel } from '@growbe2/growbe-dashboard';
 import {
     getModuleDefPropName,
     GrowbeModuleDefAPI,
@@ -15,7 +15,11 @@ import {
 import { growbeModuleDefForm } from '../component/growbe-module-def/growbe-module-def.form';
 import { GrowbeModuleAPI } from '../../api/growbe-module';
 
-function getReferenceLineForAlarmZone(name: string, zone: any, referenceLines: any[]) {
+function getReferenceLineForAlarmZone(
+    name: string,
+    zone: any,
+    referenceLines: any[],
+) {
     if (zone.value) {
         if (zone.offset) {
             referenceLines.push({
@@ -52,6 +56,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
         from: undefined,
         to: undefined,
         grouping: undefined,
+        oneChart: false,
         fields: [],
     };
 
@@ -63,214 +68,285 @@ export class GrowbeModuleDashboardComponent implements OnInit {
     ngOnInit(): void {
         if (this.activatedRoute.snapshot.data.module) {
             this.module = this.activatedRoute.snapshot.data.module;
-            this.panel$ = this.getRawPanel()  as any as Observable<DashboardPanel>;
+            this.panel$ = (this.getRawPanel() as any) as Observable<DashboardPanel>;
         }
     }
 
     setRawPanel() {
-        this.panel$ = this.getRawPanel() as any as Observable<DashboardPanel>;
+        this.panel$ = (this.getRawPanel() as any) as Observable<DashboardPanel>;
     }
 
     setGraphPanel() {
-        this.panel$ = this.getGraphPanel()  as any as Observable<DashboardPanel>;
+        this.panel$ = (this.getGraphPanel() as any) as Observable<DashboardPanel>;
     }
 
     private getGraphPanel() {
-        return this.moduleAPI.moduleDef(this.module.id).get().pipe(
-            map((moduleDef: any) => ({
-                name: '',
-                class: ['grid'],
-                style: {
-                    'grid-template-columns': '1fr 1fr 1fr 1fr 1fr',
-                },
-                items: [
-                    {
-                        name: `Graph Builder`,
-                        component: 'graph-builder',
+        return this.moduleAPI
+            .moduleDef(this.module.id)
+            .get()
+            .pipe(
+                map((moduleDef: any) => {
+                    return {
+                        name: '',
+                        class: ['grid'],
                         style: {
-                            'grid-column-start': '1',
-                            'grid-column-end': '6',
+                            'grid-template-columns': '1fr 1fr 1fr 1fr 1fr',
                         },
-                        inputs: {
-                            module: this.module,
-                            mode: this.interval.from ? 'absolute' : 'relative',
-                            interval: this.interval,
-                        },
-                        outputs: {
-                            onRequest: (ts: Observable<any>) => {
-                                this.subChartSelect = ts.subscribe((data) => {
-                                    this.interval = data;
-                                    this.setGraphPanel();
-                                });
+                        items: [
+                            {
+                                name: `Graph Builder`,
+                                component: 'graph-builder',
+                                style: {
+                                    'grid-column-start': '1',
+                                    'grid-column-end': '6',
+                                },
+                                inputs: {
+                                    module: this.module,
+                                    mode: this.interval.from
+                                        ? 'absolute'
+                                        : 'relative',
+                                    interval: this.interval,
+                                },
+                                outputs: {
+                                    onRequest: (ts: Observable<any>) => {
+                                        this.subChartSelect = ts.subscribe(
+                                            (data) => {
+                                                this.interval = data;
+                                                this.setGraphPanel();
+                                            },
+                                        );
+                                    },
+                                },
+                                copy: false,
                             },
-                        },
-                        copy: false,
+                            ...this.getGraphItems(module, moduleDef),
+                        ],
+                    };
+                }),
+            );
+    }
+
+    private getGraphItems(module, moduleDef): any[] {
+        if (this.interval.oneChart) {
+            return [
+                {
+                    name: this.module.id,
+                    component: 'growbe-module-sensor-value-graph',
+                    inputs: {
+                        data: {
+                            name: '',
+                            type: 'graph',
+                            graphType: 'line',
+                            graphConfig: {
+                                showLabels: true,
+                                showXAxisLabel: true,
+                                showYAxisLabel: true,
+                                xAxis: true,
+                                trimXAxisTicks: true,
+                                yAxis: true,
+                                dateTickFormatting: (val: any) => {
+                                    const date = new Date(val);
+                                    return date.toLocaleString();
+                                },
+                                //yScaleMin: prop.operationalRange.min,
+                                //yScaleMax: prop.operationalRange.max,
+                            },
+                            graphDataConfig: {
+                                fields: this.interval.fields,
+                                growbeId: this.module.mainboardId,
+                                moduleId: this.module.id,
+                                from: this.interval.from,
+                                to: this.interval.to,
+                                liveUpdate: this.interval.liveUpdate,
+                                lastX: this.interval.lastX,
+                                lastXUnit: this.interval.lastXUnit,
+                                grouping: this.interval.grouping,
+                            },
+                        } as DashboardGraphElement,
                     },
-                    ...Object.values(this.interval.fields).map((field) => {
-                        const prop = moduleDef.properties[field];
-                        const referenceLines = [];
-                        if (prop.alarm) {
-                          getReferenceLineForAlarmZone('Low', prop.alarm.low, referenceLines);
-                          getReferenceLineForAlarmZone('High', prop.alarm.high, referenceLines);
-                        }
-                        return {
-                            name: getModuleDefPropName(moduleDef, prop),
-                            component: 'growbe-module-sensor-value-graph',
-                            inputs: {
-                                data: {
-                                    name: '',
-                                    type: 'graph',
-                                    graphType: 'line',
-                                    graphConfig: {
-                                        showLabels: true,
-                                        showXAxisLabel: true,
-                                        showYAxisLabel: true,
-                                        xAxis: true,
-                                        trimXAxisTicks: true,
-                                        yAxis: true,
-                                        dateTickFormatting: (val: any) => {
-                                            const date = new Date(val);
-                                            return date.toLocaleString();
-                                        },
-                                        referenceLines,
-                                        yScaleMin: prop.operationalRange.min,
-                                        yScaleMax: prop.operationalRange.max,
-                                    },
-                                    graphDataConfig: {
-                                        fields: [prop.name],
-                                        growbeId: this.module.mainboardId,
-                                        moduleId: this.module.id,
-                                        from: this.interval.from,
-                                        to: this.interval.to,
-                                        liveUpdate: this.interval.liveUpdate,
-                                        lastX: this.interval.lastX,
-                                        lastXUnit: this.interval.lastXUnit,
-                                        grouping: this.interval.grouping,
-                                    },
-                                } as DashboardGraphElement,
+                    style: {
+                        'grid-column-start': '1',
+                        'grid-column-end': '4',
+                    },
+                },
+            ];
+        } else {
+            return Object.values(this.interval.fields).map((field) => {
+                const prop = moduleDef.properties[field];
+                const referenceLines = [];
+                if (prop.alarm) {
+                    getReferenceLineForAlarmZone(
+                        'Low',
+                        prop.alarm.low,
+                        referenceLines,
+                    );
+                    getReferenceLineForAlarmZone(
+                        'High',
+                        prop.alarm.high,
+                        referenceLines,
+                    );
+                }
+                return {
+                    name: getModuleDefPropName(moduleDef, prop),
+                    component: 'growbe-module-sensor-value-graph',
+                    inputs: {
+                        data: {
+                            name: '',
+                            type: 'graph',
+                            graphType: 'line',
+                            graphConfig: {
+                                showLabels: true,
+                                showXAxisLabel: true,
+                                showYAxisLabel: true,
+                                xAxis: true,
+                                trimXAxisTicks: true,
+                                yAxis: true,
+                                dateTickFormatting: (val: any) => {
+                                    const date = new Date(val);
+                                    return date.toLocaleString();
+                                },
+                                referenceLines,
+                                yScaleMin: prop.operationalRange.min,
+                                yScaleMax: prop.operationalRange.max,
                             },
-                            style: {
-                                'grid-column-start': '1',
-                                'grid-column-end': '4',
+                            graphDataConfig: {
+                                fields: [prop.name],
+                                growbeId: this.module.mainboardId,
+                                moduleId: this.module.id,
+                                from: this.interval.from,
+                                to: this.interval.to,
+                                liveUpdate: this.interval.liveUpdate,
+                                lastX: this.interval.lastX,
+                                lastXUnit: this.interval.lastXUnit,
+                                grouping: this.interval.grouping,
                             },
-                        };
-                    }),
-                ],
-            })),
-        );
+                        } as DashboardGraphElement,
+                    },
+                    style: {
+                        'grid-column-start': '1',
+                        'grid-column-end': '4',
+                    },
+                };
+            });
+        }
     }
 
     private getRawPanel() {
         if (this.subChartSelect) {
             this.subChartSelect.unsubscribe();
         }
-        return this.moduleAPI.moduleDef(this.module.id).get().pipe(
-            map((moduleDef: any) => {
-                const alarms = Object.values(moduleDef.properties)
-                    .filter((md: any) => md.alarm)
-                    .map((md: any) => md.alarm);
-                return {
-                    name: '',
-                    items: [
-                        {
-                            name:
-                                this.module.id +
-                                ` - ${
-                                    moduleDef.displayName
-                                        ? moduleDef.displayName
-                                        : moduleDef.name
-                                }`,
-                            component: 'growbe-module-def',
-                            inputs: {
-                                moduleId: this.module.id,
-                                mainboardId: this.module.mainboardId,
-                            },
-                            edit: growbeModuleDefForm(moduleDef, (data) => {
-                                    return this.moduleAPI.moduleDef(this.module.id).updateById(
-                                        moduleDef.id,
-                                        data,
-                                    );
-                            }),
-                            style: {
-                                'grid-column': '1/-2',
-                            },
-                        },
-                        {
-                            name: 'Module config',
-                            component: 'growbe-module-config',
-                            inputs: {
-                                moduleId: this.module.id,
-                                mainboardId: this.module.mainboardId
-                            },
-                            style: {
-                            },
-                        },
-                        {
-                            name: 'Module info',
-                            component: 'svg-module',
-                            inputs: {
-                                moduleId: this.module.id,
-                                mainboardId: this.module.mainboardId,
-                            },
-                            style: {
-                                'grid-column': '1/-1',
-                            },
-                        },
-                        {
-                            name: 'Module Alarm event',
-                            component: 'logs-terminal',
-                            inputs: {
-                                growbeId: this.module.mainboardId,
-                                moduleId: this.module.id,
-                                disableSearch: true,
-                                where: {
-                                    growbwModuleId: this.module.id,
-                                    type: 'alarm',
+        return this.moduleAPI
+            .moduleDef(this.module.id)
+            .get()
+            .pipe(
+                map((moduleDef: any) => {
+                    const alarms = Object.values(moduleDef.properties)
+                        .filter((md: any) => md.alarm)
+                        .map((md: any) => md.alarm);
+                    return {
+                        name: '',
+                        items: [
+                            {
+                                name:
+                                    this.module.id +
+                                    ` - ${
+                                        moduleDef.displayName
+                                            ? moduleDef.displayName
+                                            : moduleDef.name
+                                    }`,
+                                component: 'growbe-module-def',
+                                inputs: {
+                                    moduleId: this.module.id,
+                                    mainboardId: this.module.mainboardId,
+                                },
+                                edit: growbeModuleDefForm(moduleDef, (data) => {
+                                    return this.moduleAPI
+                                        .moduleDef(this.module.id)
+                                        .updateById(moduleDef.id, data);
+                                }),
+                                style: {
+                                    'grid-column': '1/-2',
                                 },
                             },
-                            style: {
-                                'grid-column': '1/-1',
+                            {
+                                name: 'Module config',
+                                component: 'growbe-module-config',
+                                inputs: {
+                                    moduleId: this.module.id,
+                                    mainboardId: this.module.mainboardId,
+                                },
+                                style: {},
                             },
-                        },
-                        {
-                            name: 'Module Alarm',
-                            component: 'growbe-alarm',
-                            inputs: {
-                                mainboardId: this.module.mainboardId,
-                                moduleId: this.module.id,
-                            },
-                            style: {
-                                'grid-column': '1/-1',
-                            },
-                        },
-                        ...Object.values(moduleDef.properties).map((prop: any) => ({
-                            name: moduleDef.properties[prop.name].displayName
-                                ? moduleDef.properties[prop.name].displayName
-                                : moduleDef.properties[prop.name].name,
-                            component: 'growbe-module-last-value',
-                            inputs: {
-                                graphDataConfig: {
-                                  fields: [prop.name],
-                                  liveUpdate: true,
-                                  growbeId: this.module.mainboardId,
-                                  moduleId: this.module.id,
+                            {
+                                name: 'Module info',
+                                component: 'svg-module',
+                                inputs: {
+                                    moduleId: this.module.id,
+                                    mainboardId: this.module.mainboardId,
+                                },
+                                style: {
+                                    'grid-column': '1/-1',
                                 },
                             },
-                        })),
-                        {
-                            name: 'Data historic',
-                            component: 'growbe-module-data-table',
-                            inputs: {
-                                mainboardId: this.module.mainboardId,
-                                moduleId: this.module.id,
+                            {
+                                name: 'Module Alarm event',
+                                component: 'logs-terminal',
+                                inputs: {
+                                    growbeId: this.module.mainboardId,
+                                    moduleId: this.module.id,
+                                    disableSearch: true,
+                                    where: {
+                                        growbwModuleId: this.module.id,
+                                        type: 'alarm',
+                                    },
+                                },
+                                style: {
+                                    'grid-column': '1/-1',
+                                },
                             },
-                            style: {
-                                'grid-column': '1/-1',
+                            {
+                                name: 'Module Alarm',
+                                component: 'growbe-alarm',
+                                inputs: {
+                                    mainboardId: this.module.mainboardId,
+                                    moduleId: this.module.id,
+                                },
+                                style: {
+                                    'grid-column': '1/-1',
+                                },
                             },
-                        },
-                    ],
-                };
-            }),
-        );
+                            ...Object.values(moduleDef.properties).map(
+                                (prop: any) => ({
+                                    name: moduleDef.properties[prop.name]
+                                        .displayName
+                                        ? moduleDef.properties[prop.name]
+                                              .displayName
+                                        : moduleDef.properties[prop.name].name,
+                                    component: 'growbe-module-last-value',
+                                    inputs: {
+                                        graphDataConfig: {
+                                            fields: [prop.name],
+                                            liveUpdate: true,
+                                            growbeId: this.module.mainboardId,
+                                            moduleId: this.module.id,
+                                        },
+                                    },
+                                }),
+                            ),
+                            {
+                                name: 'Data historic',
+                                component: 'growbe-module-data-table',
+                                inputs: {
+                                    mainboardId: this.module.mainboardId,
+                                    moduleId: this.module.id,
+                                },
+                                style: {
+                                    'grid-column': '1/-1',
+                                },
+                            },
+                        ],
+                    };
+                }),
+            );
     }
 }
