@@ -27,8 +27,7 @@ export const modifyDialog = (
     return {
         type: 'dialog',
         typeData: {
-            width: '600px',
-            height: '800px',
+            width: '90%',
         },
         items: [
             {

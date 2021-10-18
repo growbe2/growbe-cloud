@@ -12,15 +12,13 @@ import {
     DashboardRegistryItem,
     DashboardRegistryService,
 } from '@growbe2/growbe-dashboard';
-import { GraphModuleRequest } from '@growbe2/ngx-cloud-api';
+import { Dashboard } from '@growbe2/growbe-dashboard';
 import { BehaviorSubject, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { ModuleSensorValueGraphComponent } from 'src/app/growbe/module/graph/module-sensor-value-graph/module-sensor-value-graph.component';
 import { StreamPlayerComponent } from 'src/app/growbe/video-stream/stream-player/stream-player.component';
-import { TableLayoutComponent } from 'src/app/shared/table-layout/table-layout/table-layout.component';
 import { getTerminalSearchForm, TerminalComponent } from 'src/app/shared/terminal/terminal/terminal.component';
-import { GrowbeModuleAPI } from '../api/growbe-module';
 import { GrowbeStateComponent } from '../growbe-mainboard/component/growbe-state/growbe-state.component';
 import { GrowbeModuleConfigComponent } from '../module/component/growbe-module-config/growbe-module-config.component';
 import { GrowbeModuleDataTableComponent } from '../module/component/growbe-module-data-table/growbe-module-data-table.component';
@@ -375,4 +373,14 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
 
         return [formProperty, subjectMainboard, subjectModule];
     };
+
+
+    modifyDashboardForDisplay(dashboard: Dashboard) {
+      dashboard.panels.forEach((panel) => {
+        panel.items.forEach((item) => {
+          item.dashboardEdit = true;
+        })
+      });
+      return dashboard;
+    }
 }
