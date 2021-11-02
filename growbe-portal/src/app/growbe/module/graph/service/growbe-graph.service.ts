@@ -84,17 +84,9 @@ export class GrowbeGraphService {
         );
     }
 
-    getPropertySelectForm(moduleId$: Observable<string>, nbrProperty?: number): IProperty {
-        return {
-            type: 'array',
-            name: 'fields',
-            decorators: {
-                //class: ['frow', 'half', 'evenly'],
-            },
-            min: nbrProperty,
-            max: nbrProperty,
-            elementType: {
-              name: '',
+    getPropertySelectFormElement(moduleId$: Observable<string>, name = '') {
+      return {
+              name,
               type: 'string',
               required: true,
               component: {
@@ -109,7 +101,17 @@ export class GrowbeGraphService {
                   )
                 }
               } as SelectComponent
-            },
+            };
+    }
+
+    getPropertySelectForm(moduleId$: Observable<string>, nbrProperty?: number): IProperty {
+        return {
+            type: 'array',
+            name: 'fields',
+            decorators: {},
+            min: nbrProperty,
+            max: nbrProperty,
+            elementType: this.getPropertySelectFormElement(moduleId$),
         } as ArrayProperty;
     }
 

@@ -1,4 +1,4 @@
-import { Injector, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GrowbeDynamicDashboardComponent } from './growbe-dynamic-dashboard/growbe-dynamic-dashboard.component';
 
@@ -19,10 +19,10 @@ import { GrowbeDashboardHomeComponent } from './growbe-dashboard-home/growbe-das
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { GrowbeMainboardModule } from '../growbe-mainboard/growbe-mainboard.module';
 import {
-    DashboardModule, DashboardRegistryService,
+    DashboardModule,
 } from '@growbe2/growbe-dashboard';
-import { GrowbeDashboardRegistry } from 'src/app/growbe/growbe-dashboard/items';
 import { HardwareAlarmModule } from '../module/hardware-alarm/hardware-alarm.module';
+import { RelayModule } from '../module/relay/relay.module';
 
 @NgModule({
     declarations: [
@@ -33,6 +33,7 @@ import { HardwareAlarmModule } from '../module/hardware-alarm/hardware-alarm.mod
     imports: [
         CommonModule,
 
+        RelayModule,
         DashboardModule,
 
         ProjectDashboardModule,

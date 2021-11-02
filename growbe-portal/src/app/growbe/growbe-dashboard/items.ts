@@ -28,7 +28,9 @@ import { ModuleGraphBuilderComponent } from '../module/graph/module-graph-builde
 import { ModuleLastValueComponent } from '../module/graph/module-last-value/module-last-value.component';
 import { GrowbeGraphService } from '../module/graph/service/growbe-graph.service';
 import { HardwareAlarmTableComponent } from '../module/hardware-alarm/hardware-alarm-table.component';
+import { RelayUnitControlComponent } from '../module/relay/relay-unit-control/relay-unit-control.component';
 import { ModuleSVGComponent } from '../module/svg/module-svg.component';
+import { getDashboardFormProperties } from './growbe-dashboard-form/growbe-dashboard-form.component';
 
 @Injectable({
   providedIn: 'root'
@@ -146,6 +148,15 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 },
                 outputs: {},
             },
+            {
+                name: '',
+                component: 'relay-unit-control',
+                componentType: RelayUnitControlComponent,
+                inputs: {
+                  ...this.getModuleProperty(),
+                },
+                outputs: {}
+            }
         ].forEach((item: any) => this.addItem(item));
     }
 
@@ -154,6 +165,20 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
     }
     getItem(component: string): DashboardRegistryItem {
         return this.items[component];
+    }
+
+    private getModuleProperty = () => {
+        const [
+            formMM,
+            subjectMainboard,
+            subjectModule,
+        ] = this.getDashboardAndModuleProperty(true, 'growbeId');
+
+        return {
+          'mainboardId': formMM['mainboardId'],
+          'moduleId': formMM['moduleId'],
+          'field': this.graphService.getPropertySelectFormElement(subjectModule.asObservable(), 'field'),
+        };
     }
 
     private getGraphModuleRequestProperty = () => {
