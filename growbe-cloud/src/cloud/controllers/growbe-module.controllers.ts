@@ -19,4 +19,16 @@ export class GrowbeModuleController {
   ) {
     return this.growbeModuleService.setModuleConfig(id, config);
   }
+
+  @post('/growbeModules/{id}/config/{property}')
+  @authorizeGrowbe({
+    growbeIdIndex: 0,
+    getFunc: getMainboardByModule,
+  })
+  setConfigForProperty(
+    @param.path.string('property') property: string,
+    @param.path.string('id') id: string, @requestBody() config: any
+  ) {
+    return this.growbeModuleService.setModuleConfigForProperty(id, property, config);
+  }
 }

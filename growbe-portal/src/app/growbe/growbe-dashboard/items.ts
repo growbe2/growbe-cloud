@@ -30,7 +30,6 @@ import { GrowbeGraphService } from '../module/graph/service/growbe-graph.service
 import { HardwareAlarmTableComponent } from '../module/hardware-alarm/hardware-alarm-table.component';
 import { RelayUnitControlComponent } from '../module/relay/relay-unit-control/relay-unit-control.component';
 import { ModuleSVGComponent } from '../module/svg/module-svg.component';
-import { getDashboardFormProperties } from './growbe-dashboard-form/growbe-dashboard-form.component';
 
 @Injectable({
   providedIn: 'root'

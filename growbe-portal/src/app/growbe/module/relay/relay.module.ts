@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RelayUnitControlComponent } from './relay-unit-control/relay-unit-control.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggle, MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 
@@ -9,7 +11,11 @@ import { RelayUnitControlComponent } from './relay-unit-control/relay-unit-contr
     RelayUnitControlComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+
+    MatIconModule,
+
+    MatSlideToggleModule
   ],
   exports: [
     RelayUnitControlComponent,
