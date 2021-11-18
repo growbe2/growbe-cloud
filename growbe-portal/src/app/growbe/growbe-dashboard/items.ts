@@ -12,15 +12,13 @@ import {
     DashboardRegistryItem,
     DashboardRegistryService,
 } from '@growbe2/growbe-dashboard';
-import { GraphModuleRequest } from '@growbe2/ngx-cloud-api';
+import { Dashboard } from '@growbe2/growbe-dashboard';
 import { BehaviorSubject, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { ModuleSensorValueGraphComponent } from 'src/app/growbe/module/graph/module-sensor-value-graph/module-sensor-value-graph.component';
 import { StreamPlayerComponent } from 'src/app/growbe/video-stream/stream-player/stream-player.component';
-import { TableLayoutComponent } from 'src/app/shared/table-layout/table-layout/table-layout.component';
 import { getTerminalSearchForm, TerminalComponent } from 'src/app/shared/terminal/terminal/terminal.component';
-import { GrowbeModuleAPI } from '../api/growbe-module';
 import { GrowbeStateComponent } from '../growbe-mainboard/component/growbe-state/growbe-state.component';
 import { GrowbeModuleConfigComponent } from '../module/component/growbe-module-config/growbe-module-config.component';
 import { GrowbeModuleDataTableComponent } from '../module/component/growbe-module-data-table/growbe-module-data-table.component';
@@ -30,6 +28,7 @@ import { ModuleGraphBuilderComponent } from '../module/graph/module-graph-builde
 import { ModuleLastValueComponent } from '../module/graph/module-last-value/module-last-value.component';
 import { GrowbeGraphService } from '../module/graph/service/growbe-graph.service';
 import { HardwareAlarmTableComponent } from '../module/hardware-alarm/hardware-alarm-table.component';
+import { RelayUnitControlComponent } from '../module/relay/relay-unit-control/relay-unit-control.component';
 import { ModuleSVGComponent } from '../module/svg/module-svg.component';
 
 @Injectable({
@@ -148,6 +147,15 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 },
                 outputs: {},
             },
+            {
+                name: '',
+                component: 'relay-unit-control',
+                componentType: RelayUnitControlComponent,
+                inputs: {
+                  ...this.getModuleProperty(),
+                },
+                outputs: {}
+            }
         ].forEach((item: any) => this.addItem(item));
     }
 
@@ -156,6 +164,20 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
     }
     getItem(component: string): DashboardRegistryItem {
         return this.items[component];
+    }
+
+    private getModuleProperty = () => {
+        const [
+            formMM,
+            subjectMainboard,
+            subjectModule,
+        ] = this.getDashboardAndModuleProperty(true, 'growbeId');
+
+        return {
+          'mainboardId': formMM['mainboardId'],
+          'moduleId': formMM['moduleId'],
+          'field': this.graphService.getPropertySelectFormElement(subjectModule.asObservable(), 'field'),
+        };
     }
 
     private getGraphModuleRequestProperty = () => {
@@ -375,4 +397,14 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
 
         return [formProperty, subjectMainboard, subjectModule];
     };
+
+
+    modifyDashboardForDisplay(dashboard: Dashboard) {
+      dashboard.panels.forEach((panel) => {
+        panel.items.forEach((item) => {
+          item.dashboardEdit = true;
+        })
+      });
+      return dashboard;
+    }
 }

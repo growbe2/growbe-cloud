@@ -316,22 +316,38 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                 },
                             },
                             ...Object.values(moduleDef.properties).map(
-                                (prop: any) => ({
-                                    name: moduleDef.properties[prop.name]
-                                        .displayName
-                                        ? moduleDef.properties[prop.name]
-                                              .displayName
-                                        : moduleDef.properties[prop.name].name,
-                                    component: 'growbe-module-last-value',
-                                    inputs: {
+                                (prop: any) => {
+
+                                  const [component, inputs] = (moduleDef.name.includes('Control')) ? [
+                                    'relay-unit-control',
+                                    {
+                                      mainboardId: this.module.mainboardId,
+                                      moduleId: this.module.id,
+                                      field: prop.name,
+                                    }
+                                  ] : [
+                                    'growbe-module-last-value',
+                                     {
                                         graphDataConfig: {
                                             fields: [prop.name],
                                             liveUpdate: true,
                                             growbeId: this.module.mainboardId,
                                             moduleId: this.module.id,
                                         },
-                                    },
-                                }),
+                                    }
+                                  ];
+
+
+                                  return ({
+                                    name: moduleDef.properties[prop.name]
+                                        .displayName
+                                        ? moduleDef.properties[prop.name]
+                                              .displayName
+                                        : moduleDef.properties[prop.name].name,
+                                    component,
+                                    inputs,
+                                });
+                              },
                             ),
                             {
                                 name: 'Data historic',

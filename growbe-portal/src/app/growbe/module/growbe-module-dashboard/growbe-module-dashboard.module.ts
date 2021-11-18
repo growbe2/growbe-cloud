@@ -11,6 +11,7 @@ import { TableLayoutModule } from 'src/app/shared/table-layout/table-layout.modu
 import { SvgModuleModule } from '../svg/svg-module.module';
 import { TerminalModule } from 'src/app/shared/terminal/terminal.module';
 import { GrowbeDashboardRegistry } from 'src/app/growbe/growbe-dashboard/items';
+import { RelayModule } from '../relay/relay.module';
 
 @NgModule({
     declarations: [GrowbeModuleDashboardComponent],
@@ -21,6 +22,8 @@ import { GrowbeDashboardRegistry } from 'src/app/growbe/growbe-dashboard/items';
         SvgModuleModule,
 
         TerminalModule,
+
+        RelayModule,
 
         MatChipsModule,
         MatToolbarModule,

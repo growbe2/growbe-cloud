@@ -95,7 +95,7 @@ export class ItemContentDirective implements OnInit {
 
     ngOnInit() {
       if (this.dashboardItem.edit) {
-        this.this.dashboardItem.edit.type = 'dialog';
+        this.dashboardItem.edit.type = 'dialog';
       }
         this.registryItem = this.registry.getItem(this.dashboardItem.component);
         const factory = this.componentFactoryResolver.resolveComponentFactory(
@@ -182,6 +182,7 @@ export class DashboardItemComponent
         if (!this.dashboardItem.extraMenus) {
           this.dashboardItem.extraMenus = {};
         }
+        console.log('DASHBOARD EDIT', this.dashboardItem.dashboardEdit)
         if (this.dashboardItem.dashboardEdit) {
           this.dashboardItem.extraMenus['dashboardEdit'] = {
             name: 'Dashboard edit',

@@ -79,6 +79,13 @@ export class GrowbeActionAPI {
         );
     }
 
+    GROWBE_CONFIG_PROPERTY_UPDATE(growbeId: string, moduleId: string, data: any) {
+      return this.httpClient.post<void>(
+        `${this.url}/growbeModules/${moduleId}/config/${data.property}`,
+        data.config
+      )
+    }
+
     GROWBE_CONFIG_UPDATE(growbeId: string, moduleId: string, data: any) {
       console.log(growbeId, moduleId, data);
         return this.httpClient.post<void>(

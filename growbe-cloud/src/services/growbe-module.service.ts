@@ -38,6 +38,10 @@ const mapTypeConfig: any = {
   AAP: 'RelayModuleConfig'
 };
 
+const removeNullProperty = (obj: any) => {
+  return Object.fromEntries(Object.entries(obj).filter((_,v) => v !== null && v !== undefined))
+}
+
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeModuleService {
   static PREFIX_LENGTH = 3;
@@ -171,12 +175,27 @@ export class GrowbeModuleService {
     return module;
   }
 
+  async setModuleConfigForProperty(id: string, property: string, config: any) {
+    const module = await this.moduleRepository.findById(id);
+    if (!module) {
+      throw new HttpErrors[404]();
+    }
+    module.config[property] = config;
+    // remove property with null config 
+    await this.moduleRepository.update(module);
+    return this.sendConfigToMainboard(module);
+  }
+
   async setModuleConfig(id: string, config: any) {
     const module = await this.moduleRepository.findById(id);
     if (!module) {
       throw new HttpErrors[404]();
     }
-    module.config = config;
+    Object.entries(config).forEach(([k,v]) => {
+      if (v === null || v === undefined) return;
+      module.config[k] = v;
+    });
+    // remove property with null config 
     await this.moduleRepository.update(module);
     return this.sendConfigToMainboard(module);
   }
