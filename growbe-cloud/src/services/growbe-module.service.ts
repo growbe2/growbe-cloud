@@ -1,28 +1,28 @@
 import * as pb from '@growbe2/growbe-pb';
 import {BindingScope, inject, injectable, service} from '@loopback/core';
-import {addMinutes} from 'date-fns';
 import {repository} from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
+import {addMinutes} from 'date-fns';
 import {Subject} from 'rxjs';
 import {GrowbeMainboardBindings} from '../keys';
 import {
   GrowbeModule,
   GrowbeModuleWithRelations,
-  GrowbeSensorValue,
+  GrowbeSensorValue
 } from '../models';
 import {
   GroupEnum,
   LogTypeEnum,
-  SeverityEnum,
+  SeverityEnum
 } from '../models/growbe-logs.model';
 import {
   GrowbeModuleDefRepository,
   GrowbeModuleRepository,
-  GrowbeSensorValueRepository,
+  GrowbeSensorValueRepository
 } from '../repositories';
 import {GrowbeLogsService} from './growbe-logs.service';
+import {GrowbeModuleDefService} from './growbe-module-def.service';
 import {getTopic, MQTTService} from './mqtt.service';
-import { GrowbeModuleDefService } from './growbe-module-def.service';
 
 const pbDef = require('@growbe2/growbe-pb');
 
@@ -180,8 +180,9 @@ export class GrowbeModuleService {
     if (!module) {
       throw new HttpErrors[404]();
     }
+    if (!module.config) module.config = {};
     module.config[property] = config;
-    // remove property with null config 
+    // remove property with null config
     await this.moduleRepository.update(module);
     return this.sendConfigToMainboard(module);
   }
@@ -191,11 +192,12 @@ export class GrowbeModuleService {
     if (!module) {
       throw new HttpErrors[404]();
     }
+    if (!module.config) module.config = {};
     Object.entries(config).forEach(([k,v]) => {
       if (v === null || v === undefined) return;
       module.config[k] = v;
     });
-    // remove property with null config 
+    // remove property with null config
     await this.moduleRepository.update(module);
     return this.sendConfigToMainboard(module);
   }
