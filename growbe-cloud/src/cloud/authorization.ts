@@ -2,11 +2,47 @@ import {chain} from '@berlingoqc/lb-extensions';
 import {OrganisationRepository, UserWithRelations} from '@berlingoqc/sso';
 import {authenticate} from '@loopback/authentication';
 import {authorize, AuthorizationDecision, AuthorizationContext, AuthorizationMetadata} from '@loopback/authorization';
-import {Provider} from '@loopback/context';
-import {GrowbeMainboard, GrowbeMainboardWithRelations} from '../models';
+import e from 'express';
+import {GrowbeMainboardWithRelations} from '../models';
 import {GrowbeMainboardRepository, GrowbeModuleDefRepository, GrowbeModuleRepository} from '../repositories';
 
 type GetMainboard = (ctx: AuthorizationContext, id: string, args: any) => Promise<GrowbeMainboardWithRelations | null>;
+
+class CacheAuthorization {
+
+    validFor = 5000;
+
+    private cache: {[id: string]: { decision: AuthorizationDecision, at: number }} = {};
+
+    get(key: string): AuthorizationDecision | undefined {
+
+      console.log('GETTING KEY', key);
+      
+      const value = this.cache[key];
+      if (value) {
+        const current = Date.now();
+        if (value.at <= current - this.validFor) {
+          delete this.cache[key];
+          return undefined;
+        }
+
+        return value.decision;
+      }
+      return undefined;
+    }
+
+    store(key: string, decision: AuthorizationDecision): void {
+      this.cache[key] = { decision, at: Date.now() };
+    }
+
+
+    flush() {
+      this.cache = {};
+    }
+}
+
+
+export const cache = new CacheAuthorization();
 
 async function getMainboard(ctx: AuthorizationContext, id: string, args: any) {
   const mainboardRepo = (await ctx.invocationContext.get(`repositories.${GrowbeMainboardRepository.name}`)) as GrowbeMainboardRepository;
@@ -84,35 +120,43 @@ export const getVoterMainboardUserOrOrganisation =
 
     const userId = userIdIndex !== undefined ? ctx.invocationContext.args[userIdIndex] : userIdIndex;
 
-    if (userId && userId === user.id) {
-      return AuthorizationDecision.ALLOW;
+    const key = `${user.id}:${growbeId}:${orgId}:${userId}:${managerOnly}`;
+    const previous_decision = cache.get(key);
+
+    if (previous_decision === AuthorizationDecision.ALLOW) {
+      return previous_decision;
     }
 
-    if (orgId) {
+    let decision: AuthorizationDecision;
+
+    if (userId && userId === user.id) {
+      decision = AuthorizationDecision.ALLOW;
+    } else if (orgId) {
       if (managerOnly) {
         const orgRepo = (await ctx.invocationContext.get(`repositories.${OrganisationRepository.name}`)) as OrganisationRepository;
         const org = await orgRepo.findById(orgId);
         if (org.managerId === user.id) {
-          return AuthorizationDecision.ALLOW;
+          decision = AuthorizationDecision.ALLOW;
+        } else {
+          decision = AuthorizationDecision.ABSTAIN;
         }
-        return AuthorizationDecision.ABSTAIN;
       } else {
         if (!growbeIdIndex) {
           // valide que je suis dans l'organisation
           const indexOrg = user?.organisations ? user.organisations.findIndex(org => org.id === orgId) : -1;
           if (indexOrg > -1) {
-            return AuthorizationDecision.ALLOW;
+            decision = AuthorizationDecision.ALLOW;
           } else {
-            return AuthorizationDecision.ABSTAIN;
+            decision = AuthorizationDecision.ABSTAIN;
           }
         } else {
           // valid que le growbe est posséder par l'org
           const mainboard = await getFunc(ctx, growbeId, {id: growbeId, organisationId: orgId});
 
           if (mainboard) {
-            return AuthorizationDecision.ALLOW;
+            decision = AuthorizationDecision.ALLOW;
           } else {
-            return AuthorizationDecision.ABSTAIN;
+            decision = AuthorizationDecision.ABSTAIN;
           }
         }
       }
@@ -120,14 +164,18 @@ export const getVoterMainboardUserOrOrganisation =
       if (growbeId) {
         const mainboard = await getFunc(ctx, growbeId, { id: growbeId, or: [{userId: user.id},{organisationId: { inq: user.organisations?.map(o => o.id)}}]});
         if (mainboard) {
-          return AuthorizationDecision.ALLOW;
+          decision = AuthorizationDecision.ALLOW;
         } else {
-          return AuthorizationDecision.ABSTAIN;
+          decision = AuthorizationDecision.ABSTAIN;
         }
+      } else {
+        decision = AuthorizationDecision.ABSTAIN;
       }
     }
 
-    return AuthorizationDecision.ABSTAIN;
+    cache.store(key, decision)
+
+    return decision;
   };
 
 export function authorizeGrowbe({

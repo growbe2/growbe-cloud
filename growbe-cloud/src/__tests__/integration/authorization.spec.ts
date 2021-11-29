@@ -1,7 +1,7 @@
 import { expect } from "@loopback/testlab";
 import {authorize, AuthorizationDecision, AuthorizationContext, AuthorizationMetadata} from '@loopback/authorization';
 import { GrowbeCloudApplication } from "../../application";
-import { getVoterMainboardUserOrOrganisation } from "../../cloud/authorization";
+import { cache, getVoterMainboardUserOrOrganisation } from "../../cloud/authorization";
 import { setupApplication } from "../fixtures/app";
 import { boardId, orgId, userId } from "../fixtures/data";
 import { GrowbeMainboardRepository } from "../../repositories";
@@ -58,6 +58,7 @@ describe('authorization growbe', () => {
         const { ctx, metadata } = getAuthorizationContext(data.args ?? [], data.orgs ?? [] , data.roles ?? []);
         return await voter(ctx, metadata);
     }
+    
 
     before('setupApplication', async function () {
       ({app} = await setupApplication(
@@ -76,6 +77,7 @@ describe('authorization growbe', () => {
     afterEach(async () => {
         await mainboardRepo.deleteAll();
         await orgRepo.deleteAll();
+        cache.flush();
     });
 
     describe('user ownership', () => {
@@ -236,5 +238,20 @@ describe('authorization growbe', () => {
 
             //expect(result).to.eql(AuthorizationDecision.DENY);
         });*/
+    });
+
+
+    describe('caching' , () => {
+
+        it('call twice use result store in cache', async () => {
+            const result = await testCaseAuthorization({
+                growbeIdIndex: 0,
+                userId,
+                args: [boardId],
+            });
+
+            expect(result).to.eql(AuthorizationDecision.ALLOW);
+        });
+
     });
 });
