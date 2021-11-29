@@ -10,3 +10,14 @@ message HelloWord {
     string cloudVersion = 2;
     string RTC = 3;
 }
+
+message VersionRelease {
+    string version = 1;
+    string channel = 2;
+}
+
+message LocalConnection {
+    string ssid = 1;
+    int32 signalLevel = 2;
+    string ipAddr = 3;
+}

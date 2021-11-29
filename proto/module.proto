@@ -112,24 +112,3 @@ message WCModuleConfig {
     RelayOutletConfig pump3 = 8;
 }
 
-enum MessageType {
-    MT_UNKNOW = 0;
-    MT_HEARTHBEATH = 1;
-    MT_MODULEDATA = 2;
-    MT_GROWBECONFIG = 3;
-    MT_LOG = 4;
-    MT_RTCTIME = 5;
-    MT_THLMODULEDATA = 6;
-    MT_SOILMODULEDATA = 7;
-    MT_WAMODULEDATA = 8;
-    MT_WCMODULEDATA = 9;
-    MT_WCMODULECONFIG = 10;
-    MT_RELAYMODULEDATA = 11;
-    MT_RELAYMODULECONFIG = 12;
-
-
-    MT_FIELDALARMEVENT = 40;
-    MT_FIELDALARM = 41;
-
-    MT_ACTIONRESPONSE = 50;
-}
