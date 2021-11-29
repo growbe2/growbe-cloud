@@ -13,6 +13,7 @@ export const getIdFromTopic = (topic: string): string => {
 
 @injectable({scope: BindingScope.SINGLETON})
 export class MqttListnener {
+    static DEBUG = require('debug')('growbe:service::mqtt');
 
     client: mqtt.Client;
 
@@ -52,7 +53,7 @@ export class MqttListnener {
                 data.topic,
               );
             } catch (err) {
-              console.log('Failed to parse on subject', data.topic, err);
+              MqttListnener.DEBUG("Failed to parse on subject", data.topic, err);
             }
           })()
             .then(() => {})

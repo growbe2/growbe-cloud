@@ -19,6 +19,8 @@ export {ApplicationConfig};
 export class GrowbeCloudApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(AlbAuthMixin(RestApplication))),
 ) {
+
+  static DEBUG = require('debug')('growbe:app');
   constructor(
     component: Constructor<Component>,
     options: ApplicationConfig = {},
@@ -84,8 +86,7 @@ export async function main(
   await app.start();
 
   const url = app.restServer.url;
-  console.log(`Server is running at ${url}`);
-  console.log(`Try ${url}/ping`);
+  GrowbeCloudApplication.DEBUG(`Server is running at ${url}`);
 
   return app;
 }
@@ -109,7 +110,7 @@ export function start(component: Constructor<Component>) {
     },
   };
   main(component, config).catch(err => {
-    console.error('Cannot start the application.', err);
+    GrowbeCloudApplication.DEBUG("cannot start the application", err)
     process.exit(1);
   });
 }

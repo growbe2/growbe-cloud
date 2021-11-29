@@ -62,7 +62,6 @@ export class GrowbeStateService {
   }
 
   async valideState(id: string) {
-    GrowbeStateService.DEBUG('Beath from', id);
     const mainboard = await this.growbeService.findOrCreate(id, {
       include: ['growbeMainboardConfig'],
     });
