@@ -17,6 +17,7 @@ import {
   GrowbeModuleController,
   GrowbeModuleGraphController,
   UserPreferenceController,
+  GrowbeMainboardVersionController,
 } from './controllers';
 import {CRUD_CONTROLLERS} from './crud-controller';
 
@@ -53,6 +54,7 @@ export class CloudComponent implements Component {
     GrowbeMainboardController,
     GrowbeModuleDefController,
     GrowbeModuleGraphController,
+    GrowbeMainboardVersionController,
     GrowbeModuleController,
     UserPreferenceController
   ];

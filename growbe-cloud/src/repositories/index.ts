@@ -8,3 +8,4 @@ export * from './growbe-module.repository';
 export * from './growbe-module-def.repository';
 export * from './growbe-logs.repository';
 export * from './user-preference.repository';
+export * from './growbe-mainboard-version.repository';
