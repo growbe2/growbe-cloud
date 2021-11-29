@@ -15,8 +15,6 @@ class CacheAuthorization {
     private cache: {[id: string]: { decision: AuthorizationDecision, at: number }} = {};
 
     get(key: string): AuthorizationDecision | undefined {
-
-      console.log('GETTING KEY', key);
       
       const value = this.cache[key];
       if (value) {
@@ -162,7 +160,7 @@ export const getVoterMainboardUserOrOrganisation =
       }
     } else {
       if (growbeId) {
-        const mainboard = await getFunc(ctx, growbeId, { id: growbeId, or: [{userId: user.id},{organisationId: { inq: user.organisations?.map(o => o.id)}}]});
+        const mainboard = await getFunc(ctx, growbeId, { id: growbeId, or: [{userId: user.id},{organisationId: { inq: user.organisations?.map(o => o?.id)}}]});
         if (mainboard) {
           decision = AuthorizationDecision.ALLOW;
         } else {
