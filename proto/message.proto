@@ -41,4 +41,5 @@ message RTCTime {
     uint32 day = 4;
     uint32 month = 5;
     uint32 year = 6;
+    string tz = 7;
 }
