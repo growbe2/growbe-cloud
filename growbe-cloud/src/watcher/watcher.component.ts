@@ -1,8 +1,8 @@
-import {ActionResponse, FieldAlarmEvent, HearthBeath, HelloWord, ModuleData } from '@growbe2/growbe-pb';
+import {ActionResponse, FieldAlarmEvent, HearthBeath, HelloWord, LocalConnection, ModuleData } from '@growbe2/growbe-pb';
 import {Binding, Component} from '@loopback/core';
 import {GrowbeMainboardBindings} from '../keys';
 import { DataSubject, funcModuleSubject } from '../observers/data-subject.model';
-import {GrowbeActionReponseService, GrowbeHardwareAlarmService, GrowbeModuleService, GrowbeStateService} from '../services';
+import {GrowbeActionReponseService, GrowbeHardwareAlarmService, GrowbeModuleService, GrowbeService, GrowbeStateService} from '../services';
 import {
   GrowbeStateWatcherObserver,
 } from './observers';
@@ -22,6 +22,13 @@ const watchers: DataSubject[] = [
     model: HelloWord,
     regexTopic: 'hello',
     service: GrowbeStateService,
+  },
+  {
+    func: (id, service: GrowbeService, localConnection: any) =>
+      service.updateLocalConnection(id, localConnection),
+    model: LocalConnection,
+    regexTopic: 'localconnection',
+    service: GrowbeService,
   },
   {
     func: funcModuleSubject(

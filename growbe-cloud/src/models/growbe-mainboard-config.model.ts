@@ -10,6 +10,9 @@ export class GrowbeMainboardConfig extends Entity {
   @property()
   config: any | pb.GrowbeMainboardConfig;
 
+  @property()
+  localConnection: any | pb.LocalConnection;
+
   @property({
     type: 'string',
   })

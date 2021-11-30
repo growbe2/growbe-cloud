@@ -1,4 +1,4 @@
-import pb, {RTCTime} from '@growbe2/growbe-pb';
+import pb, {LocalConnection, RTCTime} from '@growbe2/growbe-pb';
 import {BindingScope, inject, injectable, service} from '@loopback/core';
 import {
   Filter,
@@ -112,6 +112,32 @@ export class GrowbeService {
             message: `config send`,
           }).then((log) => ({log, response: responseA}));
       }));
+  }
+
+  async updateLocalConnection(growbeId: string, data: LocalConnection) {
+    const updatedConfig = await this.mainboardConfigRepository.updateAll(
+      {
+        localConnection: data
+      },
+      {
+        growbeMainboardId: growbeId
+      }
+    )
+
+    await this.mqttService.send(
+      getTopic(growbeId, '/cloud/localconnection'),
+      JSON.stringify(data),
+    )
+
+    await this.logsService.addLog({
+      group: GroupEnum.MAINBOARD,
+      type: LogTypeEnum.LOCAL_CONNECTION_UPDATED,
+      severity: SeverityEnum.LOW,
+      growbeMainboardId: growbeId,
+      message: JSON.stringify(data),
+    })
+
+    return updatedConfig;
   }
 
   async setRTC(growbeId: string, rtcTime: RTCTime) {

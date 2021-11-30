@@ -9,6 +9,7 @@ export enum LogTypeEnum {
   MODULE_STATE_CHANGE = 'module',
   MODULE_CONFIG_CHANGE = 'module_config',
   CONNECTION_STATE_CHANGE = 'connection',
+  LOCAL_CONNECTION_UPDATED = 'local_connection',
   WARNING_CREATED = 'new_warning',
   RTC_UPDATE = 'update_rtc',
   SYNC_REQUEST = 'sync_request',

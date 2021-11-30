@@ -1,4 +1,4 @@
-import {HelloWord} from '@growbe2/growbe-pb';
+import {HelloWord, LocalConnection} from '@growbe2/growbe-pb';
 import {BindingScope, inject, injectable, service} from '@loopback/core';
 import * as _ from 'lodash';
 import {lastValueFrom, Subject} from 'rxjs';
@@ -108,7 +108,6 @@ export class GrowbeStateService {
       );
     }, hearthBeathRate * 2000);
   }
-
 
   private stateChange(mainboard: GrowbeMainboard) {
     return this.logsService.addLog({
