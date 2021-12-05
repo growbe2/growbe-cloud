@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { ConfirmationModule } from '@berlingoqc/ngx-common';
 import { MatIconModule } from '@angular/material/icon';
+import { GrowbeLocalConnectionComponent } from './component/growbe-local-connection/growbe-local-connection.component';
 
 @NgModule({
     declarations: [
@@ -16,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
         GrowbeDetailComponent,
         GrowbeStatusDotComponent,
         GrowbeStateComponent,
+        GrowbeLocalConnectionComponent,
     ],
     imports: [
       CommonModule,
