@@ -11,18 +11,21 @@ services:
     ports:
       - "24224:24224"
       - "24224:24224/udp"
-
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
     networks:
       - net
     environment:
       - "discovery.type=single-node"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     expose:
       - "9200"
     ports:
       - "9200:9200"
-
   kibana:
     image: kibana:7.10.1
     networks:
@@ -31,19 +34,6 @@ services:
       - "elasticsearch"
     ports:
       - "5601:5601"
-
-  oauth2:
-    image: quay.io/oauth2-proxy/oauth2-proxy
-    networks:
-      - net
-    volumes:
-      - type: bind
-        source: './oauth2/config.cfg'
-        target: '/config.cfg'
-    ports:
-      - "4180:4180"
-    command: --config /config.cfg
-
   growbe-cloud:
     depends_on: 
       - fluentd
