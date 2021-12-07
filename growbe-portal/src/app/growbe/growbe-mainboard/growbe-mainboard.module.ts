@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GrowbeTableComponent } from './component/growbe-table/growbe-table.component';
-import { GrowbeDetailComponent } from './component/growbe-detail/growbe-detail.component';
 import { AutoTableModule } from '@berlingoqc/ngx-autotable';
 import { GrowbeStatusDotComponent } from './component/growbe-status-dot/growbe-status-dot.component';
 import { GrowbeStateComponent } from './component/growbe-state/growbe-state.component';
@@ -14,7 +13,6 @@ import { GrowbeLocalConnectionComponent } from './component/growbe-local-connect
 @NgModule({
     declarations: [
         GrowbeTableComponent,
-        GrowbeDetailComponent,
         GrowbeStatusDotComponent,
         GrowbeStateComponent,
         GrowbeLocalConnectionComponent,
@@ -29,8 +27,8 @@ import { GrowbeLocalConnectionComponent } from './component/growbe-local-connect
     ],
     exports: [
       GrowbeTableComponent,
-      GrowbeDetailComponent,
       GrowbeStateComponent,
+      GrowbeLocalConnectionComponent,
     ],
 })
 export class GrowbeMainboardModule {}
