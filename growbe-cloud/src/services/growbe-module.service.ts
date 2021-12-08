@@ -42,6 +42,8 @@ const removeNullProperty = (obj: any) => {
   return Object.fromEntries(Object.entries(obj).filter((_,v) => v !== null && v !== undefined))
 }
 
+
+
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeModuleService {
   static PREFIX_LENGTH = 3;
@@ -104,8 +106,7 @@ export class GrowbeModuleService {
 
     const parseData = pbDef[pbObjectName].decode(data);
 
-    // get the document of create it
-    const currentTime = Date.now();
+    const currentTime = (parseData.timestamp) ? parseData.timestamp * 1000: Date.now();
 
     let document = await this.sensorValueRepository.findOne({
       where: {

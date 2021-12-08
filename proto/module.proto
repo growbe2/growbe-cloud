@@ -13,6 +13,8 @@ message ModuleData {
 message THLModuleData {
     float humidity = 2;
     float airTemperature = 3;
+
+    int32 timestamp = 9;
 }
 
 message SOILModuleData {
@@ -24,12 +26,16 @@ message SOILModuleData {
    int32 p5 = 6;
    int32 p6 = 7;
    int32 p7 = 8;
+
+   int32 timestamp = 9;
 }
 
 message WAModuleData {
     int32 PH = 2;
     int32 EC = 3;
     int32 temperature = 4;
+
+    int32 timestamp = 9;
 }
 
 enum RelayOutletMode {
@@ -75,6 +81,8 @@ message RelayModuleData {
     RelayOutletData p5 = 6;
     RelayOutletData p6 = 7;
     RelayOutletData p7 = 8;
+
+    int32 timestamp = 9;
 }
 
 message RelayModuleConfig {
@@ -86,6 +94,8 @@ message RelayModuleConfig {
     RelayOutletConfig p5 = 6;
     RelayOutletConfig p6 = 7;
     RelayOutletConfig p7 = 8;
+
+    int32 timestamp = 9;
 }
 
 message WCModuleData {
@@ -98,6 +108,8 @@ message WCModuleData {
     RelayOutletData pump1 = 6;
     RelayOutletData pump2 = 7;
     RelayOutletData pump3 = 8;
+
+    int32 timestamp = 9;
 }
 
 message WCModuleConfig {
