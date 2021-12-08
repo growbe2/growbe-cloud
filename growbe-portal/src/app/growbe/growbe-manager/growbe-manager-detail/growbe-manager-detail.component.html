@@ -97,6 +97,10 @@
         >
             <div class="fuse-widget-front">
                 <app-growbe-state [data]="mainboard$"></app-growbe-state>
+               
+                <div>
+                    <app-growbe-local-connection *ngIf="mainboard$.growbeMainboardConfig?.localConnection" [localConnection]="mainboard$.growbeMainboardConfig.localConnection"></app-growbe-local-connection> 
+                </div>
             </div>
         </fuse-widget>
     </fuseLayoutSidebar>

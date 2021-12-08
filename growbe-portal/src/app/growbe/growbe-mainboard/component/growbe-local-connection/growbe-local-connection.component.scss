@@ -1,0 +1,27 @@
+
+
+.container {
+    display: flex;
+    flex-direction: row;
+    
+    align-items: center;
+
+    .icon {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 10px;
+    }
+
+    .info {
+
+        display: flex;
+        flex-direction: column;
+
+        .ssid {
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+    }
+}
