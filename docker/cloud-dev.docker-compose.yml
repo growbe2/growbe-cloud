@@ -34,12 +34,6 @@ services:
     ports:
       - '0.0.0.0:1883:1883'
       - '0.0.0.0:9001:9001'
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s 
     volumes:
       - type: bind
         source: './mosquito/mosquito.conf'
@@ -56,12 +50,6 @@ services:
       - '0.0.0.0:3000:3000'
     expose:
       - '3000'
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s 
     environment:
       PORT: 3000
       NMS_TOKEN: '12345678'
@@ -83,12 +71,6 @@ services:
         - broker
     ports:
       - '0.0.0.0:3005:3005'
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s 
     expose:
       - '3005'
     environment:
@@ -108,12 +90,6 @@ services:
       - '0.0.0.0:3001:3001'
     expose:
       - '3001'
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s 
     environment:
       PORT: 3001
       DB_URL: 'postgres://test:test@pgsql:5432/defaultdb'
