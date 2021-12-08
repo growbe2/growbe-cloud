@@ -1,13 +1,15 @@
-<div>
-    <div>
+<div class="container">
+    <div class="icon">
         <mat-icon *ngIf="localConnection.signalLevel">wifi</mat-icon>
     </div>
 
-    <div>
-        <span>{{localConnection.ssid}}</span>
-    </div>
+    <div class="info">
+        <div>
+            <span>{{localConnection.ssid}}</span>
+        </div>
 
-    <div>
-        <span>{{localConnection.ipAddr}}</span>
+        <div>
+            <span>{{localConnection.ipAddr}}</span>
+        </div>
     </div>
 </div>

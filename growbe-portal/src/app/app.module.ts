@@ -62,7 +62,7 @@ import {
 } from '@growbe2/growbe-dashboard';
 import { TranslateModule } from '@ngx-translate/core';
 import { HelpersModule } from './helpers/helpers.module';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { filter, switchMap, tap, timeout } from 'rxjs/operators';
 import { UserPreferenceService } from './service/user-preference.service';
 import { GrowbeDashboardRegistry } from './growbe/growbe-dashboard/items';
 
