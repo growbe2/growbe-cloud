@@ -162,6 +162,19 @@ export class GrowbeService {
       });
   }
 
+  async sendRestartRequest(growbeId: string) {
+    return this.mqttService
+      .sendWithResponse(
+        growbeId,
+        getTopic(growbeId, '/board/restart'),
+        pb.RestartRequest.encode({}).finish(),
+        {
+          responseCode: pb.ActionCode.RESTART,
+          waitingTime: 4000,
+        }
+      ).toPromise();
+  }
+
     /**
    * send request to growbe to ask to
    * sync all is modules informations

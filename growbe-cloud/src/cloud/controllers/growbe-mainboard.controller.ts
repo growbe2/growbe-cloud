@@ -135,6 +135,14 @@ export class GrowbeMainboardController {
     return d;
   }
 
+  @patch("/growbe/{id}/restart")
+  @authorizeGrowbe({
+    growbeIdIndex: 0
+  })
+  sendRestartRequest(@param.path.string('id') id: string) {
+    return this.growbeService.sendRestartRequest(id);
+  }
+
   @patch('/growbe/{id}/rtc')
   @authorizeGrowbe({
     growbeIdIndex: 0,
