@@ -15,6 +15,8 @@ export enum LogTypeEnum {
   SYNC_REQUEST = 'sync_request',
   GROWBE_CONFIG_CHANGE = 'growbe_config',
   ALARM = 'alarm',
+  RESTART = 'restart',
+  VERSION_UPDATED = 'updated',
 }
 
 export const LogTypEnumArray = [LogTypeEnum.MODULE_STATE_CHANGE, LogTypeEnum.MODULE_CONFIG_CHANGE,LogTypeEnum.CONNECTION_STATE_CHANGE,

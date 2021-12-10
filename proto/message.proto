@@ -26,6 +26,11 @@ enum ActionCode {
     MAINBOARD_CONFIG = 2;
     RTC_SET = 3;
     SYNC_REQUEST = 4;
+
+    ADD_ALARM = 10;
+    REMOVE_ALARM = 11;
+
+    RESTART = 12;
 }
 
 message ActionResponse {

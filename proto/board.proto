@@ -16,6 +16,13 @@ message VersionRelease {
     string channel = 2;
 }
 
+message UpdateExecute {
+    string version = 1;
+    bool restarted = 2;
+}
+
+message RestartRequest {}
+
 message LocalConnection {
     string ssid = 1;
     int32 signalLevel = 2;

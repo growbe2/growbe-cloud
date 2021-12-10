@@ -46,7 +46,7 @@ export class GrowbeHardwareAlarmService {
 			mainboardId,
 			getTopic(mainboardId, `/board/aAl`),
 			FieldAlarm.encode(alarm).finish(),
-			{ waitingTime: 3000, responseCode: 10}
+			{ waitingTime: 3000, responseCode: ActionCode.ADD_ALARM}
 		).toPromise()
 		return this.moduleDefRepository.update(module.moduleDef as GrowbeModuleDef);
 	}
@@ -68,7 +68,7 @@ export class GrowbeHardwareAlarmService {
 			mainboardId,
 			getTopic(mainboardId, `/board/rAl`),
 			FieldAlarm.encode(alarm).finish(),
-			{ waitingTime: 3000, responseCode: 10}
+			{ waitingTime: 3000, responseCode: ActionCode.REMOVE_ALARM}
 		).toPromise()
 		.then((response) => this.moduleDefRepository.update(module.moduleDef as GrowbeModuleDef));
 	}
@@ -87,7 +87,7 @@ export class GrowbeHardwareAlarmService {
 			type: LogTypeEnum.ALARM,
 			newState: alarmEvent,
 			growbeModuleId: alarmEvent.moduleId,
-			message: `alarm for ${alarmEvent.property} transition from ${AlarmZoneArray[alarmEvent.previousZone]} to ${AlarmZoneArray[alarmEvent.currentZone]}`,
+			message: `alarm for ${alarmEvent.property} transition from ${AlarmZoneArray[alarmEvent.previousZone]} at ${alarmEvent.previousValue} to ${AlarmZoneArray[alarmEvent.currentZone]} at ${alarmEvent.currentValue}`,
 		});
 	}
 }

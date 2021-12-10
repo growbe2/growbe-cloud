@@ -1,8 +1,9 @@
-import {ActionResponse, FieldAlarmEvent, HearthBeath, HelloWord, LocalConnection, ModuleData } from '@growbe2/growbe-pb';
+import {ActionResponse, FieldAlarmEvent, HearthBeath, HelloWord, LocalConnection, ModuleData, UpdateExecute } from '@growbe2/growbe-pb';
 import {Binding, Component} from '@loopback/core';
 import {GrowbeMainboardBindings} from '../keys';
+import { GroupEnum, LogTypeEnum, SeverityEnum } from '../models';
 import { DataSubject, funcModuleSubject } from '../observers/data-subject.model';
-import {GrowbeActionReponseService, GrowbeHardwareAlarmService, GrowbeModuleService, GrowbeService, GrowbeStateService} from '../services';
+import {GrowbeActionReponseService, GrowbeHardwareAlarmService, GrowbeLogsService, GrowbeModuleService, GrowbeService, GrowbeStateService} from '../services';
 import {
   GrowbeStateWatcherObserver,
 } from './observers';
@@ -63,6 +64,35 @@ const watchers: DataSubject[] = [
     model: ActionResponse,
     regexTopic: 'response',
     service: GrowbeActionReponseService,
+  },
+  {
+    func: (id, service: GrowbeLogsService, data: UpdateExecute) => {
+      return service.addLog({
+        growbeMainboardId: id,
+        group: GroupEnum.MAINBOARD,
+        severity: SeverityEnum.MEDIUM,
+        type: LogTypeEnum.VERSION_UPDATED,
+        newState: data,
+        message: `updated execute for version ${data.version} ${(!data.restarted) ? 'process not restarted , update will be effective on next restart': ''}`
+      });
+    },
+    model: UpdateExecute,
+    regexTopic: 'updated',
+    service: GrowbeLogsService,
+  },
+  {
+    func: (id, service: GrowbeLogsService, data: any) => {
+      return service.addLog({
+        growbeMainboardId: id,
+        group: GroupEnum.MAINBOARD,
+        severity: SeverityEnum.MEDIUM,
+        type: LogTypeEnum.RESTART,
+        message: `restarting process`
+      });
+    },
+    model: null,
+    regexTopic: 'restarted',
+    service: GrowbeLogsService,
   }
 ];
 

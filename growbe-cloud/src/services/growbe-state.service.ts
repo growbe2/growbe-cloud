@@ -58,7 +58,7 @@ export class GrowbeStateService {
     await this.notifyState(
       new GrowbeMainboard(_.omit(mainboard, 'growbeMainboardConfig')),
     );
-    await this.growbeSyncService.syncConfig(mainboard.id);
+    //await this.growbeSyncService.syncConfig(mainboard.id);
   }
 
   async valideState(id: string) {
