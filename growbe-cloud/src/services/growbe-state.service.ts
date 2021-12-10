@@ -54,6 +54,7 @@ export class GrowbeStateService {
     mainboard.version = helloWorld.version;
     mainboard.lastUpdateAt = new Date();
     mainboard.state = 'CONNECTED';
+    await this.growbeService.mainboardRepository.updateById(id, { version: mainboard.version, lastUpdateAt: mainboard.lastUpdateAt, state: mainboard.state});
     await this.stateChange(mainboard);
     await this.notifyState(
       new GrowbeMainboard(_.omit(mainboard, 'growbeMainboardConfig')),
