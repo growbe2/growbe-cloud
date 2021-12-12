@@ -60,6 +60,7 @@ services:
       DB_URL: 'postgres://test:test@pgsql:5432/defaultdb'
       MONGO_URL: 'mongodb://doadmin:test@mongo:27018/growbe?authSource=admin'
       MQTT_URL: 'mqtt://broker:1883'
+      DEBUG: 'growbe:*'
     command: node dist/growbe-cloud.js
   growbe-cloud-watcher:
     image: docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud:latest
@@ -79,6 +80,7 @@ services:
       DB_URL: 'postgres://test:test@pgsql:5432/defaultdb'
       MONGO_URL: 'mongodb://doadmin:test@mongo:27018/growbe?authSource=admin'
       MQTT_URL: 'mqtt://broker:1883'
+      DEBUG: 'growbe:*'
     command: node dist/growbe-watcher.js
   sso:
     image: docker.pkg.github.com/berlingoqc/sso:latest

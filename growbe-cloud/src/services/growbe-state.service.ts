@@ -45,16 +45,10 @@ export class GrowbeStateService {
     const mainboard = await this.growbeService.findOrCreate(id, {
       include: ['growbeMainboardConfig'],
     });
-    await this.validOffsetRTC(
-      helloWorld.RTC,
-      id,
-      mainboard.growbeMainboardConfig.config.hearthBeath,
-    );
     mainboard.cloudVersion = helloWorld.cloudVersion;
     mainboard.version = helloWorld.version;
     mainboard.lastUpdateAt = new Date();
     mainboard.state = 'CONNECTED';
-    await this.growbeService.mainboardRepository.updateById(id, { version: mainboard.version, lastUpdateAt: mainboard.lastUpdateAt, state: mainboard.state});
     await this.stateChange(mainboard);
     await this.notifyState(
       new GrowbeMainboard(_.omit(mainboard, 'growbeMainboardConfig')),
@@ -71,11 +65,12 @@ export class GrowbeStateService {
     const receiveAt = new Date();
     // Si on change d'état notify par MQTT
     if (mainboard.state !== 'CONNECTED') {
+      GrowbeStateService.DEBUG(`Growbe ${id} connecti`);
       mainboard.state = 'CONNECTED';
       await this.stateChange(
         _.omit(mainboard, 'growbeMainboardConfig') as GrowbeMainboard,
       );
-      this.growbeService.sendSyncRequest(mainboard.id).then(() => {});
+      //this.growbeService.sendSyncRequest(mainboard.id).then(() => {});
     }
     await this.notifyState(
       new GrowbeMainboard({
