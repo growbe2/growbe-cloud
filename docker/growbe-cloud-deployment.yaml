@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: growbe-cloud
+  name: growbe-cloud
+spec:
+  progressDeadlineSeconds: 2147483647
+  replicas: 1
+  revisionHistoryLimit: 2147483647
+  selector:
+    matchLabels:
+      io.kompose.service: growbe-cloud
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: growbe-cloud
+    spec:
+      containers:
+      - args:
+        - node
+        - dist/growbe-cloud.js
+        env:
+        - name: DB_URL
+          value: postgres://test:test@pgsql:5432/defaultdb
+        - name: MONGO_URL
+          value: mongodb://doadmin:test@mongo:27018/growbe?authSource=admin
+        - name: MQTT_URL
+          value: mqtt://broker:1883
+        - name: NMS_API_PASSWORD
+          value: "12345678"
+        - name: NMS_API_URL
+          value: http://nms:8000
+        - name: NMS_API_USERNAME
+          value: testadmin
+        - name: NMS_TOKEN
+          value: "12345678"
+        - name: PORT
+          value: "3000"
+        - name: SSO_URL
+          value: http://sso:3001
+        image: ghcr.io/growbe2/growbe-cloud/growbe-cloud:latest
+        imagePullPolicy: Always
+        name: growbe-cloud
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: ghrc
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status: {}

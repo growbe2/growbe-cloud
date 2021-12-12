@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: growbe-cloud-watcher
+  name: growbe-cloud-watcher
+spec:
+  progressDeadlineSeconds: 2147483647
+  replicas: 1
+  revisionHistoryLimit: 2147483647
+  selector:
+    matchLabels:
+      io.kompose.service: growbe-cloud-watcher
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: growbe-cloud-watcher
+    spec:
+      containers:
+      - args:
+        - node
+        - dist/growbe-watcher.js
+        env:
+        - name: DB_URL
+          value: postgres://test:test@pgsql:5432/defaultdb
+        - name: MONGO_URL
+          value: mongodb://doadmin:test@mongo:27018/growbe?authSource=admin
+        - name: MQTT_URL
+          value: mqtt://broker:1883
+        - name: PORT
+          value: "3005"
+        - name: SSO_URL
+          value: http://sso:3001
+        image: ghcr.io/growbe2/growbe-cloud/growbe-cloud:latest
+        imagePullPolicy: Always
+        name: growbe-cloud-watcher
+        ports:
+        - containerPort: 3005
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: ghrc
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status: {}
