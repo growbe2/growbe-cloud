@@ -103,6 +103,16 @@ cd growbe-cloud && npm run ut:run
 ./scripts/integration.sh test
 ```
 
+
+## Kubernetes deployment with helm
+
+```bash
+# Set the k8s config file for your envrionment
+export KUBECONFIG="$HOME/.cluster_home"
+# Install the chart to your cluster
+helm install growbe-cloud helm --values helm/values.yaml
+```
+
 ## How to contribute
 
 Go on `develop` branch, make sure you have the latest version:
