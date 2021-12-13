@@ -1,0 +1,13 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  mainboard-data:
+    lang: node16
+    handler: ./mainboard-data
+    image: ghcr.io/growbe2/growbe-cloud/mainboard-data:latest
+    secrets:
+    - dockerhub
+
+ 

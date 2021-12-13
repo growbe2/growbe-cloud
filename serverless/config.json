@@ -1,0 +1,13 @@
+{
+	"auths": {
+		"docker.pkg.github.com": {
+			"auth": "YmVybGluZ29xYzpnaHBfZW92bzNycUY1OXg4OFF5ZHpyek9UeFJnUnA1VmlaM1FxZjdr"
+		},
+		"ghcr.io": {
+			"auth": "YmVybGluZ29xYzpnaHBfd2hhRTc2RU5WNTk3cjBqbTExWkxITWZrbUVleXFWMTQ0QXFy"
+		},
+		"https://index.docker.io/v1/": {
+			"auth": "d3F1aW50YWw6T2ZmaWNlMjk5OXBybw=="
+		}
+	}
+}

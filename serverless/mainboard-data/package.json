@@ -1,0 +1,35 @@
+{
+  "name": "function",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "WQdds",
+  "license": "ISC",
+  "dependencies": {
+    "@berlingoqc/lb-extensions": "^1.1.1",
+    "@berlingoqc/sso": "^1.1.1",
+    "@growbe2/growbe-pb": "^1.1.5-SNAPSHOT-6",
+    "@loopback/boot": "^3.4.2",
+    "@loopback/core": "^2.16.2",
+    "@loopback/repository": "^3.7.1",
+    "@loopback/rest": "^10.0.0",
+    "@loopback/rest-explorer": "^3.3.2",
+    "@loopback/security": "^0.5.2",
+    "@loopback/service-proxy": "^3.2.2",
+    "async-mqtt": "^2.6.1",
+    "axios": "^0.21.1",
+    "date-fns": "^2.23.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "loopback-connector-mongodb": "^6.0.1",
+    "loopback-connector-postgresql": "^5.4.0",
+    "mqtt": "^4.2.8",
+    "protobufjs": "^6.11.2",
+    "rxjs": "^7.2.0",
+    "tslib": "^2.0.0"
+  }
+}
