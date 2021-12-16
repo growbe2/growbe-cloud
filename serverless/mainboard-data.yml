@@ -4,9 +4,13 @@ provider:
   gateway: http://127.0.0.1:8080
 functions:
   mainboard-data:
-    lang: node16
+    lang: node14
     handler: ./mainboard-data
     image: ghcr.io/growbe2/growbe-cloud/mainboard-data:latest
+    environment:
+      DB_URL: postgres://test:test@pgsql.default.svc.cluster.local:5432/defaultdb
+      MONGO_URL: mongodb://doadmin:test@mongo.default.svc.cluster.local:27018/growbe?authSource=admin
+      MQTT_URL: mqtt://broker.default.svc.cluster.local:1883
     secrets:
     - dockerhub
 

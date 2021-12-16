@@ -4,14 +4,20 @@ var http = require('http');
 var ddd = require('./dist/growbe-mainboard-event');
 
 
-ddd.version().then(() => {
-    console.log('APP DONE BOOTING');
+let service;
+
+ddd.version([]).then((se) => {
+    console.log('APP DONE BOOTING', se);
+    service = se
 })
 
 
-module.exports = (context, callback) => {
 
-    console.log('PRINE LN', context);
+module.exports = async (context, callback) => {
 
-    callback({status: 300});
+    let body = { topic: context.body.Topic, data: context.body.Body }
+
+    console.log('BODY', body);
+
+    return service.handler(body);
 }
