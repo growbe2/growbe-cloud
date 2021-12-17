@@ -2,7 +2,7 @@ import { BindingScope, inject, injectable } from "@loopback/context";
 import { Application, CoreBindings, service } from "@loopback/core";
 import mqtt from 'mqtt';
 import { Subscription } from "rxjs";
-import { filter } from "rxjs/operators";
+import { filter, tap } from "rxjs/operators";
 import { DataSubject } from "../observers/data-subject.model";
 import { MQTTService } from "./mqtt.service";
 
@@ -32,6 +32,7 @@ export class MqttListnener {
     addWatcher(subject: DataSubject): Subscription {
         return this.mqttService.observable
           .pipe(
+            tap((x) => console.log(x)),
             filter(
               x =>
                 !x.topic.includes('cloud') &&
@@ -40,6 +41,7 @@ export class MqttListnener {
         ).subscribe((data) => {
           (async () => {
             try {
+              console.log(data);
               const d = subject.model
                 ? subject.model.decode(data.message)
                 : data.message;

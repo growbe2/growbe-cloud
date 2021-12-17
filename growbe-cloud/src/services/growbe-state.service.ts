@@ -65,12 +65,12 @@ export class GrowbeStateService {
     const receiveAt = new Date();
     // Si on change d'état notify par MQTT
     if (mainboard.state !== 'CONNECTED') {
-      GrowbeStateService.DEBUG(`Growbe ${id} connecti`);
+      GrowbeStateService.DEBUG(`Growbe ${id} connected`);
       mainboard.state = 'CONNECTED';
       await this.stateChange(
         _.omit(mainboard, 'growbeMainboardConfig') as GrowbeMainboard,
       );
-      //this.growbeService.sendSyncRequest(mainboard.id).then(() => {});
+      this.growbeService.sendSyncRequest(mainboard.id).then(() => {});
     }
     await this.notifyState(
       new GrowbeMainboard({
