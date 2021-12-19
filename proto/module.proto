@@ -1,5 +1,28 @@
 syntax = "proto3";
 
+enum ActorType {
+    MANUAL_USER_ACTOR = 0;
+    DURATION_ACTOR = 1;
+    ALARM_ACTOR = 2;
+    VIRTUAL_ACTOR = 3;
+}
+
+message Actor {
+    ActorType type = 1;
+    string id = 2;
+    string name = 3;
+}
+
+message ActorOwnership {
+    string moduleId = 1;
+    string property = 2;
+}
+
+message ActorWithOwnership {
+    Actor actor = 1;
+    repeated ActorOwnership ownerships = 2;
+}
+
 message ModuleData {
     string id = 1;
     string name = 2;
@@ -83,6 +106,8 @@ message RelayModuleData {
     RelayOutletData p7 = 8;
 
     int32 timestamp = 9;
+
+    Actor actor = 10;
 }
 
 message RelayModuleConfig {
@@ -96,6 +121,7 @@ message RelayModuleConfig {
     RelayOutletConfig p7 = 8;
 
     int32 timestamp = 9;
+
 }
 
 message WCModuleData {
@@ -110,6 +136,8 @@ message WCModuleData {
     RelayOutletData pump3 = 8;
 
     int32 timestamp = 9;
+
+    Actor actor = 10;
 }
 
 message WCModuleConfig {
@@ -123,4 +151,6 @@ message WCModuleConfig {
     RelayOutletConfig pump2 = 7;
     RelayOutletConfig pump3 = 8;
 }
+
+
 
