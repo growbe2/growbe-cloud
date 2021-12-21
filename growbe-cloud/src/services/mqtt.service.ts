@@ -25,6 +25,7 @@ export class MQTTService {
 
   async connect() {
     this.client = await mqtt.connectAsync(this.url);
+    this.client.setMaxListeners(100);
     this.observable = new Observable(sub => {
       this.client.on('message', (topic, message) => {
         sub.next({topic, message});

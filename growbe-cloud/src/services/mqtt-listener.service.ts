@@ -32,7 +32,6 @@ export class MqttListnener {
     addWatcher(subject: DataSubject): Subscription {
         return this.mqttService.observable
           .pipe(
-            tap((x) => console.log(x)),
             filter(
               x =>
                 !x.topic.includes('cloud') &&
@@ -41,7 +40,6 @@ export class MqttListnener {
         ).subscribe((data) => {
           (async () => {
             try {
-              console.log(data);
               const d = subject.model
                 ? subject.model.decode(data.message)
                 : data.message;

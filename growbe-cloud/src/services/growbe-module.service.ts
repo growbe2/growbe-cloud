@@ -35,7 +35,8 @@ const mapType: any = {
 
 const mapTypeConfig: any = {
   AAB: 'WCModuleConfig',
-  AAP: 'RelayModuleConfig'
+  AAP: 'RelayModuleConfig',
+  AAS: 'SOILModuleConfig'
 };
 
 const removeNullProperty = (obj: any) => {
@@ -185,21 +186,12 @@ export class GrowbeModuleService {
     module.config[property] = config;
     // remove property with null config
     await this.moduleRepository.update(module);
+    // NEED TO REMWORK TO USE SAME CODE AS UPDATED_CONFIG WITH THE MQTT SEND
     return this.sendConfigToMainboard(module);
   }
 
   async setModuleConfig(id: string, config: any) {
-    const module = await this.moduleRepository.findById(id);
-    if (!module) {
-      throw new HttpErrors[404]();
-    }
-    if (!module.config) module.config = {};
-    Object.entries(config).forEach(([k,v]) => {
-      if (v === null || v === undefined) return;
-      module.config[k] = v;
-    });
-    // remove property with null config
-    await this.moduleRepository.update(module);
+    const module = await this.updateModuleConfig(id, config);
     return this.sendConfigToMainboard(module);
   }
 
@@ -210,6 +202,29 @@ export class GrowbeModuleService {
     for (const module of modules) {
       await this.sendConfigToMainboard(module);
     }
+  }
+
+  async receivedConfigFromMainboard(moduleId: string, dataConfig: any) {
+    const model = pbDef[mapTypeConfig[moduleId.slice(0, 3)]];
+    const config = model.decode(dataConfig);
+    return this.updateModuleConfig(moduleId, config)
+  }
+
+  private async updateModuleConfig(id: string, config: any) {
+    const module = await this.moduleRepository.findById(id);
+    if (!module) {
+      throw new HttpErrors[404]();
+    }
+    if (!module.config) module.config = {};
+    Object.entries(config).forEach(([k,v]) => {
+      if (v === null || v === undefined) return;
+      module.config[k] = v;
+    });
+    // remove property with null config
+    return this.moduleRepository.update(module).then(() => this.mqttService.send(
+      getTopic(module.mainboardId, `/cloud/m/${module.id}/config`),
+      JSON.stringify(config),
+    )).then(() => module);
   }
 
   private sendConfigToMainboard(module: GrowbeModule) {
