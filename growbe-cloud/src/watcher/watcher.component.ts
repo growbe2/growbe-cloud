@@ -1,9 +1,10 @@
-import {ActionResponse, FieldAlarmEvent, HearthBeath, HelloWord, LocalConnection, ModuleData, UpdateExecute } from '@growbe2/growbe-pb';
+import {ActionResponse, FieldAlarmEvent, HearthBeath, HelloWord, LocalConnection, ModuleData, UpdateExecute, SOILCalibrationStepEvent } from '@growbe2/growbe-pb';
 import {Binding, Component} from '@loopback/core';
 import {GrowbeMainboardBindings} from '../keys';
 import { GroupEnum, LogTypeEnum, SeverityEnum } from '../models';
 import { DataSubject, funcModuleSubject } from '../observers/data-subject.model';
 import {GrowbeActionReponseService, GrowbeHardwareAlarmService, GrowbeLogsService, GrowbeModuleService, GrowbeService, GrowbeStateService} from '../services';
+import { GrowbeCalibrationService } from '../services/growbe-calibration.service';
 import {
   GrowbeStateWatcherObserver,
 } from './observers';
@@ -93,6 +94,22 @@ const watchers: DataSubject[] = [
     model: null,
     regexTopic: 'restarted',
     service: GrowbeLogsService,
+  },
+  {
+    func: funcModuleSubject((id, moduleId, service: GrowbeCalibrationService, data: SOILCalibrationStepEvent) => {
+      return service.onCalibrationEvent(id, moduleId, data)
+    }),
+    model: SOILCalibrationStepEvent,
+    regexTopic: 'calibrationEvent',
+    service: GrowbeCalibrationService,
+  },
+  {
+    func: funcModuleSubject((id, moduleId, service: GrowbeModuleService, data: any) => {
+      return service.receivedConfigFromMainboard(moduleId, data);
+    }),
+    model: null,
+    regexTopic: 'config_updated',
+    service: GrowbeModuleService,
   }
 ];
 

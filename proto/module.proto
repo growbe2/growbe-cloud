@@ -53,6 +53,64 @@ message SOILModuleData {
    int32 timestamp = 9;
 }
 
+message SOILProbeConfig {
+    int32 low = 1;
+    int32 high = 2;
+}
+
+message SOILModuleConfig {
+    SOILProbeConfig p0 = 1;
+    SOILProbeConfig p1 = 2;
+    SOILProbeConfig p2 = 3;
+    SOILProbeConfig p3 = 4;
+    SOILProbeConfig p4 = 5;
+    SOILProbeConfig p5 = 6;
+    SOILProbeConfig p6 = 7;
+    SOILProbeConfig p7 = 8;
+}
+
+
+enum CalibrationStep {
+    READY_CALIBRATION = 0;
+    LOW_CALIBRATION = 1;
+    HIGH_CALIBRATION = 2;
+    ERROR_CALIBRATION = 3;
+    WAITING_CONFIRMATION_CALIBRATION = 4;
+}
+
+enum CalibrationStepStatus {
+    INSUFFISANT_DATA_STATUS = 0;
+    ENOUGHT_DATA_STATUS = 1;
+    ERROR_STATUS = 2;
+    AWAITING_STEP_STATUS = 3;
+}
+
+enum CalibrationError {
+    NONE_ERROR = 0;
+    ALREADY_STARTED_ERROR = 1;
+    INSTABLE_DATA_ERROR = 2;
+    NOT_ENOUGHT_DATA_ERROR = 3;
+}
+
+// Message to start the calibration request
+message SOILCalibrationStart {}
+
+// Message to configure the current step of the request
+message SOILCalibrationStep {
+    CalibrationStep requested_step = 1;
+}
+
+// Event produce by the process for the cloud to display information to the user
+message SOILCalibrationStepEvent {
+    CalibrationStep step = 1;
+    CalibrationStepStatus status = 2;
+    CalibrationError erro = 3;
+    string messag = 4;
+
+    repeated SOILModuleData low = 5;
+    repeated SOILModuleData high = 6;
+}
+
 message WAModuleData {
     int32 PH = 2;
     int32 EC = 3;
