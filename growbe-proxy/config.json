@@ -1,8 +1,0 @@
-{
-    "port": "ROBOT",
-    "portConfig": {
-        "baudRate": 115200
-    },
-    "growbeId": "FFFFFFFF",
-    "mqtt": "mqtt://broker.dev.growbe.ca"
-}
