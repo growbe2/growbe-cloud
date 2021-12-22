@@ -20,7 +20,7 @@ jobs:
             registry-url: 'https://npm.pkg.github.com'
             scope: '@growbe2'
       - name: Updating version
-        run: npm run setversion:develop
+        run: echo "VERSION=$(npm run getversion:develop --silent)" >> $GITHUB_ENV
       - name: Portal docker-build
         run: cd growbe-portal && npm run docker:build
         env:
@@ -38,14 +38,10 @@ jobs:
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Deploy to dev
-        run: 'mkdir $HOME/.ssh && echo "${{secrets.SSH2}}" > $HOME/.ssh/id_rsa && chmod 700 $HOME/.ssh/id_rsa && ssh -oStrictHostKeyChecking=accept-new root@api.dev.growbe.ca "cd growbe-cloud && git pull origin develop && ./scripts/deploy.sh"'
+        run: 'mkdir $HOME/.ssh && echo "${{secrets.SSH2}}" > $HOME/.ssh/id_rsa && chmod 700 $HOME/.ssh/id_rsa && ssh -oStrictHostKeyChecking=accept-new root@api.dev.growbe.ca "cd growbe-cloud && git pull origin develop && VERSION=${VERSION} ./scripts/deploy.sh"'
       - name: Notify
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
           args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed to dev. ${{ github.event.head_commit.message }}'
-      - uses: sonarsource/sonarqube-scan-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}

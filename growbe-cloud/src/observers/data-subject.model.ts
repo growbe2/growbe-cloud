@@ -21,10 +21,16 @@ export interface DataSubject {
   func: DataSubjectFunc;
 }
 
+const subjectRegex = /^[A-Z]{3}\d{9}$/;
+
 export function funcModuleSubject(func: DataModuleFunc): DataSubjectFunc {
   return async (i, service, data, topic) => {
     const items = topic.split('/');
     const moduleId = items[items.length - 2];
-    return func(i, moduleId, service, data, topic);
+    // valide le moduleId
+    if (subjectRegex.test(moduleId)) {
+      return func(i, moduleId, service, data, topic);
+    }
+    return () => console.error("failed to parse module id " + moduleId);
   };
 }

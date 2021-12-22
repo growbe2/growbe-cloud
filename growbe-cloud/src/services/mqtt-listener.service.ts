@@ -2,7 +2,7 @@ import { BindingScope, inject, injectable } from "@loopback/context";
 import { Application, CoreBindings, service } from "@loopback/core";
 import mqtt from 'mqtt';
 import { Subscription } from "rxjs";
-import { filter } from "rxjs/operators";
+import { filter, tap } from "rxjs/operators";
 import { DataSubject } from "../observers/data-subject.model";
 import { MQTTService } from "./mqtt.service";
 

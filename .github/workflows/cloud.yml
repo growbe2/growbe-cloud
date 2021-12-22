@@ -20,7 +20,7 @@ jobs:
             registry-url: 'https://npm.pkg.github.com'
             scope: '@growbe2'
       - name: Updating version
-        run: npm run setversion
+        run: echo "VERSION=$(npm run getversion --silent)" >> $GITHUB_ENV
       - name: Portal docker-build
         run: cd growbe-portal && npm run docker:build
         env:
@@ -29,8 +29,6 @@ jobs:
         run: cd growbe-cloud && npm run docker:build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-      - name: Proto build
-        run: cd proto && npm run docker:build
       - name: Publish Cloud
         run: cd growbe-cloud && npm run docker:push
         env:
@@ -39,14 +37,9 @@ jobs:
         run: cd growbe-portal && npm run docker:push
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-      - name: Publish proxy
-        run: cd growbe-proxy && npm publish
+      - name: Notify
         env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-          NODE_AUTH_TOKEN: ${{ secrets.PAT }}
-      - name: Publish Proto
-        run: cd proto && npm run publishnpm
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-          NODE_AUTH_TOKEN: ${{ secrets.PAT }}
-      
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed to dev. ${{ github.event.head_commit.message }}'

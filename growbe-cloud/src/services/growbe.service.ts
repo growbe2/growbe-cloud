@@ -1,4 +1,4 @@
-import pb, {LocalConnection, RTCTime} from '@growbe2/growbe-pb';
+import pb, {ActionCode, LocalConnection, RTCTime} from '@growbe2/growbe-pb';
 import {BindingScope, inject, injectable, service} from '@loopback/core';
 import {
   Filter,
@@ -184,7 +184,7 @@ export class GrowbeService {
   public sendSyncRequest(growbeId: string) {
     return lastValueFrom(this.mqttService
       .sendWithResponse(growbeId,getTopic(growbeId, '/board/sync'), '', {
-        responseCode: 11,
+        responseCode: ActionCode.SYNC_REQUEST,
         waitingTime: 3000
       }))
       .then(value => {
