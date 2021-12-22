@@ -41,7 +41,7 @@ spec:
           value: "3005"
         - name: SSO_URL
           value: http://sso:3001
-        image: ghcr.io/growbe2/growbe-cloud/growbe-cloud:latest
+        image: ghcr.io/growbe2/growbe-cloud/growbe-cloud:{{ .Values.cloud.version }}
         imagePullPolicy: Always
         name: growbe-cloud-watcher
         ports:

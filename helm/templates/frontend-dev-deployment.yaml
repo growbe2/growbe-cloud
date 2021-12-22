@@ -27,7 +27,7 @@ spec:
         io.kompose.service: frontend-dev
     spec:
       containers:
-      - image: ghcr.io/growbe2/growbe-cloud/growbe-portal:latest
+      - image: ghcr.io/growbe2/growbe-cloud/growbe-portal:{{ .Values.cloud.version }}
         imagePullPolicy: Always
         name: frontend-dev
         ports:
