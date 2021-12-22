@@ -25,24 +25,20 @@ jobs:
         run: cd growbe-portal && npm run docker:build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-          VERSION: ${{ VERSION }}
       - name: Cloud docker-build
         run: cd growbe-cloud && npm run docker:build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-          VERSION: ${{ VERSION }}
       - name: Publish Cloud
         run: cd growbe-cloud && npm run docker:push
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-          VERSION: ${{ VERSION }}
       - name: Publish Portal
         run: cd growbe-portal && npm run docker:push
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-          VERSION: ${{ VERSION }}
       - name: Deploy to dev
-        run: 'mkdir $HOME/.ssh && echo "${{secrets.SSH2}}" > $HOME/.ssh/id_rsa && chmod 700 $HOME/.ssh/id_rsa && ssh -oStrictHostKeyChecking=accept-new root@api.dev.growbe.ca "cd growbe-cloud && git pull origin develop && VERSION=${{VERSION}} ./scripts/deploy.sh"'
+        run: 'mkdir $HOME/.ssh && echo "${{secrets.SSH2}}" > $HOME/.ssh/id_rsa && chmod 700 $HOME/.ssh/id_rsa && ssh -oStrictHostKeyChecking=accept-new root@api.dev.growbe.ca "cd growbe-cloud && git pull origin develop && ./scripts/deploy.sh"'
       - name: Notify
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
