@@ -37,6 +37,11 @@ jobs:
         run: cd growbe-portal && npm run docker:push
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+      - name: Deploy
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: helm upgrade growbe-cloud helm --install --wait --atomic --namespace=default --set=cloud.version=${VERSION} --values=./helm/values.yaml
+          kubeconfig: '${{ secrets.KUBECONFIG }}'
       - name: Notify
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}

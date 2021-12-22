@@ -1,0 +1,6 @@
+{
+    "growbeCloud": "https://api.growbe.ca",
+    "broker": "wss://broker.growbe.ca",
+    "sso": "https://auth.growbe.ca/api",
+    "nms": "https://stream.growbe.ca"
+}

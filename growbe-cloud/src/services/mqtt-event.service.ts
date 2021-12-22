@@ -2,7 +2,8 @@ import { BindingScope, inject, injectable } from "@loopback/context";
 import { Application, CoreBindings, service } from "@loopback/core";
 import mqtt from 'mqtt';
 import { Subscription } from "rxjs";
-import { filter, tap } from "rxjs/operators";
+import { filter } from "rxjs/operators";
+import { GrowbeMainboardBindings } from "../keys";
 import { DataSubject } from "../observers/data-subject.model";
 import { MQTTService } from "./mqtt.service";
 
@@ -12,37 +13,32 @@ export const getIdFromTopic = (topic: string): string => {
   }
 
 @injectable({scope: BindingScope.SINGLETON})
-export class MqttListnener {
+export class MqttEventService {
     static DEBUG = require('debug')('growbe:service::mqtt');
 
     client: mqtt.Client;
 
     constructor(
         @inject(CoreBindings.APPLICATION_INSTANCE) private app: Application,
-        @service(MQTTService) private mqttService: MQTTService,
+        @inject(GrowbeMainboardBindings.WATCHERS) private watchers: DataSubject[],
     ) {
 
     }
 
-    async init() {
-        return this.mqttService.connect().then(() => this.mqttService.addSubscription('#'));
+    async handler(data: {topic: string, data: any}) {
+        console.log('WATCHERS', this.watchers)
+        for (const watcher of this.watchers) {
+            await this.handleEvent(watcher, data)
+        }
     }
 
-
-    addWatcher(subject: DataSubject): Subscription {
-        return this.mqttService.observable
-          .pipe(
-            filter(
-              x =>
-                !x.topic.includes('cloud') &&
-                x.topic.includes(subject.regexTopic),
-            ),
-        ).subscribe((data) => {
-          (async () => {
-            try {
-              const d = subject.model
-                ? subject.model.decode(data.message)
-                : data.message;
+  async handleEvent(subject: DataSubject, data: {topic: string, data: any}) {
+      if (data.topic.includes(subject.regexTopic)) {
+                console.log('GGGA', data)
+        try {
+            const d = subject.model
+                ? subject.model.decode(data.data)
+                : data.data;
               const serviceSubject = await this.app.get(
                 `services.${subject.service.name}`,
               );
@@ -53,16 +49,9 @@ export class MqttListnener {
                 data.topic,
               );
             } catch (err) {
-              MqttListnener.DEBUG("Failed to parse on subject", data.topic, err);
+                console.log('ERR1', err)
+              MqttEventService.DEBUG("Failed to parse on subject", data.topic, err);
             }
-          })()
-            .then(() => {})
-            .catch(() => {});
-        });
+        }
   }
-
-  handleEvent(data: {topic: string, message: Buffer}) {
-
-  }
-
 }

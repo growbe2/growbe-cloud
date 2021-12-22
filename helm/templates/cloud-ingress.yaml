@@ -1,0 +1,65 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: http-ingress
+  annotations:
+    nginx.org/websocket-services: "broker"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - auth.growbe.ca
+    - cloud.growbe.ca
+    - api.growbe.ca
+    - broker.growbe.ca
+    secretName: tls-growbedev
+  rules:
+  - host: auth.growbe.ca
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sso
+            port:
+              number: 3001
+  - host: cloud.growbe.ca
+    http:
+      paths:
+      - path: /assets/config
+        pathType: Prefix
+        backend:
+          service:
+            name: conf-server
+            port:
+              number: 80
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend-dev
+            port:
+              number: 80
+
+
+  - host: api.growbe.ca
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: growbe-cloud
+            port:
+              number: 3000
+  - host: broker.growbe.ca
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: broker
+            port:
+              number: 9001
