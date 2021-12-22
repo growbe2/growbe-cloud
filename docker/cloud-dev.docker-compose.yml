@@ -39,7 +39,7 @@ services:
         source: './mosquito/mosquito.conf'
         target: '/mosquitto/config/mosquitto.conf'
   growbe-cloud:
-    image: docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud:latest
+    image: docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud:${VERSION}
     networks:
       - net
     depends_on:
@@ -63,7 +63,7 @@ services:
       DEBUG: 'growbe:*'
     command: node dist/growbe-cloud.js
   growbe-cloud-watcher:
-    image: docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud:latest
+    image: docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud:${VERSION}
     networks:
       - net
     depends_on:
@@ -108,7 +108,7 @@ services:
       JWT_TTL: 9600
     command: npm run start
   frontend_dev:
-    image: docker.pkg.github.com/growbe2/growbe-cloud/growbe-portal:latest
+    image: docker.pkg.github.com/growbe2/growbe-cloud/growbe-portal:${VERSION}
     networks:
       - net
     ports:
