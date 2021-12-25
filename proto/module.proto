@@ -122,6 +122,7 @@ message WAModuleData {
 enum RelayOutletMode {
     MANUAL = 0;
     ALARM = 1;
+    VIRTUAL = 2;
 }
 
 message CronItem {
@@ -146,11 +147,29 @@ message RelayOutletData {
     bool state = 1;
 }
 
+message VirtualOutletConfig {}
+
 message RelayOutletConfig {
     RelayOutletMode mode = 1;
     
     AlarmConfig alarm = 2;
     ManualConfig manual =3;
+    VirtualOutletConfig virtual = 4;
+}
+
+message VirtualOutletItem {
+    repeated string properties = 1;
+}
+
+// Contain the definition for one virtual outlet
+message VirtualOutlet {
+    string name = 1;
+    map<string, VirtualOutletItem> relays = 2;
+}
+
+// Contains all the virtual outlet
+message VirtualOutlets {
+    repeated VirtualOutlet outlets = 1;
 }
 
 message RelayModuleData {
