@@ -158,7 +158,8 @@ message RelayOutletConfig {
 }
 
 message VirtualOutletItem {
-    repeated string properties = 1;
+    // action port for the properties
+    repeated int32 properties = 1;
 }
 
 // Contain the definition for one virtual outlet
