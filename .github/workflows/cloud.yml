@@ -26,11 +26,11 @@ jobs:
       - name: Updating version
         run: echo "VERSION=$(npm run getversion --silent)" >> $GITHUB_ENV
       - name: Portal docker-build
-        run: cd growbe-portal && npm run docker:build
+        run: cd growbe-portal && npm --no-git-tag-version version ${VERSION} && npm run docker:build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Cloud docker-build
-        run: cd growbe-cloud && npm run docker:build
+        run: cd growbe-cloud && npm --no-git-tag-version version ${VERSION} && npm run docker:build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Publish Cloud
