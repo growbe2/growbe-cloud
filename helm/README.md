@@ -5,6 +5,11 @@
 sudo snap install microk8s --classic
 sudo usermod -a -G microk8s $USER
 microk8s enable dashboard dns storage ingress prometheus openfaas
+
+# Adding loki and promtail
+helm upgrade --namespace monitoring --install loki grafana/loki
+helm upgrade --namespace monitoring --install promtail grafana/promtail --set "config.lokiAddress=http://loki.obsv.svc.cluster.local:3100/loki/api/v1/push"
+
 # Copy to your machine to start working on the cluster
 microk8s config > .cluster_config
 
