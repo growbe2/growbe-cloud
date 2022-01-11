@@ -67,7 +67,7 @@ spec:
         terminationMessagePolicy: File
       dnsPolicy: ClusterFirst
       imagePullSecrets:
-      - name: ghreg2
+      - name: ghcr
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}

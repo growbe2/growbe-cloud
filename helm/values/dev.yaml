@@ -1,0 +1,5 @@
+
+cloud:
+  env: dev
+  basePath: dev.growbe.ca
+  secretCert: tls-growbedev-2

@@ -27,7 +27,7 @@ spec:
         io.kompose.service: conf-server
     spec:
       containers:
-      - image: ghcr.io/growbe2/growbe-cloud/config-prod:latest
+      - image: ghcr.io/growbe2/growbe-cloud/config-{{ .Values.cloud.env }}:latest
         imagePullPolicy: Always
         name: conf-server
         ports:

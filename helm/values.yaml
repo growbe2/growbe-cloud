@@ -5,3 +5,5 @@
 
 cloud:
   version: 1.0.0
+  basePath: growbe.ca
+  secretCert: ""

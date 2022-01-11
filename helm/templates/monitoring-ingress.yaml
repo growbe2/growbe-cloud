@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/issuer: letsencrypt-prod
+  name: ingress-monitoring
+  namespace: monitoring
+spec:
+  rules:
+  - host: graphana.growbe.ca
+    http:
+      paths:
+      - backend:
+          service:
+            name: grafana
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
+  - host: prometheus.growbe.ca
+    http:
+      paths:
+      - backend:
+          service:
+            name: prometheus-k8s 
+            port:
+              number: 9090
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - graphana.growbe.ca
+    - prometheus.growbe.ca
+    secretName: monitoring-ingress-cert
