@@ -58,6 +58,5 @@ spec:
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
-      minReadySeconds: 60
       terminationGracePeriodSeconds: 30
 status: {}
