@@ -3,18 +3,19 @@ kind: Ingress
 metadata:
   name: http-ingress
   annotations:
+    cert-manager.io/issuer: issuer-do
     nginx.org/websocket-services: "broker"
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   tls:
   - hosts:
-    - auth.growbe.ca
-    - cloud.growbe.ca
-    - api.growbe.ca
-    - broker.growbe.ca
-    secretName: tls-growbedev
+    - auth.{{ .Values.cloud.basePath }}
+    - cloud.{{ .Values.cloud.basePath }}
+    - api.{{ .Values.cloud.basePath }}
+    - broker.{{ .Values.cloud.basePath }}
+    secretName: {{ .Values.cloud.http.certSecret }}
   rules:
-  - host: auth.growbe.ca
+  - host: auth.{{ .Values.cloud.basePath }}
     http:
       paths:
       - path: /
@@ -24,7 +25,7 @@ spec:
             name: sso
             port:
               number: 3001
-  - host: cloud.growbe.ca
+  - host: cloud.{{ .Values.cloud.basePath }}
     http:
       paths:
       - path: /assets/config
@@ -43,7 +44,7 @@ spec:
               number: 80
 
 
-  - host: api.growbe.ca
+  - host: api.{{ .Values.cloud.basePath }}
     http:
       paths:
       - path: /
@@ -53,7 +54,7 @@ spec:
             name: growbe-cloud
             port:
               number: 3000
-  - host: broker.growbe.ca
+  - host: broker.{{ .Values.cloud.basePath }}
     http:
       paths:
       - path: /
@@ -62,4 +63,4 @@ spec:
           service:
             name: broker
             port:
-              number: 9001
+              number: {{ .Values.cloud.broker.portws }}

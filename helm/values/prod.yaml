@@ -2,4 +2,9 @@
 cloud:
   env: prod
   basePath: growbe.ca
-  secretCert: tls-growbedev
+  externalIP: 192.168.2.23
+  http:
+    certSecret: growbe-ingress-cert
+  broker:
+    port: 1883
+    portws: 9001

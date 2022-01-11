@@ -10,13 +10,13 @@ metadata:
   name: broker
 spec:
   externalIPs:
-  - 192.168.2.23
+  - {{ .Values.cloud.externalIP }}
   ports:
-  - name: "1883"
-    port: 1883
+  - name: {{ .Values.cloud.broker.port | quote }}
+    port: {{ .Values.cloud.broker.port }}
     targetPort: 1883
-  - name: "9001"
-    port: 9001
+  - name: {{ .Values.cloud.broker.portws | quote }}
+    port: {{ .Values.cloud.broker.portws }}
     targetPort: 9001
   selector:
     io.kompose.service: broker
