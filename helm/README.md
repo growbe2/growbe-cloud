@@ -12,15 +12,17 @@ microk8s config > .cluster_config
 # https://stackoverflow.com/questions/63451290/microk8s-devops-unable-to-connect-to-the-server-x509-certificate-is-valid-f
 # Add this to your locale .zshrc or bashrc
 alias kubectl='kubectl --kubeconfig=/home/wq/.cluster_config'
-alias kubectl_dashboard='kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443'
 alias kubectl_dashboard_token='kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep default-token | cut -d " " -f1)'
 [[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
+
 # Setup git hub registery
 # do a docker login in ghrc.io and add your config file to k8s as a secret
 kubectl create secret generic ghcr \    --from-file=.dockerconfigjson=config.json \
     --type=kubernetes.io/dockerconfigjson
-# Create certificate, fetch them from the certbot folder
-kubectl create secret tls tls-growbedev --key ./cloud.growbe.ca/privkey.pem --cert ./cloud.growbe.ca/fullchain.pem
+
+
+# Setup DO secret (https://cert-manager.io/docs/configuration/acme/dns01/digitalocean/)
+
 
 # Add cred for docker for openfaas
 kubectl create secret docker-registry dockerhub \     
@@ -28,8 +30,6 @@ kubectl create secret docker-registry dockerhub \
     --docker-username=berlingoqc --docker-server=ghcr.io \
     --docker-password=PASSWORD \
     --docker-email=william95quintalwilliam@outlook.com
-
-
 
 # Configure openfaas
 kubectl port-forward -n openfaas svc/gateway 8080:8080 &

@@ -1,8 +1,9 @@
+{{- if eq .Values.cloud.env "prod" }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    cert-manager.io/issuer: letsencrypt-prod
+    cert-manager.io/issuer: issuer-do
   name: ingress-monitoring
   namespace: monitoring
 spec:
@@ -32,3 +33,4 @@ spec:
     - graphana.growbe.ca
     - prometheus.growbe.ca
     secretName: monitoring-ingress-cert
+{{ end }}
