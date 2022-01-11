@@ -7,6 +7,9 @@ sudo usermod -a -G microk8s $USER
 microk8s enable dashboard dns storage ingress prometheus openfaas
 # Copy to your machine to start working on the cluster
 microk8s config > .cluster_config
+
+# To generate the certificate for remote access to the cluster
+# https://stackoverflow.com/questions/63451290/microk8s-devops-unable-to-connect-to-the-server-x509-certificate-is-valid-f
 # Add this to your locale .zshrc or bashrc
 alias kubectl='kubectl --kubeconfig=/home/wq/.cluster_config'
 alias kubectl_dashboard='kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443'
@@ -33,4 +36,5 @@ kubectl port-forward -n openfaas svc/gateway 8080:8080 &
 export OPENFAAS_URL=http://127.0.0.1:8080
 export PASSWORD=$(kubectl -n openfaas get secret basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode)
 echo -n $PASSWORD | faas-cli login -g $OPENFAAS_URL -u admin --password-stdin
+
 ```

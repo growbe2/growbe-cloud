@@ -32,6 +32,7 @@ export class MqttListnener {
     addWatcher(subject: DataSubject): Subscription {
         return this.mqttService.observable
           .pipe(
+            tap(x => console.log('DADADAD', x)),
             filter(
               x =>
                 !x.topic.includes('cloud') &&
