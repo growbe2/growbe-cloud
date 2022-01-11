@@ -56,7 +56,7 @@ spec:
         - name: SSO_SETTINGS
           value: '{"publicCreation":true,"multiFactor":false,"accountValidation":true,
             "defaultRoles": []}'
-        image: docker.pkg.github.com/berlingoqc/sso:latest
+        image: ghcr.io/growbe2/growbe-cloud/sso:latest
         imagePullPolicy: Always
         name: sso
         ports:
@@ -67,7 +67,7 @@ spec:
         terminationMessagePolicy: File
       dnsPolicy: ClusterFirst
       imagePullSecrets:
-      - name: ghreg
+      - name: ghcr
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}

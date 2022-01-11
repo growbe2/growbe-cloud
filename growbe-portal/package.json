@@ -49,7 +49,6 @@
     "@berlingoqc/ngx-pwa": "^2.2.4",
     "@growbe2/growbe-pb": "0.0.17",
     "@growbe2/ngx-cloud-api": "file:./growbe-cloud-api",
-    "@growbe2/node-editor": "0.0.2",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "@swimlane/dragula": "^3.8.0",

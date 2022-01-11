@@ -10,7 +10,7 @@ metadata:
   name: broker
 spec:
   externalIPs:
-  - 192.168.50.13
+  - 192.168.2.23
   ports:
   - name: "1883"
     port: 1883
