@@ -4,6 +4,7 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/issuer: issuer-do
+    nginx.ingress.kubernetes.io/proxy-body-size: 16m
   name: ingress-monitoring
   namespace: monitoring
 spec:
@@ -28,9 +29,20 @@ spec:
               number: 9090
         path: /
         pathType: Prefix
+  - host: loki.growbe.ca
+    http:
+      paths:
+      - backend:
+          service:
+            name: loki
+            port:
+              number: 3100
+        path: /
+        pathType: Prefix
   tls:
   - hosts:
     - graphana.growbe.ca
     - prometheus.growbe.ca
+    - loki.growbe.ca
     secretName: monitoring-ingress-cert
 {{ end }}
