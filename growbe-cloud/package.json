@@ -53,6 +53,7 @@
     "@growbe2/growbe-pb": "^1.1.5-SNAPSHOT-8",
     "@loopback/boot": "^4.0.1",
     "@loopback/core": "^3.0.1",
+    "@loopback/metrics": "^0.9.1",
     "@loopback/repository": "^4.0.1",
     "@loopback/rest": "^11.0.1",
     "@loopback/rest-explorer": "^4.0.1",
