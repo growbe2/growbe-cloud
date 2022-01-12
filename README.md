@@ -14,12 +14,25 @@ The detail for every one is in there own `README.md`
 
 ## Environment
 
+### Monitoring
+
+* [grafana](https://graphana.growbe.ca/?orgId=1)
+* [k8s_dashboard](https://dashboard.growbe.ca/#/workloads?namespace=growbe-prod)
+* [prometheus](https://prometheus.growbe.ca/graph?g0.expr=&g0.tab=1&g0.stacked=0&g0.range_input=1h)
+
+### DEV
+
+* [sso-swagger](https://auth.dev.growbe.ca/api/explorer)
+* [cloud-swagger](https://api.dev.growbe.ca/explorer)
+* [cloud](https://cloud.dev.growbe.ca)
+* broker mqtt://broker.dev.growbe.ca:1884
+
 ### PROD
 
-* [sso-swagger](https://auth.growbe.wquintal.ca/api/explorer)
-* [cloud-swagger](https://api.growbe.wquintal.ca/explorer)
-* [portal](https://portal.growbe.wquintal.ca)
-* broker mqtt://broker.dev.growbe.ca
+* [sso-swagger](https://auth.growbe.ca/api/explorer)
+* [cloud-swagger](https://api.growbe.ca/explorer)
+* [portal](https://portal.growbe.ca)
+* broker mqtt://broker.dev.growbe.ca:1883
 
 ## Run locally
 
@@ -38,7 +51,6 @@ The detail for every one is in there own `README.md`
 # To update to the latest version
 ./docker/cloud.sh update
 ```
-
 
 ## Environement file
 
