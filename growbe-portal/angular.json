@@ -157,16 +157,6 @@
                         "tsConfig": "projects/dashboard/tsconfig.spec.json",
                         "karmaConfig": "projects/dashboard/karma.conf.js"
                     }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": [
-                            "projects/dashboard/tsconfig.lib.json",
-                            "projects/dashboard/tsconfig.spec.json"
-                        ],
-                        "exclude": ["**/node_modules/**"]
-                    }
                 }
             }
         },
@@ -194,16 +184,6 @@
                         "main": "projects/greenhouse/src/test.ts",
                         "tsConfig": "projects/greenhouse/tsconfig.spec.json",
                         "karmaConfig": "projects/greenhouse/karma.conf.js"
-                    }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": [
-                            "projects/greenhouse/tsconfig.lib.json",
-                            "projects/greenhouse/tsconfig.spec.json"
-                        ],
-                        "exclude": ["**/node_modules/**"]
                     }
                 }
             }
