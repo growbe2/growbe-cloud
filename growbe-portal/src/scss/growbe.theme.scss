@@ -123,7 +123,7 @@ $typography: mat.define-typography-config(
 // -----------------------------------------------------------------------------------------------------
 
 // Import app and page component themes here to enable theming for them
-@import '~@berlingoqc/fuse-extra/scss/toolbar.theme';
+@import 'node_modules/@berlingoqc/fuse-extra/scss/toolbar.theme';
 
 // -----------------------------------------------------------------------------------------------------
 // @ Define the default theme

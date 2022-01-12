@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-@import '~@berlingoqc/fuse/scss/fuse';
+@import 'node_modules/@berlingoqc/fuse/scss/fuse';
 
 :host {
     min-height: 100%;
