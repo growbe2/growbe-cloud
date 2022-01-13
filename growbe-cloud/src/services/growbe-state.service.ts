@@ -2,7 +2,6 @@ import {HelloWord, LocalConnection} from '@growbe2/growbe-pb';
 import {BindingScope, inject, injectable, service} from '@loopback/core';
 import * as _ from 'lodash';
 import {lastValueFrom, Subject} from 'rxjs';
-import { GrowbeActionService } from '.';
 import {RTC_OFFSET_KEY} from '../data';
 import {GrowbeMainboardBindings} from '../keys';
 import {GrowbeMainboard} from '../models';
@@ -13,8 +12,8 @@ import {
 } from '../models/growbe-logs.model';
 import {GrowbeLogsService} from './growbe-logs.service';
 import {GrowbeModuleService} from './growbe-module.service';
-import { GrowbeSyncService } from './growbe-sync.service';
 import {GrowbeWarningService} from './growbe-warning.service';
+import { GrowbeActionService } from './growbe-action.service';
 import {GrowbeService} from './growbe.service';
 import {getTopic, MQTTService} from './mqtt.service';
 
