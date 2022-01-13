@@ -2,6 +2,7 @@ import {HelloWord, LocalConnection} from '@growbe2/growbe-pb';
 import {BindingScope, inject, injectable, service} from '@loopback/core';
 import * as _ from 'lodash';
 import {lastValueFrom, Subject} from 'rxjs';
+import { GrowbeActionService } from '.';
 import {RTC_OFFSET_KEY} from '../data';
 import {GrowbeMainboardBindings} from '../keys';
 import {GrowbeMainboard} from '../models';
@@ -30,8 +31,7 @@ export class GrowbeStateService {
     public growbeModuleService: GrowbeModuleService,
     @service(GrowbeWarningService) public warningService: GrowbeWarningService,
     @service(GrowbeLogsService) public logsService: GrowbeLogsService,
-    @service(GrowbeSyncService)
-    private growbeSyncService: GrowbeSyncService,
+    @service(GrowbeActionService) public growbeActionService: GrowbeActionService,
     @inject(GrowbeMainboardBindings.WATCHER_STATE_EVENT)
     private stateSubject: Subject<string>,
   ) {}
@@ -70,7 +70,7 @@ export class GrowbeStateService {
       await this.stateChange(
         _.omit(mainboard, 'growbeMainboardConfig') as GrowbeMainboard,
       );
-      this.growbeService.sendSyncRequest(mainboard.id).then(() => {});
+      this.growbeActionService.sendSyncRequest(mainboard.id).then(() => {});
     }
     await this.notifyState(
       new GrowbeMainboard({

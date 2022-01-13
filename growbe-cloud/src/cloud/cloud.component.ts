@@ -13,6 +13,7 @@ import { DataSubject } from '../observers/data-subject.model';
 import { GrowbeActionReponseService } from '../services';
 import {
   GrowbeMainboardController,
+  GrowbeMainboardActionController,
   GrowbeModuleDefController,
   GrowbeModuleController,
   GrowbeModuleGraphController,
@@ -53,6 +54,7 @@ export class CloudComponent implements Component {
 
   controllers = [
     GrowbeMainboardController,
+    GrowbeMainboardActionController,
     GrowbeModuleDefController,
     GrowbeModuleGraphController,
     GrowbeMainboardVersionController,
