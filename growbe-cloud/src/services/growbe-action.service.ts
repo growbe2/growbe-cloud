@@ -78,7 +78,7 @@ export class GrowbeActionService {
         getTopic(growbeId, '/board/restart'),
         pb.RestartRequest.encode({}).finish(),
         {
-          responseCode: pb.ActionCode.RESTART,
+          responseCode: pb.ActionCode.SYNC_REQUEST,
           waitingTime: 4000,
         }
       ).toPromise().then(value => {
@@ -96,10 +96,10 @@ export class GrowbeActionService {
     return this.mqttService
       .sendWithResponse(
         growbeId,
-        getTopic(growbeId, '/board/restart'),
+        getTopic(growbeId, '/board/reboot'),
         pb.RestartRequest.encode({}).finish(),
         {
-          responseCode: pb.ActionCode.RESTART,
+          responseCode: pb.ActionCode.SYNC_REQUEST,
           waitingTime: 3000,
         }
       ).toPromise().then(value => {

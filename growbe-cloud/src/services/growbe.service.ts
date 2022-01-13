@@ -50,6 +50,7 @@ export class GrowbeRegisterRequest {
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeService {
+  static DEBUG = require('debug')('growbe:service:growbe');
   constructor(
     @repository(GrowbeMainboardRepository)
     public mainboardRepository: GrowbeMainboardRepository,
@@ -94,6 +95,10 @@ export class GrowbeService {
   }
 
   async updateLocalConnection(growbeId: string, data: LocalConnection) {
+    if (!data.ssid || data.ssid === "") {
+      GrowbeService.DEBUG("invalid local connection receive " + growbeId);
+      return {};
+    }
     const updatedConfig = await this.mainboardConfigRepository.updateAll(
       {
         localConnection: data
