@@ -163,7 +163,7 @@ message VirtualRelayPropertyConfig {
     bool trueState = 3;
 }
 
-message VirtualRelaytItem {
+message VirtualRelayItem {
     // action port for the properties
     repeated VirtualRelayPropertyConfig properties = 1;
 }
