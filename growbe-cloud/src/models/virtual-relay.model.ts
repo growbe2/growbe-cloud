@@ -6,8 +6,8 @@ import {GrowbeMainboard} from './growbe-mainboard.model';
 @model()
 export class VirtualRelay extends Entity {
 
-  @property({id: true, generated: true})
-  id: number;
+  @property({id: true, generated: false})
+  id: string;
 
   @property()
   relay: any | pb.VirtualRelay;

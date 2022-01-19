@@ -212,7 +212,7 @@ export const CRUD_CONTROLLERS: {
           accessorType: 'HasMany',
           specs: specSecurity,
           name: 'virtualRelays',
-          idType: 'number',
+          idType: 'string',
           properties: _.omit(protectByMainboardRelationProperties, ['create', 'deleteById', 'updateById']),
         }
       }
