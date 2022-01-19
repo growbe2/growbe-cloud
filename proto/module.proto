@@ -147,30 +147,41 @@ message RelayOutletData {
     bool state = 1;
 }
 
-message VirtualOutletConfig {}
+message VirtualRelayConfig {}
 
 message RelayOutletConfig {
     RelayOutletMode mode = 1;
     
     AlarmConfig alarm = 2;
     ManualConfig manual =3;
-    VirtualOutletConfig virtual = 4;
+    VirtualRelayConfig virtual = 4;
 }
 
-message VirtualOutletItem {
+message VirtualRelayPropertyConfig {
+    int32 property = 1;
+    bool falseState = 2;
+    bool trueState = 3;
+}
+
+message VirtualRelaytItem {
     // action port for the properties
-    repeated int32 properties = 1;
+    repeated VirtualRelayPropertyConfig properties = 1;
 }
 
-// Contain the definition for one virtual outlet
-message VirtualOutlet {
+// VirtualOutlet is the definition of the virtual relay
+message VirtualRelay {
     string name = 1;
-    map<string, VirtualOutletItem> relays = 2;
+    map<string, VirtualRelayItem> relays = 2;
 }
 
 // Contains all the virtual outlet
-message VirtualOutlets {
-    repeated VirtualOutlet outlets = 1;
+message VirtualRelays {
+    repeated VirtualRelay relays = 1;
+}
+
+message VirtualRelayData {
+    RelayOutletData data = 1;
+    int32 timestamp = 2;
 }
 
 message RelayModuleData {
