@@ -95,7 +95,7 @@ export class VirtualRelayService {
     await this.mqttService.sendWithResponse(
       growbeId,
       getTopic(growbeId, '/board/vrconfig/' + virtual_relay.relay.name),
-      pb.VirtualRelay.encode(virtual_relay.config).finish(),
+      pb.RelayOutletConfig.encode(virtual_relay.config).finish(),
       {responseCode: pb.ActionCode.SYNC_REQUEST, waitingTime: 2000}
     ).toPromise();
     
