@@ -19,14 +19,18 @@ jobs:
             node-version: '10.x'
             registry-url: 'https://npm.pkg.github.com'
             scope: '@growbe2'
+      - name: Installing helm3
+        run: curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh
+      - name: Setting kubeconfig
+        run: mkdir -p $HOME/.kube && echo "${{ secrets.KUBECONF }}" > $HOME/.kube/config
       - name: Updating version
         run: echo "VERSION=$(npm run getversion:develop --silent)" >> $GITHUB_ENV
       - name: Portal docker-build
-        run: cd growbe-portal && npm run docker:build
+        run: cd growbe-portal && npm --no-git-tag-version version ${VERSION} && npm run docker:build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Cloud docker-build
-        run: cd growbe-cloud && npm run docker:build
+        run: cd growbe-cloud && npm --no-git-tag-version version ${VERSION} && npm run docker:build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Publish Cloud
@@ -38,7 +42,7 @@ jobs:
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Deploy to dev
-        run: 'mkdir $HOME/.ssh && echo "${{secrets.SSH2}}" > $HOME/.ssh/id_rsa && chmod 700 $HOME/.ssh/id_rsa && ssh -oStrictHostKeyChecking=accept-new root@api.dev.growbe.ca "cd growbe-cloud && git pull origin develop && VERSION=${VERSION} ./scripts/deploy.sh"'
+        run: KUBECONFIG=$HOME/.kube/config helm upgrade growbe-cloud helm --install --wait --atomic --namespace=growbe-dev --set=cloud.version=${VERSION} --values=./helm/values/dev.yaml
       - name: Notify
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}

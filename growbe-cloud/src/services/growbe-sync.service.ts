@@ -1,15 +1,15 @@
 import { RTCTime } from "@growbe2/growbe-pb";
 import { BindingScope, injectable } from "@loopback/context";
 import { service } from "@loopback/core";
+import { GrowbeActionService } from ".";
 import { GrowbeModuleService } from "./growbe-module.service";
-import { GrowbeService } from "./growbe.service";
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeSyncService {
 
   constructor(
-	  @service(GrowbeService)
-	  private growbeService: GrowbeService,
+	  @service(GrowbeActionService)
+	  private growbeService: GrowbeActionService,
 	  @service(GrowbeModuleService)
 	  private growbeModuleService: GrowbeModuleService,
   ) {}

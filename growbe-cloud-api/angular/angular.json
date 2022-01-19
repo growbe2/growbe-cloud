@@ -31,18 +31,6 @@
             "tsConfig": "projects/growbe-cloud-api/tsconfig.spec.json",
             "karmaConfig": "projects/growbe-cloud-api/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/growbe-cloud-api/tsconfig.lib.json",
-              "projects/growbe-cloud-api/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     }},

@@ -26,11 +26,11 @@ jobs:
       - name: Updating version
         run: echo "VERSION=$(npm run getversion --silent)" >> $GITHUB_ENV
       - name: Portal docker-build
-        run: cd growbe-portal && npm run docker:build
+        run: cd growbe-portal && npm --no-git-tag-version version ${VERSION} && npm run docker:build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Cloud docker-build
-        run: cd growbe-cloud && npm run docker:build
+        run: cd growbe-cloud && npm --no-git-tag-version version ${VERSION} && npm run docker:build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Publish Cloud
@@ -42,7 +42,7 @@ jobs:
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Deploy
-        run: KUBECONFIG=$HOME/.kube/config helm upgrade growbe-cloud helm --install --wait --atomic --namespace=default --set=cloud.version=${VERSION} --values=./helm/values.yaml
+        run: KUBECONFIG=$HOME/.kube/config helm upgrade growbe-cloud helm --install --wait --atomic --namespace=growbe-prod --set=cloud.version=${VERSION} --values=./helm/values/prod.yaml
       - name: Notify
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}

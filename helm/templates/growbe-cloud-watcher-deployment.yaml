@@ -36,11 +36,13 @@ spec:
         - name: MONGO_URL
           value: mongodb://doadmin:test@mongo:27018/growbe?authSource=admin
         - name: MQTT_URL
-          value: mqtt://broker:1883
+          value: mqtt://broker:{{ .Values.cloud.broker.port }}
         - name: PORT
           value: "3005"
         - name: SSO_URL
           value: http://sso:3001
+        - name: DEBUG
+          value: 'growbe:*'
         image: ghcr.io/growbe2/growbe-cloud/growbe-cloud:{{ .Values.cloud.version }}
         imagePullPolicy: Always
         name: growbe-cloud-watcher
@@ -56,6 +58,5 @@ spec:
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
-      minReadySeconds: 60
       terminationGracePeriodSeconds: 30
 status: {}

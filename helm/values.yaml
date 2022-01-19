@@ -5,3 +5,11 @@
 
 cloud:
   version: 1.0.0
+  env: dev
+  basePath: growbe.ca
+  http:
+    certSecret: tls-growbedev
+  externalIP: 192.168.2.1
+  broker:
+    port: 1883
+    portws: 9001

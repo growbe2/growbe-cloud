@@ -1,4 +1,5 @@
 export * from './growbe-mainboard.controller';
+export * from './growbe-mainboard-action.controller';
 export * from './growbe-module-def.controller';
 export * from './growbe-module-graph.controller';
 export * from './growbe-mainboard-version.controller';

@@ -36,7 +36,7 @@ spec:
         - name: MONGO_URL
           value: mongodb://doadmin:test@mongo:27018/growbe?authSource=admin
         - name: MQTT_URL
-          value: mqtt://broker:1883
+          value: mqtt://broker:{{ .Values.cloud.broker.port }}
         - name: NMS_API_PASSWORD
           value: "12345678"
         - name: NMS_API_URL
@@ -64,6 +64,5 @@ spec:
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
-      minReadySeconds: 60
       terminationGracePeriodSeconds: 30
 status: {}
