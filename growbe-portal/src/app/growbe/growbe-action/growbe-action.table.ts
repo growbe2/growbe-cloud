@@ -19,6 +19,26 @@ export const growbeActionsSource = new StaticDataSource([
     name: 'Sync',
     description: 'Ask the mainboard to sync back the module state (after deconnection)',
     warningKeyId: 'DESYNC',
+  },
+  {
+    name: 'LocalConnection',
+    description: "Ask mainboard to resend his local connection information",
+    warningKeyId: "LOCAL_CONNECTION"
+  },
+  {
+    name: 'HelloWorld',
+    description: "Ask mainboard to resend his hello world informaton (version)",
+    warningKeyId: "HELLO_WORLD",
+  },
+  {
+    name: 'Restart',
+    description: "Ask mainboard to restart the process",
+    warningKeyId: "RESTART"
+  },
+  {
+    name: 'Reboot',
+    description: "Ask the mainboard to reboot the pi",
+    warningKeyId: "REBOOT",
   }
 ]);
 
