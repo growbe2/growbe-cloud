@@ -14,7 +14,8 @@ import {
   GrowbeModule,
   GrowbeModuleDef,
   GrowbeSensorValue,
-  GrowbeWarning
+  GrowbeWarning,
+  VirtualRelay
 } from '../models';
 import {
   GrowbeMainboardRepository,
@@ -27,6 +28,7 @@ import {
   authorize,
 } from '@loopback/authorization'
 import { getVoterMainboardUserOrOrganisation, getMainboardByModule, getMainboardByModuleDef } from './authorization';
+import _ from 'lodash';
 
 const auth = {
   func: authenticate,
@@ -204,6 +206,16 @@ export const CRUD_CONTROLLERS: {
           properties: protectByMainboardRelationProperties
         },
       },
+      {
+        modelRelationDef: VirtualRelay,
+        optionsRelation: {
+          accessorType: 'HasMany',
+          specs: specSecurity,
+          name: 'virtualRelays',
+          idType: 'number',
+          properties: _.omit(protectByMainboardRelationProperties, ['create', 'deleteById', 'updateById']),
+        }
+      }
     ],
   },
   {

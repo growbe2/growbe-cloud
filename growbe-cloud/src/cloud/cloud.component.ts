@@ -20,6 +20,7 @@ import {
   UserPreferenceController,
   GrowbeMainboardVersionController,
   GrowbeModuleCalibrationController,
+  VirtualRelayController,
 } from './controllers';
 import {CRUD_CONTROLLERS} from './crud-controller';
 
@@ -61,6 +62,7 @@ export class CloudComponent implements Component {
     GrowbeModuleController,
     UserPreferenceController,
     GrowbeModuleCalibrationController,
+    VirtualRelayController,
   ];
   bindings = [
     Binding.bind(GrowbeMainboardBindings.WATCHERS).to(watchers)
