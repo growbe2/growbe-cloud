@@ -1,6 +1,13 @@
 import { growbeSyncForm } from 'src/app/growbe/growbe-action/forms/sync.form';
 import { growbeRtcForm } from './forms';
 
+const defaultConfig = (name: string) => {
+    return {
+        displayData: name,
+        formFunc: growbeSyncForm,
+        formFuncTransform: () => ({}),
+    }
+}
 /**
  * Map with the configuration on how to handle the configuration
  */
@@ -24,9 +31,9 @@ export const growbeActions = {
             };
         },
     },
-    DESYNC: {
-      displayData: 'Sync',
-      formFunc: growbeSyncForm,
-      formFuncTransform: () => ({}),
-    }
+    DESYNC: defaultConfig("Sync"),
+    LOCAL_CONNECTION: defaultConfig("Local Connection"),
+    HELLO_WORLD: defaultConfig("Hello World"),
+    RESTART: defaultConfig("Restart"),
+    REBOOT: defaultConfig("Reboot"),
 };

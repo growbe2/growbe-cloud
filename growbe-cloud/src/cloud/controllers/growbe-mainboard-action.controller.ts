@@ -51,7 +51,7 @@ export class GrowbeMainboardActionController {
     growbeIdIndex: 0
   })
   sendRebootRequest(@param.path.string('id') id: string) {
-    return this.growbeActionService.sendRestartRequest(id);
+    return this.growbeActionService.sendRebootRequest(id);
   }
 
   @patch("/growbe/{id}/localconnection")

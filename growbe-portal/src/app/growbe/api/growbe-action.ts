@@ -100,4 +100,27 @@ export class GrowbeActionAPI {
             data,
         );
     }
+
+    LOCAL_CONNECTION(growbeId: string, data: any) {
+      return this.sendRequest(growbeId, "localconnection", data);
+    }
+
+    HELLO_WORLD(growbeId: string, data: any) {
+      return this.sendRequest(growbeId, "helloworld", data);
+    }
+    
+    RESTART(growbeId: string, data: any) {
+      return this.sendRequest(growbeId, "restart", data);
+    }
+
+    REBOOT(growbeId: string, data: any) {
+      return this.sendRequest(growbeId, "reboot", data);
+    }
+
+    private sendRequest(growbeId: string, pathName: string, data: any) {
+        return this.httpClient.patch<void>(
+            `${this.url}/growbe/${growbeId}/${pathName}`,
+            data, 
+        );
+    }
 }
