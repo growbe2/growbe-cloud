@@ -15,6 +15,9 @@ export class VirtualRelay extends Entity {
   @property()
   config?: any | pb.RelayOutletConfig;
 
+  @property()
+  state: boolean;
+
   @belongsTo(() => GrowbeMainboard)
   growbeMainboardId: string;
 

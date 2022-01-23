@@ -49,7 +49,7 @@ export class VirtualRelayService {
 
     await this.mqttService.sendWithResponse(
       growbeId,
-      getTopic(growbeId, '/board/updVr'),
+      getTopic(growbeId, '/board/updateVr'),
       pb.VirtualRelay.encode(data).finish(),
       {responseCode: pb.ActionCode.SYNC_REQUEST, waitingTime: 2000}
     ).toPromise();
@@ -70,7 +70,7 @@ export class VirtualRelayService {
 
     await this.mqttService.sendWithResponse(
       growbeId,
-      getTopic(growbeId, '/board/rmVr'),
+      getTopic(growbeId, '/board/rmVr/' + virtual_relay.id),
       pb.VirtualRelay.encode(virtual_relay.relay).finish(),
       {responseCode: pb.ActionCode.SYNC_REQUEST, waitingTime: 2000}
     ).toPromise();

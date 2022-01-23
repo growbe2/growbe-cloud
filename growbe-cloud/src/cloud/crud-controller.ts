@@ -213,7 +213,7 @@ export const CRUD_CONTROLLERS: {
           specs: specSecurity,
           name: 'virtualRelays',
           idType: 'string',
-          properties: _.omit(protectByMainboardRelationProperties, ['create', 'deleteById', 'updateById']),
+          properties: _.omit(protectByMainboardRelationProperties, ['create', 'deleteById', 'delete', 'updateById']),
         }
       }
     ],

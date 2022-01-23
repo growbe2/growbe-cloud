@@ -32,7 +32,7 @@ export class VirtualRelayController {
     return this.virtualRelayService.update(growbeId, config);
   }
 
-  @del('/growbes/{id}/virtualRelays/{id_vr}')
+  @del('/growbes/{id}/virtualRelays/{id_vr}/del')
   @authorizeGrowbe({
     growbeIdIndex: 0,
   })

@@ -184,6 +184,13 @@ message VirtualRelayData {
     int32 timestamp = 2;
 }
 
+message VirtualRelayState {
+    string id = 1;
+    bool state = 2;
+
+    string message = 3;
+}
+
 message RelayModuleData {
     RelayOutletData p0 = 1;
     RelayOutletData p1 = 2;

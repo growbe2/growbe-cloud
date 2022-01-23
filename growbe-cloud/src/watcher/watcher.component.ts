@@ -1,9 +1,10 @@
-import {ActionResponse, FieldAlarmEvent, HearthBeath, HelloWord, LocalConnection, ModuleData, UpdateExecute, SOILCalibrationStepEvent } from '@growbe2/growbe-pb';
+import {ActionResponse, FieldAlarmEvent, HearthBeath, HelloWord, LocalConnection, ModuleData, UpdateExecute, SOILCalibrationStepEvent, VirtualRelayState, VirtualRelayData } from '@growbe2/growbe-pb';
 import {Binding, Component} from '@loopback/core';
+import { split } from 'lodash';
 import {GrowbeMainboardBindings} from '../keys';
 import { GroupEnum, LogTypeEnum, SeverityEnum } from '../models';
 import { DataSubject, funcModuleSubject } from '../observers/data-subject.model';
-import {GrowbeActionReponseService, GrowbeHardwareAlarmService, GrowbeLogsService, GrowbeModuleService, GrowbeService, GrowbeStateService} from '../services';
+import {GrowbeActionReponseService, GrowbeHardwareAlarmService, GrowbeLogsService, GrowbeModuleService, GrowbeService, GrowbeStateService, VirtualRelayEventService} from '../services';
 import { GrowbeCalibrationService } from '../services/growbe-calibration.service';
 import {
   GrowbeStateWatcherObserver,
@@ -49,6 +50,22 @@ const watchers: DataSubject[] = [
     model: ModuleData,
     regexTopic: 'state',
     service: GrowbeModuleService,
+  },
+  {
+    func: (id: string, service: VirtualRelayEventService, data: any) => service.onVirtualRelayState(id, data),
+    model: VirtualRelayState,
+    regexTopic: 'vrstate',
+    service: VirtualRelayEventService,
+  },
+  {
+    func: (id: string, service: VirtualRelayEventService, data: any, topic: string) => {
+      const splits = topic.split('/');
+      const vrId = splits[splits.length - 2];
+      return service.onVirtualRelayData(id, vrId, data);
+    },
+    model: VirtualRelayData,
+    regexTopic: 'vrdata',
+    service: VirtualRelayEventService,
   },
   {
     func: funcModuleSubject(

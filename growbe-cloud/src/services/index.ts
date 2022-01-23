@@ -11,3 +11,4 @@ export * from './growbe-alarm.service';
 export * from './user-preference.service';
 export * from './growbe-mainboard-version.service';
 export * from './virtual-relay.service';
+export * from './virtual-relay-event.service';
