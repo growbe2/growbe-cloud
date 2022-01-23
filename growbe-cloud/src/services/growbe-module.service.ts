@@ -221,10 +221,14 @@ export class GrowbeModuleService {
       module.config[k] = v;
     });
     // remove property with null config
-    return this.moduleRepository.update(module).then(() => this.mqttService.send(
+    
+    await this.moduleRepository.update(module);
+    await this.mqttService.send(
       getTopic(module.mainboardId, `/cloud/m/${module.id}/config`),
       JSON.stringify(config),
-    )).then(() => module);
+    );
+
+    return module;
   }
 
   private sendConfigToMainboard(module: GrowbeModule) {
