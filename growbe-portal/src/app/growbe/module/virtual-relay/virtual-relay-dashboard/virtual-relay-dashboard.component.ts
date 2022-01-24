@@ -60,7 +60,9 @@ export class VirtualRelayDashboardComponent implements OnInit {
                 'grid-column-start': '1',
                 'grid-column-end': '6',
               },
-              inputs: {},
+              inputs: {
+                growbeId: this.growbeId
+              },
               outputs: {},
               copy: true,
             },

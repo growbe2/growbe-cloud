@@ -52,8 +52,8 @@ export class VirtualRelayControlComponent implements OnInit {
               this.growbeId,
               `/cloud/virtualrelay/${this.vrId}/state`,
               (d) => {
-                console.log("DADA");
                 let vr_state = JSON.parse(d);
+                console.log(vr_state);
                 return { endingdAt: new Date(), data: { state: vr_state }};
               },
           ).pipe(

@@ -9,6 +9,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RelayModule } from '../relay/relay.module';
+import { LoopbackRestPipeModule } from '@berlingoqc/ngx-loopback';
+import { AutoTableModule } from '@berlingoqc/ngx-autotable';
 
 
 
@@ -26,6 +28,9 @@ import { RelayModule } from '../relay/relay.module';
     MatIconModule,
 
     RelayModule,
+
+    AutoTableModule,
+    LoopbackRestPipeModule,
 
     DashboardModule,
   ],
