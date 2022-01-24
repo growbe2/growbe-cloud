@@ -46,5 +46,7 @@ export class VirtualRelayEventService {
       });
     
     await this.sensorValueRepository.create(value);
+    
+    await this.mqttService.send(getTopic(growbeId, `/cloud/virtualrelay/${vrId}/data`), JSON.stringify(event))
   }
 }
