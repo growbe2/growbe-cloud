@@ -25,6 +25,7 @@ import { VideoStreamModule } from '../video-stream/video-stream.module';
 import { GrowbeModuleDashboardModule } from '../module/growbe-module-dashboard/growbe-module-dashboard.module';
 import { GrowbeWarningModule } from '../growbe-warning/growbe-warning.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { VirtualRelayModule } from '../module/virtual-relay/virtual-relay.module';
 
 @NgModule({
     declarations: [
@@ -47,6 +48,8 @@ import { MatDialogModule } from '@angular/material/dialog';
         VideoStreamModule,
 
         GrowbeModuleDashboardModule,
+
+        VirtualRelayModule,
 
         GrowbeModuleModule,
         GrowbeMainboardModule,

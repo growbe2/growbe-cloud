@@ -30,6 +30,8 @@ import { GrowbeGraphService } from '../module/graph/service/growbe-graph.service
 import { HardwareAlarmTableComponent } from '../module/hardware-alarm/hardware-alarm-table.component';
 import { RelayUnitControlComponent } from '../module/relay/relay-unit-control/relay-unit-control.component';
 import { ModuleSVGComponent } from '../module/svg/module-svg.component';
+import { VirtualRelayControlComponent } from '../module/virtual-relay/virtual-relay-control/virtual-relay-control.component';
+import { VirtualRelayTableComponent } from '../module/virtual-relay/virtual-relay-table/virtual-relay-table.component';
 
 @Injectable({
   providedIn: 'root'
@@ -155,7 +157,24 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                   ...this.getModuleProperty(),
                 },
                 outputs: {}
+            },
+            {
+                name: '',
+                component: 'virtual-relay-table',
+                componentType: VirtualRelayTableComponent,
+                inputs: {
+                },
+                outputs: {}
+            },
+            {
+                name: '',
+                component: 'virtual-relay-control',
+                componentType: VirtualRelayControlComponent,
+                inputs: {
+                },
+                outputs: {}
             }
+ 
         ].forEach((item: any) => this.addItem(item));
     }
 

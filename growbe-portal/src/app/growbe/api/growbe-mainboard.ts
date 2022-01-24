@@ -22,7 +22,8 @@ import {
     GrowbeSensorValueWithRelations,
     GrowbeLogsWithRelations,
     GrowbeRegisterResponse,
-    GrowbeMainboard
+    GrowbeMainboard,
+    VirtualRelayWithRelations,
 } from '@growbe2/ngx-cloud-api';
 
 
@@ -73,7 +74,12 @@ export class GrowbeMainboardAPI extends Caching(
     orgGrowbeMainboard = addCustomCRUDDatasource<GrowbeMainboard>(
       this,
       '/organisations'
-    );
+    )
+    virtualRelays = addLoopbackRelation(
+      this,
+      LoopbackRelationClientMixin<VirtualRelayWithRelations>(),
+      '/virtualRelays'
+    )
 
     userGrowbeMainboard = addCustomCRUDDatasource<GrowbeMainboard>(
       this,
@@ -94,5 +100,10 @@ export class GrowbeMainboardAPI extends Caching(
 
     registerOrganisation(id: string, orgId: string) {
       return this.httpClient.post<GrowbeRegisterResponse>(`${envConfig.growbeCloud}/growbe/${id}/register/org/${orgId}`, {})
+    }
+
+
+    virtualRelayUpdateConfig(growbeId: string, vrId: string, config: any) {
+      return this.httpClient.patch<void>(`${envConfig.growbeCloud}/growbes/${growbeId}/virtualRelays/${vrId}/config`, config);
     }
 }
