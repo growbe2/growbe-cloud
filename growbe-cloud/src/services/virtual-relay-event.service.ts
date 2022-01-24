@@ -25,6 +25,9 @@ export class VirtualRelayEventService {
 
     vr.state = event.state;
 
+
+    await this.virtualRelayRepo.update(vr);
+
     await this.mqttService.send(getTopic(growbeId, `/cloud/virtualrelay/${event.id}/state`), JSON.stringify(vr));
 
     await this.logsService.addLog({
