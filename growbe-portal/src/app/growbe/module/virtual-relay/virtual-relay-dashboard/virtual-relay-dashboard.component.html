@@ -9,6 +9,11 @@
 
     <app-dashboard-panel
         [static]="true"
-        [panel]="panel$ | async"
+        [panel]="panelControls$ | async"
+    ></app-dashboard-panel>
+
+    <app-dashboard-panel
+        [static]="true"
+        [panel]="panelTable | async"
     ></app-dashboard-panel>
 </div>

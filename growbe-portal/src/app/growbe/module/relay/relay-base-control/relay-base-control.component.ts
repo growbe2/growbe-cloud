@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 
 export interface RelayControl {
-  getValues(): Observable<[any, any, any]>;
+  getValues(): Observable<[any, any, any, boolean]>;
   changeManualState(state: boolean): Observable<void>;
 }
 

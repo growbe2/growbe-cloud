@@ -34,8 +34,8 @@ export class VirtualRelayControlComponent implements OnInit {
         this.mainboardAPI.virtualRelays(this.growbeId).getById(this.vrId),
         this.getGrowbeModuleDataEventSource()
       ]).pipe(
-        map(([vr, lastValue]) => {
-          return [vr.config, lastValue.data.state, lastValue.endingAt];
+        map(([vr, lastValue]: [any, any]) => {
+          return [vr.config, lastValue.data.state, lastValue.endingAt, !vr.state];
         })
       ),
     }

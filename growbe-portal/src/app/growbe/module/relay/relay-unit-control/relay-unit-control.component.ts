@@ -50,7 +50,7 @@ export class RelayUnitControlComponent implements OnInit {
         this.getGrowbeModuleDataEventSource(),
       ]).pipe(
         map(([module, moduleDef, lastValue]: any) => {
-          return [module.config[this.field], lastValue[this.field].state, lastValue.endingAt]
+          return [module.config[this.field], lastValue[this.field].state, lastValue.endingAt, true]
         }),
       )
     };

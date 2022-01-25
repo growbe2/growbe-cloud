@@ -14,6 +14,7 @@ import {
     Where,
     LoopbackRestClient,
     toQueryParams,
+    CachingRelation,
 } from '@berlingoqc/ngx-loopback';
 import {
     GrowbeMainboardWithRelations,
@@ -46,6 +47,8 @@ export const addCustomCRUDDatasource = <T>(
   }
 }
 
+class VirtualRelayRelation extends CachingRelation(LoopbackRelationClientMixin<VirtualRelayWithRelations>()) {}
+
 @Injectable({ providedIn: 'root' })
 export class GrowbeMainboardAPI extends Caching(
     Resolving(LoopbackRestClientMixin<GrowbeMainboardWithRelations>()),
@@ -77,8 +80,13 @@ export class GrowbeMainboardAPI extends Caching(
     )
     virtualRelays = addLoopbackRelation(
       this,
-      LoopbackRelationClientMixin<VirtualRelayWithRelations>(),
-      '/virtualRelays'
+      VirtualRelayRelation,
+      '/virtualRelays',
+      {
+        customPath: {
+          delete: '/del'
+        }
+      }
     )
 
     userGrowbeMainboard = addCustomCRUDDatasource<GrowbeMainboard>(

@@ -12,7 +12,7 @@
 
 
     <div>
-      <mat-slide-toggle [disabled]="requestConfig" [checked]="value[1]" (change)="onSlideState($event)"></mat-slide-toggle>
+      <mat-slide-toggle [disabled]="requestConfig || value[3]" [checked]="value[1]" (change)="onSlideState($event)"></mat-slide-toggle>
     </div>
 
   </ng-container>
@@ -29,6 +29,5 @@
     </mat-icon>
   </ng-template>
 
-  {{value | json}}
 </ng-container>
 
