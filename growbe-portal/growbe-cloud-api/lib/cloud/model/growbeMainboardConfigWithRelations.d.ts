@@ -15,5 +15,6 @@
 export interface GrowbeMainboardConfigWithRelations {
     id?: number;
     config?: object;
+    localConnection?: object;
     growbeMainboardId?: string;
 }

@@ -7,6 +7,7 @@ import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { GrowbeGraphService } from '../../graph/service/growbe-graph.service';
+import { RelayControl } from '../relay-base-control/relay-base-control.component';
 
 @Component({
   selector: 'app-relay-unit-control',
@@ -17,6 +18,9 @@ export class RelayUnitControlComponent implements OnInit {
   @Input() mainboardId: string;
   @Input() moduleId: string;
   @Input() field: string;
+
+
+  control: RelayControl;
 
 
   value$: Observable<any[]>;
@@ -32,32 +36,25 @@ export class RelayUnitControlComponent implements OnInit {
 
   async ngOnInit() {
     // faut que j'aille chercher la config et l'etat de cette propriétés
-    this.value$ = combineLatest([
-      this.growbeModuleAPI.getById(this.moduleId),
-      this.growbeModuleAPI.moduleDef(this.moduleId).get(),
-      this.getGrowbeModuleDataEventSource(),
-    ]).pipe(
-      map(([module, moduleDef, lastValue]: any) => {
-        return [module.config[this.field], lastValue[this.field].state, lastValue.endingAt]
+    this.control = {
+     changeManualState: (state) => this.growbeActionAPI.executeActionModule('GROWBE_CONFIG_PROPERTY_UPDATE', this.mainboardId, this.moduleId, {
+        property: this.field,
+        config: {
+          mode: 0,
+          manual: { state: state }
+        }
       }),
-    )
+      getValues: () => combineLatest([
+        this.growbeModuleAPI.getById(this.moduleId),
+        this.growbeModuleAPI.moduleDef(this.moduleId).get(),
+        this.getGrowbeModuleDataEventSource(),
+      ]).pipe(
+        map(([module, moduleDef, lastValue]: any) => {
+          return [module.config[this.field], lastValue[this.field].state, lastValue.endingAt, true]
+        }),
+      )
+    };
   }
-
-  onSlideState(change: MatSlideToggleChange) {
-    this.requestConfig = this.growbeActionAPI.executeActionModule('GROWBE_CONFIG_PROPERTY_UPDATE', this.mainboardId, this.moduleId, {
-      property: this.field,
-      config: {
-        mode: 0,
-        manual: { state: change.checked }
-      }
-    }).subscribe(() => {
-      this.requestConfig = null;
-    }, (error) => {
-      this.requestConfig = null;
-      // return the state of the slide to the previous one
-    });
-  }
-
 
   private getGrowbeModuleDataEventSource() {
      return this.graphService.getGraph(this.mainboardId, 'one', {

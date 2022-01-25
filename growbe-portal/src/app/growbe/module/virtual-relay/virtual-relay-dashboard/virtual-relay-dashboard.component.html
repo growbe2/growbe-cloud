@@ -1,0 +1,19 @@
+<div class="fcol full">
+    <mat-toolbar>
+        <span></span>
+        <span class="spacer"></span>
+        <mat-chip-list>
+            <mat-chip (click)="add()"> <mat-icon>add</mat-icon> </mat-chip>
+        </mat-chip-list>
+    </mat-toolbar>
+
+    <app-dashboard-panel
+        [static]="true"
+        [panel]="panelControls$ | async"
+    ></app-dashboard-panel>
+
+    <app-dashboard-panel
+        [static]="true"
+        [panel]="panelTable | async"
+    ></app-dashboard-panel>
+</div>

@@ -34,15 +34,18 @@ export declare namespace GrowbeLogs {
         Mainboard: GroupEnum;
         Modules: GroupEnum;
     };
-    type TypeEnum = 'module' | 'module_config' | 'connection' | 'new_warning' | 'update_rtc' | 'sync_request' | 'growbe_config' | 'alarm';
+    type TypeEnum = 'module' | 'module_config' | 'connection' | 'local_connection' | 'new_warning' | 'update_rtc' | 'sync_request' | 'growbe_config' | 'alarm' | 'restart' | 'updated';
     const TypeEnum: {
         Module: TypeEnum;
         ModuleConfig: TypeEnum;
         Connection: TypeEnum;
+        LocalConnection: TypeEnum;
         NewWarning: TypeEnum;
         UpdateRtc: TypeEnum;
         SyncRequest: TypeEnum;
         GrowbeConfig: TypeEnum;
         Alarm: TypeEnum;
+        Restart: TypeEnum;
+        Updated: TypeEnum;
     };
 }

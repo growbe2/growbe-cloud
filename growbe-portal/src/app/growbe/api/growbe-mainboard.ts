@@ -14,6 +14,7 @@ import {
     Where,
     LoopbackRestClient,
     toQueryParams,
+    CachingRelation,
 } from '@berlingoqc/ngx-loopback';
 import {
     GrowbeMainboardWithRelations,
@@ -22,7 +23,8 @@ import {
     GrowbeSensorValueWithRelations,
     GrowbeLogsWithRelations,
     GrowbeRegisterResponse,
-    GrowbeMainboard
+    GrowbeMainboard,
+    VirtualRelayWithRelations,
 } from '@growbe2/ngx-cloud-api';
 
 
@@ -44,6 +46,8 @@ export const addCustomCRUDDatasource = <T>(
       }
   }
 }
+
+class VirtualRelayRelation extends CachingRelation(LoopbackRelationClientMixin<VirtualRelayWithRelations>()) {}
 
 @Injectable({ providedIn: 'root' })
 export class GrowbeMainboardAPI extends Caching(
@@ -73,7 +77,17 @@ export class GrowbeMainboardAPI extends Caching(
     orgGrowbeMainboard = addCustomCRUDDatasource<GrowbeMainboard>(
       this,
       '/organisations'
-    );
+    )
+    virtualRelays = addLoopbackRelation(
+      this,
+      VirtualRelayRelation,
+      '/virtualRelays',
+      {
+        customPath: {
+          delete: '/del'
+        }
+      }
+    )
 
     userGrowbeMainboard = addCustomCRUDDatasource<GrowbeMainboard>(
       this,
@@ -94,5 +108,10 @@ export class GrowbeMainboardAPI extends Caching(
 
     registerOrganisation(id: string, orgId: string) {
       return this.httpClient.post<GrowbeRegisterResponse>(`${envConfig.growbeCloud}/growbe/${id}/register/org/${orgId}`, {})
+    }
+
+
+    virtualRelayUpdateConfig(growbeId: string, vrId: string, config: any) {
+      return this.httpClient.patch<void>(`${envConfig.growbeCloud}/growbes/${growbeId}/virtualRelays/${vrId}/config`, config);
     }
 }
