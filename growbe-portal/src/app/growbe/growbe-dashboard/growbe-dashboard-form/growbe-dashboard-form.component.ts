@@ -61,6 +61,7 @@ export class GrowbeDashboardFormComponent {
                         name: data.name,
                         layout: data.layout,
                         userId: this.authService.profile.id,
+                        panels: [],
                     })
                     .pipe(
                         map((item: any) => {

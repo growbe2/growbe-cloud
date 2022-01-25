@@ -24,7 +24,7 @@ export class VirtualRelayEventService {
     const vr = await this.virtualRelayRepo.findById(event.id);
 
     vr.state = event.state;
-
+    vr.message = event.message;
 
     await this.virtualRelayRepo.update(vr);
 

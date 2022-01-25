@@ -67,19 +67,6 @@ export class VirtualRelayDashboardComponent implements OnInit {
                 copy: true,
               };
             })),
-            {
-              name: 'Virtual Relay table',
-              component: 'virtual-relay-table',
-              style: {
-                'grid-column-start': '1',
-                'grid-column-end': '6',
-              },
-              inputs: {
-                growbeId: this.growbeId
-              },
-              outputs: {},
-              copy: true,
-            },
           ]
         }
       })

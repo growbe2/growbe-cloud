@@ -35,7 +35,7 @@ export class VirtualRelayControlComponent implements OnInit {
         this.getGrowbeModuleDataEventSource()
       ]).pipe(
         map(([vr, lastValue]: [any, any]) => {
-          return [vr.config, lastValue.data.state, lastValue.endingAt, !vr.state];
+          return [vr.config, lastValue?.data?.state, lastValue?.endingAt, !vr.state];
         })
       ),
     }
@@ -50,11 +50,10 @@ export class VirtualRelayControlComponent implements OnInit {
        switchMap((currentValue) => {
           return this.growbeEventService.getGrowbeEvent(
               this.growbeId,
-              `/cloud/virtualrelay/${this.vrId}/state`,
+              `/cloud/virtualrelay/${this.vrId}/data`,
               (d) => {
                 let vr_state = JSON.parse(d);
-                console.log(vr_state);
-                return { endingdAt: new Date(), data: { state: vr_state }};
+                return { endingdAt: new Date(), data: vr_state.data};
               },
           ).pipe(
             startWith(currentValue[0])

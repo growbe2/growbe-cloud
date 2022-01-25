@@ -7,13 +7,18 @@
         </mat-chip-list>
     </mat-toolbar>
 
-    <app-dashboard-panel
-        [static]="true"
-        [panel]="panelControls$ | async"
-    ></app-dashboard-panel>
+    <div>
+        <app-dashboard-panel
+            [static]="true"
+            [panel]="panelTable"
+        ></app-dashboard-panel>
+    </div>
 
-    <app-dashboard-panel
-        [static]="true"
-        [panel]="panelTable | async"
-    ></app-dashboard-panel>
+    <div>
+        <app-dashboard-panel
+           [static]="true"
+           [panel]="panelControls$ | async"
+        ></app-dashboard-panel>
+    </div>
+
 </div>

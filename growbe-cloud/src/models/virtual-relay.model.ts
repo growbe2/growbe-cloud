@@ -17,6 +17,9 @@ export class VirtualRelay extends Entity {
 
   @property()
   state: boolean;
+  
+  @property()
+  message: string;
 
   @belongsTo(() => GrowbeMainboard)
   growbeMainboardId: string;
