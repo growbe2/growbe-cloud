@@ -68,6 +68,10 @@ const routes: Routes = [
         path: 'register',
         loadChildren: () => import('./growbe/growbe-manager/growbe-register/growbe-register.module').then(m => m.GrowbeRegisterModule),
     },
+    {
+        path: 'calibrate',
+        loadChildren: () => import('./growbe/module/calibration/calibration-process/calibration-process.module').then(m => m.CalibrationProcessModule),
+    },
     ...FAQRoutes,
 ];
 

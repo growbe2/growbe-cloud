@@ -51,6 +51,7 @@ message SOILModuleData {
    int32 p7 = 8;
 
    int32 timestamp = 9;
+   string valuetype = 10;
 }
 
 message SOILProbeConfig {
