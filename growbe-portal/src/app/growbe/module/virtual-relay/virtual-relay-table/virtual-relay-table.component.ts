@@ -30,7 +30,6 @@ export class VirtualRelayTableComponent extends OnDestroyMixin(Object) implement
   ngOnInit(): void {
     this.growbeEventService.getGrowbeEvent(this.growbeId, "/cloud/virtualrelay/+/state", (d) => JSON.parse(d)).pipe(
       untilComponentDestroyed(this),
-      tap(() => console.log('EVENVENVENVEN ')),
       switchMap((data) => this.mainboardAPI.virtualRelays(this.growbeId).requestGet.onModif(of({} as StateChange<any>)))
     ).subscribe();
     this.columns = [
@@ -42,12 +41,12 @@ export class VirtualRelayTableComponent extends OnDestroyMixin(Object) implement
       {
         id: 'state',
         title: 'State',
-        content: (e) => ((e.state || false) ? 'created' : 'notcreated'),
+        content: (e) => ((e.state || false) ? 'running' : 'error'),
       },
       {
         id: 'info',
         title: 'Info',
-        content: (e) => of('dadada')
+        content: (e) => e.message,
       },
       {
         id: 'options',
