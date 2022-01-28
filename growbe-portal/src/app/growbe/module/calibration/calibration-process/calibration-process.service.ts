@@ -20,7 +20,7 @@ export class CalibrationProcessService {
     sub: Subscription;
 
 
-    private basePath = () => `${envConfig.growbeCloud}/growbe/${this.growbeId}/modules/${this.moduleId}/calibration`
+    private get basePath() { return  `${envConfig.growbeCloud}/growbe/${this.growbeId}/modules/${this.moduleId}/calibration` }
 
     constructor(
         private growbeId: string,

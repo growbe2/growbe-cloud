@@ -50,11 +50,13 @@ export const getSoilConfigForm: (
                                 properties: [
                                     {
                                         type: 'number',
-                                        name: 'low'
+                                        name: 'low',
+                                        displayName: 'Dry',
                                     },
                                     {
                                         type: 'number',
-                                        name: 'high'
+                                        name: 'high',
+                                        displayName: 'Wet',
                                     }
                                 ]
                             } as FormObject
@@ -69,7 +71,7 @@ export const getSoilConfigForm: (
                     submit: {
                         title: 'Submit',
                         style: 'mat-flat-button',
-                        color: 'primary'
+                        color: 'primary',
                     },
                     extra: [
                         {
@@ -86,11 +88,11 @@ export const getSoilConfigForm: (
                     formGroup = fG;
                 },
                 submit: (data) => {
-                    return growbeActionAPI.executeActionModule('GROWBE_CONFIG_UPDATE', mainboardId, moduleId, data);
+                    return growbeActionAPI.executeActionModule('GROWBE_CONFIG_UPDATE', mainboardId, moduleId, data.object);
                 },
                 
                 initialData: () =>
-                    of(config),
+                    of({ object: config}),
             },
         }
     };

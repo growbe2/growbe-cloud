@@ -31,6 +31,7 @@ const routes: Routes = [
     {
         path: 'home',
         component: HomeComponent,
+        canLoad: [MqttConnectGuard],
         canActivate: [AuthGuard],
     },
     {
@@ -71,6 +72,8 @@ const routes: Routes = [
     {
         path: 'calibrate',
         loadChildren: () => import('./growbe/module/calibration/calibration-process/calibration-process.module').then(m => m.CalibrationProcessModule),
+        canLoad: [MqttConnectGuard],
+        canActivate: [AuthGuard],
     },
     ...FAQRoutes,
 ];

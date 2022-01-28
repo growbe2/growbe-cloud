@@ -32,15 +32,21 @@
                 <div>
                     <p>This is the low calibration , you must put your probe in water, when they are in water you can start</p>
 
-
-                    <div>
-
+                    <div *ngIf="process.step == 'low'">
+                        gathering data ...
                     </div>
 
+                    <div *ngIf="!process.valuesLow || process.valuesLow.length > 0">
+                        <ul *ngFor="let value of process.valuesLow">{{value | json}}</ul>
+                    </div>
 
                     <div>
-                        <button>Start</button>
-                        <button>Stop</button>
+                        <button *ngIf="!process.step" (click)="startLow()">
+                            Start 
+                        </button>
+                        <button *ngIf="process.step == 'LOW_CALIBRATION'" (click)="stop()">
+                            Stop
+                        </button>
                     </div>
                 </div>
                 <div class="truc">
