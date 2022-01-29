@@ -1,0 +1,87 @@
+<login style="width: 100%">
+    <fuse-widget [@animate]="{ value: '*', params: { y: '100%' } }" class="pb-0">
+        <mat-stepper [linear]="true" #stepper>
+            <mat-step>
+                <ng-template matStepLabel>Calibration</ng-template>
+                <div>
+                    <div>
+                        <h3>Starting process for : <strong>{{growbeId}} - {{moduleId}}</strong> </h3>
+                    </div>
+
+                    <div>
+                        <p>
+                            For this process you will need to calibrate the probe to the water and to the air, this
+                            will be use for a base to calculate the value in pourcentage. Click next when you are ready
+                            to start.
+                        </p>
+                    </div>
+                </div>
+                <div class="button-row">
+                    <button mat-stroked-button class="primary"
+                        routerLink="/growbe/{{growbeId}}/module/{{moduleId}}">Cancel</button>
+                    <button mat-stroked-button class="accent" matStepperNext>Next</button>
+                </div>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Dry calibration</ng-template>
+                <ng-container *ngTemplateOutlet="step; context: { stepName: 'dry', values: process.valuesLow, step: 1}">
+                </ng-container>
+                    <div class="button-row">
+                            <button mat-stroked-button class="primary"
+                                routerLink="/growbe/{{growbeId}}/module/{{moduleId}}">Cancel</button>
+                            <button mat-stroked-button class="accent"
+                                [disabled]="!process.valuesLow || process.valuesLow.length == 0"
+                                matStepperNext>Next</button>
+                    </div>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Wet calibration</ng-template>
+                <ng-container
+                    *ngTemplateOutlet="step; context: { stepName: 'wet', values: process.valuesHigh, step: 2}">
+                </ng-container>
+                    <div class="button-row">
+                            <button mat-stroked-button class="primary"
+                                routerLink="/growbe/{{growbeId}}/module/{{moduleId}}">Cancel</button>
+                             <button mat-stroked-button class="accent"
+                                [disabled]="!process.valuesHigh || process.valuesHigh.length == 0"
+                                matStepperNext>Next</button>
+                    </div>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Confirmation of config</ng-template>
+                <div>
+                    <span></span>
+                </div>
+                    <div class="button-row">
+                            <button mat-stroked-button class="primary" [loading]="subConfirmation"
+                                routerLink="/growbe/{{growbeId}}/module/{{moduleId}}">Cancel</button>
+                            <button mat-stroked-button class="accent" [loading]="subConfirmation"
+                                [disabled]="!((process.valuesHigh && process.valuesHigh.length > 0) && (process.valuesLow && process.valuesLow.length > 0))"
+                                (click)="confirm()">Confirm</button>
+                </div>
+            </mat-step>
+        </mat-stepper>
+        <router-outlet></router-outlet>
+    </fuse-widget>
+
+</login>
+
+
+<ng-template #step let-stepName="stepName" let-values="values" let-step="step">
+    <div>
+        <p>This is the {{stepName}} calibration , you must put your probe in water, when they are in water you can start
+        </p>
+
+        <growbe-module-svg
+            [mainboardId]="growbeId"
+            [moduleId]="moduleId"
+        ></growbe-module-svg>
+
+        <div class="start-calibration-box">
+            <button mat-stroked-button class="warn" [loading]="subStep" (click)="startStep(step)">
+                Start calibration , hold for 2 seconds
+            </button>
+        </div>
+    </div>
+
+</ng-template>
