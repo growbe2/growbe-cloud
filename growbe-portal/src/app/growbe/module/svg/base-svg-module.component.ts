@@ -16,6 +16,9 @@ export class BaseSVGModuleComponent implements OnInit {
 
     sub: Subscription;
 
+
+    extraProperties: string[];
+
     constructor(
         private topic: GrowbeEventService,
         private moduleAPI: GrowbeModuleAPI,
@@ -33,7 +36,7 @@ export class BaseSVGModuleComponent implements OnInit {
                             .getGraph(this.mainboardId, 'one', {
                                 moduleId: this.moduleId,
                                 growbeId: this.mainboardId,
-                                fields: Object.keys(moduleDef.properties),
+                                fields: [...Object.keys(moduleDef.properties), ...(this.extraProperties || [])],
                                 liveUpdate: true,
                             })
                             .pipe(map((items) => items[0])),

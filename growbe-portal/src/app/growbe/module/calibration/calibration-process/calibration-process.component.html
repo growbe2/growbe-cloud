@@ -72,15 +72,34 @@
         <p>This is the {{stepName}} calibration , you must put your probe in water, when they are in water you can start
         </p>
 
-        <growbe-module-svg
-            [mainboardId]="growbeId"
-            [moduleId]="moduleId"
-        ></growbe-module-svg>
+        <div class="calibration-box">
+            <growbe-module-svg
+               [mainboardId]="growbeId"
+               [moduleId]="moduleId"
+            ></growbe-module-svg>
 
-        <div class="start-calibration-box">
-            <button mat-stroked-button class="warn" [loading]="subStep" (click)="startStep(step)">
-                Start calibration , hold for 2 seconds
-            </button>
+            <div class="start-calibration-box">
+                <div class="message">
+                    <div *ngIf="step == 2; else dry">
+                        <div *ngIf="process.valuesHigh && process.valuesHigh.length > 0">
+                            You have a sample of {{ process.valuesHigh.length }} values.
+                            You can run the step again.
+                        </div>
+                    </div>
+                    <ng-template #dry>
+                        <div *ngIf="process.valuesLow && process.valuesLow.length > 0">
+                            You have a sample of {{ process.valuesLow.length }} values.
+                            You can run the step again.
+                        </div>
+                    </ng-template>
+                </div>
+                <div>
+                    <button mat-stroked-button class="warn" [loading]="subStep" (click)="startStep(step)">
+                        Start calibration , hold for 2 seconds
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
 

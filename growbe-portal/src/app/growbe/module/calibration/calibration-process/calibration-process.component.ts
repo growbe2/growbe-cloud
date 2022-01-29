@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { fuseAnimations } from '@berlingoqc/fuse';
 import { of, Subscription } from 'rxjs';
 import { delay, map, switchMap, timeout } from 'rxjs/operators';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
@@ -11,7 +12,8 @@ import { CalibrationProcessService } from './calibration-process.service';
 @Component({
   selector: 'app-calibration-process',
   templateUrl: './calibration-process.component.html',
-  styleUrls: ['./calibration-process.component.scss']
+  styleUrls: ['./calibration-process.component.scss'],
+  animations: [fuseAnimations],
 })
 export class CalibrationProcessComponent implements OnInit, ComponentCanDeactivate {
   
@@ -49,7 +51,9 @@ export class CalibrationProcessComponent implements OnInit, ComponentCanDeactiva
     this.subStep = this.process.setCalibrationState(step).pipe(
       delay(2000),
       switchMap(() => this.process.setCalibrationState(0))
-    ).subscribe(() => (this.subStep = null));
+    ).subscribe(() => {
+      this.subStep = null;
+    });
   }
 
   confirm() {
