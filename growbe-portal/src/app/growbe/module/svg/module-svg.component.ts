@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
 
 @Component({
+  selector: 'growbe-module-svg',
   template: `
     <ng-container [ngSwitch]="moduleId?.slice(0,3)">
       <app-soil-module *ngSwitchCase="'AAS'" [mainboardId]="mainboardId" [moduleId]="moduleId"></app-soil-module>

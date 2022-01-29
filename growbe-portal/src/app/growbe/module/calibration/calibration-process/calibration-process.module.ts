@@ -5,13 +5,15 @@ import { GrowbeCalibrationRoutingModule } from './calibration-process.routing';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatTabsExtraModule } from '@berlingoqc/ngx-common';
+import { LoadingButtonModule, MatTabsExtraModule } from '@berlingoqc/ngx-common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutDirectiveModule, Login2Module, LoginModule, ProjectDashboardModule } from '@berlingoqc/fuse-extra';
 import { FuseWidgetModule } from '@berlingoqc/fuse';
 import { LoopbackRestPipeModule } from '@berlingoqc/ngx-loopback';
 import { MatStepperModule } from '@angular/material/stepper';
+import { ProgressBarModule } from 'src/app/shared/progress-bar/progress-bar.module';
+import { SvgModuleModule } from '../../svg/svg-module.module';
 
 
 
@@ -24,6 +26,9 @@ import { MatStepperModule } from '@angular/material/stepper';
 
     AutoFormModule,
 
+    ProgressBarModule,
+
+    LoadingButtonModule,
     MatStepperModule,
     MatTabsModule,
     MatTabsExtraModule,
@@ -37,6 +42,8 @@ import { MatStepperModule } from '@angular/material/stepper';
     FuseWidgetModule,
 
     LoopbackRestPipeModule,
+
+    SvgModuleModule,
 
     GrowbeCalibrationRoutingModule,
   ]

@@ -1,8 +1,9 @@
+import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { of, Subscription } from 'rxjs';
+import { delay, map, switchMap, timeout } from 'rxjs/operators';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { ComponentCanDeactivate } from './calibration-process.guard';
 import { CalibrationProcessService } from './calibration-process.service';
@@ -21,16 +22,20 @@ export class CalibrationProcessComponent implements OnInit, ComponentCanDeactiva
   
   isDoneSuccessfully: boolean = false;
 
+  subConfirmation: Subscription;
+  subStep: Subscription;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private httpClient: HttpClient,
     private growbeEventService: GrowbeEventService,
+    private location: Location,
   ) {}
 
   ngOnInit(): void {
     const params = this.activatedRoute.snapshot.params;
     this.growbeId = params['growbeId'];
-    this.moduleId = params['moduleId']
+    this.moduleId = params['moduleId'];
 
     this.process = new CalibrationProcessService(this.growbeId, this.moduleId, this.httpClient, this.growbeEventService);
     this.process.startCalibration().subscribe();
@@ -40,22 +45,18 @@ export class CalibrationProcessComponent implements OnInit, ComponentCanDeactiva
     return this.isDoneSuccessfully ? of(true) : this.process.cancelCalibration().pipe(map(() => true));
   }
 
-  startDry() {
-    this.process.setCalibrationState(1).subscribe();
-  }
-
-  stop() {
-    this.process.setCalibrationState(0).subscribe();
-  }
-
-  startWet() {
-    this.process.setCalibrationState(2).subscribe();
+  startStep(step: number) {
+    this.subStep = this.process.setCalibrationState(step).pipe(
+      delay(2000),
+      switchMap(() => this.process.setCalibrationState(0))
+    ).subscribe(() => (this.subStep = null));
   }
 
   confirm() {
-    this.process.confirmCalibration().subscribe(() => {
+    this.subConfirmation = this.process.confirmCalibration().subscribe(() => {
       this.isDoneSuccessfully = true;
-    });
+      this.location.back();
+    }, undefined, () => (this.subConfirmation = null));
   }
 
 }
