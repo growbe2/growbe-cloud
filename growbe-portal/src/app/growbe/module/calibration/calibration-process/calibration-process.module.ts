@@ -12,7 +12,6 @@ import { LayoutDirectiveModule, Login2Module, LoginModule, ProjectDashboardModul
 import { FuseWidgetModule } from '@berlingoqc/fuse';
 import { LoopbackRestPipeModule } from '@berlingoqc/ngx-loopback';
 import { MatStepperModule } from '@angular/material/stepper';
-import { ProgressBarModule } from 'src/app/shared/progress-bar/progress-bar.module';
 import { SvgModuleModule } from '../../svg/svg-module.module';
 
 
@@ -25,8 +24,6 @@ import { SvgModuleModule } from '../../svg/svg-module.module';
     CommonModule,
 
     AutoFormModule,
-
-    ProgressBarModule,
 
     LoadingButtonModule,
     MatStepperModule,
