@@ -1,4 +1,5 @@
 import { animate, AnimationBuilder, AnimationMetadata, AnimationPlayer, keyframes, state, style, transition, trigger } from '@angular/animations';
+import { DecimalPipe } from '@angular/common';
 import { Component, Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 
@@ -32,28 +33,40 @@ export class AnimateMeDirective {
   }
 }
 
+
+export interface ProbeValueStatusGetter {
+  getValueStatus(value: number, type?: string): SoilProbeComponent['status'];
+}
+
 @Component({
   selector: 'g[soil-probe]',
   templateUrl: './soil-probe.component.svg',
   styleUrls: ['./soil-probe.component.scss'],
+  providers: [DecimalPipe]
 })
 export class SoilProbeComponent implements OnInit {
   @ViewChild(AnimateMeDirective) animate: AnimateMeDirective;
 
   @Input() position: 'left' | 'right' | 'bottom'
+  @Input() property: string;
   @Input() name = '';
 
-  private pValue: number;
-  @Input() set value(value: number) {
-    this.pValue = value;
-    if (this.value >= 10) {
-      this.status = 'ok';
-    } else {
-      this.status = 'unknow';
+  @Input() statusgetter: ProbeValueStatusGetter
+
+
+  private pValue: any;
+  @Input() set value(data: any) {
+    if (!data) { return; }
+    this.pValue = data[this.property];
+    this.status = this.statusgetter?.getValueStatus(this.pValue, data.valuetype);
+    if (this.status === 'unknow') {
       this.pValue = undefined;
     }
-    if (this.animate) {
-      this.animate.play();
+    if (this.pValue) {
+      this.pValue = this.numberPipe.transform(this.pValue);
+      if (this.animate && this.pValue) {
+        this.animate.play();
+      }
     }
   }
 
@@ -65,7 +78,7 @@ export class SoilProbeComponent implements OnInit {
   pulse = true;
   animationMetadata = [pulseAnimation];
 
-  constructor() { }
+  constructor(private numberPipe: DecimalPipe) { }
 
   ngOnInit(): void {}
 }

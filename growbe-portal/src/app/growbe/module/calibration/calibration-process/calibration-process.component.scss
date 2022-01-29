@@ -1,11 +1,26 @@
-.start-calibration-box {
-    padding: 10px;
-}
+
+.calibration-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    growbe-module-svg {
+        display: block;
+        width: 300px;
+    }
+
+    .start-calibration-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
 
 
-growbe-module-svg {
-    display: block;
-    width: 300px;
+        .message {
+            padding: 10px;
+        }
+    }
 }
 
 .button-row {
