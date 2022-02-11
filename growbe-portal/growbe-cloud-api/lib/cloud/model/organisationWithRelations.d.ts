@@ -9,8 +9,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ExtraFieldWithRelations } from './extraFieldWithRelations';
 import { OrgUserLinkWithRelations } from './orgUserLinkWithRelations';
+import { ExtraField } from './extraField';
 import { UserWithRelations } from './userWithRelations';
 /**
  * (tsType: OrganisationWithRelations, schemaOptions: { includeRelations: true })
@@ -21,7 +21,7 @@ export interface OrganisationWithRelations {
     bannerURL?: string;
     id?: string;
     type?: string;
-    extraFields?: ExtraFieldWithRelations;
+    extraFields?: ExtraField;
     managerId?: string;
     manager?: UserWithRelations;
     users?: Array<OrgUserLinkWithRelations>;

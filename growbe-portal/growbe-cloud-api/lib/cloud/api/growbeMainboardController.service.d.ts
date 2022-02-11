@@ -1,7 +1,9 @@
 import { HttpClient, HttpHeaders, HttpResponse, HttpEvent, HttpParameterCodec } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseDashboardElement } from '../model/models';
+import { DashboardClockStateElement } from '../model/models';
 import { DashboardGraphElement } from '../model/models';
+import { DashboardLastValueElement } from '../model/models';
 import { GraphDataConfig } from '../model/models';
 import { GrowbeLogs } from '../model/models';
 import { GrowbeMainboard } from '../model/models';
@@ -21,6 +23,7 @@ import { GrowbeWarning } from '../model/models';
 import { GrowbeWarningPartial } from '../model/models';
 import { GrowbeWarningPartialExcludingId } from '../model/models';
 import { LoopbackCount } from '../model/models';
+import { VirtualRelayPartial } from '../model/models';
 import { Configuration } from '../configuration';
 import * as i0 from "@angular/core";
 export declare class GrowbeMainboardControllerService {
@@ -163,13 +166,13 @@ export declare class GrowbeMainboardControllerService {
      */
     growbeMainboardControllerDashboardClockStateElement(observe?: 'body', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
-    }): Observable<BaseDashboardElement>;
+    }): Observable<DashboardClockStateElement>;
     growbeMainboardControllerDashboardClockStateElement(observe?: 'response', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
-    }): Observable<HttpResponse<BaseDashboardElement>>;
+    }): Observable<HttpResponse<DashboardClockStateElement>>;
     growbeMainboardControllerDashboardClockStateElement(observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
-    }): Observable<HttpEvent<BaseDashboardElement>>;
+    }): Observable<HttpEvent<DashboardClockStateElement>>;
     /**
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -189,13 +192,13 @@ export declare class GrowbeMainboardControllerService {
      */
     growbeMainboardControllerDashboardLastValueElement(observe?: 'body', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
-    }): Observable<BaseDashboardElement>;
+    }): Observable<DashboardLastValueElement>;
     growbeMainboardControllerDashboardLastValueElement(observe?: 'response', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
-    }): Observable<HttpResponse<BaseDashboardElement>>;
+    }): Observable<HttpResponse<DashboardLastValueElement>>;
     growbeMainboardControllerDashboardLastValueElement(observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
-    }): Observable<HttpEvent<BaseDashboardElement>>;
+    }): Observable<HttpEvent<DashboardLastValueElement>>;
     /**
      * Delete a instance of GrowbeMainboard
      * @param id
@@ -260,6 +263,22 @@ export declare class GrowbeMainboardControllerService {
     growbeMainboardControllerDelRelationModel_6(id: string, fk: string, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpEvent<GrowbeWarning>>;
+    /**
+     * Delete a instance of GrowbeMainboard
+     * @param id
+     * @param fk
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    growbeMainboardControllerDelRelationModel_7(id: string, fk: string, observe?: 'body', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json';
+    }): Observable<any>;
+    growbeMainboardControllerDelRelationModel_7(id: string, fk: string, observe?: 'response', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json';
+    }): Observable<HttpResponse<any>>;
+    growbeMainboardControllerDelRelationModel_7(id: string, fk: string, observe?: 'events', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json';
+    }): Observable<HttpEvent<any>>;
     /**
      * Delete a instance of GrowbeMainboard
      * @param id
@@ -407,17 +426,17 @@ export declare class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    growbeMainboardControllerFindRelationModel_7(id: string, filter?: {
+    growbeMainboardControllerFindRelationModel_8(id: string, filter?: {
         [key: string]: object;
     }, observe?: 'body', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<GrowbeModule>;
-    growbeMainboardControllerFindRelationModel_7(id: string, filter?: {
+    growbeMainboardControllerFindRelationModel_8(id: string, filter?: {
         [key: string]: object;
     }, observe?: 'response', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpResponse<GrowbeModule>>;
-    growbeMainboardControllerFindRelationModel_7(id: string, filter?: {
+    growbeMainboardControllerFindRelationModel_8(id: string, filter?: {
         [key: string]: object;
     }, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
@@ -429,17 +448,17 @@ export declare class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    growbeMainboardControllerFindRelationModel_8(id: string, filter?: {
+    growbeMainboardControllerFindRelationModel_9(id: string, filter?: {
         [key: string]: object;
     }, observe?: 'body', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<GrowbeSensorValue>;
-    growbeMainboardControllerFindRelationModel_8(id: string, filter?: {
+    growbeMainboardControllerFindRelationModel_9(id: string, filter?: {
         [key: string]: object;
     }, observe?: 'response', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpResponse<GrowbeSensorValue>>;
-    growbeMainboardControllerFindRelationModel_8(id: string, filter?: {
+    growbeMainboardControllerFindRelationModel_9(id: string, filter?: {
         [key: string]: object;
     }, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
@@ -451,21 +470,43 @@ export declare class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    growbeMainboardControllerFindRelationModel_9(id: string, filter?: {
+    growbeMainboardControllerFindRelationModel_10(id: string, filter?: {
         [key: string]: object;
     }, observe?: 'body', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<GrowbeWarning>;
-    growbeMainboardControllerFindRelationModel_9(id: string, filter?: {
+    growbeMainboardControllerFindRelationModel_10(id: string, filter?: {
         [key: string]: object;
     }, observe?: 'response', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpResponse<GrowbeWarning>>;
-    growbeMainboardControllerFindRelationModel_9(id: string, filter?: {
+    growbeMainboardControllerFindRelationModel_10(id: string, filter?: {
         [key: string]: object;
     }, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpEvent<GrowbeWarning>>;
+    /**
+     * Get a filter list of GrowbeMainboard
+     * @param id
+     * @param filter
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    growbeMainboardControllerFindRelationModel_11(id: string, filter?: {
+        [key: string]: object;
+    }, observe?: 'body', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json';
+    }): Observable<any>;
+    growbeMainboardControllerFindRelationModel_11(id: string, filter?: {
+        [key: string]: object;
+    }, observe?: 'response', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json';
+    }): Observable<HttpResponse<any>>;
+    growbeMainboardControllerFindRelationModel_11(id: string, filter?: {
+        [key: string]: object;
+    }, observe?: 'events', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json';
+    }): Observable<HttpEvent<any>>;
     /**
      * Get a filter list of GrowbeMainboard
      * @param id
@@ -497,17 +538,17 @@ export declare class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    growbeMainboardControllerGetRelationModel_10(id: string, fk: string, filter?: {
+    growbeMainboardControllerGetRelationModel_12(id: string, fk: string, filter?: {
         [key: string]: object;
     }, observe?: 'body', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<GrowbeModule>;
-    growbeMainboardControllerGetRelationModel_10(id: string, fk: string, filter?: {
+    growbeMainboardControllerGetRelationModel_12(id: string, fk: string, filter?: {
         [key: string]: object;
     }, observe?: 'response', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpResponse<GrowbeModule>>;
-    growbeMainboardControllerGetRelationModel_10(id: string, fk: string, filter?: {
+    growbeMainboardControllerGetRelationModel_12(id: string, fk: string, filter?: {
         [key: string]: object;
     }, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
@@ -520,17 +561,17 @@ export declare class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    growbeMainboardControllerGetRelationModel_11(id: string, fk: string, filter?: {
+    growbeMainboardControllerGetRelationModel_13(id: string, fk: string, filter?: {
         [key: string]: object;
     }, observe?: 'body', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<GrowbeSensorValue>;
-    growbeMainboardControllerGetRelationModel_11(id: string, fk: string, filter?: {
+    growbeMainboardControllerGetRelationModel_13(id: string, fk: string, filter?: {
         [key: string]: object;
     }, observe?: 'response', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpResponse<GrowbeSensorValue>>;
-    growbeMainboardControllerGetRelationModel_11(id: string, fk: string, filter?: {
+    growbeMainboardControllerGetRelationModel_13(id: string, fk: string, filter?: {
         [key: string]: object;
     }, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
@@ -543,21 +584,44 @@ export declare class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    growbeMainboardControllerGetRelationModel_12(id: string, fk: string, filter?: {
+    growbeMainboardControllerGetRelationModel_14(id: string, fk: string, filter?: {
         [key: string]: object;
     }, observe?: 'body', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<GrowbeWarning>;
-    growbeMainboardControllerGetRelationModel_12(id: string, fk: string, filter?: {
+    growbeMainboardControllerGetRelationModel_14(id: string, fk: string, filter?: {
         [key: string]: object;
     }, observe?: 'response', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpResponse<GrowbeWarning>>;
-    growbeMainboardControllerGetRelationModel_12(id: string, fk: string, filter?: {
+    growbeMainboardControllerGetRelationModel_14(id: string, fk: string, filter?: {
         [key: string]: object;
     }, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpEvent<GrowbeWarning>>;
+    /**
+     * Get a filter list of GrowbeMainboard
+     * @param id
+     * @param fk
+     * @param filter
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    growbeMainboardControllerGetRelationModel_15(id: string, fk: string, filter?: {
+        [key: string]: object;
+    }, observe?: 'body', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json';
+    }): Observable<any>;
+    growbeMainboardControllerGetRelationModel_15(id: string, fk: string, filter?: {
+        [key: string]: object;
+    }, observe?: 'response', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json';
+    }): Observable<HttpResponse<any>>;
+    growbeMainboardControllerGetRelationModel_15(id: string, fk: string, filter?: {
+        [key: string]: object;
+    }, observe?: 'events', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json';
+    }): Observable<HttpEvent<any>>;
     /**
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -602,13 +666,13 @@ export declare class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    growbeMainboardControllerPutRelationModelById_13(id: string, fk: string, growbeModulePartial?: GrowbeModulePartial, observe?: 'body', reportProgress?: boolean, options?: {
+    growbeMainboardControllerPutRelationModelById_16(id: string, fk: string, growbeModulePartial?: GrowbeModulePartial, observe?: 'body', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<GrowbeModule>;
-    growbeMainboardControllerPutRelationModelById_13(id: string, fk: string, growbeModulePartial?: GrowbeModulePartial, observe?: 'response', reportProgress?: boolean, options?: {
+    growbeMainboardControllerPutRelationModelById_16(id: string, fk: string, growbeModulePartial?: GrowbeModulePartial, observe?: 'response', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpResponse<GrowbeModule>>;
-    growbeMainboardControllerPutRelationModelById_13(id: string, fk: string, growbeModulePartial?: GrowbeModulePartial, observe?: 'events', reportProgress?: boolean, options?: {
+    growbeMainboardControllerPutRelationModelById_16(id: string, fk: string, growbeModulePartial?: GrowbeModulePartial, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpEvent<GrowbeModule>>;
     /**
@@ -619,17 +683,17 @@ export declare class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    growbeMainboardControllerPutRelationModelById_14(id: string, fk: string, requestBody?: {
+    growbeMainboardControllerPutRelationModelById_17(id: string, fk: string, requestBody?: {
         [key: string]: object;
     }, observe?: 'body', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<GrowbeSensorValue>;
-    growbeMainboardControllerPutRelationModelById_14(id: string, fk: string, requestBody?: {
+    growbeMainboardControllerPutRelationModelById_17(id: string, fk: string, requestBody?: {
         [key: string]: object;
     }, observe?: 'response', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpResponse<GrowbeSensorValue>>;
-    growbeMainboardControllerPutRelationModelById_14(id: string, fk: string, requestBody?: {
+    growbeMainboardControllerPutRelationModelById_17(id: string, fk: string, requestBody?: {
         [key: string]: object;
     }, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
@@ -642,15 +706,32 @@ export declare class GrowbeMainboardControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    growbeMainboardControllerPutRelationModelById_15(id: string, fk: string, growbeWarningPartial?: GrowbeWarningPartial, observe?: 'body', reportProgress?: boolean, options?: {
+    growbeMainboardControllerPutRelationModelById_18(id: string, fk: string, growbeWarningPartial?: GrowbeWarningPartial, observe?: 'body', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<GrowbeWarning>;
-    growbeMainboardControllerPutRelationModelById_15(id: string, fk: string, growbeWarningPartial?: GrowbeWarningPartial, observe?: 'response', reportProgress?: boolean, options?: {
+    growbeMainboardControllerPutRelationModelById_18(id: string, fk: string, growbeWarningPartial?: GrowbeWarningPartial, observe?: 'response', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpResponse<GrowbeWarning>>;
-    growbeMainboardControllerPutRelationModelById_15(id: string, fk: string, growbeWarningPartial?: GrowbeWarningPartial, observe?: 'events', reportProgress?: boolean, options?: {
+    growbeMainboardControllerPutRelationModelById_18(id: string, fk: string, growbeWarningPartial?: GrowbeWarningPartial, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
     }): Observable<HttpEvent<GrowbeWarning>>;
+    /**
+     * Replace a instance of GrowbeMainboard
+     * @param id
+     * @param fk
+     * @param virtualRelayPartial
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    growbeMainboardControllerPutRelationModelById_19(id: string, fk: string, virtualRelayPartial?: VirtualRelayPartial, observe?: 'body', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json';
+    }): Observable<any>;
+    growbeMainboardControllerPutRelationModelById_19(id: string, fk: string, virtualRelayPartial?: VirtualRelayPartial, observe?: 'response', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json';
+    }): Observable<HttpResponse<any>>;
+    growbeMainboardControllerPutRelationModelById_19(id: string, fk: string, virtualRelayPartial?: VirtualRelayPartial, observe?: 'events', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json';
+    }): Observable<HttpEvent<any>>;
     /**
      * @param growbeRegisterRequest
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -695,51 +776,6 @@ export declare class GrowbeMainboardControllerService {
     }): Observable<HttpResponse<any>>;
     growbeMainboardControllerReplaceById(id: string, body?: object, observe?: 'events', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json';
-    }): Observable<HttpEvent<any>>;
-    /**
-     * @param id
-     * @param body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    growbeMainboardControllerSetGrowbeConfig(id: string, body?: object, observe?: 'body', reportProgress?: boolean, options?: {
-        httpHeaderAccept?: undefined;
-    }): Observable<any>;
-    growbeMainboardControllerSetGrowbeConfig(id: string, body?: object, observe?: 'response', reportProgress?: boolean, options?: {
-        httpHeaderAccept?: undefined;
-    }): Observable<HttpResponse<any>>;
-    growbeMainboardControllerSetGrowbeConfig(id: string, body?: object, observe?: 'events', reportProgress?: boolean, options?: {
-        httpHeaderAccept?: undefined;
-    }): Observable<HttpEvent<any>>;
-    /**
-     * @param id
-     * @param body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    growbeMainboardControllerSetGrowbeRTC(id: string, body?: object, observe?: 'body', reportProgress?: boolean, options?: {
-        httpHeaderAccept?: undefined;
-    }): Observable<any>;
-    growbeMainboardControllerSetGrowbeRTC(id: string, body?: object, observe?: 'response', reportProgress?: boolean, options?: {
-        httpHeaderAccept?: undefined;
-    }): Observable<HttpResponse<any>>;
-    growbeMainboardControllerSetGrowbeRTC(id: string, body?: object, observe?: 'events', reportProgress?: boolean, options?: {
-        httpHeaderAccept?: undefined;
-    }): Observable<HttpEvent<any>>;
-    /**
-     * @param id
-     * @param body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    growbeMainboardControllerSetGrowbeSync(id: string, body?: object, observe?: 'body', reportProgress?: boolean, options?: {
-        httpHeaderAccept?: undefined;
-    }): Observable<any>;
-    growbeMainboardControllerSetGrowbeSync(id: string, body?: object, observe?: 'response', reportProgress?: boolean, options?: {
-        httpHeaderAccept?: undefined;
-    }): Observable<HttpResponse<any>>;
-    growbeMainboardControllerSetGrowbeSync(id: string, body?: object, observe?: 'events', reportProgress?: boolean, options?: {
-        httpHeaderAccept?: undefined;
     }): Observable<HttpEvent<any>>;
     /**
      * PATCH success count

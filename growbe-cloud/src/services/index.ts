@@ -1,6 +1,7 @@
 export * from './mqtt.service';
 export * from './growbe-state.service';
 export * from './growbe.service';
+export * from './growbe-action.service';
 export * from './growbe-warning.service';
 export * from './growbe-module.service';
 export * from './growbe-logs.service';
@@ -9,3 +10,5 @@ export * from './growbe-response.service';
 export * from './growbe-alarm.service';
 export * from './user-preference.service';
 export * from './growbe-mainboard-version.service';
+export * from './virtual-relay.service';
+export * from './virtual-relay-event.service';

@@ -13,12 +13,14 @@ import { DataSubject } from '../observers/data-subject.model';
 import { GrowbeActionReponseService } from '../services';
 import {
   GrowbeMainboardController,
+  GrowbeMainboardActionController,
   GrowbeModuleDefController,
   GrowbeModuleController,
   GrowbeModuleGraphController,
   UserPreferenceController,
   GrowbeMainboardVersionController,
   GrowbeModuleCalibrationController,
+  VirtualRelayController,
 } from './controllers';
 import {CRUD_CONTROLLERS} from './crud-controller';
 
@@ -53,12 +55,14 @@ export class CloudComponent implements Component {
 
   controllers = [
     GrowbeMainboardController,
+    GrowbeMainboardActionController,
     GrowbeModuleDefController,
     GrowbeModuleGraphController,
     GrowbeMainboardVersionController,
     GrowbeModuleController,
     UserPreferenceController,
     GrowbeModuleCalibrationController,
+    VirtualRelayController,
   ];
   bindings = [
     Binding.bind(GrowbeMainboardBindings.WATCHERS).to(watchers)

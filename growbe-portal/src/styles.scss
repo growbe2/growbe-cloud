@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import '~@berlingoqc/fuse-extra/scss/portal';
-@import '~@berlingoqc/fuse-extra/scss/splash';
+@import 'node_modules/@berlingoqc/fuse-extra/scss/portal';
+@import 'node_modules/@berlingoqc/fuse-extra/scss/splash';
 
 @import 'src/scss/growbe.theme';
 
@@ -118,3 +118,4 @@ alb-admin-page {
     }
   }
 }
+

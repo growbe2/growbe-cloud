@@ -12,7 +12,7 @@ import {
   GrowbeWarning,
   GrowbeSensorValue,
   GrowbeModule,
-  GrowbeLogs, GrowbeModuleDef} from '../models';
+  GrowbeLogs, GrowbeModuleDef, VirtualRelay} from '../models';
 import {PgsqlDataSource} from '../datasources';
 import {Getter, inject} from '@loopback/core';
 import {UserRepository, User} from '@berlingoqc/sso';
@@ -22,6 +22,7 @@ import {GrowbeSensorValueRepository} from './growbe-sensor-value.repository';
 import {GrowbeModuleRepository} from './growbe-module.repository';
 import {GrowbeLogsRepository} from './growbe-logs.repository';
 import {GrowbeModuleDefRepository} from './growbe-module-def.repository';
+import {VirtualRelayRepository} from './virtual-relay.repository';
 
 export class GrowbeMainboardRepository extends DefaultCrudRepository<
   GrowbeMainboard,
@@ -57,6 +58,8 @@ export class GrowbeMainboardRepository extends DefaultCrudRepository<
 
   public readonly growbeModuleDefs: HasManyRepositoryFactory<GrowbeModuleDef, typeof GrowbeMainboard.prototype.id>;
 
+  public readonly virtualRelays: HasManyRepositoryFactory<VirtualRelay, typeof GrowbeMainboard.prototype.id>;
+
   constructor(
     @inject('datasources.pgsql') dataSource: PgsqlDataSource,
     @repository.getter('repositories.UserRepository')
@@ -70,9 +73,11 @@ export class GrowbeMainboardRepository extends DefaultCrudRepository<
     @repository.getter('GrowbeModuleRepository')
     protected growbeModuleRepositoryGetter: Getter<GrowbeModuleRepository>,
     @repository.getter('GrowbeLogsRepository')
-    protected growbeLogsRepositoryGetter: Getter<GrowbeLogsRepository>, @repository.getter('GrowbeModuleDefRepository') protected growbeModuleDefRepositoryGetter: Getter<GrowbeModuleDefRepository>,
+    protected growbeLogsRepositoryGetter: Getter<GrowbeLogsRepository>, @repository.getter('GrowbeModuleDefRepository') protected growbeModuleDefRepositoryGetter: Getter<GrowbeModuleDefRepository>, @repository.getter('VirtualRelayRepository') protected virtualRelayRepositoryGetter: Getter<VirtualRelayRepository>,
   ) {
     super(GrowbeMainboard, dataSource);
+    this.virtualRelays = this.createHasManyRepositoryFactoryFor('virtualRelays', virtualRelayRepositoryGetter,);
+    this.registerInclusionResolver('virtualRelays', this.virtualRelays.inclusionResolver);
     this.growbeModuleDefs = this.createHasManyRepositoryFactoryFor('growbeModuleDefs', growbeModuleDefRepositoryGetter,);
     this.growbeLogs = this.createHasManyRepositoryFactoryFor(
       'growbeLogs',

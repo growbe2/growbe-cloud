@@ -1,0 +1,33 @@
+
+<ng-container *ngIf="value$ | async as value">
+  <p>
+{{value}}
+  </p>
+
+  <ng-container *ngIf="!value[0] || value[0].mode === 0 ; else alarm">
+
+    <div>
+      <ng-container [ngTemplateOutlet]="logo"></ng-container>
+    </div>
+
+
+    <div>
+      <mat-slide-toggle [disabled]="requestConfig || value[3]" [checked]="value[1]" (change)="onSlideState($event)"></mat-slide-toggle>
+    </div>
+
+  </ng-container>
+
+
+  <!--templates-->
+  <ng-template #alarm>
+
+  </ng-template>
+
+  <ng-template #logo>
+    <mat-icon>
+      {{value[1] ? 'power' : 'power_off'}}
+    </mat-icon>
+  </ng-template>
+
+</ng-container>
+

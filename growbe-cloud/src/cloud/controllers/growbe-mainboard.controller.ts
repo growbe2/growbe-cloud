@@ -123,41 +123,6 @@ export class GrowbeMainboardController {
     return this.growbeService.registerOrganisation(user.id, growbeId, orgId);
   }
 
-  @patch('/growbe/{id}/config')
-  @authorizeGrowbe({
-    growbeIdIndex: 0,
-  })
-  async setGrowbeConfig(
-    @param.path.string('id') id: string,
-    @requestBody() body: any,
-  ) {
-    const d = await this.growbeService.updateConfig(id, body);
-    return d;
-  }
-
-  @patch("/growbe/{id}/restart")
-  @authorizeGrowbe({
-    growbeIdIndex: 0
-  })
-  sendRestartRequest(@param.path.string('id') id: string) {
-    return this.growbeService.sendRestartRequest(id);
-  }
-
-  @patch('/growbe/{id}/rtc')
-  @authorizeGrowbe({
-    growbeIdIndex: 0,
-  })
-  setGrowbeRTC(@param.path.string('id') id: string, @requestBody() body: any) {
-    return this.growbeService.setRTC(id, body);
-  }
-
-  @patch('/growbe/{id}/sync')
-  @authorizeGrowbe({
-    growbeIdIndex: 0,
-  })
-  setGrowbeSync(@param.path.string('id') id: string, @requestBody() body: any) {
-    return this.growbeService.sendSyncRequest(id);
-  }
 
   @get('/model/graphDataConfig', schemaJsonOf(GraphDataConfig))
   graphDataConfig() {

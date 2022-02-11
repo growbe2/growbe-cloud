@@ -50,6 +50,7 @@ export class GrowbeRegisterRequest {
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeService {
+  static DEBUG = require('debug')('growbe:service:growbe');
   constructor(
     @repository(GrowbeMainboardRepository)
     public mainboardRepository: GrowbeMainboardRepository,
@@ -93,28 +94,11 @@ export class GrowbeService {
     return mainboard;
   }
 
-  async updateConfig(growbeId: string, config: pb.GrowbeMainboardConfig) {
-    return this.mqttService.sendWithResponse(
-      growbeId,
-      getTopic(growbeId, '/board/config'),
-      pb.GrowbeMainboardConfig.encode(config).finish(),
-      {responseCode: pb.ActionCode.RTC_SET, waitingTime: 4000}
-    ).toPromise()
-      .then((responseA) => this.mainboardRepository
-        .growbeMainboardConfig(growbeId)
-        .patch({config})
-        .then(response => {
-          return this.logsService.addLog({
-            group: GroupEnum.MAINBOARD,
-            type: LogTypeEnum.GROWBE_CONFIG_CHANGE,
-            severity: SeverityEnum.LOW,
-            growbeMainboardId: growbeId,
-            message: `config send`,
-          }).then((log) => ({log, response: responseA}));
-      }));
-  }
-
   async updateLocalConnection(growbeId: string, data: LocalConnection) {
+    if (!data.ssid || data.ssid === "") {
+      GrowbeService.DEBUG("invalid local connection receive " + growbeId);
+      return {};
+    }
     const updatedConfig = await this.mainboardConfigRepository.updateAll(
       {
         localConnection: data
@@ -139,65 +123,6 @@ export class GrowbeService {
 
     return updatedConfig;
   }
-
-  async setRTC(growbeId: string, rtcTime: RTCTime) {
-    return this.mqttService
-      .sendWithResponse(
-        growbeId,
-        getTopic(growbeId, '/board/setTime'),
-        pb.RTCTime.encode(rtcTime).finish(),
-        {
-          responseCode: 3,
-          waitingTime: 4000,
-        }
-      ).toPromise()
-      .then(response => {
-        return this.logsService.addLog({
-          group: GroupEnum.MAINBOARD,
-          type: LogTypeEnum.RTC_UPDATE,
-          severity: SeverityEnum.LOW,
-          growbeMainboardId: growbeId,
-          message: `rtc set : ${JSON.stringify(rtcTime)}`,
-        }).then((log) => ({log, response}));
-      });
-  }
-
-  async sendRestartRequest(growbeId: string) {
-    return this.mqttService
-      .sendWithResponse(
-        growbeId,
-        getTopic(growbeId, '/board/restart'),
-        pb.RestartRequest.encode({}).finish(),
-        {
-          responseCode: pb.ActionCode.RESTART,
-          waitingTime: 4000,
-        }
-      ).toPromise();
-  }
-
-    /**
-   * send request to growbe to ask to
-   * sync all is modules informations
-   * with the cloud , trigger on reconnection.
-   * @param growbeId
-   */
-  public sendSyncRequest(growbeId: string) {
-    return lastValueFrom(this.mqttService
-      .sendWithResponse(growbeId,getTopic(growbeId, '/board/sync'), '', {
-        responseCode: ActionCode.SYNC_REQUEST,
-        waitingTime: 3000
-      }))
-      .then(value => {
-        return this.logsService.addLog({
-          group: GroupEnum.MAINBOARD,
-          type: LogTypeEnum.SYNC_REQUEST,
-          severity: SeverityEnum.LOW,
-          growbeMainboardId: growbeId,
-          message: `sync requested`,
-        });
-      });
-  }
-
 
   async register(userId: string, request: GrowbeRegisterRequest) {
     const response = new GrowbeRegisterResponse();

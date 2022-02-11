@@ -1,0 +1,6 @@
+<ngx-autotable
+    *ngIf="growbeId"
+    [columns]="columns"
+    [source]="mainboardAPI.virtualRelays | lbRelation: growbeId"
+>
+</ngx-autotable>

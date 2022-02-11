@@ -1,0 +1,35 @@
+
+.calibration-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    growbe-module-svg {
+        display: block;
+        width: 300px;
+    }
+
+    .start-calibration-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+
+
+        .message {
+            padding: 10px;
+        }
+    }
+}
+
+.button-row {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+        width: 100px;
+        margin-left: 5px;
+    }
+}

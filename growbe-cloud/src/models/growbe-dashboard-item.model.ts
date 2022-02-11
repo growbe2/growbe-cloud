@@ -64,6 +64,10 @@ export class ModuleDataRequest extends Model {
     description: 'if true the data will be fetch , only possible with lastX',
   })
   liveUpdate?: boolean;
+  @property({
+    description: 'where filter when module have multiple value type',
+  }) 
+  filter?: {[id:string]: any};
   @property()
   grouping?: GroupingDataRequest;
 }

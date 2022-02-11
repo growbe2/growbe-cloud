@@ -210,6 +210,39 @@ export class GrowbeModuleService {
     return this.updateModuleConfig(moduleId, config)
   }
 
+  async deleteModuleConfig(moduleId: string) {
+    const module = await this.moduleRepository.findById(moduleId);
+    if (!module) {
+      throw new HttpErrors[404]();
+    }
+    module.config = null;
+    
+    await this.moduleRepository.update(module);
+     await this.mqttService.send(
+      getTopic(module.mainboardId, `/cloud/m/${module.id}/config`),
+      JSON.stringify({}),
+    );
+
+    return this.mqttService
+      .sendWithResponse(
+        module.mainboardId,
+        getTopic(module.mainboardId, `/board/rmconfig/${module.id}`),
+        {},
+        { waitingTime: 6000, responseCode: pb.ActionCode.MODULE_CONFIG}
+      ).toPromise()
+      .then((response) => {
+        return this.logsService.addLog({
+          group: GroupEnum.MODULES,
+          type: LogTypeEnum.MODULE_CONFIG_CHANGE,
+          severity: SeverityEnum.LOW,
+          growbeMainboardId: module.mainboardId,
+          growbeModuleId: module.id,
+          message: '',
+        }).then((log) => ({log, response}));
+      });
+   
+  }
+
   private async updateModuleConfig(id: string, config: any) {
     const module = await this.moduleRepository.findById(id);
     if (!module) {
@@ -221,10 +254,14 @@ export class GrowbeModuleService {
       module.config[k] = v;
     });
     // remove property with null config
-    return this.moduleRepository.update(module).then(() => this.mqttService.send(
+    
+    await this.moduleRepository.update(module);
+    await this.mqttService.send(
       getTopic(module.mainboardId, `/cloud/m/${module.id}/config`),
       JSON.stringify(config),
-    )).then(() => module);
+    );
+
+    return module;
   }
 
   private sendConfigToMainboard(module: GrowbeModule) {

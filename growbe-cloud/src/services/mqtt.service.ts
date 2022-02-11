@@ -42,8 +42,8 @@ export class MQTTService {
     return this.client.publish(topic, body, options);
   }
 
-  sendWithResponse(mainboardId: string, topic: string, body: any, options: WaitResponseOptions) {
-    const subReponse = `${topic}/response`;
+  sendWithResponse(mainboardId: string, topic: string, body: any, options: WaitResponseOptions, responseTopic?: string) {
+    const subReponse = !responseTopic ? `${topic}/response`: responseTopic;
     this.addSubscription(subReponse);
     return defer(() => this.send(topic, body, { qos: 2 }))
       .pipe(
