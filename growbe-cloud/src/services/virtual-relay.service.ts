@@ -35,6 +35,7 @@ export class VirtualRelayService {
       id: data.name,
       growbeMainboardId: growbeId,
       relay: data,
+      state: true,
     }));
 
     await this.logAndNotifyCloud(growbeId, "created", virtual_relay);
