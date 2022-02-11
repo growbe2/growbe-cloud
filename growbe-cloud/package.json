@@ -48,7 +48,7 @@
     "!*/__tests__"
   ],
   "dependencies": {
-    "@berlingoqc/lb-extensions": "^1.1.2",
+    "@berlingoqc/lb-extensions": "^1.1.7",
     "@berlingoqc/sso": "^1.1.2",
     "@growbe2/growbe-pb": "^1.2.1-SNAPSHOT-3",
     "@loopback/boot": "^4.0.1",
@@ -67,6 +67,7 @@
     "loopback-connector-mongodb": "^6.1.0",
     "loopback-connector-postgresql": "^5.4.0",
     "mqtt": "^4.3.4",
+    "nodemailer": "^6.7.2",
     "protobufjs": "^6.11.2",
     "rxjs": "^7.5.2",
     "tslib": "^2.0.0"
