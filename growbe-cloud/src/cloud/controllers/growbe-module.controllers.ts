@@ -21,7 +21,7 @@ export class GrowbeModuleController {
     return this.growbeModuleService.setModuleConfig(id, config);
   }
 
-  @del('/growbeModules/{id}/config')
+  @del('/growbeModules/{id}/cmd/config')
   @authorizeGrowbe({
     growbeIdIndex: 0,
     getFunc: getMainboardByModule,
