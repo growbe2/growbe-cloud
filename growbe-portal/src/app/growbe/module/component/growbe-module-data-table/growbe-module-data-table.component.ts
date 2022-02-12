@@ -1,8 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { AutoTableComponent, TableColumn } from '@berlingoqc/ngx-autotable';
-import { ButtonsRowComponent, unsubscriber } from '@berlingoqc/ngx-common';
+import { AutoTableComponent, AutoTableConfig, TableColumn } from '@berlingoqc/ngx-autotable';
+import { ActionConfirmationDialogComponent, ActionConfirmationService, ButtonsRowComponent, OnDestroyMixin, unsubscriber, untilComponentDestroyed } from '@berlingoqc/ngx-common';
 import { Where } from '@berlingoqc/ngx-loopback';
 import {
   GrowbeMainboard,
@@ -10,21 +11,22 @@ import {
     GrowbeModuleDefWithRelations,
 } from '@growbe2/ngx-cloud-api';
 import { GrowbeModuleDef } from 'growbe-cloud-api/lib/cloud/model/growbeModuleDef';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { Subscription, combineLatest } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, switchMap, take } from 'rxjs/operators';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
+import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { transformModuleValue } from '../../module.def';
 
 @Component({
     selector: 'app-growbe-module-data-table',
     templateUrl: './growbe-module-data-table.component.html',
     styleUrls: ['./growbe-module-data-table.component.scss'],
-    providers: [DatePipe],
+    providers: [DatePipe, ActionConfirmationService],
 })
 @unsubscriber
-export class GrowbeModuleDataTableComponent implements OnInit {
+export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) implements OnInit {
     @ViewChild(AutoTableComponent) table: AutoTableComponent;
 
     @Input() mainboardId: GrowbeMainboard['id'];
@@ -38,10 +40,25 @@ export class GrowbeModuleDataTableComponent implements OnInit {
 
     sub: Subscription;
 
+    config: AutoTableConfig = {
+      decorators: {
+          style: {
+            container: {
+              class: ['table-scroll-x'],
+            }
+         }
+      }
+    }
+
     constructor(
         private datePipe: DatePipe,
         public moduleAPI: GrowbeModuleAPI,
-    ) {}
+        private actionConfirmation: ActionConfirmationService,
+
+        private growbeEvent: GrowbeEventService,
+    ) {
+      super();
+    }
 
     ngOnInit(): void {
         if (!this.moduleId) {
@@ -49,10 +66,18 @@ export class GrowbeModuleDataTableComponent implements OnInit {
         }
         this.where = {};
 
+        this.growbeEvent.getGrowbeEvent(
+          this.mainboardId,
+          `/cloud/m/${this.moduleId}/data`,
+          (d) => Object.assign(JSON.parse(d), {})
+        ).pipe(untilComponentDestroyed(this)).subscribe((d) => {
+          console.log('DDDD', d);
+        });
+
         this.sub = combineLatest([
           this.moduleAPI.moduleDef(this.moduleId).get(),
           this.moduleAPI.getById(this.moduleId),
-        ]).subscribe(([def, module]: any) => {
+        ]).pipe(untilComponentDestroyed(this)).subscribe(([def, module]: any) => {
                 this.columns = [
                     {
                         id: 'createdat',
@@ -90,8 +115,10 @@ export class GrowbeModuleDataTableComponent implements OnInit {
                                             ) => {
                                                 this.moduleAPI.growbeSensorValues(module.id)
                                                     .delete(context.id)
-                                                    .pipe(take(1))
-                                                    .subscribe(() => {});
+                                                    .pipe(take(1), this.actionConfirmation.confirmBefore({ title: '' }))
+                                                    .subscribe(() => {
+                                                      this.table.refreshData();
+                                                    });
                                             },
                                         },
                                     ],
