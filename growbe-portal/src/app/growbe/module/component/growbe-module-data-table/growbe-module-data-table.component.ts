@@ -3,7 +3,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AutoTableComponent, AutoTableConfig, TableColumn } from '@berlingoqc/ngx-autotable';
-import { ActionConfirmationDialogComponent, ButtonsRowComponent, unsubscriber } from '@berlingoqc/ngx-common';
+import { ActionConfirmationDialogComponent, ButtonsRowComponent, OnDestroyMixin, unsubscriber, untilComponentDestroyed } from '@berlingoqc/ngx-common';
 import { Where } from '@berlingoqc/ngx-loopback';
 import {
   GrowbeMainboard,
@@ -16,6 +16,7 @@ import { Subscription, combineLatest } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
+import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { transformModuleValue } from '../../module.def';
 
 @Component({
@@ -25,7 +26,7 @@ import { transformModuleValue } from '../../module.def';
     providers: [DatePipe],
 })
 @unsubscriber
-export class GrowbeModuleDataTableComponent implements OnInit {
+export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) implements OnInit {
     @ViewChild(AutoTableComponent) table: AutoTableComponent;
 
     @Input() mainboardId: GrowbeMainboard['id'];
@@ -54,7 +55,11 @@ export class GrowbeModuleDataTableComponent implements OnInit {
         public moduleAPI: GrowbeModuleAPI,
 
         private matDialog: MatDialog,
-    ) {}
+
+        private growbeEvent: GrowbeEventService,
+    ) {
+      super();
+    }
 
     confirmBefore<T>(): (obs: Observable<T>) => Observable<T> {
       return (obs) => {
@@ -73,10 +78,18 @@ export class GrowbeModuleDataTableComponent implements OnInit {
         }
         this.where = {};
 
+        this.growbeEvent.getGrowbeEvent(
+          this.mainboardId,
+          `/cloud/m/${this.moduleId}/data`,
+          (d) => Object.assign(JSON.parse(d), {})
+        ).pipe(untilComponentDestroyed(this)).subscribe((d) => {
+          console.log('DDDD', d);
+        });
+
         this.sub = combineLatest([
           this.moduleAPI.moduleDef(this.moduleId).get(),
           this.moduleAPI.getById(this.moduleId),
-        ]).subscribe(([def, module]: any) => {
+        ]).pipe(untilComponentDestroyed(this)).subscribe(([def, module]: any) => {
                 this.columns = [
                     {
                         id: 'createdat',
