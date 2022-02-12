@@ -3,7 +3,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AutoTableComponent, AutoTableConfig, TableColumn } from '@berlingoqc/ngx-autotable';
-import { ActionConfirmationDialogComponent, ButtonsRowComponent, OnDestroyMixin, unsubscriber, untilComponentDestroyed } from '@berlingoqc/ngx-common';
+import { ActionConfirmationDialogComponent, ActionConfirmationService, ButtonsRowComponent, OnDestroyMixin, unsubscriber, untilComponentDestroyed } from '@berlingoqc/ngx-common';
 import { Where } from '@berlingoqc/ngx-loopback';
 import {
   GrowbeMainboard,
@@ -53,23 +53,11 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
     constructor(
         private datePipe: DatePipe,
         public moduleAPI: GrowbeModuleAPI,
-
-        private matDialog: MatDialog,
+        private actionConfirmation: ActionConfirmationService,
 
         private growbeEvent: GrowbeEventService,
     ) {
       super();
-    }
-
-    confirmBefore<T>(): (obs: Observable<T>) => Observable<T> {
-      return (obs) => {
-        return this.matDialog.open(ActionConfirmationDialogComponent, {
-          data: {tite: ''}
-        }).afterClosed().pipe(
-          filter(x => x),
-          switchMap(() => obs)
-        )
-      }
     }
 
     ngOnInit(): void {
@@ -127,7 +115,7 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
                                             ) => {
                                                 this.moduleAPI.growbeSensorValues(module.id)
                                                     .delete(context.id)
-                                                    .pipe(take(1), this.confirmBefore())
+                                                    .pipe(take(1), this.actionConfirmation.confirmBefore({ title: '' }))
                                                     .subscribe(() => {
                                                       this.table.refreshData();
                                                     });
