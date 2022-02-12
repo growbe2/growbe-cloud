@@ -16,7 +16,7 @@ export const moduleDefPropertyDisplayer = {
     AAA: {
         getContent: (property) => ((d) => {
             const suffix = (property === 'humidity') ? '%' : '°C';
-            return d?.values ? d.values[property].toFixed(2) + ' ' + suffix : '';
+            return d?.values ? d.values[property].toFixed(2) + '' + suffix : '';
         })
     },
     AAS: {
@@ -28,7 +28,7 @@ export const moduleDefPropertyDisplayer = {
               if (value === -1) {
                 return 'n/a';
               }
-              return `${value} %`;
+              return `${value}%`;
             }
             return value;
           }
