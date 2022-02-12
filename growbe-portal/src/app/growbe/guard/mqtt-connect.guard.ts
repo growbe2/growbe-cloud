@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CanActivate } from '@angular/router';
 import {
     CanLoad,
     Route,
@@ -13,8 +14,12 @@ import { GrowbeEventService } from '../services/growbe-event.service';
 @Injectable({
     providedIn: 'root',
 })
-export class MqttConnectGuard implements CanLoad {
+export class MqttConnectGuard implements CanLoad, CanActivate {
     constructor(private growbeEventService: GrowbeEventService) {}
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+        return this.growbeEventService.connect().then(() => true);
+  }
 
     async canLoad(
         route: Route,

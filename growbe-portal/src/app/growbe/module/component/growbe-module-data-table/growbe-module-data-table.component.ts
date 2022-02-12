@@ -31,6 +31,16 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
 
     @Input() mainboardId: GrowbeMainboard['id'];
     @Input() moduleId: GrowbeModule['id'];
+    @Input() displayProperties?: string[];
+    @Input() pageSize?: AutoTableComponent['pageSize'];
+    @Input() disablePaginator?: AutoTableComponent['disablePaginator'];
+    @Input() disableOptions?: boolean;
+    @Input() set config(config: AutoTableConfig) {
+        this._config = Object.assign(config, this._config);
+    }
+    get config(): AutoTableConfig {
+        return this._config;
+    }
 
     columns: TableColumn[];
 
@@ -40,7 +50,7 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
 
     sub: Subscription;
 
-    config: AutoTableConfig = {
+    _config: AutoTableConfig = {
       decorators: {
           style: {
             container: {
@@ -68,10 +78,17 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
 
         this.growbeEvent.getGrowbeEvent(
           this.mainboardId,
-          `/cloud/m/${this.moduleId}/data`,
+          `/cloud/m/${this.moduleId}/fdata`,
           (d) => Object.assign(JSON.parse(d), {})
         ).pipe(untilComponentDestroyed(this)).subscribe((d) => {
-          console.log('DDDD', d);
+          if (this.table.dataSource.data[0] && this.table.dataSource.data[0].id === d.id) {
+              const data = this.table.dataSource.data;
+              data[0] = d;
+              this.table.dataSource.data = [...data];
+          } else {
+              this.table.dataSource.data = [ d, ...this.table.dataSource.data.slice(0, this.table.dataSource.data.length - 1)];
+              (this.table as any).refreshCount();
+          }
         });
 
         this.sub = combineLatest([
@@ -85,16 +102,14 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
                         content: (d) =>
                             this.datePipe.transform(d.createdAt, 'short'),
                     },
-                    ...Object.values(def.properties).map((prop: any) => ({
-                        id: prop.name,
-                        title: prop.displayName ? prop.displayName : prop.name,
-                        content: (e) =>
-                            transformModuleValue(
-                                module.id.slice(0, 3),
-                                e.values[prop.name],
-                            ),
-                    })),
-                    {
+                    ...Object.values(def.properties).filter((prop: any) => !this.displayProperties || this.displayProperties.length === 0 || this.displayProperties.includes(prop.name)).map((prop: any) => {
+                        return ({
+                            id: prop.name,
+                            title: prop.displayName ? prop.displayName : prop.name,
+                            ...transformModuleValue(module.id.slice(0, 3), prop.name)
+                            })
+                        }),
+                    (!this.disableOptions) ? {
                         id: 'options',
                         title: 'Options',
                         content: {
@@ -118,6 +133,7 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
                                                     .pipe(take(1), this.actionConfirmation.confirmBefore({ title: '' }))
                                                     .subscribe(() => {
                                                       this.table.refreshData();
+                                                      (this.table as any).refreshCount();
                                                     });
                                             },
                                         },
@@ -126,8 +142,8 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
                             },
                             content: ButtonsRowComponent,
                         },
-                    } as any,
-                ];
+                    } as any : undefined,
+                ].filter(x => x);
             });
     }
 }

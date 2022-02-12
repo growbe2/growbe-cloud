@@ -31,8 +31,7 @@ const routes: Routes = [
     {
         path: 'home',
         component: HomeComponent,
-        canLoad: [MqttConnectGuard],
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, MqttConnectGuard],
     },
     {
         path: 'growbe',

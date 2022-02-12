@@ -104,10 +104,10 @@ export class GrowbeGraphService {
             };
     }
 
-    getPropertySelectForm(moduleId$: Observable<string>, nbrProperty?: number): IProperty {
+    getPropertySelectForm(moduleId$: Observable<string>, name = 'fields', nbrProperty?: number): IProperty {
         return {
             type: 'array',
-            name: 'fields',
+            name,
             decorators: {},
             min: nbrProperty,
             max: nbrProperty,
@@ -144,7 +144,7 @@ export class GrowbeGraphService {
                 },
             },
             ...(extra || []),
-            this.getPropertySelectForm(moduleId$, nbrProperty),
+            this.getPropertySelectForm(moduleId$, 'fields', nbrProperty),
             {
                 name: 'grouping',
                 type: 'object',

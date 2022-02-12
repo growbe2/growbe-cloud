@@ -2,10 +2,10 @@
     *ngIf="columns"
     [where]="where"
     [orderBy]="orderBy"
-    pageSize="10"
     [columns]="columns"
     [source]="moduleAPI.growbeSensorValues | lbRelation: moduleId"
-    [pageSize]="10"
-    [config]="config"
+    pageSize="{{pageSize ?? 10}}"
+    [disablePaginator]="disablePaginator"
+    [config]="_config"
 >
 </ngx-autotable>
