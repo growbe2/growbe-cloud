@@ -44,7 +44,7 @@ const mapTypeConfiguration: any = {
   AAB: {
     disableAverage: true
   },
-  AAS: {
+  AAP: {
     disbleAverage: true
   }
 }
