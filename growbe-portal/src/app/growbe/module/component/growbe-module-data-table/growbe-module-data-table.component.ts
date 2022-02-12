@@ -1,8 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AutoTableComponent, AutoTableConfig, TableColumn } from '@berlingoqc/ngx-autotable';
-import { ButtonsRowComponent, unsubscriber } from '@berlingoqc/ngx-common';
+import { ActionConfirmationDialogComponent, ButtonsRowComponent, unsubscriber } from '@berlingoqc/ngx-common';
 import { Where } from '@berlingoqc/ngx-loopback';
 import {
   GrowbeMainboard,
@@ -10,9 +11,9 @@ import {
     GrowbeModuleDefWithRelations,
 } from '@growbe2/ngx-cloud-api';
 import { GrowbeModuleDef } from 'growbe-cloud-api/lib/cloud/model/growbeModuleDef';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { Subscription, combineLatest } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, switchMap, take } from 'rxjs/operators';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
 import { transformModuleValue } from '../../module.def';
@@ -51,7 +52,20 @@ export class GrowbeModuleDataTableComponent implements OnInit {
     constructor(
         private datePipe: DatePipe,
         public moduleAPI: GrowbeModuleAPI,
+
+        private matDialog: MatDialog,
     ) {}
+
+    confirmBefore<T>(): (obs: Observable<T>) => Observable<T> {
+      return (obs) => {
+        return this.matDialog.open(ActionConfirmationDialogComponent, {
+          data: {tite: ''}
+        }).afterClosed().pipe(
+          filter(x => x),
+          switchMap(() => obs)
+        )
+      }
+    }
 
     ngOnInit(): void {
         if (!this.moduleId) {
@@ -100,8 +114,10 @@ export class GrowbeModuleDataTableComponent implements OnInit {
                                             ) => {
                                                 this.moduleAPI.growbeSensorValues(module.id)
                                                     .delete(context.id)
-                                                    .pipe(take(1))
-                                                    .subscribe(() => {});
+                                                    .pipe(take(1), this.confirmBefore())
+                                                    .subscribe(() => {
+                                                      this.table.refreshData();
+                                                    });
                                             },
                                         },
                                     ],
