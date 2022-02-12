@@ -9,6 +9,9 @@ export const moduleDefPropertyDisplayer = {
         property: 'state',
         type: 'boolean',
         default: false,
+    },
+    AAA: {
+        round: {}
     }
 };
 
@@ -18,6 +21,9 @@ export const transformModuleValue = (moduleType: string, value: any) => {
       if (item) {
           if (item.property) {
               value = value[item.property] ?? item.default;
+          }
+          if (item.round) {
+            value = value.toFixed(2);
           }
       }
     }

@@ -119,3 +119,9 @@ alb-admin-page {
   }
 }
 
+.table-scroll-x {
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  display: block;
+}

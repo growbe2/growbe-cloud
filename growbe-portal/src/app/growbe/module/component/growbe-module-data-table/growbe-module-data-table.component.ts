@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AutoTableComponent, TableColumn } from '@berlingoqc/ngx-autotable';
+import { AutoTableComponent, AutoTableConfig, TableColumn } from '@berlingoqc/ngx-autotable';
 import { ButtonsRowComponent, unsubscriber } from '@berlingoqc/ngx-common';
 import { Where } from '@berlingoqc/ngx-loopback';
 import {
@@ -37,6 +37,16 @@ export class GrowbeModuleDataTableComponent implements OnInit {
     orderBy: string[] = ['createdAt DESC'];
 
     sub: Subscription;
+
+    config: AutoTableConfig = {
+      decorators: {
+          style: {
+            container: {
+              class: ['table-scroll-x'],
+            }
+         }
+      }
+    }
 
     constructor(
         private datePipe: DatePipe,
