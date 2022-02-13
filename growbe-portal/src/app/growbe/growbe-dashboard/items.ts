@@ -51,7 +51,8 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 component: 'growbe-module-data-table',
                 componentType: GrowbeModuleDataTableComponent,
                 inputs: {
-                    ...this.getDashboardAndModuleProperty(true)[0],
+                    ...this.getModulePropertyList(),
+                    ...this.getTableConfig(),
                 },
             },
             {
@@ -174,7 +175,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 },
                 outputs: {}
             }
- 
+
         ].forEach((item: any) => this.addItem(item));
     }
 
@@ -183,6 +184,45 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
     }
     getItem(component: string): DashboardRegistryItem {
         return this.items[component];
+    }
+
+    private getTableConfig = () => {
+        return {
+            //enablePagination: true,
+            pageSize: {
+                type: 'number',
+                name: 'pageSize'
+            },
+            disablePaginator: {
+                type: 'bool',
+                name: 'disablePaginator',
+                component: {
+                  name: 'checkbox'
+                }
+            },
+            disableOptions: {
+                type: 'bool',
+                name: 'disableOptions',
+                component: {
+                  name: 'checkbox'
+                }
+            }
+        };
+    }
+
+    private getModulePropertyList = () => {
+        const [
+            formMM,
+            subjectMainboard,
+            subjectModule,
+        ] = this.getDashboardAndModuleProperty(true, 'mainboardId');
+
+        return {
+          'mainboardId': formMM['mainboardId'],
+          'moduleId': formMM['moduleId'],
+          'displayProperties': this.graphService.getPropertySelectForm(subjectModule.asObservable(), 'displayProperties'),
+        };
+
     }
 
     private getModuleProperty = () => {

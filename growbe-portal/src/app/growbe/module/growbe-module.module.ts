@@ -14,7 +14,7 @@ import { UnitModule } from 'src/app/shared/unit/unit.module';
 import { GrowbeModuleConfigComponent } from './component/growbe-module-config/growbe-module-config.component';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { HardwareAlarmModule } from './hardware-alarm/hardware-alarm.module';
-import { ButtonsRowModule } from '@berlingoqc/ngx-common';
+import { ButtonsRowModule, ConfirmationModule } from '@berlingoqc/ngx-common';
 
 @NgModule({
     declarations: [

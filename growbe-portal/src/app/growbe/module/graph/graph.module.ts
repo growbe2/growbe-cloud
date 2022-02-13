@@ -13,6 +13,7 @@ import { ModuleGraphBuilderComponent } from './module-graph-builder/module-graph
 import { GrowbeModuleModule } from '../growbe-module.module';
 import { MatButtonModule } from '@angular/material/button';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
+import { TemplateContentModule } from '@berlingoqc/ngx-common';
 
 @NgModule({
     declarations: [
@@ -29,6 +30,8 @@ import { AutoFormModule } from '@berlingoqc/ngx-autoform';
         FuseWidgetModule,
         NgxChartsModule,
         GrowbeModuleModule,
+
+        TemplateContentModule,
     ],
     providers: [GrowbeGraphService],
     exports: [

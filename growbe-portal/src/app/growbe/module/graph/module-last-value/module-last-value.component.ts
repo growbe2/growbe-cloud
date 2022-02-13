@@ -35,8 +35,10 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
 
     moduleDef: Observable<GrowbeModuleDefWithRelations>;
 
-    value: any;
+    contentDisplay: any;
 
+    valueObject: any;
+    value: any;
     lastValue: any;
 
     at: Date;
@@ -54,6 +56,10 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
         if (!this.graphDataConfig) {
             return;
         }
+        this.contentDisplay = transformModuleValue(
+          this.moduleType,
+          this.graphDataConfig.fields[0]
+        ).content;
         this.graphService
             .getGraph(this.graphDataConfig.growbeId, 'one', this.graphDataConfig)
             .subscribe(async (data: any) => {
@@ -64,16 +70,17 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
                 this.moduleDef = this.moduleAPI
                   .moduleDef(this.graphDataConfig.moduleId)
                   .get() as any;
-                this.value = this.transformValue(
-                    data[this.graphDataConfig.fields[0]],
-                );
+                this.valueObject = {
+                  values: data
+                };
+
                 this.at = data.createdAt;
                 this.changeDetection.markForCheck();
                 if (this.graphDataConfig.liveUpdate) {
                     this.sub = (
                         await this.topic.getGrowbeEvent(
                             this.graphDataConfig.growbeId,
-                            `/cloud/m/${this.graphDataConfig.moduleId}/data`,
+                            `/cloud/m/${this.graphDataConfig.moduleId}/fdata`,
                             (d) =>
                                 Object.assign(JSON.parse(d), {
                                     createdAt: new Date(),
@@ -81,11 +88,10 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
                         )
                     ).subscribe((graphData) => {
                         if (graphData) {
-                            this.lastValue = this.value;
+                            this.lastValue = this.valueObject.values[this.graphDataConfig.fields[0]];
                             this.historic.push(this.lastValue);
-                            this.value = this.transformValue(
-                                graphData[this.graphDataConfig.fields[0]],
-                            );
+                            this.valueObject = graphData;
+                            this.value = this.valueObject.values[this.graphDataConfig.fields[0]];
                             this.at = graphData.createdAt;
                             this.changeDetection.markForCheck();
                         }

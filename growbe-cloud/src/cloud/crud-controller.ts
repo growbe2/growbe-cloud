@@ -18,9 +18,13 @@ import {
   VirtualRelay
 } from '../models';
 import {
+  GrowbeLogsRepository,
   GrowbeMainboardRepository,
   GrowbeModuleDefRepository,
   GrowbeModuleRepository,
+  GrowbeSensorValueRepository,
+  GrowbeWarningKeyRepository,
+  VirtualRelayRepository,
 } from '../repositories';
 import {GrowbeDashboardRepository} from '../repositories/growbe-dashboard.repository';
 
@@ -147,6 +151,7 @@ const protectByModuleRelationProperties = {
   'updateById': [auth, authorizeGrowbeModuleId],
   'find': [auth, authorizeGrowbeModuleId],
   'findById': [auth, authorizeGrowbeModuleId],
+  'count': [auth, authorizeGrowbeModuleDefId],
 }
 
 export const CRUD_CONTROLLERS: {
@@ -172,7 +177,9 @@ export const CRUD_CONTROLLERS: {
           accessorType: 'HasMany',
           name: 'growbeWarnings',
           idType: 'string',
+          repo: GrowbeWarningKeyRepository,
           specs: specSecurity,
+          parentIdKey: 'growbeMainboardId',
           properties: protectByMainboardRelationProperties
         },
       },
@@ -182,6 +189,8 @@ export const CRUD_CONTROLLERS: {
           accessorType: 'HasMany',
           name: 'growbeModules',
           idType: 'string',
+          repo: GrowbeModuleRepository,
+          parentIdKey: 'mainboardId',
           specs: specSecurity,
           properties: protectByMainboardRelationProperties
         },
@@ -192,7 +201,9 @@ export const CRUD_CONTROLLERS: {
           accessorType: 'HasMany',
           name: 'growbeSensorValues',
           idType: 'string',
+          repo: GrowbeSensorValueRepository,
           specs: specSecurity,
+          parentIdKey: 'growbeMainboardId',
           properties: protectByMainboardRelationProperties
         },
       },
@@ -202,7 +213,9 @@ export const CRUD_CONTROLLERS: {
           accessorType: 'HasMany',
           specs: specSecurity,
           name: 'growbeLogs',
+          repo: GrowbeLogsRepository,
           idType: 'string',
+          parentIdKey: 'growbeMainboardId',
           properties: protectByMainboardRelationProperties
         },
       },
@@ -213,6 +226,8 @@ export const CRUD_CONTROLLERS: {
           specs: specSecurity,
           name: 'virtualRelays',
           idType: 'string',
+          parentIdKey: 'growbeMainboardId',
+          repo: VirtualRelayRepository,
           properties: _.omit(protectByMainboardRelationProperties, ['create', 'deleteById', 'delete', 'updateById']),
         }
       }
@@ -235,6 +250,8 @@ export const CRUD_CONTROLLERS: {
           name: 'growbeSensorValues',
           idType: 'string',
           specs: specSecurity,
+          repo: GrowbeSensorValueRepository,
+          parentIdKey: 'moduleId',
           properties: protectByModuleRelationProperties
         },
       },
@@ -245,6 +262,8 @@ export const CRUD_CONTROLLERS: {
           name: 'moduleDef',
           idType: 'number',
           specs: specSecurity,
+          repo: GrowbeModuleDefRepository,
+          parentIdKey: 'moduleId',
           properties: protectByModuleRelationProperties,
           disableds: ['deleteById', 'create'],
         }
