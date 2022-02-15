@@ -1,17 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.16.0 (0c01309)
-  creationTimestamp: null
   labels:
     io.kompose.service: growbe-cloud
   name: growbe-cloud
 spec:
-  progressDeadlineSeconds: 2147483647
   replicas: 1
-  revisionHistoryLimit: 2147483647
   selector:
     matchLabels:
       io.kompose.service: growbe-cloud
@@ -22,7 +16,6 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      creationTimestamp: null
       labels:
         io.kompose.service: growbe-cloud
     spec:
@@ -58,6 +51,20 @@ spec:
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: http
+          failureThreshold: 1
+          initialDelaySeconds: 5
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http
+          failureThreshold: 1
+          initialDelaySeconds: 5
+          periodSeconds: 3
       dnsPolicy: ClusterFirst
       imagePullSecrets:
       - name: ghrc
