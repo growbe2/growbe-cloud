@@ -124,6 +124,7 @@ enum RelayOutletMode {
     MANUAL = 0;
     ALARM = 1;
     VIRTUAL = 2;
+    CYCLE = 3;
 }
 
 message CronItem {
@@ -132,6 +133,11 @@ message CronItem {
     int32 dayMonth = 3;
     int32 month = 4;
     int32 dayWeek = 5;
+}
+
+message CycleConfig {
+    int32 waitingTime = 1;
+    int32 runningTime = 2;
 }
 
 message AlarmConfig {
@@ -154,8 +160,9 @@ message RelayOutletConfig {
     RelayOutletMode mode = 1;
     
     AlarmConfig alarm = 2;
-    ManualConfig manual =3;
+    ManualConfig manual = 3;
     VirtualRelayConfig virtual = 4;
+    CycleConfig cycle = 5;
 }
 
 message VirtualRelayPropertyConfig {
