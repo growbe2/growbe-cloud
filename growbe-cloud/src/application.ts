@@ -14,7 +14,9 @@ import {Subject} from 'rxjs';
 import {GrowbeMainboardBindings, MQTTBindings} from './keys';
 import { GrowbeDataSubjectObserver } from './observers';
 
+import {HealthComponent, HealthBindings} from '@loopback/health';
 import {MetricsComponent} from '@loopback/metrics';
+import { GrowbeMetricsComponent } from './component/metrics/metrics.component';
 
 export {ApplicationConfig};
 
@@ -42,7 +44,7 @@ export class GrowbeCloudApplication extends BootMixin(
 
     this.lifeCycleObserver(GrowbeDataSubjectObserver);
 
-    this.component(MetricsComponent);
+    this.component(GrowbeMetricsComponent);
   }
 
   private addUserAndOrganisation() {
