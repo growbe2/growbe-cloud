@@ -28,7 +28,7 @@ import {
 
 import { navigation } from './fuse/navigation/navigation';
 import { PWAModule, PWA_CONFIG } from '@berlingoqc/ngx-pwa';
-import { NotificationModule } from '@berlingoqc/ngx-notification';
+import { NotificationModule, NotificationService } from '@berlingoqc/ngx-notification';
 import { FuseModule, FuseNavigationService } from '@berlingoqc/fuse';
 import { fuseConfig } from './fuse/fuse-config';
 import { HttpClientModule } from '@angular/common/http';
@@ -68,6 +68,7 @@ import { GrowbeDashboardRegistry } from './growbe/growbe-dashboard/items';
 import { GrowbeMainboardAPI } from './growbe/api/growbe-mainboard';
 import { timer } from 'rxjs';
 import { GrowbeMainboard } from 'growbe-cloud-api/lib';
+import { GrowbeEventService } from './growbe/services/growbe-event.service';
 
 @Injectable({
     providedIn: 'root',
@@ -188,6 +189,8 @@ export class AppModule {
         moduleService: DynamicModuleService,
         service: DashboardRegistryService,
         route: Router,
+        notificationService: NotificationService,
+        growbeEventService: GrowbeEventService,
         userPreference: UserPreferenceService,
         growbeAPI: GrowbeMainboardAPI,
         fuseNavService: FuseNavigationService,
@@ -202,18 +205,41 @@ export class AppModule {
           navItemGrowbe.type = "group";
           navItemGrowbe.url = null;
           navItemGrowbe.children = growbes.map((growbe) => {
-            growbeAPI.getById(growbe.id).pipe(delayWhen(() => timer(100))).subscribe((g: GrowbeMainboard) => {
+              // should be clean up on disconnect or on recall
+            growbeAPI.getById(growbe.id, { include: [{relation: 'growbeMainboardConfig'}]}).subscribe((g: GrowbeMainboard) => {
                 const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
                 const indexItem = (navItemGrowbe.children as any[]).findIndex((x) => x.id == g.id);
                 navItemGrowbe.children[indexItem].title = g.name ? g.name : g.id;
+                navItemGrowbe.children[indexItem].icon = (g.state === 'CONNECTED') ? 'link': 'link_off';
                 fuseNavService.updateNavigationItem("growbe", navItemGrowbe);
+
+
+                let previous_state = undefined;
+
+                setTimeout(() => {
+                    growbeEventService.getGrowbeEvent(g.id, '/cloud/state', (d) => JSON.parse(d)).subscribe((g) => {
+                        const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
+                        const indexItem = (navItemGrowbe.children as any[]).findIndex((x) => x.id == g.id);
+                        navItemGrowbe.children[indexItem].icon = g.state === 'CONNECTED' ? 'link' : 'link_off';
+                        fuseNavService.updateNavigationItem("growbe", navItemGrowbe);
+                        // Will put it back when event whill not triger all the time
+                        if (previous_state && previous_state !== g.state) {
+                            notificationService.openNotification({
+                                title: (d) => 'Module state changed',
+                                body: g.state,
+                            });
+                        }
+                        previous_state = g.state;
+                    });
+                }, 1000);
             });
+
 
             return {
                 id: growbe.id,
                 title: growbe.name ? growbe.name : growbe.id,
                 type: 'item',
-                icon: growbe.state ? 'link': 'linkoff',
+                //icon: growbe.state === 'CONNECTED' ? 'link': 'linkoff',
                 url: '/growbe/' + growbe.id
             }
           });

@@ -26,6 +26,7 @@ import { GrowbeModuleDashboardModule } from '../module/growbe-module-dashboard/g
 import { GrowbeWarningModule } from '../growbe-warning/growbe-warning.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { VirtualRelayModule } from '../module/virtual-relay/virtual-relay.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
     declarations: [
@@ -43,6 +44,8 @@ import { VirtualRelayModule } from '../module/virtual-relay/virtual-relay.module
         AutoFormModule,
 
         MatDialogModule,
+
+        FlexLayoutModule,
 
         GrowbeManagerRoutingModule,
         VideoStreamModule,

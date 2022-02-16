@@ -1,12 +1,18 @@
 <project-dashboard *ngIf="data$ | async as data">
     <fuseLayoutHeader>
-        <div fxLayout="row" fxLayoutAlign="space-between start">
+        <div class="frow align-center wrap">
             <span
                 class="mat-display-1 my-0 my-sm-24 welcome-message"
                 [@animate]="{ value: '*', params: { x: '50px' } }"
             >
                 {{ data.mainboard.name }}
             </span>
+
+            <div style="flex-grow: 2"></div>
+
+            <div fxHide.gt-md>
+                <app-growbe-state [growbe]="data.mainboard"></app-growbe-state>
+            </div>
         </div>
     </fuseLayoutHeader>
     <fuseLayoutContent>
@@ -97,12 +103,21 @@
             class="pb-0"
         >
             <div class="fuse-widget-front">
-                <app-growbe-state [data]="data.mainboard"></app-growbe-state>
-               
+                <div>
+                    <app-growbe-state [growbe]="data.mainboard"></app-growbe-state>
+                </div>
+            </div>
+        </fuse-widget>
+        <fuse-widget
+            [@animate]="{ value: '*', params: { y: '100%' } }"
+            class="pb-0"
+        >
+            <div class="fuse-widget-front">
                 <div>
                     <app-growbe-local-connection *ngIf="data.mainboard.growbeMainboardConfig?.localConnection" [localConnection]="data.mainboard.growbeMainboardConfig.localConnection"></app-growbe-local-connection> 
                 </div>
             </div>
         </fuse-widget>
+
     </fuseLayoutSidebar>
 </project-dashboard>

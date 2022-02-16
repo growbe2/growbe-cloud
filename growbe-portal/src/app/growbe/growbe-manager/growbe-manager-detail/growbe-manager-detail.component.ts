@@ -16,7 +16,7 @@ import { notify } from '@berlingoqc/ngx-notification';
 import { Observable, of, Subscription } from 'rxjs';
 import { Filter, Include, StaticDataSource, Where } from '@berlingoqc/ngx-loopback';
 import { GrowbeLogs, GrowbeMainboard, GrowbeModule } from '@growbe2/ngx-cloud-api';
-import { fuseAnimations } from '@berlingoqc/fuse';
+import { fuseAnimations, FuseNavigationService } from '@berlingoqc/fuse';
 import { GrowbeEventService } from '../../services/growbe-event.service';
 import { ActionConfirmationDialogComponent, OnDestroyMixin, TemplateContentData, unsubscriber, untilComponentDestroyed } from '@berlingoqc/ngx-common';
 import { getGrowbeActionTableColumns, growbeActionsSource } from 'src/app/growbe/growbe-action/growbe-action.table';
@@ -80,6 +80,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
         private autoformDialog: AutoFormDialogService,
         private matDialog: MatDialog,
         private changeDetectionRef: ChangeDetectorRef,
+        private fuseNavService: FuseNavigationService,
     ) {
         super();
     }
@@ -92,6 +93,9 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
             this.autoformDialog,
         );
 
+
+        let subEventState: Subscription;
+
         this.data$ = this.activatedRoute.data.pipe(
             untilComponentDestroyed(this),
             switchMap(({ mainboard }) => this.mainboardAPI.getById(mainboard.id)),
@@ -99,7 +103,8 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
                 this.id = mainboard.id;
                 this.mainboard = mainboard;
 
-
+                if (subEventState) { subEventState.unsubscribe();}
+                
                 this.moduleWhere = { mainboardId: this.id };
 
                 return {
