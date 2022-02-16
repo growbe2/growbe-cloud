@@ -65,6 +65,7 @@ import { HelpersModule } from './helpers/helpers.module';
 import { filter, switchMap, tap, timeout } from 'rxjs/operators';
 import { UserPreferenceService } from './service/user-preference.service';
 import { GrowbeDashboardRegistry } from './growbe/growbe-dashboard/items';
+import { GrowbeMainboardAPI } from './growbe/api/growbe-mainboard';
 
 @Injectable({
     providedIn: 'root',
@@ -184,12 +185,37 @@ export class AppModule {
         injector: Injector,
         moduleService: DynamicModuleService,
         service: DashboardRegistryService,
+        route: Router,
         userPreference: UserPreferenceService,
+        growbeAPI: GrowbeMainboardAPI,
+        fuseNavService: FuseNavigationService,
     ) {
       authService.loginEvents.asObservable().pipe(
         filter((event) => event === 'connected'),
         switchMap(() => userPreference.get()),
-      ).subscribe(() => {})
+        switchMap(() => growbeAPI.userGrowbeMainboard(authService.profile.id).get())
+      ).subscribe((growbes) => {
+          const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
+          navItemGrowbe.type = "group";
+          navItemGrowbe.url = null;
+          navItemGrowbe.children = growbes.map((growbe) => {
+            return {
+                id: growbe.id,
+                title: growbe.id,
+                type: 'item',
+                icon: '',
+                url: '/growbe/' + growbe.id
+            }
+          });
+          navItemGrowbe.children.push({
+              id: 'add_growbe',
+              type: 'item',
+              icon: 'add',
+              title: 'Register a new growbe',
+              url: '/register'
+          });
+          fuseNavService.updateNavigationItem("growbe", navItemGrowbe);
+      })
         /*moduleService.loadModuleSystemJS(
             {
                 path: '/assets/umd.js',

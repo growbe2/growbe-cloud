@@ -7,10 +7,11 @@ import { GrowbeModuleAPI } from '../api/growbe-module';
 import { GrowbeModuleDashboardComponent } from '../module/growbe-module-dashboard/growbe-module-dashboard.component';
 
 const routes: Routes = [
-    { path: '', component: GrowbeManagerDashboardComponent },
+    { path: 'admin', component: GrowbeManagerDashboardComponent },
     {
         path: ':id',
         component: GrowbeManagerDetailComponent,
+        runGuardsAndResolvers: 'always',
         data: {
             include: [
                 "growbeMainboardConfig"

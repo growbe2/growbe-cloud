@@ -15,7 +15,17 @@ import { getCreateVirtualRelayForm } from '../forms';
 })
 export class VirtualRelayDashboardComponent implements OnInit {
 
-  @Input() growbeId: string;
+  @Input() set growbeId(growbeId: string) {
+    this._growbeId = growbeId;
+    this.panelControls$ = this.getPanelControl();
+    this.panelTable = this.getPanelTable();
+  }
+
+  get growbeId(): string {
+    return this._growbeId;
+  }
+
+  _growbeId: string;
 
   panelControls$: Observable<DashboardPanel>;
   panelTable: DashboardPanel;
@@ -26,11 +36,7 @@ export class VirtualRelayDashboardComponent implements OnInit {
     private formDialog: AutoFormDialogService,
   ) { }
 
-  ngOnInit(): void {
-    this.panelControls$ = this.getPanelControl();
-    this.panelTable = this.getPanelTable();
-  }
-
+  ngOnInit(): void {}
 
   add(): void {
     getCreateVirtualRelayForm(this.growbeId, this.mainboardAPI.growbeModules(this.growbeId), this.mainboardAPI.virtualRelays(this.growbeId)).pipe(

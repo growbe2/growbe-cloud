@@ -1,20 +1,16 @@
-<project-dashboard *ngIf="mainboard | async as mainboard$">
+<project-dashboard *ngIf="data$ | async as data">
     <fuseLayoutHeader>
         <div fxLayout="row" fxLayoutAlign="space-between start">
             <span
                 class="mat-display-1 my-0 my-sm-24 welcome-message"
                 [@animate]="{ value: '*', params: { x: '50px' } }"
             >
-                {{ mainboard$.name }}
+                {{ data.mainboard.name }}
             </span>
         </div>
     </fuseLayoutHeader>
     <fuseLayoutContent>
         <mat-tab-group class="ipad" matTabsRouting>
-            <mat-tab label="Detail">
-                <autoform-form [formData]="detailMainboardForm">
-                </autoform-form>
-            </mat-tab>
             <mat-tab label="Modules">
                 <ng-template #status let-context="context">
                     <app-module-status-dot
@@ -47,6 +43,7 @@
                 </ng-template>
 
                 <ngx-autotable
+                    [updateEmitter]="emitterMainboardChange"
                     [columns]="
                         moduleColumns
                             | appendArray
@@ -69,23 +66,27 @@
                                       }
                                   ]
                     "
-                    [where]="moduleWhere"
-                    [includes]="moduleIncludes"
+                    [where]="data.moduleWhere"
+                    [includes]="data.moduleIncludes"
                     [source]="moduleAPI"
                 >
                 </ngx-autotable>
             </mat-tab>
             <mat-tab label="Virtual Relay">
-                <app-virtual-relay-dashboard [growbeId]="id"></app-virtual-relay-dashboard>
+                <app-virtual-relay-dashboard [growbeId]="data.mainboard.id"></app-virtual-relay-dashboard>
             </mat-tab>
-            <mat-tab label="Action">
-              <ngx-autotable [columns]="actionsColumns" [source]="actionsSource"></ngx-autotable>
+            <mat-tab label="Command">
+              <ngx-autotable [updateEmitter]="emitterMainboardChange" [columns]="data.actionsColumns" [source]="actionsSource"></ngx-autotable>
             </mat-tab>
-            <mat-tab label="Stream">
-              <app-video-stream-page [growbeId]="id"></app-video-stream-page>
+            <mat-tab label="Parameters">
+                <autoform-form [formData]="detailMainboardForm">
+                </autoform-form>
             </mat-tab>
             <mat-tab label="Logs">
-                <app-terminal [growbeId]="id"></app-terminal>
+                <app-terminal [growbeId]="data.mainboard.id"></app-terminal>
+            </mat-tab>
+            <mat-tab label="Stream">
+              <app-video-stream-page [growbeId]="data.mainboard.id"></app-video-stream-page>
             </mat-tab>
         </mat-tab-group>
     </fuseLayoutContent>
@@ -96,10 +97,10 @@
             class="pb-0"
         >
             <div class="fuse-widget-front">
-                <app-growbe-state [data]="mainboard$"></app-growbe-state>
+                <app-growbe-state [data]="data.mainboard"></app-growbe-state>
                
                 <div>
-                    <app-growbe-local-connection *ngIf="mainboard$.growbeMainboardConfig?.localConnection" [localConnection]="mainboard$.growbeMainboardConfig.localConnection"></app-growbe-local-connection> 
+                    <app-growbe-local-connection *ngIf="data.mainboard.growbeMainboardConfig?.localConnection" [localConnection]="data.mainboard.growbeMainboardConfig.localConnection"></app-growbe-local-connection> 
                 </div>
             </div>
         </fuse-widget>
