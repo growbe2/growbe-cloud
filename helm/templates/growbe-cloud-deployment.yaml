@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
+    chat: chien
     io.kompose.service: growbe-cloud
   name: growbe-cloud
 spec:
@@ -46,7 +47,8 @@ spec:
         imagePullPolicy: Always
         name: growbe-cloud
         ports:
-        - containerPort: 3000
+        - name: http
+          containerPort: 3000
           protocol: TCP
         resources: {}
         terminationMessagePath: /dev/termination-log
@@ -71,5 +73,4 @@ spec:
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
-      terminationGracePeriodSeconds: 30
 status: {}

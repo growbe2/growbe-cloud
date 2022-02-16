@@ -47,7 +47,8 @@ spec:
         imagePullPolicy: Always
         name: growbe-cloud-watcher
         ports:
-        - containerPort: 3005
+        - name: http
+          containerPort: 3005
           protocol: TCP
         resources: {}
         terminationMessagePath: /dev/termination-log
@@ -72,5 +73,4 @@ spec:
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
-      terminationGracePeriodSeconds: 30
 status: {}

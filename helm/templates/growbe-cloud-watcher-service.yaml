@@ -12,7 +12,7 @@ spec:
   ports:
   - name: "3005"
     port: 3005
-    targetPort: 3005
+    targetPort: http
   selector:
     io.kompose.service: growbe-cloud-watcher
 status:
