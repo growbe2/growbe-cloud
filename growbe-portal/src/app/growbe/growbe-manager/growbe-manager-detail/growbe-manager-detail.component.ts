@@ -14,7 +14,7 @@ import { AutoTableComponent, AutoTableModule, TableColumn } from '@berlingoqc/ng
 import { AutoFormData, AutoFormDialogService, FormObject, InputProperty } from '@berlingoqc/ngx-autoform';
 import { notify } from '@berlingoqc/ngx-notification';
 import { Observable, of, Subscription } from 'rxjs';
-import { Filter, Include, Where } from '@berlingoqc/ngx-loopback';
+import { Filter, Include, StaticDataSource, Where } from '@berlingoqc/ngx-loopback';
 import { GrowbeLogs, GrowbeMainboard, GrowbeModule } from '@growbe2/ngx-cloud-api';
 import { fuseAnimations } from '@berlingoqc/fuse';
 import { GrowbeEventService } from '../../services/growbe-event.service';
@@ -86,6 +86,12 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
 
     ngOnInit(): void {
 
+        this.actionsColumns = getGrowbeActionTableColumns(
+            () => this.id,
+            this.growbeActionAPI,
+            this.autoformDialog,
+        );
+
         this.data$ = this.activatedRoute.data.pipe(
             untilComponentDestroyed(this),
             switchMap(({ mainboard }) => this.mainboardAPI.getById(mainboard.id)),
@@ -93,11 +99,6 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
                 this.id = mainboard.id;
                 this.mainboard = mainboard;
 
-                this.actionsColumns = getGrowbeActionTableColumns(
-                    mainboard.id,
-                    this.growbeActionAPI,
-                    this.autoformDialog,
-                );
 
                 this.moduleWhere = { mainboardId: this.id };
 

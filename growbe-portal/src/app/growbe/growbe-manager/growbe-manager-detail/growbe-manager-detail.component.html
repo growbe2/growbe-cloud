@@ -76,7 +76,7 @@
                 <app-virtual-relay-dashboard [growbeId]="data.mainboard.id"></app-virtual-relay-dashboard>
             </mat-tab>
             <mat-tab label="Command">
-              <ngx-autotable [updateEmitter]="emitterMainboardChange" [columns]="data.actionsColumns" [source]="actionsSource"></ngx-autotable>
+              <ngx-autotable [updateEmitter]="emitterMainboardChange" [columns]="actionsColumns" [source]="actionsSource"></ngx-autotable>
             </mat-tab>
             <mat-tab label="Parameters">
                 <autoform-form [formData]="detailMainboardForm">

@@ -201,9 +201,9 @@ export class AppModule {
           navItemGrowbe.children = growbes.map((growbe) => {
             return {
                 id: growbe.id,
-                title: growbe.id,
+                title: growbe.name ? growbe.name : growbe.id,
                 type: 'item',
-                icon: '',
+                icon: growbe.state ? 'link': 'linkoff',
                 url: '/growbe/' + growbe.id
             }
           });

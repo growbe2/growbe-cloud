@@ -42,7 +42,7 @@ export const growbeActionsSource = new StaticDataSource([
   }
 ]);
 
-export const getGrowbeActionTableColumns = (growbeId: string, actionAPI: GrowbeActionAPI, autoformDialog: AutoFormDialogService): TableColumn[] => ([
+export const getGrowbeActionTableColumns = (getGrowbeId: () => string, actionAPI: GrowbeActionAPI, autoformDialog: AutoFormDialogService): TableColumn[] => ([
   {
     id: 'name',
     title: 'Name',
@@ -87,7 +87,7 @@ export const getGrowbeActionTableColumns = (growbeId: string, actionAPI: GrowbeA
                                                 );
                                                 return actionAPI.executeAction(
                                                     context.warningKeyId,
-                                                    growbeId,
+                                                    getGrowbeId(),
                                                     data,
                                                 )
                                                 .pipe(
