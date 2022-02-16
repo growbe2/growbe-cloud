@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { APP_INITIALIZER, Injectable, Injector, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ChangeDetectorRef, Injectable, Injector, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import {
@@ -62,10 +62,12 @@ import {
 } from '@growbe2/growbe-dashboard';
 import { TranslateModule } from '@ngx-translate/core';
 import { HelpersModule } from './helpers/helpers.module';
-import { filter, switchMap, tap, timeout } from 'rxjs/operators';
+import { delayWhen, filter, switchMap, tap, timeout } from 'rxjs/operators';
 import { UserPreferenceService } from './service/user-preference.service';
 import { GrowbeDashboardRegistry } from './growbe/growbe-dashboard/items';
 import { GrowbeMainboardAPI } from './growbe/api/growbe-mainboard';
+import { timer } from 'rxjs';
+import { GrowbeMainboard } from 'growbe-cloud-api/lib';
 
 @Injectable({
     providedIn: 'root',
@@ -190,6 +192,7 @@ export class AppModule {
         growbeAPI: GrowbeMainboardAPI,
         fuseNavService: FuseNavigationService,
     ) {
+      // i would be better in a service
       authService.loginEvents.asObservable().pipe(
         filter((event) => event === 'connected'),
         switchMap(() => userPreference.get()),
@@ -199,6 +202,13 @@ export class AppModule {
           navItemGrowbe.type = "group";
           navItemGrowbe.url = null;
           navItemGrowbe.children = growbes.map((growbe) => {
+            growbeAPI.getById(growbe.id).pipe(delayWhen(() => timer(100))).subscribe((g: GrowbeMainboard) => {
+                const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
+                const indexItem = (navItemGrowbe.children as any[]).findIndex((x) => x.id == g.id);
+                navItemGrowbe.children[indexItem].title = g.name ? g.name : g.id;
+                fuseNavService.updateNavigationItem("growbe", navItemGrowbe);
+            });
+
             return {
                 id: growbe.id,
                 title: growbe.name ? growbe.name : growbe.id,
