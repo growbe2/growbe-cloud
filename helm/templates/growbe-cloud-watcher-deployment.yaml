@@ -52,6 +52,20 @@ spec:
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: http
+          failureThreshold: 1
+          initialDelaySeconds: 5
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http
+          failureThreshold: 1
+          initialDelaySeconds: 5
+          periodSeconds: 3
       dnsPolicy: ClusterFirst
       imagePullSecrets:
       - name: ghrc
