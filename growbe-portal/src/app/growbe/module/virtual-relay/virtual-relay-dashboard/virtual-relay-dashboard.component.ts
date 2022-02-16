@@ -57,14 +57,14 @@ export class VirtualRelayDashboardComponent implements OnInit {
           name: '',
           class: ['grid'],
           style: {
-            'grid-template-columns': '1fr 1fr 1fr 1fr 1fr'
           },
           items: [
             ...(x.map((vr: any) => {
               return {
                 name: `VR Control ${vr.id}`,
                 component: 'virtual-relay-control',
-                style: {},
+                style: {
+                },
                 inputs: {
                   growbeId: this.growbeId,
                   vrId: vr.id

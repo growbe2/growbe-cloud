@@ -13,17 +13,20 @@ import { GrowbeMainboardAPI } from '../../api/growbe-mainboard';
 import { AutoTableComponent, AutoTableModule, TableColumn } from '@berlingoqc/ngx-autotable';
 import { AutoFormData, AutoFormDialogService, FormObject, InputProperty } from '@berlingoqc/ngx-autoform';
 import { notify } from '@berlingoqc/ngx-notification';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of, Subscription, timer } from 'rxjs';
 import { Filter, Include, StaticDataSource, Where } from '@berlingoqc/ngx-loopback';
 import { GrowbeLogs, GrowbeMainboard, GrowbeModule } from '@growbe2/ngx-cloud-api';
-import { fuseAnimations, FuseNavigationService } from '@berlingoqc/fuse';
+import { fuseAnimations, FuseNavigationService, FuseSidebarService } from '@berlingoqc/fuse';
 import { GrowbeEventService } from '../../services/growbe-event.service';
 import { ActionConfirmationDialogComponent, OnDestroyMixin, TemplateContentData, unsubscriber, untilComponentDestroyed } from '@berlingoqc/ngx-common';
 import { getGrowbeActionTableColumns, growbeActionsSource } from 'src/app/growbe/growbe-action/growbe-action.table';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
 import { MatDialog } from '@angular/material/dialog';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+
+let i = 1;
 @Component({
     selector: 'app-growbe-manager-detail',
     templateUrl: './growbe-manager-detail.component.html',
@@ -39,6 +42,36 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
 
     emitterMainboardChange: EventEmitter<GrowbeMainboard> = new EventEmitter();
 
+
+    options: any[] = [
+        {
+            name: 'Modules',
+            icon: 'device_hub'
+        },
+        {
+            name: 'Commands',
+            icon: 'send'
+        },
+        {
+            name: 'Virtual Relay',
+            icon: 'merge_type'
+        },
+        {
+            name: 'Parameters',
+            icon: 'settings'
+        },
+        {
+            name: 'Logs',
+            icon: 'manage_search'
+        },
+        {
+            name: 'Stream',
+            icon: 'smart_display'
+        }
+    ];
+
+    currentIndex: number = 0;
+
     mainboard: any;
 
     id: string;
@@ -47,17 +80,24 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
 
     moduleWhere: Where<GrowbeModule>;
     moduleIncludes: Include[] = [{ relation: 'moduleDef' }];
+    moduleOrderBy: string[] = ['atIndex'];
     moduleColumns: TableColumn[] = [
         {
             id: 'uid',
             title: 'UID',
             content: (c) => c.id,
+            breakPoints: '(min-width: 600px)'
         },
         {
             id: 'name',
             title: 'Name',
-            content: (c) => c.moduleDef?.name,
+            content: (c) => c.moduleDef?.displayName ? c.moduleDef?.displayName : c.moduleDef?.name,
         },
+        {
+            id: 'port',
+            title: 'Port',
+            content: (c) => this.growbeEventService.getGrowbeEvent(this.id, `/cloud/m/${c.id}/state`, JSON.parse).pipe(startWith(c), map(x => x.connected ? x.atIndex : '')),
+        }
     ];
 
     sub: Subscription;
@@ -80,7 +120,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
         private autoformDialog: AutoFormDialogService,
         private matDialog: MatDialog,
         private changeDetectionRef: ChangeDetectorRef,
-        private fuseNavService: FuseNavigationService,
+        private fuseSideBarService: FuseSidebarService,
     ) {
         super();
     }
@@ -187,5 +227,9 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
                 switchMap(() => this.moduleAPI.delete(moduleId)),
             )
             .subscribe(() => { })
+    }
+
+    closeSideBar() {
+        this.fuseSideBarService.getSidebar('project-dashboard-right-sidebar-1').close();
     }
 }

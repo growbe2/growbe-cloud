@@ -1,5 +1,6 @@
 <div class="fcol full">
     <mat-toolbar>
+        <h1>Virtual Relays</h1>
         <span></span>
         <span class="spacer"></span>
         <mat-chip-list>
@@ -9,6 +10,7 @@
 
     <div>
         <app-dashboard-panel
+            class="table-dashboard-panel"
             [static]="true"
             [panel]="panelTable"
         ></app-dashboard-panel>
@@ -16,6 +18,7 @@
 
     <div>
         <app-dashboard-panel
+            class="items-dashboard-panel"
            [static]="true"
            [panel]="panelControls$ | async"
         ></app-dashboard-panel>
