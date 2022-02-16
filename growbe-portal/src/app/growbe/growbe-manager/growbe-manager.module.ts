@@ -26,6 +26,8 @@ import { GrowbeModuleDashboardModule } from '../module/growbe-module-dashboard/g
 import { GrowbeWarningModule } from '../growbe-warning/growbe-warning.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { VirtualRelayModule } from '../module/virtual-relay/virtual-relay.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
     declarations: [
@@ -44,6 +46,8 @@ import { VirtualRelayModule } from '../module/virtual-relay/virtual-relay.module
 
         MatDialogModule,
 
+        FlexLayoutModule,
+
         GrowbeManagerRoutingModule,
         VideoStreamModule,
 
@@ -60,6 +64,8 @@ import { VirtualRelayModule } from '../module/virtual-relay/virtual-relay.module
         MatTabsExtraModule,
         MatButtonModule,
         MatIconModule,
+
+        MatToolbarModule,
 
         ProjectDashboardModule,
         LayoutDirectiveModule,

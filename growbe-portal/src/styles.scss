@@ -83,6 +83,11 @@ alb-admin-page {
     padding: 10px;
 }
 
+.pad {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
 .grid {
     display: grid;
 }
@@ -91,6 +96,21 @@ alb-admin-page {
   flex-grow: 2;
 }
 
+.wrap {
+  flex-wrap: wrap;
+}
+
+  .center {
+    .header {
+      height: unset !important;
+      min-height: unset !important;
+      max-height: unset !important;
+    }
+  }
+
+  .sidebar-toggle {
+    padding-right: 20px !important;
+  }
 
 
 

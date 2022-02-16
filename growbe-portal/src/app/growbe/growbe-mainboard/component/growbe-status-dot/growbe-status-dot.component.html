@@ -1,3 +1,4 @@
 <div class="dot" [ngClass]="state">
+    <mat-icon>{{ state == 'CONNECTED' ? 'cloud_download' : 'cloud_off' }}</mat-icon>
     {{ state }}
 </div>

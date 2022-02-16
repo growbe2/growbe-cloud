@@ -14,6 +14,7 @@ import { Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
+import { DatePipe } from '@angular/common';
 
 export function getTerminalSearchForm(): IProperty[] {
     return [
@@ -22,7 +23,7 @@ export function getTerminalSearchForm(): IProperty[] {
             type: 'string',
             decorators: {
                 component: {
-                    class: ['quarter'],
+                    class: ['full', 'pad'],
                 },
             },
             component: {
@@ -44,7 +45,7 @@ export function getTerminalSearchForm(): IProperty[] {
             type: 'string',
             decorators: {
                 component: {
-                    class: ['quarter'],
+                    class: ['full', 'pad'],
                 },
             },
             component: {
@@ -79,41 +80,16 @@ export function getTerminalSearchForm(): IProperty[] {
     selector: 'app-terminal',
     templateUrl: './terminal.component.html',
     styleUrls: ['./terminal.component.scss'],
+    providers: [
+        DatePipe,
+    ]
 })
 @unsubscriber
 export class TerminalComponent implements OnInit {
     @Input()
-    growbeId: string;
-    @Input()
-    moduleId?: string;
-    @Input()
-    disableSearch: boolean;
-    @Input()
-    where: Where;
-
-    logs: Observable<string[]>;
-    searchBarForm: AutoFormData;
-
-    item: DashboardItem;
-
-    private filter: Filter<GrowbeLogs> = {
-        offset: 0,
-        limit: 200,
-        order: ['timestamp desc'],
-    };
-
-    private sub: Subscription;
-
-    constructor(
-        @Optional()
-        @Inject(DASHBOARD_ITEM_REF)
-        private refDashboardItem: DashboardItem,
-        private eventService: GrowbeEventService,
-        private mainboardAPI: GrowbeMainboardAPI,
-    ) {}
-
-    ngOnInit(): void {
-        if (!this.refDashboardItem) {
+    set growbeId(growbeId: string) {
+        this._growbeId = growbeId;
+         if (!this.refDashboardItem) {
             this.item = {
                 name: '',
                 component: 'logs-terminal',
@@ -134,7 +110,7 @@ export class TerminalComponent implements OnInit {
                     type: 'object',
                     name: 'object',
                     decorators: {
-                        class: ['frow', 'full'],
+                        class: ['frow', 'full', 'pad'],
                     },
                     properties: [
                       ...getTerminalSearchForm(),
@@ -163,6 +139,40 @@ export class TerminalComponent implements OnInit {
 
         (this.searchBarForm.items[0] as FormObject).properties.splice(0, 0, );
     }
+    get growbeId() { return this._growbeId; }
+    _growbeId: string;
+    @Input()
+    moduleId?: string;
+    @Input()
+    disableSearch: boolean;
+    @Input()
+    where: Where;
+
+    logs: Observable<string[]>;
+    searchBarForm: AutoFormData;
+
+    item: DashboardItem;
+
+    private filter: Filter<GrowbeLogs> = {
+        offset: 0,
+        limit: 200,
+        order: ['timestamp desc'],
+    };
+
+    private sub: Subscription;
+
+    constructor(
+        @Optional()
+        @Inject(DASHBOARD_ITEM_REF)
+        private refDashboardItem: DashboardItem,
+        private eventService: GrowbeEventService,
+        private mainboardAPI: GrowbeMainboardAPI,
+        private datePipe: DatePipe,
+    ) {}
+
+    ngOnInit(): void {
+       
+    }
 
     private refreshLogs() {
         const req = this.where
@@ -179,7 +189,7 @@ export class TerminalComponent implements OnInit {
                 map((logs) =>
                     logs.map(
                         (log) =>
-                            `[${log.timestamp}][${log.group}][${log.type}]${
+                            `[${this.datePipe.transform(log.timestamp, 'dd/MM HH:mm')}][${log.group}][${log.type}]${
                                 log.growbeModuleId
                                     ? ' ' + log.growbeModuleId + ' '
                                     : ''

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { APP_INITIALIZER, Injectable, Injector, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ChangeDetectorRef, Injectable, Injector, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import {
@@ -28,7 +28,7 @@ import {
 
 import { navigation } from './fuse/navigation/navigation';
 import { PWAModule, PWA_CONFIG } from '@berlingoqc/ngx-pwa';
-import { NotificationModule } from '@berlingoqc/ngx-notification';
+import { NotificationModule, NotificationService } from '@berlingoqc/ngx-notification';
 import { FuseModule, FuseNavigationService } from '@berlingoqc/fuse';
 import { fuseConfig } from './fuse/fuse-config';
 import { HttpClientModule } from '@angular/common/http';
@@ -62,9 +62,13 @@ import {
 } from '@growbe2/growbe-dashboard';
 import { TranslateModule } from '@ngx-translate/core';
 import { HelpersModule } from './helpers/helpers.module';
-import { filter, switchMap, tap, timeout } from 'rxjs/operators';
+import { delayWhen, filter, switchMap, tap, timeout } from 'rxjs/operators';
 import { UserPreferenceService } from './service/user-preference.service';
 import { GrowbeDashboardRegistry } from './growbe/growbe-dashboard/items';
+import { GrowbeMainboardAPI } from './growbe/api/growbe-mainboard';
+import { timer } from 'rxjs';
+import { GrowbeMainboard } from 'growbe-cloud-api/lib';
+import { GrowbeEventService } from './growbe/services/growbe-event.service';
 
 @Injectable({
     providedIn: 'root',
@@ -184,12 +188,70 @@ export class AppModule {
         injector: Injector,
         moduleService: DynamicModuleService,
         service: DashboardRegistryService,
+        route: Router,
+        notificationService: NotificationService,
+        growbeEventService: GrowbeEventService,
         userPreference: UserPreferenceService,
+        growbeAPI: GrowbeMainboardAPI,
+        fuseNavService: FuseNavigationService,
     ) {
+      // i would be better in a service
       authService.loginEvents.asObservable().pipe(
         filter((event) => event === 'connected'),
         switchMap(() => userPreference.get()),
-      ).subscribe(() => {})
+        switchMap(() => growbeAPI.userGrowbeMainboard(authService.profile.id).get())
+      ).subscribe((growbes) => {
+          const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
+          navItemGrowbe.type = "group";
+          navItemGrowbe.url = null;
+          navItemGrowbe.children = growbes.map((growbe) => {
+              // should be clean up on disconnect or on recall
+            growbeAPI.getById(growbe.id, { include: [{relation: 'growbeMainboardConfig'}]}).subscribe((g: GrowbeMainboard) => {
+                const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
+                const indexItem = (navItemGrowbe.children as any[]).findIndex((x) => x.id == g.id);
+                navItemGrowbe.children[indexItem].title = g.name ? g.name : g.id;
+                navItemGrowbe.children[indexItem].icon = (g.state === 'CONNECTED') ? 'link': 'link_off';
+                fuseNavService.updateNavigationItem("growbe", navItemGrowbe);
+
+
+                let previous_state = undefined;
+
+                setTimeout(() => {
+                    growbeEventService.getGrowbeEvent(g.id, '/cloud/state', (d) => JSON.parse(d)).subscribe((g) => {
+                        const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
+                        const indexItem = (navItemGrowbe.children as any[]).findIndex((x) => x.id == g.id);
+                        navItemGrowbe.children[indexItem].icon = g.state === 'CONNECTED' ? 'link' : 'link_off';
+                        fuseNavService.updateNavigationItem("growbe", navItemGrowbe);
+                        // Will put it back when event whill not triger all the time
+                        if (previous_state && previous_state !== g.state) {
+                            notificationService.openNotification({
+                                title: (d) => 'Module state changed',
+                                body: g.state,
+                            });
+                        }
+                        previous_state = g.state;
+                    });
+                }, 1000);
+            });
+
+
+            return {
+                id: growbe.id,
+                title: growbe.name ? growbe.name : growbe.id,
+                type: 'item',
+                //icon: growbe.state === 'CONNECTED' ? 'link': 'linkoff',
+                url: '/growbe/' + growbe.id
+            }
+          });
+          navItemGrowbe.children.push({
+              id: 'add_growbe',
+              type: 'item',
+              icon: 'add',
+              title: 'Register a new growbe',
+              url: '/register'
+          });
+          fuseNavService.updateNavigationItem("growbe", navItemGrowbe);
+      })
         /*moduleService.loadModuleSystemJS(
             {
                 path: '/assets/umd.js',

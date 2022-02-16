@@ -67,7 +67,6 @@ export class RelayUnitControlComponent implements OnInit {
               this.mainboardId,
               `/cloud/m/${this.moduleId}/data`,
               (d) => {
-                console.log('RECEIVE FROM MQTT');
                 return Object.assign(JSON.parse(d), { endingdAt: new Date()})
               },
           ).pipe(

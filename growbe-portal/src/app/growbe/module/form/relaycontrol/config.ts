@@ -86,12 +86,12 @@ export const getRelayControlConfig: (
                                                 {
                                                     type: 'number',
                                                     name: 'waitingTime',
-                                                    displayName: 'Waiting Time'
+                                                    displayName: 'Waiting Time (seconds)',
                                                 },
                                                 {
                                                     type: 'number',
                                                     name: 'runningTime',
-                                                    displayName: 'Running Time'
+                                                    displayName: 'Running Time (seconds)',
                                                 }
                                             ]
                                         },

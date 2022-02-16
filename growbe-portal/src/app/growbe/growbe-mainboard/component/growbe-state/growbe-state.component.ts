@@ -9,53 +9,64 @@ import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 
 import * as pb from '@growbe2/growbe-pb';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { GrowbeMainboard } from '@growbe2/ngx-cloud-api';
-import { Subscription } from 'rxjs';
+import { interval, Observable, Subscription } from 'rxjs';
+import { OnDestroyMixin, untilComponentDestroyed } from '@berlingoqc/ngx-common';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-growbe-state',
     templateUrl: './growbe-state.component.html',
     styleUrls: ['./growbe-state.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    providers: [
+        DatePipe,
+    ]
 })
-export class GrowbeStateComponent implements OnInit, OnDestroy {
-    @Input() mainboardId: GrowbeMainboard['id'];
+export class GrowbeStateComponent extends OnDestroyMixin(Object) implements OnInit {
 
-    growbe: any;
+    lastMessageAt: number;
 
-    sub: Subscription;
 
-    pulsingText = {
-        pulsing: false,
-    };
+    lastMessageDiff$: Observable<string>;
+
+    @Input() set growbe(g: GrowbeMainboard) {
+        this._growbe = g;
+        this.lastMessageAt = new Date(this._growbe.lastUpdateAt).getTime();
+
+        if (this.subEvent) { this.subEvent.unsubscribe(); }
+
+        this.growbeEventService.getGrowbeEvent(g.id, '/cloud/state', (d) => JSON.parse(d))
+            .pipe(untilComponentDestroyed(this))
+            .subscribe((g) => {
+                this._growbe = g;
+                console.log('NOWE1');
+                this.lastMessageAt = Date.now();
+            });
+    }
+    get growbe() { return this._growbe; }
+    _growbe: GrowbeMainboard;
+
+    subEvent: Subscription;
 
     constructor(
-        private mainboardAPI: GrowbeMainboardAPI,
-        private topic: GrowbeEventService,
-    ) {}
-
-    async ngOnInit() {
-        if (!this.mainboardId) {
-            return;
-        }
-        this.growbe = await this.mainboardAPI
-            .getById(this.mainboardId)
-            .pipe(take(1))
-            .toPromise();
-        this.sub = (
-            await this.topic.getGrowbeEvent(this.mainboardId, '/heartbeath', (d) =>
-                pb.HearthBeath.decode(d),
-            )
-        ).subscribe((beath) => {
-            this.growbe.lastUpdateAt = beath;
-            this.pulsingText.pulsing = true;
-        });
+        private growbeEventService: GrowbeEventService,
+        private datePipe: DatePipe,
+    ) {
+        super();
     }
 
-    ngOnDestroy() {
-        if (this.sub) {
-            this.sub.unsubscribe();
-        }
+    ngOnInit(): void {
+        this.lastMessageDiff$ = interval(1000).pipe(
+            untilComponentDestroyed(this),
+            map(() => {
+                const diff = Date.now() - this.lastMessageAt;
+                const date = new Date(0, 0, 0);
+                date.setSeconds(diff / 1000);
+                return this.datePipe.transform(date, 'mm:ss');
+            })
+        )
     }
+
 }
