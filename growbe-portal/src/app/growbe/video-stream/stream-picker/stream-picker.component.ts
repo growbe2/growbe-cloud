@@ -36,7 +36,12 @@ type newEditFormValue = { streamControl: { name: string } };
     styleUrls: ['./stream-picker.component.scss'],
 })
 export class StreamPickerComponent implements OnInit, AfterViewInit {
-    @Input() growbeId: string;
+    @Input() set growbeId(growbeId: string) {
+        this._growbeId = growbeId;
+        this.getStreamList();
+    }
+    get growbeId() { return this._growbeId; }
+    _growbeId: string;
     @Output() streamSelected = new EventEmitter<any>();
     @ViewChild('launch') launch: TemplateRef<any>;
     source: StaticDataSource<any>;
@@ -175,7 +180,6 @@ export class StreamPickerComponent implements OnInit, AfterViewInit {
     ) {}
 
     ngOnInit() {
-        this.getStreamList();
     }
 
     ngAfterViewInit() {

@@ -79,6 +79,22 @@ export const getRelayControlConfig: (
                                                 }
                                             ],
                                         },
+                                        cycle: {
+                                            name: 'cycle',
+                                            type: 'object',
+                                            properties: [
+                                                {
+                                                    type: 'number',
+                                                    name: 'waitingTime',
+                                                    displayName: 'Waiting Time (seconds)',
+                                                },
+                                                {
+                                                    type: 'number',
+                                                    name: 'runningTime',
+                                                    displayName: 'Running Time (seconds)',
+                                                }
+                                            ]
+                                        },
                                         alarm: {
                                             name: 'alarm',
                                             type: 'object',

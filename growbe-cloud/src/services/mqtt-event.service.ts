@@ -23,7 +23,6 @@ export class MqttEventService {
     }
 
     async handler(data: {topic: string, data: any}) {
-        console.log('WATCHERS', this.watchers)
         for (const watcher of this.watchers) {
             await this.handleEvent(watcher, data)
         }
@@ -31,7 +30,6 @@ export class MqttEventService {
 
   async handleEvent(subject: DataSubject, data: {topic: string, data: any}) {
       if (data.topic.includes(subject.regexTopic)) {
-                console.log('GGGA', data)
         try {
             const d = subject.model
                 ? subject.model.decode(data.data)
@@ -46,7 +44,6 @@ export class MqttEventService {
                 data.topic,
               );
             } catch (err) {
-                console.log('ERR1', err)
               MqttEventService.DEBUG("Failed to parse on subject", data.topic, err);
             }
         }

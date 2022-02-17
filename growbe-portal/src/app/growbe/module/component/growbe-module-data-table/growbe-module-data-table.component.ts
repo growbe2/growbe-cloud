@@ -81,15 +81,19 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
           `/cloud/m/${this.moduleId}/fdata`,
           (d) => Object.assign(JSON.parse(d), {})
         ).pipe(untilComponentDestroyed(this)).subscribe((d) => {
-          if (this.table.dataSource.data[0] && this.table.dataSource.data[0].id === d.id) {
-              const data = this.table.dataSource.data;
-              data[0] = d;
-              this.table.dataSource.data = [...data];
+          if (this.table.currentOffset === 0) {
+              if (this.table.dataSource.data[0] && this.table.dataSource.data[0].id === d.id) {
+                  const data = this.table.dataSource.data;
+                  data[0] = d;
+                  this.table.dataSource.data = [...data];
+              } else {
+                  this.table.dataSource.data = [ d, ...this.table.dataSource.data.slice(0, this.table.dataSource.data.length - 1)];
+                  this.table.refreshCount();
+              }
           } else {
-              this.table.dataSource.data = [ d, ...this.table.dataSource.data.slice(0, this.table.dataSource.data.length - 1)];
-              (this.table as any).refreshCount();
+            this.table.refreshCount();
           }
-        });
+       });
 
         this.sub = combineLatest([
           this.moduleAPI.moduleDef(this.moduleId).get(),
@@ -132,8 +136,8 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
                                                     .delete(context.id)
                                                     .pipe(take(1), this.actionConfirmation.confirmBefore({ title: '' }))
                                                     .subscribe(() => {
-                                                      this.table.refreshData();
-                                                      (this.table as any).refreshCount();
+                                                        this.table.refreshData();
+                                                        this.table.refreshCount();
                                                     });
                                             },
                                         },

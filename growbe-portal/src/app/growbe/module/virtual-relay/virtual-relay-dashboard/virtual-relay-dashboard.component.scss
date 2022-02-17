@@ -1,4 +1,11 @@
-app-dashboard-panel {
+.table-dashboard-panel {
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 1rem;
+}
+
+.items-dashboard-panel {
   padding: 10px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

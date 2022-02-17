@@ -9,18 +9,17 @@ export const navigation: FuseNavigation[] = [
         url: '/home',
     },
     {
-        id: 'growbe',
-        title: 'Growbe',
-        type: 'item',
-        icon: 'settings_input_component',
-        url: '/growbe',
-    },
-    {
         id: 'dashboard',
-        title: 'Dashboard',
+        title: 'Dashboards',
         type: 'item',
         icon: 'dashboard',
         url: '/dashboard',
+    },
+    {
+        id: 'growbe',
+        title: 'Your Growbes',
+        type: 'item',
+        icon: 'settings_input_component',
     },
     {
         id: 'admin',
@@ -42,7 +41,14 @@ export const navigation: FuseNavigation[] = [
             type: 'item',
             icon: 'groups',
             url: '/orgs'
-          }
+          },
+          {
+            id: 'growbe',
+            title: 'All growbes',
+            type: 'item',
+            icon: 'settings_input_component',
+            url: '/growbe/admin'
+          },
         ],
     },
     {

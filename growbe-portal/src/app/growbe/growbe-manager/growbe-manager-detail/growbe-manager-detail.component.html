@@ -1,53 +1,54 @@
-<project-dashboard *ngIf="mainboard | async as mainboard$">
+<project-dashboard *ngIf="data$ | async as data">
     <fuseLayoutHeader>
-        <div fxLayout="row" fxLayoutAlign="space-between start">
-            <span
-                class="mat-display-1 my-0 my-sm-24 welcome-message"
-                [@animate]="{ value: '*', params: { x: '50px' } }"
-            >
-                {{ mainboard$.name }}
+        <div class="frow align-center wrap">
+            <span class="mat-display-1 my-0 my-sm-24 welcome-message"
+                [@animate]="{ value: '*', params: { x: '50px' } }">
+                {{ data.mainboard.name }}
             </span>
+
+            <div style="flex-grow: 2"></div>
+
+            <div fxHide.gt-md>
+                <app-growbe-state [growbe]="data.mainboard"></app-growbe-state>
+            </div>
         </div>
     </fuseLayoutHeader>
     <fuseLayoutContent>
-        <mat-tab-group class="ipad" matTabsRouting>
-            <mat-tab label="Detail">
-                <autoform-form [formData]="detailMainboardForm">
-                </autoform-form>
-            </mat-tab>
-            <mat-tab label="Modules">
+        <mat-tab-group #tabgroup [(selectedIndex)]="currentIndex" matTabsRouting>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <ng-container *ngTemplateOutlet="headercontent; context: {i: 0}"></ng-container>
+                </ng-template>
+                <mat-toolbar>
+                    <h1>Modules</h1>
+                </mat-toolbar>
                 <ng-template #status let-context="context">
-                    <app-module-status-dot
-                        [moduleId]="context.id"
-                    ></app-module-status-dot>
+                    <app-module-status-dot [mainboardId]="data.mainboard.id" [moduleId]="context.id"></app-module-status-dot>
                 </ng-template>
 
                 <ng-template #moduleOptions let-context="context">
-                    <button
-                        mat-stroked-button
-                        color="primary"
-                        [routerLink]="[
+                    <div class="frow">
+                        <div class="padding-right">
+                            <button mat-mini-fab color="primary" [routerLink]="[
                             '/',
                             'growbe',
                             context.mainboardId,
                             'module',
                             context.id
-                        ]"
-                    >
-                        Dashboard
-                    </button>
+                        ]">
+                                <mat-icon>dashboard</mat-icon>
+                            </button>
+                        </div>
 
-                    <button
-                      mat-stroked-button
-                      color="accent"
-                      (click)="deleteModule(context.id)"
-                    >
-                      <mat-icon>delete</mat-icon>
-                    </button>
+                        <div>
+                            <button mat-mini-fab color="accent" (click)="deleteModule(context.id)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
                 </ng-template>
 
-                <ngx-autotable
-                    [columns]="
+                <ngx-autotable [disablePaginator]="true" [updateEmitter]="emitterMainboardChange" [orderBy]="moduleOrderBy" [columns]="
                         moduleColumns
                             | appendArray
                                 : [
@@ -68,40 +69,87 @@
                                           }
                                       }
                                   ]
-                    "
-                    [where]="moduleWhere"
-                    [includes]="moduleIncludes"
-                    [source]="moduleAPI"
-                >
+                    " [where]="data.moduleWhere" [includes]="moduleIncludes" [source]="moduleAPI">
                 </ngx-autotable>
             </mat-tab>
-            <mat-tab label="Virtual Relay">
-                <app-virtual-relay-dashboard [growbeId]="id"></app-virtual-relay-dashboard>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <ng-container *ngTemplateOutlet="headercontent; context: {i: 1}"></ng-container>
+                </ng-template>
+                <mat-toolbar>
+                    <h1>Commandes</h1>
+                </mat-toolbar>
+                <ngx-autotable [updateEmitter]="emitterMainboardChange" [columns]="actionsColumns"
+                    [source]="actionsSource"></ngx-autotable>
             </mat-tab>
-            <mat-tab label="Action">
-              <ngx-autotable [columns]="actionsColumns" [source]="actionsSource"></ngx-autotable>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <ng-container *ngTemplateOutlet="headercontent; context: {i: 2}"></ng-container>
+                </ng-template>
+                <app-virtual-relay-dashboard [growbeId]="data.mainboard.id"></app-virtual-relay-dashboard>
             </mat-tab>
-            <mat-tab label="Stream">
-              <app-video-stream-page [growbeId]="id"></app-video-stream-page>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <ng-container *ngTemplateOutlet="headercontent; context: {i: 3}"></ng-container>
+                </ng-template>
+                <mat-toolbar>
+                    <h1>Parameters</h1>
+                </mat-toolbar>
+                <div class="form-parameters">
+                    <autoform-form [formData]="detailMainboardForm">
+                    </autoform-form>
+                </div>
             </mat-tab>
-            <mat-tab label="Logs">
-                <app-terminal [growbeId]="id"></app-terminal>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <ng-container *ngTemplateOutlet="headercontent; context: {i: 4}"></ng-container>
+                </ng-template>
+                <mat-toolbar>
+                    <h1>Logs</h1>
+                </mat-toolbar>
+                <app-terminal [growbeId]="data.mainboard.id"></app-terminal>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <ng-container *ngTemplateOutlet="headercontent; context: {i: 5}"></ng-container>
+                </ng-template>
+                <app-video-stream-page [growbeId]="data.mainboard.id"></app-video-stream-page>
             </mat-tab>
         </mat-tab-group>
     </fuseLayoutContent>
 
     <fuseLayoutSidebar>
-        <fuse-widget
-            [@animate]="{ value: '*', params: { y: '100%' } }"
-            class="pb-0"
-        >
+        
+        <fuse-widget [@animate]="{ value: '*', params: { y: '100%' } }" class="pb-0">
             <div class="fuse-widget-front">
-                <app-growbe-state [data]="mainboard$"></app-growbe-state>
-               
                 <div>
-                    <app-growbe-local-connection *ngIf="mainboard$.growbeMainboardConfig?.localConnection" [localConnection]="mainboard$.growbeMainboardConfig.localConnection"></app-growbe-local-connection> 
+                    <app-growbe-state [growbe]="data.mainboard"></app-growbe-state>
                 </div>
             </div>
         </fuse-widget>
+        <fuse-widget [@animate]="{ value: '*', params: { y: '100%' } }" class="pb-0">
+            <div class="fuse-widget-front">
+                <div>
+                    <app-growbe-local-connection *ngIf="data.mainboard.growbeMainboardConfig?.localConnection"
+                        [localConnection]="data.mainboard.growbeMainboardConfig.localConnection">
+                    </app-growbe-local-connection>
+                </div>
+            </div>
+        </fuse-widget>
+
+
+        <div class="side-bar-options">
+            <div *ngFor="let option of options; index as i">
+                <a href="javascript: void(0);" (click)="tabgroup.selectedIndex = i; closeSideBar()" [ngClass]="{ 'selected': i == currentIndex}">
+                    {{option.name}}
+                </a>
+            </div>
+        </div>
+
     </fuseLayoutSidebar>
 </project-dashboard>
+
+<ng-template #headercontent let-i="i">
+    <mat-icon>{{options[i].icon}}</mat-icon>
+    <div class="mat-tab-header">{{options[i].name}}</div>
+</ng-template>

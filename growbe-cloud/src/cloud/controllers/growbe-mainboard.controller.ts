@@ -72,11 +72,13 @@ export class GrowbeMainboardController {
     userIdIndex: 0,
   })
   findGrowbeUser(
+    @inject(SecurityBindings.USER) user: UserProfile,
     @param.path.string('id') userId: string,
     @param.query.object('filter', getFilterSchemaFor(GrowbeMainboard))
     filter?: Filter<GrowbeMainboard>,
   ) {
-    return this.growbeService.find({userId}, filter);
+    const ors = [{userId: user.id},{organisationId: { inq: user.organisations?.map((o: any) => o?.id)}}]
+    return this.growbeService.find({or: ors}, filter);
   }
 
   @get('/growbes/user/{id}/count')

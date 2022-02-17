@@ -15,6 +15,7 @@ import { GrowbeModuleConfigComponent } from './component/growbe-module-config/gr
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { HardwareAlarmModule } from './hardware-alarm/hardware-alarm.module';
 import { ButtonsRowModule, ConfirmationModule } from '@berlingoqc/ngx-common';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import { ButtonsRowModule, ConfirmationModule } from '@berlingoqc/ngx-common';
     imports: [
         CommonModule,
         MatListModule,
+        MatIconModule,
         FuseWidgetModule,
         UnitModule,
         AutoTableModule,
