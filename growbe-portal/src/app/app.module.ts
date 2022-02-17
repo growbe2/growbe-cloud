@@ -66,7 +66,7 @@ import { delayWhen, filter, switchMap, tap, timeout } from 'rxjs/operators';
 import { UserPreferenceService } from './service/user-preference.service';
 import { GrowbeDashboardRegistry } from './growbe/growbe-dashboard/items';
 import { GrowbeMainboardAPI } from './growbe/api/growbe-mainboard';
-import { timer } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 import { GrowbeMainboard } from 'growbe-cloud-api/lib';
 import { GrowbeEventService } from './growbe/services/growbe-event.service';
 
@@ -195,29 +195,40 @@ export class AppModule {
         growbeAPI: GrowbeMainboardAPI,
         fuseNavService: FuseNavigationService,
     ) {
-      // i would be better in a service
+
+      let subs: Subscription[] = [];
+      const clearSubs = () => subs.forEach((s) => s.unsubscribe());
+
+      layourService.logoutSubject.subscribe(() => authService.logout());
+
+      authService.loginEvents.asObservable().pipe(
+          filter((event) => event === 'disconnected'),
+      ).subscribe(() => clearSubs());
       authService.loginEvents.asObservable().pipe(
         filter((event) => event === 'connected'),
         switchMap(() => userPreference.get()),
         switchMap(() => growbeAPI.userGrowbeMainboard(authService.profile.id).get())
       ).subscribe((growbes) => {
+          if (route.url === '/auth') {
+              route.navigate(['/home']);
+          }
+          clearSubs();
           const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
           navItemGrowbe.type = "group";
           navItemGrowbe.url = null;
           navItemGrowbe.children = growbes.map((growbe) => {
               // should be clean up on disconnect or on recall
-            growbeAPI.getById(growbe.id, { include: [{relation: 'growbeMainboardConfig'}]}).subscribe((g: GrowbeMainboard) => {
+            subs[subs.length] = growbeAPI.getById(growbe.id, { include: [{relation: 'growbeMainboardConfig'}]}).subscribe((g: GrowbeMainboard) => {
                 const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
                 const indexItem = (navItemGrowbe.children as any[]).findIndex((x) => x.id == g.id);
                 navItemGrowbe.children[indexItem].title = g.name ? g.name : g.id;
                 navItemGrowbe.children[indexItem].icon = (g.state === 'CONNECTED') ? 'link': 'link_off';
                 fuseNavService.updateNavigationItem("growbe", navItemGrowbe);
 
-
                 let previous_state = undefined;
 
                 setTimeout(() => {
-                    growbeEventService.getGrowbeEvent(g.id, '/cloud/state', (d) => JSON.parse(d)).subscribe((g) => {
+                    subs[subs.length] = growbeEventService.getGrowbeEvent(g.id, '/cloud/state', (d) => JSON.parse(d)).subscribe((g) => {
                         const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
                         const indexItem = (navItemGrowbe.children as any[]).findIndex((x) => x.id == g.id);
                         navItemGrowbe.children[indexItem].icon = g.state === 'CONNECTED' ? 'link' : 'link_off';
