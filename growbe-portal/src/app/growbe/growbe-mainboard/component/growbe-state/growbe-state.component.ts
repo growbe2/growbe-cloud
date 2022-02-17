@@ -41,7 +41,6 @@ export class GrowbeStateComponent extends OnDestroyMixin(Object) implements OnIn
             .pipe(untilComponentDestroyed(this))
             .subscribe((g) => {
                 this._growbe = g;
-                console.log('NOWE1');
                 this.lastMessageAt = Date.now();
             });
     }

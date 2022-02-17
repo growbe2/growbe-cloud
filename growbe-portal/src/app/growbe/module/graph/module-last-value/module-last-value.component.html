@@ -1,7 +1,7 @@
 <div class="p-16 pb-32" fxLayout="column" fxLayoutAlign="center center">
   <div fxLayout="row" fxLayoutAlign="center center">
     <span class="mat-display-2 m-0 font-weight-300 secondary-text">
-      <template-content [context]="valueObject" [content]="contentDisplay"></template-content>
+      <template-content *ngIf="valueObject" [context]="valueObject" [content]="contentDisplay"></template-content>
     </span>
   </div>
   <div class="frow full align-center">

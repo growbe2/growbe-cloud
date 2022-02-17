@@ -12,8 +12,6 @@ import { GreenhouseComponent } from './greenhouse.component';
 })
 export class GreenhouseModule {
     constructor(registry: DashboardRegistryService) {
-        console.log('ELEMENT', registry);
-
         registry.addItem({
             name: 'greenhouse',
             component: 'greenhouse',

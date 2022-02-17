@@ -35,7 +35,6 @@ export class ModuleSensorValueGraphComponent implements OnInit, OnDestroy {
     ) {}
 
     async ngOnInit() {
-        console.log(this.data);
         this.data
         if (!this.data) {
             return;

@@ -182,7 +182,6 @@ export class DashboardItemComponent
         if (!this.dashboardItem.extraMenus) {
           this.dashboardItem.extraMenus = {};
         }
-        console.log('DASHBOARD EDIT', this.dashboardItem.dashboardEdit)
         if (this.dashboardItem.dashboardEdit) {
           this.dashboardItem.extraMenus['dashboardEdit'] = {
             name: 'Dashboard edit',
