@@ -14,6 +14,7 @@ import { GrowbeModuleModule } from '../growbe-module.module';
 import { MatButtonModule } from '@angular/material/button';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { TemplateContentModule } from '@berlingoqc/ngx-common';
+import { ModulePipeModule } from '../pipes/module-pipe.module';
 
 @NgModule({
     declarations: [
@@ -30,6 +31,8 @@ import { TemplateContentModule } from '@berlingoqc/ngx-common';
         FuseWidgetModule,
         NgxChartsModule,
         GrowbeModuleModule,
+
+        ModulePipeModule,
 
         TemplateContentModule,
     ],

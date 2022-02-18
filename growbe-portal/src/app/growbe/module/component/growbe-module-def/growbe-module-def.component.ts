@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AutoFormDialogService } from '@berlingoqc/ngx-autoform';
 import { TableColumn } from '@berlingoqc/ngx-autotable';
 import { StaticDataSource } from '@berlingoqc/ngx-loopback';
 import { GrowbeModuleDefWithRelations } from '@growbe2/ngx-cloud-api';
@@ -7,6 +8,7 @@ import { switchMap, take } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
+import { growbeModuleDefForm } from './growbe-module-def.form';
 
 @Component({
     selector: 'app-growbe-module-def',
@@ -40,7 +42,8 @@ export class GrowbeModuleDefComponent implements OnInit {
     source;
 
     constructor(
-      private moduleAPI: GrowbeModuleAPI
+      private moduleAPI: GrowbeModuleAPI,
+      private autoformDialog: AutoFormDialogService,
     ) {}
 
     async ngOnInit(): Promise<void> {
@@ -56,5 +59,15 @@ export class GrowbeModuleDefComponent implements OnInit {
         this.source = new StaticDataSource(
             Object.values(this.moduleDef.properties),
         );
+    }
+
+    edit() {
+        const form = growbeModuleDefForm(this.moduleDef, (data) => {
+            return this.moduleAPI
+                .moduleDef(this.moduleId)
+                .updateById(this.moduleDef.id, data);
+        });
+
+        this.autoformDialog.open(form);
     }
 }

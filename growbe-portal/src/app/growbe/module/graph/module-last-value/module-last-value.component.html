@@ -1,24 +1,31 @@
-<div class="p-16 pb-32" fxLayout="column" fxLayoutAlign="center center">
-  <div fxLayout="row" fxLayoutAlign="center center">
-    <span class="mat-display-2 m-0 font-weight-300 secondary-text">
-      <template-content *ngIf="valueObject" [context]="valueObject" [content]="contentDisplay"></template-content>
-    </span>
+<div class="full" fxLayout="column" fxLayoutAlign="center center">
+  <div class="frow wrap around full">
+    <div class="fcol content" *ngFor="let display of contentDisplays; index as i">
+      <span *ngIf="moduleDef | async as md">
+        {{ md | modulePropertie: graphDataConfig.fields[i] }}
+      </span>
+      <div class="fcol">
+        <span class="mat-display-2 m-0 font-weight-300 secondary-text">
+          <template-content *ngIf="valueObject" [context]="valueObject" [content]="display"></template-content>
+        </span>
+      </div>
+      <div class="flex align-center justify-center">
+        <ng-container *ngIf="lastValue">
+          <span>
+            <mat-icon *ngIf="lastValue[graphDataConfig.fields[i]] > value[graphDataConfig.fields[i]]" class="green-fg mr-4">trending_up</mat-icon>
+            <mat-icon *ngIf="lastValue[graphDataConfig.fields[i]] < value[graphDataConfig.fields[i]]" class="red-fg mr-4">trending_down</mat-icon>
+            <mat-icon *ngIf="lastValue[graphDataConfig.fields[i]] === value[graphDataConfig.fields[i]]">trending_flat</mat-icon>
+          </span>
+          <span>
+            {{lastValue[graphDataConfig.fields[i]] - value[graphDataConfig.fields[i]] | number}}
+          </span>
+        </ng-container>
+      </div>
+    </div>
   </div>
   <div class="frow full align-center">
     <div class="flex align-center justify-center" style="height: 24px;">
       <span>{{ at | date: 'shortTime' }}</span>
-    </div>
-    <div class="flex align-center justify-center">
-      <ng-container *ngIf="lastValue">
-        <span>
-          <mat-icon *ngIf="lastValue > value" class="green-fg mr-4">trending_up</mat-icon>
-          <mat-icon *ngIf="lastValue < value" class="red-fg mr-4">trending_down</mat-icon>
-          <mat-icon *ngIf="lastValue === value">trending_flat</mat-icon>
-        </span>
-        <span>
-          {{lastValue - value | number}}
-        </span>
-      </ng-container>
     </div>
 
   </div>

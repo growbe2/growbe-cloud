@@ -1,14 +1,35 @@
 <div class="fcol full">
-    <mat-toolbar>
+    <div class="frow wrap pad">
+        <h1>
+           Default dashboard 
+        </h1>
         <span></span>
         <span class="spacer"></span>
-        <mat-chip-list>
-            <mat-chip (click)="setRawPanel()"> Donnée brute </mat-chip>
-            <mat-chip (click)="setGraphPanel()">
-                Générateur graphique
+        <mat-chip-list class="flex align-center">
+            <ng-container *ngIf="moduleDashboardDef.type === 'observer'; else actor">
+                <mat-chip [selected]="currentChip == 'data'" (click)="setDataPanel()">
+                    Data
+                </mat-chip>
+                <mat-chip [selected]="currentChip == 'graph'" (click)="setGraphPanel()">
+                    Graph generator
+                </mat-chip>
+                <mat-chip [selected]="currentChip == 'alarm'" (click)="setAlarmPanel()">
+                    Alarm
+                </mat-chip>
+            </ng-container>
+            <ng-template #actor>
+                <mat-chip [selected]="currentChip == 'control'" (click)="setControlPanel()">
+                    Control
+                </mat-chip>
+            </ng-template>
+           <mat-chip [selected]="currentChip == 'config'" (click)="setConfigPanel()">
+                Configuration
+            </mat-chip>
+            <mat-chip [selected]="currentChip == 'logs'" (click)="setLogsPanel()">
+                Logs
             </mat-chip>
         </mat-chip-list>
-    </mat-toolbar>
+    </div>
 
     <app-dashboard-panel
         [static]="true"

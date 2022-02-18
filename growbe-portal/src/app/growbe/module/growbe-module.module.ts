@@ -16,6 +16,7 @@ import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { HardwareAlarmModule } from './hardware-alarm/hardware-alarm.module';
 import { ButtonsRowModule, ConfirmationModule } from '@berlingoqc/ngx-common';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
     ],
     imports: [
         CommonModule,
+        MatButtonModule,
         MatListModule,
         MatIconModule,
         FuseWidgetModule,
