@@ -96,6 +96,11 @@ export class ItemContentDirective implements OnInit {
     ngOnInit() {
       if (this.dashboardItem.edit) {
         this.dashboardItem.edit.type = 'dialog';
+        this.dashboardItem.edit.typeData = {
+          width: '100%',
+          height: '100%',
+          panelClass: 'auto-form-dialog',
+        }
       }
         this.registryItem = this.registry.getItem(this.dashboardItem.component);
         const factory = this.componentFactoryResolver.resolveComponentFactory(

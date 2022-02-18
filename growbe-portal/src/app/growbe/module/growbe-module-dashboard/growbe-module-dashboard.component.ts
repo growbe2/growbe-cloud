@@ -245,6 +245,22 @@ export class GrowbeModuleDashboardComponent implements OnInit {
 
     private getControl(module, moduleDef): any[] {
         return [
+            {
+                name: '',
+                component: 'growbe-module-data-table',
+                inputs: {
+                        "mainboardId" : this.module.mainboardId,
+                        "moduleId" : this.module.id,
+                        "displayProperties" : Object.keys(moduleDef.properties),
+                        "pageSize" : 1,
+                        "disableTime": true,
+                        "disablePaginator" : true,
+                        "disableOptions" : true
+                },
+                style: {
+                    "grid-column": "1/-1"
+                },
+            },
             ...Object.values(moduleDef.properties).map(
                 (prop: any) => {
 

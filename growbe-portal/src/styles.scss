@@ -160,3 +160,20 @@ alb-admin-page {
   overflow-y: hidden;
   display: block;
 }
+
+
+
+.auto-form-dialog {
+
+  .mat-dialog-content {
+    max-height: 88vh !important;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+  .auto-form-dialog {
+    max-width: 100% !important;
+  }
+}
