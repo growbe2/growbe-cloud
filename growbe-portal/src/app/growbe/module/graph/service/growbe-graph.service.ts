@@ -108,7 +108,9 @@ export class GrowbeGraphService {
         return {
             type: 'array',
             name,
-            decorators: {},
+            decorators: {
+                headers: 'Properties to add to graphs'
+            },
             min: nbrProperty,
             max: nbrProperty,
             elementType: this.getPropertySelectFormElement(moduleId$),
@@ -119,12 +121,14 @@ export class GrowbeGraphService {
         return [
             {
                 name: 'lastX',
+                displayName: 'Last X unit',
                 type: 'number',
                 required: !optionalLastX,
             },
             {
                 name: 'lastXUnit',
                 type: 'string',
+                displayName: 'Unit',
                 required: !optionalLastX,
                 component: {
                     name: 'select',
@@ -138,16 +142,27 @@ export class GrowbeGraphService {
             {
                 name: 'liveUpdate',
                 type: 'bool',
-                displayName: 'live update ?',
+                displayName: 'Update the chart with live data',
                 component: {
                     name: 'checkbox',
                 },
             },
             ...(extra || []),
+            {
+                name: 't',
+                type: 'object',
+                templates: {
+                    header: 'Properties for the graphs',
+                },
+                properties: [],
+            } as FormObject,
             this.getPropertySelectForm(moduleId$, 'fields', nbrProperty),
             {
                 name: 'grouping',
                 type: 'object',
+                templates: {
+                    header: 'Averaging on interval'
+                },
                 required: false,
                 properties: [
                     {
