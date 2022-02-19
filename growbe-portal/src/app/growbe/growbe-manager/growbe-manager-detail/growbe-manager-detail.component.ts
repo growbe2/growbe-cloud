@@ -144,7 +144,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
                 this.mainboard = mainboard;
 
                 if (subEventState) { subEventState.unsubscribe();}
-                
+
                 this.moduleWhere = { mainboardId: this.id };
 
                 return {
@@ -207,7 +207,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
                             (x) => x.id === state.id,
                         );
                         if (index === -1) {
-                            this.table.refreshData();
+                          this.moduleAPI.requestGet.onModif(of(null)).subscribe(() => {});
                         }
                     });
             }),
