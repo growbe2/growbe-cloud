@@ -1,7 +1,10 @@
 <mat-card [@animate]="{ value: '*', params: { y: '100%' } }">
     <div >
         <div class="header" style="display: flex">
-            <h2>{{ dashboardItem.name }}</h2>
+            <h2 class="title">
+                <template-content [content]="dashboardItem.name"></template-content>
+            </h2>
+            <template-content *ngIf="dashboardItem.header" [content]="dashboardItem.header"></template-content>
             <div class="spacer"></div>
             <ng-container *ngIf="(menu | keyvalue).length > 0">
                 <button

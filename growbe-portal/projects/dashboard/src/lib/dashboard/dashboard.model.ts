@@ -1,5 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { AutoFormData } from '@berlingoqc/ngx-autoform';
+import { TemplateContent } from '@berlingoqc/ngx-common';
 
 import { Observable } from 'rxjs';
 
@@ -14,7 +15,8 @@ export interface Style {
 
 export interface DashboardItem {
     id?: number;
-    name?: string;
+    name?: TemplateContent;
+    header?: TemplateContent;
     component: string;
     inputs: { [id: string]: any };
     outputs: { [id: string]: (obs: Observable<any>) => void };

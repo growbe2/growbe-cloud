@@ -39,10 +39,11 @@ export class ModuleGraphBuilderComponent implements OnInit {
             ? {
                   ...this.value,
               }
-            : null;
+            : { grouping: { intervalUnit: 'minute', baseGroup: ['dayOfYear'], intervalValue: 1}};
         const properties =  this.growbeGraphService.getGraphTimeFrameSelectForm(of(this.module.id), undefined, undefined, [
           {
             name: 'oneChart',
+            displayName: 'Generated one chart with all properties',
             type: 'bool',
             component: {
               name: 'checkbox'

@@ -359,7 +359,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 properties:  [
                   formMM['growbeId'],
                   formMM['moduleId'],
-                  ...this.graphService.getGraphTimeFrameSelectForm(subjectModule, 1, true),
+                  ...this.graphService.getGraphTimeFrameSelectForm(subjectModule, undefined, true),
                 ]
             } as FormObject,
         };

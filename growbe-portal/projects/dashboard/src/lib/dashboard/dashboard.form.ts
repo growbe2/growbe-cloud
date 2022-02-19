@@ -27,7 +27,9 @@ export const modifyDialog = (
     return {
         type: 'dialog',
         typeData: {
-            width: '90%',
+            width: '100%',
+            height: '100%',
+            panelClass: 'auto-form-dialog',
         },
         items: [
             {

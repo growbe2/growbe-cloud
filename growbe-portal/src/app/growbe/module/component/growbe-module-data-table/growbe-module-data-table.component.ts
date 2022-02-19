@@ -33,6 +33,7 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
     @Input() moduleId: GrowbeModule['id'];
     @Input() displayProperties?: string[];
     @Input() pageSize?: AutoTableComponent['pageSize'];
+    @Input() disableTime?: boolean;
     @Input() disablePaginator?: AutoTableComponent['disablePaginator'];
     @Input() disableOptions?: boolean;
     @Input() set config(config: AutoTableConfig) {
@@ -103,6 +104,7 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
                     {
                         id: 'createdat',
                         title: 'CreatedAt',
+                        display: !this.disableTime,
                         content: (d) =>
                             this.datePipe.transform(d.createdAt, 'short'),
                     },

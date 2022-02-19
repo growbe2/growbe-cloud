@@ -79,6 +79,14 @@ alb-admin-page {
   justify-content: center;
 }
 
+.between {
+  justify-content: space-between;
+}
+
+.around {
+  justify-content: space-around;
+}
+
 .ipad {
     padding: 10px;
 }
@@ -151,4 +159,21 @@ alb-admin-page {
   overflow-x: scroll;
   overflow-y: hidden;
   display: block;
+}
+
+
+
+.auto-form-dialog {
+
+  .mat-dialog-content {
+    max-height: 88vh !important;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+  .auto-form-dialog {
+    max-width: 100% !important;
+  }
 }
