@@ -277,6 +277,9 @@ export const CRUD_CONTROLLERS: {
       name: 'dashboards',
       specs: specSecurity,
       idType: 'string',
+      disableds: [
+        'find',
+      ],
       properties: [
         auth,
       ]
