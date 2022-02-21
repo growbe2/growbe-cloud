@@ -6,7 +6,7 @@
       </ng-template>
     </mat-tab>
 
-    <mat-tab label="+" class="new-panel">
+    <mat-tab *ngIf="!dashboard.static" label="+" class="new-panel">
       <autoform-form [formData]="newPanelForm"></autoform-form>
     </mat-tab>
   </mat-tab-group>

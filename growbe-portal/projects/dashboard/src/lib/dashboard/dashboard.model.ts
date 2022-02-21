@@ -23,6 +23,7 @@ export interface DashboardItem {
     copy: boolean;
     edit?: AutoFormData;
     dashboardEdit?: boolean;
+    disableMenu?: boolean;
     extraMenus?: {[id: string]: { callback: (self: DashboardItem) => void, name: string }}
 }
 
@@ -35,6 +36,8 @@ export interface Dashboard {
     id: string;
     name: string;
     layout: string;
+    static: boolean;
+    disablePanelBar: boolean;
     // Dashboard is a collection of panel
     panels: DashboardPanel[];
 }
@@ -42,4 +45,8 @@ export interface Dashboard {
 export interface ProjectDashboard extends Dashboard {
     // sideBar with a panel in it
     sidePanel?: DashboardPanel;
+}
+
+export interface FullDashboard extends Dashboard {
+
 }

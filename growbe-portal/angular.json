@@ -35,7 +35,10 @@
                             "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
                             "src/styles.scss"
                         ],
-                        "scripts": ["node_modules/systemjs/dist/system.js"],
+                        "scripts": [
+                            "node_modules/systemjs/dist/system.js",
+                            "node_modules/marked/marked.min.js"
+                        ],
                         "vendorChunk": true,
                         "extractLicenses": false,
                         "buildOptimizer": false,

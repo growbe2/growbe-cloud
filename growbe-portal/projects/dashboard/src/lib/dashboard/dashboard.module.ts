@@ -32,12 +32,14 @@ import { MatTabsExtraModule, TemplateContentModule } from '@berlingoqc/ngx-commo
 import { AddToDashboardDirective } from './add-dashboard.directive';
 import { DashboardFullComponent } from './components/dashboard-full/dashboard-full.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DashboardOneComponent } from './components/dashboard-one/dashboard-one.component';
 
 @NgModule({
     declarations: [
         DashboardItemComponent,
         DashboardPanelComponent,
         DashboardProjectComponent,
+        DashboardOneComponent,
         ItemContentDirective,
         DashboardItemRegistryCopyDirective,
         AddToDashboardDirective,

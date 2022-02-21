@@ -6,7 +6,7 @@
             </h2>
             <template-content *ngIf="dashboardItem.header" [content]="dashboardItem.header"></template-content>
             <div class="spacer"></div>
-            <ng-container *ngIf="(menu | keyvalue).length > 0">
+            <ng-container *ngIf="!dashboardItem.disableMenu && (menu | keyvalue).length > 0">
                 <button
                     mat-icon-button
                     aria-label="more"

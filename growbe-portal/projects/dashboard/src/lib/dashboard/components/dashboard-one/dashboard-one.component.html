@@ -1,0 +1,3 @@
+<ng-container *ngIf="dashboard">
+  <app-dashboard-panel *ngFor="let panel of dashboard.panels"  [dashboard]="{ dashboardId: dashboard.id }" [panel]="panel"></app-dashboard-panel>
+</ng-container>

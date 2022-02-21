@@ -32,6 +32,7 @@ import { RelayUnitControlComponent } from '../module/relay/relay-unit-control/re
 import { ModuleSVGComponent } from '../module/svg/module-svg.component';
 import { VirtualRelayControlComponent } from '../module/virtual-relay/virtual-relay-control/virtual-relay-control.component';
 import { VirtualRelayTableComponent } from '../module/virtual-relay/virtual-relay-table/virtual-relay-table.component';
+import { DashboardWelcomeComponent } from './component/dashboard-welcome/dashboard-welcome.component';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,12 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
     ) {
         this.mainboardAPI.get({}).subscribe(() => {});
         [
+            {
+                name: '',
+                component: 'growbe-welcome',
+                componentType: DashboardWelcomeComponent,
+                inputs: {} 
+            },
             {
                 name: '',
                 component: 'growbe-module-data-table',

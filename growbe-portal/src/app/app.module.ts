@@ -69,6 +69,7 @@ import { GrowbeMainboardAPI } from './growbe/api/growbe-mainboard';
 import { Subscription, timer } from 'rxjs';
 import { GrowbeMainboard } from 'growbe-cloud-api/lib';
 import { GrowbeEventService } from './growbe/services/growbe-event.service';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Injectable({
     providedIn: 'root',
@@ -100,6 +101,7 @@ export class NavigationWrapper {
         AccountModule,
         AuthModule.forRoot(),
         NotificationModule.forRoot({} as any),
+        MarkdownModule.forRoot(),
 
         DynamicModuleModule,
 

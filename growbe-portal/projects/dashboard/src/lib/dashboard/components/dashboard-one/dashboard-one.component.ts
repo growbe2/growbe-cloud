@@ -3,9 +3,9 @@ import { Dashboard } from '../../dashboard.model';
 import { BaseDashboardComponent } from '../base-dashboard.component';
 
 @Component({
-  selector: 'app-dashboard-full',
-  templateUrl: './dashboard-full.component.html',
-  styleUrls: ['./dashboard-full.component.scss'],
+  selector: 'app-dashboard-one',
+  templateUrl: './dashboard-one.component.html',
+  styleUrls: ['./dashboard-one.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class DashboardFullComponent extends BaseDashboardComponent<Dashboard> {}
+export class DashboardOneComponent extends BaseDashboardComponent<Dashboard> {}
