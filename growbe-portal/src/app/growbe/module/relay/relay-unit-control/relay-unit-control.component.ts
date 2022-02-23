@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { GrowbeModule } from 'growbe-cloud-api/lib';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { map, startWith, switchMap, tap } from 'rxjs/operators';
 import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
@@ -37,12 +37,9 @@ export class RelayUnitControlComponent implements OnInit {
   async ngOnInit() {
     // faut que j'aille chercher la config et l'etat de cette propriétés
     this.control = {
-     changeManualState: (state) => this.growbeActionAPI.executeActionModule('GROWBE_CONFIG_PROPERTY_UPDATE', this.mainboardId, this.moduleId, {
+     changeManualState: (config) => this.growbeActionAPI.executeActionModule('GROWBE_CONFIG_PROPERTY_UPDATE', this.mainboardId, this.moduleId, {
         property: this.field,
-        config: {
-          mode: 0,
-          manual: { state: state }
-        }
+        config: config,
       }),
       getValues: () => combineLatest([
         this.growbeModuleAPI.getById(this.moduleId),

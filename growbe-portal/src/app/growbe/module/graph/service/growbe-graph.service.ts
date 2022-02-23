@@ -97,7 +97,7 @@ export class GrowbeGraphService {
                   value: moduleId$.pipe(
                     filter((moduleId) => moduleId !== null),
                     switchMap((moduleId) => this.moduleAPI.moduleDef(moduleId).get()),
-                    map((moduleDef) => Object.values(moduleDef.properties)),
+                    map((moduleDef: any) => Object.values(moduleDef.properties)),
                   )
                 }
               } as SelectComponent
