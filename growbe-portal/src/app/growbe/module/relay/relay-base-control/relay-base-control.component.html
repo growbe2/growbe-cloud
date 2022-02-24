@@ -14,8 +14,8 @@
     </mat-chip>
   </mat-chip-list>
 
-  <div>
-    <div [ngSwitch]="pendingConfig?.mode">
+  <div class="frow full container">
+    <div class="control" [ngSwitch]="pendingConfig?.mode">
       <ng-container *ngSwitchCase="3">
         <autoform-form [formData]="formConfigProperty"></autoform-form>
       </ng-container>
@@ -30,12 +30,14 @@
       </ng-container>
 
       <ng-container *ngSwitchDefault="">
-        <div>
-          <mat-slide-toggle [disabled]="requestConfig || connected" [checked]="value" (change)="onSlideState($event)"></mat-slide-toggle>
+        <div class="hull flex justify-center align-center">
+          <div>
+            <mat-slide-toggle [disabled]="requestConfig || connected" [checked]="value" (change)="onSlideState($event)"></mat-slide-toggle>
+          </div>
         </div>
       </ng-container>
     </div>
-    <div>
+    <div class="flex justify-center align-center value">
       <mat-icon>
         {{value ? 'power' : 'power_off'}}
       </mat-icon>

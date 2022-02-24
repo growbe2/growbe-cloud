@@ -9,11 +9,13 @@ export const getCyclePropertie = () => {
                     {
                         type: 'number',
                         name: 'waitingTime',
+                        required: true,
                         displayName: 'Waiting Time (seconds)',
                     },
                     {
                         type: 'number',
                         name: 'runningTime',
+                        required: true,
                         displayName: 'Running Time (seconds)',
                     }
                 ]
@@ -29,12 +31,14 @@ export const getAlarmPropertie = () => {
                         type: 'string',
                         name: 'begining',
                         displayName: 'Opening time',
+                        required: true,
                         component: timeFieldComponent,
                     },
                     {
                         type: 'string',
                         name: 'end',
                         displayName: 'Closing time',
+                        required: true,
                         component: timeFieldComponent,
                     },
                 ],
