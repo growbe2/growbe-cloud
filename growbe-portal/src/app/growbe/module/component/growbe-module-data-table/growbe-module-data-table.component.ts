@@ -10,8 +10,6 @@ import {
     GrowbeModule,
     GrowbeModuleDefWithRelations,
 } from '@growbe2/ngx-cloud-api';
-import { GrowbeModuleDef } from 'growbe-cloud-api/lib/cloud/model/growbeModuleDef';
-import { forkJoin, Observable } from 'rxjs';
 import { Subscription, combineLatest } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
@@ -76,6 +74,8 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
             return;
         }
         this.where = {};
+        
+        this.moduleAPI.flushSensorValue(this.moduleId);
 
         this.growbeEvent.getGrowbeEvent(
           this.mainboardId,
@@ -92,7 +92,7 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
                   this.table.refreshCount();
               }
           } else {
-            this.table.refreshCount();
+              this.table.refreshCount();
           }
        });
 

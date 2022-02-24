@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { GrowbeModule } from 'growbe-cloud-api/lib';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { GrowbeModule, GrowbeSensorValue } from 'growbe-cloud-api/lib';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { map, startWith, switchMap, tap } from 'rxjs/operators';
 import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
@@ -19,9 +18,7 @@ export class RelayUnitControlComponent implements OnInit {
   @Input() moduleId: string;
   @Input() field: string;
 
-
   control: RelayControl;
-
 
   value$: Observable<any[]>;
 
@@ -32,37 +29,42 @@ export class RelayUnitControlComponent implements OnInit {
     private graphService: GrowbeGraphService,
     private growbeActionAPI: GrowbeActionAPI,
     private growbeEventService: GrowbeEventService,
-  ) { }
+  ) {
+    this.growbeModuleAPI.flushSensorValue(this.moduleId);
+  }
 
   async ngOnInit() {
     // faut que j'aille chercher la config et l'etat de cette propriétés
     this.control = {
-     changeManualState: (state) => this.growbeActionAPI.executeActionModule('GROWBE_CONFIG_PROPERTY_UPDATE', this.mainboardId, this.moduleId, {
+     changeManualState: (config) => this.growbeActionAPI.executeActionModule('GROWBE_CONFIG_PROPERTY_UPDATE', this.mainboardId, this.moduleId, {
         property: this.field,
-        config: {
-          mode: 0,
-          manual: { state: state }
-        }
+        config: config,
       }),
       getValues: () => combineLatest([
-        this.growbeModuleAPI.getById(this.moduleId),
+        this.growbeModuleAPI.getById(this.moduleId).pipe(
+          this.growbeEventService.liveUpdateFromGrowbeEvent(this.mainboardId, `/cloud/m/${this.moduleId}/state`)
+        ),
         this.growbeModuleAPI.moduleDef(this.moduleId).get(),
         this.getGrowbeModuleDataEventSource(),
       ]).pipe(
         map(([module, moduleDef, lastValue]: any) => {
           return [module.config[this.field], lastValue[this.field].state, lastValue.endingAt, !module.connected]
         }),
-      )
+      ),
+      refresh: () => {
+        this.growbeModuleAPI.requestFind
+            .onModif(of(null))
+            .subscribe();
+      }
     };
   }
 
   private getGrowbeModuleDataEventSource() {
-     return this.graphService.getGraph(this.mainboardId, 'one', {
-       growbeId: this.mainboardId,
-       moduleId: this.moduleId,
-       fields: [this.field]
+     return this.growbeModuleAPI.growbeSensorValues(this.moduleId).get({
+       limit: 1,
+       order: ['createdAt DESC']
      }).pipe(
-       switchMap((currentValue) => {
+       switchMap((currentValue: GrowbeSensorValue) => {
           return this.growbeEventService.getGrowbeEvent(
               this.mainboardId,
               `/cloud/m/${this.moduleId}/data`,
@@ -70,7 +72,7 @@ export class RelayUnitControlComponent implements OnInit {
                 return Object.assign(JSON.parse(d), { endingdAt: new Date()})
               },
           ).pipe(
-            startWith(currentValue[0])
+            startWith(currentValue[0].values)
           )
        })
      )

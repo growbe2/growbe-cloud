@@ -41,7 +41,7 @@ export class HardwareAlarmTableComponent implements OnInit {
             .moduleDef(this.moduleId)
             .get()
             .pipe(
-                map((moduleDef) => {
+                map((moduleDef: any) => {
                     const alarms = Object.values(moduleDef.properties)
                         .filter((md: any) => md.alarm)
                         .map((md: any) => md.alarm);

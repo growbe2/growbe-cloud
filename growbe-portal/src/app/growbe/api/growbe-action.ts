@@ -4,8 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActionConfirmationDialogComponent, envConfig } from '@berlingoqc/ngx-common';
 import { notify } from '@berlingoqc/ngx-notification';
 import { GrowbeMainboard, GrowbeModule } from '@growbe2/ngx-cloud-api';
-import { Observable, throwError } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from './growbe-mainboard';
 import { GrowbeModuleAPI } from './growbe-module';
 
@@ -83,14 +83,18 @@ export class GrowbeActionAPI {
       return this.httpClient.post<void>(
         `${this.url}/growbeModules/${moduleId}/config/${data.property}`,
         data.config
-      )
+      ).pipe(tap(() => {
+        this.growbeModuleAPI.requestFind.onModif(of(null)).subscribe();
+      }))
     }
 
     GROWBE_CONFIG_UPDATE(growbeId: string, moduleId: string, data: any) {
         return this.httpClient.post<void>(
             `${this.url}/growbeModules/${moduleId}/config`,
             data,
-        );
+        ).pipe(tap(() => {
+          this.growbeModuleAPI.requestFind.onModif(of(null)).subscribe();
+        }))
     }
 
     DESYNC(growbeId: string, data: any) {

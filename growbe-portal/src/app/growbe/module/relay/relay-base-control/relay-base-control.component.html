@@ -1,33 +1,48 @@
+<ng-container *ngIf="connected !== undefined">
+  <mat-chip-list [disabled]="pendingConfig?.mode == 2" aria-label="Fish selection">
+    <mat-chip (click)="onModeChange(0)" [selected]="pendingConfig?.mode === 0 || pendingConfig?.mode === undefined">
+      <mat-icon>power</mat-icon>
+      Manual
+    </mat-chip>
+    <mat-chip (click)="onModeChange(1)" [selected]="pendingConfig?.mode === 1">
+      <mat-icon>alarm</mat-icon>
+      Alarm
+    </mat-chip>
+    <mat-chip (click)="onModeChange(3)" [selected]="pendingConfig?.mode === 3">
+      <mat-icon>timer</mat-icon>
+      Cycle
+    </mat-chip>
+  </mat-chip-list>
 
-<ng-container *ngIf="value$ | async as value">
-  <p>
-{{value}}
-  </p>
+  <div class="frow full container">
+    <div class="control" [ngSwitch]="pendingConfig?.mode">
+      <ng-container *ngSwitchCase="3">
+        <autoform-form [formData]="formConfigProperty"></autoform-form>
+      </ng-container>
 
-  <ng-container *ngIf="!value[0] || value[0].mode === 0 ; else alarm">
+      <ng-container *ngSwitchCase="2">
+        <p>ressource in owned by actor</p>
+        <p>Delete the ressource if you want to configure this relay</p>
+      </ng-container>
 
-    <div>
-      <ng-container [ngTemplateOutlet]="logo"></ng-container>
+      <ng-container *ngSwitchCase="1">
+        <autoform-form [formData]="formConfigProperty"></autoform-form>
+      </ng-container>
+
+      <ng-container *ngSwitchDefault="">
+        <div class="hull flex justify-center align-center">
+          <div>
+            <mat-slide-toggle [disabled]="requestConfig || connected" [checked]="value" (change)="onSlideState($event)"></mat-slide-toggle>
+          </div>
+        </div>
+      </ng-container>
     </div>
-
-
-    <div>
-      <mat-slide-toggle [disabled]="requestConfig || value[3]" [checked]="value[1]" (change)="onSlideState($event)"></mat-slide-toggle>
+    <div class="flex justify-center align-center value">
+      <mat-icon>
+        {{value ? 'power' : 'power_off'}}
+      </mat-icon>
     </div>
-
-  </ng-container>
-
-
-  <!--templates-->
-  <ng-template #alarm>
-
-  </ng-template>
-
-  <ng-template #logo>
-    <mat-icon>
-      {{value[1] ? 'power' : 'power_off'}}
-    </mat-icon>
-  </ng-template>
+  </div>
 
 </ng-container>
 

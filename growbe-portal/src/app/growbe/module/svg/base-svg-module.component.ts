@@ -31,7 +31,7 @@ export class BaseSVGModuleComponent implements OnInit {
                 .moduleDef(this.moduleId)
                 .get()
                 .pipe(
-                    switchMap((moduleDef) =>
+                    switchMap((moduleDef: any) =>
                         this.graphService
                             .getGraph(this.mainboardId, 'one', {
                                 moduleId: this.moduleId,

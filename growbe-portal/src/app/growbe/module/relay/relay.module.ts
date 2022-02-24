@@ -4,7 +4,8 @@ import { RelayUnitControlComponent } from './relay-unit-control/relay-unit-contr
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggle, MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RelayBaseControlComponent } from './relay-base-control/relay-base-control.component';
-
+import { MatChipsModule } from '@angular/material/chips';
+import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 
 
 @NgModule({
@@ -15,6 +16,9 @@ import { RelayBaseControlComponent } from './relay-base-control/relay-base-contr
   imports: [
     CommonModule,
 
+    AutoFormModule,
+
+    MatChipsModule,
     MatIconModule,
 
     MatSlideToggleModule
