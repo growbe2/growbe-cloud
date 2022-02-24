@@ -5,8 +5,6 @@ import {
     Caching,
     LoopbackRelationClientMixin,
     addLoopbackRelation,
-    LoopbackHaveOneRelationClient,
-    LoopbackHasOneRelationClientMixin,
     LoopbackRestClientMixin,
     Resolving,
     CachingRelation,
@@ -16,9 +14,10 @@ import {
     GrowbeModuleDefWithRelations,
     GrowbeSensorValueWithRelations,
 } from '@growbe2/ngx-cloud-api';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 class ModuleDefRelation extends CachingRelation(LoopbackRelationClientMixin<GrowbeModuleDefWithRelations>()) {}
+class ModuleSensorValueRelation extends CachingRelation(LoopbackRelationClientMixin<GrowbeSensorValueWithRelations>()) {}
 
 @Injectable({ providedIn: 'root' })
 export class GrowbeModuleAPI extends Caching(
@@ -26,7 +25,7 @@ export class GrowbeModuleAPI extends Caching(
 ) {
     growbeSensorValues = addLoopbackRelation(
         this,
-        LoopbackRelationClientMixin<GrowbeSensorValueWithRelations>(),
+        ModuleSensorValueRelation,
         'growbeSensorValues',
     );
 
@@ -46,5 +45,10 @@ export class GrowbeModuleAPI extends Caching(
 
     updateModuleConfig(boardId: string, id: string, config: any): Observable<any> {
         return this.httpClient.post<any>(`${envConfig.growbeCloud}/growbes/${boardId}/modules/${id}/config`, config);
+    }
+
+
+    flushSensorValue(moduleId: string) {
+        this.growbeSensorValues(moduleId).requestGet.onModif(of(null)).subscribe();
     }
 }

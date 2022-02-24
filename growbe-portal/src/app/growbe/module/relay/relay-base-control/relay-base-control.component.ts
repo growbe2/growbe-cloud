@@ -18,6 +18,7 @@ import {
 export interface RelayControl {
     getValues(): Observable<[any, any, any, boolean]>;
     changeManualState(config: any): Observable<void>;
+    refresh: () => void;
 }
 
 @Component({
@@ -107,9 +108,7 @@ export class RelayBaseControlComponent
                     this.notifyRelayConfigChange();
                     this.requestConfig = null;
                     this.pendingConfig = undefined;
-                    this.growbeModuleAPI.requestFind
-                        .onModif(of(null))
-                        .subscribe();
+                    this.control.refresh();
                 },
                 (error) => {
                     // return the state of the slide to the previous one
@@ -190,9 +189,7 @@ export class RelayBaseControlComponent
                 return this.control.changeManualState({ mode, ...config }).pipe(
                     tap(() => {
                         this.notifyRelayConfigChange();
-                        this.growbeModuleAPI.requestFind
-                            .onModif(of(null))
-                            .subscribe();
+                        this.control.refresh();
                         this.config = { mode, ...config };
                         this.pendingConfig = this.config;
                     }),
