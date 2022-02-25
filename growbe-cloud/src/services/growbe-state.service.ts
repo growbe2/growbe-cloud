@@ -101,7 +101,7 @@ export class GrowbeStateService {
         () => {},
         () => {},
       );
-    }, hearthBeathRate);
+    }, hearthBeathRate * 1000);
   }
 
   private stateChange(mainboard: GrowbeMainboard) {
