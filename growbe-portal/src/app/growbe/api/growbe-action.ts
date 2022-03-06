@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionConfirmationDialogComponent, envConfig } from '@berlingoqc/ngx-common';
-import { notify } from '@berlingoqc/ngx-notification';
+import { NotificationD, notify, NotifyConfig } from '@berlingoqc/ngx-notification';
 import { GrowbeMainboard, GrowbeModule } from '@growbe2/ngx-cloud-api';
 import { Observable, of, throwError } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
@@ -24,6 +24,7 @@ export class GrowbeActionAPI {
         action: string,
         growbeId: string,
         data: any,
+        notification: Partial<NotifyConfig> = {},
     ): Observable<any> {
         return this.pipeValue(
           this.growbeAPI.getById(growbeId),
@@ -31,7 +32,8 @@ export class GrowbeActionAPI {
           action,
           growbeId,
           null,
-          data
+          data,
+          notification,
         );
     }
 
@@ -39,7 +41,8 @@ export class GrowbeActionAPI {
       action: string,
       mainboardId: string,
       moduleId: string,
-      data: any
+      data: any,
+      notification: Partial<NotifyConfig> = {},
     ): Observable<any> {
       return this.pipeValue(
         this.growbeModuleAPI.getById(moduleId),
@@ -47,11 +50,12 @@ export class GrowbeActionAPI {
         action,
         mainboardId,
         moduleId,
-        data
+        data,
+        notification,
       );
     }
 
-    private pipeValue(obs: Observable<any>, condition: (ressource) => boolean, action, id, moduleId, data) {
+    private pipeValue(obs: Observable<any>, condition: (ressource) => boolean, action, id, moduleId, data, notification: Partial<NotifyConfig>) {
       return obs.pipe(
         take(1),
         switchMap((ressource) => {
@@ -67,8 +71,9 @@ export class GrowbeActionAPI {
           title: 'Sucesss',
           titleFailed: 'Error',
           body: (data) => data.response?.msg,
-          bodyFailed: (error) => JSON.stringify(error.error?.message || error)
-        })
+          bodyFailed: (error) => JSON.stringify(error.error?.message || error),
+          ...notification,
+        } as any)
       )
     }
 
