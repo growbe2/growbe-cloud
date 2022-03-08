@@ -6,7 +6,7 @@ import {
     GrowbeModuleWithRelations,
 } from '@growbe2/ngx-cloud-api';
 import { Observable, of, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { DashboardPanel } from '@growbe2/growbe-dashboard';
 import {
     getModuleDefPropName,
@@ -155,6 +155,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
         return this.moduleAPI.moduleDef(this.module.id)
             .get()
             .pipe(
+                take(1),
                 map((moduleDef) => {
                     this.subChartSelect?.unsubscribe();
                     return { items: f(module, moduleDef), name: '' };
