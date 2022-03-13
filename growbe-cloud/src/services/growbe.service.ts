@@ -94,13 +94,13 @@ export class GrowbeService {
     return mainboard;
   }
 
-  async updateLocalConnection(growbeId: string, data: LocalConnection) {
+  async updateLocalConnection(growbeId: string, data: any) {
     if (!data.ssid || data.ssid === "") {
       GrowbeService.DEBUG("invalid local connection receive " + growbeId);
       return {};
     }
 
-    (data as any).updatedAt = new Date();
+    data.updatedAt = new Date();
     const updatedConfig = await this.mainboardConfigRepository.updateAll(
       {
         localConnection: data
