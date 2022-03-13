@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import {
   ArrayProperty,
     FormObject,
@@ -18,10 +18,11 @@ export const timeFieldComponent = {
     objects: {
         hours: {
             size: 2,
+            type: 'number',
             validators: [
                 (control: FormControl) => {
                     const hours = +control.value;
-                    if (hours > 23) {
+                    if (isNaN(hours) || hours > 23) {
                         return { hours: true };
                     }
                     return null;
@@ -30,10 +31,11 @@ export const timeFieldComponent = {
         },
         minutes: {
             size: 2,
+            type: 'number',
             validators: [
                 (control: FormControl) => {
                     const minutes = +control.value;
-                    if (minutes > 59) {
+                    if (isNaN(minutes) || minutes > 59) {
                         return { minutes: true };
                     }
                     return null;
@@ -65,7 +67,6 @@ export const timeFieldComponent = {
             return { hours: '', minutes: '' };
         },
     },
-    //validators: [Validators.pattern('^[0-9]*$')],
 };
 
 @Injectable({

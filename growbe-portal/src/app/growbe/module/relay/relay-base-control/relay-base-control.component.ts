@@ -6,7 +6,7 @@ import {
     untilComponentDestroyed,
 } from '@berlingoqc/ngx-common';
 import { NotificationService } from '@berlingoqc/ngx-notification';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of, Subject, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import {
@@ -54,6 +54,8 @@ export class RelayBaseControlComponent
 
     formConfigProperty: AutoFormData;
 
+    subjectModuleState = new Subject<boolean>();
+
     constructor(
         private growbeModuleAPI: GrowbeModuleAPI,
         private notificationService: NotificationService,
@@ -71,6 +73,8 @@ export class RelayBaseControlComponent
                 this.value = value[1];
                 this.endingAt = value[2];
                 this.connected = value[3];
+
+                this.subjectModuleState.next(this.connected);
 
                 if (!this.pendingConfig) {
                     this.pendingConfig = { ...this.config };
@@ -179,10 +183,7 @@ export class RelayBaseControlComponent
         return {
             submit: {
                 title: 'Apply',
-                if: (m) => {
-                    console.log('CACA', m);
-                    return true;
-                },
+                disabled: this.subjectModuleState,
             },
         };
     }
