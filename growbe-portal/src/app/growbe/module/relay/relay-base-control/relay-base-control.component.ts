@@ -21,6 +21,17 @@ export interface RelayControl {
     refresh: () => void;
 }
 
+export const mapTextForMode = {
+    3: {
+        created: 'Cycle created',
+        deleted: 'Cycle has been stop'
+    },
+    1: {
+        created: 'Alarm created',
+        deleted: 'Alarm has been stop'
+    }
+}
+
 @Component({
     selector: 'app-relay-base-control',
     templateUrl: './relay-base-control.component.html',
@@ -208,7 +219,7 @@ export class RelayBaseControlComponent
         if (this.pendingConfig.mode !== this.config.mode) {
             if ([3, 1].includes(this.config.mode)) {
                 this.notificationService.openNotification({
-                    title: 'Stop process',
+                    title: mapTextForMode[this.config.mode].deleted,
                     body: '',
                 });
             }

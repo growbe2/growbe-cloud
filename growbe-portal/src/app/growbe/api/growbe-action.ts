@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionConfirmationDialogComponent, envConfig } from '@berlingoqc/ngx-common';
-import { notify } from '@berlingoqc/ngx-notification';
+import { NotificationD, notify, NotifyConfig } from '@berlingoqc/ngx-notification';
 import { GrowbeMainboard, GrowbeModule } from '@growbe2/ngx-cloud-api';
 import { Observable, of, throwError } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
@@ -24,6 +24,7 @@ export class GrowbeActionAPI {
         action: string,
         growbeId: string,
         data: any,
+        notification: Partial<NotifyConfig> = {},
     ): Observable<any> {
         return this.pipeValue(
           this.growbeAPI.getById(growbeId),
@@ -31,7 +32,8 @@ export class GrowbeActionAPI {
           action,
           growbeId,
           null,
-          data
+          data,
+          notification,
         );
     }
 
@@ -39,7 +41,8 @@ export class GrowbeActionAPI {
       action: string,
       mainboardId: string,
       moduleId: string,
-      data: any
+      data: any,
+      notification: Partial<NotifyConfig> = {},
     ): Observable<any> {
       return this.pipeValue(
         this.growbeModuleAPI.getById(moduleId),
@@ -47,11 +50,12 @@ export class GrowbeActionAPI {
         action,
         mainboardId,
         moduleId,
-        data
+        data,
+        notification,
       );
     }
 
-    private pipeValue(obs: Observable<any>, condition: (ressource) => boolean, action, id, moduleId, data) {
+    private pipeValue(obs: Observable<any>, condition: (ressource) => boolean, action, id, moduleId, data, notification: Partial<NotifyConfig>) {
       return obs.pipe(
         take(1),
         switchMap((ressource) => {
@@ -67,8 +71,16 @@ export class GrowbeActionAPI {
           title: 'Sucesss',
           titleFailed: 'Error',
           body: (data) => data.response?.msg,
-          bodyFailed: (error) => JSON.stringify(error.error?.message || error)
-        })
+          bodyFailed: (error) => {
+            console.log('ERORRO', error.error);
+            let inner_message = error.error?.message;
+            if (inner_message) {
+              return inner_message.msg;
+            }
+            return 'Unknown error , sorry ....'
+          },
+          ...notification,
+        } as any)
       )
     }
 
@@ -111,7 +123,7 @@ export class GrowbeActionAPI {
     HELLO_WORLD(growbeId: string, data: any) {
       return this.sendRequest(growbeId, "helloworld", data);
     }
-    
+
     RESTART(growbeId: string, data: any) {
       return this.sendRequest(growbeId, "restart", data);
     }
@@ -123,7 +135,7 @@ export class GrowbeActionAPI {
     private sendRequest(growbeId: string, pathName: string, data: any) {
         return this.httpClient.patch<void>(
             `${this.url}/growbe/${growbeId}/${pathName}`,
-            data, 
+            data,
         );
     }
 }

@@ -91,7 +91,9 @@ export const getGrowbeActionTableColumns = (getGrowbeId: () => string, actionAPI
                                                     data,
                                                 )
                                                 .pipe(
-                                                  finalize(() => loadingResolver?.complete(),
+                                                  finalize(() => {
+                                                    loadingResolver?.complete()
+                                                  },
                                                 ));
                                             }),
                                             autoformDialog.open(form).afterClosed().pipe(
