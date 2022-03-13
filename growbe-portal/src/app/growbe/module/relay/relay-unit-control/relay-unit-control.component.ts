@@ -32,9 +32,7 @@ export class RelayUnitControlComponent implements OnInit {
   }
 
   async ngOnInit() {
-      console.log('REQUEST',this.growbeModuleAPI.requestFind.items);
     if (this.growbeModuleAPI.requestGet.items[this.moduleId]) {
-      console.log('REQUESTCASHING EXISTING');
       this.growbeModuleAPI.requestGet.items[this.moduleId].subject.next(null);
     }
 

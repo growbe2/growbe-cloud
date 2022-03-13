@@ -71,7 +71,14 @@ export class GrowbeActionAPI {
           title: 'Sucesss',
           titleFailed: 'Error',
           body: (data) => data.response?.msg,
-          bodyFailed: (error) => JSON.stringify(error.error?.message || error),
+          bodyFailed: (error) => {
+            console.log('ERORRO', error.error);
+            let inner_message = error.error?.message;
+            if (inner_message) {
+              return inner_message.msg;
+            }
+            return 'Unknown error , sorry ....'
+          },
           ...notification,
         } as any)
       )
@@ -116,7 +123,7 @@ export class GrowbeActionAPI {
     HELLO_WORLD(growbeId: string, data: any) {
       return this.sendRequest(growbeId, "helloworld", data);
     }
-    
+
     RESTART(growbeId: string, data: any) {
       return this.sendRequest(growbeId, "restart", data);
     }
@@ -128,7 +135,7 @@ export class GrowbeActionAPI {
     private sendRequest(growbeId: string, pathName: string, data: any) {
         return this.httpClient.patch<void>(
             `${this.url}/growbe/${growbeId}/${pathName}`,
-            data, 
+            data,
         );
     }
 }

@@ -24,11 +24,11 @@ export interface RelayControl {
 export const mapTextForMode = {
     3: {
         created: 'Cycle created',
-        destroy: 'Cycle has been stop'
+        deleted: 'Cycle has been stop'
     },
     1: {
         created: 'Alarm created',
-        destroy: 'Alarm has been stop'
+        deleted: 'Alarm has been stop'
     }
 }
 
@@ -219,7 +219,7 @@ export class RelayBaseControlComponent
         if (this.pendingConfig.mode !== this.config.mode) {
             if ([3, 1].includes(this.config.mode)) {
                 this.notificationService.openNotification({
-                    title: mapTextForMode[this.config.mode].created,
+                    title: mapTextForMode[this.config.mode].deleted,
                     body: '',
                 });
             }
