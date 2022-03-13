@@ -44,6 +44,9 @@ export class GrowbeModule extends Entity {
   @hasMany(() => GrowbeLogs)
   growbeLogs: GrowbeLogs[];
 
+  @property()
+  updatedAt: Date;
+
   constructor(data?: Partial<GrowbeModule>) {
     super(data);
   }

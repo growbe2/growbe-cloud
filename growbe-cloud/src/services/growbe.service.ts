@@ -99,6 +99,8 @@ export class GrowbeService {
       GrowbeService.DEBUG("invalid local connection receive " + growbeId);
       return {};
     }
+
+    (data as any).updatedAt = new Date();
     const updatedConfig = await this.mainboardConfigRepository.updateAll(
       {
         localConnection: data

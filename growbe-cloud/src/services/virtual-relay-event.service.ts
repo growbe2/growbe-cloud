@@ -25,6 +25,7 @@ export class VirtualRelayEventService {
 
     vr.state = event.state;
     vr.message = event.message;
+    vr.updatedAt = new Date();
 
     await this.virtualRelayRepo.update(vr);
 
