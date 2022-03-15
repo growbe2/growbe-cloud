@@ -238,8 +238,8 @@ export class AppModule {
                         // Will put it back when event whill not triger all the time
                         if (previous_state && previous_state !== g.state) {
                             notificationService.openNotification({
-                                title: (d) => 'Module state changed',
-                                body: g.state,
+                                title: (d) => 'Mainboard state change',
+                                body: `Board ${g.name ? g.name: g.id} is ${g.state.toLowerCase()}`,
                             });
                         }
                         previous_state = g.state;

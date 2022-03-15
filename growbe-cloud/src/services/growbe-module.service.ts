@@ -84,6 +84,7 @@ export class GrowbeModuleService {
     const modules = await this.moduleRepository.find({
       where: {
         mainboardId: growbeId,
+        connected: true,
       },
     });
     for (const module of modules) {

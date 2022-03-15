@@ -1,3 +1,3 @@
-<div>
-    <mat-icon> {{ status ? 'power' : 'power_off'}}</mat-icon>
+<div *ngIf="module">
+    <mat-icon> {{ module.connected ? 'power' : 'power_off'}}</mat-icon>
 </div>
