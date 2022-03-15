@@ -129,6 +129,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
 
         this.actionsColumns = getGrowbeActionTableColumns(
             () => this.id,
+            this.growbeEventService,
             this.growbeActionAPI,
             this.autoformDialog,
         );

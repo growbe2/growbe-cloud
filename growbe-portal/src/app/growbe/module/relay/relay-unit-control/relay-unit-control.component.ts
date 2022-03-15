@@ -47,9 +47,7 @@ export class RelayUnitControlComponent implements OnInit {
       })
       },
       getValues: () => combineLatest([
-        this.growbeModuleAPI.getById(this.moduleId).pipe(
-          this.growbeEventService.liveUpdateFromGrowbeEvent(this.mainboardId, `/cloud/m/${this.moduleId}/state`)
-        ),
+        this.growbeEventService.getModuleLive(this.mainboardId, this.moduleId),
         this.growbeModuleAPI.moduleDef(this.moduleId).get(),
         this.getGrowbeModuleDataEventSource(),
       ]).pipe(

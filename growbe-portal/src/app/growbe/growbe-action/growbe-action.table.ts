@@ -6,6 +6,7 @@ import { StaticDataSource } from "@berlingoqc/ngx-loopback";
 import { Observable, Subscriber } from "rxjs";
 import { filter, finalize, map } from "rxjs/operators";
 import { GrowbeActionAPI } from "src/app/growbe/api/growbe-action";
+import { GrowbeEventService } from "../services/growbe-event.service";
 import { growbeActions } from './growbe-warning-action';
 
 
@@ -42,7 +43,7 @@ export const growbeActionsSource = new StaticDataSource([
   }
 ]);
 
-export const getGrowbeActionTableColumns = (getGrowbeId: () => string, actionAPI: GrowbeActionAPI, autoformDialog: AutoFormDialogService): TableColumn[] => ([
+export const getGrowbeActionTableColumns = (getGrowbeId: () => string, eventService: GrowbeEventService, actionAPI: GrowbeActionAPI, autoformDialog: AutoFormDialogService): TableColumn[] => ([
   {
     id: 'name',
     title: 'Name',
@@ -68,6 +69,7 @@ export const getGrowbeActionTableColumns = (getGrowbeId: () => string, actionAPI
                                         content: 'pending_actions',
                                     },
                                     style: 'mat-mini-fab',
+                                    disabled: eventService.getGrowbeLive(getGrowbeId()).pipe(map((mainboard) => mainboard.state === 'DISCONNECTED')),
                                     click: (
                                         router: Router,
                                         context: any,

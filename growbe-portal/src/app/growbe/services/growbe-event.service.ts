@@ -6,6 +6,9 @@ import { envConfig } from '@berlingoqc/ngx-common';
 import { filter, map, startWith, switchMap } from 'rxjs/operators';
 
 import { exec } from 'mqtt-pattern';
+import { GrowbeMainboardAPI } from '../api/growbe-mainboard';
+import { GrowbeMainboard, GrowbeModule } from 'growbe-cloud-api/lib';
+import { GrowbeModuleAPI } from '../api/growbe-module';
 
 export const getTopic = (growbeId: string, subtopic: string) =>
     `/growbe/${growbeId}${subtopic}`;
@@ -20,6 +23,14 @@ export class GrowbeEventService {
 
     private connectPromise: Promise<AsyncClient>;
 
+
+    constructor(
+      private growbeAPI: GrowbeMainboardAPI,
+      private growbeModuleAPI: GrowbeModuleAPI,
+    ) {
+
+    }
+
     async connect() {
         if (this.client) { return; }
         this.connectPromise = connectAsync(envConfig.broker);
@@ -32,6 +43,22 @@ export class GrowbeEventService {
     async addSubscription(topic: string) {
         return this.client.subscribe(topic);
     }
+
+
+    getGrowbeLive(id: string): Observable<GrowbeMainboard> {
+      return this.growbeAPI.getById(id).pipe(
+        this.liveUpdateFromGrowbeEvent(id, `/cloud/state`)
+      );
+    }
+
+    getModuleLive(id: string, moduleId: string): Observable<GrowbeModule> {
+      return this.growbeModuleAPI.getById(moduleId).pipe(
+        this.liveUpdateFromGrowbeEvent(id, `/cloud/m/${moduleId}/state`)
+      )
+    }
+
+
+    // GENERIC FUNCTION
 
     getGrowbeEvent(id: string, subtopic: string, parse: (data) => any) {
         const topic = getTopic(id, subtopic);
