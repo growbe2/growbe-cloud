@@ -109,8 +109,12 @@ export class GrowbeGraphService {
         return {
             type: 'array',
             name,
+            displayName: 'Properties',
             decorators: {
-                headers: 'Properties to add to graphs'
+                headers: 'Properties to add to graphs',
+            },
+            templates: {
+                hint: 'List of propertie to display from the module',
             },
             min: nbrProperty,
             max: nbrProperty,

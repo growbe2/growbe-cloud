@@ -217,7 +217,7 @@ export class RelayBaseControlComponent
 
     private notifyRelayConfigChange() {
         // valid if i'm stop a process
-        if (this.pendingConfig.mode !== this.config.mode) {
+        if (this.pendingConfig?.mode !== this.config?.mode) {
             if ([3, 1].includes(this.config.mode)) {
                 this.notificationService.openNotification({
                     title: mapTextForMode[this.config.mode].deleted,

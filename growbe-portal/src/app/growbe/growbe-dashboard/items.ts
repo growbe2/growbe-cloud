@@ -51,7 +51,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 name: '',
                 component: 'growbe-welcome',
                 componentType: DashboardWelcomeComponent,
-                inputs: {} 
+                inputs: {}
             },
             {
                 name: '',
@@ -429,7 +429,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 type: 'string',
                 required: !optionalModuleId,
                 initialize: (control) => {
-                    moduleControl = control;
+                    moduleControl = control as any;
                     if (!control.value && !lastMainboarId) {
                         control.disable();
                     } else {
@@ -448,12 +448,12 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                     transformValue: (e) => e.id,
                     options: {
                         displayTitle: 'Module',
-                        displayContent: (e) => e.id + ' ',
+                        displayContent: (e) => e.moduleDef.displayName || e.id,
                         value: () =>
                             subjectMainboard.pipe(
                                 filter((id) => id),
                                 switchMap((id) =>
-                                    this.mainboardAPI.growbeModules(id).get({}),
+                                    this.mainboardAPI.growbeModules(id).get({include: [{relation: 'moduleDef'}]}),
                                 ),
                             ),
                     },
