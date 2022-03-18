@@ -9,6 +9,7 @@ import { exec } from 'mqtt-pattern';
 import { GrowbeMainboardAPI } from '../api/growbe-mainboard';
 import { GrowbeMainboard, GrowbeModule } from 'growbe-cloud-api/lib';
 import { GrowbeModuleAPI } from '../api/growbe-module';
+import { GrowbeGraphService } from '../module/graph/service/growbe-graph.service';
 
 export const getTopic = (growbeId: string, subtopic: string) =>
     `/growbe/${growbeId}${subtopic}`;
@@ -27,6 +28,7 @@ export class GrowbeEventService {
     constructor(
       private growbeAPI: GrowbeMainboardAPI,
       private growbeModuleAPI: GrowbeModuleAPI,
+      private graphService: GrowbeGraphService,
     ) {
 
     }
@@ -54,6 +56,18 @@ export class GrowbeEventService {
     getModuleLive(id: string, moduleId: string): Observable<GrowbeModule> {
       return this.growbeModuleAPI.getById(moduleId).pipe(
         this.liveUpdateFromGrowbeEvent(id, `/cloud/m/${moduleId}/state`)
+      )
+    }
+
+    getModuleDataLive(id: string, moduleId: string, properties: string[]): Observable<any> {
+      return this.graphService.getGraph(id, 'one', {
+        moduleId,
+        growbeId: id,
+        fields: properties,
+        liveUpdate: true,
+      }).pipe(
+        map((v) => v[0]),
+        this.liveUpdateFromGrowbeEvent(id, `/cloud/m/${moduleId}/data`, (d) => Object.assign(JSON.parse(d), { createdAt: new Date()})),
       )
     }
 

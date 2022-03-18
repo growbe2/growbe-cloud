@@ -1,0 +1,13 @@
+<div class="frow align-center justify-centerr" [ngClass]="{outdated: isOutdated}">
+  <span>Receive at : {{createdAt | date: dateFormat}}</span>
+  <ng-container *ngIf="!connected; else outdated">
+    <mat-icon>power_off</mat-icon>
+    module is disconnected
+  </ng-container>
+  <ng-template #outdated >
+    <ng-container *ngIf="createdAt && validFor && isOutdated">
+      <mat-icon>warning</mat-icon>
+      value is outdated
+    </ng-container>
+  </ng-template>
+</div>

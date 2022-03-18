@@ -16,6 +16,7 @@ import {
 } from '@growbe2/ngx-cloud-api';
 import { DecimalPipe } from '@angular/common';
 import { transformModuleValue } from '../../module.def';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-module-last-value',
@@ -44,6 +45,8 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
     at: Date;
     historic: number[] = [];
 
+    connected: Observable<boolean>;
+
     constructor(
         private topic: GrowbeEventService,
         private graphService: GrowbeGraphService,
@@ -56,6 +59,11 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
         if (!this.graphDataConfig) {
             return;
         }
+
+        this.connected = this.topic.getModuleLive(this.graphDataConfig.growbeId, this.graphDataConfig.moduleId).pipe(
+          map((item) => item.connected)
+        );
+
         this.contentDisplays = this.graphDataConfig.fields.map((field) => transformModuleValue(
           this.moduleType,
           field

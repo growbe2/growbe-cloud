@@ -2,16 +2,16 @@
   <g style="" transform="matrix(1.00212, 0, 0, 0.809187, -0.254417, 20.035336)">
     <rect width="250" height="450" transform="translate(120, 105)" style="fill: rgb(199, 193, 193);"/>
   </g>
-  <g soil-probe="" position="bottom" property="p5" bind-value="data" bind-statusgetter="statusGetter" transform="translate(81,0) scale(2)"/>
-  <g soil-probe="" position="bottom" property="p4" bind-value="data" bind-statusgetter="statusGetter"  transform="translate(161,0) scale(2)"/>
+  <g soil-probe="" position="bottom" property="p5" bind-statusgetter="statusGetter"  bind-value="data" bind-connected="connected" transform="translate(81,0) scale(2)"/>
+  <g soil-probe="" position="bottom" property="p4"  bind-statusgetter="statusGetter"  bind-value="data" bind-connected="connected" transform="translate(161,0) scale(2)"/>
 
-  <g soil-probe="" position="left" property="p3" bind-value="data" bind-statusgetter="statusGetter"  transform="translate(306,138) scale(2)"/>
-  <g soil-probe="" position="left" property="p2" bind-value="data" bind-statusgetter="statusGetter"  transform="translate(306, 215) scale(2)"/>
-  <g soil-probe="" position="left" property="p1" bind-value="data" bind-statusgetter="statusGetter"  transform="translate(306, 287) scale(2)"/>
-  <g soil-probe="" position="left" property="p0" bind-value="data" bind-statusgetter="statusGetter"  transform="translate(306, 360) scale(2)"/>
+  <g soil-probe="" position="left" property="p3"  bind-statusgetter="statusGetter"  bind-value="data" bind-connected="connected"   transform="translate(306,138) scale(2)"/>
+  <g soil-probe="" position="left" property="p2"  bind-statusgetter="statusGetter"  bind-value="data" bind-connected="connected"   transform="translate(306, 215) scale(2)"/>
+  <g soil-probe="" position="left" property="p1"  bind-statusgetter="statusGetter"  bind-value="data" bind-connected="connected"  transform="translate(306, 287) scale(2)"/>
+  <g soil-probe="" position="left" property="p0"  bind-statusgetter="statusGetter"  bind-value="data" bind-connected="connected"   transform="translate(306, 360) scale(2)"/>
 
-  <g soil-probe="" position="right" property="p6" bind-value="data" bind-statusgetter="statusGetter"  transform="translate(-74, 133) scale(2)"/>
-  <g soil-probe="" position="right" property="p7" bind-value="data" bind-statusgetter="statusGetter"  transform="translate(-74, 212) scale(2)"/>
+  <g soil-probe="" position="right" property="p6"  bind-statusgetter="statusGetter"  bind-value="data" bind-connected="connected"   transform="translate(-74, 133) scale(2)"/>
+  <g soil-probe="" position="right" property="p7"  bind-statusgetter="statusGetter"  bind-value="data" bind-connected="connected"  transform="translate(-74, 212) scale(2)"/>
 
  <text
            xml:space="preserve"

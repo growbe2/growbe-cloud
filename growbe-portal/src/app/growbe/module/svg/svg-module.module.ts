@@ -5,6 +5,7 @@ import { SoilModuleComponent } from './soil/soil-module/soil-module.component';
 import { THLModuleComponent } from './thl/thl-module/thl-module.component';
 import { WCModuleComponent } from './wc/wc-module/wc-module.component';
 import { ModuleSVGComponent } from './module-svg.component';
+import { DatedValueModule } from 'src/app/shared/dated-value/dated-value.module';
 
 
 
@@ -19,7 +20,8 @@ import { ModuleSVGComponent } from './module-svg.component';
     ModuleSVGComponent,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    DatedValueModule,
   ],
   exports: [ModuleSVGComponent],
   schemas: [NO_ERRORS_SCHEMA],

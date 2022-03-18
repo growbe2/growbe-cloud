@@ -24,9 +24,6 @@
     </div>
   </div>
   <div class="frow full align-center">
-    <div class="flex align-center justify-center" style="height: 24px;">
-      <span>{{ at | date: 'shortTime' }}</span>
-    </div>
-
+    <app-outdated-value *ngIf="at" [connected]="connected | async" [createdAt]="at"></app-outdated-value>
   </div>
 </div>

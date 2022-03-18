@@ -28,6 +28,9 @@ export const moduleDefPropertyDisplayer = {
               if (value === -1) {
                 return 'n/a';
               }
+              if (!value) {
+                return 'error';
+              }
               return `${value}%`;
             }
             return value;

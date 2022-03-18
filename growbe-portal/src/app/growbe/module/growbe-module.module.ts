@@ -17,6 +17,7 @@ import { HardwareAlarmModule } from './hardware-alarm/hardware-alarm.module';
 import { ButtonsRowModule, ConfirmationModule } from '@berlingoqc/ngx-common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { DatedValueModule } from 'src/app/shared/dated-value/dated-value.module';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import { MatButtonModule } from '@angular/material/button';
         ButtonsRowModule,
         HardwareAlarmModule,
         LoopbackRestPipeModule,
+        DatedValueModule,
     ],
     exports: [ModuleStatusDotComponent],
 })
