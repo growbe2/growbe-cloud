@@ -52,3 +52,7 @@ project-dashboard {
 .form-parameters {
     padding: 5px;
 }
+
+::ng-deep .mat-tooltip {
+  font-family: 16px !important;
+}

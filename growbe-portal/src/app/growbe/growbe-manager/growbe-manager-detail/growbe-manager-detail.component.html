@@ -23,7 +23,7 @@
                     <h1>Modules</h1>
                 </mat-toolbar>
                 <ng-template #status let-context="context">
-                    <app-module-status-dot [mainboardId]="data.mainboard.id" [module]="context"></app-module-status-dot>
+                    <app-module-status-dot style="display: inline-block; width: fit-content" [matTooltip]="context.updatedAt | date: 'H:mm dd/LL'" [mainboardId]="data.mainboard.id" [module]="context"></app-module-status-dot>
                 </ng-template>
 
                 <ng-template #moduleOptions let-context="context">
