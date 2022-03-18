@@ -100,10 +100,12 @@ export class GrowbeService {
       return {};
     }
 
-    data.updatedAt = new Date();
+
+    const conn = {...data, updatedAt: new Date()};
+
     const updatedConfig = await this.mainboardConfigRepository.updateAll(
       {
-        localConnection: data
+        localConnection: conn
       },
       {
         growbeMainboardId: growbeId
@@ -112,7 +114,7 @@ export class GrowbeService {
 
     await this.mqttService.send(
       getTopic(growbeId, '/cloud/localconnection'),
-      JSON.stringify(data),
+      JSON.stringify(conn),
     )
 
     await this.logsService.addLog({
@@ -120,7 +122,7 @@ export class GrowbeService {
       type: LogTypeEnum.LOCAL_CONNECTION_UPDATED,
       severity: SeverityEnum.LOW,
       growbeMainboardId: growbeId,
-      message: JSON.stringify(data),
+      message: JSON.stringify(conn),
     })
 
     return updatedConfig;
