@@ -1,18 +1,16 @@
-import { ActionCode, FieldAlarm, FieldAlarmEvent } from "@growbe2/growbe-pb";
-import { BindingScope, injectable, service } from "@loopback/core";
-import { repository } from "@loopback/repository";
-import { HttpErrors } from "@loopback/rest";
-import { GroupEnum, GrowbeModuleDef, LogTypeEnum, SeverityEnum } from "../models";
-import { GrowbeModuleDefRepository, GrowbeModuleRepository } from "../repositories";
-import { GrowbeLogsService } from "./growbe-logs.service";
-import { getTopic, MQTTService } from "./mqtt.service";
+import {ActionCode, FieldAlarm, FieldAlarmEvent} from "@growbe2/growbe-pb";
+import {BindingScope, injectable, service} from "@loopback/core";
+import {repository} from "@loopback/repository";
+import {HttpErrors} from "@loopback/rest";
+import {GroupEnum, GrowbeHardwareAlarm, LogTypeEnum, SeverityEnum} from "../models";
+import {GrowbeHardwareAlarmRepository} from "../repositories";
+import {GrowbeLogsService} from "./growbe-logs.service";
+import {getTopic, MQTTService} from "./mqtt.service";
 
 
 export const AlarmZoneArray = [
 	'unknow', 'middle', 'very_low', 'low', 'high', 'very_high'
 ];
-
-
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeHardwareAlarmService {
@@ -21,63 +19,97 @@ export class GrowbeHardwareAlarmService {
 		public mqttService: MQTTService,
 		@service(GrowbeLogsService)
 		private growbeLogsService: GrowbeLogsService,
-		@repository(GrowbeModuleRepository)
-		private moduleRepository: GrowbeModuleRepository,
-		@repository(GrowbeModuleDefRepository)
-		private moduleDefRepository: GrowbeModuleDefRepository,
-
+		@repository(GrowbeHardwareAlarmRepository)
+		private alarmRepository: GrowbeHardwareAlarmRepository,
 	) {}
 
 
-	async addHardwareAlarm(mainboardId: string, alarm: FieldAlarm): Promise<void> {
-		// get the module def end add FieldAlarm to it
-		const module = await this.moduleRepository.findOne({
-			where: { id: alarm.moduleId},
-			include: [ 'moduleDef' ]
-		});
-		if (!module) {
-			throw new HttpErrors[404]('');
-		}
+	getModuleHardwareAlarms(moduleId: string): Promise<FieldAlarm[]> {
+		return this.alarmRepository.findOne({
+			where: { moduleId }
+		}).then((element) => {
+			return element?.alarms || [];
+		})
+	}
 
-		if(module.moduleDef?.properties[alarm.property]) {
-			module.moduleDef.properties[alarm.property].alarm = alarm;
-		}
-		await this.mqttService.sendWithResponse(
+	async addHardwareAlarm(mainboardId: string, alarm: FieldAlarm): Promise<void> {
+		return this.handleModificationAlarm(
 			mainboardId,
-			getTopic(mainboardId, `/board/aAl`),
-			FieldAlarm.encode(alarm).finish(),
-			{ waitingTime: 3000, responseCode: ActionCode.ADD_ALARM}
-		).toPromise()
-		return this.moduleDefRepository.update(module.moduleDef as GrowbeModuleDef);
+			alarm,
+			(moduleAlarm) => {
+				if (moduleAlarm.alarms.findIndex(x => x.property === alarm.property) !== -1){
+					throw new HttpErrors[409]('already an alarm for this property');
+				}
+				if (!moduleAlarm.alarms) { moduleAlarm.alarms = []; }
+
+				moduleAlarm.alarms.push(alarm);
+			}
+		);
+	}
+
+	async updateHardwareAlarm(mainboardId: string, alarm: FieldAlarm): Promise<void> {
+		return this.handleModificationAlarm(
+			mainboardId,
+			alarm,
+			(moduleAlarm) => {
+				const index = moduleAlarm.alarms.findIndex(x => x.property === alarm.property);
+
+				if (index === -1) {
+					throw new HttpErrors[404]('');
+				}
+
+				moduleAlarm.alarms[index] = alarm;
+			}
+		);
 	}
 
 	async removeHardwareAlarm(mainboardId: string, alarm: FieldAlarm): Promise<void>  {
-		// get the module def end add FieldAlarm to it
-		const module = await this.moduleRepository.findOne({
-			where: { id: alarm.moduleId},
-			include: [ 'moduleDef' ]
-		});
-		if (!module) {
+		return this.handleModificationAlarm(
+			mainboardId,
+			alarm,
+			(moduleAlarm) => {
+					const index = moduleAlarm.alarms.findIndex(x => x.property === alarm.property);
+
+					if (index === -1) {
+						throw new HttpErrors[404]('');
+					}
+
+					moduleAlarm.alarms.splice(index, 1);
+			}
+		);
+	}
+
+	private async handleModificationAlarm(
+		mainboardId: string,
+		alarm: FieldAlarm,
+		cb: (moduleAlarm: GrowbeHardwareAlarm) => void
+	) {
+		const moduleAlarm = await this.alarmRepository.findOne({where: { moduleId: alarm.moduleId }})
+
+		if (!moduleAlarm) {
 			throw new HttpErrors[404]('');
 		}
 
-		if(module.moduleDef?.properties[alarm.property]) {
-			module.moduleDef.properties[alarm.property].alarm = undefined;
-		}
+		cb(moduleAlarm);
+
 		return this.mqttService.sendWithResponse(
 			mainboardId,
 			getTopic(mainboardId, `/board/rAl`),
 			FieldAlarm.encode(alarm).finish(),
 			{ waitingTime: 3000, responseCode: ActionCode.REMOVE_ALARM}
 		).toPromise()
-		.then((response) => this.moduleDefRepository.update(module.moduleDef as GrowbeModuleDef));
+		.then(() => this.alarmRepository.update(moduleAlarm))
+		.catch(ex => {
+			throw ex;
+		})
+
 	}
 
 	/**
-	 * handle a alarm receive by the broker 
-	 * @param growbeMainboardId 
-	 * @param alarmEvent 
-	 * @returns 
+	 * handle a alarm receive by the broker
+	 * @param growbeMainboardId
+	 * @param alarmEvent
+	 * @returns
 	 */
 	async onHardwareAlarm(growbeMainboardId: string, alarmEvent: FieldAlarmEvent) {
 		return this.growbeLogsService.addLog({

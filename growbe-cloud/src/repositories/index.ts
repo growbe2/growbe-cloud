@@ -10,3 +10,4 @@ export * from './growbe-logs.repository';
 export * from './user-preference.repository';
 export * from './growbe-mainboard-version.repository';
 export * from './virtual-relay.repository';
+export * from './growbe-hardware-alarm.repository';
