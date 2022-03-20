@@ -21,7 +21,7 @@
     "prettier:fix": "npm run prettier:cli -- --write",
     "eslint": "lb-eslint --report-unused-disable-directives .",
     "eslint:fix": "npm run eslint -- --fix",
-    "test": "lb-mocha \"dist/__tests__\"",
+    "test": "lb-mocha --allow-console-logs \"dist/__tests__\"",
     "test:dev": "npm run build && lb-mocha --allow-console-logs dist/__tests__/**/*.js",
     "premigrate": "npm run build",
     "migrate": "node ./dist/migrate",

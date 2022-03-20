@@ -6,7 +6,29 @@ on:
       - develop
 
 jobs:
-  proxy:
+  buildnrelease:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        program: [portal, cloud]
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+      - name: Login docker
+        run: docker login https://docker.pkg.github.com -u berlingoqc -p $GITHUB_ACCESS_TOKEN
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+      - name: Updating version
+        run: echo "VERSION=$(npm run getversion:develop --silent)" >> $GITHUB_ENV
+      - name: Build
+        run: cd growbe-${{matrix.program}} && npm --no-git-tag-version version ${VERSION} && npm run docker:build
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+      - name: Publish
+        run: cd growbe-${{matrix.program}} && npm run docker:push
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -16,33 +38,32 @@ jobs:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - uses: actions/setup-node@v1
         with:
-            node-version: '10.x'
-            registry-url: 'https://npm.pkg.github.com'
-            scope: '@growbe2'
+          node-version: '14.x'
+      - name: Updating version
+        run: echo "VERSION=$(npm run getversion:develop --silent)" >> $GITHUB_ENV
+      - name: Setting npmrc
+        run: echo "${{ secrets.NPMRC }}" > $HOME/.npmrc
+      - name: Install pgsql client
+        run: sudo apt-get install postgresql
+      - name: Running test 
+        run: ./scripts/integration.sh test
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [buildnrelease, test]
+    steps:
+      - uses: actions/checkout@v1
       - name: Installing helm3
         run: curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh
       - name: Setting kubeconfig
         run: mkdir -p $HOME/.kube && echo "${{ secrets.KUBECONF }}" > $HOME/.kube/config
       - name: Updating version
         run: echo "VERSION=$(npm run getversion:develop --silent)" >> $GITHUB_ENV
-      - name: Portal docker-build
-        run: cd growbe-portal && npm --no-git-tag-version version ${VERSION} && npm run docker:build
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-      - name: Cloud docker-build
-        run: cd growbe-cloud && npm --no-git-tag-version version ${VERSION} && npm run docker:build
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-      - name: Publish Cloud
-        run: cd growbe-cloud && npm run docker:push
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
-      - name: Publish Portal
-        run: cd growbe-portal && npm run docker:push
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Deploy to dev
         run: KUBECONFIG=$HOME/.kube/config helm upgrade growbe-cloud helm --install --wait --atomic --namespace=growbe-dev --set=cloud.version=${VERSION} --values=./helm/values/dev.yaml
+  notify:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
       - name: Notify
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}

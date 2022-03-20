@@ -126,8 +126,8 @@ export const getVoterMainboardUserOrOrganisation =
     }
 
     let decision: AuthorizationDecision;
-
-    if (user.roles.findIndex(r => r.role === 'ADMIN') >= -1) {
+    
+    if (user.roles.findIndex(r => r.role === 'ADMIN') > -1) {
           decision = AuthorizationDecision.ALLOW;
     } else if (userId && userId === user.id) {
       decision = AuthorizationDecision.ALLOW;
