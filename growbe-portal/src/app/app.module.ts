@@ -67,7 +67,7 @@ import { UserPreferenceService } from './service/user-preference.service';
 import { GrowbeDashboardRegistry } from './growbe/growbe-dashboard/items';
 import { GrowbeMainboardAPI } from './growbe/api/growbe-mainboard';
 import { Subscription, timer } from 'rxjs';
-import { GrowbeMainboard } from 'growbe-cloud-api/lib';
+import { GrowbeMainboard } from '@growbe2/ngx-cloud-api';
 import { GrowbeEventService } from './growbe/services/growbe-event.service';
 import { MarkdownModule } from 'ngx-markdown';
 

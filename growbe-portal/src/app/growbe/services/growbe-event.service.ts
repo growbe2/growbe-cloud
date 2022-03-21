@@ -7,7 +7,7 @@ import { filter, map, startWith, switchMap } from 'rxjs/operators';
 
 import { exec } from 'mqtt-pattern';
 import { GrowbeMainboardAPI } from '../api/growbe-mainboard';
-import { GrowbeMainboard, GrowbeModule } from 'growbe-cloud-api/lib';
+import { GrowbeMainboard, GrowbeModule } from '@growbe2/ngx-cloud-api';
 import { GrowbeModuleAPI } from '../api/growbe-module';
 import { GrowbeGraphService } from '../module/graph/service/growbe-graph.service';
 

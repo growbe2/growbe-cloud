@@ -25,10 +25,25 @@ import {
 
 const defaultDashboards: Dashboard[] = [
   {
-    id: 'deafult_home',
+    id: 'default_dashboard',
     layout: 'full',
     name: 'Default',
-    panels: [],
+    panels: [
+      {
+        name: 'Welcome',
+        items: [
+          {
+            name: 'Welcome to Growbe Cloud',
+            copy: false,
+            component: 'growbe-welcome',
+            inputs: {},
+            outputs: {}
+          }
+        ]
+      }
+    ],
+    disablePanelBar: true,
+    static: true,
   }
 ];
 
@@ -114,10 +129,10 @@ export class GrowbeDashboardAPI
         }) as Observable<Dashboard[]>).pipe(map((items) => [...items, ...defaultDashboards]), tap(console.log));
     }
 
-    getDashboard(name: string) {
+    getDashboard(id: string) {
       return this.getDashboards().pipe(
         map((items) => {
-          const index = items.findIndex((i) => i.name === name);
+          const index = items.findIndex((i) => i.id === id);
           return items[index] || null;
         })
       );

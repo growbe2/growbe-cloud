@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { GrowbeModule, GrowbeSensorValue } from 'growbe-cloud-api/lib';
+import { GrowbeModule, GrowbeSensorValue } from '@growbe2/ngx-cloud-api';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { map, startWith, switchMap, tap } from 'rxjs/operators';
 import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { OnDestroyMixin } from '@berlingoqc/ngx-common';
-import { GrowbeModule } from 'growbe-cloud-api/lib';
+import { GrowbeModule } from '@growbe2/ngx-cloud-api';
 
 @Component({
   selector: 'app-module-status-dot',

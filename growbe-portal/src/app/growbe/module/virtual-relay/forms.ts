@@ -1,7 +1,7 @@
 import { MatDialogClose, MatDialogConfig } from "@angular/material/dialog";
 import { ArrayProperty, AutoFormData, DictionnayProperty, FormObject, InputProperty, SelectComponent } from "@berlingoqc/ngx-autoform";
 import { CRUDDataSource } from "@berlingoqc/ngx-loopback";
-import { GrowbeModuleWithRelations, VirtualRelayWithRelations } from "growbe-cloud-api/lib";
+import { GrowbeModuleWithRelations, VirtualRelayWithRelations } from "@growbe2/ngx-cloud-api";
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 

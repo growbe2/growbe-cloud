@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { GrowbeModuleDef } from "growbe-cloud-api/lib";
+import { GrowbeModuleDef } from "@growbe2/ngx-cloud-api";
 
 
 
