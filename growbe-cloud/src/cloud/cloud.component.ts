@@ -22,10 +22,11 @@ import {
   GrowbeModuleCalibrationController,
   VirtualRelayController,
   GrowbeDashboardController,
+  GrowbeHardwareAlarmController,
 } from './controllers';
 import {CRUD_CONTROLLERS} from './crud-controller';
 
-const watchers: DataSubject[] = [
+export const watchers: DataSubject[] = [
   {
     func: (id, service: GrowbeActionReponseService, action: any) => {
       return service.receiveActionResponse(id, action);
@@ -52,6 +53,8 @@ export class CloudComponent implements Component {
       app.component(GrowbeStreamComponent);
       app.repository(GrowbeStreamRepository);
     }
+
+    app.bind(GrowbeMainboardBindings.WATCHERS).to(watchers);
   }
 
   controllers = [
@@ -65,8 +68,9 @@ export class CloudComponent implements Component {
     GrowbeModuleCalibrationController,
     VirtualRelayController,
     GrowbeDashboardController,
+    GrowbeHardwareAlarmController,
   ];
   bindings = [
-    Binding.bind(GrowbeMainboardBindings.WATCHERS).to(watchers)
+    // Binding.bind(GrowbeMainboardBindings.WATCHERS).to(watchers)
   ];
 }

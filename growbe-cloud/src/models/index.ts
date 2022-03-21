@@ -11,3 +11,4 @@ export * from './growbe-logs.model';
 export * from './user-preference.model';
 export * from './growbe-mainboard-version.model';
 export * from './virtual-relay.model';
+export * from './growbe-hardware-alarm.model';

@@ -30,6 +30,7 @@ export class MqttListnener {
 
 
     addWatcher(subject: DataSubject): Subscription {
+        MqttListnener.DEBUG('starting watcher ' + subject.regexTopic);
         return this.mqttService.observable
           .pipe(
             filter(
