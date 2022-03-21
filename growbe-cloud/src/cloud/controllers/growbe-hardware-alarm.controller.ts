@@ -1,7 +1,7 @@
 
 import {FieldAlarm} from '@growbe2/growbe-pb';
 import {service} from '@loopback/core';
-import {get, param, patch, post, requestBody} from '@loopback/openapi-v3';
+import {get, del, param, patch, post, requestBody} from '@loopback/openapi-v3';
 import {GrowbeHardwareAlarmService} from '../../services';
 import {authorizeGrowbe, getMainboardByModule} from '../authorization';
 
@@ -34,7 +34,7 @@ export class GrowbeHardwareAlarmController {
     return this.growbeHardwareAlarmService.addHardwareAlarm(mainboardId, alarm)
   }
 
-  @patch('/growbes/{mainboardId}/modules/{id}/alarm/hardware')
+  @patch('/growbes/{mainboardId}/modules/{id}/alarm/hardware/{property}')
   @authorizeGrowbe({
     growbeIdIndex: 0,
     getFunc: getMainboardByModule,
@@ -46,7 +46,7 @@ export class GrowbeHardwareAlarmController {
     return this.growbeHardwareAlarmService.updateHardwareAlarm(mainboardId, alarm)
   }
 
-  @post('/growbes/{mainboardId}/modules/{id}/alarm/hardware/rm')
+  @del('/growbes/{mainboardId}/modules/{id}/alarm/hardware/{property}')
   @authorizeGrowbe({
     growbeIdIndex: 0,
     getFunc: getMainboardByModule,
