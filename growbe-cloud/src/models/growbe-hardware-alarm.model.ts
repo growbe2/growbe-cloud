@@ -7,8 +7,10 @@ export class GrowbeHardwareAlarm extends Entity {
   @property({id: true, generated: true})
   id: number;
 
-  @property.array(FieldAlarm)
-  alarms: FieldAlarm[];
+  @property({
+    type: 'any'
+  })
+  alarms: { [id: string]: FieldAlarm };
 
   @belongsTo(() => GrowbeModule)
   moduleId: string;

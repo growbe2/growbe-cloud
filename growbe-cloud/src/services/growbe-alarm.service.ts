@@ -28,7 +28,7 @@ export class GrowbeHardwareAlarmService {
 		return this.alarmRepository.findOne({
 			where: { moduleId }
 		}).then((element) => {
-			return element?.alarms || [];
+			return Object.values(element?.alarms || {});
 		})
 	}
 
@@ -36,13 +36,15 @@ export class GrowbeHardwareAlarmService {
 		return this.handleModificationAlarm(
 			mainboardId,
 			alarm,
+			`/board/aAl`,
+			ActionCode.ADD_ALARM,
 			(moduleAlarm) => {
-				if (moduleAlarm.alarms.findIndex(x => x.property === alarm.property) !== -1){
+				if (moduleAlarm.alarms[alarm.property]){
 					throw new HttpErrors[409]('already an alarm for this property');
 				}
-				if (!moduleAlarm.alarms) { moduleAlarm.alarms = []; }
+				if (!moduleAlarm.alarms) { moduleAlarm.alarms = {}; }
 
-				moduleAlarm.alarms.push(alarm);
+				moduleAlarm.alarms[alarm.property] = alarm;
 			}
 		);
 	}
@@ -51,14 +53,15 @@ export class GrowbeHardwareAlarmService {
 		return this.handleModificationAlarm(
 			mainboardId,
 			alarm,
+			`/board/uAl`,
+			ActionCode.SYNC_REQUEST,
 			(moduleAlarm) => {
-				const index = moduleAlarm.alarms.findIndex(x => x.property === alarm.property);
 
-				if (index === -1) {
+				if (!moduleAlarm.alarms[alarm.property]) {
 					throw new HttpErrors[404]('');
 				}
 
-				moduleAlarm.alarms[index] = alarm;
+				moduleAlarm.alarms[alarm.property] = alarm;
 			}
 		);
 	}
@@ -67,14 +70,15 @@ export class GrowbeHardwareAlarmService {
 		return this.handleModificationAlarm(
 			mainboardId,
 			alarm,
+			`/board/rAl`,
+			ActionCode.REMOVE_ALARM,
 			(moduleAlarm) => {
-					const index = moduleAlarm.alarms.findIndex(x => x.property === alarm.property);
 
-					if (index === -1) {
+					if (!moduleAlarm.alarms[alarm.property]) {
 						throw new HttpErrors[404]('');
 					}
 
-					moduleAlarm.alarms.splice(index, 1);
+					delete moduleAlarm.alarms[alarm.property];
 			}
 		);
 	}
@@ -82,23 +86,25 @@ export class GrowbeHardwareAlarmService {
 	private async handleModificationAlarm(
 		mainboardId: string,
 		alarm: FieldAlarm,
+		topic: string,
+		responseCode: any,
 		cb: (moduleAlarm: GrowbeHardwareAlarm) => void
 	) {
-		const moduleAlarm = await this.alarmRepository.findOne({where: { moduleId: alarm.moduleId }})
+		let moduleAlarm = await this.alarmRepository.findOne({where: { moduleId: alarm.moduleId }})
 
 		if (!moduleAlarm) {
-			throw new HttpErrors[404]('');
+			moduleAlarm = await this.alarmRepository.create({moduleId: alarm.moduleId, alarms: {}})
 		}
 
 		cb(moduleAlarm);
 
 		return this.mqttService.sendWithResponse(
 			mainboardId,
-			getTopic(mainboardId, `/board/rAl`),
+			getTopic(mainboardId, topic),
 			FieldAlarm.encode(alarm).finish(),
-			{ waitingTime: 3000, responseCode: ActionCode.REMOVE_ALARM}
+			{ waitingTime: 3000, responseCode}
 		).toPromise()
-		.then(() => this.alarmRepository.update(moduleAlarm))
+		.then(() => this.alarmRepository.update(moduleAlarm as GrowbeHardwareAlarm))
 		.catch(ex => {
 			throw ex;
 		})

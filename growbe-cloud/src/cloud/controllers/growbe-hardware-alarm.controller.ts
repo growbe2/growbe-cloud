@@ -5,7 +5,7 @@ import {get, param, patch, post, requestBody} from '@loopback/openapi-v3';
 import {GrowbeHardwareAlarmService} from '../../services';
 import {authorizeGrowbe, getMainboardByModule} from '../authorization';
 
-export class GrowbeModuleDefController {
+export class GrowbeHardwareAlarmController {
   constructor(
     @service(GrowbeHardwareAlarmService)
     private growbeHardwareAlarmService: GrowbeHardwareAlarmService,

@@ -14,7 +14,6 @@ import { MqttListnener } from '../services/mqtt-listener.service';
 import { DataSubject } from './data-subject.model';
 
 
-
 @lifeCycleObserver('')
 export class GrowbeDataSubjectObserver implements LifeCycleObserver {
   client: mqtt.Client;
@@ -22,8 +21,8 @@ export class GrowbeDataSubjectObserver implements LifeCycleObserver {
   subs: Subscription[] = [];
 
   constructor(
+    @inject(GrowbeMainboardBindings.WATCHERS) public watchers: DataSubject[],
     @inject(CoreBindings.APPLICATION_INSTANCE) private app: Application,
-    @inject(GrowbeMainboardBindings.WATCHERS) private watchers: DataSubject[],
     @service(MqttListnener) private mqttListener: MqttListnener,
   ) {}
 
