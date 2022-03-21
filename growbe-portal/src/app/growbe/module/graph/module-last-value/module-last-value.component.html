@@ -9,8 +9,8 @@
           <template-content *ngIf="valueObject" [context]="valueObject" [content]="display"></template-content>
         </span>
       </div>
-      <div class="flex align-center justify-center">
-        <ng-container *ngIf="lastValue">
+      <div class="flex align-center justify-center diff">
+        <ng-container *ngIf="lastValue && (value[graphDataConfig.fields[i]] !== -1)">
           <span>
             <mat-icon *ngIf="lastValue[graphDataConfig.fields[i]] > value[graphDataConfig.fields[i]]" class="green-fg mr-4">trending_up</mat-icon>
             <mat-icon *ngIf="lastValue[graphDataConfig.fields[i]] < value[graphDataConfig.fields[i]]" class="red-fg mr-4">trending_down</mat-icon>
