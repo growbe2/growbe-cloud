@@ -153,14 +153,14 @@ export class GrowbeGraphService {
                 },
             },
             ...(extra || []),
-            {
+            /*{
                 name: 't',
                 type: 'object',
                 templates: {
                     header: 'Properties for the graphs',
                 },
                 properties: [],
-            } as FormObject,
+            } as FormObject,*/
             this.getPropertySelectForm(moduleId$, 'fields', nbrProperty),
             {
                 name: 'grouping',
@@ -197,6 +197,21 @@ export class GrowbeGraphService {
                             },
                         } as SelectComponent,
                     },
+                    {
+                        name: 'baseGroup',
+                        type: 'array',
+                        decorators: {
+                            style: {
+                                'display': 'none'
+                            }
+                        },
+                        elementType: {
+                            name: '',
+                            type: 'string'
+                        },
+                        value: ['dayOfYear']
+
+                    } as ArrayProperty
                 ],
             } as FormObject,
         ];

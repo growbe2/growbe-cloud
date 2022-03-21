@@ -18,6 +18,13 @@ import { DecimalPipe } from '@angular/common';
 import { transformModuleValue } from '../../module.def';
 import { map } from 'rxjs/operators';
 
+/*
+
+Fixer probleme si on fetch pas le valuetype pour le soil
+Fixe value qui marque la diff si il a pas de value
+Fixe probleme with empty value (maybe should be more fixe in the library not tolerating empty item in the array)
+ */
+
 @Component({
     selector: 'app-module-last-value',
     templateUrl: './module-last-value.component.html',
