@@ -132,7 +132,7 @@ export class GrowbeDashboardAPI
     getDashboard(id: string) {
       return this.getDashboards().pipe(
         map((items) => {
-          const index = items.findIndex((i) => i.id === id);
+          const index = items.findIndex((i) => i.id === id || i.name === id); // TODO fixe condition by uniforming
           return items[index] || null;
         })
       );
