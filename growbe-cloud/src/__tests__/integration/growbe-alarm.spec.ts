@@ -13,7 +13,7 @@ import { setupApplication } from "../fixtures/app";
 import { boardId, moduleId } from "../fixtures/data";
 import { getMainboardMQTT, MainboardMQTTester } from "../helpers/mainboard-mqtt";
 
-describe.only('Growbe Hardware alarm', () => {
+describe('Growbe Hardware alarm', () => {
   let app: GrowbeCloudApplication;
 
   before('setupApplication', async function () {
