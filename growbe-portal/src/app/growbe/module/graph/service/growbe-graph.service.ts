@@ -122,7 +122,7 @@ export class GrowbeGraphService {
         } as ArrayProperty;
     }
 
-    getGraphTimeFrameSelectForm(moduleId$: Observable<string>, nbrProperty?: number, optionalLastX?: boolean, extra?: IProperty[]): IProperty[] {
+    getGraphTimeFrameSelectForm(moduleId$: Observable<string>, nbrProperty?: number, optionalLastX?: boolean, extra?: IProperty[], grouping?: boolean): IProperty[] {
         return [
             {
                 name: 'lastX',
@@ -153,16 +153,8 @@ export class GrowbeGraphService {
                 },
             },
             ...(extra || []),
-            /*{
-                name: 't',
-                type: 'object',
-                templates: {
-                    header: 'Properties for the graphs',
-                },
-                properties: [],
-            } as FormObject,*/
             this.getPropertySelectForm(moduleId$, 'fields', nbrProperty),
-            {
+            ...( grouping ? [{
                 name: 'grouping',
                 type: 'object',
                 templates: {
@@ -209,11 +201,9 @@ export class GrowbeGraphService {
                             name: '',
                             type: 'string'
                         },
-                        value: ['dayOfYear']
-
                     } as ArrayProperty
                 ],
-            } as FormObject,
+            } as FormObject]: []),
         ];
     }
 }

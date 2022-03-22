@@ -255,6 +255,10 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
 
         const formTimeFrame = this.graphService.getGraphTimeFrameSelectForm(
             subjectModule.asObservable(),
+            undefined,
+            undefined,
+            undefined,
+            true,
         );
         return {
             data: {
@@ -366,7 +370,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 properties:  [
                   formMM['growbeId'],
                   formMM['moduleId'],
-                  ...this.graphService.getGraphTimeFrameSelectForm(subjectModule, undefined, true),
+                  ...this.graphService.getGraphTimeFrameSelectForm(subjectModule, undefined, true, undefined, false),
                 ]
             } as FormObject,
         };

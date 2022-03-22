@@ -78,9 +78,7 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
 
 
         const sendingGraphdata = {...this.graphDataConfig};
-        if (this.moduleType === 'AAS') {
-            sendingGraphdata.fields.push('valuetype')
-        }
+        sendingGraphdata.fields.push('valuetype')
         this.graphService
             .getGraph(this.graphDataConfig.growbeId, 'one', sendingGraphdata)
             .subscribe(async (data: any) => {

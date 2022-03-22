@@ -35,16 +35,29 @@ export const moduleDefPropertyDisplayer = {
             }
             return value;
           }
+        },
+        getDiffContent: (property) => {
+          return (d) => {
+            console.log('D', d, property);
+            if (d.current) { return ''; }
+            const value = d.current[property];
+            if (d.current.valuetype === 'calibrate') {
+              if (!value || value === -1) {
+                return '';
+              }
+              return `${value}%`
+            }
+          }
         }
     }
 };
 
-export const transformModuleValue = (moduleType: string, property) => {
+export const transformModuleValue = (moduleType: string, property, funct = 'getContent', content_cb = (e) => e.values[property]) => {
     const item = moduleDefPropertyDisplayer[moduleType];
-    if (item && item.getContent) {
-        return { content: item.getContent(property) };
+    if (item && item[funct]) {
+        return { content: item[funct](property) };
     }
     return {
-        content: (e) => e.values[property],
+        content: content_cb,
     }
 };
