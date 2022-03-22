@@ -89,7 +89,45 @@ export class TerminalComponent implements OnInit {
     @Input()
     set growbeId(growbeId: string) {
         this._growbeId = growbeId;
-         if (!this.refDashboardItem) {
+    }
+    get growbeId() { return this._growbeId; }
+    _growbeId: string;
+    @Input()
+    moduleId?: string;
+    @Input()
+    disableSearch: boolean;
+    @Input()
+    where: Where;
+
+    logs: Observable<string[]>;
+    searchBarForm: AutoFormData;
+
+    item: DashboardItem;
+
+    private filter: Filter<GrowbeLogs> = {
+        offset: 0,
+        limit: 200,
+        order: ['timestamp desc'],
+    };
+
+    private sub: Subscription;
+
+    constructor(
+        @Optional()
+        @Inject(DASHBOARD_ITEM_REF)
+        private refDashboardItem: DashboardItem,
+        private eventService: GrowbeEventService,
+        private mainboardAPI: GrowbeMainboardAPI,
+        private datePipe: DatePipe,
+    ) {}
+
+    ngOnInit(): void {
+      this.onChange();
+    }
+
+
+    private onChange() {
+        if (!this.refDashboardItem) {
             this.item = {
                 name: '',
                 component: 'logs-terminal',
@@ -138,40 +176,6 @@ export class TerminalComponent implements OnInit {
         if (this.moduleId) return;
 
         (this.searchBarForm.items[0] as FormObject).properties.splice(0, 0, );
-    }
-    get growbeId() { return this._growbeId; }
-    _growbeId: string;
-    @Input()
-    moduleId?: string;
-    @Input()
-    disableSearch: boolean;
-    @Input()
-    where: Where;
-
-    logs: Observable<string[]>;
-    searchBarForm: AutoFormData;
-
-    item: DashboardItem;
-
-    private filter: Filter<GrowbeLogs> = {
-        offset: 0,
-        limit: 200,
-        order: ['timestamp desc'],
-    };
-
-    private sub: Subscription;
-
-    constructor(
-        @Optional()
-        @Inject(DASHBOARD_ITEM_REF)
-        private refDashboardItem: DashboardItem,
-        private eventService: GrowbeEventService,
-        private mainboardAPI: GrowbeMainboardAPI,
-        private datePipe: DatePipe,
-    ) {}
-
-    ngOnInit(): void {
-       
     }
 
     private refreshLogs() {

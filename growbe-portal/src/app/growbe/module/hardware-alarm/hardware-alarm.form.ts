@@ -1,6 +1,7 @@
 import { AutoFormData, FormObject, SelectComponent } from "@berlingoqc/ngx-autoform";
 import { GrowbeModule, GrowbeModuleWithRelations } from "@growbe2/ngx-cloud-api";
 import { of } from "rxjs";
+import { HardwareAlarmRelation } from "../../api/growbe-mainboard";
 import { GrowbeModuleDefAPI } from "../../api/growbe-module-def";
 
 
@@ -23,18 +24,20 @@ export const alarmField = (name) => ({
 export const getHardwareAlarmForm = (
   module: GrowbeModuleWithRelations,
   existingAlarmProperties: string[],
-  moduleDefService: GrowbeModuleDefAPI,
+  api: HardwareAlarmRelation,
+  value?: any,
 ) => {
+  console.log('MOD', module);
   return {
     type: 'dialog',
     typeData: {
       minWidth: '50%'
     },
     event: {
-      initialData: () => of(({object: { moduleId: module.id}})),
+      initialData: () => of(({object: (value ? value : { moduleId: module.id}) })),
       submit: (value: any) => {
         const alarm = Object.assign(value.object, {moduleId: module.id});
-        return moduleDefService.addAlarm(module.mainboardId, alarm);
+        return api.post(alarm);
       },
     },
     items: [

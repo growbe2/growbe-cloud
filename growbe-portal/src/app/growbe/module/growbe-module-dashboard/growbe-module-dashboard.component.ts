@@ -342,7 +342,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                 "grouping" : {
                                     "intervalValue" : 1,
                                     "intervalUnit" : "minute",
-                                    "baseGroup" : [ 
+                                    "baseGroup" : [
                                         "dayOfYear"
                                     ]
                                 }
@@ -391,7 +391,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                     moduleId: this.module.id,
                     disableSearch: true,
                     where: {
-                        growbwModuleId: this.module.id,
+                        growbeModuleId: this.module.id,
                         type: 'alarm',
                     },
                 },
@@ -412,7 +412,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                     moduleId: this.module.id,
                     disableSearch: true,
                     where: {
-                        growbwModuleId: this.module.id,
+                        growbeModuleId: this.module.id,
                         type: 'module'
                     },
                 },

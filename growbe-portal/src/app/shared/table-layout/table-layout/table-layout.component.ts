@@ -18,6 +18,7 @@ export class TableLayoutComponent implements OnInit {
     @Input() source: CRUDDataSource<any>;
 
     @Input() formData: AutoFormData;
+    @Input() disablePaginator: boolean;
 
     @Input() removeElement: (element: any) => Observable<any>;
 
