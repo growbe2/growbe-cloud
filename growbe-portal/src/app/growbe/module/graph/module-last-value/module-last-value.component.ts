@@ -71,6 +71,12 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
           map((item) => item.connected)
         );
 
+        // TODO : better fixe for this monstrosity
+        const index = this.graphDataConfig.fields.indexOf('valuetype');
+        if (index > 0) {
+          this.graphDataConfig.fields.splice(index, 1);
+        }
+
         this.contentDisplays = this.graphDataConfig.fields.map((field) => transformModuleValue(
           this.moduleType,
           field

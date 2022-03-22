@@ -16,20 +16,20 @@ export const moduleDefPropertyDisplayer = {
     AAA: {
         getContent: (property) => ((d) => {
             const suffix = (property === 'humidity') ? '%' : '°C';
-            return d?.values ? d.values[property].toFixed(2) + '' + suffix : '';
+            return d?.values?.[property] ? d.values?.[property]?.toFixed(2) + '' + suffix : '';
         })
     },
     AAS: {
         getContent: (property) => {
           return (d) => {
             if (!d?.values) { return ''; }
-            const value = d.values[property];
+            const value = d.values?.[property];
             if (d.values.valuetype === 'calibrate') {
               if (value === -1) {
                 return 'n/a';
               }
               if (!value) {
-                return 'error';
+                return '';
               }
               return `${value}%`;
             }
@@ -38,9 +38,8 @@ export const moduleDefPropertyDisplayer = {
         },
         getDiffContent: (property) => {
           return (d) => {
-            console.log('D', d, property);
             if (d.current) { return ''; }
-            const value = d.current[property];
+            const value = d.current?.[property];
             if (d.current.valuetype === 'calibrate') {
               if (!value || value === -1) {
                 return '';
