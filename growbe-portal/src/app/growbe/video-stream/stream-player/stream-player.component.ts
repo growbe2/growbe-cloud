@@ -7,31 +7,45 @@ import {
     OnInit,
     ViewChild,
 } from '@angular/core';
-import { envConfig } from '@berlingoqc/ngx-common';
+import { envConfig, OnDestroyMixin, untilComponentDestroyed } from '@berlingoqc/ngx-common';
 
 import flvjs from 'flv.js';
+import { filter, map } from 'rxjs/operators';
+import { GrowbeStreamAPI } from '../../api/growbe-stream';
 
 @Component({
     selector: 'app-stream-player',
     templateUrl: './stream-player.component.html',
     styleUrls: ['./stream-player.component.scss'],
 })
-export class StreamPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
+export class StreamPlayerComponent extends OnDestroyMixin(Object) implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('element') element: ElementRef<HTMLMediaElement>;
     player: flvjs.Player;
 
     private mStream: any;
-    @Input() set stream(stream: any) {
-        if (!stream) {
-            return;
-        }
-        this.mStream = stream;
-        this.startPlayer();
+
+    @Input() mainboardId: string;
+    @Input() streamId: string;
+
+    @Input() mute: boolean;
+
+    constructor(
+        public growbeStreamAPI: GrowbeStreamAPI,
+    ) {
+      super();
     }
 
-    constructor() {}
-
-    ngOnInit(): void {}
+    ngOnInit(): void {
+      this.growbeStreamAPI.getLiveStreams(this.mainboardId).pipe(
+        untilComponentDestroyed(this),
+        map((item) => item.find(x => x.id === this.streamId)),
+      ).subscribe((data) => {
+        if (data) {
+          this.mStream = data;
+          this.startPlayer();
+        }
+      })
+    }
 
     ngAfterViewInit() {
       if (this.mStream) {

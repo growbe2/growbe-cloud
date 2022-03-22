@@ -26,7 +26,9 @@ export class VideoStreamPageComponent implements OnInit {
 
       },
       inputs: {
-        stream,
+        mainboardId: this.growbeId,
+        streamId: stream.id,
+        mute: false,
       },
       extraMenus: {
         'close': {

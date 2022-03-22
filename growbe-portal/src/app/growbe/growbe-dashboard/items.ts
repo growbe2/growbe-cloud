@@ -146,7 +146,20 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 name: '',
                 component: 'video-stream',
                 componentType: StreamPlayerComponent,
-                inputs: {}
+                inputs: {
+                  ...this.getDashboardAndModuleProperty(false, 'mainboardId', false)[0],
+                  'streamId': {
+                    type: 'string',
+                    name: 'streamId'
+                  },
+                  'mute': {
+                    type: 'bool',
+                    name: 'mute',
+                    component: {
+                      name: 'checkbox',
+                    }
+                  }
+                }
             },
             {
                 name: '',
