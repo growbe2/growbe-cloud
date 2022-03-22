@@ -70,6 +70,7 @@ import { Subscription, timer } from 'rxjs';
 import { GrowbeMainboard } from '@growbe2/ngx-cloud-api';
 import { GrowbeEventService } from './growbe/services/growbe-event.service';
 import { MarkdownModule } from 'ngx-markdown';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @Injectable({
     providedIn: 'root',
@@ -102,6 +103,8 @@ export class NavigationWrapper {
         AuthModule.forRoot(),
         NotificationModule.forRoot({} as any),
         MarkdownModule.forRoot(),
+
+        NgxChartsModule,
 
         DynamicModuleModule,
 
