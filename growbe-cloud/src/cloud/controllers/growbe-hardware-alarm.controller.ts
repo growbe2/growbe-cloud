@@ -53,9 +53,13 @@ export class GrowbeHardwareAlarmController {
   })
   removeHardwareAlarm(
     @param.path.string('mainboardId') mainboardId: string,
-    @requestBody() alarm: FieldAlarm
+    @param.path.string('id') moduleId: string,
+    @param.path.string('property') property: string,
   ) {
-    return this.growbeHardwareAlarmService.removeHardwareAlarm(mainboardId, alarm)
+    return this.growbeHardwareAlarmService.removeHardwareAlarm(mainboardId, {
+      moduleId,
+      property
+    } as FieldAlarm)
   }
 
 }
