@@ -118,6 +118,12 @@ export class GrowbeHardwareAlarmService {
 	 * @returns
 	 */
 	async onHardwareAlarm(growbeMainboardId: string, alarmEvent: FieldAlarmEvent) {
+		const alarm = await this.alarmRepository.findOne({ where: { moduleId: alarmEvent.moduleId }});
+		if (!alarm.state) {
+			alarm.state = {};
+		}
+		alarm.state[alarmEvent.property] = alarmEvent;
+		await this.alarmRepository.update(alarm);
 		return this.growbeLogsService.addLog({
 			growbeMainboardId,
 			group: GroupEnum.MODULES,
