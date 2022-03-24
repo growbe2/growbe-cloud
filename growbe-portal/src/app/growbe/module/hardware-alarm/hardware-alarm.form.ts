@@ -27,7 +27,6 @@ export const getHardwareAlarmForm = (
   api: HardwareAlarmRelation,
   value?: any,
 ) => {
-  console.log('MOD', module);
   return {
     type: 'dialog',
     typeData: {
@@ -48,11 +47,6 @@ export const getHardwareAlarmForm = (
           {
             name: 'moduleId',
             type: 'string',
-            decorators: {
-              style: {
-                'width': '300px'
-              }
-            },
             displayName: 'Module ID',
             disabled: true,
           },
