@@ -4,7 +4,7 @@ import { AutoFormData, AutoFormDialogService } from '@berlingoqc/ngx-autoform';
 import { TableColumn } from '@berlingoqc/ngx-autotable';
 import { ActionConfirmationDialogComponent, ButtonsRowComponent } from '@berlingoqc/ngx-common';
 import { CRUDDataSource, Where } from '@berlingoqc/ngx-loopback';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 
 @Component({
@@ -21,6 +21,8 @@ export class TableLayoutComponent implements OnInit {
     @Input() disablePaginator: boolean;
 
     @Input() removeElement: (element: any) => Observable<any>;
+
+    @Input() formEdit: AutoFormData;;
 
     constructor(
       public autoForm: AutoFormDialogService,
@@ -39,6 +41,17 @@ export class TableLayoutComponent implements OnInit {
                     extra: {
                         inputs: {
                             buttons: [
+                                ...(this.formEdit ? [{
+                                    title: {
+                                      type: 'icon',
+                                      content: 'edit',
+                                    },
+                                    style: 'mat-mini-fab',
+                                    click: (router: any, context: any) => {
+                                      this.formEdit.event.initialData = of(context);
+                                      this.autoForm.open(this.formEdit);
+                                    }
+                                }]: []),
                                 {
                                     title: {
                                         type: 'icon',

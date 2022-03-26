@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import { TableLayoutComponent } from 'src/app/shared/table-layout/table-layout/table-layout.component';
 import { GrowbeMainboardAPI, HardwareAlarmRelation } from '../../api/growbe-mainboard';
 import { GrowbeModuleAPI } from '../../api/growbe-module';
-import { GrowbeModuleDefAPI } from '../../api/growbe-module-def';
 import { getHardwareAlarmForm } from './hardware-alarm.form';
 import { hardwareAlarmColumns } from './hardware-alarm.table';
 
@@ -17,6 +16,7 @@ import { hardwareAlarmColumns } from './hardware-alarm.table';
             [removeElement]="removeElement"
             [source]="api"
             [formData]="(source$ | async)[0]"
+            [formEdit]="(source$ | async)[1]"
             [disablePaginator]="true"
         ></app-table-layout>
     `,
@@ -25,12 +25,13 @@ export class HardwareAlarmTableComponent implements OnInit {
     @Input() mainboardId: string;
     @Input() moduleId: string;
 
-    source$: Observable<[TableLayoutComponent['formData']]>;
+    source$: Observable<[TableLayoutComponent['formData'], TableLayoutComponent['formData']]>;
     columns: TableLayoutComponent['columns'];
     where: TableLayoutComponent['where'];
     removeElement: TableLayoutComponent['removeElement'];
 
     api: HardwareAlarmRelation;
+
 
     constructor(
         private mainboardAPI: GrowbeMainboardAPI,
@@ -55,6 +56,17 @@ export class HardwareAlarmTableComponent implements OnInit {
                             },
                             [],
                             this.api,
+                        ),
+                        getHardwareAlarmForm(
+                          {
+                            moduleDef,
+                            id: this.moduleId,
+                            mainboardId: this.mainboardId
+                          },
+                          [],
+                          this.api,
+                          undefined,
+                          true,
                         ),
                     ];
                 }),
