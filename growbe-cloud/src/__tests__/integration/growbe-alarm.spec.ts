@@ -203,6 +203,8 @@ describe('Growbe Hardware alarm', () => {
 	}).timeout(10000);
 
 	it('on alarm event save a log entry', async () => {
+		await alarmRepo.create({moduleId, alarms: {['airTemperature']: {}}});
+
 		const event = FieldAlarmEvent.create();
 		event.currentValue = 22;
 		event.currentZone = AlarmZone.MIDDLE;
