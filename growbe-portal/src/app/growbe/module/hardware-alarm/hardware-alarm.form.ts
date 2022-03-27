@@ -1,13 +1,16 @@
 import { AutoFormData, FormObject, SelectComponent } from "@berlingoqc/ngx-autoform";
 import { GrowbeModule, GrowbeModuleWithRelations } from "@growbe2/ngx-cloud-api";
 import { of } from "rxjs";
+import { tap } from "rxjs/operators";
 import { HardwareAlarmRelation } from "../../api/growbe-mainboard";
-import { GrowbeModuleDefAPI } from "../../api/growbe-module-def";
 
 
 export const alarmField = (name) => ({
   name,
   type: 'object',
+  templates: {
+    header: name,
+  },
   properties: [
     {
       name: 'value',
@@ -26,24 +29,25 @@ export const getHardwareAlarmForm = (
   existingAlarmProperties: string[],
   api: HardwareAlarmRelation,
   value?: any,
+  edit?: boolean,
 ) => {
   return {
     type: 'dialog',
     typeData: {
-      minWidth: '50%'
+        width: '100%',
+        height: '100%',
+        panelClass: 'auto-form-dialog',
     },
     event: {
-      initialData: () => of(({object: (value ? value : { moduleId: module.id}) })),
+      initialData: () => of(value ? value : { moduleId: module.id}),
       submit: (value: any) => {
-        const alarm = Object.assign(value.object, {moduleId: module.id});
-        return api.post(alarm);
+        const alarm = Object.assign(value, {moduleId: module.id});
+        return edit ? api.updateById(alarm.property, alarm).pipe(
+          tap(() => api.requestGet.onModif(of(null)).subscribe(() => {})),
+        ) : api.post(alarm);
       },
     },
     items: [
-      {
-        type: 'object',
-        name: 'object',
-        properties: [
           {
             name: 'moduleId',
             type: 'string',
@@ -60,7 +64,7 @@ export const getHardwareAlarmForm = (
               type: 'mat',
               options: {
                 displayTitle: 'Property',
-                displayContent: (e) => e,
+                displayContent: e => e,
                   value: () => of(Object.keys(module.moduleDef.properties).filter(
                     item => existingAlarmProperties.indexOf(item) === -1
                   ))
@@ -70,7 +74,5 @@ export const getHardwareAlarmForm = (
           alarmField('low'),
           alarmField('high'),
         ],
-      } as FormObject,
-    ],
   } as AutoFormData;
 };

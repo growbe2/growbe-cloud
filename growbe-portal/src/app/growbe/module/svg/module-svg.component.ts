@@ -53,7 +53,6 @@ export class ModuleSVGComponent extends OnDestroyMixin(Object) implements OnInit
       this.data = this.moduleAPI.moduleDef(this.moduleId).get().pipe(
         switchMap((moduleDef: any) => this.eventService.getModuleDataLive(this.mainboardId, this.moduleId, [...Object.keys(moduleDef.properties), ...(this.extraProperties || [])])),
         tap((data) => {
-          console.log('DATA', data);
           this.isOutdated = isDateOutdated(data.createdAt, 60 * 1000);
         })
       )

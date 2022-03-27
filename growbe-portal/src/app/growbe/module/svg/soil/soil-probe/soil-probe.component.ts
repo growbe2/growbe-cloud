@@ -70,7 +70,6 @@ export class SoilProbeComponent implements OnInit {
     if (!data) { return; }
     this.pValue = data[this.property];
     this.status = this.statusgetter.getValueStatus(this.pValue, data.valuetype);
-    console.log('PVALUE', this.status, this.pValue, data.valuetype);
     if (this.status === 'unknow') {
       this.pValue = undefined;
     }
