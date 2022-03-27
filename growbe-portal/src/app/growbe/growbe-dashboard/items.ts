@@ -374,6 +374,29 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                                 name: 'yScaleMin',
                                 type: 'number',
                             },
+                            {
+                                name: 'legend',
+                                type: 'bool',
+                                component: {
+                                  name: 'checkbox'
+                                }
+                            },
+                            {
+                                name: 'legendTitle',
+                                type: 'string',
+                            },
+                            {
+                                name: 'legendPosition',
+                                type: 'string',
+                                component: {
+                                  name: 'select',
+                                  transformValue: (e) => e,
+                                  options: {
+                                    displayContent: (e) => e,
+                                    value: of(['right', 'below']),
+                                  },
+                                } as SelectComponent,
+                            }
                         ],
                     } as DictionnayProperty,
                 ],
