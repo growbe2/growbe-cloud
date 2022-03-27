@@ -58,15 +58,17 @@ export const getHardwareAlarmForm = (
             name: 'property',
             type: 'string',
             displayName: 'Property',
+            disabled: edit,
             required: true,
             component: {
               name: 'select',
               type: 'mat',
+              transformValue: (v) => v[0],
               options: {
                 displayTitle: 'Property',
-                displayContent: e => e,
-                  value: () => of(Object.keys(module.moduleDef.properties).filter(
-                    item => existingAlarmProperties.indexOf(item) === -1
+                displayContent: e => e[1].displayName || e[1].name,
+                  value: () => of(Object.entries(module.moduleDef.properties).filter(
+                    item => existingAlarmProperties.indexOf(item[0]) === -1
                   ))
               }
             } as SelectComponent,

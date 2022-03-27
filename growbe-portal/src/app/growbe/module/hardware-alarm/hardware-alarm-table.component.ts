@@ -1,17 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StaticDataSource } from '@berlingoqc/ngx-loopback';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TableLayoutComponent } from 'src/app/shared/table-layout/table-layout/table-layout.component';
 import { GrowbeMainboardAPI, HardwareAlarmRelation } from '../../api/growbe-mainboard';
 import { GrowbeModuleAPI } from '../../api/growbe-module';
 import { getHardwareAlarmForm } from './hardware-alarm.form';
-import { hardwareAlarmColumns } from './hardware-alarm.table';
+import { getHardwareAlarmColumns } from './hardware-alarm.table';
 
 @Component({
     template: `
         <app-table-layout
-            [columns]="columns"
+            [columns]="(source$ | async)[2]"
             [where]="where"
             [removeElement]="removeElement"
             [source]="api"
@@ -25,8 +24,7 @@ export class HardwareAlarmTableComponent implements OnInit {
     @Input() mainboardId: string;
     @Input() moduleId: string;
 
-    source$: Observable<[TableLayoutComponent['formData'], TableLayoutComponent['formData']]>;
-    columns: TableLayoutComponent['columns'];
+    source$: Observable<[TableLayoutComponent['formData'], TableLayoutComponent['formData'], TableLayoutComponent['columns']]>;
     where: TableLayoutComponent['where'];
     removeElement: TableLayoutComponent['removeElement'];
 
@@ -39,7 +37,6 @@ export class HardwareAlarmTableComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.columns = hardwareAlarmColumns;
         this.api = this.mainboardAPI.hardwareAlarms(this.mainboardId);
         this.api.moduleId = this.moduleId;
         this.removeElement = (element) => this.api.delete(element.property);
@@ -68,6 +65,7 @@ export class HardwareAlarmTableComponent implements OnInit {
                           undefined,
                           true,
                         ),
+                        getHardwareAlarmColumns(moduleDef),
                     ];
                 }),
             );
