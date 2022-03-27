@@ -12,7 +12,6 @@ import { ProbeValueStatusGetter } from '../../soil/soil-probe/soil-probe.compone
 export class THLModuleComponent extends BaseSVGModuleComponent {
    statusGetter: ProbeValueStatusGetter = {
     getValueStatus: (v) => {
-      console.log('VALUE OK ??', v);
       return 'ok'
     }
    }
