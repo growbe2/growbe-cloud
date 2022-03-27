@@ -1,4 +1,4 @@
-import {addCRUDModelsControllerWithRelations} from '@berlingoqc/lb-extensions';
+import {addCRUDModelsControllerWithRelations, addStorageController, FileStorageService, StorageBindings, StorageComponent} from '@berlingoqc/lb-extensions';
 import {Binding, Component, CoreBindings, inject} from '@loopback/core';
 import {ApplicationWithRepositories} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
@@ -24,6 +24,7 @@ import {
   GrowbeDashboardController,
   GrowbeHardwareAlarmController,
 } from './controllers';
+import {authenticate} from '@loopback/authentication';
 import {CRUD_CONTROLLERS} from './crud-controller';
 
 export const watchers: DataSubject[] = [
@@ -55,6 +56,17 @@ export class CloudComponent implements Component {
     }
 
     app.bind(GrowbeMainboardBindings.WATCHERS).to(watchers);
+
+
+    // setup storage , in the future different microservice
+    app.component(StorageComponent);
+    app.bind(StorageBindings.STORAGE_PROVIDER).toClass(FileStorageService);
+    app.bind(StorageBindings.STORAGE_OPTIONS).to({
+      destination: './storage'
+    } as any);
+    addStorageController(app, {
+      properties: [{args: ['jwt'], func: authenticate}],
+    });
   }
 
   controllers = [
