@@ -38,6 +38,7 @@ export class GrowbeHardwareAlarmService {
 			alarm,
 			`/board/aAl`,
 			ActionCode.ADD_ALARM,
+			`Alarm on property [${alarm.property}] is created`,
 			(moduleAlarm) => {
 				if (moduleAlarm.alarms[alarm.property]){
 					throw new HttpErrors[409]('already an alarm for this property');
@@ -55,6 +56,7 @@ export class GrowbeHardwareAlarmService {
 			alarm,
 			`/board/uAl`,
 			ActionCode.SYNC_REQUEST,
+			`Alarm on property [${alarm.property}] is updated`,
 			(moduleAlarm) => {
 
 				if (!moduleAlarm.alarms[alarm.property]) {
@@ -72,6 +74,7 @@ export class GrowbeHardwareAlarmService {
 			alarm,
 			`/board/rAl`,
 			ActionCode.REMOVE_ALARM,
+			`Alarm on property [${alarm.property}] is deleted`,
 			(moduleAlarm) => {
 
 					if (!moduleAlarm.alarms[alarm.property]) {
@@ -88,6 +91,7 @@ export class GrowbeHardwareAlarmService {
 		alarm: FieldAlarm,
 		topic: string,
 		responseCode: any,
+		msg: string,
 		cb: (moduleAlarm: GrowbeHardwareAlarm) => void
 	) {
 		let moduleAlarm = await this.alarmRepository.findOne({where: { moduleId: alarm.moduleId }})
@@ -105,6 +109,17 @@ export class GrowbeHardwareAlarmService {
 			{ waitingTime: 3000, responseCode}
 		).toPromise()
 		.then(() => this.alarmRepository.update(moduleAlarm as GrowbeHardwareAlarm))
+		.then((data) => {
+			return this.growbeLogsService.addLog({
+				growbeMainboardId: mainboardId,
+				group: GroupEnum.MODULES,
+				severity: SeverityEnum.MEDIUM,
+				type: LogTypeEnum.ALARM,
+				newState: {},
+				growbeModuleId: alarm.moduleId,
+				message: msg,
+			}).then(() => data)
+		})
 		.catch(ex => {
 			throw ex;
 		})
@@ -119,6 +134,9 @@ export class GrowbeHardwareAlarmService {
 	 */
 	async onHardwareAlarm(growbeMainboardId: string, alarmEvent: FieldAlarmEvent) {
 		const alarm = await this.alarmRepository.findOne({ where: { moduleId: alarmEvent.moduleId }});
+		if (!alarm) {
+			throw new HttpErrors[404]('not found');
+		}
 		if (!alarm.state) {
 			alarm.state = {};
 		}
