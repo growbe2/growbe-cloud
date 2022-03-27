@@ -1,4 +1,4 @@
-import {FieldAlarm} from '@growbe2/growbe-pb';
+import {FieldAlarm, FieldAlarmEvent} from '@growbe2/growbe-pb';
 import {Entity, model, property, belongsTo} from '@loopback/repository';
 import {GrowbeModule} from './growbe-module.model';
 
@@ -11,6 +11,14 @@ export class GrowbeHardwareAlarm extends Entity {
     type: 'any'
   })
   alarms: { [id: string]: FieldAlarm };
+
+  // TODO maybe change to something better to store it,
+  // will use log for history and this for accessing quickly the last
+  // time
+  @property({
+    type: 'any'
+  })
+  state: { [id: string]: FieldAlarmEvent};
 
   @belongsTo(() => GrowbeModule)
   moduleId: string;

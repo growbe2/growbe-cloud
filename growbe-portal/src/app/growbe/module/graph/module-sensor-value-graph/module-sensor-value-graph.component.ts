@@ -11,6 +11,7 @@ import { GrowbeGraphService } from '../service/growbe-graph.service';
 import { THLModuleData } from '@growbe2/growbe-pb';
 import { Subscription } from 'rxjs';
 import { DashboardGraphElement } from '@growbe2/ngx-cloud-api';
+import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 
 @Component({
     selector: 'app-module-sensor-value-graph',
@@ -19,7 +20,7 @@ import { DashboardGraphElement } from '@growbe2/ngx-cloud-api';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModuleSensorValueGraphComponent implements OnInit, OnDestroy {
-    @Input() data: DashboardGraphElement;
+    @Input() data: DashboardGraphElement & { includeAlarms: boolean };
 
     chartSerie;
 
@@ -32,12 +33,33 @@ export class ModuleSensorValueGraphComponent implements OnInit, OnDestroy {
         private graphService: GrowbeGraphService,
         private topic: GrowbeEventService,
         private changeDetection: ChangeDetectorRef,
+        private growbeMainboardAPI: GrowbeMainboardAPI,
     ) {}
 
     async ngOnInit() {
         this.data
         if (!this.data) {
             return;
+        }
+        if (this.data.includeAlarms) {
+          const relation = this.growbeMainboardAPI.hardwareAlarms(this.growbeMainboardAPI);
+          relation.moduleId = this.data.graphDataConfig.moduleId;
+          relation.get().subscribe((alarms) => {
+            alarms.filter((v: any) => this.data.graphDataConfig.fields.includes(v.property)).map((v: any) => {
+              this.data.graphConfig.referenceLines = [
+                {
+                  name: `${v.property}:low`,
+                  value: v.low.value
+                },
+                {
+                  name: `${v.property}:high`,
+                  value: v.high.value
+                }
+
+              ];
+              console.log('REFERENCES LINES FOR', v);
+            });
+          });
         }
         this.graphService
             .getGraph(this.data.graphDataConfig.growbeId,this.data.type, this.data.graphDataConfig)

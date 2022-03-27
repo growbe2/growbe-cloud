@@ -49,7 +49,15 @@ export class ModuleGraphBuilderComponent implements OnInit {
               name: 'checkbox'
             }
           },
-        ]);
+          {
+            name: 'includeAlarms',
+            displayName: 'Include alarms as reference lines',
+            type: 'bool',
+            component: {
+              name: 'checkbox'
+            }
+          },
+        ], true);
         this.autoFormData = {
                         type: 'simple',
                         items: properties,

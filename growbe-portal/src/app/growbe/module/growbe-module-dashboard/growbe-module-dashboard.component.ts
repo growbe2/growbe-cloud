@@ -94,6 +94,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
         lastXUnit: 'Hours',
         liveUpdate: true,
         from: undefined,
+        includeAlarms: undefined,
         to: undefined,
         grouping: undefined,
         oneChart: false,
@@ -434,6 +435,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                             name: '',
                             type: 'graph',
                             graphType: 'line',
+                            includeAlarms: this.interval.includeAlarms,
                             graphConfig: {
                                 showLabels: true,
                                 showXAxisLabel: true,
