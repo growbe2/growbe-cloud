@@ -41,7 +41,7 @@ export class ModuleSensorValueGraphComponent implements OnInit, OnDestroy {
         if (!this.data) {
             return;
         }
-        if (this.data.includeAlarms) {
+        if ((this.data.graphDataConfig as any).includeAlarms) {
           const relation = this.growbeMainboardAPI.hardwareAlarms(this.growbeMainboardAPI);
           relation.moduleId = this.data.graphDataConfig.moduleId;
           relation.get().subscribe((alarms) => {

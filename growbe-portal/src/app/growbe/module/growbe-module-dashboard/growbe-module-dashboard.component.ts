@@ -15,27 +15,6 @@ import {
 import { growbeModuleDefForm } from '../component/growbe-module-def/growbe-module-def.form';
 import { GrowbeModuleAPI } from '../../api/growbe-module';
 
-function getReferenceLineForAlarmZone(
-    name: string,
-    zone: any,
-    referenceLines: any[],
-) {
-    if (zone.value) {
-        if (zone.offset) {
-            referenceLines.push({
-                name: '',
-                value: zone.value - zone.offset,
-            });
-            referenceLines.push({
-                name,
-                value: zone.value + zone.offset,
-            });
-        } else {
-            referenceLines.push({ name, value: zone.value });
-        }
-    }
-}
-
 export interface GrowbeModuleDashboardDef {
     haveSvg: boolean,
     haveAlarm: boolean,
@@ -435,7 +414,6 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                             name: '',
                             type: 'graph',
                             graphType: 'line',
-                            includeAlarms: this.interval.includeAlarms,
                             graphConfig: {
                                 showLabels: true,
                                 showXAxisLabel: true,
@@ -456,6 +434,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                 moduleId: this.module.id,
                                 from: this.interval.from,
                                 to: this.interval.to,
+                                includeAlarms: this.interval.includeAlarms,
                                 liveUpdate: this.interval.liveUpdate,
                                 lastX: this.interval.lastX,
                                 lastXUnit: this.interval.lastXUnit,
@@ -472,19 +451,6 @@ export class GrowbeModuleDashboardComponent implements OnInit {
         } else {
             return Object.values(this.interval.fields).map((field) => {
                 const prop = moduleDef.properties[field];
-                const referenceLines = [];
-                if (prop.alarm) {
-                    getReferenceLineForAlarmZone(
-                        'Low',
-                        prop.alarm.low,
-                        referenceLines,
-                    );
-                    getReferenceLineForAlarmZone(
-                        'High',
-                        prop.alarm.high,
-                        referenceLines,
-                    );
-                }
                 return {
                     name: getModuleDefPropName(moduleDef, prop),
                     component: 'growbe-module-sensor-value-graph',
@@ -504,7 +470,6 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                     const date = new Date(val);
                                     return date.toLocaleString();
                                 },
-                                referenceLines,
                                 yScaleMin: prop.operationalRange.min,
                                 yScaleMax: prop.operationalRange.max,
                             },
@@ -515,6 +480,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                                 from: this.interval.from,
                                 to: this.interval.to,
                                 liveUpdate: this.interval.liveUpdate,
+                                includeAlarms: this.interval.includeAlarms,
                                 lastX: this.interval.lastX,
                                 lastXUnit: this.interval.lastXUnit,
                                 grouping: this.interval.grouping,

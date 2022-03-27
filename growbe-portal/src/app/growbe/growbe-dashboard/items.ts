@@ -67,7 +67,16 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 component: 'growbe-module-sensor-value-graph',
                 componentType: ModuleSensorValueGraphComponent,
                 inputs: {
-                    ...this.getGraphModuleRequestProperty(),
+                    ...this.getGraphModuleRequestProperty([
+                      {
+                        name: 'includeAlarms',
+                        displayName: 'Include alarms as reference lines',
+                        type: 'bool',
+                        component: {
+                          name: 'checkbox'
+                        }
+                      },
+                    ]),
                 },
             },
             {
@@ -259,7 +268,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
         };
     }
 
-    private getGraphModuleRequestProperty = () => {
+    private getGraphModuleRequestProperty = (extra?: IProperty[]) => {
         const [
             formMM,
             subjectMainboard,
@@ -270,7 +279,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
             subjectModule.asObservable(),
             undefined,
             undefined,
-            undefined,
+            extra,
             true,
         );
         return {
