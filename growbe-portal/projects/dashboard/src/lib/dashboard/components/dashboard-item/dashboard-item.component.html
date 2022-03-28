@@ -38,12 +38,18 @@
             </ng-container>
         </div>
         <div>
+        <div>
             <ng-template
                 [dashboardItemContent]
                 [dashboardItem]="dashboardItem"
+                [templateLoading]="loading"
             ></ng-template>
+
         </div>
-    </div>
+          <div #loading class="notloading"></div>
+         </div>
+
+  </div>
 </mat-card>
 
 <autoform-form #copyForm [formData]="formData"></autoform-form>

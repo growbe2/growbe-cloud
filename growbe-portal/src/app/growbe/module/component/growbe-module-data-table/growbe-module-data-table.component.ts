@@ -17,6 +17,8 @@ import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { transformModuleValue } from '../../module.def';
 
+import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
+
 @Component({
     selector: 'app-growbe-module-data-table',
     templateUrl: './growbe-module-data-table.component.html',
@@ -24,7 +26,7 @@ import { transformModuleValue } from '../../module.def';
     providers: [DatePipe, ActionConfirmationService],
 })
 @unsubscriber
-export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) implements OnInit {
+export class GrowbeModuleDataTableComponent extends OnDestroyMixin(BaseDashboardComponent) implements OnInit {
     @ViewChild(AutoTableComponent) table: AutoTableComponent;
 
     @Input() mainboardId: GrowbeMainboard['id'];
@@ -74,7 +76,7 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
             return;
         }
         this.where = {};
-        
+
         this.moduleAPI.flushSensorValue(this.moduleId);
 
         this.growbeEvent.getGrowbeEvent(
@@ -151,5 +153,11 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
                     } as any : undefined,
                 ].filter(x => x);
             });
+    }
+
+    onTableLoading(event: string) {
+      if (event == 'ended') {
+        this.loadingEvent.next(null);
+      }
     }
 }

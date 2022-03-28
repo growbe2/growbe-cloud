@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { VirtualRelayWithRelations } from '@growbe2/ngx-cloud-api';
+import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
@@ -12,7 +13,7 @@ import { RelayControl } from '../../relay/relay-base-control/relay-base-control.
   templateUrl: './virtual-relay-control.component.html',
   styleUrls: ['./virtual-relay-control.component.scss']
 })
-export class VirtualRelayControlComponent implements OnInit {
+export class VirtualRelayControlComponent extends BaseDashboardComponent implements OnInit {
 
   @Input() growbeId: string;
   @Input() vrId: string;
@@ -26,7 +27,9 @@ export class VirtualRelayControlComponent implements OnInit {
     private mainboardAPI: GrowbeMainboardAPI,
     private graphService: GrowbeGraphService,
     private growbeEventService: GrowbeEventService,
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     let obs_data = combineLatest([
@@ -38,6 +41,7 @@ export class VirtualRelayControlComponent implements OnInit {
       getValues: () => this.vrRefresh.pipe(
         switchMap(() => obs_data),
         map(([vr, lastValue]: [any, any]) => {
+          this.loadingEvent.next(null);
           return [vr.config, lastValue?.data?.state, lastValue?.endingAt, !vr.state];
         })
       ),

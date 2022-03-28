@@ -2,6 +2,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    EventEmitter,
     Input,
     OnDestroy,
     OnInit,
@@ -15,6 +16,8 @@ import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { DatePipe } from '@angular/common';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { OnDestroyMixin, untilComponentDestroyed } from '@berlingoqc/ngx-common';
+import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
+
 
 @Component({
     selector: 'app-module-sensor-value-graph',
@@ -23,7 +26,7 @@ import { OnDestroyMixin, untilComponentDestroyed } from '@berlingoqc/ngx-common'
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DatePipe]
 })
-export class ModuleSensorValueGraphComponent extends OnDestroyMixin(Object) implements OnInit, OnDestroy {
+export class ModuleSensorValueGraphComponent extends OnDestroyMixin(BaseDashboardComponent) implements OnInit, OnDestroy {
     @Input() data: DashboardGraphElement & { includeAlarms: boolean };
 
     chartSerie;
@@ -76,6 +79,7 @@ export class ModuleSensorValueGraphComponent extends OnDestroyMixin(Object) impl
           untilComponentDestroyed(this),
         ).subscribe(([def, series]: any) => {
           // rename serie name from property name to display name
+          this.loadingEvent.next(null);
           series.forEach((serie) => {
             serie.name = def.properties[serie.name].displayName || serie.name;
           });
@@ -88,7 +92,7 @@ export class ModuleSensorValueGraphComponent extends OnDestroyMixin(Object) impl
           if (typeof e === 'string') {
             e = new Date(e.replace("Z", "+00:00"));
           }
-          return this.datePipe.transform(e, 'h:mm a d/M');
+          return this.datePipe.transform(e, 'HH:mm dd/MM');
         }
 
         // TODO : if agregation dont pull from mqtt put refresh periodically for new entries

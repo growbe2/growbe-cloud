@@ -6,7 +6,7 @@ import { GrowbeMainboardAPI, HardwareAlarmRelation } from '../../api/growbe-main
 import { GrowbeModuleAPI } from '../../api/growbe-module';
 import { getHardwareAlarmForm } from './hardware-alarm.form';
 import { getHardwareAlarmColumns } from './hardware-alarm.table';
-
+import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
 @Component({
     template: `
         <app-table-layout
@@ -20,7 +20,7 @@ import { getHardwareAlarmColumns } from './hardware-alarm.table';
         ></app-table-layout>
     `,
 })
-export class HardwareAlarmTableComponent implements OnInit {
+export class HardwareAlarmTableComponent extends BaseDashboardComponent implements OnInit {
     @Input() mainboardId: string;
     @Input() moduleId: string;
 
@@ -34,7 +34,9 @@ export class HardwareAlarmTableComponent implements OnInit {
     constructor(
         private mainboardAPI: GrowbeMainboardAPI,
         private moduleAPI: GrowbeModuleAPI,
-    ) {}
+    ) {
+      super();
+    }
 
     ngOnInit(): void {
         this.api = this.mainboardAPI.hardwareAlarms(this.mainboardId);
@@ -44,6 +46,7 @@ export class HardwareAlarmTableComponent implements OnInit {
          this.moduleAPI.moduleDef(this.moduleId).get()
             .pipe(
                 map((moduleDef: any) => {
+                  this.loadingEvent.next(null);
                     return [
                         getHardwareAlarmForm(
                             {

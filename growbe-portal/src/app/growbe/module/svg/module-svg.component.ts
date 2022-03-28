@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
 import { OnDestroyMixin } from "@berlingoqc/ngx-common";
+import { BaseDashboardComponent } from "@growbe2/growbe-dashboard";
 import { Observable } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";
 import { isDateOutdated } from "src/app/shared/dated-value/outdated-value/outdated-value.component";
@@ -22,7 +23,7 @@ import { GrowbeEventService } from "../../services/growbe-event.service";
     </ng-container>
   `,
 })
-export class ModuleSVGComponent extends OnDestroyMixin(Object) implements OnInit {
+export class ModuleSVGComponent extends OnDestroyMixin(BaseDashboardComponent) implements OnInit {
   @Input() mainboardId: string;
   @Input() moduleId: string;
 
@@ -53,6 +54,7 @@ export class ModuleSVGComponent extends OnDestroyMixin(Object) implements OnInit
       this.data = this.moduleAPI.moduleDef(this.moduleId).get().pipe(
         switchMap((moduleDef: any) => this.eventService.getModuleDataLive(this.mainboardId, this.moduleId, [...Object.keys(moduleDef.properties), ...(this.extraProperties || [])])),
         tap((data) => {
+          this.loadingEvent.next(null);
           this.isOutdated = isDateOutdated(data.createdAt, 60 * 1000);
         })
       )

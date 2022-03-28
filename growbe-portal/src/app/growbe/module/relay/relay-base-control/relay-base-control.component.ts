@@ -6,6 +6,7 @@ import {
     untilComponentDestroyed,
 } from '@berlingoqc/ngx-common';
 import { NotificationService } from '@berlingoqc/ngx-notification';
+import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
 import { Observable, of, Subject, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
@@ -38,7 +39,7 @@ export const mapTextForMode = {
     styleUrls: ['./relay-base-control.component.scss'],
 })
 export class RelayBaseControlComponent
-    extends OnDestroyMixin(Object)
+    extends OnDestroyMixin(BaseDashboardComponent)
     implements OnInit {
     @Input() control: RelayControl;
     @Input() mainboardId: string;
@@ -73,6 +74,8 @@ export class RelayBaseControlComponent
                 this.value = value[1];
                 this.endingAt = value[2];
                 this.connected = value[3];
+
+                //this.loadingEvent.next(null);
 
                 this.subjectModuleState.next(this.connected);
 

@@ -393,7 +393,6 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                     disableSearch: true,
                     where: {
                         growbeModuleId: this.module.id,
-                        type: 'module'
                     },
                 },
                 style: {

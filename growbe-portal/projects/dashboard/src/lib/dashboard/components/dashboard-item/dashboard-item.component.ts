@@ -23,12 +23,18 @@ import { fuseAnimations } from '@berlingoqc/fuse';
 import { AutoFormComponent, AutoFormData, AutoFormDialogService } from '@berlingoqc/ngx-autoform';
 import { notify } from '@berlingoqc/ngx-notification';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { getCopyDashboardForm, modifyDialog } from '../../dashboard.form';
 import { DashboardItem, DashboardPanel, DASHBOARD_ITEM_REF, Style } from '../../dashboard.model';
 import { DashboardService, PanelDashboardRef } from '../../dashboard.service';
 import { DashboardRegistryService } from '../../registry/dashboard-registry.service';
 import { DashboardRegistryItem } from '../../registry/dashboard.registry';
 import { DashboardItemDirective } from '../dashboard-item.directive';
+
+
+export class BaseDashboardComponent {
+  loadingEvent = new EventEmitter();
+}
 
 
 /**
@@ -79,8 +85,13 @@ export class DashboardItemRegistryCopyDirective {
 export class ItemContentDirective implements OnInit {
     this = this;
 
+    static LoadingOutputName = 'loadingEvent';
+
     @Input()
     dashboardItem: DashboardItem & Style;
+
+    @Input()
+    templateLoading?: HTMLElement;
 
     componentRef: ComponentRef<any>;
 
@@ -136,6 +147,17 @@ export class ItemContentDirective implements OnInit {
                     data(ee.asObservable());
                 }
             }
+        }
+        // loading event if supported
+        if (this.componentRef.instance[ItemContentDirective.LoadingOutputName]) {
+          this.this.viewRef.element.nativeElement.parentElement.style.visibility = 'hidden';
+          console.log(this.templateLoading);
+          this.this.templateLoading.classList.remove("notloading");
+          this.this.templateLoading.classList.add("loading");
+          this.componentRef.instance[ItemContentDirective.LoadingOutputName].pipe(take(1)).subscribe(() => {
+            this.this.viewRef.element.nativeElement.parentElement.style.visibility = 'initial';
+            this.this.templateLoading.classList.add("notloading");
+          });
         }
     }
 

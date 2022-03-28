@@ -17,6 +17,7 @@ import {
 import { DecimalPipe } from '@angular/common';
 import { transformModuleValue } from '../../module.def';
 import { map } from 'rxjs/operators';
+import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
 
 /*
 
@@ -32,7 +33,7 @@ Fixe probleme with empty value (maybe should be more fixe in the library not tol
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DecimalPipe],
 })
-export class ModuleLastValueComponent implements OnInit, OnDestroy {
+export class ModuleLastValueComponent extends BaseDashboardComponent implements OnInit, OnDestroy {
     @Input() graphDataConfig: GraphModuleRequest;
 
 
@@ -60,7 +61,9 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
         private changeDetection: ChangeDetectorRef,
         private moduleAPI: GrowbeModuleAPI,
         private numberPipe: DecimalPipe,
-    ) {}
+    ) {
+      super();
+    }
 
     ngOnInit(): void {
         if (!this.graphDataConfig) {
@@ -88,6 +91,7 @@ export class ModuleLastValueComponent implements OnInit, OnDestroy {
         this.graphService
             .getGraph(this.graphDataConfig.growbeId, 'one', sendingGraphdata)
             .subscribe(async (data: any) => {
+                this.loadingEvent.next(null);
                 if (data.length === 0) {
                   return;
                 }

@@ -7,5 +7,6 @@
     pageSize="{{pageSize ?? 10}}"
     [disablePaginator]="disablePaginator"
     [config]="_config"
+    (dataLoading)="onTableLoading($event)"
 >
 </ngx-autotable>
