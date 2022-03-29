@@ -1,4 +1,5 @@
 import { Filter, repository } from "@loopback/repository";
+import { UserProfile } from "@loopback/security";
 import { GrowbeDashboard } from "../models";
 import { GrowbeDashboardRepository } from "../repositories";
 
@@ -14,7 +15,7 @@ export class GrowbeDashboardService {
     }
 
 
-    getDashboardForUser(userId: string, f: Filter<GrowbeDashboard> = {}): Promise<GrowbeDashboard[]> {
+    getDashboardForUser(user: UserProfile, f: Filter<GrowbeDashboard> = {}): Promise<GrowbeDashboard[]> {
         const filter: Filter<GrowbeDashboard> = {
             // something better to dont allow to override where or to combine it
             ...f,
@@ -24,7 +25,12 @@ export class GrowbeDashboardService {
                         userId: null,
                     },
                     {
-                        userId
+                        userId: user.id
+                    },
+                    {
+                        organisationId: {
+                            inq: user.organisations?.map((o: any) => o?.id),
+                        }
                     }
                 ]
             },

@@ -17,6 +17,9 @@ export class GrowbeDashboard extends Entity {
   @property()
   name: string;
 
+  @property()
+  organisationId: string;
+
   [prop: string]: any;
 
   constructor(data?: Partial<GrowbeDashboard>) {

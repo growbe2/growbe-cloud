@@ -26,7 +26,7 @@ export class GrowbeDashboardController {
         @param.query.object('filter', getFilterSchemaFor(GrowbeDashboard))
         filter?: Filter<GrowbeDashboard>,
     ) {
-     return this.dashboardService.getDashboardForUser(user.id, filter);
+     return this.dashboardService.getDashboardForUser(user, filter);
     }
 
 }
