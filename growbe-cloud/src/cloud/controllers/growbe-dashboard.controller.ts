@@ -4,7 +4,7 @@ import { get, getFilterSchemaFor, param } from "@loopback/rest";
 import { SecurityBindings, UserProfile } from "@loopback/security";
 import { GrowbeDashboard } from "../../models";
 import { GrowbeDashboardService } from "../../services/growbe-dashboard.service";
-import { authorizeGrowbe } from "../authorization";
+import {authenticate} from '@loopback/authentication';
 
 
 
@@ -18,9 +18,7 @@ export class GrowbeDashboardController {
 
 
     @get('/dashboards')
-    @authorizeGrowbe({
-        orgIdIndex: 0,
-    })
+    @authenticate('jwt')
     findGrowbeOrganisation(
         @inject(SecurityBindings.USER) user: UserProfile,
         @param.query.object('filter', getFilterSchemaFor(GrowbeDashboard))
