@@ -12,12 +12,25 @@ export class GrowbeHardwareAlarmController {
   ) {}
 
 
-  @get('/growbes/{mainboardId}/modules/{id}/alarm/hardware/{property}')
+  @get('/growbes/{mainboardId}/modules/{id}/alarm/hardware/event')
   @authorizeGrowbe({
       growbeIdIndex: 0,
       getFunc: getMainboardByModule,
   })
   getHardwareAlarmEvent(
+    @param.path.string('id') moduleId: string,
+    @param.path.string('mainboardId') mainboardId: string,
+  ) {
+    return this.growbeHardwareAlarmService.getHardwareAlarmEvent(mainboardId, moduleId);
+  }
+
+
+  @get('/growbes/{mainboardId}/modules/{id}/alarm/hardware/{property}/event')
+  @authorizeGrowbe({
+      growbeIdIndex: 0,
+      getFunc: getMainboardByModule,
+  })
+  getHardwareAlarmEventProperty(
     @param.path.string('id') moduleId: string,
     @param.path.string('mainboardId') mainboardId: string,
     @param.path.string('property') property: string,

@@ -27,8 +27,12 @@ export class GrowbeHardwareAlarmService {
 	) {}
 
 
-	getHardwareAlarmEvent(mainboardId: string, moduleId: string, property: string) {
-    	return this.eventRepository.find({where: { moduleId, mainboardId, property}, limit: 10, order: ['createdAt DESC']})
+	getHardwareAlarmEvent(mainboardId: string, moduleId: string, property?: string) {
+		const filter: any = {where: { moduleId, mainboardId}, limit: 10, order: ['createdAt DESC']};
+		if (property) {
+			filter.where.property = property;
+		}
+    	return this.eventRepository.find(filter)
 	}
 
 	getModuleHardwareAlarms(moduleId: string): Promise<FieldAlarm[]> {
