@@ -43,7 +43,7 @@ export const getHardwareAlarmForm = (
       submit: (value: any) => {
         const alarm = Object.assign(value, {moduleId: module.id});
         return edit ? api.updateById(alarm.property, alarm).pipe(
-          tap(() => api.requestGet.onModif(of(null)).subscribe(() => {})),
+          //tap(() => api.requestGet.onModif(of(null)).subscribe(() => {})),
         ) : api.post(alarm);
       },
     },

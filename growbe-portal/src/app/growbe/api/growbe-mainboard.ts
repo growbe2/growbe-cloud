@@ -50,7 +50,7 @@ export const addCustomCRUDDatasource = <T>(
 class VirtualRelayRelation extends CachingRelation(LoopbackRelationClientMixin<VirtualRelayWithRelations>()) {}
 
 
-export class HardwareAlarmRelation extends CachingRelation(LoopbackRelationClientMixin<any>()) {
+export class HardwareAlarmRelation extends LoopbackRelationClientMixin<any>() {
     moduleId: string;
 
     get url(): string {

@@ -56,8 +56,8 @@ export class ModuleSensorValueGraphComponent extends OnDestroyMixin(BaseDashboar
           const relation = this.growbeMainboardAPI.hardwareAlarms(this.growbeMainboardAPI);
           relation.moduleId = this.data.graphDataConfig.moduleId;
           relation.get().subscribe((alarms) => {
-            alarms.filter((v: any) => this.data.graphDataConfig.fields.includes(v.property)).map((v: any) => {
-              this.data.graphConfig.referenceLines = [
+            this.data.graphConfig.referenceLines = alarms.filter((v: any) => this.data.graphDataConfig.fields.includes(v.property)).flatMap((v: any) => {
+              return [
                 {
                   name: `${v.property}:low`,
                   value: v.low.value
@@ -66,9 +66,7 @@ export class ModuleSensorValueGraphComponent extends OnDestroyMixin(BaseDashboar
                   name: `${v.property}:high`,
                   value: v.high.value
                 }
-
               ];
-              console.log('REFERENCES LINES FOR', v);
             });
           });
         }
