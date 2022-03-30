@@ -4,6 +4,7 @@ import {repository} from "@loopback/repository";
 import {HttpErrors} from "@loopback/rest";
 import {GroupEnum, GrowbeHardwareAlarm, LogTypeEnum, SeverityEnum} from "../models";
 import {GrowbeHardwareAlarmRepository} from "../repositories";
+import { GrowbeHardwareAlarmEventRepository } from "../repositories/growbe-hardware-alarm-event.repository";
 import {GrowbeLogsService} from "./growbe-logs.service";
 import {getTopic, MQTTService} from "./mqtt.service";
 
@@ -21,8 +22,14 @@ export class GrowbeHardwareAlarmService {
 		private growbeLogsService: GrowbeLogsService,
 		@repository(GrowbeHardwareAlarmRepository)
 		private alarmRepository: GrowbeHardwareAlarmRepository,
+		@repository(GrowbeHardwareAlarmEventRepository)
+    	private eventRepository: GrowbeHardwareAlarmEventRepository,
 	) {}
 
+
+	getHardwareAlarmEvent(mainboardId: string, moduleId: string, property: string) {
+    	return this.eventRepository.find({where: { moduleId, mainboardId, property}, limit: 10, order: ['createdAt DESC']})
+	}
 
 	getModuleHardwareAlarms(moduleId: string): Promise<FieldAlarm[]> {
 		return this.alarmRepository.findOne({
@@ -133,15 +140,13 @@ export class GrowbeHardwareAlarmService {
 	 * @returns
 	 */
 	async onHardwareAlarm(growbeMainboardId: string, alarmEvent: FieldAlarmEvent) {
-		const alarm = await this.alarmRepository.findOne({ where: { moduleId: alarmEvent.moduleId }});
-		if (!alarm) {
-			throw new HttpErrors[404]('not found');
-		}
-		if (!alarm.state) {
-			alarm.state = {};
-		}
-		alarm.state[alarmEvent.property] = alarmEvent;
-		await this.alarmRepository.update(alarm);
+		await this.eventRepository.create({
+			createdAt: Date.now(),
+			event: alarmEvent,
+			mainboardId: growbeMainboardId,
+			moduleId: alarmEvent.moduleId,
+			property: alarmEvent.property,
+		})
 		return this.growbeLogsService.addLog({
 			growbeMainboardId,
 			group: GroupEnum.MODULES,
