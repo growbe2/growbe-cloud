@@ -146,7 +146,8 @@ export class GrowbeHardwareAlarmService {
 			mainboardId: growbeMainboardId,
 			moduleId: alarmEvent.moduleId,
 			property: alarmEvent.property,
-		})
+		});
+		await this.mqttService.send(getTopic(growbeMainboardId, `/cloud/m/${alarmEvent.moduleId}/alarm`), JSON.stringify(alarmEvent));
 		return this.growbeLogsService.addLog({
 			growbeMainboardId,
 			group: GroupEnum.MODULES,
