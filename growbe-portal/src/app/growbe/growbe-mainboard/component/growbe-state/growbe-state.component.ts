@@ -15,6 +15,10 @@ import { interval, Observable, Subscription } from 'rxjs';
 import { OnDestroyMixin, untilComponentDestroyed } from '@berlingoqc/ngx-common';
 import { DatePipe } from '@angular/common';
 
+
+
+const lastReceiveMainboard: {[id: string]: any} = {};
+
 @Component({
     selector: 'app-growbe-state',
     templateUrl: './growbe-state.component.html',
@@ -33,11 +37,12 @@ export class GrowbeStateComponent extends OnDestroyMixin(Object) implements OnIn
 
     @Input() set growbe(g: GrowbeMainboard) {
         this._growbe = g;
-        this.lastMessageAt = new Date(this._growbe.lastUpdateAt).getTime();
+        this.lastMessageAt = lastReceiveMainboard[this._growbe.id] || new Date(this._growbe.lastUpdateAt).getTime();
+        lastReceiveMainboard[this._growbe.id] = this.lastMessageAt;
 
         if (this.subEvent) { this.subEvent.unsubscribe(); }
 
-        this.growbeEventService.getGrowbeEvent(g.id, '/cloud/state', (d) => JSON.parse(d))
+        this.subEvent = this.growbeEventService.getGrowbeEvent(g.id, '/cloud/state', (d) => JSON.parse(d))
             .pipe(untilComponentDestroyed(this))
             .subscribe((g) => {
                 this._growbe = g;
