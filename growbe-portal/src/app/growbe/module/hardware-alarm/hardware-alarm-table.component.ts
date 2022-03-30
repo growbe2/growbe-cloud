@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { TableLayoutComponent } from 'src/app/shared/table-layout/table-layout/table-layout.component';
 import { GrowbeMainboardAPI, HardwareAlarmRelation } from '../../api/growbe-mainboard';
 import { GrowbeModuleAPI } from '../../api/growbe-module';
@@ -10,6 +10,7 @@ import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
 @Component({
     template: `
         <app-table-layout
+            #table
             [columns]="(source$ | async)[2]"
             [where]="where"
             [removeElement]="removeElement"
@@ -21,6 +22,8 @@ import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
     `,
 })
 export class HardwareAlarmTableComponent extends BaseDashboardComponent implements OnInit {
+    @ViewChild(TableLayoutComponent) table: TableLayoutComponent;
+
     @Input() mainboardId: string;
     @Input() moduleId: string;
 
@@ -41,7 +44,7 @@ export class HardwareAlarmTableComponent extends BaseDashboardComponent implemen
     ngOnInit(): void {
         this.api = this.mainboardAPI.hardwareAlarms(this.mainboardId);
         this.api.moduleId = this.moduleId;
-        this.removeElement = (element) => this.api.delete(element.property);
+        this.removeElement = (element) => this.api.delete(element.property).pipe(tap(() => this.table.autoTableComponent.refreshData()));
         this.source$ =
          this.moduleAPI.moduleDef(this.moduleId).get()
             .pipe(
@@ -56,6 +59,7 @@ export class HardwareAlarmTableComponent extends BaseDashboardComponent implemen
                             },
                             [],
                             this.api,
+                            () => this.table.autoTableComponent.refreshData(),
                         ),
                         getHardwareAlarmForm(
                           {
@@ -67,6 +71,7 @@ export class HardwareAlarmTableComponent extends BaseDashboardComponent implemen
                           this.api,
                           undefined,
                           true,
+                          () => this.table.autoTableComponent.refreshData(),
                         ),
                         getHardwareAlarmColumns(moduleDef),
                     ];

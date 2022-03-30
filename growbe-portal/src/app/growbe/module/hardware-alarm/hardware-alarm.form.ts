@@ -30,7 +30,9 @@ export const getHardwareAlarmForm = (
   api: HardwareAlarmRelation,
   value?: any,
   edit?: boolean,
+  cbSubmit?: () => void,
 ) => {
+  let savedValue: any;
   return {
     type: 'dialog',
     typeData: {
@@ -39,12 +41,22 @@ export const getHardwareAlarmForm = (
         panelClass: 'auto-form-dialog',
     },
     event: {
-      initialData: () => of(value ? value : { moduleId: module.id}),
+      initialData: (v) => {
+        savedValue = v ? v : { moduleId: module.id};
+        return of(savedValue);
+      },
       submit: (value: any) => {
         const alarm = Object.assign(value, {moduleId: module.id});
-        return edit ? api.updateById(alarm.property, alarm).pipe(
+        if (edit) {
+          alarm.property = savedValue.property;
+        }
+        return (edit ? api.updateById(alarm.property, alarm).pipe(
           //tap(() => api.requestGet.onModif(of(null)).subscribe(() => {})),
-        ) : api.post(alarm);
+        ) : api.post(alarm)).pipe(
+          tap(() => {
+            cbSubmit?.();
+          })
+        );
       },
     },
     items: [

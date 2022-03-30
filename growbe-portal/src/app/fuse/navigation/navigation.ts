@@ -59,10 +59,10 @@ export const navigation: FuseNavigation[] = [
         url: '/me'
     },
     {
-        id: 'faq',
-        title: 'FAQ',
+        id: 'releases',
+        title: 'Release notes',
         type: 'item',
-        icon: 'help',
-        url: '/faq',
-    },
+        icon: 'description',
+        url: '/releases/current'
+    }
 ];

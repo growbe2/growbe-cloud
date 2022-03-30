@@ -1,0 +1,16 @@
+<div class="main" *ngIf="(items$ | async) as items">
+  <div>
+    <h2>Growbe cloud</h2>
+    <ul>
+      <li *ngFor="let it of items.cloud"><a [routerLink]="['cloud',it.version]" >{{it.version}}</a></li>
+    </ul>
+  </div>
+
+  <div>
+    <h2>Growbe mainboard</h2>
+    <ul>
+      <li *ngFor="let it of items.mainboard"><a [routerLink]="['mainboard',it.version]" >{{it.version}}</a></li>
+    </ul>
+  </div>
+
+</div>

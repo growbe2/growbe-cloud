@@ -16,6 +16,10 @@ function getRelease(type: string, items: any[]) {
 }
 
 
+export const trimDevVersion = (version) => {
+  return version.split('-')[0];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,6 +31,10 @@ export class GrowbeReleaseService {
 
   getVersion() {
     return pkg.version;
+  }
+
+  getReleaseText(type: string, version: string) {
+    return this.growbeFile.getFileContent('releases', `growbe-${type}-${version}.md`);
   }
 
   getReleases() {
