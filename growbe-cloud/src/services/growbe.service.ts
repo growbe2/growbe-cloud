@@ -94,6 +94,24 @@ export class GrowbeService {
     return mainboard;
   }
 
+  async updateProcessConfig(growbeId: string, processConfig: pb.MainboardConfig) {
+    const config = {...processConfig, updatedAt: new Date()};
+    
+    await this.mainboardConfigRepository.updateAll({
+      processConfig: config,
+    },{
+      growbeMainboardId: growbeId 
+    })
+
+    await this.logsService.addLog({
+      group: GroupEnum.MAINBOARD,
+      type: LogTypeEnum.LOCAL_CONNECTION_UPDATED,
+      severity: SeverityEnum.LOW,
+      growbeMainboardId: growbeId,
+      message: 'receive config from mainboard',
+    })
+  }
+
   async updateLocalConnection(growbeId: string, data: any) {
     if (!data.ssid || data.ssid === "") {
       GrowbeService.DEBUG("invalid local connection receive " + growbeId);
