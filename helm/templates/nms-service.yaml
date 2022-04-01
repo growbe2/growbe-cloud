@@ -9,6 +9,8 @@ metadata:
     io.kompose.service: nms
   name: nms
 spec:
+  externalIPs:
+  - {{ .Values.cloud.externalIP }}
   ports:
   - name: "1935"
     port: 1935

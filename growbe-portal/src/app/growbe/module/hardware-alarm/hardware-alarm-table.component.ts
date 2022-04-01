@@ -1,61 +1,79 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { StaticDataSource } from '@berlingoqc/ngx-loopback';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { TableLayoutComponent } from 'src/app/shared/table-layout/table-layout/table-layout.component';
+import { GrowbeMainboardAPI, HardwareAlarmRelation } from '../../api/growbe-mainboard';
 import { GrowbeModuleAPI } from '../../api/growbe-module';
-import { GrowbeModuleDefAPI } from '../../api/growbe-module-def';
 import { getHardwareAlarmForm } from './hardware-alarm.form';
-import { hardwareAlarmColumns } from './hardware-alarm.table';
-
+import { getHardwareAlarmColumns } from './hardware-alarm.table';
+import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
 @Component({
     template: `
         <app-table-layout
-            [columns]="columns"
+            #table
+            [columns]="(source$ | async)[2]"
             [where]="where"
             [removeElement]="removeElement"
-            [source]="(source$ | async)?.[0]"
-            [formData]="(source$ | async)?.[1]"
+            [source]="api"
+            [formData]="(source$ | async)[0]"
+            [formEdit]="(source$ | async)[1]"
+            [disablePaginator]="true"
         ></app-table-layout>
     `,
 })
-export class HardwareAlarmTableComponent implements OnInit {
+export class HardwareAlarmTableComponent extends BaseDashboardComponent implements OnInit {
+    @ViewChild(TableLayoutComponent) table: TableLayoutComponent;
+
     @Input() mainboardId: string;
     @Input() moduleId: string;
 
-    source$: Observable<[TableLayoutComponent['source'], TableLayoutComponent['formData']]>;
-    columns: TableLayoutComponent['columns'];
+    source$: Observable<[TableLayoutComponent['formData'], TableLayoutComponent['formData'], TableLayoutComponent['columns']]>;
     where: TableLayoutComponent['where'];
     removeElement: TableLayoutComponent['removeElement'];
 
+    api: HardwareAlarmRelation;
+
+
     constructor(
+        private mainboardAPI: GrowbeMainboardAPI,
         private moduleAPI: GrowbeModuleAPI,
-        private moduleDefAPI: GrowbeModuleDefAPI,
-    ) {}
+    ) {
+      super();
+    }
 
     ngOnInit(): void {
-        this.columns = hardwareAlarmColumns;
-        this.removeElement = (element) =>
-            this.moduleDefAPI.removeAlarm(this.mainboardId, element);
-        this.source$ = this.moduleAPI
-            .moduleDef(this.moduleId)
-            .get()
+        this.api = this.mainboardAPI.hardwareAlarms(this.mainboardId);
+        this.api.moduleId = this.moduleId;
+        this.removeElement = (element) => this.api.delete(element.property).pipe(tap(() => this.table.autoTableComponent.refreshData()));
+        this.source$ =
+         this.moduleAPI.moduleDef(this.moduleId).get()
             .pipe(
-                map((moduleDef) => {
-                    const alarms = Object.values(moduleDef.properties)
-                        .filter((md: any) => md.alarm)
-                        .map((md: any) => md.alarm);
+                map((moduleDef: any) => {
+                  this.loadingEvent.next(null);
                     return [
-                        new StaticDataSource(alarms),
                         getHardwareAlarmForm(
                             {
                                 moduleDef,
                                 id: this.moduleId,
                                 mainboardId: this.mainboardId,
                             },
-                            alarms.map((a) => a.property),
-                            this.moduleDefAPI,
+                            [],
+                            this.api,
+                            () => this.table.autoTableComponent.refreshData(),
                         ),
+                        getHardwareAlarmForm(
+                          {
+                            moduleDef,
+                            id: this.moduleId,
+                            mainboardId: this.mainboardId
+                          },
+                          [],
+                          this.api,
+                          undefined,
+                          true,
+                          () => this.table.autoTableComponent.refreshData(),
+                        ),
+                        getHardwareAlarmColumns(moduleDef),
                     ];
                 }),
             );

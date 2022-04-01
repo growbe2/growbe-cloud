@@ -1,13 +1,13 @@
-import { TableColumn } from "@berlingoqc/ngx-autotable";
-
 
 const getZoneContent = (property: string) => (d) => `${d[property].value}` + ((d[property].offset) ? `±${d[property].offset}` : '');
 
-export const hardwareAlarmColumns: TableColumn[] = [
+export const getHardwareAlarmColumns = (moduleDef) => [
   {
     title: 'Property',
     id: 'property',
-    content: (d) => d.property
+    content: (d) => {
+      return moduleDef.properties[d.property].displayName || moduleDef.properties[d.property].name;
+    }
   },
   {
     title: 'Low',

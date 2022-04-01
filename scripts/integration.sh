@@ -1,31 +1,32 @@
 #! /bin/bash
 
+CONF="-f ./docker/cloud-dev.docker-compose.yml -f ./docker/integration.docker-compose.yml -p growbe_integration"
 
 function start() {
-  docker-compose -f ./docker/cloud-dev.docker-compose.yml -f ./docker/integration.docker-compose.yml -p growbe_integration up -d pgsql broker mongo growbe-cloud sso
+  docker-compose $CONF up -d pgsql broker mongo sso $1
 
   echo "Waiting for migration to be over"
-  sleep 10
+  sleep 5
 
   . ./docker/envs/local.sh
 
-  ./transactional/configure_db.sh
+  if [ -n "$1" ]; then
+    ./transactional/configure_db.sh integration
+  fi
 }
 
 function stop() {
-    docker-compose -f ./docker/cloud-dev.docker-compose.yml -p growbe_integration down
-    docker-compose -f ./docker/cloud-dev.docker-compose.yml -p growbe_integration rm -f
+    docker-compose $CONF down -v
+    docker-compose $CONF rm -f
 }
 
-
 function test() {
-  stop && start && \
-  docker-compose -f ./docker/cloud-dev.docker-compose.yml -f ./docker/integration-test.docker-compose.yml -p growbe_integration run growbe-cloud && \
-  stop
+  start && \
+  cd growbe-cloud && npm ci && npm run build && node ./dist/migrate.js && (cd .. && ./transactional/configure_db.sh integration) && npm run test
 }
 
 case "$1" in
-    "start") start;;
+    "start") start growbe-cloud;;
     "stop") stop;;
     "test") test;;
     *) echo >&2 "Invalid option: $@"; exit 1;;

@@ -11,10 +11,12 @@ import { CRUDDataSource, Filter, Where } from '@berlingoqc/ngx-loopback';
 import { GrowbeLogs } from '@growbe2/ngx-cloud-api';
 import { DashboardItem, DASHBOARD_ITEM_REF } from '@growbe2/growbe-dashboard';
 import { Observable, of, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { DatePipe } from '@angular/common';
+
+import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
 
 export function getTerminalSearchForm(): IProperty[] {
     return [
@@ -85,11 +87,51 @@ export function getTerminalSearchForm(): IProperty[] {
     ]
 })
 @unsubscriber
-export class TerminalComponent implements OnInit {
+export class TerminalComponent extends BaseDashboardComponent implements OnInit {
     @Input()
     set growbeId(growbeId: string) {
         this._growbeId = growbeId;
-         if (!this.refDashboardItem) {
+    }
+    get growbeId() { return this._growbeId; }
+    _growbeId: string;
+    @Input()
+    moduleId?: string;
+    @Input()
+    disableSearch: boolean;
+    @Input()
+    where: Where;
+
+    logs: Observable<string[]>;
+    searchBarForm: AutoFormData;
+
+    item: DashboardItem;
+
+    private filter: Filter<GrowbeLogs> = {
+        offset: 0,
+        limit: 200,
+        order: ['timestamp desc'],
+    };
+
+    private sub: Subscription;
+
+    constructor(
+        @Optional()
+        @Inject(DASHBOARD_ITEM_REF)
+        private refDashboardItem: DashboardItem,
+        private eventService: GrowbeEventService,
+        private mainboardAPI: GrowbeMainboardAPI,
+        private datePipe: DatePipe,
+    ) {
+      super();
+    }
+
+    ngOnInit(): void {
+      this.onChange();
+    }
+
+
+    private onChange() {
+        if (!this.refDashboardItem) {
             this.item = {
                 name: '',
                 component: 'logs-terminal',
@@ -139,40 +181,6 @@ export class TerminalComponent implements OnInit {
 
         (this.searchBarForm.items[0] as FormObject).properties.splice(0, 0, );
     }
-    get growbeId() { return this._growbeId; }
-    _growbeId: string;
-    @Input()
-    moduleId?: string;
-    @Input()
-    disableSearch: boolean;
-    @Input()
-    where: Where;
-
-    logs: Observable<string[]>;
-    searchBarForm: AutoFormData;
-
-    item: DashboardItem;
-
-    private filter: Filter<GrowbeLogs> = {
-        offset: 0,
-        limit: 200,
-        order: ['timestamp desc'],
-    };
-
-    private sub: Subscription;
-
-    constructor(
-        @Optional()
-        @Inject(DASHBOARD_ITEM_REF)
-        private refDashboardItem: DashboardItem,
-        private eventService: GrowbeEventService,
-        private mainboardAPI: GrowbeMainboardAPI,
-        private datePipe: DatePipe,
-    ) {}
-
-    ngOnInit(): void {
-       
-    }
 
     private refreshLogs() {
         const req = this.where
@@ -196,6 +204,7 @@ export class TerminalComponent implements OnInit {
                             }${log.message}`,
                     ),
                 ),
+                tap(() => this.loadingEvent.next(null))
             );
     }
 }

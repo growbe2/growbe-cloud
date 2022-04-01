@@ -27,8 +27,8 @@ export class HomeComponent implements OnInit {
 
     ngOnInit(): void {
       this.dashboard$ = this.userPrefService.preference$.asObservable().pipe(
-        filter((x) => x !== null),
-        switchMap((pref) => this.dashboardService.getDashboard(pref.homeDashboard)),
+        map((x) => (x && x.homeDashboard) ? x.homeDashboard: 'default_dashboard'),
+        switchMap((homeDashboard) => this.dashboardService.getDashboard(homeDashboard)),
         map((dashboard) => this.dashboardRegistry.modifyDashboardForDisplay(dashboard))
       );
     }

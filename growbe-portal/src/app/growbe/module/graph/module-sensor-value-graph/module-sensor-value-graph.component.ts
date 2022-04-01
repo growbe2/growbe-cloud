@@ -2,6 +2,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    EventEmitter,
     Input,
     OnDestroy,
     OnInit,
@@ -9,17 +10,24 @@ import {
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { GrowbeGraphService } from '../service/growbe-graph.service';
 import { THLModuleData } from '@growbe2/growbe-pb';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { DashboardGraphElement } from '@growbe2/ngx-cloud-api';
+import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
+import { DatePipe } from '@angular/common';
+import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
+import { OnDestroyMixin, untilComponentDestroyed } from '@berlingoqc/ngx-common';
+import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
+
 
 @Component({
     selector: 'app-module-sensor-value-graph',
     templateUrl: './module-sensor-value-graph.component.html',
     styleUrls: ['./module-sensor-value-graph.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DatePipe]
 })
-export class ModuleSensorValueGraphComponent implements OnInit, OnDestroy {
-    @Input() data: DashboardGraphElement;
+export class ModuleSensorValueGraphComponent extends OnDestroyMixin(BaseDashboardComponent) implements OnInit, OnDestroy {
+    @Input() data: DashboardGraphElement & { includeAlarms: boolean };
 
     chartSerie;
 
@@ -29,22 +37,64 @@ export class ModuleSensorValueGraphComponent implements OnInit, OnDestroy {
         return this.data.graphConfig;
     }
     constructor(
+        private datePipe: DatePipe,
         private graphService: GrowbeGraphService,
         private topic: GrowbeEventService,
         private changeDetection: ChangeDetectorRef,
-    ) {}
+        private growbeMainboardAPI: GrowbeMainboardAPI,
+        private growbeModuleAPI: GrowbeModuleAPI,
+    ) {
+      super();
+    }
 
     async ngOnInit() {
         this.data
         if (!this.data) {
             return;
         }
-        this.graphService
-            .getGraph(this.data.graphDataConfig.growbeId,this.data.type, this.data.graphDataConfig)
-            .subscribe((serie) => {
-                this.chartSerie = serie;
-                this.changeDetection.markForCheck();
+        if ((this.data.graphDataConfig as any).includeAlarms) {
+          const relation = this.growbeMainboardAPI.hardwareAlarms(this.growbeMainboardAPI);
+          relation.moduleId = this.data.graphDataConfig.moduleId;
+          relation.get().subscribe((alarms) => {
+            this.data.graphConfig.referenceLines = alarms.filter((v: any) => this.data.graphDataConfig.fields.includes(v.property)).flatMap((v: any) => {
+              return [
+                {
+                  name: `${v.property}:low`,
+                  value: v.low.value
+                },
+                {
+                  name: `${v.property}:high`,
+                  value: v.high.value
+                }
+              ];
             });
+          });
+        }
+        combineLatest([
+          this.growbeModuleAPI.moduleDef(this.data.graphDataConfig.moduleId).get(),
+          this.graphService.getGraph(this.data.graphDataConfig.growbeId,this.data.type, this.data.graphDataConfig)
+        ]).pipe(
+          untilComponentDestroyed(this),
+        ).subscribe(([def, series]: any) => {
+          // rename serie name from property name to display name
+          this.loadingEvent.next(null);
+          series.forEach((serie) => {
+            serie.name = def.properties[serie.name].displayName || serie.name;
+          });
+          this.chartSerie = series;
+          this.changeDetection.markForCheck();
+        });
+
+        // TODO: fixe the issue of the timezone
+        this.data.graphConfig['xAxisTickFormatting'] = (e) => {
+          if (typeof e === 'string') {
+            e = new Date(e.replace("Z", "+00:00"));
+          }
+          return this.datePipe.transform(e, 'HH:mm dd/MM');
+        }
+
+        // TODO : if agregation dont pull from mqtt put refresh periodically for new entries
+        // depdending on the aggragation range
         if (this.data.graphDataConfig.liveUpdate) {
             this.sub = this.topic
                 .getGrowbeEvent(

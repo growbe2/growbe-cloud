@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { ConfirmationModule } from '@berlingoqc/ngx-common';
 import { MatIconModule } from '@angular/material/icon';
 import { GrowbeLocalConnectionComponent } from './component/growbe-local-connection/growbe-local-connection.component';
+import { DatedValueModule } from 'src/app/shared/dated-value/dated-value.module';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import { GrowbeLocalConnectionComponent } from './component/growbe-local-connect
       AutoTableModule,
       MatButtonModule,
       ConfirmationModule,
-      MatIconModule
+      MatIconModule,
+      DatedValueModule,
     ],
     exports: [
       GrowbeTableComponent,

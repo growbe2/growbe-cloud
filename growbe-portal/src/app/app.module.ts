@@ -67,8 +67,10 @@ import { UserPreferenceService } from './service/user-preference.service';
 import { GrowbeDashboardRegistry } from './growbe/growbe-dashboard/items';
 import { GrowbeMainboardAPI } from './growbe/api/growbe-mainboard';
 import { Subscription, timer } from 'rxjs';
-import { GrowbeMainboard } from 'growbe-cloud-api/lib';
+import { GrowbeMainboard } from '@growbe2/ngx-cloud-api';
 import { GrowbeEventService } from './growbe/services/growbe-event.service';
+import { MarkdownModule } from 'ngx-markdown';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @Injectable({
     providedIn: 'root',
@@ -100,6 +102,9 @@ export class NavigationWrapper {
         AccountModule,
         AuthModule.forRoot(),
         NotificationModule.forRoot({} as any),
+        MarkdownModule.forRoot(),
+
+        NgxChartsModule,
 
         DynamicModuleModule,
 
@@ -236,8 +241,8 @@ export class AppModule {
                         // Will put it back when event whill not triger all the time
                         if (previous_state && previous_state !== g.state) {
                             notificationService.openNotification({
-                                title: (d) => 'Module state changed',
-                                body: g.state,
+                                title: (d) => 'Mainboard state change',
+                                body: `Board ${g.name ? g.name: g.id} is ${g.state.toLowerCase()}`,
                             });
                         }
                         previous_state = g.state;

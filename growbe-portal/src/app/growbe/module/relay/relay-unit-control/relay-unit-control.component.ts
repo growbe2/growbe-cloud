@@ -1,27 +1,24 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { GrowbeModule } from 'growbe-cloud-api/lib';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { GrowbeModule, GrowbeSensorValue } from '@growbe2/ngx-cloud-api';
+import { BaseDashboardComponent } from 'projects/dashboard/src/public-api';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { map, startWith, switchMap, tap } from 'rxjs/operators';
 import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
-import { GrowbeGraphService } from '../../graph/service/growbe-graph.service';
-import { RelayControl } from '../relay-base-control/relay-base-control.component';
+import { mapTextForMode, RelayControl } from '../relay-base-control/relay-base-control.component';
 
 @Component({
   selector: 'app-relay-unit-control',
   templateUrl: './relay-unit-control.component.html',
   styleUrls: ['./relay-unit-control.component.scss']
 })
-export class RelayUnitControlComponent implements OnInit {
+export class RelayUnitControlComponent extends BaseDashboardComponent implements OnInit {
   @Input() mainboardId: string;
   @Input() moduleId: string;
   @Input() field: string;
 
-
   control: RelayControl;
-
 
   value$: Observable<any[]>;
 
@@ -29,40 +26,52 @@ export class RelayUnitControlComponent implements OnInit {
 
   constructor(
     private growbeModuleAPI: GrowbeModuleAPI,
-    private graphService: GrowbeGraphService,
     private growbeActionAPI: GrowbeActionAPI,
     private growbeEventService: GrowbeEventService,
-  ) { }
+  ) {
+    super();
+    this.growbeModuleAPI.flushSensorValue(this.moduleId);
+  }
 
   async ngOnInit() {
-    // faut que j'aille chercher la config et l'etat de cette propriétés
+    if (this.growbeModuleAPI.requestGet.items[this.moduleId]) {
+      this.growbeModuleAPI.requestGet.items[this.moduleId].subject.next(null);
+    }
+
     this.control = {
-     changeManualState: (state) => this.growbeActionAPI.executeActionModule('GROWBE_CONFIG_PROPERTY_UPDATE', this.mainboardId, this.moduleId, {
+     changeManualState: (config) => {
+       return this.growbeActionAPI.executeActionModule('GROWBE_CONFIG_PROPERTY_UPDATE', this.mainboardId, this.moduleId, {
         property: this.field,
-        config: {
-          mode: 0,
-          manual: { state: state }
-        }
-      }),
+        config: config,
+      }, {
+        disableSuccess: config.mode === 0,
+        title: (config.mode === 0) ? '' : mapTextForMode[config.mode].created,
+      })
+      },
       getValues: () => combineLatest([
-        this.growbeModuleAPI.getById(this.moduleId),
+        this.growbeEventService.getModuleLive(this.mainboardId, this.moduleId),
         this.growbeModuleAPI.moduleDef(this.moduleId).get(),
         this.getGrowbeModuleDataEventSource(),
       ]).pipe(
         map(([module, moduleDef, lastValue]: any) => {
+          this.loadingEvent.next(null);
           return [module.config[this.field], lastValue[this.field].state, lastValue.endingAt, !module.connected]
         }),
-      )
+      ),
+      refresh: () => {
+        this.growbeModuleAPI.requestFind
+            .onModif(of(null))
+            .subscribe();
+      }
     };
   }
 
   private getGrowbeModuleDataEventSource() {
-     return this.graphService.getGraph(this.mainboardId, 'one', {
-       growbeId: this.mainboardId,
-       moduleId: this.moduleId,
-       fields: [this.field]
+     return this.growbeModuleAPI.growbeSensorValues(this.moduleId).get({
+       limit: 1,
+       order: ['createdAt DESC']
      }).pipe(
-       switchMap((currentValue) => {
+       switchMap((currentValue: GrowbeSensorValue) => {
           return this.growbeEventService.getGrowbeEvent(
               this.mainboardId,
               `/cloud/m/${this.moduleId}/data`,
@@ -70,7 +79,7 @@ export class RelayUnitControlComponent implements OnInit {
                 return Object.assign(JSON.parse(d), { endingdAt: new Date()})
               },
           ).pipe(
-            startWith(currentValue[0])
+            startWith(currentValue[0].values)
           )
        })
      )

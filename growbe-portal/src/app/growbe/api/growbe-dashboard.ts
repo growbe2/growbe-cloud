@@ -4,12 +4,13 @@ import { AuthService } from '@berlingoqc/auth';
 import { envConfig } from '@berlingoqc/ngx-common';
 import {
     Caching,
+    Filter,
     LoopbackRestClientMixin,
     Resolving,
 } from '@berlingoqc/ngx-loopback';
 import { GrowbeDashboardWithRelations } from '@growbe2/ngx-cloud-api';
 import { Observable, of, Subject } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import {
     Dashboard,
     DashboardItem,
@@ -20,6 +21,31 @@ import {
     PanelItemRef,
     Style,
 } from '@growbe2/growbe-dashboard';
+
+
+const defaultDashboards: Dashboard[] = [
+  {
+    id: 'default_dashboard',
+    layout: 'full',
+    name: 'Default',
+    panels: [
+      {
+        name: 'Welcome',
+        items: [
+          {
+            name: 'Welcome to Growbe Cloud',
+            copy: false,
+            component: 'growbe-welcome',
+            inputs: {},
+            outputs: {}
+          }
+        ]
+      }
+    ],
+    disablePanelBar: true,
+    static: true,
+  }
+];
 
 @Injectable({ providedIn: 'root' })
 export class GrowbeDashboardAPI
@@ -34,6 +60,8 @@ export class GrowbeDashboardAPI
     constructor(httpClient: HttpClient, private authService: AuthService) {
         super(httpClient, '/dashboards');
     }
+
+    get = (filter?: Filter<any>) => super.get(filter).pipe(map(items => [...items, ...defaultDashboards]), tap(console.log));
 
     updateItemFromPanel(panel: PanelDashboardRef, item: DashboardItem & Style, index?: number): Observable<Dashboard> {
       return this.modifyDashboard(panel, (d) => {
@@ -94,20 +122,20 @@ export class GrowbeDashboardAPI
     }
 
     getDashboards() {
-        return this.get({
+        return (this.get({
             where: {
                 userId: this.authService.profile.id,
             },
-        }) as Observable<Dashboard[]>;
+        }) as Observable<Dashboard[]>).pipe(map((items) => [...items, ...defaultDashboards]), tap(console.log));
     }
 
-    getDashboard(name: string) {
+    getDashboard(id: string) {
       return this.getDashboards().pipe(
         map((items) => {
-          const index = items.findIndex((i) => i.name === name);
+          const index = items.findIndex((i) => i.id === id || i.name === id); // TODO fixe condition by uniforming
           return items[index] || null;
         })
-      )
+      );
     }
 
     private getPanelIndex(

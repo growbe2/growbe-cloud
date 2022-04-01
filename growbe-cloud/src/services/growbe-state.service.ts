@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import {lastValueFrom, Subject} from 'rxjs';
 import {RTC_OFFSET_KEY} from '../data';
 import {GrowbeMainboardBindings} from '../keys';
-import {GrowbeMainboard} from '../models';
+import {GrowbeMainboard, GrowbeMainboardWithRelations} from '../models';
 import {
   GroupEnum,
   LogTypeEnum,
@@ -22,6 +22,8 @@ export class GrowbeStateService {
   static DEBUG = require('debug')('growbe:service:state');
 
   watcherMainboard: {[id: string]: NodeJS.Timeout} = {};
+
+  cacheMainboard: {[id: string]: GrowbeMainboard} = {};
 
   constructor(
     @service(MQTTService) public mqttService: MQTTService,
@@ -41,14 +43,17 @@ export class GrowbeStateService {
 
   async onHelloWorld(id: string, helloWorld: HelloWord) {
     this.stateSubject.next(id);
-    const mainboard = await this.growbeService.findOrCreate(id, {
-      include: ['growbeMainboardConfig'],
-    });
+    let mainboard = await this.getMainboard(id);
+    
     mainboard.cloudVersion = helloWorld.cloudVersion;
     mainboard.version = helloWorld.version;
     mainboard.lastUpdateAt = new Date();
-    mainboard.state = 'CONNECTED';
-    await this.stateChange(mainboard);
+    if (mainboard.state !== 'CONNECTED') {
+      mainboard.state = 'CONNECTED';
+      await this.stateChange(mainboard);
+    }
+
+    this.cacheMainboard[id] = mainboard as GrowbeMainboardWithRelations;
     await this.notifyState(
       new GrowbeMainboard(_.omit(mainboard, 'growbeMainboardConfig')),
     );
@@ -56,18 +61,17 @@ export class GrowbeStateService {
   }
 
   async valideState(id: string) {
-    const mainboard = await this.growbeService.findOrCreate(id, {
-      include: ['growbeMainboardConfig'],
-    });
-
+    let mainboard = await this.getMainboard(id);
+    
     const hearthBeathRate = mainboard.growbeMainboardConfig.config.hearthBeath;
     const receiveAt = new Date();
     // Si on change d'état notify par MQTT
     if (mainboard.state !== 'CONNECTED') {
       GrowbeStateService.DEBUG(`Growbe ${id} connected`);
       mainboard.state = 'CONNECTED';
+      this.cacheMainboard[mainboard.id] = mainboard as any;
       await this.stateChange(
-        _.omit(mainboard, 'growbeMainboardConfig') as GrowbeMainboard,
+        _.omit(mainboard, 'growbeMainboardConfig')
       );
       this.growbeActionService.sendSyncRequest(mainboard.id).then(() => {});
     }
@@ -96,15 +100,30 @@ export class GrowbeStateService {
         await this.stateChange(mainboardNew);
         await this.notifyState(mainboardNew);
         await this.growbeModuleService.onBoardDisconnect(mainboardNew.id);
+        
+        mainboardNew.growbeMainboardConfig = this.cacheMainboard[mainboard.id].growbeMainboardConfig;
+        this.cacheMainboard[mainboard.id] = mainboardNew
+
         delete this.watcherMainboard[id];
       })().then(
         () => {},
         () => {},
       );
-    }, hearthBeathRate * 2000);
+    }, hearthBeathRate * 1000);
   }
 
-  private stateChange(mainboard: GrowbeMainboard) {
+
+  private async getMainboard(id: string): Promise<GrowbeMainboard> {
+    let mainboard: GrowbeMainboard;
+    if (!this.cacheMainboard[id]) {
+     this.cacheMainboard[id] = await this.growbeService.findOrCreate(id, {
+       include: ['growbeMainboardConfig'],
+     }) as any;
+    }
+    return this.cacheMainboard[id];
+  }
+
+  private stateChange(mainboard: any) {
     return this.logsService.addLog({
       growbeMainboardId: mainboard.id,
       group: GroupEnum.MAINBOARD,

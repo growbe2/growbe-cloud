@@ -48,6 +48,9 @@ alb-admin-page {
 .full {
   width: 100%;
 }
+.hull {
+  height: 100%;
+}
 .half {
   width: 50%;
 }
@@ -77,6 +80,14 @@ alb-admin-page {
 }
 .justify-center {
   justify-content: center;
+}
+
+.between {
+  justify-content: space-between;
+}
+
+.around {
+  justify-content: space-around;
 }
 
 .ipad {
@@ -152,3 +163,21 @@ alb-admin-page {
   overflow-y: hidden;
   display: block;
 }
+
+
+
+.auto-form-dialog {
+
+  .mat-dialog-content {
+    max-height: 88vh !important;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+  .auto-form-dialog {
+    max-width: 100% !important;
+  }
+}
+

@@ -65,6 +65,10 @@ export class ModuleDataRequest extends Model {
   })
   liveUpdate?: boolean;
   @property({
+    description: 'if true use alarm as reference line to display on graph'
+  })
+  includeAlarms?: boolean;
+  @property({
     description: 'where filter when module have multiple value type',
   }) 
   filter?: {[id:string]: any};

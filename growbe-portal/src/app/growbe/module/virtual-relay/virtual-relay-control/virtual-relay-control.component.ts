@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { VirtualRelayWithRelations } from '@growbe2/ngx-cloud-api';
-import { combineLatest, of } from 'rxjs';
+import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
+import { BehaviorSubject, combineLatest, of } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
@@ -12,32 +13,41 @@ import { RelayControl } from '../../relay/relay-base-control/relay-base-control.
   templateUrl: './virtual-relay-control.component.html',
   styleUrls: ['./virtual-relay-control.component.scss']
 })
-export class VirtualRelayControlComponent implements OnInit {
+export class VirtualRelayControlComponent extends BaseDashboardComponent implements OnInit {
 
   @Input() growbeId: string;
   @Input() vrId: string;
 
   control: RelayControl;
 
+
+  private vrRefresh: BehaviorSubject<void> = new BehaviorSubject(null);
+
   constructor(
     private mainboardAPI: GrowbeMainboardAPI,
     private graphService: GrowbeGraphService,
     private growbeEventService: GrowbeEventService,
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
+    let obs_data = combineLatest([
+      this.mainboardAPI.virtualRelays(this.growbeId).getById(this.vrId),
+      this.getGrowbeModuleDataEventSource()
+    ]);
     this.control = {
-      changeManualState: (state) => this.mainboardAPI.virtualRelayUpdateConfig(this.growbeId, this.vrId, {
-        mode: 0, manual: { state },
-      }),
-      getValues: () => combineLatest([
-        this.mainboardAPI.virtualRelays(this.growbeId).getById(this.vrId),
-        this.getGrowbeModuleDataEventSource()
-      ]).pipe(
+      changeManualState: (config) => this.mainboardAPI.virtualRelayUpdateConfig(this.growbeId, this.vrId, config),
+      getValues: () => this.vrRefresh.pipe(
+        switchMap(() => obs_data),
         map(([vr, lastValue]: [any, any]) => {
+          this.loadingEvent.next(null);
           return [vr.config, lastValue?.data?.state, lastValue?.endingAt, !vr.state];
         })
       ),
+      refresh: () => {
+        this.vrRefresh.next();
+      }
     }
   }
 

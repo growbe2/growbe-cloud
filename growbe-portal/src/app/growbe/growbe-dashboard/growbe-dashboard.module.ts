@@ -23,12 +23,15 @@ import {
 } from '@growbe2/growbe-dashboard';
 import { HardwareAlarmModule } from '../module/hardware-alarm/hardware-alarm.module';
 import { RelayModule } from '../module/relay/relay.module';
+import { DashboardWelcomeComponent } from './component/dashboard-welcome/dashboard-welcome.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
     declarations: [
         GrowbeDynamicDashboardComponent,
         GrowbeDashboardFormComponent,
         GrowbeDashboardHomeComponent,
+        DashboardWelcomeComponent,
     ],
     imports: [
         CommonModule,
@@ -42,6 +45,7 @@ import { RelayModule } from '../module/relay/relay.module';
         GraphModule,
         GrowbeMainboardModule,
         HardwareAlarmModule,
+        MarkdownModule,
 
         FuseWidgetModule,
         FuseSharedModule,

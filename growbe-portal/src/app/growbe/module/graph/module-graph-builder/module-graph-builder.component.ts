@@ -39,16 +39,25 @@ export class ModuleGraphBuilderComponent implements OnInit {
             ? {
                   ...this.value,
               }
-            : null;
+            : { grouping: { intervalUnit: 'minute', baseGroup: ['dayOfYear'], intervalValue: 1}};
         const properties =  this.growbeGraphService.getGraphTimeFrameSelectForm(of(this.module.id), undefined, undefined, [
           {
             name: 'oneChart',
+            displayName: 'Generated one chart with all properties',
             type: 'bool',
             component: {
               name: 'checkbox'
             }
           },
-        ]);
+          {
+            name: 'includeAlarms',
+            displayName: 'Include alarms as reference lines',
+            type: 'bool',
+            component: {
+              name: 'checkbox'
+            }
+          },
+        ], true);
         this.autoFormData = {
                         type: 'simple',
                         items: properties,

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations, FuseSidebarService } from '@berlingoqc/fuse';
-import { GrowbeDashboard } from 'growbe-cloud-api/lib';
+import { GrowbeDashboard } from '@growbe2/ngx-cloud-api';
 import { GrowbeDashboardRegistry } from '../items';
 
 

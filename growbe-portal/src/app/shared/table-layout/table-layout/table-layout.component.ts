@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AutoFormData, AutoFormDialogService } from '@berlingoqc/ngx-autoform';
-import { TableColumn } from '@berlingoqc/ngx-autotable';
+import { AutoTableComponent, TableColumn } from '@berlingoqc/ngx-autotable';
 import { ActionConfirmationDialogComponent, ButtonsRowComponent } from '@berlingoqc/ngx-common';
 import { CRUDDataSource, Where } from '@berlingoqc/ngx-loopback';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 
 @Component({
@@ -13,13 +13,18 @@ import { filter, switchMap } from 'rxjs/operators';
     styleUrls: ['./table-layout.component.scss'],
 })
 export class TableLayoutComponent implements OnInit {
+    @ViewChild(AutoTableComponent) autoTableComponent: AutoTableComponent;
+
     @Input() columns: TableColumn[];
     @Input() where: Where;
     @Input() source: CRUDDataSource<any>;
 
     @Input() formData: AutoFormData;
+    @Input() disablePaginator: boolean;
 
     @Input() removeElement: (element: any) => Observable<any>;
+
+    @Input() formEdit: AutoFormData;;
 
     constructor(
       public autoForm: AutoFormDialogService,
@@ -38,6 +43,22 @@ export class TableLayoutComponent implements OnInit {
                     extra: {
                         inputs: {
                             buttons: [
+                                ...(this.formEdit ? [{
+                                    title: {
+                                      type: 'icon',
+                                      content: 'edit',
+                                    },
+                                    style: 'mat-mini-fab',
+                                    click: (router: any, context: any) => {
+                                      if (typeof this.formEdit.event.initialData === "function") {
+                                        const f = this.formEdit.event.initialData;
+                                        this.formEdit.event.initialData = f(context);
+                                      } else {
+                                        this.formEdit.event.initialData = of(context);
+                                      }
+                                      this.autoForm.open(this.formEdit);
+                                    }
+                                }]: []),
                                 {
                                     title: {
                                         type: 'icon',

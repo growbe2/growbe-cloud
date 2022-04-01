@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AutoFormData } from '@berlingoqc/ngx-autoform';
 import { GrowbeModule } from '@growbe2/ngx-cloud-api';
-import { combineLatest, forkJoin, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, forkJoin, Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';

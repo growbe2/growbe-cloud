@@ -28,16 +28,18 @@ import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { MatMenuModule } from '@angular/material/menu';
 import { DashboardService } from './dashboard.service';
 import { MatCardModule } from '@angular/material/card';
-import { MatTabsExtraModule } from '@berlingoqc/ngx-common';
+import { MatTabsExtraModule, TemplateContentModule } from '@berlingoqc/ngx-common';
 import { AddToDashboardDirective } from './add-dashboard.directive';
 import { DashboardFullComponent } from './components/dashboard-full/dashboard-full.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DashboardOneComponent } from './components/dashboard-one/dashboard-one.component';
 
 @NgModule({
     declarations: [
         DashboardItemComponent,
         DashboardPanelComponent,
         DashboardProjectComponent,
+        DashboardOneComponent,
         ItemContentDirective,
         DashboardItemRegistryCopyDirective,
         AddToDashboardDirective,
@@ -48,6 +50,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
         CommonModule,
         ProjectDashboardModule,
         LayoutDirectiveModule,
+
+        TemplateContentModule,
 
         AutoFormModule,
 

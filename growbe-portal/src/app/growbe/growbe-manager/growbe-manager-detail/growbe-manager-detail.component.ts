@@ -129,6 +129,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
 
         this.actionsColumns = getGrowbeActionTableColumns(
             () => this.id,
+            this.growbeEventService,
             this.growbeActionAPI,
             this.autoformDialog,
         );
@@ -144,7 +145,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
                 this.mainboard = mainboard;
 
                 if (subEventState) { subEventState.unsubscribe();}
-                
+
                 this.moduleWhere = { mainboardId: this.id };
 
                 return {
@@ -203,12 +204,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
                 this.sub = this.growbeEventService
                     .getGrowbeEvent(this.id, '/cloud/m/+/state', JSON.parse)
                     .subscribe((state) => {
-                        const index = this.table.dataSource.data.findIndex(
-                            (x) => x.id === state.id,
-                        );
-                        if (index === -1) {
-                            this.table.refreshData();
-                        }
+                        this.moduleAPI.requestGet.onModif(of(null)).subscribe(() => {});
                     });
             }),
         );

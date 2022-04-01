@@ -7,7 +7,7 @@ import {
 import { of } from 'rxjs';
 import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
 import { timeFieldComponent } from '../../graph/service/growbe-graph.service';
-import { transformFieldInit, transformFieldSubmit } from '../relay-form';
+import { getFormPropertieRelay, transformFieldInit, transformFieldSubmit } from '../relay-form';
 
 
 export const getModuleWaterControlConfig: (
@@ -47,68 +47,7 @@ export const getModuleWaterControlConfig: (
                                     : itext,
                             },
                             name: itext,
-                            properties: [
-                                {
-                                    type: 'union',
-                                    name: 'config',
-                                    types: {
-                                        manual: {
-                                            name: 'manual',
-                                            type: 'object',
-                                            decorators: {
-                                              class: []
-                                            },
-                                            properties: [
-                                                {
-                                                    type: 'bool',
-                                                    name: 'state',
-                                                    component: {
-                                                        name: 'checkbox',
-                                                    },
-                                                },
-                                                {
-                                                    type: 'number',
-                                                    name: 'duration',
-                                                }
-                                            ],
-                                        },
-                                        cycle: {
-                                            name: 'cycle',
-                                            type: 'object',
-                                            properties: [
-                                                {
-                                                    type: 'number',
-                                                    name: 'waitingTime',
-                                                    displayName: 'Waiting Time'
-                                                },
-                                                {
-                                                    type: 'number',
-                                                    name: 'runningTime',
-                                                    displayName: 'Running Time'
-                                                }
-                                            ]
-                                        },
-                                        alarm: {
-                                            name: 'alarm',
-                                            type: 'object',
-                                            properties: [
-                                                {
-                                                    type: 'string',
-                                                    name: 'begining',
-                                                    displayName: 'Opening time',
-                                                    component: timeFieldComponent,
-                                                },
-                                                {
-                                                    type: 'string',
-                                                    name: 'end',
-                                                    displayName: 'Closing time',
-                                                    component: timeFieldComponent,
-                                                },
-                                            ],
-                                        },
-                                    },
-                                } as UnionProperty,
-                            ],
+                            properties: getFormPropertieRelay(),
                         } as FormObject),
                 ),
             ],

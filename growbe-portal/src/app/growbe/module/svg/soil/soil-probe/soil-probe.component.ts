@@ -51,6 +51,17 @@ export class SoilProbeComponent implements OnInit {
   @Input() property: string;
   @Input() name = '';
 
+  @Input() set connected(c: boolean) {
+    if (!c) {
+      this.status = 'disconnected';
+    }
+  }
+  @Input() set isoutdated(isoutdated: boolean) {
+    if (isoutdated) {
+      this.status = 'outdated';
+    }
+  }
+
   @Input() statusgetter: ProbeValueStatusGetter
 
 
@@ -58,7 +69,7 @@ export class SoilProbeComponent implements OnInit {
   @Input() set value(data: any) {
     if (!data) { return; }
     this.pValue = data[this.property];
-    this.status = this.statusgetter?.getValueStatus(this.pValue, data.valuetype);
+    this.status = this.statusgetter.getValueStatus(this.pValue, data.valuetype);
     if (this.status === 'unknow') {
       this.pValue = undefined;
     }
@@ -74,7 +85,7 @@ export class SoilProbeComponent implements OnInit {
     return this.pValue;
   }
 
-  status: 'ok' | 'high' | 'low' | 'disconnected' | 'unknow' = 'unknow';
+  status: 'ok' | 'high' | 'low' | 'disconnected' | 'outdated' | 'unknow' = 'unknow';
   pulse = true;
   animationMetadata = [pulseAnimation];
 

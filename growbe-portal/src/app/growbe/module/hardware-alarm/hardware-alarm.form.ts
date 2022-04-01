@@ -1,12 +1,16 @@
 import { AutoFormData, FormObject, SelectComponent } from "@berlingoqc/ngx-autoform";
 import { GrowbeModule, GrowbeModuleWithRelations } from "@growbe2/ngx-cloud-api";
 import { of } from "rxjs";
-import { GrowbeModuleDefAPI } from "../../api/growbe-module-def";
+import { tap } from "rxjs/operators";
+import { HardwareAlarmRelation } from "../../api/growbe-mainboard";
 
 
 export const alarmField = (name) => ({
   name,
   type: 'object',
+  templates: {
+    header: name,
+  },
   properties: [
     {
       name: 'value',
@@ -23,33 +27,42 @@ export const alarmField = (name) => ({
 export const getHardwareAlarmForm = (
   module: GrowbeModuleWithRelations,
   existingAlarmProperties: string[],
-  moduleDefService: GrowbeModuleDefAPI,
+  api: HardwareAlarmRelation,
+  value?: any,
+  edit?: boolean,
+  cbSubmit?: () => void,
 ) => {
+  let savedValue: any;
   return {
     type: 'dialog',
     typeData: {
-      minWidth: '50%'
+        width: '100%',
+        height: '100%',
+        panelClass: 'auto-form-dialog',
     },
     event: {
-      initialData: () => of(({object: { moduleId: module.id}})),
+      initialData: (v) => {
+        savedValue = v ? v : { moduleId: module.id};
+        return of(savedValue);
+      },
       submit: (value: any) => {
-        const alarm = Object.assign(value.object, {moduleId: module.id});
-        return moduleDefService.addAlarm(module.mainboardId, alarm);
+        const alarm = Object.assign(value, {moduleId: module.id});
+        if (edit) {
+          alarm.property = savedValue.property;
+        }
+        return (edit ? api.updateById(alarm.property, alarm).pipe(
+          //tap(() => api.requestGet.onModif(of(null)).subscribe(() => {})),
+        ) : api.post(alarm)).pipe(
+          tap(() => {
+            cbSubmit?.();
+          })
+        );
       },
     },
     items: [
-      {
-        type: 'object',
-        name: 'object',
-        properties: [
           {
             name: 'moduleId',
             type: 'string',
-            decorators: {
-              style: {
-                'width': '300px'
-              }
-            },
             displayName: 'Module ID',
             disabled: true,
           },
@@ -57,15 +70,17 @@ export const getHardwareAlarmForm = (
             name: 'property',
             type: 'string',
             displayName: 'Property',
+            disabled: edit,
             required: true,
             component: {
               name: 'select',
               type: 'mat',
+              transformValue: (v) => v[0],
               options: {
                 displayTitle: 'Property',
-                displayContent: (e) => e,
-                  value: () => of(Object.keys(module.moduleDef.properties).filter(
-                    item => existingAlarmProperties.indexOf(item) === -1
+                displayContent: e => e[1].displayName || e[1].name,
+                  value: () => of(Object.entries(module.moduleDef.properties).filter(
+                    item => existingAlarmProperties.indexOf(item[0]) === -1
                   ))
               }
             } as SelectComponent,
@@ -73,7 +88,5 @@ export const getHardwareAlarmForm = (
           alarmField('low'),
           alarmField('high'),
         ],
-      } as FormObject,
-    ],
   } as AutoFormData;
 };

@@ -16,32 +16,47 @@ export const moduleDefPropertyDisplayer = {
     AAA: {
         getContent: (property) => ((d) => {
             const suffix = (property === 'humidity') ? '%' : '°C';
-            return d?.values ? d.values[property].toFixed(2) + '' + suffix : '';
+            return d?.values?.[property] ? d.values?.[property]?.toFixed(2) + '' + suffix : '';
         })
     },
     AAS: {
         getContent: (property) => {
           return (d) => {
             if (!d?.values) { return ''; }
-            const value = d.values[property];
+            const value = d.values?.[property];
             if (d.values.valuetype === 'calibrate') {
               if (value === -1) {
                 return 'n/a';
+              }
+              if (!value) {
+                return '';
               }
               return `${value}%`;
             }
             return value;
           }
+        },
+        getDiffContent: (property) => {
+          return (d) => {
+            if (d.current) { return ''; }
+            const value = d.current?.[property];
+            if (d.current.valuetype === 'calibrate') {
+              if (!value || value === -1) {
+                return '';
+              }
+              return `${value}%`
+            }
+          }
         }
     }
 };
 
-export const transformModuleValue = (moduleType: string, property) => {
+export const transformModuleValue = (moduleType: string, property, funct = 'getContent', content_cb = (e) => e.values[property]) => {
     const item = moduleDefPropertyDisplayer[moduleType];
-    if (item && item.getContent) {
-        return { content: item.getContent(property) };
+    if (item && item[funct]) {
+        return { content: item[funct](property) };
     }
     return {
-        content: (e) => e.values[property],
+        content: content_cb,
     }
 };

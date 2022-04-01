@@ -1,6 +1,7 @@
 <ng-container [ngSwitch]="dashboard.layout">
   <app-dashboard-project *ngSwitchCase="'project'" [dashboard]="dashboard"></app-dashboard-project>
   <app-dashboard-full *ngSwitchCase="'full'" [dashboard]="dashboard"></app-dashboard-full>
+  <app-dashboard-one *ngSwitchCase="'one'" [dashboard]="dashboard"></app-dashboard-one>
   <div *ngSwitchDefault>
     NO LAYOUT
   </div>

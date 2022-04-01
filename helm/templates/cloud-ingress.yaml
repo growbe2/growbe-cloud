@@ -13,6 +13,7 @@ spec:
     - cloud.{{ .Values.cloud.basePath }}
     - api.{{ .Values.cloud.basePath }}
     - broker.{{ .Values.cloud.basePath }}
+    - stream.{{ .Values.cloud.basePath }}
     secretName: {{ .Values.cloud.http.certSecret }}
   rules:
   - host: auth.{{ .Values.cloud.basePath }}
@@ -25,6 +26,16 @@ spec:
             name: sso
             port:
               number: 3001
+  - host: stream.{{ .Values.cloud.basePath}}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nms
+            port:
+              number: 8000
   - host: cloud.{{ .Values.cloud.basePath }}
     http:
       paths:
@@ -42,8 +53,6 @@ spec:
             name: frontend-dev
             port:
               number: 80
-
-
   - host: api.{{ .Values.cloud.basePath }}
     http:
       paths:

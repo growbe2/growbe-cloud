@@ -49,6 +49,16 @@ export const addCustomCRUDDatasource = <T>(
 
 class VirtualRelayRelation extends CachingRelation(LoopbackRelationClientMixin<VirtualRelayWithRelations>()) {}
 
+
+export class HardwareAlarmRelation extends LoopbackRelationClientMixin<any>() {
+    moduleId: string;
+
+    get url(): string {
+      return `${super.url}/${this.moduleId}/alarm/hardware`;
+    }
+
+}
+
 @Injectable({ providedIn: 'root' })
 export class GrowbeMainboardAPI extends Caching(
     Resolving(LoopbackRestClientMixin<GrowbeMainboardWithRelations>()),
@@ -73,6 +83,12 @@ export class GrowbeMainboardAPI extends Caching(
         LoopbackRelationClientMixin<GrowbeLogsWithRelations>(),
         'growbeLogs',
     );
+
+    hardwareAlarms = addLoopbackRelation(
+      this,
+      HardwareAlarmRelation,
+      'modules',
+    )
 
     orgGrowbeMainboard = addCustomCRUDDatasource<GrowbeMainboard>(
       this,

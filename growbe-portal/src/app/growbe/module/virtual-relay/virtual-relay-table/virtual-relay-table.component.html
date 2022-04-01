@@ -2,5 +2,6 @@
     *ngIf="growbeId"
     [columns]="columns"
     [source]="mainboardAPI.virtualRelays | lbRelation: growbeId"
+    (dataLoading)="onTableLoaded($event)"
 >
 </ngx-autotable>

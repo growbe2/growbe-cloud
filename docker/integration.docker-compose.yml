@@ -4,3 +4,7 @@ services:
      command: node dist/migrate.js
   sso:
      command: bash -c "npm run migrate && npm run start"
+  mongo:
+     volumes: []
+  pgsql:
+    volumes: []

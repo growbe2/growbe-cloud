@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import {
   ArrayProperty,
     FormObject,
@@ -18,10 +18,11 @@ export const timeFieldComponent = {
     objects: {
         hours: {
             size: 2,
+            type: 'number',
             validators: [
                 (control: FormControl) => {
                     const hours = +control.value;
-                    if (hours > 23) {
+                    if (isNaN(hours) || hours > 23) {
                         return { hours: true };
                     }
                     return null;
@@ -30,10 +31,11 @@ export const timeFieldComponent = {
         },
         minutes: {
             size: 2,
+            type: 'number',
             validators: [
                 (control: FormControl) => {
                     const minutes = +control.value;
-                    if (minutes > 59) {
+                    if (isNaN(minutes) || minutes > 59) {
                         return { minutes: true };
                     }
                     return null;
@@ -65,7 +67,6 @@ export const timeFieldComponent = {
             return { hours: '', minutes: '' };
         },
     },
-    //validators: [Validators.pattern('^[0-9]*$')],
 };
 
 @Injectable({
@@ -97,7 +98,7 @@ export class GrowbeGraphService {
                   value: moduleId$.pipe(
                     filter((moduleId) => moduleId !== null),
                     switchMap((moduleId) => this.moduleAPI.moduleDef(moduleId).get()),
-                    map((moduleDef) => Object.values(moduleDef.properties)),
+                    map((moduleDef: any) => Object.values(moduleDef.properties)),
                   )
                 }
               } as SelectComponent
@@ -108,23 +109,31 @@ export class GrowbeGraphService {
         return {
             type: 'array',
             name,
-            decorators: {},
+            displayName: 'Properties',
+            decorators: {
+                headers: 'Properties to add to graphs',
+            },
+            templates: {
+                hint: 'List of propertie to display from the module',
+            },
             min: nbrProperty,
             max: nbrProperty,
             elementType: this.getPropertySelectFormElement(moduleId$),
         } as ArrayProperty;
     }
 
-    getGraphTimeFrameSelectForm(moduleId$: Observable<string>, nbrProperty?: number, optionalLastX?: boolean, extra?: IProperty[]): IProperty[] {
+    getGraphTimeFrameSelectForm(moduleId$: Observable<string>, nbrProperty?: number, optionalLastX?: boolean, extra?: IProperty[], grouping?: boolean): IProperty[] {
         return [
             {
                 name: 'lastX',
+                displayName: 'Last X unit',
                 type: 'number',
                 required: !optionalLastX,
             },
             {
                 name: 'lastXUnit',
                 type: 'string',
+                displayName: 'Unit',
                 required: !optionalLastX,
                 component: {
                     name: 'select',
@@ -138,16 +147,19 @@ export class GrowbeGraphService {
             {
                 name: 'liveUpdate',
                 type: 'bool',
-                displayName: 'live update ?',
+                displayName: 'Update the chart with live data',
                 component: {
                     name: 'checkbox',
                 },
             },
             ...(extra || []),
             this.getPropertySelectForm(moduleId$, 'fields', nbrProperty),
-            {
+            ...( grouping ? [{
                 name: 'grouping',
                 type: 'object',
+                templates: {
+                    header: 'Averaging on interval'
+                },
                 required: false,
                 properties: [
                     {
@@ -177,8 +189,21 @@ export class GrowbeGraphService {
                             },
                         } as SelectComponent,
                     },
+                    {
+                        name: 'baseGroup',
+                        type: 'array',
+                        decorators: {
+                            style: {
+                                'display': 'none'
+                            }
+                        },
+                        elementType: {
+                            name: '',
+                            type: 'string'
+                        },
+                    } as ArrayProperty
                 ],
-            } as FormObject,
+            } as FormObject]: []),
         ];
     }
 }

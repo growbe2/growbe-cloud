@@ -24,6 +24,9 @@ export class VirtualRelay extends Entity {
   @belongsTo(() => GrowbeMainboard)
   growbeMainboardId: string;
 
+  @property()
+  updatedAt: Date;
+
   constructor(data?: Partial<VirtualRelay>) {
     super(data);
   }

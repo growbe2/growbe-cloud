@@ -10,14 +10,14 @@ import {
     GrowbeModule,
     GrowbeModuleDefWithRelations,
 } from '@growbe2/ngx-cloud-api';
-import { GrowbeModuleDef } from 'growbe-cloud-api/lib/cloud/model/growbeModuleDef';
-import { forkJoin, Observable } from 'rxjs';
 import { Subscription, combineLatest } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeModuleDefAPI } from 'src/app/growbe/api/growbe-module-def';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { transformModuleValue } from '../../module.def';
+
+import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
 
 @Component({
     selector: 'app-growbe-module-data-table',
@@ -26,13 +26,14 @@ import { transformModuleValue } from '../../module.def';
     providers: [DatePipe, ActionConfirmationService],
 })
 @unsubscriber
-export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) implements OnInit {
+export class GrowbeModuleDataTableComponent extends OnDestroyMixin(BaseDashboardComponent) implements OnInit {
     @ViewChild(AutoTableComponent) table: AutoTableComponent;
 
     @Input() mainboardId: GrowbeMainboard['id'];
     @Input() moduleId: GrowbeModule['id'];
     @Input() displayProperties?: string[];
     @Input() pageSize?: AutoTableComponent['pageSize'];
+    @Input() disableTime?: boolean;
     @Input() disablePaginator?: AutoTableComponent['disablePaginator'];
     @Input() disableOptions?: boolean;
     @Input() set config(config: AutoTableConfig) {
@@ -76,6 +77,8 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
         }
         this.where = {};
 
+        this.moduleAPI.flushSensorValue(this.moduleId);
+
         this.growbeEvent.getGrowbeEvent(
           this.mainboardId,
           `/cloud/m/${this.moduleId}/fdata`,
@@ -91,7 +94,7 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
                   this.table.refreshCount();
               }
           } else {
-            this.table.refreshCount();
+              this.table.refreshCount();
           }
        });
 
@@ -103,6 +106,7 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
                     {
                         id: 'createdat',
                         title: 'CreatedAt',
+                        display: !this.disableTime,
                         content: (d) =>
                             this.datePipe.transform(d.createdAt, 'short'),
                     },
@@ -149,5 +153,11 @@ export class GrowbeModuleDataTableComponent extends OnDestroyMixin(Object) imple
                     } as any : undefined,
                 ].filter(x => x);
             });
+    }
+
+    onTableLoading(event: string) {
+      if (event == 'ended') {
+        this.loadingEvent.next(null);
+      }
     }
 }

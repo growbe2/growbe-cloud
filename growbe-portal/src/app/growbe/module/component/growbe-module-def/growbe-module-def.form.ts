@@ -12,31 +12,42 @@ export const growbeModuleDefForm = (
 ): AutoFormData => ({
     type: 'dialog',
     typeData: {
-        minWidth: '50%',
+        width: '100%',
+        height: '100%',
+        panelClass: 'auto-form-dialog',
     } as DialogFormContainer,
     items: [
         {
             type: 'object',
             name: 'object',
+            templates: {
+                header: 'Module definition',
+            },
             properties: [
                 {
                     name: 'name',
                     type: 'string',
+                    displayName: 'Type',
                     disabled: true,
                 },
                 {
                     name: 'displayName',
+                    displayName: 'Display Name',
                     type: 'string',
                 },
                 {
                     name: 'properties',
                     type: 'object',
+                    displayName: 'Properties',
                     properties: [
                         ...Object.values(moduleDef.properties).map(
                             (prop) =>
                                 ({
                                     type: 'object',
                                     name: prop.name,
+                                    templates: {
+                                        header: `${prop.name} configuration`,
+                                    },
                                     properties: [
                                         {
                                             type: 'string',

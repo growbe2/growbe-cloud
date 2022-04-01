@@ -5,10 +5,10 @@
         *ngIf="data.graphType == 'line'"
         [animations]="chart.animations"
         [rangeFillOpacity]="chart.rangeFillOpacity"
-        [legend]="chart.legend ? chart.legent : false"
+        [legend]="chart.legend"
         [legendTitle]="chart.legendTitle"
         [legendPosition]="chart.legendPosition"
-        [showLAbels]="chart.showLabels"
+        [showLabels]="chart.showLabels"
         [showXAxisLabel]="chart.showXAxisLabel"
         [showYAxisLabel]="chart.showYAxisLabel"
         [xAxis]="chart.xAxis"
@@ -34,6 +34,8 @@
         [showRefLines]="true"
         [showRefLabels]="true"
         [results]="chartSerie"
+        [xAxisTickFormatting]="chart.xAxisTickFormatting"
+        [autoScale]="chart.autoScale"
     ></ngx-charts-line-chart>
 
     <ngx-charts-bar-vertical-2d

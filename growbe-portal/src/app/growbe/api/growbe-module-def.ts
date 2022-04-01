@@ -8,20 +8,6 @@ export class GrowbeModuleDefAPI  {
     }
 
     constructor(private httpClient: HttpClient) {}
-
-    addAlarm(mainboardId: string, alarmField: any) {
-      return this.httpClient.post<void>(`${this.baseURL}/growbes/${mainboardId}/alarm/hardware`, alarmField).pipe(
-        // TODO devrait mieux targeter
-
-      );
-    }
-
-    removeAlarm(mainboardId: string, alarmField: any) {
-      return this.httpClient.post<void>(`${this.baseURL}/growbes/${mainboardId}/alarm/hardware/rm`, alarmField).pipe(
-        // TODO devrait mieux targeter
-
-      );
-    }
 }
 
 

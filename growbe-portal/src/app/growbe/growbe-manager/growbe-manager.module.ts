@@ -28,6 +28,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { VirtualRelayModule } from '../module/virtual-relay/virtual-relay.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
@@ -45,6 +46,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
         AutoFormModule,
 
         MatDialogModule,
+        MatTooltipModule,
 
         FlexLayoutModule,
 

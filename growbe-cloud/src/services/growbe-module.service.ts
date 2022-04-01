@@ -84,6 +84,7 @@ export class GrowbeModuleService {
     const modules = await this.moduleRepository.find({
       where: {
         mainboardId: growbeId,
+        connected: true,
       },
     });
     for (const module of modules) {
@@ -99,10 +100,14 @@ export class GrowbeModuleService {
   ) {
     this.stateSubject.next(boardId);
     const module = await this.findOrCreate(boardId, moduleId);
-    module.connected = data.plug;
-    module.readCount = data.readCount;
-    module.atIndex = data.atIndex;
-    await this.updateModuleState(boardId, module);
+    // validated that value really change , because the send more info sometime
+    if (module.connected !== data.plug) {
+      module.connected = data.plug;
+      module.readCount = data.readCount;
+      module.atIndex = data.atIndex;
+      module.updatedAt = new Date();
+      await this.updateModuleState(boardId, module);
+    }
   }
 
   async onModuleDataChange(boardId: string, moduleId: string, data: any) {

@@ -74,6 +74,11 @@ const routes: Routes = [
         canLoad: [MqttConnectGuard],
         canActivate: [AuthGuard],
     },
+    {
+        path: 'releases',
+        loadChildren: () => import('./releases/releases.module').then(m => m.ReleasesModule),
+        canActivate: [AuthGuard],
+    },
     ...FAQRoutes,
 ];
 

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TableColumn } from '@berlingoqc/ngx-autotable';
 import { ButtonsRowComponent, OnDestroyMixin, StateChange, untilComponentDestroyed } from '@berlingoqc/ngx-common';
+import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
 import { of, Subscription } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
@@ -13,8 +14,8 @@ import { getTableDeleteButton } from 'src/app/helpers/table';
   templateUrl: './virtual-relay-table.component.html',
   styleUrls: ['./virtual-relay-table.component.scss']
 })
-export class VirtualRelayTableComponent extends OnDestroyMixin(Object) implements OnInit {
-  
+export class VirtualRelayTableComponent extends OnDestroyMixin(BaseDashboardComponent) implements OnInit {
+
   @Input() growbeId: string;
 
   columns: TableColumn[];
@@ -50,7 +51,7 @@ export class VirtualRelayTableComponent extends OnDestroyMixin(Object) implement
       },
       {
         id: 'options',
-        title: 'Options', 
+        title: 'Options',
         content: {
           type: 'component',
           content: ButtonsRowComponent,
@@ -64,6 +65,12 @@ export class VirtualRelayTableComponent extends OnDestroyMixin(Object) implement
         }
       }
     ];
+  }
+
+  onTableLoaded(event: string) {
+    if (event === 'ended') {
+      this.loadingEvent.next(null);
+    }
   }
 
 }
