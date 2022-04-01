@@ -103,6 +103,12 @@ export class GrowbeService {
       growbeMainboardId: growbeId 
     })
 
+
+    await this.mqttService.send(
+      getTopic(growbeId, '/cloud/processconfig'),
+      JSON.stringify(processConfig)
+    )
+
     await this.logsService.addLog({
       group: GroupEnum.MAINBOARD,
       type: LogTypeEnum.LOCAL_CONNECTION_UPDATED,
