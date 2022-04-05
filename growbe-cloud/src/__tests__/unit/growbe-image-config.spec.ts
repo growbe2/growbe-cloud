@@ -1,4 +1,3 @@
-O
 import {GrowbeMainboardImageConfig} from "../../models";
 import {GrowbeImangeConfigService} from "../../services";
 import {boardId} from "../fixtures/data";
