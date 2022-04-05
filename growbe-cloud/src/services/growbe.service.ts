@@ -105,7 +105,7 @@ export class GrowbeService {
 
 
     await this.mqttService.send(
-      getTopic(growbeId, '/cloud/boardconfig'),
+      getTopic(growbeId, '/cloud/processconfig'),
       JSON.stringify(processConfig)
     )
 
