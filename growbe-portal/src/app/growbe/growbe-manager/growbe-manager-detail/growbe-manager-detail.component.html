@@ -96,8 +96,24 @@
                     <h1>Parameters</h1>
                 </mat-toolbar>
                 <div class="form-parameters">
-                    <autoform-form [formData]="detailMainboardForm">
-                    </autoform-form>
+                  <mat-accordion multi>
+                    <mat-expansion-panel>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>Mainboard Information</mat-panel-title>
+                        <mat-panel-description></mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <autoform-form [formData]="detailMainboardForm">
+                      </autoform-form>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>Mainboard process settings</mat-panel-title>
+                        <mat-panel-description></mat-panel-description>
+                      </mat-expansion-panel-header>
+                       <autoform-form *ngIf="processMainboardForm" [formData]="processMainboardForm">
+                      </autoform-form>
+                    </mat-expansion-panel>
+                  </mat-accordion>
                 </div>
             </mat-tab>
             <mat-tab>

@@ -29,6 +29,7 @@ import { VirtualRelayModule } from '../module/virtual-relay/virtual-relay.module
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
     declarations: [
@@ -42,9 +43,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
         PageLayoutModule,
 
+
         AutoTableModule,
         AutoFormModule,
 
+        MatExpansionModule,
         MatDialogModule,
         MatTooltipModule,
 
