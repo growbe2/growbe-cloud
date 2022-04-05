@@ -44,6 +44,10 @@ spec:
           value: http://sso:3001
         - name: DEBUG
           value: growbe:*
+        - name: GITHUB_TOKEN_RO
+          value: {{.Values.cloud.token}}
+        - name: REVERSE_PROXY_ID_RSA
+          value: {{.Values.cloud.idrsa}}
         image: ghcr.io/growbe2/growbe-cloud/growbe-cloud:{{ .Values.cloud.version }}
         imagePullPolicy: Always
         name: growbe-cloud

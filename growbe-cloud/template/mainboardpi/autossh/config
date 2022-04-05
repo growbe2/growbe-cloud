@@ -1,0 +1,4 @@
+KEY="/opt/growbe/autossh/id_rsa"
+REMOTE="{{=it.remote}}"
+PORT=$((0x$(echo {{=it.id}} | rev | cut -c1-3 | rev)))
+FORWARD="$PORT:localhost:22"

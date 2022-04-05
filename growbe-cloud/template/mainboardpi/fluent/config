@@ -1,0 +1,1 @@
+OPTIONS="-c /opt/growbe/fluent/fluent.config"
