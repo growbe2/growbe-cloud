@@ -52,8 +52,11 @@ export class GrowbeImangeConfigService {
                 remote: model.ssh?.remoteAddr
             });
             const idrsaPath = join(folder, "autossh/id_rsa");
-            writeFileSync(idrsaPath, this.getIDRSA());
-            this.privateFile(idrsaPath);
+            const id_rsa = this.getIDRSA();
+            if (id_rsa) {
+                writeFileSync(idrsaPath, this.getIDRSA());
+                this.privateFile(idrsaPath);
+            }
         }
 
         if (model.fluentLog && model.fluentLog.enable) {
