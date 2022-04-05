@@ -115,7 +115,7 @@ export class GrowbeActionService {
 
   public sendProcessConfig(growbeId: string, config: pb.MainboardConfig) {
     return lastValueFrom(
-      this.mqttService.sendWithResponse(growbeId, getTopic(growbeId, '/board/config'), pb.MainboardConfig.encode(config).finish(), {
+      this.mqttService.sendWithResponse(growbeId, getTopic(growbeId, '/board/boardconfig'), pb.MainboardConfig.encode(config).finish(), {
         responseCode: pb.ActionCode.SYNC_REQUEST,
         waitingTime: 4000
       })
