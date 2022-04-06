@@ -112,7 +112,7 @@ export class GrowbeProcessConfigService {
                   }
                 },
                 {
-                  name: 'restart',
+                  name: 'reboot',
                   type: 'bool',
                   displayName: "Reboot automaticaly on update",
                   component: {
