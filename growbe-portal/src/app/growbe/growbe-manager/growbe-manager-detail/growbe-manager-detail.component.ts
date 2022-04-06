@@ -26,6 +26,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import {GrowbeProcessConfigService} from '../../services/growbe-process-config.service';
+import {GrowbeImageConfigService} from '../../services/growbe-image-config.service';
 
 let i = 1;
 @Component({
@@ -78,6 +79,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
 
     detailMainboardForm: AutoFormData;
     processMainboardForm: AutoFormData;
+    imageConfigForm: AutoFormData;
 
     moduleWhere: Where<GrowbeModule>;
     moduleIncludes: Include[] = [{ relation: 'moduleDef' }];
@@ -116,6 +118,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
         private activatedRoute: ActivatedRoute,
         public mainboardAPI: GrowbeMainboardAPI,
         public moduleAPI: GrowbeModuleAPI,
+        private imageConfigService: GrowbeImageConfigService,
         private processConfigService: GrowbeProcessConfigService,
         private growbeEventService: GrowbeEventService,
         private growbeActionAPI: GrowbeActionAPI,
@@ -147,6 +150,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
                 this.id = mainboard.id;
                 this.mainboard = mainboard;
 
+                this.imageConfigForm = this.imageConfigService.getGrowbeImageConfigForm(this.id);
                 this.processMainboardForm = this.processConfigService.getGrowbeProcessForm(mainboard);
                 if (subEventState) { subEventState.unsubscribe();}
 
