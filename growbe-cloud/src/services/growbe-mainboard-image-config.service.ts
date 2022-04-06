@@ -4,9 +4,17 @@ import {GrowbeMainboardImageConfig} from "../models";
 
 import * as dot from 'dot';
 import {join} from "path";
-import {chmodSync, mkdirSync, readFileSync, rmdirSync, writeFileSync} from "fs";
+import {chmodSync, copyFileSync, mkdirSync, readFileSync, rmdirSync, writeFileSync} from "fs";
 import {env} from "process";
 import {exec, execSync} from "child_process";
+import {GrowbeMainboardRepository} from "../repositories";
+import {repository} from "@loopback/repository";
+
+function between(min: number, max: number) {  
+    return Math.floor(
+     Math.random() * (max - min) + min
+    );
+}
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeImangeConfigService {
@@ -18,20 +26,27 @@ export class GrowbeImangeConfigService {
     templateFolder: string = "./template/mainboardpi";
 
 
-    constructor() {
+    constructor(
+        @repository(GrowbeMainboardRepository)
+        private growbeRepository: GrowbeMainboardRepository,
+    ) {
         (dot as any).templateSettings.strip = false;
     }
 
 
-    generateConfigFiles(mainboardId: string, model: GrowbeMainboardImageConfig): string {
+    async generateConfigFiles(mainboardId: string, model: GrowbeMainboardImageConfig): Promise<string> {
+
+        const mainboard = await this.growbeRepository.findById(mainboardId, { include: [{relation: "growbeMainboardConfig"}] })
+
 
         const baseFolder = join(this.workingFolder, mainboardId);
         const folder = join(baseFolder, "growbe");
 
         mkdirSync(folder,  { recursive: true });
 
-        const initPath = this.renderTemplate(mainboardId, "init.sh", "growbe/init.sh");
-        this.executableFile(initPath);
+        writeFileSync(join(folder, `${model.environment}.json`), JSON.stringify(mainboard.growbeMainboardConfig.processConfig, null, 5));
+
+        this.renderTemplate(mainboardId, "ssh", "ssh");
 
         const configurePath = this.renderTemplate(mainboardId, "configure.sh", "growbe/configure.sh", {
             env: model.environment,
@@ -49,7 +64,8 @@ export class GrowbeImangeConfigService {
             this.renderTemplate(mainboardId, `autossh/config`, `growbe/autossh/${model.environment}`, {
                 id: mainboardId,
                 env: model.environment,
-                remote: model.ssh?.remoteAddr
+                remote: model.ssh?.remoteAddr || 'root@assets.inner.wquintal.ca',
+                port: between(20000, 30000),
             });
             const idrsaPath = join(folder, "autossh/id_rsa");
             const id_rsa = this.getIDRSA();
@@ -78,6 +94,10 @@ export class GrowbeImangeConfigService {
                 country: model.wifi.country,
             });
         }
+
+        // download the executable
+        console.log(execSync(`bash ./scripts/download.sh latest`).toString());
+        copyFileSync("./growbe-mainboard-arm-linux-latest", join(folder,"growbe-mainboard"))
         
         return baseFolder;
     }

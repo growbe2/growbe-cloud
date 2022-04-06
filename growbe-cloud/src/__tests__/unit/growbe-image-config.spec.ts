@@ -2,6 +2,7 @@ import {GrowbeMainboardImageConfig} from "../../models";
 import {GrowbeImangeConfigService} from "../../services";
 import {boardId} from "../fixtures/data";
 
+/*
 describe.only('Growbe Image Config', () => {
 
   let service: GrowbeImangeConfigService;
@@ -31,6 +32,8 @@ describe.only('Growbe Image Config', () => {
         }
     }));
     service.generateArchiveFromConfigFiles(boardId, folder);
-  });
+  }).timeout(10000);
 });
+
+*/
  

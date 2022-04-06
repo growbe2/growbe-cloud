@@ -18,12 +18,12 @@ export class GrowbeMainboardImageController {
   @authorizeGrowbe({
     growbeIdIndex: 0,
   })
-  generateConfigArchive(
+  async generateConfigArchive(
     @param.path.string('id') growbeId: string,
     @requestBody() body: GrowbeMainboardImageConfig,
   ) {
-    const configFiles = this.imageConfigService.generateConfigFiles(growbeId, body);
-    const archive = this.imageConfigService.generateArchiveFromConfigFiles(growbeId, configFiles);
+    const configFiles = await this.imageConfigService.generateConfigFiles(growbeId, body);
+    const archive =  this.imageConfigService.generateArchiveFromConfigFiles(growbeId, configFiles);
     return {
         archive
     };
