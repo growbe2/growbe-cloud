@@ -152,10 +152,11 @@ export class GrowbeImangeConfigService {
         const template_path = join(this.templateFolder, file_path);
         const template_path_dest = join(this.workingFolder, mainboardId, dest_path);
 
-        const template_content = await fs.readFile(template_path).toString().replace(/\r\n/g,'\n')
+        const template_content = (await fs.readFile(template_path)).toString().replace(/\r\n/g,'\n')
 
         const render_template = dot.template(template_content)(obj);
 
+        console.log(render_template);
         await fs.writeFile(template_path_dest, render_template);
 
         return template_path_dest;
