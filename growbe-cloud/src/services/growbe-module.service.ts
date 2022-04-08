@@ -63,11 +63,11 @@ export class ModuleDataCache {
             console.log('GET FROM CACHE');
             return moduleData;
         }
-        console.log('Cannot get from cache ', currentTimestamp, moduleData?.createdAt, moduleData?.endingAt);
+        console.log('Cannot get from cache ', moduleId,' ', currentTimestamp,' ',  moduleData?.createdAt,' ', moduleData?.endingAt);
         return undefined;
     }
 
-    stroreModuleData(value: GrowbeSensorValue): void {
+    storeModuleData(value: GrowbeSensorValue): void {
         this.moduleData[value.moduleId] = value;
     }
 
@@ -81,7 +81,7 @@ const removeNullProperty = (obj: any) => {
   return Object.fromEntries(Object.entries(obj).filter((_,v) => v !== null && v !== undefined))
 }
 
-@injectable({scope: BindingScope.TRANSIENT})
+@injectable({scope: BindingScope.SINGLETON})
 export class GrowbeModuleService {
   static PREFIX_LENGTH = 3;
   static SUFFIX_LENGTH = 9;
@@ -209,7 +209,7 @@ export class GrowbeModuleService {
       document = await this.sensorValueRepository.create(document);
     }
 
-    this.moduleDataCache.stroreModuleData(document);
+    this.moduleDataCache.storeModuleData(document);
 
     await this.mqttService.send(
       getTopic(boardId, `/cloud/m/${moduleId}/data`),
