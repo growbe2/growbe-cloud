@@ -113,6 +113,23 @@ export class GrowbeActionService {
       });
   }
 
+  public sendProcessConfig(growbeId: string, config: pb.MainboardConfig) {
+    return lastValueFrom(
+      this.mqttService.sendWithResponse(growbeId, getTopic(growbeId, '/board/boardconfig'), pb.MainboardConfig.encode(config).finish(), {
+        responseCode: pb.ActionCode.SYNC_REQUEST,
+        waitingTime: 4000
+      })
+    ).then(value => {
+      return this.logsService.addLog({
+        group: GroupEnum.MAINBOARD,
+        type: 'config' as any,
+        severity: SeverityEnum.LOW,
+        growbeMainboardId: growbeId,
+        message: 'process config updated'
+      })
+    })
+  }
+
     /**
    * send request to growbe to ask to
    * sync all is modules informations

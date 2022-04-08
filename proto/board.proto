@@ -28,3 +28,38 @@ message LocalConnection {
     int32 signalLevel = 2;
     string ipAddr = 3;
 }
+
+
+message MQTTConfig {
+    string url = 1;
+    int32 port = 2;
+}
+
+message ComboardConfig {
+    string config = 1;
+    string imple = 2;
+}
+
+message HttpServerConfig {
+    string addr = 1;
+    int32 port = 2;
+}
+
+message LoggerConfig {
+    string target = 1;
+}
+
+message UpdaterConfig {
+    bool autoupdate = 1;
+    string channel = 2;
+    bool reboot = 3;
+}
+
+message MainboardConfig {
+    string id = 1;
+    MQTTConfig mqtt = 2;
+    ComboardConfig comboard = 3;
+    HttpServerConfig server = 4;
+    LoggerConfig logger = 5;
+    UpdaterConfig update = 6;
+}

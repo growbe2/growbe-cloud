@@ -6,6 +6,7 @@ metadata:
     cert-manager.io/issuer: issuer-do
     nginx.org/websocket-services: "broker"
     nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/proxy-body-size: 50M
 spec:
   tls:
   - hosts:

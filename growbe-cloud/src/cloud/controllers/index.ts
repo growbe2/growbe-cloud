@@ -9,3 +9,4 @@ export * from './growbe-module-calibration.controller';
 export * from './virtual-relay.controller';
 export * from './growbe-dashboard.controller';
 export * from './growbe-hardware-alarm.controller';
+export * from './growbe-mainboard-image-config.controller';

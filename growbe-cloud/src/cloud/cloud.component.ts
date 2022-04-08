@@ -23,6 +23,7 @@ import {
   VirtualRelayController,
   GrowbeDashboardController,
   GrowbeHardwareAlarmController,
+  GrowbeMainboardImageController,
 } from './controllers';
 import {authenticate} from '@loopback/authentication';
 import {CRUD_CONTROLLERS} from './crud-controller';
@@ -81,6 +82,7 @@ export class CloudComponent implements Component {
     VirtualRelayController,
     GrowbeDashboardController,
     GrowbeHardwareAlarmController,
+    GrowbeMainboardImageController,
   ];
   bindings = [
     // Binding.bind(GrowbeMainboardBindings.WATCHERS).to(watchers)

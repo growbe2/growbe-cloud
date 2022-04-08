@@ -1,0 +1,3 @@
+KEY="/opt/growbe/autossh/id_rsa"
+REMOTE="{{=it.remote}}"
+FORWARD="{{=it.port}}:localhost:22"

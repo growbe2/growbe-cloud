@@ -86,4 +86,13 @@ export class GrowbeMainboardActionController {
     return this.growbeActionService.sendSyncRequest(id);
   }
 
+  @patch('/growbe/{id}/processconfig')
+  @authorizeGrowbe({
+    growbeIdIndex: 0,
+  })
+  setGrowbeProcessConfig(@param.path.string('id') id: string, @requestBody() body: any) {
+    return this.growbeActionService.sendProcessConfig(id, body)
+  }
+
+
 }

@@ -7,6 +7,9 @@ ARG GITHUB_ACCESS_TOKEN
 RUN test -n "$GITHUB_ACCESS_TOKEN"
 ENV GITHUB_ACCESS_TOKEN=$GITHUB_ACCESS_TOKEN
 
+
+RUN apt update && apt install -y p7zip-full jq wget curl
+
 # Set to a non-root built-in user `node`
 USER node
 

@@ -13,3 +13,5 @@ cloud:
   broker:
     port: 1883
     portws: 9001
+  ghtoken: "invalid"
+  idrsa: "invalid"

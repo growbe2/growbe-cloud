@@ -35,6 +35,8 @@ spec:
           value: http://sso:3001
         - name: DEBUG
           value: 'growbe:*'
+        - name: TZ
+          value: "America/Toronto"
         image: ghcr.io/growbe2/growbe-cloud/growbe-cloud:{{ .Values.cloud.version }}
         imagePullPolicy: Always
         name: growbe-cloud-watcher

@@ -26,6 +26,8 @@ import {
     GrowbeMainboard,
     VirtualRelayWithRelations,
 } from '@growbe2/ngx-cloud-api';
+import {Observable, of} from 'rxjs';
+import {tap} from 'rxjs/operators';
 
 
 export const addCustomCRUDDatasource = <T>(
@@ -129,5 +131,13 @@ export class GrowbeMainboardAPI extends Caching(
 
     virtualRelayUpdateConfig(growbeId: string, vrId: string, config: any) {
       return this.httpClient.patch<void>(`${envConfig.growbeCloud}/growbes/${growbeId}/virtualRelays/${vrId}/config`, config);
+    }
+
+    updateProcessConfg(mainboadId: string, processConfig: any): Observable<void> {
+      return this.httpClient.patch<void>(`${envConfig.growbeCloud}/growbe/${mainboadId}/processconfig`, processConfig).pipe(
+        tap(() => {
+          this.requestFind.onModif(of(null))
+        })
+      )
     }
 }

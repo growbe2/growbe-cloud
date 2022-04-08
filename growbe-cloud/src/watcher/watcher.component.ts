@@ -1,4 +1,4 @@
-import {ActionResponse, FieldAlarmEvent, HearthBeath, HelloWord, LocalConnection, ModuleData, UpdateExecute, SOILCalibrationStepEvent, VirtualRelayState, VirtualRelayData } from '@growbe2/growbe-pb';
+import {ActionResponse, FieldAlarmEvent, HearthBeath, HelloWord, LocalConnection, ModuleData, UpdateExecute, SOILCalibrationStepEvent, VirtualRelayState, VirtualRelayData, MainboardConfig } from '@growbe2/growbe-pb';
 import {Binding, Component} from '@loopback/core';
 import { split } from 'lodash';
 import {GrowbeMainboardBindings} from '../keys';
@@ -31,6 +31,12 @@ const watchers: DataSubject[] = [
       service.updateLocalConnection(id, localConnection),
     model: LocalConnection,
     regexTopic: 'localconnection',
+    service: GrowbeService,
+  },
+  {
+    func: (id, service: GrowbeService, processConfig: any) => service.updateProcessConfig(id, processConfig),
+    model: MainboardConfig,
+    regexTopic: 'config',
     service: GrowbeService,
   },
   {

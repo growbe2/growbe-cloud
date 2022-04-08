@@ -14,6 +14,7 @@ import { GrowbeRegisterLayoutComponent } from "src/app/growbe/growbe-manager/gro
 import { GrowbeRegisterRouting } from "src/app/growbe/growbe-manager/growbe-register/growbe-register.routing";
 import { GrowbeRegisterComponent } from "src/app/growbe/growbe-manager/growbe-register/growbe-register/growbe-register.component";
 import { GrowbeRegisterOrganisationComponent } from './growbe-register-organisation/growbe-register-organisation.component';
+import { GrowbeImageConfigComponent } from './growbe-image-config/growbe-image-config.component';
 
 
 
@@ -39,7 +40,8 @@ import { GrowbeRegisterOrganisationComponent } from './growbe-register-organisat
   declarations: [
     GrowbeRegisterOrganisationComponent,
     GrowbeRegisterComponent,
-    GrowbeRegisterLayoutComponent
+    GrowbeRegisterLayoutComponent,
+    GrowbeImageConfigComponent
   ]
 })
 export class GrowbeRegisterModule {}

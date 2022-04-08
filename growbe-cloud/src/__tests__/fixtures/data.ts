@@ -3,3 +3,4 @@ export const boardId = 'CCCCCCCC';
 
 export const orgId = '1234-1234-1234-1234';
 export const moduleId = 'AAA0000001';
+export const relayModuleId = 'AAP0000001';

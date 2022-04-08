@@ -15,7 +15,7 @@ import { AutoFormData, AutoFormDialogService, FormObject, InputProperty } from '
 import { notify } from '@berlingoqc/ngx-notification';
 import { Observable, of, Subscription, timer } from 'rxjs';
 import { Filter, Include, StaticDataSource, Where } from '@berlingoqc/ngx-loopback';
-import { GrowbeLogs, GrowbeMainboard, GrowbeModule } from '@growbe2/ngx-cloud-api';
+import { GrowbeLogs, GrowbeMainboard, GrowbeMainboardWithRelations, GrowbeModule } from '@growbe2/ngx-cloud-api';
 import { fuseAnimations, FuseNavigationService, FuseSidebarService } from '@berlingoqc/fuse';
 import { GrowbeEventService } from '../../services/growbe-event.service';
 import { ActionConfirmationDialogComponent, OnDestroyMixin, TemplateContentData, unsubscriber, untilComponentDestroyed } from '@berlingoqc/ngx-common';
@@ -25,6 +25,8 @@ import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
 import { MatDialog } from '@angular/material/dialog';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import {GrowbeProcessConfigService} from '../../services/growbe-process-config.service';
+import {GrowbeImageConfigService} from '../../services/growbe-image-config.service';
 
 let i = 1;
 @Component({
@@ -50,8 +52,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
         },
         {
             name: 'Commands',
-            icon: 'send'
-        },
+            icon: 'send' },
         {
             name: 'Virtual Relay',
             icon: 'merge_type'
@@ -77,6 +78,8 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
     id: string;
 
     detailMainboardForm: AutoFormData;
+    processMainboardForm: AutoFormData;
+    imageConfigForm: AutoFormData;
 
     moduleWhere: Where<GrowbeModule>;
     moduleIncludes: Include[] = [{ relation: 'moduleDef' }];
@@ -115,6 +118,8 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
         private activatedRoute: ActivatedRoute,
         public mainboardAPI: GrowbeMainboardAPI,
         public moduleAPI: GrowbeModuleAPI,
+        private imageConfigService: GrowbeImageConfigService,
+        private processConfigService: GrowbeProcessConfigService,
         private growbeEventService: GrowbeEventService,
         private growbeActionAPI: GrowbeActionAPI,
         private autoformDialog: AutoFormDialogService,
@@ -126,6 +131,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
     }
 
     ngOnInit(): void {
+
 
         this.actionsColumns = getGrowbeActionTableColumns(
             () => this.id,
@@ -140,10 +146,12 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
         this.data$ = this.activatedRoute.data.pipe(
             untilComponentDestroyed(this),
             switchMap(({ mainboard }) => this.mainboardAPI.getById(mainboard.id)),
-            map((mainboard: GrowbeMainboard) => {
+            map((mainboard: GrowbeMainboardWithRelations) => {
                 this.id = mainboard.id;
                 this.mainboard = mainboard;
 
+                this.imageConfigForm = this.imageConfigService.getGrowbeImageConfigForm(this.id);
+                this.processMainboardForm = this.processConfigService.getGrowbeProcessForm(mainboard);
                 if (subEventState) { subEventState.unsubscribe();}
 
                 this.moduleWhere = { mainboardId: this.id };
