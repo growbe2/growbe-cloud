@@ -9,7 +9,7 @@ function start() {
   sleep 5
 
   . ./docker/envs/local.sh
-
+        
   if [ -n "$1" ]; then
     ./transactional/configure_db.sh integration
   fi

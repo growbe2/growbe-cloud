@@ -4,10 +4,12 @@ import {addMinutes} from 'date-fns';
 import sinon from 'sinon';
 import {GrowbeCloudApplication} from '../../application';
 import { GrowbeModuleDefWithRelations, GrowbeModuleWithRelations } from '../../models';
+import {GrowbeSensorValueRepository} from '../../repositories';
 import {GrowbeModuleService} from '../../services';
 import {setupApplication} from '../fixtures/app';
-import {boardId, moduleId} from '../fixtures/data';
+import {boardId, moduleId, relayModuleId} from '../fixtures/data';
 import {waitAsync} from '../helpers/general';
+
 
 describe('Growbe Mainboard', () => {
   let app: GrowbeCloudApplication;
@@ -98,6 +100,7 @@ describe('Growbe Mainboard', () => {
 
       afterEach(async () => {
         await moduleService.sensorValueRepository.deleteAll();
+        moduleService.moduleDataCache.clear();
       });
 
       before(async () => {
@@ -130,46 +133,80 @@ describe('Growbe Mainboard', () => {
         const sensorData = await moduleService.moduleRepository.growbeSensorValues(moduleId).find();
         expect(sensorData.length).to.eql(1);
       });
+    
+      describe('Module sans aggregation de donnee', () => {
+        const relayData = pb.RelayModuleData.encode(
+            new pb.RelayModuleData({p0: { state: false }, p1: { state: true }}),
+        ).finish();
 
-      it('Reception de plusieurs valeurs dans la même minute', async () => {
-        const item = await moduleService.onModuleDataChange(
-          boardId,
-          moduleId,
-          thlData,
-        );
-
-        const item2 = await moduleService.onModuleDataChange(
-          boardId,
-          moduleId,
-          thlData2,
-        );
-
-        expect(item.samples).length(0);
-        expect(item.id?.toString()).to.eql(item2.id?.toString());
-        expect(item2.values.airTemperature).to.eql(10);
-        expect(item2.samples).length(1);
-        expect(item2.samples[0].airTemperature).to.eql(20);
-      });
-
-      it('Reception de valeur separer de une minute', async () => {
-        const item = await moduleService.onModuleDataChange(
-          boardId,
-          moduleId,
-          thlData,
-        );
-
-        sinon.useFakeTimers({
-          now: addMinutes(new Date(), 2),
+        beforeEach(async () => {
+          await moduleService.sensorValueRepository.deleteAll();
         });
 
-        const item2 = await moduleService.onModuleDataChange(
+        it('Reception de donne cree une nouvelle entre chaque fois', async () => {
+            const item = await moduleService.onModuleDataChange(
+              boardId,
+              relayModuleId,
+              relayData,
+            );
+            const item2 = await moduleService.onModuleDataChange(
+              boardId,
+              relayModuleId,
+              relayData,
+            );
+
+            const items = await moduleService.sensorValueRepository.find({ where: { moduleId: relayModuleId } });
+
+            expect(items.length).to.eql(2);
+        });
+      });
+
+      describe('Module avec aggregation des donees', () => {
+        it('Reception de plusieurs valeurs dans la même minute', async () => {
+
+          const methodStub = sinon.stub(moduleService.sensorValueRepository, 'findOne').callThrough();
+
+          const item = await moduleService.onModuleDataChange(
+            boardId,
+            moduleId,
+            thlData,
+          );
+          let compareItem = JSON.parse(JSON.stringify(item));
+ 
+          const item2 = await moduleService.onModuleDataChange(
+            boardId,
+            moduleId,
+            thlData2,
+          );
+
+          expect(methodStub.calledTwice).to.be.false();
+          expect(compareItem.samples).length(0);
+          expect(compareItem.id?.toString()).to.eql(item2.id?.toString());
+          expect(item2.values.airTemperature).to.eql(10);
+          expect(item2.samples).length(1);
+          expect(item2.samples[0].airTemperature).to.eql(20);
+        });
+
+        it('Reception de valeur separer de une minute', async () => {
+          const item = await moduleService.onModuleDataChange(
+            boardId,
+            moduleId,
+            thlData,
+          );
+
+          sinon.useFakeTimers({
+           now: addMinutes(new Date(), 2),
+         });
+
+         const item2 = await moduleService.onModuleDataChange(
           boardId,
           moduleId,
           thlData,
-        );
+          );
 
-        expect(item.id?.toString()).not.eql(item2.id?.toString());
-      });
+         expect(item.id?.toString()).not.eql(item2.id?.toString());
+        });
+      })
+     });
     });
-  });
 });
