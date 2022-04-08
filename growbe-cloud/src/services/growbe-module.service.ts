@@ -60,6 +60,7 @@ export class ModuleDataCache {
     getModuleData(moduleId: string, currentTimestamp: number): GrowbeSensorValue | undefined {
         const moduleData = this.moduleData[moduleId];
         if (moduleData && moduleData.createdAt <= currentTimestamp && moduleData.endingAt >= currentTimestamp) {
+            console.log('GET FROM CACHE');
             return moduleData;
         }
         return undefined;

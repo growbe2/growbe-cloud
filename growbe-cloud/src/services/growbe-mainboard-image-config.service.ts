@@ -156,7 +156,6 @@ export class GrowbeImangeConfigService {
 
         const render_template = dot.template(template_content)(obj);
 
-        console.log(render_template);
         await fs.writeFile(template_path_dest, render_template);
 
         return template_path_dest;
