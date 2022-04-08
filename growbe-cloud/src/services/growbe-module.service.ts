@@ -45,20 +45,47 @@ const mapTypeConfiguration: any = {
     disableAverage: true
   },
   AAP: {
-    disbleAverage: true
+    disableAverage: true
   }
 }
+
+export class ModuleDataCache {
+
+    moduleData: {[moduleId: string]: GrowbeSensorValue}
+
+    constructor() {
+        this.moduleData = {};
+    }
+
+    getModuleData(moduleId: string, currentTimestamp: number): GrowbeSensorValue | undefined {
+        const moduleData = this.moduleData[moduleId];
+        if (moduleData && moduleData.createdAt <= currentTimestamp && moduleData.endingAt >= currentTimestamp) {
+            return moduleData;
+        }
+        return undefined;
+    }
+
+    stroreModuleData(value: GrowbeSensorValue): void {
+        this.moduleData[value.moduleId] = value;
+    }
+
+    clear() {
+        this.moduleData = {};
+    }
+}
+
 
 const removeNullProperty = (obj: any) => {
   return Object.fromEntries(Object.entries(obj).filter((_,v) => v !== null && v !== undefined))
 }
 
-
-
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeModuleService {
   static PREFIX_LENGTH = 3;
   static SUFFIX_LENGTH = 9;
+
+
+  moduleDataCache = new ModuleDataCache();
 
   constructor(
     @repository(GrowbeModuleDefRepository)
@@ -125,22 +152,13 @@ export class GrowbeModuleService {
 
     const currentTime = (parseData.timestamp) ? parseData.timestamp * 1000: Date.now();
 
-    let document: (GrowbeSensorValueWithRelations) | null;
+    let document: (GrowbeSensorValueWithRelations) | null = null;
 
-    if (configuration?.disableAverage) {
-      document = new GrowbeSensorValue({
-        moduleId,
-        moduleType: info.id,
-        growbeMainboardId: boardId,
-        createdAt: currentTime,
-        endingAt: currentTime,
-        values: undefined,
-        samples: [],
-      });
-    } else {
-      document = await this.sensorValueRepository.findOne({
+    if (!configuration?.disableAverage) {
+      document = this.moduleDataCache.getModuleData(moduleId, currentTime) || 
+        await this.sensorValueRepository.findOne({
         where: {
-          and: [
+            and: [
             {
               moduleId,
             },
@@ -152,24 +170,25 @@ export class GrowbeModuleService {
             {
               endingAt: {
                 gte: currentTime,
-                },
+              },
             },
           ],
         },
       });
-
-      if (!document) {
-        document = new GrowbeSensorValue({
-          moduleId,
-          moduleType: info.id,
-          growbeMainboardId: boardId,
-          createdAt: currentTime,
-          endingAt: addMinutes(currentTime, 1).getTime(),
-          values: undefined,
-          samples: [],
-        });
-      }
     }
+
+    if (!document) {
+      document = new GrowbeSensorValue({
+        moduleId,
+        moduleType: info.id,
+        growbeMainboardId: boardId,
+        createdAt: currentTime,
+        endingAt: addMinutes(currentTime, 1).getTime(),
+        values: undefined,
+        samples: [],
+      });
+    }
+
     const values = Object.assign(parseData, {createdAt: currentTime});
 
     // if there is value add to samples
@@ -187,6 +206,8 @@ export class GrowbeModuleService {
     } else {
       document = await this.sensorValueRepository.create(document);
     }
+
+    this.moduleDataCache.stroreModuleData(document);
 
     await this.mqttService.send(
       getTopic(boardId, `/cloud/m/${moduleId}/data`),
