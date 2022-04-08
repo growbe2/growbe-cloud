@@ -23,9 +23,6 @@ export class GrowbeMainboardImageController {
     @requestBody() body: GrowbeMainboardImageConfig,
   ) {
     const configFiles = await this.imageConfigService.generateConfigFiles(growbeId, body);
-    const archive =  this.imageConfigService.generateArchiveFromConfigFiles(growbeId, configFiles);
-    return {
-        archive
-    };
+    return this.imageConfigService.generateArchiveFromConfigFiles(growbeId, configFiles);
   }
 }
