@@ -63,6 +63,7 @@ export class ModuleDataCache {
             console.log('GET FROM CACHE');
             return moduleData;
         }
+        console.log('Cannot get from cache ', currentTimestamp, moduleData?.createdAt, moduleData?.endingAt);
         return undefined;
     }
 
