@@ -44,6 +44,8 @@ spec:
           value: http://sso:3001
         - name: DEBUG
           value: growbe:*
+        - name: TZ
+          value: "America/Toronto"
         - name: GITHUB_TOKEN_RO
           value: {{.Values.cloud.ghtoken}}
         - name: REVERSE_PROXY_ID_RSA

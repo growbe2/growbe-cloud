@@ -50,6 +50,8 @@ spec:
           value: "12445431"
         - name: PORT
           value: "3001"
+        - name: TZ
+          value: "America/Toronto"
         - name: SMS_NUMBER
         - name: SMS_SID
         - name: SMS_TOKEN
