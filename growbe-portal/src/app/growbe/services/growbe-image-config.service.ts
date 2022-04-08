@@ -109,7 +109,7 @@ export class GrowbeImageConfigService {
                   document.body.appendChild(a);
                   const url = window.URL.createObjectURL(response);
                   a.href = url;
-                  a.download = "image-config.zip"; // you need to write the extension of file here
+                  a.download = `image-config-${mainboardId}.zip`; // you need to write the extension of file here
                   a.click();
                   window.URL.revokeObjectURL(url);
                 })
