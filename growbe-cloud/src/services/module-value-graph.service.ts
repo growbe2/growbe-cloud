@@ -70,7 +70,9 @@ export class ModuleValueGraphService {
       let i = 0;
       for (const field of request.fields) {
         const value = this.getValue(e, field);
-        if (!value) continue;
+        if (value == undefined) {
+            continue
+        }
         series[i].series.push({
           name: e.createdAt,
           value,
@@ -78,6 +80,9 @@ export class ModuleValueGraphService {
         i++;
       }
     }
+    series.forEach((x) => {
+        console.log(x.series.length);
+    })
     return series;
   }
 
@@ -148,6 +153,7 @@ export class ModuleValueGraphService {
       'aggregate',
       aggregateRequest,
     ).then((item: any) => item.get()))
+    
 
     return datas as any[];
   }
