@@ -3,7 +3,7 @@ import {Entity, model, property, Where} from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
 import {format} from 'date-fns';
 import {MongoDataSource} from '../datasources';
-import {GroupingDataRequest, GrowbeSensorValue, ModuleDataRequest} from '../models';
+import {GroupingDataRequest, GrowbeSensorValue, LastXUnitEnum, ModuleDataRequest} from '../models';
 import {GrowbeModuleService} from './growbe-module.service';
 
 @model()
@@ -61,6 +61,13 @@ export class ModuleValueGraphService {
 
   // retourne une graphique des valeurs d'une module
   async getGraph(request: GraphModuleRequest): Promise<GraphSerie[]> {
+    if (request.grouping) {
+        if (request.grouping.intervalUnit === "minute") {
+            request.grouping.baseGroup = ["dayOfYear", "hour"] as any;
+        } else {
+            request.grouping.baseGroup = ["dayOfYear"] as any;
+        }
+    }
     const series: GraphSerie[] = [];
     for (const field of request.fields) {
       series.push({name: field, series: []});
