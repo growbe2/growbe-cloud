@@ -17,7 +17,7 @@
             <mat-icon *ngIf="lastValue[graphDataConfig.fields[i]] === value[graphDataConfig.fields[i]]">trending_flat</mat-icon>
           </span>
           <span>
-            {{lastValue[graphDataConfig.fields[i]] - value[graphDataConfig.fields[i]] | number}}
+            {{(-1 * (lastValue[graphDataConfig.fields[i]] - value[graphDataConfig.fields[i]])) | number}}
           </span>
         </ng-container>
       </div>
