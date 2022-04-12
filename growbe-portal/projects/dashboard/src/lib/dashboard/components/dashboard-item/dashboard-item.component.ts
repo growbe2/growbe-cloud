@@ -24,6 +24,7 @@ import { AutoFormComponent, AutoFormData, AutoFormDialogService } from '@berling
 import { notify } from '@berlingoqc/ngx-notification';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
+import {ErrorComponent} from '../error/error.component';
 import { getCopyDashboardForm, modifyDialog } from '../../dashboard.form';
 import { DashboardItem, DashboardPanel, DASHBOARD_ITEM_REF, Style } from '../../dashboard.model';
 import { DashboardService, PanelDashboardRef } from '../../dashboard.service';
@@ -33,7 +34,7 @@ import { DashboardItemDirective } from '../dashboard-item.directive';
 
 
 export class BaseDashboardComponent {
-  loadingEvent = new EventEmitter();
+  loadingEvent = new EventEmitter<any>();
 }
 
 
@@ -81,7 +82,7 @@ export class DashboardItemRegistryCopyDirective {
     }
 }
 
-@Directive({ selector: '[dashboardItemContent]' })
+@Directive({ selector: '[dashboardItemContent]', exportAs: "dashboardItemContent" })
 export class ItemContentDirective implements OnInit {
     this = this;
 
@@ -96,6 +97,9 @@ export class ItemContentDirective implements OnInit {
     componentRef: ComponentRef<any>;
 
     registryItem: DashboardRegistryItem;
+
+
+    exceptionComponent: any;
 
     constructor(
         private registry: DashboardRegistryService,
@@ -127,7 +131,13 @@ export class ItemContentDirective implements OnInit {
           ],
           parent: this.injector
         });
-        this.componentRef = this.viewRef.createComponent(factory, undefined, injector);
+
+        try {
+          this.componentRef = this.viewRef.createComponent(factory, undefined, injector);
+        } catch (ex) {
+          this.exceptionComponent = ex;
+          return;
+        }
 
         if (this.dashboardItem.inputs) {
             for (const [name, data] of Object.entries(
@@ -154,7 +164,18 @@ export class ItemContentDirective implements OnInit {
           console.log(this.templateLoading);
           this.this.templateLoading.classList.remove("notloading");
           this.this.templateLoading.classList.add("loading");
-          this.componentRef.instance[ItemContentDirective.LoadingOutputName].pipe(take(1)).subscribe(() => {
+          this.componentRef.instance[ItemContentDirective.LoadingOutputName].pipe(take(1)).subscribe((value) => {
+            if (value?.error) {
+              this.exceptionComponent = value;
+              this.viewRef.clear();
+              this.componentRef.destroy();
+              const factory = this.componentFactoryResolver.resolveComponentFactory(
+                ErrorComponent,
+              );
+
+              this.componentRef = this.viewRef.createComponent(factory, undefined, injector);
+            }
+
             this.this.viewRef.element.nativeElement.parentElement.style.visibility = 'initial';
             this.this.templateLoading.classList.add("notloading");
           });

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { TableLayoutComponent } from 'src/app/shared/table-layout/table-layout/table-layout.component';
 import { GrowbeMainboardAPI, HardwareAlarmRelation } from '../../api/growbe-mainboard';
 import { GrowbeModuleAPI } from '../../api/growbe-module';
@@ -74,8 +74,12 @@ export class HardwareAlarmTableComponent extends BaseDashboardComponent implemen
                           () => this.table.autoTableComponent.refreshData(),
                         ),
                         getHardwareAlarmColumns(moduleDef),
-                    ];
+                    ] as any;
                 }),
+                catchError((err) => {
+                  this.loadingEvent.next({error: err});
+                  throw err;
+                })
             );
     }
 }

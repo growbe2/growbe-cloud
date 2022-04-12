@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { GrowbeModule, GrowbeSensorValue } from '@growbe2/ngx-cloud-api';
 import { BaseDashboardComponent } from 'projects/dashboard/src/public-api';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
-import { map, startWith, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
@@ -55,7 +55,11 @@ export class RelayUnitControlComponent extends BaseDashboardComponent implements
       ]).pipe(
         map(([module, moduleDef, lastValue]: any) => {
           this.loadingEvent.next(null);
-          return [module.config[this.field], lastValue[this.field].state, lastValue.endingAt, !module.connected]
+          return [module.config[this.field], lastValue[this.field].state, lastValue.endingAt, !module.connected] as any;
+        }),
+        catchError((err) => {
+          this.loadingEvent.next({error: err});
+          throw err;
         }),
       ),
       refresh: () => {

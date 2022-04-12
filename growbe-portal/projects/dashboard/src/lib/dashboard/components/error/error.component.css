@@ -1,0 +1,18 @@
+
+
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px;
+
+}
+.title-error {
+  display: flex;
+}
+
+.title-text {
+  text-align: center;
+}
+
+

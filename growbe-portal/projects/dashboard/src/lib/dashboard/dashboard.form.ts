@@ -24,6 +24,10 @@ export const modifyDialog = (
     dashboardService: DashboardService,
     registry: DashboardRegistryService,
 ): AutoFormData => {
+
+    const properties =  Object.values(
+                        registry.getItem(dashboardItem.component)?.inputs,
+                    ) ?? [];
     return {
         type: 'dialog',
         typeData: {
@@ -40,10 +44,7 @@ export const modifyDialog = (
             {
                 type: 'dic',
                 name: 'inputs',
-                availableProperty:
-                    Object.values(
-                        registry.getItem(dashboardItem.component)?.inputs,
-                    ) ?? [],
+                availableProperty: properties,
             } as DictionnayProperty,
             {
                 type: 'dic',
@@ -79,12 +80,18 @@ export const modifyDialog = (
         ],
         event: {
             afterFormCreated: (form) => {
+              const inputs = dashboardItem.inputs ?? {};
+              const requiredProperties = properties.filter(x => x.required);
+              requiredProperties.forEach(prop => {
+                if (!inputs[prop.name]) {
+                  inputs[prop.name] = null;
+                }
+              });
               form.patchValue({
-              //index: myIndex,
-              name: dashboardItem.name,
-              inputs: dashboardItem.inputs ?? {},
-              style: dashboardItem.style ?? {},
-            })
+                name: dashboardItem.name,
+                inputs: inputs,
+                style: dashboardItem.style ?? {},
+              })
             },
             submit: (value) =>
                 dashboardService.updateItemFromPanel(

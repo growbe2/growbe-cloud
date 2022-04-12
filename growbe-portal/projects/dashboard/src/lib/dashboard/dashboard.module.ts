@@ -33,6 +33,7 @@ import { AddToDashboardDirective } from './add-dashboard.directive';
 import { DashboardFullComponent } from './components/dashboard-full/dashboard-full.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DashboardOneComponent } from './components/dashboard-one/dashboard-one.component';
+import { ErrorComponent } from './components/error/error.component';
 
 @NgModule({
     declarations: [
@@ -45,6 +46,7 @@ import { DashboardOneComponent } from './components/dashboard-one/dashboard-one.
         AddToDashboardDirective,
         DashboardFullComponent,
         DashboardComponent,
+        ErrorComponent,
     ],
     imports: [
         CommonModule,

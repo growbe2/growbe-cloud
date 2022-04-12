@@ -184,7 +184,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 component: 'relay-unit-control',
                 componentType: RelayUnitControlComponent,
                 inputs: {
-                  ...this.getModuleProperty(),
+                  ...this.getModuleProperty("mainboardId", ["AAP", "AAB"]),
                 },
                 outputs: {}
             },
@@ -254,15 +254,15 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
 
     }
 
-    private getModuleProperty = () => {
+    private getModuleProperty = (idName: string, moduleType?: string[]) => {
         const [
             formMM,
             subjectMainboard,
             subjectModule,
-        ] = this.getDashboardAndModuleProperty(true, 'growbeId');
+        ] = this.getDashboardAndModuleProperty(true, idName, false, moduleType);
 
         return {
-          'mainboardId': formMM['mainboardId'],
+          [idName]: formMM[idName],
           'moduleId': formMM['moduleId'],
           'field': this.graphService.getPropertySelectFormElement(subjectModule.asObservable(), 'field'),
         };
@@ -426,6 +426,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
         includeModule: boolean,
         mainboardPropertyName = 'mainboardId',
         optionalModuleId = false,
+        moduleType: string[] = undefined,
     ): [
         { [id: string]: IProperty },
         BehaviorSubject<string>,
@@ -502,7 +503,14 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                             subjectMainboard.pipe(
                                 filter((id) => id),
                                 switchMap((id) =>
-                                    this.mainboardAPI.growbeModules(id).get({include: [{relation: 'moduleDef'}]}),
+                                    this.mainboardAPI.growbeModules(id).get({include: [{relation: 'moduleDef'}]}).pipe(
+                                      map((item) => {
+                                        if (moduleType) {
+                                          return item.filter(x => moduleType.indexOf(x.id.slice(0, 3)) > -1);
+                                        }
+                                        return item;
+                                      })
+                                    ),
                                 ),
                             ),
                     },

@@ -84,6 +84,8 @@ export class ModuleSensorValueGraphComponent extends OnDestroyMixin(BaseDashboar
           });
           this.chartSerie = series;
           this.changeDetection.markForCheck();
+        }, (err) => {
+          this.loadingEvent.next({error: err});
         });
 
         // TODO: fixe the issue of the timezone
