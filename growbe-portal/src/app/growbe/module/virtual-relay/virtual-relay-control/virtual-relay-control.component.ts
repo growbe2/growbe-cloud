@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { VirtualRelayWithRelations } from '@growbe2/ngx-cloud-api';
 import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
-import { map, startWith, switchMap } from 'rxjs/operators';
+import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { GrowbeGraphService } from '../../graph/service/growbe-graph.service';
@@ -42,8 +42,9 @@ export class VirtualRelayControlComponent extends BaseDashboardComponent impleme
         switchMap(() => obs_data),
         map(([vr, lastValue]: [any, any]) => {
           this.loadingEvent.next(null);
-          return [vr.config, lastValue?.data?.state, lastValue?.endingAt, !vr.state];
-        })
+          return [vr.config, lastValue?.data?.state, lastValue?.endingAt, !vr.state] as any;
+        }),
+        catchError((err) => { this.loadingEvent.next({error: err}); throw err; }),
       ),
       refresh: () => {
         this.vrRefresh.next();

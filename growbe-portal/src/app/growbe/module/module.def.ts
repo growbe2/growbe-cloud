@@ -29,7 +29,7 @@ export const moduleDefPropertyDisplayer = {
                 return 'n/a';
               }
               if (!value) {
-                return '';
+                return '0%';
               }
               return `${value}%`;
             }

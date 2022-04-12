@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core
 import { OnDestroyMixin } from "@berlingoqc/ngx-common";
 import { BaseDashboardComponent } from "@growbe2/growbe-dashboard";
 import { Observable } from "rxjs";
-import { map, switchMap, tap } from "rxjs/operators";
+import { catchError, map, switchMap, tap } from "rxjs/operators";
 import { isDateOutdated } from "src/app/shared/dated-value/outdated-value/outdated-value.component";
 import { GrowbeModuleAPI } from "../../api/growbe-module";
 import { GrowbeEventService } from "../../services/growbe-event.service";
@@ -56,6 +56,10 @@ export class ModuleSVGComponent extends OnDestroyMixin(BaseDashboardComponent) i
         tap((data) => {
           this.loadingEvent.next(null);
           this.isOutdated = isDateOutdated(data.createdAt, 60 * 1000);
+        }),
+        catchError((err) => {
+          this.loadingEvent.next({error: err})
+          throw err;
         })
       )
   }

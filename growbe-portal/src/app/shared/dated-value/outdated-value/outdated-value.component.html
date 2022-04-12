@@ -1,4 +1,4 @@
-<div class="frow align-center justify-centerr" [ngClass]="{outdated: isOutdated}">
+<div *ngIf="connected != undefined" class="frow align-center justify-centerr" [ngClass]="{outdated: isOutdated}">
   <span>Receive at : {{createdAt | date: dateFormat}}</span>
   <ng-container *ngIf="!connected; else outdated">
     <mat-icon>power_off</mat-icon>

@@ -128,6 +128,8 @@ export class ModuleLastValueComponent extends BaseDashboardComponent implements 
                         }
                     });
                 }
+            }, (err) => {
+              this.loadingEvent.next({error: err});
             });
     }
 

@@ -12,8 +12,7 @@ import {
     TOOLBAR_NAVIGATION,
     FUSE_FULL_SCREEN_BACKGROUND_PATH,
 } from '@berlingoqc/fuse-extra';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
 import {
@@ -83,7 +82,7 @@ export class NavigationWrapper {
     }
 }
 @NgModule({
-    declarations: [HomeComponent, NavigationComponent],
+    declarations: [HomeComponent, NavigationComponent,],
     imports: [
         BrowserModule,
         AppRoutingModule,

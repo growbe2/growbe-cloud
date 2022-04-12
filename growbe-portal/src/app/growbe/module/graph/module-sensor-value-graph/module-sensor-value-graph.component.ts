@@ -79,10 +79,13 @@ export class ModuleSensorValueGraphComponent extends OnDestroyMixin(BaseDashboar
           // rename serie name from property name to display name
           this.loadingEvent.next(null);
           series.forEach((serie) => {
+            serie.property = serie.name;
             serie.name = def.properties[serie.name].displayName || serie.name;
           });
           this.chartSerie = series;
           this.changeDetection.markForCheck();
+        }, (err) => {
+          this.loadingEvent.next({error: err});
         });
 
         // TODO: fixe the issue of the timezone
@@ -103,23 +106,29 @@ export class ModuleSensorValueGraphComponent extends OnDestroyMixin(BaseDashboar
                     (d) => JSON.parse(d),
                 )
                 .subscribe((data) => {
-                    if (data) {
+                    if (data && this.chartSerie) {
+                        const serie = this.chartSerie;
                         for (const field of this.data.graphDataConfig.fields) {
-                            const index = this.chartSerie.findIndex(
-                                (i) => i.name === field,
+                            const index = serie.findIndex(
+                                (i) => i.property === field,
                             );
                             if (index === -1) {
                                 continue;
                             }
+
                             const item = {
                                 name: new Date().toLocaleString(),
                                 value: data[field],
                             };
-                            const serie = this.chartSerie;
+                            // fixe for zero value being remove from json object
+                            if (!item.value) {
+                              item.value = 0;
+                            }
+                            serie[index].series.splice(0, 1);
                             serie[index].series.push(item);
-                            this.chartSerie = [...serie];
-                            this.changeDetection.markForCheck();
                         }
+                        this.chartSerie = [...serie];
+                        this.changeDetection.markForCheck();
                     }
                 });
         }

@@ -11,7 +11,7 @@ import { CRUDDataSource, Filter, Where } from '@berlingoqc/ngx-loopback';
 import { GrowbeLogs } from '@growbe2/ngx-cloud-api';
 import { DashboardItem, DASHBOARD_ITEM_REF } from '@growbe2/growbe-dashboard';
 import { Observable, of, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { DatePipe } from '@angular/common';
@@ -204,7 +204,8 @@ export class TerminalComponent extends BaseDashboardComponent implements OnInit 
                             }${log.message}`,
                     ),
                 ),
-                tap(() => this.loadingEvent.next(null))
+                tap(() => this.loadingEvent.next(null)),
+                catchError((err) =>{ this.loadingEvent.next({error: err}); throw err; })
             );
     }
 }
