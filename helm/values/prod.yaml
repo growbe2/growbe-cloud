@@ -2,7 +2,7 @@
 cloud:
   env: prod
   basePath: growbe.ca
-  externalIP: 192.168.4.115 
+  externalIP: 10.0.4.40
   http:
     certSecret: growbe-ingress-cert
   broker:
