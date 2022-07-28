@@ -1,4 +1,4 @@
-import { FormGroup } from "@angular/forms";
+import { UntypedFormGroup } from "@angular/forms";
 import { AutoFormData, FormObject } from "@berlingoqc/ngx-autoform";
 import { Button } from "@berlingoqc/ngx-common";
 import { from, of } from "rxjs";
@@ -20,7 +20,7 @@ export const getSoilConfigForm: (
     moduleDef: any,
     growbeActionAPI: GrowbeActionAPI,
     ) => {
-        let formGroup: FormGroup;
+        let formGroup: UntypedFormGroup;
         return {
             type: 'simple',
             items: [
@@ -84,7 +84,7 @@ export const getSoilConfigForm: (
                     ]
             },
             event: {
-                afterFormCreated: (fG: FormGroup) => {
+                afterFormCreated: (fG: UntypedFormGroup) => {
                     formGroup = fG;
                 },
                 submit: (data) => {

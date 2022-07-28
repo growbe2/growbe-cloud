@@ -1,4 +1,4 @@
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import {
     AutoFormData,
     FormObject,
@@ -23,7 +23,7 @@ export const getModuleWaterControlConfig: (
     moduleDef: any,
     growbeActionAPI: GrowbeActionAPI,
 ) => {
-  let formGroup: FormGroup;
+  let formGroup: UntypedFormGroup;
   return {
     type: 'simple',
     items: [
@@ -54,11 +54,11 @@ export const getModuleWaterControlConfig: (
         },
     ],
     event: {
-        afterFormCreated: (fG: FormGroup) => {
+        afterFormCreated: (fG: UntypedFormGroup) => {
           formGroup = fG;
         },
         submit: (data) => {
-            const controls = (formGroup.controls.object as FormGroup).controls;
+            const controls = (formGroup.controls.object as UntypedFormGroup).controls;
             const d = {
                 p0: controls.p0.touched ? transformFieldSubmit('p0', data): undefined,
                 p1: controls.p1.touched ? transformFieldSubmit('p1', data): undefined,
