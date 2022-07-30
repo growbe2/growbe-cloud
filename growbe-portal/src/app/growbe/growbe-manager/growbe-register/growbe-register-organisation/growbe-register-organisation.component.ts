@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@berlingoqc/auth';
@@ -14,8 +14,8 @@ import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
     styleUrls: ['./growbe-register-organisation.component.scss'],
 })
 export class GrowbeRegisterOrganisationComponent implements OnInit {
-    registrationForm = new FormGroup({
-        id: new FormControl(undefined, [Validators.required]),
+    registrationForm = new UntypedFormGroup({
+        id: new UntypedFormControl(undefined, [Validators.required]),
     });
 
     lastData: GrowbeRegisterResponse;

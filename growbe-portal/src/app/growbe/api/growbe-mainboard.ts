@@ -69,27 +69,32 @@ export class GrowbeMainboardAPI extends Caching(
         this,
         LoopbackRelationClientMixin<GrowbeWarningWithRelations>(),
         'growbeWarnings',
+        {}
     );
     growbeModules = addLoopbackRelation(
         this,
         LoopbackRelationClientMixin<GrowbeModuleWithRelations>(),
         'growbeModules',
+        {}
     );
     growbeSensorValues = addLoopbackRelation(
         this,
         LoopbackRelationClientMixin<GrowbeSensorValueWithRelations>(),
         'growbeSensorValues',
+        {}
     );
     growbeLogs = addLoopbackRelation(
         this,
         LoopbackRelationClientMixin<GrowbeLogsWithRelations>(),
         'growbeLogs',
+        {}
     );
 
     hardwareAlarms = addLoopbackRelation(
       this,
       HardwareAlarmRelation,
       'modules',
+      {}
     )
 
     orgGrowbeMainboard = addCustomCRUDDatasource<GrowbeMainboard>(

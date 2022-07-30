@@ -1,6 +1,6 @@
 {
   "name": "@growbe2/growbe-pb",
-  "version": "1.2.6-SNAPSHOT-0",
+  "version": "1.2.8-SNAPSHOT-0",
   "description": "Libraire avec les définitions protobuf",
   "repository": {
     "type": "git",
@@ -20,6 +20,6 @@
   "types": "growbe.d.ts",
   "dependencies": {
     "protobuf-typescript": "6.8.8",
-    "protobufjs": "6.10.2"
+    "protobufjs": "7.0.0"
   }
 }

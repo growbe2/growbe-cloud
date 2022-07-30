@@ -27,12 +27,14 @@ export class GrowbeModuleAPI extends Caching(
         this,
         ModuleSensorValueRelation,
         'growbeSensorValues',
+        {}
     );
 
     moduleDef = addLoopbackRelation(
       this,
       ModuleDefRelation,
-      'moduleDef'
+      'moduleDef',
+      {}
     );
 
     get url() {

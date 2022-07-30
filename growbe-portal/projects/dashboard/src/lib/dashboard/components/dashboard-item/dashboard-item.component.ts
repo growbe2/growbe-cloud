@@ -18,7 +18,7 @@ import {
     ViewContainerRef,
     ViewEncapsulation,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, FormGroup } from '@angular/forms';
 import { fuseAnimations } from '@berlingoqc/fuse';
 import { AutoFormComponent, AutoFormData, AutoFormDialogService } from '@berlingoqc/ngx-autoform';
 import { notify } from '@berlingoqc/ngx-notification';
@@ -68,8 +68,8 @@ export class DashboardItemRegistryCopyDirective {
       this.item.exposition.this.formGroup.controls.item.controls.panel.valueChanges.subscribe((panel) => {
         if (panel) {
           this.item.exposition.this.formGroup.controls.item.controls.name.enable();
-          (this.item.exposition.this.formGroup.controls.item.controls.name as FormControl)
-            .setValidators((validator: FormControl) => {
+          (this.item.exposition.this.formGroup.controls.item.controls.name as UntypedFormControl)
+            .setValidators((validator: UntypedFormControl) => {
               const value = validator.value;
               const index = panel.items.findIndex((item) => item.name === value);
               if(index > -1) {
