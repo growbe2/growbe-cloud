@@ -5,10 +5,8 @@ import {
     OnInit,
     ViewEncapsulation,
 } from '@angular/core';
-import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 
-import * as pb from '@growbe2/growbe-pb';
 import { map, take } from 'rxjs/operators';
 import { GrowbeMainboard } from '@growbe2/ngx-cloud-api';
 import { interval, Observable, Subscription } from 'rxjs';

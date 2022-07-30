@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import {
     AutoFormData,
     FormObject,
@@ -162,7 +162,7 @@ export class TerminalComponent extends BaseDashboardComponent implements OnInit 
             actionsButtons: {},
             event: {
                 submit: () => of(),
-                afterFormCreated: (fg: FormGroup) => {
+                afterFormCreated: (fg: UntypedFormGroup) => {
                     this.sub = fg.valueChanges
                         .pipe(map((value) => ({
                           group: value.object.group,

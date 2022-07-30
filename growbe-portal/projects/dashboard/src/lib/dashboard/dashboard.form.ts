@@ -1,4 +1,4 @@
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import {
     AutoFormData,
     DialogFormContainer,
@@ -138,7 +138,7 @@ export const getCopyDashboardForm = (
     item: DashboardItem,
 ): AutoFormData => {
     const subject = new BehaviorSubject(null);
-    let moduleControl: FormControl;
+    let moduleControl: UntypedFormControl;
     return {
         type: 'dialog',
         typeData: {
@@ -196,7 +196,7 @@ export const getCopyDashboardForm = (
                         type: 'string',
                         displayName: 'Panel',
                         disabled: true,
-                        initialize: (mc:FormControl) => (moduleControl = mc),
+                        initialize: (mc:UntypedFormControl) => (moduleControl = mc),
                         component: {
                             name: 'select',
                             type: 'mat',

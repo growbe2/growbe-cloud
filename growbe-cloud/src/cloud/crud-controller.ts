@@ -181,7 +181,7 @@ export const CRUD_CONTROLLERS: {
           specs: specSecurity,
           parentIdKey: 'growbeMainboardId',
           properties: protectByMainboardRelationProperties
-        },
+        } as any,
       },
       {
         modelRelationDef: GrowbeModule,
@@ -193,7 +193,7 @@ export const CRUD_CONTROLLERS: {
           parentIdKey: 'mainboardId',
           specs: specSecurity,
           properties: protectByMainboardRelationProperties
-        },
+        } as any,
       },
       {
         modelRelationDef: GrowbeSensorValue,
@@ -205,7 +205,7 @@ export const CRUD_CONTROLLERS: {
           specs: specSecurity,
           parentIdKey: 'growbeMainboardId',
           properties: protectByMainboardRelationProperties
-        },
+        } as any,
       },
       {
         modelRelationDef: GrowbeLogs,
@@ -217,7 +217,7 @@ export const CRUD_CONTROLLERS: {
           idType: 'string',
           parentIdKey: 'growbeMainboardId',
           properties: protectByMainboardRelationProperties
-        },
+        } as any,
       },
       {
         modelRelationDef: VirtualRelay,
@@ -229,7 +229,7 @@ export const CRUD_CONTROLLERS: {
           parentIdKey: 'growbeMainboardId',
           repo: VirtualRelayRepository,
           properties: _.omit(protectByMainboardRelationProperties, ['create', 'deleteById', 'delete', 'updateById']),
-        }
+        } as any
       }
     ],
   },
@@ -253,7 +253,7 @@ export const CRUD_CONTROLLERS: {
           repo: GrowbeSensorValueRepository,
           parentIdKey: 'moduleId',
           properties: protectByModuleRelationProperties
-        },
+        } as any,
       },
       {
         modelRelationDef: GrowbeModuleDef,
@@ -266,7 +266,7 @@ export const CRUD_CONTROLLERS: {
           parentIdKey: 'moduleId',
           properties: protectByModuleRelationProperties,
           disableds: ['deleteById', 'create'],
-        }
+        } as any
       }
     ],
   },
