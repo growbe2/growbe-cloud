@@ -38,7 +38,7 @@ describe('Growbe Mainboard', () => {
         await moduleService.moduleDefRepository.deleteAll({moduleId: {neq: undefined}});
     });
 
-    describe.only('État du module', () => {
+    describe('État du module', () => {
 
       it('Lors de réception état , si existe pas crée un module', async () => {
         await moduleService.onModuleStateChange(
