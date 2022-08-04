@@ -31,6 +31,8 @@ message ModuleData {
     string boardVersion = 5;
     bool plug = 6;
     int32 atIndex = 7;
+    string board = 8;
+    string boardAddr = 9;
 }
 
 message THLModuleData {

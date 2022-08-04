@@ -35,6 +35,12 @@ export class GrowbeModule extends Entity {
   @property()
   atIndex: number;
 
+  @property()
+  board: string;
+  
+  @property()
+  boardAddr: string;
+
   @hasMany(() => GrowbeSensorValue, {keyTo: 'moduleId'})
   growbeSensorValues: GrowbeSensorValue[];
 

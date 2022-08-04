@@ -6,7 +6,7 @@ function start() {
   docker-compose $CONF up -d pgsql broker mongo sso $1
 
   echo "Waiting for migration to be over"
-  sleep 5
+  sleep 30
 
   . ./docker/envs/local.sh
         

@@ -46,6 +46,8 @@ describe('Growbe Mainboard', () => {
           moduleId,
           new pb.ModuleData({
             plug: false,
+            board: "i2c",
+            boardAddr: "1"
           }),
         );
 
@@ -61,6 +63,8 @@ describe('Growbe Mainboard', () => {
         expect(module.id).to.eql(moduleId);
         expect(module.mainboardId).to.eql(boardId);
         expect(module.moduleDef).to.be.Object();
+        expect(module.board).to.eql("i2c");
+        expect(module.boardAddr).to.eql("1");
       });
 
       it("Lors de réception état , si existe récupère et l'update", async () => {
