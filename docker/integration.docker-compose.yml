@@ -7,4 +7,4 @@ services:
   mongo:
      volumes: []
   pgsql:
-    volumes: []
+     volumes: []

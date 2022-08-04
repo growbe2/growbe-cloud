@@ -48,10 +48,9 @@
     "!*/__tests__"
   ],
   "dependencies": {
-<<<<<<< Updated upstream
     "@berlingoqc/lb-extensions": "^1.1.8",
     "@berlingoqc/sso": "^1.1.3",
-    "@growbe2/growbe-pb": "^1.2.8-SNAPSHOT-0",
+    "@growbe2/growbe-pb": "^1.2.9-SNAPSHOT-1",
     "@loopback/authentication": "^9.0.2",
     "@loopback/authorization": "^0.12.2",
     "@loopback/boot": "^5.0.2",
@@ -63,24 +62,6 @@
     "@loopback/rest-explorer": "^5.0.2",
     "@loopback/security": "^0.8.2",
     "@loopback/service-proxy": "^5.0.2",
-=======
-    "@berlingoqc/lb-extensions": "^1.1.7",
-    "@berlingoqc/sso": "^1.1.2",
-    "@growbe2/growbe-pb": "^1.2.6-SNAPSHOT-1",
-    "@loopback/boot": "^4.0.1",
-    "@loopback/core": "^3.0.1",
-    "@loopback/health": "^0.10.0",
-    "@loopback/metrics": "^0.9.1",
-    "@loopback/repository": "^4.0.1",
-    "@loopback/rest": "^11.0.1",
-    "@loopback/rest-explorer": "^4.0.1",
-    "@loopback/security": "^0.6.1",
-    "@loopback/service-proxy": "^4.0.1",
-    "@types/adm-zip": "^0.5.0",
-    "@types/axios": "^0.14.0",
-    "@types/dot": "^1.1.5",
-    "@types/form-data": "^2.5.0",
->>>>>>> Stashed changes
     "adm-zip": "^0.5.9",
     "async-mqtt": "^2.6.2",
     "axios": "^0.27.2",

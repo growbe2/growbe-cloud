@@ -134,6 +134,8 @@ export class GrowbeModuleService {
       module.connected = data.plug;
       module.readCount = data.readCount;
       module.atIndex = data.atIndex;
+      module.board = data.board;
+      module.boardAddr = data.boardAddr;
       module.updatedAt = new Date();
       await this.updateModuleState(boardId, module);
     }
