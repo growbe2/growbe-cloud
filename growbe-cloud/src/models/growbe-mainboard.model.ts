@@ -45,6 +45,9 @@ export class GrowbeMainboard extends Entity {
   @property()
   cloudVersion: string;
 
+  @property()
+  boards: { imple: string, addr: string}[];
+
   @hasOne(() => GrowbeMainboardConfig)
   growbeMainboardConfig: GrowbeMainboardConfig;
 
