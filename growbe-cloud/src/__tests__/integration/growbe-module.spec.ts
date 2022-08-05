@@ -34,11 +34,37 @@ describe('Growbe Mainboard', () => {
     });
 
     afterEach(async () => {
-        await moduleService.moduleRepository.deleteAll();
-        await moduleService.moduleDefRepository.deleteAll({moduleId: {neq: undefined}});
+        //await moduleService.moduleRepository.deleteAll();
+        //await moduleService.moduleDefRepository.deleteAll({moduleId: {neq: undefined}});
     });
 
     describe('État du module', () => {
+
+      it.only('Lors de réception état AND , si existe pas crée le module', async () => {
+        let moduleId = "AND43EEDD151";
+        await moduleService.onModuleStateChange(
+          boardId,
+          moduleId,
+          new pb.ModuleData({
+            plug: true,
+            board: "ble",
+            boardAddr: "0",
+            port: 0
+          }),
+        );
+
+        const module: any = await moduleService.moduleRepository.findOne({
+          where: {
+            id: moduleId,
+          },
+          include: ['moduleDef'],
+        });
+
+        expect(module).to.be.Object();
+        expect(module.id).is.String();
+
+
+      });
 
       it('Lors de réception état , si existe pas crée un module', async () => {
         await moduleService.onModuleStateChange(

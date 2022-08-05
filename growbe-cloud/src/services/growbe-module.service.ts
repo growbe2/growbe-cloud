@@ -143,6 +143,7 @@ export class GrowbeModuleService {
 
   async onModuleDataChange(boardId: string, moduleId: string, data: any) {
     this.stateSubject.next(boardId);
+    console.log("MODULE " + moduleId);
     const info = this.getModuleIdAndType(moduleId);
 
     // parsing of the data lol we i succeed
