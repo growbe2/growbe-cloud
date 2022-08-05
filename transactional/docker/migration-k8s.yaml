@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: growbe-cloud-migration
+spec:
+  template:
+    spec:
+      containers:
+      - name: growbe-cloud-migration
+        image: ghcr.io/growbe2/growbe-cloud/migrate:${VERSION}
+        imagePullPolicy: Always
+        env:
+        - name: DB_URL
+          value: ${DB_URL}
+        - name: MONGO_URL
+          value: ${MONGO_URL}
+      restartPolicy: Never
+  backoffLimit: 1

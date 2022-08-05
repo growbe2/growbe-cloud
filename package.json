@@ -12,7 +12,7 @@
     "prepr:portal": "cd growbe-portal && npm run lint:write && npm run ut:run",
     "version": "node -p \"require('./package.json').version\"",
     "getversion": "echo $(npm run version --silent)",
-    "getversion:develop": "echo $(npm run version --silent)-SNAPSHOT-$(date +%d%m%y-%Hh)-$(git rev-parse --short HEAD)",
+    "getversion:develop": "echo $(npm run version --silent)-SNAPSHOT-$(git rev-parse --short HEAD)",
     "get-env": "scp -r root@api.growbe.wquintal.ca:envs docker/"
   }
 }
