@@ -21,6 +21,12 @@
                 </ng-template>
                 <mat-toolbar>
                     <h1>Modules</h1>
+                    <div class="spacer"></div>
+                    <mat-chip-list>
+                      <mat-chip *ngFor="let board of mainboard.boards">
+                        {{board.imple}}
+                      </mat-chip>
+                    </mat-chip-list>
                 </mat-toolbar>
                 <ng-template #status let-context="context">
                     <app-module-status-dot style="display: inline-block; width: fit-content" [matTooltip]="context.updatedAt | date: 'H:mm dd/LL'" [mainboardId]="data.mainboard.id" [module]="context"></app-module-status-dot>
