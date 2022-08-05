@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+option java_package = "ca.berlingoqc.growbe_android_module.proto";
+
 enum ActorType {
     MANUAL_USER_ACTOR = 0;
     DURATION_ACTOR = 1;
@@ -258,5 +260,39 @@ message WCModuleConfig {
     RelayOutletConfig pump3 = 8;
 }
 
+
+message PhonePosition {
+    float lat = 1;
+    float log = 2;
+}
+
+message PhoneAcceleration {
+    float gx = 1;
+    float gy = 2;
+    float gz = 3;
+}
+
+message PhoneAmbientLight {
+    float si_lux = 1;
+}
+
+message PhonePressure {
+    float hpa = 1;
+}
+
+message PhoneModuleData {
+    PhonePosition position = 1;
+    PhoneAcceleration acceleration = 2;
+    PhoneAmbientLight light = 3;
+    PhonePressure pressure = 5;
+}
+
+message PhoneModuleConfig {
+    bool sensor_position = 1;
+    bool sensor_accel = 2;
+    bool sensor_light = 3;
+    bool sensor_pressure = 4;
+
+}
 
 

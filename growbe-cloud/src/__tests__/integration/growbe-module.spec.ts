@@ -1,4 +1,4 @@
-import pb from '@growbe2/growbe-pb';
+import pb, { PhoneAcceleration, PhoneModuleData, PhonePosition } from '@growbe2/growbe-pb';
 import {expect} from '@loopback/testlab';
 import {addMinutes} from 'date-fns';
 import sinon from 'sinon';
@@ -125,6 +125,21 @@ describe('Growbe Mainboard', () => {
         expect(item.samples).length(0);
         expect(item.growbeMainboardId).to.eql(boardId);
         expect(item.moduleType).to.eql('AAA');
+      });
+
+      it('Reception de donnée depuis le module AND', async () => {
+
+        const value = new PhoneModuleData({})
+        value.position = new PhonePosition({lat: 40. , log: -50})
+
+
+        const item = await moduleService.onModuleDataChange(
+          boardId,
+          "AND000000000",
+          pb.PhoneModuleData.encode(value).finish()
+        );
+
+        expect(item.moduleType).to.eql('AND');
       });
 
       it('Reception de donnée accecible avec resolver de module', async () => {

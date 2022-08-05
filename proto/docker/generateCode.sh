@@ -10,17 +10,25 @@ echo 'OUT PATH' $OUT_PATH_C
 
 cd $IN_PATH
 
-echo 'Generating C'
+#echo 'Generating C'
 
+#for i in *.proto
+#do
+# name=`basename ${i} .proto`
+# protoc -o ${name}.pb                         ${i}
+# python3 /nanopb/generator/nanopb_generator.py ${name}.pb
+
+# rm ${name}.pb
+# mv ${name}.pb.c out/
+# mv ${name}.pb.h out/
+#done
+
+echo 'Generating KT'
+
+mkdir -p ./out/kotlin
 for i in *.proto
 do
- name=`basename ${i} .proto`
- protoc -o ${name}.pb                         ${i}
- python3 /nanopb/generator/nanopb_generator.py ${name}.pb
-
- rm ${name}.pb
- mv ${name}.pb.c out/
- mv ${name}.pb.h out/
+    protoc -I=. --kotlin_out=./out/kotlin ${i}
 done
 
 echo 'Generating TS'

@@ -32,12 +32,14 @@ const mapType: any = {
   AAS: 'SOILModuleData',
   AAB: 'WCModuleData',
   AAP: 'RelayModuleData',
+  AND: 'PhoneModuleData'
 };
 
 const mapTypeConfig: any = {
   AAB: 'WCModuleConfig',
   AAP: 'RelayModuleConfig',
-  AAS: 'SOILModuleConfig'
+  AAS: 'SOILModuleConfig',
+  AND: 'PhoneModuleConfig'
 };
 
 const mapTypeConfiguration: any = {
@@ -46,7 +48,7 @@ const mapTypeConfiguration: any = {
   },
   AAP: {
     disableAverage: true
-  }
+  },
 }
 
 export class ModuleDataCache {
@@ -60,10 +62,8 @@ export class ModuleDataCache {
     getModuleData(moduleId: string, currentTimestamp: number): GrowbeSensorValue | undefined {
         const moduleData = this.moduleData[moduleId];
         if (moduleData && moduleData.createdAt <= currentTimestamp && moduleData.endingAt >= currentTimestamp) {
-            console.log('GET FROM CACHE');
             return moduleData;
         }
-        console.log('Cannot get from cache ', moduleId,' ', currentTimestamp,' ',  moduleData?.createdAt,' ', moduleData?.endingAt);
         return undefined;
     }
 
@@ -153,6 +153,7 @@ export class GrowbeModuleService {
     }
 
     const parseData = pbDef[pbObjectName].decode(data);
+
 
     const currentTime = (parseData.timestamp) ? parseData.timestamp * 1000: Date.now();
 
