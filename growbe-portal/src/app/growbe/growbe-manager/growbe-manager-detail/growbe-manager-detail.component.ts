@@ -97,10 +97,16 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
             content: (c) => c.moduleDef?.displayName ? c.moduleDef?.displayName : c.moduleDef?.name,
         },
         {
+            id: 'board',
+            title: 'Board',
+            content: (c) => `${c.board || 'i2c'}:${c.boardAddr || '1'}`,
+            breakPoints: '(min-width: 600px)'
+        },
+        {
             id: 'port',
             title: 'Port',
             content: (c) => this.growbeEventService.getGrowbeEvent(this.id, `/cloud/m/${c.id}/state`, JSON.parse).pipe(startWith(c), map(x => x.connected ? x.atIndex : '')),
-        }
+        },
     ];
 
     sub: Subscription;
