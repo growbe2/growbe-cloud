@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+option java_package = "ca.berlingoqc.growbe_android_module.proto";
+
 enum ActorType {
     MANUAL_USER_ACTOR = 0;
     DURATION_ACTOR = 1;

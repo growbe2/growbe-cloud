@@ -32,12 +32,14 @@ const mapType: any = {
   AAS: 'SOILModuleData',
   AAB: 'WCModuleData',
   AAP: 'RelayModuleData',
+  AND: 'PhoneModuleData'
 };
 
 const mapTypeConfig: any = {
   AAB: 'WCModuleConfig',
   AAP: 'RelayModuleConfig',
-  AAS: 'SOILModuleConfig'
+  AAS: 'SOILModuleConfig',
+  AND: 'PhoneModuleConfig'
 };
 
 const mapTypeConfiguration: any = {
@@ -46,7 +48,7 @@ const mapTypeConfiguration: any = {
   },
   AAP: {
     disableAverage: true
-  }
+  },
 }
 
 export class ModuleDataCache {
