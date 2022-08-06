@@ -87,9 +87,6 @@ export class ModuleValueGraphService {
         i++;
       }
     }
-    series.forEach((x) => {
-        console.log(x.series.length);
-    })
     return series;
   }
 

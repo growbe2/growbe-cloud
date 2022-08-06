@@ -128,7 +128,6 @@ export class GrowbeModuleService {
     data: pb.ModuleData,
   ) {
     this.stateSubject.next(boardId);
-    console.log("MODULE " + moduleId);
     const module = await this.findOrCreate(boardId, moduleId);
     // validated that value really change , because the send more info sometime
     if (module.connected !== data.plug) {
@@ -144,7 +143,6 @@ export class GrowbeModuleService {
 
   async onModuleDataChange(boardId: string, moduleId: string, data: any) {
     this.stateSubject.next(boardId);
-    console.log("MODULE " + moduleId);
     const info = this.getModuleIdAndType(moduleId);
 
     // parsing of the data lol we i succeed

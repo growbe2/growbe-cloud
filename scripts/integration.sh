@@ -27,8 +27,8 @@ function test() {
 
 case "$1" in
     "start") start growbe-cloud;;
+    "start_dev") start growbe-cloud broker;;
     "stop") stop;;
     "test") test;;
     *) echo >&2 "Invalid option: $@"; exit 1;;
 esac
-
