@@ -1,14 +1,11 @@
-import pb, { PhoneAcceleration, PhoneModuleData, PhonePosition } from '@growbe2/growbe-pb';
+import pb, { PhonePositionData } from '@growbe2/growbe-pb';
 import {expect} from '@loopback/testlab';
 import {addMinutes} from 'date-fns';
 import sinon from 'sinon';
 import {GrowbeCloudApplication} from '../../application';
-import { GrowbeModuleDefWithRelations, GrowbeModuleWithRelations } from '../../models';
-import {GrowbeSensorValueRepository} from '../../repositories';
 import {GrowbeModuleService} from '../../services';
 import {setupApplication} from '../fixtures/app';
 import {boardId, moduleId, relayModuleId} from '../fixtures/data';
-import {waitAsync} from '../helpers/general';
 
 
 describe('Growbe Mainboard', () => {
@@ -40,8 +37,8 @@ describe('Growbe Mainboard', () => {
 
     describe('État du module', () => {
 
-      it.only('Lors de réception état AND , si existe pas crée le module', async () => {
-        let moduleId = "AND43EEDD151";
+      it.only('Lors de réception état PPO , si existe pas crée le module', async () => {
+        let moduleId = "PPO43EEDD151";
         await moduleService.onModuleStateChange(
           boardId,
           moduleId,
@@ -153,19 +150,18 @@ describe('Growbe Mainboard', () => {
         expect(item.moduleType).to.eql('AAA');
       });
 
-      it('Reception de donnée depuis le module AND', async () => {
+      it('Reception de donnée depuis le module PPO', async () => {
 
-        const value = new PhoneModuleData({})
-        value.position = new PhonePosition({lat: 40. , log: -50})
+        const value = new PhonePositionData({lat: 40. , log: -50})
 
 
         const item = await moduleService.onModuleDataChange(
           boardId,
-          "AND000000000",
-          pb.PhoneModuleData.encode(value).finish()
+          "PPO000000000",
+          pb.PhonePositionData.encode(value).finish()
         );
 
-        expect(item.moduleType).to.eql('AND');
+        expect(item.moduleType).to.eql('PPO');
       });
 
       it('Reception de donnée accecible avec resolver de module', async () => {

@@ -32,14 +32,22 @@ const mapType: any = {
   AAS: 'SOILModuleData',
   AAB: 'WCModuleData',
   AAP: 'RelayModuleData',
-  AND: 'PhoneModuleData'
+
+  PPR: 'PhonePressureData',
+  PAC: 'PhoneAccelerationData',
+  PAL: 'PhoneAmbientLightData',
+  PPO: 'PhonePositionData',
 };
 
 const mapTypeConfig: any = {
   AAB: 'WCModuleConfig',
   AAP: 'RelayModuleConfig',
   AAS: 'SOILModuleConfig',
-  AND: 'PhoneModuleConfig'
+
+  PPR: 'PhonePressureConfig',
+  PAC: 'PhoneAccelerationConfig',
+  PAL: 'PhoneAmbientLightConfig',
+  PPO: 'PhonePositionConfig',
 };
 
 const mapTypeConfiguration: any = {
