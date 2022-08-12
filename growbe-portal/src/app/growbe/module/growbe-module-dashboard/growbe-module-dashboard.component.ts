@@ -53,7 +53,35 @@ export const growbeModuleDashboardDef: { [id: string]: GrowbeModuleDashboardDef 
         haveConfig: true,
         type: 'actor'
     },
-}
+    PPO: {
+        haveAlarm: true,
+        haveSvg: false,
+        haveGraph: true,
+        haveConfig: false,
+        type: 'observer'
+    },
+    PPR: {
+        haveAlarm: true,
+        haveSvg: false,
+        haveGraph: true,
+        haveConfig: false,
+        type: 'observer'
+    },
+    PAL: {
+        haveAlarm: true,
+        haveSvg: false,
+        haveGraph: true,
+        haveConfig: false,
+        type: 'observer'
+    },
+    PAC: {
+        haveAlarm: true,
+        haveSvg: false,
+        haveGraph: true,
+        haveConfig: false,
+        type: 'observer'
+    },
+};
 
 @Component({
     selector: 'app-growbe-module-dashboard',

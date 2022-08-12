@@ -6,6 +6,10 @@ const relay = (property) => ({
         },
 });
 
+const default_content = (property) => {
+  return (d) => d.values?.[property];
+}
+
 export const moduleDefPropertyDisplayer = {
     AAB: {
         getContent: relay
@@ -18,6 +22,18 @@ export const moduleDefPropertyDisplayer = {
             const suffix = (property === 'humidity') ? '%' : '°C';
             return d?.values?.[property] ? d.values?.[property]?.toFixed(2) + '' + suffix : '';
         })
+    },
+    PPO: {
+      getContent: default_content,
+    },
+    PAL: {
+      getContent: default_content,
+    },
+    PAC: {
+      getContent: default_content,
+    },
+    PPR: {
+      getContent: default_content
     },
     AAS: {
         getContent: (property) => {

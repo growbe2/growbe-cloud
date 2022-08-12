@@ -1,6 +1,9 @@
 
 syntax = "proto3";
 
+option java_package = "ca.berlingoqc.growbe_android_module.proto";
+
+
 message GrowbeMainboardConfig {
     int32 hearthBeath = 1;
 }

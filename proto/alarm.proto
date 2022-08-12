@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+option java_package = "ca.berlingoqc.growbe_android_module.proto";
+
 enum AlarmZone {
 	UNKNOW = 0;
 	MIDDLE = 1;
