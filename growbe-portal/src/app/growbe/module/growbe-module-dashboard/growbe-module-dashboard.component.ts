@@ -53,7 +53,35 @@ export const growbeModuleDashboardDef: { [id: string]: GrowbeModuleDashboardDef 
         haveConfig: true,
         type: 'actor'
     },
-}
+    PPO: {
+        haveAlarm: true,
+        haveSvg: false,
+        haveGraph: false,
+        haveConfig: false,
+        type: 'observer'
+    },
+    PPR: {
+        haveAlarm: true,
+        haveSvg: false,
+        haveGraph: true,
+        haveConfig: false,
+        type: 'observer'
+    },
+    PAL: {
+        haveAlarm: true,
+        haveSvg: false,
+        haveGraph: true,
+        haveConfig: false,
+        type: 'observer'
+    },
+    PAC: {
+        haveAlarm: true,
+        haveSvg: false,
+        haveGraph: true,
+        haveConfig: false,
+        type: 'observer'
+    },
+};
 
 @Component({
     selector: 'app-growbe-module-dashboard',
@@ -270,8 +298,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
 
     private getData(module, moduleDef): any[] {
         return [
-
-            {
+            ...( this.moduleDashboardDef.haveSvg ? [{
                 name: 'Module info',
                 component: 'svg-module',
                 inputs: {
@@ -281,7 +308,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                 style: {
                     'max-width': '600px',
                 },
-            },
+            }] : []),
             {
                 name: 'Values',
                 component: 'growbe-module-last-value',
@@ -294,7 +321,8 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                     },
                 }
             },
-            {
+
+            ...( this.moduleDashboardDef.haveSvg ? [{
                 name: 'Data of the last 24h',
                 component: 'growbe-module-sensor-value-graph',
                 inputs: {
@@ -332,7 +360,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                 style: {
                     'grid-column': '1/-1',
                 },
-            },
+            }] : []),
             {
                 name: 'Data historic',
                 component: 'growbe-module-data-table',

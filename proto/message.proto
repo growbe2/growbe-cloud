@@ -1,5 +1,8 @@
 syntax = "proto3";
 
+option java_package = "ca.berlingoqc.growbe_android_module.proto";
+
+
 /*
 * Structure pour les messages qui sont envoyés entre la serre
 * par MQTT

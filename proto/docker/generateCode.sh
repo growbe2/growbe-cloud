@@ -28,7 +28,7 @@ echo 'Generating KT'
 mkdir -p ./out/kotlin
 for i in *.proto
 do
-    protoc -I=. --kotlin_out=./out/kotlin ${i}
+    protoc -I=. --java_out=./out/kotlin --kotlin_out=./out/kotlin ${i}
 done
 
 echo 'Generating TS'

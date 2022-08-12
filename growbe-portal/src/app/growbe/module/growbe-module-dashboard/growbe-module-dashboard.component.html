@@ -1,7 +1,7 @@
 <div class="fcol full">
     <div class="frow wrap pad">
         <h1>
-           Default dashboard 
+           Default dashboard
         </h1>
         <span></span>
         <span class="spacer"></span>
@@ -10,7 +10,7 @@
                 <mat-chip [selected]="currentChip == 'data'" (click)="setDataPanel()">
                     Data
                 </mat-chip>
-                <mat-chip [selected]="currentChip == 'graph'" (click)="setGraphPanel()">
+                <mat-chip [selected]="currentChip == 'graph'" *ngIf="moduleDashboardDef.haveGraph" (click)="setGraphPanel()">
                     Graph generator
                 </mat-chip>
                 <mat-chip [selected]="currentChip == 'alarm'" (click)="setAlarmPanel()">
