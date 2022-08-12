@@ -56,7 +56,7 @@ export const growbeModuleDashboardDef: { [id: string]: GrowbeModuleDashboardDef 
     PPO: {
         haveAlarm: true,
         haveSvg: false,
-        haveGraph: true,
+        haveGraph: false,
         haveConfig: false,
         type: 'observer'
     },
@@ -298,8 +298,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
 
     private getData(module, moduleDef): any[] {
         return [
-
-            {
+            ...( this.moduleDashboardDef.haveSvg ? [{
                 name: 'Module info',
                 component: 'svg-module',
                 inputs: {
@@ -309,7 +308,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                 style: {
                     'max-width': '600px',
                 },
-            },
+            }] : []),
             {
                 name: 'Values',
                 component: 'growbe-module-last-value',
@@ -322,7 +321,8 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                     },
                 }
             },
-            {
+
+            ...( this.moduleDashboardDef.haveSvg ? [{
                 name: 'Data of the last 24h',
                 component: 'growbe-module-sensor-value-graph',
                 inputs: {
@@ -360,7 +360,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                 style: {
                     'grid-column': '1/-1',
                 },
-            },
+            }] : []),
             {
                 name: 'Data historic',
                 component: 'growbe-module-data-table',

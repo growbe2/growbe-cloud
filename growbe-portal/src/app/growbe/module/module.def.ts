@@ -7,7 +7,9 @@ const relay = (property) => ({
 });
 
 const default_content = (property) => {
-  return (d) => d.values?.[property];
+  return (d) => {
+    return d.values?.[property]?.toFixed(2);
+  }
 }
 
 export const moduleDefPropertyDisplayer = {
