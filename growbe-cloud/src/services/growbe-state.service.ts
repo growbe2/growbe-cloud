@@ -48,6 +48,7 @@ export class GrowbeStateService {
     mainboard.cloudVersion = helloWorld.cloudVersion;
     mainboard.version = helloWorld.version;
     mainboard.lastUpdateAt = new Date();
+    mainboard.boards = helloWorld.boards;
     if (mainboard.state !== 'CONNECTED') {
       mainboard.state = 'CONNECTED';
       await this.stateChange(mainboard);
@@ -57,7 +58,8 @@ export class GrowbeStateService {
     await this.notifyState(
       new GrowbeMainboard(_.omit(mainboard, 'growbeMainboardConfig')),
     );
-    //await this.growbeSyncService.syncConfig(mainboard.id);
+    
+    return mainboard;
   }
 
   async valideState(id: string) {

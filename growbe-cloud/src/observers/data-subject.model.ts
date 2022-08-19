@@ -21,7 +21,7 @@ export interface DataSubject {
   func: DataSubjectFunc;
 }
 
-const subjectRegex = /^[A-Z]{3}\d{9}$/;
+const subjectRegex = /^[A-Z]{3}[A-Z0-9]{9}$/;
 
 export function funcModuleSubject(func: DataModuleFunc): DataSubjectFunc {
   return async (i, service, data, topic) => {

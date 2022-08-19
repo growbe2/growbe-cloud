@@ -1,10 +1,21 @@
 
-cloud:
-  env: dev
-  basePath: dev.growbe.ca
-  externalIP: 10.0.4.40
-  http:
-    certSecret: growbe-ingress-cert
-  broker:
-    port: 1884
-    portws: 9002
+growbe-cloud-chart:
+  cloud:
+    env: dev
+    basePath: dev.growbe.ca
+    externalIP: 10.0.4.40
+    http:
+      certSecret: growbe-ingress-cert
+    
+    broker:
+      port: 1884
+      portws: 9002
+
+    nms:
+      enabled: true
+
+    sso:
+      email:
+        from: '"Growbe Cloud" <robot@growbe.ca>'
+        redirect: https://cloud.dev.growbe.ca
+      settings: '{"publicCreation":true,"multiFactor":false,"accountValidation":true, "defaultRoles": []}'

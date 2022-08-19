@@ -41,8 +41,16 @@ jobs:
         run: cd growbe-portal && npm run docker:push
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
+      - name: Build and release migration image
+        run: cd transactional/ && ./docker/migration_docker_release.sh
+      - name: Deploy migration job to k8s
+        run: cd transactional/ && ./docker/migration_k8s.sh
+        env:
+          DB_URL: ${{ secrets.DB_PROD }}
+          MONGO_URL: ${{ secrets.MONGO_PROD }}
+          NAMESPACE: growbe-prod
       - name: Deploy
-        run: KUBECONFIG=$HOME/.kube/config helm upgrade growbe-cloud helm --install --wait --atomic --namespace=growbe-prod --set=cloud.version=${VERSION} --values=./helm/values/prod.yaml
+        run: KUBECONFIG=$HOME/.kube/config ./helm/deploy.sh --namespace=growbe-prod --set=growbe-cloud-chart.cloud.version=${VERSION} --values=./helm/values/prod.yaml
       - name: Notify
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}

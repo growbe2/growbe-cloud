@@ -6,5 +6,6 @@ backups/
 docker/envs/*
 !docker/envs/local.sh
 *.DS_Store
+helm/charts
 
 growbe-cloud-api/angular/projects/growbe-cloud-api/src/lib/cloud

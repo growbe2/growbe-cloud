@@ -1,17 +1,18 @@
 {
   "name": "@growbe2/growbe-pb",
-  "version": "1.2.8-SNAPSHOT-0",
+  "version": "1.2.9-SNAPSHOT-3",
   "description": "Libraire avec les définitions protobuf",
   "repository": {
     "type": "git",
     "url": "https://github.com/growbe2/growbe-cloud/"
   },
   "scripts": {
-    "docker:build": "docker pull docker.pkg.github.com/growbe2/growbe-cloud/protoc && docker run -v $(pwd):/PROTO -v $(pwd)/out:/OUT_PATH_C docker.pkg.github.com/growbe2/growbe-cloud/protoc",
+    "docker:build": "docker run -v $(pwd):/PROTO -v $(pwd)/out:/OUT_PATH_C ghcr.io/growbe2/growbe-cloud/growbe-cloud/protoc",
     "publishnpm": "cd out/ && npm publish",
     "setversion": "sed \"s/REPLACE/$npm_package_version/g\" version_cloud.h > out/version_cloud.h",
     "version": "node -p \"require('./package.json').version\"",
-    "copyc": "cp out/*pb* ../../growbe_mainboard/source/cloud/pb_struct/"
+    "copyc": "cp out/*pb* ../../growbe_mainboard/source/cloud/pb_struct/",
+    "copykt": "cp out/kotlin/* ../../growbe-android-module/app/src/main/java/ca/berlingoqc/growbe_android_module/proto/"
   },
   "license": "MIT",
   "keywords": [],

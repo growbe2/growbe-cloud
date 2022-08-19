@@ -8,9 +8,6 @@ import pb from '@growbe2/growbe-pb';
 import {boardId, orgId, userId} from '../fixtures/data';
 import {MockMQTTService} from '../fixtures/mock-mqtt.service';
 import { CloudComponent } from '../../cloud';
-import { getDate } from '../helpers/date';
-import { sleep } from '@berlingoqc/sso';
-import { GrowbeStateWatcherObserver } from '../../watcher/observers';
 
 describe('Growbe Mainboard', () => {
   let app: GrowbeCloudApplication;
@@ -24,6 +21,30 @@ describe('Growbe Mainboard', () => {
 
   after(async () => {
     await app.stop();
+  });
+
+  describe("Hello world", () => {
+    let mainboardService: GrowbeService;
+    let growbeStateService: GrowbeStateService;
+
+    before(async () => {
+      mainboardService = await app.get('services.GrowbeService');
+      growbeStateService = await app.get('services.GrowbeStateService');
+      growbeStateService.mqttService = new MockMQTTService() as any;
+    });
+
+    afterEach(async () => {
+      await mainboardService.mainboardRepository.deleteAll();
+    });
+
+    it('When receive hello world, save comboards and version', async () => {
+      await growbeStateService.onHelloWorld("12345", new pb.HelloWord({ boards: [{imple: "i2c", addr: "/dev/i2c-1"}] }))
+
+      let mainboard = await mainboardService.mainboardRepository.findById("12345")
+
+      expect(mainboard.boards.length).eql(1);
+    });
+
   });
 
   describe("Register d'un nouveau growbe", () => {

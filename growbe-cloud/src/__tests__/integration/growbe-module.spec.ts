@@ -1,14 +1,11 @@
-import pb from '@growbe2/growbe-pb';
+import pb, { PhonePositionData } from '@growbe2/growbe-pb';
 import {expect} from '@loopback/testlab';
 import {addMinutes} from 'date-fns';
 import sinon from 'sinon';
 import {GrowbeCloudApplication} from '../../application';
-import { GrowbeModuleDefWithRelations, GrowbeModuleWithRelations } from '../../models';
-import {GrowbeSensorValueRepository} from '../../repositories';
 import {GrowbeModuleService} from '../../services';
 import {setupApplication} from '../fixtures/app';
 import {boardId, moduleId, relayModuleId} from '../fixtures/data';
-import {waitAsync} from '../helpers/general';
 
 
 describe('Growbe Mainboard', () => {
@@ -34,11 +31,37 @@ describe('Growbe Mainboard', () => {
     });
 
     afterEach(async () => {
-        await moduleService.moduleRepository.deleteAll();
-        await moduleService.moduleDefRepository.deleteAll({moduleId: {neq: undefined}});
+        //await moduleService.moduleRepository.deleteAll();
+        //await moduleService.moduleDefRepository.deleteAll({moduleId: {neq: undefined}});
     });
 
     describe('État du module', () => {
+
+      it.only('Lors de réception état PPO , si existe pas crée le module', async () => {
+        let moduleId = "PPO43EEDD151";
+        await moduleService.onModuleStateChange(
+          boardId,
+          moduleId,
+          new pb.ModuleData({
+            plug: true,
+            board: "ble",
+            boardAddr: "0",
+            port: 0
+          }),
+        );
+
+        const module: any = await moduleService.moduleRepository.findOne({
+          where: {
+            id: moduleId,
+          },
+          include: ['moduleDef'],
+        });
+
+        expect(module).to.be.Object();
+        expect(module.id).is.String();
+
+
+      });
 
       it('Lors de réception état , si existe pas crée un module', async () => {
         await moduleService.onModuleStateChange(
@@ -46,6 +69,8 @@ describe('Growbe Mainboard', () => {
           moduleId,
           new pb.ModuleData({
             plug: false,
+            board: "i2c",
+            boardAddr: "1"
           }),
         );
 
@@ -61,6 +86,8 @@ describe('Growbe Mainboard', () => {
         expect(module.id).to.eql(moduleId);
         expect(module.mainboardId).to.eql(boardId);
         expect(module.moduleDef).to.be.Object();
+        expect(module.board).to.eql("i2c");
+        expect(module.boardAddr).to.eql("1");
       });
 
       it("Lors de réception état , si existe récupère et l'update", async () => {
@@ -121,6 +148,20 @@ describe('Growbe Mainboard', () => {
         expect(item.samples).length(0);
         expect(item.growbeMainboardId).to.eql(boardId);
         expect(item.moduleType).to.eql('AAA');
+      });
+
+      it('Reception de donnée depuis le module PPO', async () => {
+
+        const value = new PhonePositionData({lat: 40. , log: -50})
+
+
+        const item = await moduleService.onModuleDataChange(
+          boardId,
+          "PPO000000000",
+          pb.PhonePositionData.encode(value).finish()
+        );
+
+        expect(item.moduleType).to.eql('PPO');
       });
 
       it('Reception de donnée accecible avec resolver de module', async () => {

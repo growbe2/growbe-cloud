@@ -1,7 +1,5 @@
 #! /bin/bash
 
-PREFIX_CMD="docker run postgres"
-
 echo "Running script to setup database"
 
 psql $DB_URL -f ./transactional/growbemoduledef.sql \

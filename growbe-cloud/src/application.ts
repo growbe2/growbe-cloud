@@ -115,8 +115,12 @@ export function start(component: Constructor<Component>) {
       },
     },
   };
-  main(component, config).catch(err => {
-    GrowbeCloudApplication.DEBUG("cannot start the application", err)
-    process.exit(1);
-  });
+  try {
+    main(component, config).catch(err => {
+      GrowbeCloudApplication.DEBUG("cannot start the application", err)
+      process.exit(1);
+    });
+  } catch (exception) {
+    console.error(exception);
+  }
 }

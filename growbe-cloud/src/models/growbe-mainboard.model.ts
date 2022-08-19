@@ -1,5 +1,4 @@
 import {User} from '@berlingoqc/sso';
-import {HearthBeath} from '@growbe2/growbe-pb';
 import {
   belongsTo,
   Entity,
@@ -44,6 +43,9 @@ export class GrowbeMainboard extends Entity {
 
   @property()
   cloudVersion: string;
+
+  @property.array("object")
+  boards: {imple: string, addr: string}[];
 
   @hasOne(() => GrowbeMainboardConfig)
   growbeMainboardConfig: GrowbeMainboardConfig;

@@ -1,6 +1,9 @@
 
 syntax = "proto3";
 
+option java_package = "ca.berlingoqc.growbe_android_module.proto";
+
+
 message GrowbeMainboardConfig {
     int32 hearthBeath = 1;
 }
@@ -9,6 +12,8 @@ message HelloWord {
     string version = 1;
     string cloudVersion = 2;
     string RTC = 3;
+
+    repeated RunningComboard boards = 4;
 }
 
 message VersionRelease {
@@ -29,7 +34,6 @@ message LocalConnection {
     string ipAddr = 3;
 }
 
-
 message MQTTConfig {
     string url = 1;
     int32 port = 2;
@@ -38,6 +42,11 @@ message MQTTConfig {
 message ComboardConfig {
     string config = 1;
     string imple = 2;
+}
+
+message RunningComboard {
+    string imple = 1;
+    string addr = 2;
 }
 
 message HttpServerConfig {
@@ -59,6 +68,7 @@ message MainboardConfig {
     string id = 1;
     MQTTConfig mqtt = 2;
     ComboardConfig comboard = 3;
+    repeated ComboardConfig comboards = 7;
     HttpServerConfig server = 4;
     LoggerConfig logger = 5;
     UpdaterConfig update = 6;
