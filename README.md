@@ -1,6 +1,6 @@
 # Growbe Cloud
 
-This is a mono-repo for the growbe-cloud project.
+This is a mono-repo for the growbe-cloud. This contains all ressource for the application and the deployment.
 
 ## Projects
 
