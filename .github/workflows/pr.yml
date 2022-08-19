@@ -21,7 +21,7 @@ jobs:
       - name: Setting npmrc
         run: echo "${{ secrets.NPMRC }}" > $HOME/.npmrc
       - name: Install pgsql client
-        run: sudo apt-get install postgresql
+        run: sudo apt-get update && sudo apt-get install postgresql
       - name: Running test 
         run: ./scripts/integration.sh test
   growbe-portal:
