@@ -50,7 +50,7 @@ jobs:
           MONGO_URL: ${{ secrets.MONGO_PROD }}
           NAMESPACE: growbe-prod
       - name: Deploy
-        run: KUBECONFIG=$HOME/.kube/config helm upgrade growbe-cloud helm --install --wait --atomic --namespace=growbe-prod --set=cloud.version=${VERSION} --values=./helm/values/prod.yaml
+        run: KUBECONFIG=$HOME/.kube/config ./helm/deploy.sh --namespace=growbe-prod --set=growbe-cloud-chart.cloud.version=${VERSION} --values=./helm/values/prod.yaml
       - name: Notify
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}

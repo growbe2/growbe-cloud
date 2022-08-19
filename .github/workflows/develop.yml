@@ -79,7 +79,7 @@ jobs:
       - name: Updating version
         run: echo "VERSION=$(npm run getversion:develop --silent)" >> $GITHUB_ENV
       - name: Deploy to dev
-        run: KUBECONFIG=$HOME/.kube/config helm upgrade growbe-cloud helm --install --wait --atomic --namespace=growbe-dev --set=cloud.version=${VERSION} --set=cloud.ghtoken=${{secrets.PAT}} --set=cloud.idrsa="${{secrets.IDRSA}}" --values=./helm/values/dev.yaml
+        run: KUBECONFIG=$HOME/.kube/config ./helm/deploy.sh --namespace=growbe-dev --set=growbe-cloud-chart.cloud.version=${VERSION} --values=./helm/values/dev.yaml
   notify:
     runs-on: ubuntu-latest
     needs: deploy
