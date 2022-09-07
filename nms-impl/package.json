@@ -10,9 +10,9 @@
   "private": true,
   "scripts": {
     "start": "node ./index.js",
-    "docker:build": "docker build -t docker.pkg.github.com/growbe2/growbe-cloud/nms:latest .",
-    "docker:run": "docker run docker.pkg.github.com/growbe2/growbe-cloud/nms",
-    "docker:push": "docker push docker.pkg.github.com/growbe2/growbe-cloud/nms"
+    "docker:build": "docker build -t ghcr.io/growbe2/growbe-cloud/nms:latest .",
+    "docker:run": "docker run ghcr.io/growbe2/growbe-cloud/nms",
+    "docker:push": "docker push ghcr.io/growbe2/growbe-cloud/nms"
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
     "!*/__tests__"
   ],
   "dependencies": {
-    "mqtt": "^4.2.6",
-    "node-media-server": "^2.2.4"
+    "mqtt": "^4.3.7",
+    "node-media-server": "^2.4.7"
   }
 }

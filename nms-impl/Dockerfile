@@ -4,7 +4,7 @@ FROM node:10-slim
 RUN apt update && apt install -y wget
 RUN wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz \
     && tar xvf ./ffmpeg-release-amd64-static.tar.xz \
-    && cp ./ffmpeg-4.4-amd64-static/ffmpeg /usr/bin/
+    && cp ./ffmpeg-5.0.1-amd64-static/ffmpeg /usr/bin/
 
 # Set to a non-root built-in user `node`
 USER node
