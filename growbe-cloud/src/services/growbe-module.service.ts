@@ -33,6 +33,8 @@ const mapType: any = {
   AAB: 'WCModuleData',
   AAP: 'RelayModuleData',
 
+
+  PCS: 'PhoneStreamingData',
   PPR: 'PhonePressureData',
   PAC: 'PhoneAccelerationData',
   PAL: 'PhoneAmbientLightData',
@@ -44,6 +46,7 @@ const mapTypeConfig: any = {
   AAP: 'RelayModuleConfig',
   AAS: 'SOILModuleConfig',
 
+  PCS: 'PhoneStreamingConfig',
   PPR: 'PhonePressureConfig',
   PAC: 'PhoneAccelerationConfig',
   PAL: 'PhoneAmbientLightConfig',

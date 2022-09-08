@@ -1,6 +1,6 @@
 {
   "name": "@growbe2/growbe-pb",
-  "version": "1.2.9-SNAPSHOT-3",
+  "version": "1.2.11-SNAPSHOT-0",
   "description": "Libraire avec les définitions protobuf",
   "repository": {
     "type": "git",
@@ -12,7 +12,8 @@
     "setversion": "sed \"s/REPLACE/$npm_package_version/g\" version_cloud.h > out/version_cloud.h",
     "version": "node -p \"require('./package.json').version\"",
     "copyc": "cp out/*pb* ../../growbe_mainboard/source/cloud/pb_struct/",
-    "copykt": "cp out/kotlin/* ../../growbe-android-module/app/src/main/java/ca/berlingoqc/growbe_android_module/proto/"
+    "copyr": "cp *.proto ../../growbe-mainboard/proto/",
+    "copykt": "cp -r out/kotlin/ca/berlingoqc/growbe_android_module/proto/* ../../growbe-android-module/app/src/main/java/ca/berlingoqc/growbe_android_module/proto/"
   },
   "license": "MIT",
   "keywords": [],

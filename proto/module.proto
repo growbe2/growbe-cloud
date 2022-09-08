@@ -296,4 +296,17 @@ message PhonePressureConfig {
 
 }
 
+message PhoneStreamingData {
+    string status = 1;
+    float fps = 2;
+    float bitrate = 3;
+}
+
+message PhoneStreamingConfig {
+    bool activated = 1;
+
+    string url = 2;
+    int32 camera = 3;
+}
+
 
