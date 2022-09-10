@@ -37,6 +37,9 @@ export const moduleDefPropertyDisplayer = {
     PPR: {
       getContent: default_content
     },
+    PCS: {
+      getContent: default_content
+    },
     AAS: {
         getContent: (property) => {
           return (d) => {

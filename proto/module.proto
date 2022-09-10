@@ -296,17 +296,41 @@ message PhonePressureConfig {
 
 }
 
+enum PhoneStreamingStatus {
+    STOPPED = 0;
+    RUNNING = 1;
+    ERROR = 2;
+}
+
+enum PhoneStreamingCamera {
+    BACK = 0;
+    FRONT = 1;
+}
+
 message PhoneStreamingData {
-    string status = 1;
+    PhoneStreamingStatus status = 1;
+    
     float fps = 2;
     float bitrate = 3;
+
+
+    string error = 4;
 }
 
 message PhoneStreamingConfig {
     bool activated = 1;
 
     string url = 2;
-    int32 camera = 3;
+
+    PhoneStreamingCamera camera = 3;
+
+    bool light = 4;
+    bool audio = 5;
+    bool autoFocus = 6;
+    bool stabilization = 7;
+    bool faceDetection = 8;
+
+    int32 zoom = 9;
 }
 
 

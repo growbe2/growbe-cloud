@@ -81,6 +81,13 @@ export const growbeModuleDashboardDef: { [id: string]: GrowbeModuleDashboardDef 
         haveConfig: false,
         type: 'observer'
     },
+    PCS: {
+        haveAlarm: true,
+        haveSvg: false,
+        haveGraph: true,
+        haveConfig: true,
+        type: 'observer'
+    }
 };
 
 @Component({
