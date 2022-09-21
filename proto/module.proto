@@ -264,6 +264,12 @@ message WCModuleConfig {
 message PhonePositionData {
     float lat = 1;
     float log = 2;
+
+    float accuracy = 3;
+
+    double altitude = 4;
+    float bearing = 5;
+    float speed = 7;
 }
 
 message PhonePositionConfig {
