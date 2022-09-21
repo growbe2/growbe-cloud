@@ -68,7 +68,7 @@ export class GrowbeStreamController {
   ) {
     stream.active = false;
     const expiredDate = new Date();
-    expiredDate.setMonth(expiredDate.getMonth() + 1);
+    expiredDate.setMonth(expiredDate.getMonth() + 6);
     stream.expiredAt = expiredDate.getTime();
     const hash = createHash('md5');
     hash.update(`/live/${stream.streamName}-${stream.expiredAt}-${this.key}`);
