@@ -41,7 +41,7 @@ var nms = new NodeMediaServer(config);
 if (process.env.MQTT_URL) {
   const client = mqtt.connect(process.env.MQTT_URL);
 
-  const send_state_mqtt = (StreamPath, state) => {
+  const send_state_mqtt = (id, StreamPath, state) => {
       const items = StreamPath.split('/');
       const streamNameItems = items[items.length - 1].split('-');
       console.log(`[${state}] ${streamNameItems[0]}`);
@@ -51,8 +51,8 @@ if (process.env.MQTT_URL) {
   client.on('connect', () => {
     console.log("connected to MQTT_URL");
     // BLOCK ACCESS FOR INVALID STREAM NAME
-    nms.on('postPublish', (id, StreamPath, args) => send_state_mqtt(StreamPath, 'starting'));
-    nms.on('donePublish', (id, StreamPath, args) =>send_state_mqtt(StreamPath, 'done'));
+    nms.on('postPublish', (id, StreamPath, args) => send_state_mqtt(id, StreamPath, 'starting'));
+    nms.on('donePublish', (id, StreamPath, args) =>send_state_mqtt(id, StreamPath, 'done'));
 
   });
 
