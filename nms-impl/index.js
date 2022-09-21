@@ -40,6 +40,7 @@ var nms = new NodeMediaServer(config);
 if (process.env.MQTT_URL) {
   const client = mqtt.connect(process.env.MQTT_URL);
   client.on('connect', () => {
+    console.log("connected to MQTT_URL");
     // BLOCK ACCESS FOR INVALID STREAM NAME
     nms.on('postPlay', (id, StreamPath, args) => {
       const items = StreamPath.split('/');
@@ -53,6 +54,12 @@ if (process.env.MQTT_URL) {
       client.publish(`/growbe/${streamNameItems[0]}/cloud/stream`, JSON.stringify({id, StreamPath, state: 'done'}));
    });
   });
+
+  client.on('error', (err) => {
+    console.error(err);
+  });
+} else {
+  console.error("no MQTT_URL provide");
 }
 
 nms.run();
