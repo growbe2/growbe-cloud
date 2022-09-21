@@ -34,25 +34,26 @@ const config = {
     ]
   }*/
 };
- 
+
+
 var nms = new NodeMediaServer(config);
 
 if (process.env.MQTT_URL) {
   const client = mqtt.connect(process.env.MQTT_URL);
+
+  const send_state_mqtt = (StreamPath, state) => {
+      const items = StreamPath.split('/');
+      const streamNameItems = items[items.length - 1].split('-');
+      console.log(`[${state}] ${streamNameItems[0]}`);
+      client.publish(`/growbe/${streamNameItems[0]}/cloud/stream`, JSON.stringify({id, StreamPath, state}));
+  };
+
   client.on('connect', () => {
     console.log("connected to MQTT_URL");
     // BLOCK ACCESS FOR INVALID STREAM NAME
-    nms.on('postPlay', (id, StreamPath, args) => {
-      const items = StreamPath.split('/');
-      const streamNameItems = items[items.length - 1].split('-');
-      client.publish(`/growbe/${streamNameItems[0]}/cloud/stream`, JSON.stringify({id, StreamPath, state: 'starting'}));
-    });
-    
-   nms.on('donePlay', (id, StreamPath, args) => {
-      const items = StreamPath.split('/');
-      const streamNameItems = items[items.length - 1].split('-');
-      client.publish(`/growbe/${streamNameItems[0]}/cloud/stream`, JSON.stringify({id, StreamPath, state: 'done'}));
-   });
+    nms.on('postPublish', (id, StreamPath, args) => send_state_mqtt(StreamPath, 'starting'));
+    nms.on('donePublish', (id, StreamPath, args) =>send_state_mqtt(StreamPath, 'done'));
+
   });
 
   client.on('error', (err) => {
