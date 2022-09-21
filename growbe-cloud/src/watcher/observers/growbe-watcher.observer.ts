@@ -39,6 +39,8 @@ export class GrowbeStateWatcherObserver implements LifeCycleObserver {
         () => {},
       );
     });
+
+    await this.state.onAppRestart();
   }
 
   /**

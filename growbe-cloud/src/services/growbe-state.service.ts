@@ -16,6 +16,7 @@ import {GrowbeWarningService} from './growbe-warning.service';
 import { GrowbeActionService } from './growbe-action.service';
 import {GrowbeService} from './growbe.service';
 import {getTopic, MQTTService} from './mqtt.service';
+import { isBefore } from 'date-fns';
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeStateService {
@@ -36,6 +37,21 @@ export class GrowbeStateService {
     @inject(GrowbeMainboardBindings.WATCHER_STATE_EVENT)
     private stateSubject: Subject<string>,
   ) {}
+
+  // call this on app restart to clean data if the watcher
+  // was not running correctly before.
+  async onAppRestart() {
+    const one_minute_ago = new Date();
+    one_minute_ago.setMinutes(one_minute_ago.getMinutes() - 1);
+    for (let x of (await this.growbeService.mainboardRepository.find())
+      .filter(x => isBefore(x.lastUpdateAt, one_minute_ago))) {
+        x.state = 'DISCONNECTED';
+        await this.stateChange(x);
+        await this.notifyState(x);
+        await this.growbeModuleService.onBoardDisconnect(x.id);
+        GrowbeStateService.DEBUG("disconnecting on restart : " + x.id)
+    }
+  }
 
   async onBeath(id: string) {
     this.stateSubject.next(id);

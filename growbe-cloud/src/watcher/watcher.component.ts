@@ -1,5 +1,5 @@
 import {ActionResponse, FieldAlarmEvent, HearthBeath, HelloWord, LocalConnection, ModuleData, UpdateExecute, SOILCalibrationStepEvent, VirtualRelayState, VirtualRelayData, MainboardConfig } from '@growbe2/growbe-pb';
-import {Binding, Component} from '@loopback/core';
+import {Binding, Component, service} from '@loopback/core';
 import { split } from 'lodash';
 import {GrowbeMainboardBindings} from '../keys';
 import { GroupEnum, LogTypeEnum, SeverityEnum } from '../models';
@@ -137,8 +137,9 @@ const watchers: DataSubject[] = [
 ];
 
 export class WatcherComponent implements Component {
-  constructor() {}
   controllers = [];
   bindings = [Binding.bind(GrowbeMainboardBindings.WATCHERS).to(watchers)];
   lifeCycleObservers = [GrowbeStateWatcherObserver];
+
+  constructor() {}
 }
