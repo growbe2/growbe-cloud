@@ -41,6 +41,7 @@ const mapType: any = {
   PPO: 'PhonePositionData',
 
   CCS: 'ComputerStreamingData',
+  CSS: 'ComputerStatsData',
 };
 
 const mapTypeConfig: any = {
@@ -55,6 +56,7 @@ const mapTypeConfig: any = {
   PPO: 'PhonePositionConfig',
 
   CCS: 'ComputerStreamingConfig',
+  CSS: 'ComputerStatsConfig',
 };
 
 const mapTypeConfiguration: any = {

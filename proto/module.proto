@@ -395,4 +395,47 @@ message ComputerStreamingState {
     repeated string cameras = 1;
 }
 
+message ComputerStatsConfig {}
+
+message CpuData {
+    float user = 1;
+    float nice = 2;
+    float system = 3;
+    float interrupt = 4;
+    float idle = 5;
+    float temp = 6;
+}
+
+message CpuLoadData {
+    float one = 1;
+    float five = 2;
+    float fifteen = 3;
+}
+
+message MemoryData {
+    float total = 1;
+    float free = 2;
+    float platform = 3;
+}
+
+message PowerData {
+    float power = 1;
+}
+
+message NetworkData {
+    float rx_bytes = 1;
+    float tx_bytes = 2;
+}
+
+message ComputerStatsData {
+    float uptime = 1;
+
+    CpuData cpu = 2;
+    CpuLoadData loadavg = 3;
+    MemoryData swap = 4;
+    MemoryData memory = 5;
+
+    repeated NetworkData netifs = 6;
+}
+
 
