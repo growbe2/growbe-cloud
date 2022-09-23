@@ -54,6 +54,9 @@ export const moduleDefPropertyDisplayer = {
         };
       }
     },
+    CCS: {
+      getContent: default_content,
+    },
     AAS: {
         getContent: (property) => {
           return (d) => {

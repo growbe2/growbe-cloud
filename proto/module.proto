@@ -370,4 +370,29 @@ message PhoneStreamingConfig {
     int32 zoom = 10;
 }
 
+message ComputerStreamingData {
+    PhoneStreamingStatus status = 1;
+
+    float fps = 2;
+    float bitrate = 3;
+
+    string error = 4;
+}
+
+message ComputerStreamingConfig {
+    bool activated = 1;
+
+    string camera = 2;
+
+    PhoneStreamingOutput output = 3;
+
+    string url = 4;
+
+    repeated string arguments = 5;
+}
+
+message ComputerStreamingState {
+    repeated string cameras = 1;
+}
+
 

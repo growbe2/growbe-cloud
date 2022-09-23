@@ -39,6 +39,8 @@ const mapType: any = {
   PAC: 'PhoneAccelerationData',
   PAL: 'PhoneAmbientLightData',
   PPO: 'PhonePositionData',
+
+  CCS: 'ComputerStreamingData',
 };
 
 const mapTypeConfig: any = {
@@ -51,6 +53,8 @@ const mapTypeConfig: any = {
   PAC: 'PhoneAccelerationConfig',
   PAL: 'PhoneAmbientLightConfig',
   PPO: 'PhonePositionConfig',
+
+  CCS: 'ComputerStreamingConfig',
 };
 
 const mapTypeConfiguration: any = {

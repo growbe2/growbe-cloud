@@ -87,6 +87,13 @@ export const growbeModuleDashboardDef: { [id: string]: GrowbeModuleDashboardDef 
         haveGraph: true,
         haveConfig: true,
         type: 'observer'
+    },
+    CCS: {
+        haveAlarm: true,
+        haveSvg: false,
+        haveGraph: true,
+        haveConfig: true,
+        type: 'observer'
     }
 };
 
