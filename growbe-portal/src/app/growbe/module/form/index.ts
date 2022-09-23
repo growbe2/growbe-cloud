@@ -2,7 +2,9 @@ import { AutoFormData } from '@berlingoqc/ngx-autoform';
 import { GrowbeActionAPI } from '../../api/growbe-action';
 import { getRelayControlConfig } from './relaycontrol/config';
 import { getSoilConfigForm } from './soil/config';
+import { getPhoneStreamingConfig  } from './phonestreaming/config';
 import { getModuleWaterControlConfig } from './watercontrol/config';
+import { Injector } from '@angular/core';
 
 export * from './watercontrol/config';
 
@@ -14,6 +16,7 @@ export const getConfigForm = (
     config: any,
     moduleDef: any,
     growbeActionAPI: GrowbeActionAPI,
+    injecotor: Injector,
 ) => AutoFormData) => {
     switch (name) {
         case 'AAB':
@@ -22,6 +25,8 @@ export const getConfigForm = (
             return getRelayControlConfig;
         case 'AAS':
             return getSoilConfigForm;
+        case 'PCS':
+            return getPhoneStreamingConfig;
         default:
             return null;
     }

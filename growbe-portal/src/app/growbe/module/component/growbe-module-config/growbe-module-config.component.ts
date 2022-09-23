@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Injector, Input, OnInit } from '@angular/core';
 import { AutoFormData } from '@berlingoqc/ngx-autoform';
 import { GrowbeModule } from '@growbe2/ngx-cloud-api';
 import { combineLatest, forkJoin, Observable, of } from 'rxjs';
@@ -21,6 +21,7 @@ export class GrowbeModuleConfigComponent implements OnInit {
     constructor(
         private growbeModuleAPI: GrowbeModuleAPI,
         private growbeActionAPI: GrowbeActionAPI,
+        private injector: Injector,
     ) {}
 
     ngOnInit(): void {
@@ -39,6 +40,7 @@ export class GrowbeModuleConfigComponent implements OnInit {
                           config,
                           moduleDef,
                           this.growbeActionAPI,
+                          this.injector,
                       )
                     : undefined;
             }),

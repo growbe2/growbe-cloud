@@ -2,12 +2,13 @@ import { Inject, inject, Injectable, Injector } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { AuthService } from '@berlingoqc/auth';
 import {
-  ArrayProperty,
+    ArrayProperty,
     DictionnayProperty,
     FormObject,
     IProperty,
     SelectComponent,
 } from '@berlingoqc/ngx-autoform';
+import { envConfig } from '@berlingoqc/ngx-common';
 import {
     DashboardRegistryItem,
     DashboardRegistryService,
@@ -18,7 +19,11 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { ModuleSensorValueGraphComponent } from 'src/app/growbe/module/graph/module-sensor-value-graph/module-sensor-value-graph.component';
 import { StreamPlayerComponent } from 'src/app/growbe/video-stream/stream-player/stream-player.component';
-import { getTerminalSearchForm, TerminalComponent } from 'src/app/shared/terminal/terminal/terminal.component';
+import {
+    getTerminalSearchForm,
+    TerminalComponent,
+} from 'src/app/shared/terminal/terminal/terminal.component';
+import { GrowbeStreamAPI } from '../api/growbe-stream';
 import { GrowbeStateComponent } from '../growbe-mainboard/component/growbe-state/growbe-state.component';
 import { GrowbeModuleConfigComponent } from '../module/component/growbe-module-config/growbe-module-config.component';
 import { GrowbeModuleDataTableComponent } from '../module/component/growbe-module-data-table/growbe-module-data-table.component';
@@ -35,7 +40,7 @@ import { VirtualRelayTableComponent } from '../module/virtual-relay/virtual-rela
 import { DashboardWelcomeComponent } from './component/dashboard-welcome/dashboard-welcome.component';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class GrowbeDashboardRegistry implements DashboardRegistryService {
     items: { [id: string]: DashboardRegistryItem } = {};
@@ -44,6 +49,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
         private mainboardAPI: GrowbeMainboardAPI,
         private authService: AuthService,
         private graphService: GrowbeGraphService,
+        private streamAPI: GrowbeStreamAPI,
     ) {
         this.mainboardAPI.get({}).subscribe(() => {});
         [
@@ -51,7 +57,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 name: '',
                 component: 'growbe-welcome',
                 componentType: DashboardWelcomeComponent,
-                inputs: {}
+                inputs: {},
             },
             {
                 name: '',
@@ -68,14 +74,14 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 componentType: ModuleSensorValueGraphComponent,
                 inputs: {
                     ...this.getGraphModuleRequestProperty([
-                      {
-                        name: 'includeAlarms',
-                        displayName: 'Include alarms as reference lines',
-                        type: 'bool',
-                        component: {
-                          name: 'checkbox'
-                        }
-                      },
+                        {
+                            name: 'includeAlarms',
+                            displayName: 'Include alarms as reference lines',
+                            type: 'bool',
+                            component: {
+                                name: 'checkbox',
+                            },
+                        },
                     ]),
                 },
             },
@@ -114,7 +120,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 component: 'growbe-alarm',
                 componentType: HardwareAlarmTableComponent,
                 inputs: {
-                  ...this.getDashboardAndModuleProperty(true)[0]
+                    ...this.getDashboardAndModuleProperty(true)[0],
                 },
             },
             {
@@ -143,39 +149,30 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 component: 'logs-terminal',
                 componentType: TerminalComponent,
                 inputs: {
-                  ...this.getDashboardAndModuleProperty(true, 'growbeId', true)[0],
-                  'where': {
-                    name: 'where',
-                    type: 'object',
-                    properties: getTerminalSearchForm(),
-                  } as FormObject,
+                    ...this.getDashboardAndModuleProperty(
+                        true,
+                        'growbeId',
+                        true,
+                    )[0],
+                    where: {
+                        name: 'where',
+                        type: 'object',
+                        properties: getTerminalSearchForm(),
+                    } as FormObject,
                 },
             },
             {
                 name: '',
                 component: 'video-stream',
                 componentType: StreamPlayerComponent,
-                inputs: {
-                  ...this.getDashboardAndModuleProperty(false, 'mainboardId', false)[0],
-                  'streamId': {
-                    type: 'string',
-                    name: 'streamId'
-                  },
-                  'mute': {
-                    type: 'bool',
-                    name: 'mute',
-                    component: {
-                      name: 'checkbox',
-                    }
-                  }
-                }
+                inputs: this.getVideoStreamInput(),
             },
             {
                 name: '',
                 component: 'svg-module',
                 componentType: ModuleSVGComponent,
                 inputs: {
-                  ...this.getDashboardAndModuleProperty(true)[0],
+                    ...this.getDashboardAndModuleProperty(true)[0],
                 },
                 outputs: {},
             },
@@ -184,27 +181,24 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 component: 'relay-unit-control',
                 componentType: RelayUnitControlComponent,
                 inputs: {
-                  ...this.getModuleProperty("mainboardId", ["AAP", "AAB"]),
+                    ...this.getModuleProperty('mainboardId', ['AAP', 'AAB']),
                 },
-                outputs: {}
+                outputs: {},
             },
             {
                 name: '',
                 component: 'virtual-relay-table',
                 componentType: VirtualRelayTableComponent,
-                inputs: {
-                },
-                outputs: {}
+                inputs: {},
+                outputs: {},
             },
             {
                 name: '',
                 component: 'virtual-relay-control',
                 componentType: VirtualRelayControlComponent,
-                inputs: {
-                },
-                outputs: {}
-            }
-
+                inputs: {},
+                outputs: {},
+            },
         ].forEach((item: any) => this.addItem(item));
     }
 
@@ -215,29 +209,77 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
         return this.items[component];
     }
 
+    private getVideoStreamInput() {
+        const mainboard = this.getDashboardAndModuleProperty(
+            false,
+            'mainboardId',
+            false,
+        );
+        return {
+            ...mainboard[0],
+            streamNames: {
+                type: 'array',
+                name: 'streamNames',
+                elementType: {
+                    type: 'string',
+                    name: '',
+                    component: {
+                        name: 'select',
+                        type: 'mat',
+                        transformValue: (e) => e.streamName,
+                        options: {
+                            displayContent: (e) => e.streamName,
+                            value: () =>
+                                mainboard[1].pipe(
+                                    switchMap((x) =>
+                                        this.streamAPI.getLiveStreams(x),
+                                    ),
+                                ),
+                        },
+                        compareWith: (a, b) => a === b,
+                    } as SelectComponent,
+                },
+            } as ArrayProperty,
+            showMultiple: {
+                type: 'bool',
+                name: 'showMultiple',
+                component: {
+                  name: 'checkbox'
+                }
+            },
+            mute: {
+                type: 'bool',
+                name: 'mute',
+                component: {
+                    name: 'checkbox',
+                },
+            },
+        };
+    }
+
     private getTableConfig = () => {
         return {
             //enablePagination: true,
             pageSize: {
                 type: 'number',
-                name: 'pageSize'
+                name: 'pageSize',
             },
             disablePaginator: {
                 type: 'bool',
                 name: 'disablePaginator',
                 component: {
-                  name: 'checkbox'
-                }
+                    name: 'checkbox',
+                },
             },
             disableOptions: {
                 type: 'bool',
                 name: 'disableOptions',
                 component: {
-                  name: 'checkbox'
-                }
-            }
+                    name: 'checkbox',
+                },
+            },
         };
-    }
+    };
 
     private getModulePropertyList = () => {
         const [
@@ -247,12 +289,14 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
         ] = this.getDashboardAndModuleProperty(true, 'mainboardId');
 
         return {
-          'mainboardId': formMM['mainboardId'],
-          'moduleId': formMM['moduleId'],
-          'displayProperties': this.graphService.getPropertySelectForm(subjectModule.asObservable(), 'displayProperties'),
+            mainboardId: formMM['mainboardId'],
+            moduleId: formMM['moduleId'],
+            displayProperties: this.graphService.getPropertySelectForm(
+                subjectModule.asObservable(),
+                'displayProperties',
+            ),
         };
-
-    }
+    };
 
     private getModuleProperty = (idName: string, moduleType?: string[]) => {
         const [
@@ -262,11 +306,14 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
         ] = this.getDashboardAndModuleProperty(true, idName, false, moduleType);
 
         return {
-          [idName]: formMM[idName],
-          'moduleId': formMM['moduleId'],
-          'field': this.graphService.getPropertySelectFormElement(subjectModule.asObservable(), 'field'),
+            [idName]: formMM[idName],
+            moduleId: formMM['moduleId'],
+            field: this.graphService.getPropertySelectFormElement(
+                subjectModule.asObservable(),
+                'field',
+            ),
         };
-    }
+    };
 
     private getGraphModuleRequestProperty = (extra?: IProperty[]) => {
         const [
@@ -378,8 +425,8 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                                 name: 'legend',
                                 type: 'bool',
                                 component: {
-                                  name: 'checkbox'
-                                }
+                                    name: 'checkbox',
+                                },
                             },
                             {
                                 name: 'legendTitle',
@@ -389,14 +436,14 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                                 name: 'legendPosition',
                                 type: 'string',
                                 component: {
-                                  name: 'select',
-                                  transformValue: (e) => e,
-                                  options: {
-                                    displayContent: (e) => e,
-                                    value: of(['right', 'below']),
-                                  },
+                                    name: 'select',
+                                    transformValue: (e) => e,
+                                    options: {
+                                        displayContent: (e) => e,
+                                        value: of(['right', 'below']),
+                                    },
                                 } as SelectComponent,
-                            }
+                            },
                         ],
                     } as DictionnayProperty,
                 ],
@@ -405,18 +452,27 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
     };
 
     private getLatestValueModuleRequestProperty = () => {
-        const [formMM, _, subjectModule] = this.getDashboardAndModuleProperty(true, 'growbeId');
+        const [formMM, _, subjectModule] = this.getDashboardAndModuleProperty(
+            true,
+            'growbeId',
+        );
 
         const form = {
             graphDataConfig: {
                 name: 'graphDataConfig',
                 type: 'object',
                 required: true,
-                properties:  [
-                  formMM['growbeId'],
-                  formMM['moduleId'],
-                  ...this.graphService.getGraphTimeFrameSelectForm(subjectModule, undefined, true, undefined, false),
-                ]
+                properties: [
+                    formMM['growbeId'],
+                    formMM['moduleId'],
+                    ...this.graphService.getGraphTimeFrameSelectForm(
+                        subjectModule,
+                        undefined,
+                        true,
+                        undefined,
+                        false,
+                    ),
+                ],
             } as FormObject,
         };
         return form;
@@ -451,7 +507,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 }
             },
             valuesChanges: (control, value) => {
-                moduleControl.enable();
+                moduleControl?.enable();
                 subjectMainboard.next(value);
                 lastMainboarId = value;
             },
@@ -503,14 +559,29 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                             subjectMainboard.pipe(
                                 filter((id) => id),
                                 switchMap((id) =>
-                                    this.mainboardAPI.growbeModules(id).get({include: [{relation: 'moduleDef'}]}).pipe(
-                                      map((item) => {
-                                        if (moduleType) {
-                                          return item.filter(x => moduleType.indexOf(x.id.slice(0, 3)) > -1);
-                                        }
-                                        return item;
-                                      })
-                                    ),
+                                    this.mainboardAPI
+                                        .growbeModules(id)
+                                        .get({
+                                            include: [
+                                                { relation: 'moduleDef' },
+                                            ],
+                                        })
+                                        .pipe(
+                                            map((item) => {
+                                                if (moduleType) {
+                                                    return item.filter(
+                                                        (x) =>
+                                                            moduleType.indexOf(
+                                                                x.id.slice(
+                                                                    0,
+                                                                    3,
+                                                                ),
+                                                            ) > -1,
+                                                    );
+                                                }
+                                                return item;
+                                            }),
+                                        ),
                                 ),
                             ),
                     },
@@ -521,13 +592,12 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
         return [formProperty, subjectMainboard, subjectModule];
     };
 
-
     modifyDashboardForDisplay(dashboard: Dashboard) {
-      dashboard.panels.forEach((panel) => {
-        panel.items.forEach((item) => {
-          item.dashboardEdit = true;
-        })
-      });
-      return dashboard;
+        dashboard.panels.forEach((panel) => {
+            panel.items.forEach((item) => {
+                item.dashboardEdit = true;
+            });
+        });
+        return dashboard;
     }
 }

@@ -38,7 +38,21 @@ export const moduleDefPropertyDisplayer = {
       getContent: default_content
     },
     PCS: {
-      getContent: default_content
+      getContent: (property) => {
+        return (d) => {
+          if (property == "status") {
+            return ['Stopped', 'Running', 'Error'][d.values?.[property] || 0];
+          } else if (property == "error") {
+            return d.values?.[property]|| '';
+          } else if (property == "faces") {
+            return d.values?.[property] ? d.values?.[property].length : '';
+          } else if (property == "fps") {
+            return d?.values?.[property] ? d.values?.[property]?.toFixed(0) : '';
+          } else if (property == "bitrate") {
+            return d?.values?.[property] ? (d.values?.[property] / 1024).toFixed(0) + '/kbs' : ''
+          }
+        };
+      }
     },
     AAS: {
         getContent: (property) => {

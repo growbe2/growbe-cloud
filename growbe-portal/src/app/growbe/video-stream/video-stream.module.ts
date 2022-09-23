@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StreamPlayerComponent } from './stream-player/stream-player.component';
+import { StreamPlayerComponent, VideoPlayerComponent } from './stream-player/stream-player.component';
 import { StreamPickerComponent } from './stream-picker/stream-picker.component';
 import { AutoTableModule } from '@berlingoqc/ngx-autotable';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,7 +14,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
-    declarations: [StreamPlayerComponent, StreamPickerComponent, VideoStreamPageComponent],
+    declarations: [VideoPlayerComponent, StreamPlayerComponent, StreamPickerComponent, VideoStreamPageComponent],
     imports: [
         CommonModule,
         DashboardModule,

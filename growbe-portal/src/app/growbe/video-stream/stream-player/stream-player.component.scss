@@ -1,4 +1,14 @@
-video {
-    width: 100%;
-    border-radius: 5px;
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+
+.multi-stream-bar {
+  margin-bottom: 5px;
+}
+
+app-video-player {
+  width: 100%;
+  height: 100%;
 }
