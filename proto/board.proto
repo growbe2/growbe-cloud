@@ -8,12 +8,25 @@ message GrowbeMainboardConfig {
     int32 hearthBeath = 1;
 }
 
+message HostInformation {
+    string hostname = 1;
+    string kernel = 2;
+    string kernelVersion = 3;
+    string architecture = 4;
+    string os = 5;
+
+    string deviceType = 6;
+}
+
 message HelloWord {
     string version = 1;
     string cloudVersion = 2;
+
     string RTC = 3;
 
     repeated RunningComboard boards = 4;
+
+    HostInformation host = 5;
 }
 
 message VersionRelease {
