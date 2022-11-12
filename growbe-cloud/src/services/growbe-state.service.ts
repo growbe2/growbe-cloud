@@ -65,6 +65,7 @@ export class GrowbeStateService {
     mainboard.version = helloWorld.version;
     mainboard.lastUpdateAt = new Date();
     mainboard.boards = helloWorld.boards;
+    mainboard.host = helloWorld.host;
     if (mainboard.state !== 'CONNECTED') {
       mainboard.state = 'CONNECTED';
       await this.stateChange(mainboard);

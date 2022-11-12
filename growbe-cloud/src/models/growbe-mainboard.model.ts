@@ -15,6 +15,7 @@ import {GrowbeModule} from './growbe-module.model';
 import {GrowbeLogs} from './growbe-logs.model';
 import {GrowbeModuleDef} from './growbe-module-def.model';
 import {VirtualRelay} from './virtual-relay.model';
+import { HostInformation } from '@growbe2/growbe-pb';
 
 export type GrowbeState = 'CONNECTED' | 'DISCONNECTED';
 
@@ -46,6 +47,10 @@ export class GrowbeMainboard extends Entity {
 
   @property.array("object")
   boards: {imple: string, addr: string}[];
+
+  @property(() => "object")
+  // pb.HostInformation
+  host: any;
 
   @hasOne(() => GrowbeMainboardConfig)
   growbeMainboardConfig: GrowbeMainboardConfig;
