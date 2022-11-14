@@ -192,6 +192,34 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
                             disabled: true,
                         } as InputProperty,
                         {
+                            name: 'host',
+                            type: 'object',
+                            disabled: true,
+                            properties: [
+                              {
+                                  name: 'kernel',
+                                  type: 'string',
+                                  disabled: true,
+                              },
+                              {
+                                  name: 'architecture',
+                                  type: 'string',
+                                  disabled: true,
+                              },
+                              {
+                                  name: 'os',
+                                  type: 'string',
+                                  disabled: true,
+                              },
+                              {
+                                  name: 'deviceType',
+                                  type: 'string',
+                                  displayName: 'hostname',
+                                  disabled: true
+                              }
+                            ]
+                        } as any,
+                        {
                             name: 'name',
                             type: 'string',
                             displayName: 'Nom',
