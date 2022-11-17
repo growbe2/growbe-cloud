@@ -7,5 +7,5 @@ version: 0.1.0
 appVersion: "1.16.0"
 dependencies:
   - name: growbe-cloud-chart
-    version: 0.1.0
-    repository: "file://." 
+    version: 0.2.0
+    repository: https://github.com/growbe2/growbe-cloud-helm/releases/download/latest/

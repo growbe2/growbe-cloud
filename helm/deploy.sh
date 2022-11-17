@@ -1,5 +1,5 @@
 #! /bin/bash
 
-mkdir -p ./helm/charts
-helm pull oci://ghcr.io/growbe2/growbe-cloud-chart --version="0.2.0" --destination ./helm/charts/
+helm repo add growbe-cloud-helm https://github.com/growbe2/growbe-cloud-helm/releases/download/latest/
+helm dependency build ./helm
 helm upgrade growbe-cloud ./helm --install --wait --atomic $@
