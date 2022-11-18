@@ -1,6 +1,9 @@
 import {ActionResponse, FieldAlarmEvent, HearthBeath, HelloWord, LocalConnection, ModuleData, UpdateExecute, SOILCalibrationStepEvent, VirtualRelayState, VirtualRelayData, MainboardConfig } from '@growbe2/growbe-pb';
-import {Binding, Component, service} from '@loopback/core';
+import {Binding, Component, CoreBindings, inject, service} from '@loopback/core';
+import { ApplicationWithRepositories } from '@loopback/repository';
+import { RestApplication } from '@loopback/rest';
 import { split } from 'lodash';
+import { DeviceLogsComponent, DeviceLogsController } from '../component/device-logs';
 import {GrowbeMainboardBindings} from '../keys';
 import { GroupEnum, LogTypeEnum, SeverityEnum } from '../models';
 import { DataSubject, funcModuleSubject } from '../observers/data-subject.model';
@@ -141,5 +144,11 @@ export class WatcherComponent implements Component {
   bindings = [Binding.bind(GrowbeMainboardBindings.WATCHERS).to(watchers)];
   lifeCycleObservers = [GrowbeStateWatcherObserver];
 
-  constructor() {}
+  constructor(
+    @inject(CoreBindings.APPLICATION_INSTANCE)
+    app: RestApplication & ApplicationWithRepositories,
+  ) {
+
+    app.component(DeviceLogsComponent);
+  }
 }

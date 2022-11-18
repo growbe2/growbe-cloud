@@ -1,0 +1,1 @@
+# Device Logs is the component that handle logs
