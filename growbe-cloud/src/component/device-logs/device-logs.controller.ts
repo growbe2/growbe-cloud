@@ -28,7 +28,7 @@ export class DeviceLogsController {
       return this.deviceLogsRepo.createAll(
         entries
           .filter((x: any) => x['mainboard_id'])
-          .map((entry: any) => ({ mainboardId: entry['mainboard_id'], timestamp: entry['TIMESTAMP'], message: entry['MESSAGE'] })
+          .map((entry: any) => ({ mainboardId: entry['mainboard_id'], timestamp: entry['timestamp'], message: entry['MESSAGE'] })
         )
       ).then(() => ({ process: true }))
     } catch (err) {
