@@ -19,8 +19,9 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { ModuleSensorValueGraphComponent } from 'src/app/growbe/module/graph/module-sensor-value-graph/module-sensor-value-graph.component';
 import { StreamPlayerComponent } from 'src/app/growbe/video-stream/stream-player/stream-player.component';
+import {getCloudLogSearchForm} from 'src/app/shared/terminal/cloud-log-search.form';
+import {getTerminalComponentInputForm} from 'src/app/shared/terminal/terminal-component.form';
 import {
-    getTerminalSearchForm,
     TerminalComponent,
 } from 'src/app/shared/terminal/terminal/terminal.component';
 import { GrowbeStreamAPI } from '../api/growbe-stream';
@@ -149,16 +150,7 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
                 component: 'logs-terminal',
                 componentType: TerminalComponent,
                 inputs: {
-                    ...this.getDashboardAndModuleProperty(
-                        true,
-                        'growbeId',
-                        true,
-                    )[0],
-                    where: {
-                        name: 'where',
-                        type: 'object',
-                        properties: getTerminalSearchForm(),
-                    } as FormObject,
+                  ...getTerminalComponentInputForm()
                 },
             },
             {
