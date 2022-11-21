@@ -2,15 +2,10 @@ import {join} from 'path';
 import {GrowbeCloudApplication} from '../../application';
 import {
   createRestAppClient,
-  givenHttpServerConfig,
-  Client,
 } from '@loopback/testlab';
 import {juggler} from '@loopback/repository';
-import {BindingScope} from '@loopback/context';
-import {DEFAULT_WARNING_KEY} from '../../data/warning-key';
-import {GrowbeWarningKeyRepository} from '../../repositories/growbe-warning-key.repository';
-import {MockMQTTService} from './mock-mqtt.service';
 import {GrowbeMainboardBindings} from '../../keys';
+import {DeviceLogsComponent} from '../../component/device-logs';
 
 const TEST_DB_CONFIG = {
   name: 'postregsql',
@@ -37,6 +32,8 @@ export async function setupApplication(
 
   await init(app);
 
+  // TODO: rework because it should be optional
+  app.component(DeviceLogsComponent);
 
   app.bind(GrowbeMainboardBindings.WATCHERS).to([]);
   app.bind(GrowbeMainboardBindings.DEFAULT_CONFIG).to({hearthBeath: 5});
