@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, Input, OnInit, Optional, TemplateRef, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import {
     AutoFormData,
@@ -7,8 +7,8 @@ import {
 import { unsubscriber } from '@berlingoqc/ngx-common';
 import { Filter, Where } from '@berlingoqc/ngx-loopback';
 import { DashboardItem, DASHBOARD_ITEM_REF } from '@growbe2/growbe-dashboard';
-import { Observable, of, Subject, Subscription } from 'rxjs';
-import { catchError, debounceTime, map, tap, throttleTime } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, Subject, Subscription } from 'rxjs';
+import { catchError, debounceTime, map, take, tap, throttleTime, withLatestFrom } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { DatePipe } from '@angular/common';
@@ -25,7 +25,9 @@ import { getCloudLogSearchForm } from '../cloud-log-search.form';
     ]
 })
 @unsubscriber
-export class TerminalComponent extends BaseDashboardComponent {
+export class TerminalComponent extends BaseDashboardComponent implements AfterViewInit {
+    @ViewChild('scroller') scroller: ElementRef<HTMLDivElement>
+
     @Input()
     set growbeId(growbeId: string) {
         this._growbeId = growbeId;
@@ -69,8 +71,10 @@ export class TerminalComponent extends BaseDashboardComponent {
     private sub: Subscription;
 
 
+    public isLoadingMoreEvent = false;
+    public endOfLogs = false;
     private cacheEntries: any[] = [];
-    private subjectOlderEntries = new Subject<any>();
+    private subjectOlderEntries = new BehaviorSubject<any[]>([]);
 
     constructor(
         @Optional()
@@ -85,6 +89,19 @@ export class TerminalComponent extends BaseDashboardComponent {
 
     ngOnInit() {
       this.onChange();
+    }
+
+    ngAfterViewInit(): void {
+        console.log(this.scroller);
+        this.scroller.nativeElement.addEventListener('scroll', (event) => {
+            var element: any = event.target;
+            if (element.scrollHeight - element.scrollTop === element.clientHeight)
+            {
+                if (!this.isLoadingMoreEvent) {
+                    this.loadMoreEvent();
+                }
+            }
+        });
     }
 
     private onChange() {
@@ -159,11 +176,14 @@ export class TerminalComponent extends BaseDashboardComponent {
                 this.getRequest(req),
             )
             .pipe(
-                map((logs) =>
-                    logs.map(
+                withLatestFrom(this.subjectOlderEntries.asObservable()),
+                map(([logs, oldLogs]) => {
+                    this.cacheEntries.push(...oldLogs);
+                    console.log(this.cacheEntries.length);
+                    return [...logs, ...this.cacheEntries].map(
                         (log) => this.mapLog(log)
-                    ),
-                ),
+                    );
+                }),
                 tap(() => this.loadingEvent.next(null)),
                 catchError((err) =>{ this.loadingEvent.next({error: err}); throw err; })
             );
@@ -173,7 +193,17 @@ export class TerminalComponent extends BaseDashboardComponent {
     private loadMoreEvent() {
         this.filter.offset += this.filter.limit;
         const req = this.getRequestFilter();
-        this.getRequest(req)
+
+        this.isLoadingMoreEvent = true;
+        this.getRequest(req).pipe(take(1)).subscribe((logs: any[]) => {
+            if (logs.length >= this.filter.limit) {
+              // TODO: this is shit
+              setTimeout(() => this.isLoadingMoreEvent = false, 3000);
+            } else {
+              this.endOfLogs = true;
+            }
+            this.subjectOlderEntries.next(logs);
+        });
     }
 
 
