@@ -11,7 +11,16 @@ export class DeviceLogs extends Entity {
   id?: string;
 
   @property()
+  timestamp: Date;
+
+  @property()
   mainboardId: string;
 
   [prop: string]: any;
 }
+
+export interface DeviceLogsRelations {
+  // describe navigational properties here
+}
+
+export type DeviceLogsWithRelations = DeviceLogs & DeviceLogsRelations;

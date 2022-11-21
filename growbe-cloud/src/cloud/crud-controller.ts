@@ -33,6 +33,7 @@ import {
 } from '@loopback/authorization'
 import { getVoterMainboardUserOrOrganisation, getMainboardByModule, getMainboardByModuleDef } from './authorization';
 import _ from 'lodash';
+import { DeviceLogs, DeviceLogsRepository } from '../component/device-logs';
 
 const auth = {
   func: authenticate,
@@ -171,6 +172,18 @@ export const CRUD_CONTROLLERS: {
       properties: protectByMainboardProperties,
     },
     relations: [
+      {
+        modelRelationDef: DeviceLogs,
+        optionsRelation: {
+          accessorType: 'HasMany',
+          name: 'deviceLogs',
+          idType: 'string',
+          repo: DeviceLogsRepository,
+          specs: specSecurity,
+          parentIdKey: 'mainboardId',
+          properties: protectByMainboardRelationProperties
+        } as any
+      },
       {
         modelRelationDef: GrowbeWarning,
         optionsRelation: {

@@ -16,6 +16,7 @@ import {GrowbeLogs} from './growbe-logs.model';
 import {GrowbeModuleDef} from './growbe-module-def.model';
 import {VirtualRelay} from './virtual-relay.model';
 import { HostInformation } from '@growbe2/growbe-pb';
+import { DeviceLogs } from '../component/device-logs';
 
 export type GrowbeState = 'CONNECTED' | 'DISCONNECTED';
 
@@ -72,6 +73,9 @@ export class GrowbeMainboard extends Entity {
 
   @hasMany(() => VirtualRelay)
   virtualRelays: VirtualRelay[];
+
+  @hasMany(() => DeviceLogs, {keyTo: 'mainboardId'})
+  deviceLogs: DeviceLogs[];
 
   constructor(data?: Partial<GrowbeMainboard>) {
     super(data);

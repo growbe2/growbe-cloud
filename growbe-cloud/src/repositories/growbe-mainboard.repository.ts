@@ -23,6 +23,7 @@ import {GrowbeModuleRepository} from './growbe-module.repository';
 import {GrowbeLogsRepository} from './growbe-logs.repository';
 import {GrowbeModuleDefRepository} from './growbe-module-def.repository';
 import {VirtualRelayRepository} from './virtual-relay.repository';
+import { DeviceLogs, DeviceLogsRepository } from '../component/device-logs';
 
 export class GrowbeMainboardRepository extends DefaultCrudRepository<
   GrowbeMainboard,
@@ -56,6 +57,11 @@ export class GrowbeMainboardRepository extends DefaultCrudRepository<
     typeof GrowbeMainboard.prototype.id
   >;
 
+  public readonly deviceLogs: HasManyRepositoryFactory<
+    DeviceLogs,
+    typeof GrowbeMainboard.prototype.id
+  >;
+
   public readonly growbeModuleDefs: HasManyRepositoryFactory<GrowbeModuleDef, typeof GrowbeMainboard.prototype.id>;
 
   public readonly virtualRelays: HasManyRepositoryFactory<VirtualRelay, typeof GrowbeMainboard.prototype.id>;
@@ -73,7 +79,13 @@ export class GrowbeMainboardRepository extends DefaultCrudRepository<
     @repository.getter('GrowbeModuleRepository')
     protected growbeModuleRepositoryGetter: Getter<GrowbeModuleRepository>,
     @repository.getter('GrowbeLogsRepository')
-    protected growbeLogsRepositoryGetter: Getter<GrowbeLogsRepository>, @repository.getter('GrowbeModuleDefRepository') protected growbeModuleDefRepositoryGetter: Getter<GrowbeModuleDefRepository>, @repository.getter('VirtualRelayRepository') protected virtualRelayRepositoryGetter: Getter<VirtualRelayRepository>,
+    protected growbeLogsRepositoryGetter: Getter<GrowbeLogsRepository>,
+    @repository.getter('GrowbeModuleDefRepository')
+    protected growbeModuleDefRepositoryGetter: Getter<GrowbeModuleDefRepository>,
+    @repository.getter('VirtualRelayRepository')
+    protected virtualRelayRepositoryGetter: Getter<VirtualRelayRepository>,
+    @repository.getter('DeviceLogsRepository')
+    protected deviceLogsRepositoryGetter: Getter<DeviceLogsRepository>,
   ) {
     super(GrowbeMainboard, dataSource);
     this.virtualRelays = this.createHasManyRepositoryFactoryFor('virtualRelays', virtualRelayRepositoryGetter,);
@@ -119,6 +131,11 @@ export class GrowbeMainboardRepository extends DefaultCrudRepository<
       'growbeMainboardConfig',
       this.growbeMainboardConfig.inclusionResolver,
     );
+    this.deviceLogs = this.createHasManyRepositoryFactoryFor(
+      'deviceLogs',
+      deviceLogsRepositoryGetter,
+    );
+    this.registerInclusionResolver('deviceLogs', this.deviceLogs.inclusionResolver);
     this.user = this.createBelongsToAccessorFor('user', userGetter);
     this.registerInclusionResolver('user', this.user.inclusionResolver);
   }

@@ -1,5 +1,7 @@
 
 growbe-cloud-chart:
+  deployment:
+    affinity:
   cloud:
     env: prod
     basePath: growbe.ca

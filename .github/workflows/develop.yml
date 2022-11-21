@@ -57,12 +57,8 @@ jobs:
           GITHUB_ACCESS_TOKEN: ${{ secrets.PAT }}
       - name: Updating version
         run: echo "VERSION=$(npm run getversion:develop --silent)" >> $GITHUB_ENV
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-      - name: Save DigitalOcean kubeconfig
-        run: doctl kubernetes cluster kubeconfig save 4ea32f50-6cb7-40aa-aa7f-73836e312460
+      - name: Setting kubeconfig
+        run: mkdir -p $HOME/.kube && echo "${{ secrets.KUBECONF }}" > $HOME/.kube/config
       - name: Build and release migration image
         run: cd transactional/ && ./docker/migration_docker_release.sh
       - name: Deploy migration job to k8s
@@ -78,12 +74,8 @@ jobs:
       - uses: actions/checkout@v1
       - name: Installing helm3
         run: curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-      - name: Save DigitalOcean kubeconfig
-        run: doctl kubernetes cluster kubeconfig save 4ea32f50-6cb7-40aa-aa7f-73836e312460
+      - name: Setting kubeconfig
+        run: mkdir -p $HOME/.kube && echo "${{ secrets.KUBECONF }}" > $HOME/.kube/config
       - name: Updating version
         run: echo "VERSION=$(npm run getversion:develop --silent)" >> $GITHUB_ENV
       - name: Deploy to dev

@@ -27,6 +27,7 @@ import {
 } from './controllers';
 import {authenticate} from '@loopback/authentication';
 import {CRUD_CONTROLLERS} from './crud-controller';
+import { DeviceLogsRepository, DeviceLogs } from '../component/device-logs';
 
 export const watchers: DataSubject[] = [
   {
@@ -70,6 +71,12 @@ export class CloudComponent implements Component {
     });
   }
 
+  models = [
+    DeviceLogs,
+  ];
+  repositories = [
+    DeviceLogsRepository,
+  ];
   controllers = [
     GrowbeMainboardController,
     GrowbeMainboardActionController,
