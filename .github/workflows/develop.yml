@@ -48,7 +48,7 @@ jobs:
         run: ./scripts/integration.sh test
   deploy:
     runs-on: ubuntu-latest
-    needs: [buildnrelease, test]
+    needs: [buildnrelease]
     steps:
       - uses: actions/checkout@v1
       - name: Updating version
