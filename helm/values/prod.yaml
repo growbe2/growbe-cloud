@@ -10,6 +10,9 @@ growbe-cloud-chart:
       certSecret: growbe-ingress-cert
     broker:
       port: 30045
+
+    prometheus:
+      enable: true
     
     confgenerator:
       gh_pat: xxxxxx
