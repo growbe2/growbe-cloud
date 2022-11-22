@@ -419,6 +419,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                     growbeId: this.module.mainboardId,
                     moduleId: this.module.id,
                     disableSearch: true,
+                    typeLog: 'cloud',
                     where: {
                         growbeModuleId: this.module.id,
                         type: 'alarm',
@@ -440,6 +441,7 @@ export class GrowbeModuleDashboardComponent implements OnInit {
                     growbeId: this.module.mainboardId,
                     moduleId: this.module.id,
                     disableSearch: true,
+                    typeLog: 'cloud',
                     where: {
                         growbeModuleId: this.module.id,
                     },

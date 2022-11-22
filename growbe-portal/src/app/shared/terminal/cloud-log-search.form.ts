@@ -54,6 +54,7 @@ export function getCloudLogSearchForm(typeLog: string): IProperty[] {
                     type: 'string',
                     content: '--',
                 },
+                transformValue: (e) => e,
                 options: {
                     displayTitle: '',
                     displayContent: (e) => e,
@@ -82,7 +83,7 @@ export function getCloudLogSearchForm(typeLog: string): IProperty[] {
                     displayTitle: '',
                     displayContent: (e) => e[0],
                     value: () => subjectChange.pipe(map(x => {
-                        return type[typeLog][x];
+                        return type[typeLog][x] || [];
                     }))
                 },
             } as SelectComponent,

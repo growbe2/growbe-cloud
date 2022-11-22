@@ -7,7 +7,7 @@ import {
 import { unsubscriber } from '@berlingoqc/ngx-common';
 import { Filter, Where } from '@berlingoqc/ngx-loopback';
 import { DashboardItem, DASHBOARD_ITEM_REF } from '@growbe2/growbe-dashboard';
-import { BehaviorSubject, Observable, of, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of, Subject, Subscription } from 'rxjs';
 import { catchError, debounceTime, map, take, tap, throttleTime, withLatestFrom } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
@@ -51,6 +51,8 @@ export class TerminalComponent extends BaseDashboardComponent implements AfterVi
         this._type_log = t;
         if (this.growbeId && this.typeLog)
           this.onChange();
+        if (this.item)
+          this.item.inputs.typeLog = this.typeLog;
     }
 
     @Input()
@@ -92,7 +94,6 @@ export class TerminalComponent extends BaseDashboardComponent implements AfterVi
     }
 
     ngAfterViewInit(): void {
-        console.log(this.scroller);
         this.scroller.nativeElement.addEventListener('scroll', (event) => {
             var element: any = event.target;
             if (element.scrollHeight - element.scrollTop === element.clientHeight)
@@ -152,6 +153,7 @@ export class TerminalComponent extends BaseDashboardComponent implements AfterVi
                             };
                         }))
                         .subscribe((value) => {
+                            this.resetSearch();
                             this.where = value;
                             this.item.inputs.where = this.where;
                             this.refreshLogs();
@@ -166,20 +168,26 @@ export class TerminalComponent extends BaseDashboardComponent implements AfterVi
         (this.searchBarForm.items[0] as FormObject).properties.splice(0, 0, );
     }
 
+    private resetSearch() {
+        this.cacheEntries = [];
+        this.isLoadingMoreEvent = false;
+        this.endOfLogs = false;
+        this.filter.offset = 0;
+        this.scroller.nativeElement.scrollTo({ top: 0 });
+    }
+
     private refreshLogs() {
         const req = this.getRequestFilter();
-        this.logs = this.eventService
+        this.logs = combineLatest([this.eventService
             .getGrowbeEventWithSource(
                 this.growbeId,
                 '/cloud/logs' + ((this.typeLog == 'device') ? '/device' : ''),
                 (d) => { return JSON.parse(d) },
                 this.getRequest(req),
-            )
+            ), this.subjectOlderEntries.asObservable()])
             .pipe(
-                withLatestFrom(this.subjectOlderEntries.asObservable()),
                 map(([logs, oldLogs]) => {
                     this.cacheEntries.push(...oldLogs);
-                    console.log(this.cacheEntries.length);
                     return [...logs, ...this.cacheEntries].map(
                         (log) => this.mapLog(log)
                     );
@@ -197,8 +205,7 @@ export class TerminalComponent extends BaseDashboardComponent implements AfterVi
         this.isLoadingMoreEvent = true;
         this.getRequest(req).pipe(take(1)).subscribe((logs: any[]) => {
             if (logs.length >= this.filter.limit) {
-              // TODO: this is shit
-              setTimeout(() => this.isLoadingMoreEvent = false, 3000);
+              setTimeout(() => this.isLoadingMoreEvent = false);
             } else {
               this.endOfLogs = true;
             }
@@ -218,7 +225,6 @@ export class TerminalComponent extends BaseDashboardComponent implements AfterVi
         if (this.typeLog == 'cloud') {
             where = this.where;
         } else {
-            console.log('Where', this.where);
             let message = this.where['message']?.like || '';
             let prefix = (this.where['type'] ? (this.where['type'] + '.*') : '') || '';
 

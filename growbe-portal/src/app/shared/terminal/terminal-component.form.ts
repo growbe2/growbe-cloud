@@ -6,8 +6,8 @@ import {getCloudLogSearchForm} from "./cloud-log-search.form";
 
 export function getTerminalComponentInputForm() {
     return {
-      "logType": {
-          name: 'logType',
+      "typeLog": {
+          name: 'typeLog',
           type: 'string',
           required: true,
           component: {
@@ -37,22 +37,5 @@ export function getTerminalComponentInputForm() {
           required: false,
           properties: getCloudLogSearchForm('cloud')
       }
-
     };
-    /*return {
-                    "typeLog": {
-                        type: 'string',
-                        name: "typeLog",
-                        required: true,
-                        component: {
-                          name: 'select',
-                          type: 'mat',
-                          options: {
-                            displayContent: (e) => e,
-                            value: of(['cloud', 'device'])
-                          }
-                        }
-                    }
-
-    }*/
 }
