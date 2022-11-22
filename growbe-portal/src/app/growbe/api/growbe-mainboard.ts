@@ -90,6 +90,13 @@ export class GrowbeMainboardAPI extends Caching(
         {}
     );
 
+    deviceLogs = addLoopbackRelation(
+        this,
+        LoopbackRelationClientMixin<any>(),
+        'deviceLogs',
+        {}
+    );
+
     hardwareAlarms = addLoopbackRelation(
       this,
       HardwareAlarmRelation,

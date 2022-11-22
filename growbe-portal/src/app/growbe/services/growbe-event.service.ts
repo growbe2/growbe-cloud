@@ -122,13 +122,15 @@ export class GrowbeEventService {
     ): Observable<T[]> {
         return new Observable<T[]>((sub) => {
             let data: T[] = [];
-            this.getGrowbeEvent(id, subtopic, parse).subscribe((newData) => {
-                data.unshift(newData);
-                data.splice(data.length - 1, 1);
+            let subSource = obs.subscribe((firstData) => {
+                if (sub.closed) { subEvent.unsubscribe(); subSource.unsubscribe(); return; }
+                data = firstData;
                 sub.next(data);
             });
-            obs.subscribe((firstData) => {
-                data = firstData;
+            let subEvent = this.getGrowbeEvent(id, subtopic, parse).subscribe((newData) => {
+                if (sub.closed) { subEvent.unsubscribe(); subSource.unsubscribe(); return; }
+                data.unshift(newData);
+                data.splice(data.length - 1, 1);
                 sub.next(data);
             });
         });

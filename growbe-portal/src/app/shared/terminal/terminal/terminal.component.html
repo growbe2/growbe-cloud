@@ -7,10 +7,15 @@
       </button>
     </div>
     <div>
-      <div appPreventParentScroll  class="container">
+      <div #scroller appPreventParentScroll  class="container">
+        <ul>
         <li *ngFor="let p of logs | async; let i = index" class="animated lightSpeedIn">
             {{ p }}
         </li>
+        </ul>
+        <div *ngIf="isLoadingMoreEvent && !endOfLogs">
+          <span>............ LOADING .............</span>
+        </div>
       </div>
     </div>
 </div>

@@ -142,8 +142,14 @@
                 </ng-template>
                 <mat-toolbar>
                     <h1>Logs</h1>
+                    <span class="spacer"></span>
+                    <mat-chip-list>
+                      <mat-chip [selected]="type_log == 'cloud'" (click)="type_log = 'cloud'">Cloud logs</mat-chip>
+                      <mat-chip [selected]="type_log == 'device'" (click)="type_log = 'device'">Device logs</mat-chip>
+                    </mat-chip-list>
                 </mat-toolbar>
-                <app-terminal [growbeId]="data.mainboard.id"></app-terminal>
+                <app-terminal *ngIf="type_log === 'cloud'" [growbeId]="data.mainboard.id" typeLog="cloud"></app-terminal>
+                <app-terminal *ngIf="type_log === 'device'" [growbeId]="data.mainboard.id" typeLog="device"></app-terminal>
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>
