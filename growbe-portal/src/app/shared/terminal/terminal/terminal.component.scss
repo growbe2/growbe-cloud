@@ -29,6 +29,11 @@
     text-shadow: none;
 }
 
+ul {
+  list-style-type: none;
+  margin-inline-start: -30px;
+}
+
 cdk-virtual-scroll-viewport {
   height: 50vh;
 

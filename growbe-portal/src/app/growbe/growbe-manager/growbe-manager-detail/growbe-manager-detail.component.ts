@@ -27,6 +27,7 @@ import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import {GrowbeProcessConfigService} from '../../services/growbe-process-config.service';
 import {GrowbeImageConfigService} from '../../services/growbe-image-config.service';
+import {TerminalComponent} from 'src/app/shared/terminal/terminal/terminal.component';
 
 let i = 1;
 @Component({
@@ -76,6 +77,8 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
     mainboard: any;
 
     id: string;
+
+    type_log: TerminalComponent['typeLog'] = 'cloud';
 
     detailMainboardForm: AutoFormData;
     processMainboardForm: AutoFormData;
@@ -138,6 +141,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
 
     ngOnInit(): void {
 
+        this.log_type =
 
         this.actionsColumns = getGrowbeActionTableColumns(
             () => this.id,
