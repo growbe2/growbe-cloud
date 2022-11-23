@@ -1,13 +1,13 @@
 import {env} from 'process';
-import FormData from 'form-data';
-import { login, client, getHeaders } from './growbe-api-client';
-import {readFileSync} from 'fs';
+import { setToken, client, getHeaders } from './growbe-api-client';
 
 export async function version(args: string[]) {
   const version = args[2];
 
   if (version === 'latest' || version[0] === 'v') {
-    await login(env.EMAIL as string, env.PASSWORD as string);
+
+    setToken(env.TOKEN as string);
+
     await client.post(`${env.API_URL}/growbe-mainboard/version`, { name: version  }, {
         headers: {
             ...getHeaders(),

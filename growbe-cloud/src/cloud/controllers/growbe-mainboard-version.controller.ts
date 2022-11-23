@@ -2,7 +2,7 @@ import { service } from "@loopback/core";
 import { get, param, post, requestBody } from "@loopback/rest";
 import { GrowbeMainboardVersionService } from "../../services/growbe-mainboard-version.service";
 import {authenticate} from '@loopback/authentication';
-import {authorize, AuthorizationDecision, AuthorizationContext, AuthorizationMetadata} from '@loopback/authorization';
+import {authorize} from '@loopback/authorization';
 import {getVoterRole} from "../authorization";
 
 export class GrowbeMainboardVersionController {
@@ -20,7 +20,7 @@ export class GrowbeMainboardVersionController {
 
     @post('/growbe-mainboard/version')
     @authenticate('jwt')
-    @authorize({voters: [getVoterRole(['ADMIN'])]})
+    @authorize({voters: [getVoterRole(['VERSION'])]})
     releaseVersionMainboard(
         @requestBody() body: any
     ) {

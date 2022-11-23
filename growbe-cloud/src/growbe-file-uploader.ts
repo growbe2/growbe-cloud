@@ -1,11 +1,12 @@
 
 import {env} from 'process';
 import FormData from 'form-data';
-import { login, client, getHeaders } from './growbe-api-client';
+import { client, getHeaders, setToken } from './growbe-api-client';
 import {readFileSync} from 'fs';
 
 export async function file_uploader(args: string[]) {
-    await login(env.EMAIL as string, env.PASSWORD as string);
+
+    setToken(env.TOKEN as string);
 
     const form = new FormData();
     form.append("file", readFileSync(args[0]), 'test.jpg')

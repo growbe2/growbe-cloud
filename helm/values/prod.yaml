@@ -15,7 +15,7 @@ growbe-cloud-chart:
       enable: true
     
     backup:
-      enable: true
+      enabled: true
     
     confgenerator:
       gh_pat: xxxxxx
