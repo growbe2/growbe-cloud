@@ -3,4 +3,4 @@ dependencies:
   repository: https://github.com/growbe2/growbe-cloud-helm/releases/download/latest/
   version: 0.2.0
 digest: sha256:6c0fd79ba517fbf10038ed5f47a2bc2ddb6f85494e174b4bad77b39e514123e9
-generated: "2022-11-20T23:29:51.662040751-05:00"
+generated: "2022-11-25T12:45:58.710249113-05:00"
