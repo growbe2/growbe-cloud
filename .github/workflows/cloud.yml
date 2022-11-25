@@ -3,7 +3,7 @@ name: growbe cloud pipeline
 on:
   push:
     branches:
-      - master
+      - master2 #disable for now
 
 jobs:
   proxy:
