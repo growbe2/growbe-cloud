@@ -38,6 +38,14 @@ export class GrowbeMainboardActionController {
     return this.growbeActionService.updateConfig(id, body);
   }
 
+  @patch("/growbe/{id}/update")
+  @authorizeGrowbe({
+    growbeIdIndex: 0
+  })
+  sendUpdateRequest(@param.path.string('id') id: string) {
+    return this.growbeActionService.sendUpdateRequest(id);
+  }
+
   @patch("/growbe/{id}/restart")
   @authorizeGrowbe({
     growbeIdIndex: 0

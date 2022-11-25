@@ -50,142 +50,98 @@ export class GrowbeActionService {
   }
 
   async setRTC(growbeId: string, rtcTime: RTCTime) {
-    return this.mqttService
-      .sendWithResponse(
+    return this.sendRequest({
         growbeId,
-        getTopic(growbeId, '/board/setTime'),
-        pb.RTCTime.encode(rtcTime).finish(),
-        {
-          responseCode: 3,
-          waitingTime: 4000,
-        }
-      ).toPromise()
-      .then(response => {
-        return this.logsService.addLog({
-          group: GroupEnum.MAINBOARD,
-          type: LogTypeEnum.RTC_UPDATE,
-          severity: SeverityEnum.LOW,
-          growbeMainboardId: growbeId,
-          message: `rtc set : ${JSON.stringify(rtcTime)}`,
-        }).then((log) => ({log, response}));
-      });
+        topic: '/board/setTime',
+        payload: pb.RTCTime.encode(rtcTime).finish(),
+        log: () => ({ message: `rtc set : ${JSON.stringify(rtcTime)}`, type: LogTypeEnum.RTC_UPDATE }),
+    });
+  }
+
+
+  async sendUpdateRequest(growbeId: string) {
+    return this.sendRequest({
+        growbeId,
+        topic: '/board/update/request',
+        log: () => ({ message: 'send request to perform update', type: 'update' }),
+    });
   }
 
   async sendRestartRequest(growbeId: string) {
-    return this.mqttService
-      .sendWithResponse(
+    return this.sendRequest({
         growbeId,
-        getTopic(growbeId, '/board/restart'),
-        pb.RestartRequest.encode({}).finish(),
-        {
-          responseCode: pb.ActionCode.SYNC_REQUEST,
-          waitingTime: 4000,
-        }
-      ).toPromise().then(value => {
-        return this.logsService.addLog({
-          group: GroupEnum.MAINBOARD,
-          type: 'request' as any,
-          severity: SeverityEnum.LOW,
-          growbeMainboardId: growbeId,
-          message: `request restart`,
-        });
-      });
+        topic: '/board/restart',
+        payload: pb.RestartRequest.encode({}).finish(),
+        log: () => ({ message: 'send request to perform restart of process', type: 'request' }),
+    });
   }
 
   async sendRebootRequest(growbeId: string) {
-    return this.mqttService
-      .sendWithResponse(
+    return this.sendRequest({
         growbeId,
-        getTopic(growbeId, '/board/reboot'),
-        pb.RestartRequest.encode({}).finish(),
-        {
-          responseCode: pb.ActionCode.SYNC_REQUEST,
-          waitingTime: 3000,
-        }
-      ).toPromise().then(value => {
-        return this.logsService.addLog({
-          group: GroupEnum.MAINBOARD,
-          type: 'request' as any,
-          severity: SeverityEnum.LOW,
-          growbeMainboardId: growbeId,
-          message: `request reboot`,
-        });
-      });
+        topic: '/board/reboot',
+        payload: pb.RestartRequest.encode({}).finish(),
+        log: () => ({ message: 'send request to perform a reboot', type: 'request' }),
+    });
   }
 
   public sendProcessConfig(growbeId: string, config: pb.MainboardConfig) {
-    return lastValueFrom(
-      this.mqttService.sendWithResponse(growbeId, getTopic(growbeId, '/board/boardconfig'), pb.MainboardConfig.encode(config).finish(), {
-        responseCode: pb.ActionCode.SYNC_REQUEST,
-        waitingTime: 4000
-      })
-    ).then(value => {
-      return this.logsService.addLog({
-        group: GroupEnum.MAINBOARD,
-        type: 'config' as any,
-        severity: SeverityEnum.LOW,
-        growbeMainboardId: growbeId,
-        message: 'process config updated'
-      })
-    })
+    return this.sendRequest({
+        growbeId,
+        topic: '/board/boardconfig',
+        payload: pb.MainboardConfig.encode(config).finish(),
+        log: () => ({ message: 'process config updated', type: 'config' }),
+    });
   }
 
-    /**
-   * send request to growbe to ask to
-   * sync all is modules informations
-   * with the cloud , trigger on reconnection.
-   * @param growbeId
-   */
   public sendSyncRequest(growbeId: string) {
-    return lastValueFrom(this.mqttService
-      .sendWithResponse(growbeId,getTopic(growbeId, '/board/sync'), '', {
-        responseCode: ActionCode.SYNC_REQUEST,
-        waitingTime: 3000
-      }))
-      .then(value => {
-        return this.logsService.addLog({
-          group: GroupEnum.MAINBOARD,
-          type: LogTypeEnum.SYNC_REQUEST,
-          severity: SeverityEnum.LOW,
-          growbeMainboardId: growbeId,
-          message: `sync requested`,
-        });
-      });
+    return this.sendRequest({
+        growbeId,
+        topic: '/board/sync',
+        log: () => ({ message: 'send request to perform a sync', type: 'request' }),
+    });
   }
 
 
   async sendLocalConnectionRequest(growbeId: string) {
-    return lastValueFrom(this.mqttService
-      .sendWithResponse(growbeId,getTopic(growbeId, '/board/localconnection'), '', {
-        responseCode: ActionCode.SYNC_REQUEST,
-        waitingTime: 3000
-      }))
-      .then(value => {
-        return this.logsService.addLog({
-          group: GroupEnum.MAINBOARD,
-          type: 'request' as any,
-          severity: SeverityEnum.LOW,
-          growbeMainboardId: growbeId,
-          message: `request local connection`,
-        });
-      });
+    return this.sendRequest({
+        growbeId,
+        topic: '/board/localconnection',
+        log: () => ({ message: 'send request to perform a update of localconnection', type: 'request' }),
+    });
   }
 
   async sendHelloWorldRequest(growbeId: string) {
-    return lastValueFrom(this.mqttService
-      .sendWithResponse(growbeId,getTopic(growbeId, '/board/helloworld'), '', {
-        responseCode: ActionCode.SYNC_REQUEST,
-        waitingTime: 3000
-      }))
-      .then(value => {
-        return this.logsService.addLog({
-          group: GroupEnum.MAINBOARD,
-          type: 'request' as any,
-          severity: SeverityEnum.LOW,
-          growbeMainboardId: growbeId,
-          message: `request hello world`,
-        });
-      });
+    return this.sendRequest({
+        growbeId,
+        topic: '/board/helloworld',
+        waitingTime: 3000,
+        log: () => ({
+            type: 'request',
+            message: 'request hello world',
+        })
+    });
   }
 
+  private async sendRequest(data: {growbeId: string, topic: string, payload?: any, responseCode?: any, waitingTime?: number,  log?: (d: any) => any}) {
+    let growbeId = data.growbeId;
+    let topic = data.topic;
+    let payload = data.payload || '';
+    let responseCode = data.responseCode || pb.ActionCode.SYNC_REQUEST;
+    let waitingTime = data.waitingTime || 4000;
+    let log_callback = data.log ? data.log : (() => ({}));
+
+    return lastValueFrom(
+      this.mqttService.sendWithResponse(growbeId, getTopic(growbeId, topic), payload, {
+        responseCode,
+        waitingTime
+      })
+    ).then(value => {
+      return this.logsService.addLog(Object.assign({
+       group: GroupEnum.MAINBOARD,
+        severity: SeverityEnum.LOW,
+        growbeMainboardId: growbeId,
+      }, log_callback(value)));
+    });
+  }
 }
