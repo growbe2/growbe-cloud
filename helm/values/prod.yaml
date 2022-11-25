@@ -1,7 +1,7 @@
 
 growbe-cloud-chart:
   deployment:
-    affinity:
+    affinity: {}
   cloud:
     env: prod
     basePath: growbe.ca
@@ -11,40 +11,20 @@ growbe-cloud-chart:
     broker:
       port: 30045
 
+    sshproxy:
+      enabled: true
+      port: 30050
+
     prometheus:
       enable: true
     
     backup:
       enabled: true
     
-    confgenerator:
-      gh_pat: xxxxxx
-      id_rsa: xxxxxx
-
     nms:
       enabled: false
-    auth:
-      username: testadmin
-      password: 123345678
-
-    mongo:
-      auth:
-        username: doadmin
-        password: test
-
-    pgsql:
-      auth:
-        username: test
-        password: test
-
     sso:
       email:
-        auth:
-          username: apikey
-          password: xxxxxx
         from: '"Growbe Cloud" <robot@growbe.ca>'
         redirect: https://cloud.dev.growbe.ca
       settings: '{"publicCreation":true,"multiFactor":false,"accountValidation":true, "defaultRoles": []}'
-      secret:
-        otp: 123456
-        jwt: 2342tf
