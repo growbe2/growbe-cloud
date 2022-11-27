@@ -16,6 +16,9 @@ export class DeviceLogs extends Entity {
   @property()
   mainboardId: string;
 
+  @property()
+  service: string;
+
   [prop: string]: any;
 }
 

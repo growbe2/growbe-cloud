@@ -32,7 +32,7 @@ export class DeviceLogsController {
       return this.deviceLogsRepo.createAll(
         entries
           .filter((x: any) => x['mainboard_id'])
-          .map((entry: any) => ({ mainboardId: entry['mainboard_id'], timestamp: entry['timestamp'], message: entry['MESSAGE'] })
+          .map((entry: any) => ({ mainboardId: entry['mainboard_id'], timestamp: entry['timestamp'], message: entry['MESSAGE'], service: entry['_SYSTEMD_UNIT'] })
         )
       ).then((logs) => { 
         return Promise.all(logs.map((log => {
