@@ -29,7 +29,6 @@ export class DeviceLogsController {
   ): Promise<any> {
     try {
       const entries = JSON.parse(body.toString());
-      console.log(entries);
       return this.deviceLogsRepo.createAll(
         entries
           .filter((x: any) => x['mainboard_id'])
