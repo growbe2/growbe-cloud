@@ -117,8 +117,9 @@ export class GrowbeEventService {
     getGrowbeEventWithSource<T>(
         id: string,
         subtopic: string,
-        parse: (data) => T,
+        parse: (data: any) => T,
         obs: Observable<T[]>,
+        filter?: (data: T) => boolean,
     ): Observable<T[]> {
         return new Observable<T[]>((sub) => {
             let data: T[] = [];
@@ -129,9 +130,11 @@ export class GrowbeEventService {
             });
             let subEvent = this.getGrowbeEvent(id, subtopic, parse).subscribe((newData) => {
                 if (sub.closed) { subEvent.unsubscribe(); subSource.unsubscribe(); return; }
-                data.unshift(newData);
-                data.splice(data.length - 1, 1);
-                sub.next(data);
+                if (!filter || filter(newData)) {
+                  data.unshift(newData);
+                  data.splice(data.length - 1, 1);
+                  sub.next(data);
+                }
             });
         });
     }

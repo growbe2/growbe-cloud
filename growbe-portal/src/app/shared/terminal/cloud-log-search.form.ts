@@ -4,7 +4,10 @@ import {BehaviorSubject, map, of} from "rxjs";
 export function getCloudLogSearchForm(typeLog: string): IProperty[] {
     let subjectChange = new BehaviorSubject('');
 
-    let groups = ['mainboard', 'modules'];
+    let groups = {
+      'device': ['mainboard', 'module', 'autossh', 'fluentbit'],
+      'cloud': ['mainboard', 'modules'],
+    }
 
     let type = {
       'device': {
@@ -19,7 +22,8 @@ export function getCloudLogSearchForm(typeLog: string): IProperty[] {
             ['Relays', 'relay'],
             ['Actors', 'actor'],
             ['Alarms', 'alarm'],
-        ]
+        ],
+        'autossh': [],
       },
       'cloud': {
         'unknown': [],
@@ -58,7 +62,7 @@ export function getCloudLogSearchForm(typeLog: string): IProperty[] {
                 options: {
                     displayTitle: '',
                     displayContent: (e) => e,
-                    value: () => of(groups), // need to filter if for module
+                    value: () => of(groups[typeLog]), // need to filter if for module
                 },
             } as SelectComponent,
             valuesChanges: (control, value) => subjectChange.next(value),

@@ -4,17 +4,18 @@ import {
     AutoFormData,
     FormObject,
 } from '@berlingoqc/ngx-autoform';
-import { unsubscriber } from '@berlingoqc/ngx-common';
+import { OnDestroyMixin, unsubscriber, untilComponentDestroyed } from '@berlingoqc/ngx-common';
 import { Filter, Where } from '@berlingoqc/ngx-loopback';
 import { DashboardItem, DASHBOARD_ITEM_REF } from '@growbe2/growbe-dashboard';
 import { BehaviorSubject, combineLatest, Observable, of, Subject, Subscription } from 'rxjs';
-import { catchError, debounceTime, map, take, tap, throttleTime, withLatestFrom } from 'rxjs/operators';
+import { catchError, debounceTime, map, switchMap, take, tap, throttleTime, withLatestFrom } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { DatePipe } from '@angular/common';
 
 import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
 import { getCloudLogSearchForm } from '../cloud-log-search.form';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
     selector: 'app-terminal',
@@ -25,7 +26,7 @@ import { getCloudLogSearchForm } from '../cloud-log-search.form';
     ]
 })
 @unsubscriber
-export class TerminalComponent extends BaseDashboardComponent implements AfterViewInit {
+export class TerminalComponent extends OnDestroyMixin(BaseDashboardComponent) implements AfterViewInit {
     @ViewChild('scroller') scroller: ElementRef<HTMLDivElement>
 
     @Input()
@@ -49,14 +50,12 @@ export class TerminalComponent extends BaseDashboardComponent implements AfterVi
     }
     set typeLog(t: TerminalComponent['_type_log']) {
         this._type_log = t;
-        if (this.growbeId && this.typeLog)
-          this.onChange();
         if (this.item)
           this.item.inputs.typeLog = this.typeLog;
     }
 
     @Input()
-    where: Where;
+    where: any;
 
     logs: Observable<string[]>;
 
@@ -85,6 +84,7 @@ export class TerminalComponent extends BaseDashboardComponent implements AfterVi
         private eventService: GrowbeEventService,
         private mainboardAPI: GrowbeMainboardAPI,
         private datePipe: DatePipe,
+        private activatedRoute: ActivatedRoute,
     ) {
       super();
     }
@@ -146,11 +146,26 @@ export class TerminalComponent extends BaseDashboardComponent implements AfterVi
                           debounceTime(100)
                         )
                         .pipe(map((value) => {
-                            return {
+                            let where = {
                               group: value.object.group || undefined,
                               type: value.object?.type || undefined,
-                              message: value.object?.message ? ({ like: value.object.message }) : undefined
+                              message: value.object?.message ? ({ like: value.object.message }) : undefined,
+                              service: undefined
                             };
+
+                            if (this.typeLog == 'device') {
+                               if (where.group === 'mainboard')  {
+                                   where.service = 'growbe-mainboard@dev.service';
+                               } else if (where.group === 'autossh') {
+                                   where.service = 'autossh@dev.service';
+                               } else if (where.group === 'module') {
+                                   where.service = 'growbe-pc-module@dev.service';
+                               } else if (where.group === 'fluentbit') {
+                                   where.service = 'fluentbit@dev.service';
+                               }
+                            }
+
+                            return where;
                         }))
                         .subscribe((value) => {
                             this.resetSearch();
@@ -177,26 +192,44 @@ export class TerminalComponent extends BaseDashboardComponent implements AfterVi
     }
 
     private refreshLogs() {
-        const req = this.getRequestFilter();
-        this.logs = combineLatest([this.eventService
+        this.logs = this.activatedRoute.data.pipe(
+          untilComponentDestroyed(this),
+          map((data) => {
+              this.growbeId = data.mainboard.id;
+              this.subjectOlderEntries = new BehaviorSubject([]);
+              this.cacheEntries = [];
+              return this.getRequestFilter();
+          }),
+          switchMap((req) => {
+            return combineLatest([this.eventService
             .getGrowbeEventWithSource(
                 this.growbeId,
                 '/cloud/logs' + ((this.typeLog == 'device') ? '/device' : ''),
                 (d) => { return JSON.parse(d) },
                 this.getRequest(req),
+                (data) => {
+                    if (this.typeLog === 'cloud') {
+                        return (!this.where.group || data.group === this.where.group) &&
+                               (!this.where.type || data.type === this.where.type) &&
+                               (!this.where.message || data.message.inclues(this.where.message));
+                    } else if (this.typeLog === 'device') {
+                        return (!this.where.service || data.service === this.where.service) &&
+                               (!this.where.message || data.message.includes(this.getDeviceMessageRegex()));
+                    }
+                    return false;
+                }
             ), this.subjectOlderEntries.asObservable()])
-            .pipe(
-                map(([logs, oldLogs]) => {
-                    this.cacheEntries.push(...oldLogs);
-                    return [...logs, ...this.cacheEntries].map(
+          }),
+          map(([logs, oldLogs]) => {
+              this.cacheEntries.push(...oldLogs);
+              return [...logs, ...this.cacheEntries].map(
                         (log) => this.mapLog(log)
                     );
-                }),
-                tap(() => this.loadingEvent.next(null)),
-                catchError((err) =>{ this.loadingEvent.next({error: err}); throw err; })
-            );
+          }),
+          tap(() => this.loadingEvent.next(null)),
+          catchError((err) =>{ this.loadingEvent.next({error: err}); throw err; })
+        );
     }
-
 
     private loadMoreEvent() {
         this.filter.offset += this.filter.limit;
@@ -225,18 +258,22 @@ export class TerminalComponent extends BaseDashboardComponent implements AfterVi
         if (this.typeLog == 'cloud') {
             where = this.where;
         } else {
-            let message = this.where['message']?.like || '';
-            let prefix = (this.where['type'] ? (this.where['type'] + '.*') : '') || '';
-
             where = {
+              service: this.where['service'],
               message: {
-                like: prefix + message
+                like: this.getDeviceMessageRegex(),
               }
             };
         }
         return where
             ? Object.assign(this.filter, { where })
             : this.filter;
+    }
+
+    private getDeviceMessageRegex() {
+      let message = this.where['message']?.like || '';
+      let prefix = (this.where['type'] ? (this.where['type'] + '.*') : '') || '';
+      return prefix + message;
     }
 
     private mapLog(log: any): string {
