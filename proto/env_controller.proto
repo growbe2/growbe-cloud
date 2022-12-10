@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+import "module.proto";
+
+enum RessourceType {
+        ACTOR_MODULE = 0;
+        ACTOR_VIRTUAL = 1;
+}
+
+message MActor {
+        string name = 1;
+        string id = 2;
+        string property = 3;
+        RessourceType type = 5;
+}
+
+message MObserver {
+        string name = 1;
+        string id = 2;
+        string property = 3;
+        RessourceType type = 4;
+}
+
+message SCConditionActor {
+        string actor_id = 1;
+        string observer_id = 2;
+
+        map<int32, SCObserverAction> actions = 3;
+}
+
+message SCObserverAction {
+        RelayOutletConfig config = 1;
+}
+
+message StaticControllerImplementation {
+        repeated SCConditionActor conditions = 1;
+}
+
+message ProgressiveControlerImplementation {
+
+}
+
+message EnvironmentControllerConfiguration {
+        string id = 1;
+        repeated MObserver observers = 2;
+        repeated MActor actors = 3;
+
+        oneof implementation {
+                StaticControllerImplementation static = 10;
+                ProgressiveControlerImplementation progressive = 15;
+        }
+}
+
+
+enum EnvironmentControllerState {
+        WAITING_ALARM = 0;
+        WAITING_VALUE = 1;
+        CHANGING_CONFIG = 2;
+        SLEEPING = 3;
+}
+
+message EnvironmentControllerEvent {
+        string id = 1;
+        bool running = 2;
+        EnvironmentControllerState state = 3;
+}
