@@ -13,7 +13,7 @@ export class EnvironmentControllerController {
         private envControllerService: EnvironmentControllerService,
     ) {}
 
-    @post('/growbe/{id}/environmentControllerStates')
+    @post('/growbes/{id}/environmentControllerStates/config')
     @authorizeGrowbe({
       growbeIdIndex: 0,
     })
@@ -24,7 +24,7 @@ export class EnvironmentControllerController {
       return this.envControllerService.register(growbeId, config)
     }
 
-    @del('/growbe/{id}/environmentControllerStates/{configId}')
+    @del('/growbes/{id}/environmentControllerStates/config/{configId}')
     @authorizeGrowbe({
       growbeIdIndex: 0,
     })

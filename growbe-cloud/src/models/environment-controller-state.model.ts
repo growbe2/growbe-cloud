@@ -1,9 +1,10 @@
+import {SCConditionActor} from '@growbe2/growbe-pb';
 import {Entity, model, property} from '@loopback/repository';
 
 @model()
 export class EnvironmentControllerState extends Entity {
 
-  @property({id: true, generated: true})
+  @property({id: true, generated: false})
   id: string;
 
   @property()
