@@ -11,3 +11,4 @@ export * from './growbe-dashboard.controller';
 export * from './growbe-hardware-alarm.controller';
 export * from './growbe-mainboard-image-config.controller';
 export * from './environment-controller';
+export * from './virtual-comboard.controller';
