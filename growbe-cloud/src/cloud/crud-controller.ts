@@ -196,7 +196,7 @@ export const CRUD_CONTROLLERS: {
         modelRelationDef: EnvironmentControllerState,
         optionsRelation: {
           accessorType: 'HasMany',
-          name: 'environmentControllers',
+          name: 'environmentControllerStates',
           idType: 'string',
           repo: EnvironmentControllerState,
           specs: specSecurity,
