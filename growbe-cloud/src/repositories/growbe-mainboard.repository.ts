@@ -12,7 +12,7 @@ import {
   GrowbeWarning,
   GrowbeSensorValue,
   GrowbeModule,
-  GrowbeLogs, GrowbeModuleDef, VirtualRelay} from '../models';
+  GrowbeLogs, GrowbeModuleDef, VirtualRelay, EnvironmentControllerState} from '../models';
 import {PgsqlDataSource} from '../datasources';
 import {Getter, inject} from '@loopback/core';
 import {UserRepository, User} from '@berlingoqc/sso';
@@ -24,6 +24,7 @@ import {GrowbeLogsRepository} from './growbe-logs.repository';
 import {GrowbeModuleDefRepository} from './growbe-module-def.repository';
 import {VirtualRelayRepository} from './virtual-relay.repository';
 import { DeviceLogs, DeviceLogsRepository } from '../component/device-logs';
+import {EnvironmentControllerStateRepository} from './environment-controller-state.repository';
 
 export class GrowbeMainboardRepository extends DefaultCrudRepository<
   GrowbeMainboard,
@@ -66,6 +67,8 @@ export class GrowbeMainboardRepository extends DefaultCrudRepository<
 
   public readonly virtualRelays: HasManyRepositoryFactory<VirtualRelay, typeof GrowbeMainboard.prototype.id>;
 
+  public readonly environmentControllerStates: HasManyRepositoryFactory<EnvironmentControllerState, typeof GrowbeMainboard.prototype.id>;
+
   constructor(
     @inject('datasources.pgsql') dataSource: PgsqlDataSource,
     @repository.getter('repositories.UserRepository')
@@ -85,9 +88,11 @@ export class GrowbeMainboardRepository extends DefaultCrudRepository<
     @repository.getter('VirtualRelayRepository')
     protected virtualRelayRepositoryGetter: Getter<VirtualRelayRepository>,
     @repository.getter('DeviceLogsRepository')
-    protected deviceLogsRepositoryGetter: Getter<DeviceLogsRepository>,
+    protected deviceLogsRepositoryGetter: Getter<DeviceLogsRepository>, @repository.getter('EnvironmentControllerStateRepository') protected environmentControllerStateRepositoryGetter: Getter<EnvironmentControllerStateRepository>,
   ) {
     super(GrowbeMainboard, dataSource);
+    this.environmentControllerStates = this.createHasManyRepositoryFactoryFor('environmentControllerStates', environmentControllerStateRepositoryGetter,);
+    this.registerInclusionResolver('environmentControllerStates', this.environmentControllerStates.inclusionResolver);
     this.virtualRelays = this.createHasManyRepositoryFactoryFor('virtualRelays', virtualRelayRepositoryGetter,);
     this.registerInclusionResolver('virtualRelays', this.virtualRelays.inclusionResolver);
     this.growbeModuleDefs = this.createHasManyRepositoryFactoryFor('growbeModuleDefs', growbeModuleDefRepositoryGetter,);

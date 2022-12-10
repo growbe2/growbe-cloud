@@ -24,6 +24,7 @@ import {
   GrowbeDashboardController,
   GrowbeHardwareAlarmController,
   GrowbeMainboardImageController,
+  EnvironmentControllerController,
 } from './controllers';
 import {authenticate} from '@loopback/authentication';
 import {CRUD_CONTROLLERS} from './crud-controller';
@@ -90,6 +91,7 @@ export class CloudComponent implements Component {
     GrowbeDashboardController,
     GrowbeHardwareAlarmController,
     GrowbeMainboardImageController,
+    EnvironmentControllerController,
   ];
   bindings = [
     // Binding.bind(GrowbeMainboardBindings.WATCHERS).to(watchers)

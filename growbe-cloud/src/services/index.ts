@@ -13,3 +13,4 @@ export * from './growbe-mainboard-version.service';
 export * from './virtual-relay.service';
 export * from './virtual-relay-event.service';
 export * from './growbe-mainboard-image-config.service';
+export * from './environment-controller.service';

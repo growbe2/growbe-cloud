@@ -1,4 +1,4 @@
-import {ActionResponse, FieldAlarmEvent, HearthBeath, HelloWord, LocalConnection, ModuleData, UpdateExecute, SOILCalibrationStepEvent, VirtualRelayState, VirtualRelayData, MainboardConfig } from '@growbe2/growbe-pb';
+import {ActionResponse, FieldAlarmEvent, HearthBeath, HelloWord, LocalConnection, ModuleData, UpdateExecute, SOILCalibrationStepEvent, VirtualRelayState, VirtualRelayData, MainboardConfig, EnvironmentControllerEvent } from '@growbe2/growbe-pb';
 import {Binding, Component, CoreBindings, inject, service} from '@loopback/core';
 import { ApplicationWithRepositories } from '@loopback/repository';
 import { RestApplication } from '@loopback/rest';
@@ -7,7 +7,7 @@ import { DeviceLogsComponent, DeviceLogsController } from '../component/device-l
 import {GrowbeMainboardBindings} from '../keys';
 import { GroupEnum, LogTypeEnum, SeverityEnum } from '../models';
 import { DataSubject, funcModuleSubject } from '../observers/data-subject.model';
-import {GrowbeActionReponseService, GrowbeHardwareAlarmService, GrowbeLogsService, GrowbeModuleService, GrowbeService, GrowbeStateService, VirtualRelayEventService} from '../services';
+import {EnvironmentControllerService, GrowbeActionReponseService, GrowbeHardwareAlarmService, GrowbeLogsService, GrowbeModuleService, GrowbeService, GrowbeStateService, VirtualRelayEventService} from '../services';
 import { GrowbeCalibrationService } from '../services/growbe-calibration.service';
 import {
   GrowbeStateWatcherObserver,
@@ -136,6 +136,14 @@ const watchers: DataSubject[] = [
     model: null,
     regexTopic: 'config_updated',
     service: GrowbeModuleService,
+  },
+  {
+    func: (id, service: EnvironmentControllerService, data: any) => {
+      return service.onEvent(id, data);
+    },
+    model: EnvironmentControllerEvent,
+    regexTopic: 'env_ctr',
+    service: EnvironmentControllerService
   }
 ];
 

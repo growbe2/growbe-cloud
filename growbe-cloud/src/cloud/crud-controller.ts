@@ -8,6 +8,7 @@ import {
 import {authenticate} from '@loopback/authentication';
 import {GrowbeStream, GrowbeStreamRepository} from '../component';
 import {
+  EnvironmentControllerState,
   GrowbeDashboard,
   GrowbeLogs,
   GrowbeMainboard,
@@ -130,6 +131,13 @@ const protectByMainboardRelationProperties = {
   'findById': [auth, authorizeGrowbeId],
 }
 
+const protectByMainboardRelationPropertiesOnlyRead = {
+  'find': [auth, authorizeGrowbeId],
+  'findById': [auth, authorizeGrowbeId],
+}
+
+
+
 const protectByModuleProperties = {
   'count': [auth, authorizeAdmin],
   'create': [auth, authorizeAdmin],
@@ -182,6 +190,18 @@ export const CRUD_CONTROLLERS: {
           specs: specSecurity,
           parentIdKey: 'mainboardId',
           properties: protectByMainboardRelationProperties
+        } as any
+      },
+      {
+        modelRelationDef: EnvironmentControllerState,
+        optionsRelation: {
+          accessorType: 'HasMany',
+          name: 'environmentControllers',
+          idType: 'string',
+          repo: EnvironmentControllerState,
+          specs: specSecurity,
+          parentIdKey: 'growbeId',
+          properties: protectByMainboardRelationPropertiesOnlyRead
         } as any
       },
       {

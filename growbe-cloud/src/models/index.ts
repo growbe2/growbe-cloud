@@ -14,3 +14,4 @@ export * from './virtual-relay.model';
 export * from './growbe-hardware-alarm.model';
 export * from './growbe-hardware-alarm-event.model';
 export * from './growbe-mainboard-image-config.model';
+export * from './environment-controller-state.model';

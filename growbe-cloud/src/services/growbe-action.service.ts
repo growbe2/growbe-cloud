@@ -123,7 +123,7 @@ export class GrowbeActionService {
     });
   }
 
-  private async sendRequest(data: {growbeId: string, topic: string, payload?: any, responseCode?: any, waitingTime?: number,  log?: (d: any) => any}) {
+  public async sendRequest(data: {growbeId: string, topic: string, payload?: any, responseCode?: any, waitingTime?: number,  log?: (d: any) => any}) {
     let growbeId = data.growbeId;
     let topic = data.topic;
     let payload = data.payload || '';

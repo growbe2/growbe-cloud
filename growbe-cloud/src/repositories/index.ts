@@ -12,3 +12,4 @@ export * from './growbe-mainboard-version.repository';
 export * from './virtual-relay.repository';
 export * from './growbe-hardware-alarm.repository';
 export * from './growbe-hardware-alarm-event.repository';
+export * from './environment-controller-state.repository';
