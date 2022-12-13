@@ -87,6 +87,7 @@ export class VirtualRelayService {
     growbeId: string,
     virtualRelayId: string,
     config: pb.RelayOutletConfig,
+    property?: string,
   ) {
 
     let virtual_relay = await this.virtualRelayRepo.findById(virtualRelayId);
@@ -95,7 +96,7 @@ export class VirtualRelayService {
 
     await this.mqttService.sendWithResponse(
       growbeId,
-      getTopic(growbeId, '/board/vrconfig/' + virtual_relay.relay.name),
+      getTopic(growbeId, '/board/vrconfig/' + virtual_relay.relay.name + (property ? `/${property}` : '')),
       pb.RelayOutletConfig.encode(virtual_relay.config).finish(),
       {responseCode: pb.ActionCode.SYNC_REQUEST, waitingTime: 2000}
     ).toPromise();

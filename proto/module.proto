@@ -179,11 +179,24 @@ message VirtualRelayItem {
     // action port for the properties
     repeated VirtualRelayPropertyConfig properties = 1;
 }
+message VirtualRelayPropetyItem {
+    string moduleId = 1;
+    repeated int32 property  = 2;
+}
+
+message VirtualRelayProperty {
+    repeated VirtualRelayPropetyItem items = 1;
+}
 
 // VirtualOutlet is the definition of the virtual relay
 message VirtualRelay {
     string name = 1;
     map<string, VirtualRelayItem> relays = 2;
+    // Add many properties to the virtual relay , this is configuration
+    // on what property to use on this mode
+    // this is optional if no specify will not mind and consider on
+    // group with all the asset in relays
+    map<string, VirtualRelayProperty> properties = 3;
 }
 
 // Contains all the virtual outlet

@@ -55,4 +55,19 @@ export class VirtualRelayController {
     return this.virtualRelayService.applyConfig(growbeId, idVr, config);
   }
 
+  @patch('/growbes/{id}/virtualRelays/{id_vr}/config/{property}')
+  @authorizeGrowbe({
+    growbeIdIndex: 0,
+  })
+  configVirtualRelayProperty(
+    @param.path.string("id") growbeId: string,
+    @param.path.string("id_vr") idVr: string,
+    @param.path.string("property") property: string,
+    @requestBody() config: pb.RelayOutletConfig,
+  ) {
+    return this.virtualRelayService.applyConfig(growbeId, idVr, config, property);
+  }
+
+
+
 }
