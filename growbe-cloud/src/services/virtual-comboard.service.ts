@@ -44,6 +44,7 @@ function from_aas(aas: SOILModuleData) {
 function from_module_data(moduleType: string, value: any) {
   switch (moduleType) {
     case "AAA":
+      console.log(value);
       return from_aaa(value);
     case "AAS":
       return from_aas(value);
@@ -62,7 +63,8 @@ export class VirtualComboardService {
   sendVirtualComboardData(growbeId: string, item: VirtualComboardItem, values: any[]) {
     let items = values.map(value => {
       let moduleType = item.id.substring(0, 3);
-      return Object.assign(item, { buffer: from_module_data(moduleType, value) });
+      let data = from_module_data(moduleType, value);
+      return {...item, buffer: data };
     });
 
     return this.actionService.sendRequest({
