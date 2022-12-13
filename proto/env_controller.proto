@@ -23,13 +23,13 @@ message MObserver {
 
 
 message SCConditionActor {
-        string actor_id = 1;
+        string observer_id = 1;
 
-        map<int32, SCObserverAction> actions = 3;
+        map<string, SCObserverAction> actions = 3;
 }
 
 message SCObserverAction {
-        map<string, RelayOutletConfig> config = 1;
+        map<int32, RelayOutletConfig> config = 1;
 }
 
 message StaticControllerImplementation {
