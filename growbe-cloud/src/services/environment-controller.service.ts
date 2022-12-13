@@ -48,12 +48,12 @@ export class EnvironmentControllerService {
     let state = await this.ecsRepo.findById(id);
     let response = await this.actionService.sendRequest({
       growbeId,
-      topic: "/board/rEnv",
+      topic: `/board/rEnv/${id}`,
       payload: '',
     });
 
     state.state = false;
-    await this.ecsRepo.update(state);
+    await this.ecsRepo.deleteById(state.id);
 
     return response;
   }

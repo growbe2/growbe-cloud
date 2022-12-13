@@ -62,7 +62,7 @@ export class VirtualComboardService {
   sendVirtualComboardData(growbeId: string, item: VirtualComboardItem, values: any[]) {
     let items = values.map(value => {
       let moduleType = item.id.substring(0, 3);
-      return Object.assign(item, from_module_data(moduleType, value));
+      return Object.assign(item, { buffer: from_module_data(moduleType, value) });
     });
 
     return this.actionService.sendRequest({
