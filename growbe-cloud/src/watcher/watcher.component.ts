@@ -144,6 +144,14 @@ const watchers: DataSubject[] = [
     model: EnvironmentControllerEvent,
     regexTopic: 'env_ctr',
     service: EnvironmentControllerService
+  },
+  {
+    func: (id, service: GrowbeStateService, data: any) => {
+      return service.onGrowbeDisconnectEvent(id);
+    },
+    model: null,
+    regexTopic: 'disconnecting',
+    service: GrowbeStateService,
   }
 ];
 

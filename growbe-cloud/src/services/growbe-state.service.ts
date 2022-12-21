@@ -79,6 +79,21 @@ export class GrowbeStateService {
     return mainboard;
   }
 
+  async onGrowbeDisconnectEvent(id: string) {
+     const mainboardNew = await this.growbeService.mainboardRepository.findById(
+          id,
+        );
+        // na pas été update
+        GrowbeStateService.DEBUG(`Growbe ${id} has send a disconnect event`);
+        mainboardNew.state = 'DISCONNECTED';
+        await this.stateChange(mainboardNew);
+        await this.notifyState(mainboardNew);
+        await this.growbeModuleService.onBoardDisconnect(id);
+
+        delete this.cacheMainboard[id];
+        delete this.watcherMainboard[id];
+  }
+
   async valideState(id: string) {
     let mainboard = await this.getMainboard(id);
     
