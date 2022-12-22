@@ -3,10 +3,18 @@ syntax = "proto3";
 option java_package = "ca.berlingoqc.growbe_android_module.proto";
 
 enum ActorType {
+    // Operation was executed by a end user manually
+    // from the cloud app most likely
     MANUAL_USER_ACTOR = 0;
-    DURATION_ACTOR = 1;
-    ALARM_ACTOR = 2;
+    // When a property is control by a virtual relay
     VIRTUAL_ACTOR = 3;
+    // Env controller
+    ENV_CONTROLLER_ACTOR = 4;
+}
+
+enum ActorRessourceType {
+    PHYSICAL_RELAY = 0;
+    VIRTUAL_RELAY = 1;
 }
 
 message Actor {
@@ -16,8 +24,9 @@ message Actor {
 }
 
 message ActorOwnership {
-    string moduleId = 1;
-    string property = 2;
+    ActorRessourceType type = 1;
+    string ressourceId = 2;
+    string property = 3;
 }
 
 message ActorWithOwnership {
@@ -167,6 +176,10 @@ message RelayOutletConfig {
     ManualConfig manual = 3;
     VirtualRelayConfig virtual = 4;
     CycleConfig cycle = 5;
+
+    // optional , if not empty id of the actor
+    // that is owning this ressurce
+    string actor_owner_id = 6;
 }
 
 message VirtualRelayPropertyConfig {
@@ -197,6 +210,10 @@ message VirtualRelay {
     // this is optional if no specify will not mind and consider on
     // group with all the asset in relays
     map<string, VirtualRelayProperty> properties = 3;
+
+    // optional , if not empty id of the actor
+    // that is owning this ressurce
+    string actor_owner_id = 6;
 }
 
 // Contains all the virtual outlet
