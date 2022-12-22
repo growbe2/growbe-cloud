@@ -77,6 +77,10 @@ message UpdaterConfig {
     bool reboot = 3;
 }
 
+message ApiConfig {
+    string url = 1;
+}
+
 message MainboardConfig {
     string id = 1;
     MQTTConfig mqtt = 2;
@@ -85,4 +89,5 @@ message MainboardConfig {
     HttpServerConfig server = 4;
     LoggerConfig logger = 5;
     UpdaterConfig update = 6;
+    ApiConfig api = 8;
 }
