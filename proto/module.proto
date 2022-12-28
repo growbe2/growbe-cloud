@@ -34,6 +34,11 @@ message ActorWithOwnership {
     repeated ActorOwnership ownerships = 2;
 }
 
+message ModuleActorOwnershipRequest {
+   Actor actor = 1;
+   map<string, bool> property = 2;
+}
+
 message ModuleData {
     string id = 1;
     string name = 2;
@@ -180,6 +185,7 @@ message RelayOutletConfig {
     // optional , if not empty id of the actor
     // that is owning this ressurce
     string actor_owner_id = 6;
+    ActorType actor_owner_type = 7;
 }
 
 message VirtualRelayPropertyConfig {

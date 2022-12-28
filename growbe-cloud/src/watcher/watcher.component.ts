@@ -15,6 +15,14 @@ import {
 
 const watchers: DataSubject[] = [
   {
+    func: funcModuleSubject((id, moduleId, service: GrowbeModuleService, data: any) => {
+      return service.receivedConfigFromMainboard(moduleId, data);
+    }),
+    model: null,
+    regexTopic: 'config_updated',
+    service: GrowbeModuleService,
+  },
+  {
     func: (id, service: GrowbeStateService) => {
       return service.onBeath(id);
     },
@@ -128,14 +136,6 @@ const watchers: DataSubject[] = [
     model: SOILCalibrationStepEvent,
     regexTopic: 'calibrationEvent',
     service: GrowbeCalibrationService,
-  },
-  {
-    func: funcModuleSubject((id, moduleId, service: GrowbeModuleService, data: any) => {
-      return service.receivedConfigFromMainboard(moduleId, data);
-    }),
-    model: null,
-    regexTopic: 'config_updated',
-    service: GrowbeModuleService,
   },
   {
     func: (id, service: EnvironmentControllerService, data: any) => {
