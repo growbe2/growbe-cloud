@@ -1,4 +1,4 @@
-import { ActionResponse } from '@growbe2/growbe-pb';
+import { ActionCode, ActionResponse } from '@growbe2/growbe-pb';
 import { BindingScope, injectable } from "@loopback/context";
 import { Observable, of, Subject, timer, throwError } from "rxjs";
 import { filter, finalize, map, mergeMap, switchMap, tap, timeout } from 'rxjs/operators';
@@ -25,7 +25,7 @@ export class GrowbeActionReponseService {
       return this.actionReponse.asObservable().pipe(
           filter(x => x.id === id),
           switchMap(x => (x.action.status < 400) ? of(x.action): throwError(x.action)),
-          filter(item => item.action === options.responseCode),
+          filter(item => item.action === options.responseCode || item.action == ActionCode.SYNC_REQUEST),
           timeout(options.waitingTime),
       );
   }

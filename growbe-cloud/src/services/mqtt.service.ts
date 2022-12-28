@@ -2,7 +2,7 @@ import {BindingScope, inject, injectable, service} from '@loopback/core';
 import { HttpErrors } from '@loopback/rest';
 import mqtt from 'async-mqtt';
 import {from, Observable, of, defer, timer, throwError} from 'rxjs';
-import { catchError, finalize, mergeMap, retry, retryWhen, switchMap, take } from 'rxjs/operators';
+import { catchError, finalize, mergeMap, retry, retryWhen, switchMap, take, timeout } from 'rxjs/operators';
 import {MQTTBindings} from '../keys';
 import { GrowbeActionReponseService, WaitResponseOptions } from './growbe-response.service';
 
@@ -44,9 +44,15 @@ export class MQTTService {
 
   sendWithResponse(mainboardId: string, topic: string, body: any, options: WaitResponseOptions, responseTopic?: string) {
     const subReponse = !responseTopic ? `${topic}/response`: responseTopic;
+    options = {
+      responseCode: options.responseCode,
+      waitingTime: 10000,
+      retry: 0,
+    };
     this.addSubscription(subReponse);
     return defer(() => this.send(topic, body, { qos: 2 }))
       .pipe(
+        timeout(100),
         switchMap(() => {
           return this.actionResponseService.waitForResponse(mainboardId, options)
         }),
