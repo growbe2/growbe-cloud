@@ -17,14 +17,7 @@ export class GrowbeSyncService {
 
   public async syncConfig(growbeId: string) {
 	  const data = new Date();
-	  await this.growbeService.setRTC(growbeId, new RTCTime({
-		  year: data.getFullYear(),
-		  month: data.getMinutes() + 1,
-		  day: data.getDate(),
-		  hour: data.getHours(),
-		  minute: data.getMinutes(),
-		  second: data.getSeconds()
-	  }));
+
 	  await this.growbeModuleService.syncModulesConfig(growbeId);
   }
 

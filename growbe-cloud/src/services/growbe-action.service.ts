@@ -28,12 +28,14 @@ export class GrowbeActionService {
     private logsService: GrowbeLogsService,
   ) {}
 
-  async updateConfig(growbeId: string, config: pb.GrowbeMainboardConfig) {
+  async updateConfig(growbeId: string, config: pb.GrowbeMainboardConfig, direct?: boolean) {
     return this.mqttService.sendWithResponse(
       growbeId,
       getTopic(growbeId, '/board/config'),
       pb.GrowbeMainboardConfig.encode(config).finish(),
-      {responseCode: pb.ActionCode.RTC_SET, waitingTime: 4000}
+      {responseCode: pb.ActionCode.RTC_SET, waitingTime: 4000},
+      undefined,
+      direct
     ).toPromise()
       .then((responseA) => this.mainboardRepository
         .growbeMainboardConfig(growbeId)
@@ -49,69 +51,65 @@ export class GrowbeActionService {
       }));
   }
 
-  async setRTC(growbeId: string, rtcTime: RTCTime) {
-    return this.sendRequest({
-        growbeId,
-        topic: '/board/setTime',
-        payload: pb.RTCTime.encode(rtcTime).finish(),
-        log: () => ({ message: `rtc set : ${JSON.stringify(rtcTime)}`, type: LogTypeEnum.RTC_UPDATE }),
-    });
-  }
-
-
-  async sendUpdateRequest(growbeId: string) {
+  async sendUpdateRequest(growbeId: string, direct?: boolean) {
     return this.sendRequest({
         growbeId,
         topic: '/board/update/request',
         log: () => ({ message: 'send request to perform update', type: 'update' }),
+        direct,
     });
   }
 
-  async sendRestartRequest(growbeId: string) {
+  async sendRestartRequest(growbeId: string, direct?: boolean) {
     return this.sendRequest({
         growbeId,
         topic: '/board/restart',
         payload: pb.RestartRequest.encode({}).finish(),
         log: () => ({ message: 'send request to perform restart of process', type: 'request' }),
+        direct
     });
   }
 
-  async sendRebootRequest(growbeId: string) {
+  async sendRebootRequest(growbeId: string, direct?: boolean) {
     return this.sendRequest({
         growbeId,
         topic: '/board/reboot',
         payload: pb.RestartRequest.encode({}).finish(),
         log: () => ({ message: 'send request to perform a reboot', type: 'request' }),
+        direct,
     });
   }
 
-  public sendProcessConfig(growbeId: string, config: pb.MainboardConfig) {
+  public sendProcessConfig(growbeId: string, config: pb.MainboardConfig, direct?: boolean) {
     return this.sendRequest({
         growbeId,
         topic: '/board/boardconfig',
         payload: pb.MainboardConfig.encode(config).finish(),
         log: () => ({ message: 'process config updated', type: 'config' }),
+        direct
     });
   }
 
-  public sendSyncRequest(growbeId: string) {
+  public sendSyncRequest(growbeId: string, direct?: boolean) {
     return this.sendRequest({
         growbeId,
         topic: '/board/sync',
         log: () => ({ message: 'send request to perform a sync', type: 'request' }),
+        direct,
     });
   }
 
 
-  async sendLocalConnectionRequest(growbeId: string) {
+  async sendLocalConnectionRequest(growbeId: string, direct?: boolean) {
     return this.sendRequest({
         growbeId,
         topic: '/board/localconnection',
         log: () => ({ message: 'send request to perform a update of localconnection', type: 'request' }),
+        direct,
     });
   }
 
-  async sendHelloWorldRequest(growbeId: string) {
+  async sendHelloWorldRequest(growbeId: string, direct?: boolean) {
     return this.sendRequest({
         growbeId,
         topic: '/board/helloworld',
@@ -119,23 +117,25 @@ export class GrowbeActionService {
         log: () => ({
             type: 'request',
             message: 'request hello world',
-        })
+        }),
+        direct,
     });
   }
 
-  public async sendRequest(data: {growbeId: string, topic: string, payload?: any, responseCode?: any, waitingTime?: number,  log?: (d: any) => any}) {
+  public async sendRequest(data: {growbeId: string, topic: string, payload?: any, responseCode?: any, waitingTime?: number,  log?: (d: any) => any, direct?: boolean}) {
     let growbeId = data.growbeId;
     let topic = data.topic;
     let payload = data.payload || '';
     let responseCode = data.responseCode || pb.ActionCode.SYNC_REQUEST;
     let waitingTime = data.waitingTime || 4000;
     let log_callback = data.log ? data.log : (() => ({}));
+    let direct = data.direct;
 
     return lastValueFrom(
       this.mqttService.sendWithResponse(growbeId, getTopic(growbeId, topic), payload, {
         responseCode,
         waitingTime
-      })
+      }, undefined, direct)
     ).then(value => {
       return this.logsService.addLog(Object.assign({
        group: GroupEnum.MAINBOARD,

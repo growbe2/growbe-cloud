@@ -20,9 +20,10 @@ export class GrowbeModuleCalibrationController {
   startCalibration(
       @param.path.string("id") id: string,
       @param.path.string("moduleid") moduleId: string,
+      @param.query.boolean("direct") direct: boolean,
       @requestBody() body: SOILCalibrationStart,
   ) {
-      return this.calibrationService.startCalibration(id, moduleId, body);
+      return this.calibrationService.startCalibration(id, moduleId, body, direct);
   }
 
   @patch("/growbe/{id}/modules/{moduleid}/calibration/set")
@@ -32,9 +33,10 @@ export class GrowbeModuleCalibrationController {
   setCalibration(
       @param.path.string("id") id: string,
       @param.path.string("moduleid") moduleId: string,
+      @param.query.boolean("direct") direct: boolean,
       @requestBody() body: SOILCalibrationStep,
   ) {
-      return this.calibrationService.setStepCalibration(id, moduleId, body);
+      return this.calibrationService.setStepCalibration(id, moduleId, body, direct);
   }
 
   @patch("/growbe/{id}/modules/{moduleid}/calibration/confirm")
@@ -44,8 +46,9 @@ export class GrowbeModuleCalibrationController {
   confirmCalibration(
       @param.path.string("id") id: string,
       @param.path.string("moduleid") moduleId: string,
+      @param.query.boolean("direct") direct: boolean,
   ) {
-      return this.calibrationService.confirmCalibration(id, moduleId);
+      return this.calibrationService.confirmCalibration(id, moduleId, direct);
   }
 
   @patch("/growbe/{id}/modules/{moduleid}/calibration/cancel")
@@ -54,9 +57,10 @@ export class GrowbeModuleCalibrationController {
   })
   cancelCalibration(
       @param.path.string("id") id: string,
+      @param.query.boolean("direct") direct: boolean,
       @param.path.string("moduleid") moduleId: string,
   ) {
-      return this.calibrationService.cancelCalibration(id, moduleId);
+      return this.calibrationService.cancelCalibration(id, moduleId, direct);
   }
 
   @patch("/growbe/{id}/modules/{moduleid}/calibration/status")
@@ -66,9 +70,10 @@ export class GrowbeModuleCalibrationController {
   statusCalibration(
       @param.path.string("id") id: string,
       @param.path.string("moduleid") moduleId: string,
+      @param.query.boolean("direct") direct: boolean,
       @requestBody() body: SOILCalibrationStep,
   ) {
-      return this.calibrationService.statusCalibration(id, moduleId);
+      return this.calibrationService.statusCalibration(id, moduleId, direct);
   }
 
 }

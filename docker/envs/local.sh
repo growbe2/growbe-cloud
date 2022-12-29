@@ -5,6 +5,8 @@ export MONGO_URL="mongodb://doadmin:test@localhost:27018/growbe?authSource=admin
 #export MQTT_URL="mqtt://localhost:1883"
 export MQTT_URL="mqtt://mainboard.growbe.ca:30045"
 
+export REVERSE_PROXY_URL="https://proxy.growbe.ca"
+
 export SSO_SETTINGS="{\"publicCreation\":true,\"multiFactor\":false,\"accountValidation\":true, \"defaultRoles\": []}"
 export EMAIL_FROM='"Xmation" <info@alborea.com>'
 export EMAIL_USER=apikey

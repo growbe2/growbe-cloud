@@ -255,7 +255,7 @@ export class GrowbeModuleService {
     return module;
   }
 
-  async setModuleConfigForProperty(id: string, property: string, config: any) {
+  async setModuleConfigForProperty(id: string, property: string, config: any, direct: boolean) {
     const module = await this.moduleRepository.findById(id);
     if (!module) {
       throw new HttpErrors[404]();
@@ -265,20 +265,20 @@ export class GrowbeModuleService {
     // remove property with null config
     await this.moduleRepository.update(module);
     // NEED TO REMWORK TO USE SAME CODE AS UPDATED_CONFIG WITH THE MQTT SEND
-    return this.sendConfigToMainboard(module);
+    return this.sendConfigToMainboard(module, direct);
   }
 
-  async setModuleConfig(id: string, config: any) {
+  async setModuleConfig(id: string, config: any, direct: boolean) {
     const module = await this.updateModuleConfig(id, config);
-    return this.sendConfigToMainboard(module);
+    return this.sendConfigToMainboard(module, direct);
   }
 
-  async syncModulesConfig(growbeId: string, connected?: boolean) {
+  async syncModulesConfig(growbeId: string, connected?: boolean, direct?: boolean) {
     const modules = await this.moduleRepository.find({
       where: { mainboardId: growbeId, config: { neq: null } },
     });
     for (const module of modules) {
-      await this.sendConfigToMainboard(module);
+      await this.sendConfigToMainboard(module, direct);
     }
   }
 
@@ -288,7 +288,7 @@ export class GrowbeModuleService {
     return this.updateModuleConfig(moduleId, config)
   }
 
-  async deleteModuleConfig(moduleId: string) {
+  async deleteModuleConfig(moduleId: string, direct?: boolean) {
     const module = await this.moduleRepository.findById(moduleId);
     if (!module) {
       throw new HttpErrors[404]();
@@ -306,7 +306,9 @@ export class GrowbeModuleService {
         module.mainboardId,
         getTopic(module.mainboardId, `/board/rmconfig/${module.id}`),
         {},
-        { waitingTime: 6000, responseCode: pb.ActionCode.MODULE_CONFIG}
+        { waitingTime: 6000, responseCode: pb.ActionCode.MODULE_CONFIG},
+        undefined,
+        direct,
       ).toPromise()
       .then((response) => {
         return this.logsService.addLog({
@@ -342,7 +344,7 @@ export class GrowbeModuleService {
     return module;
   }
 
-  private sendConfigToMainboard(module: GrowbeModule) {
+  private sendConfigToMainboard(module: GrowbeModule, direct?: boolean) {
      const model = pbDef[mapTypeConfig[module.id.slice(0, 3)]];
      const payload = model.encode(module.config).finish();
      return this.mqttService
@@ -350,7 +352,9 @@ export class GrowbeModuleService {
         module.mainboardId,
         getTopic(module.mainboardId, `/board/mconfig/${module.id}`),
         payload,
-        { waitingTime: 6000, responseCode: pb.ActionCode.MODULE_CONFIG}
+        { waitingTime: 6000, responseCode: pb.ActionCode.MODULE_CONFIG},
+        undefined,
+        direct
       ).toPromise()
       .then((response) => {
         return this.logsService.addLog({

@@ -16,9 +16,10 @@ export class GrowbeModuleController {
     getFunc: getMainboardByModule,
   })
   setConfig(
-    @param.path.string('id') id: string, @requestBody() config: any
+    @param.path.string('id') id: string, @requestBody() config: any,
+    @param.query.boolean('direct') direct: boolean,
   ) {
-    return this.growbeModuleService.setModuleConfig(id, config);
+    return this.growbeModuleService.setModuleConfig(id, config, direct);
   }
 
   @del('/growbeModules/{id}/cmd/config')
@@ -27,9 +28,10 @@ export class GrowbeModuleController {
     getFunc: getMainboardByModule,
   })
   deleteConfig(
-    @param.path.string('id') id: string
+    @param.path.string('id') id: string,
+    @param.query.boolean('direct') direct: boolean,
   ) {
-    return this.growbeModuleService.deleteModuleConfig(id);
+    return this.growbeModuleService.deleteModuleConfig(id, direct);
   }
 
   @post('/growbeModules/{id}/config/{property}')
@@ -39,8 +41,9 @@ export class GrowbeModuleController {
   })
   setConfigForProperty(
     @param.path.string('property') property: string,
-    @param.path.string('id') id: string, @requestBody() config: any
+    @param.path.string('id') id: string, @requestBody() config: any,
+    @param.query.boolean('direct') direct: boolean,
   ) {
-    return this.growbeModuleService.setModuleConfigForProperty(id, property, config);
+    return this.growbeModuleService.setModuleConfigForProperty(id, property, config, direct);
   }
 }

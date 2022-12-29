@@ -5,6 +5,7 @@ import {from, Observable, of, defer, timer, throwError} from 'rxjs';
 import { catchError, finalize, mergeMap, retry, retryWhen, switchMap, take, timeout } from 'rxjs/operators';
 import {MQTTBindings} from '../keys';
 import { GrowbeActionReponseService, WaitResponseOptions } from './growbe-response.service';
+import {GrowbeReverseProxyService} from './growbe-reverse-proxy.service';
 
 export const getTopic = (growbeId: string, subtopic: string) => {
   return `/growbe/${growbeId}${subtopic}`;
@@ -21,6 +22,8 @@ export class MQTTService {
     private url: string,
     @service(GrowbeActionReponseService)
     private actionResponseService: GrowbeActionReponseService,
+    @service(GrowbeReverseProxyService)
+    private reverseProxyService: GrowbeReverseProxyService,
   ) {}
 
   async connect() {
@@ -42,7 +45,10 @@ export class MQTTService {
     return this.client.publish(topic, body, options);
   }
 
-  sendWithResponse(mainboardId: string, topic: string, body: any, options: WaitResponseOptions, responseTopic?: string) {
+  sendWithResponse(mainboardId: string, topic: string, body: any, options: WaitResponseOptions, responseTopic?: string, direct?: boolean) {
+    if (direct) {
+      return this.reverseProxyService.sendWithResponse(mainboardId, topic, body, options, responseTopic);
+    }
     const subReponse = !responseTopic ? `${topic}/response`: responseTopic;
     this.addSubscription(subReponse);
     return defer(() => this.send(topic, body, { qos: 2 }))

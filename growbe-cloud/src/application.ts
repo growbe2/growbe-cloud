@@ -11,7 +11,7 @@ import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import {Subject} from 'rxjs';
-import {GrowbeMainboardBindings, MQTTBindings} from './keys';
+import {GrowbeMainboardBindings, MQTTBindings, ReverseProxyBindings} from './keys';
 import { GrowbeDataSubjectObserver } from './observers';
 
 import { GrowbeMetricsComponent } from './component/metrics/metrics.component';
@@ -58,6 +58,9 @@ export class GrowbeCloudApplication extends BootMixin(
   private setupSSOBindings() {
     const ssoUrl = (process.env.SSO_URL ?? 'http://localhost:3001') as string;
     this.bind(SSOAuthBindings.SSO_URL).to(ssoUrl);
+
+    const reverseProxyUrl = (process.env.REVERSE_PROXY_URL) as string;
+    this.bind(ReverseProxyBindings.URL).to(reverseProxyUrl);
 
     this.bind(MQTTBindings.URL).to(process.env.MQTT_URL);
     this.bind('datasources.config.postregsql').to({

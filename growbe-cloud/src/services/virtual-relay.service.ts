@@ -21,13 +21,16 @@ export class VirtualRelayService {
   async create(
     growbeId: string,
     data: pb.VirtualRelay,
+    direct: boolean,
   ) {
 
     await this.mqttService.sendWithResponse(
       growbeId,
       getTopic(growbeId, '/board/addVr'),
       pb.VirtualRelay.encode(data).finish(),
-      {responseCode: pb.ActionCode.SYNC_REQUEST, waitingTime: 2000}
+      {responseCode: pb.ActionCode.SYNC_REQUEST, waitingTime: 2000},
+      undefined,
+      direct,
     ).toPromise();
 
     
@@ -46,13 +49,16 @@ export class VirtualRelayService {
   async update(
     growbeId: string,
     data: pb.VirtualRelay,
+    direct: boolean,
   ) {
 
     await this.mqttService.sendWithResponse(
       growbeId,
       getTopic(growbeId, '/board/updateVr'),
       pb.VirtualRelay.encode(data).finish(),
-      {responseCode: pb.ActionCode.SYNC_REQUEST, waitingTime: 2000}
+      {responseCode: pb.ActionCode.SYNC_REQUEST, waitingTime: 2000},
+      undefined,
+      direct,
     ).toPromise();
 
     let virtual_relay = await this.virtualRelayRepo.updateById(data.name, {relay: data})
@@ -65,6 +71,7 @@ export class VirtualRelayService {
   async delete(
     growbeId: string,
     virtualRelayId: string,
+    direct: boolean,
   ) {
 
     let virtual_relay = await this.virtualRelayRepo.findById(virtualRelayId);
@@ -73,7 +80,9 @@ export class VirtualRelayService {
       growbeId,
       getTopic(growbeId, '/board/rmVr/' + virtual_relay.id),
       pb.VirtualRelay.encode(virtual_relay.relay).finish(),
-      {responseCode: pb.ActionCode.SYNC_REQUEST, waitingTime: 2000}
+      {responseCode: pb.ActionCode.SYNC_REQUEST, waitingTime: 2000},
+      undefined,
+      direct
     ).toPromise();
     
     await this.virtualRelayRepo.deleteById(virtualRelayId);
@@ -88,6 +97,7 @@ export class VirtualRelayService {
     virtualRelayId: string,
     config: pb.RelayOutletConfig,
     property?: string,
+    direct?: boolean,
   ) {
 
     let virtual_relay = await this.virtualRelayRepo.findById(virtualRelayId);
@@ -98,7 +108,9 @@ export class VirtualRelayService {
       growbeId,
       getTopic(growbeId, '/board/vrconfig/' + virtual_relay.relay.name + (property ? `/${property}` : '')),
       pb.RelayOutletConfig.encode(virtual_relay.config).finish(),
-      {responseCode: pb.ActionCode.SYNC_REQUEST, waitingTime: 2000}
+      {responseCode: pb.ActionCode.SYNC_REQUEST, waitingTime: 2000},
+      undefined,
+      direct,
     ).toPromise();
     
     await this.virtualRelayRepo.updateById(virtualRelayId, virtual_relay);

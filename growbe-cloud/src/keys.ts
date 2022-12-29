@@ -7,6 +7,10 @@ export namespace MQTTBindings {
   export const URL = BindingKey.create('mqtt.url');
 }
 
+export namespace ReverseProxyBindings {
+  export const URL = BindingKey.create("reverseproxy.url");
+}
+
 export namespace GrowbeMainboardBindings {
   export const DEFAULT_CONFIG = BindingKey.create<
     Partial<GrowbeMainboardConfig>

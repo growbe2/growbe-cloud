@@ -56,9 +56,10 @@ export class GrowbeHardwareAlarmController {
   })
   addHardwareAlarm(
     @param.path.string('mainboardId') mainboardId: string,
+    @param.query.boolean('direct') direct: boolean,
     @requestBody() alarm: FieldAlarm
   ) {
-    return this.growbeHardwareAlarmService.addHardwareAlarm(mainboardId, alarm)
+    return this.growbeHardwareAlarmService.addHardwareAlarm(mainboardId, alarm, direct)
   }
 
   @put('/growbes/{mainboardId}/modules/{id}/alarm/hardware/{property}')
@@ -68,9 +69,10 @@ export class GrowbeHardwareAlarmController {
   })
   updateHardwareAlarm(
     @param.path.string('mainboardId') mainboardId: string,
+    @param.query.boolean('direct') direct: boolean,
     @requestBody() alarm: FieldAlarm
   ) {
-    return this.growbeHardwareAlarmService.updateHardwareAlarm(mainboardId, alarm)
+    return this.growbeHardwareAlarmService.updateHardwareAlarm(mainboardId, alarm, direct)
   }
 
   @del('/growbes/{mainboardId}/modules/{id}/alarm/hardware/{property}')
@@ -82,11 +84,12 @@ export class GrowbeHardwareAlarmController {
     @param.path.string('mainboardId') mainboardId: string,
     @param.path.string('id') moduleId: string,
     @param.path.string('property') property: string,
+    @param.query.boolean('direct') direct: boolean,
   ) {
     return this.growbeHardwareAlarmService.removeHardwareAlarm(mainboardId, {
       moduleId,
       property
-    } as FieldAlarm)
+    } as FieldAlarm, direct);
   }
 
 }

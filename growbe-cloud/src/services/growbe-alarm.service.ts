@@ -43,7 +43,7 @@ export class GrowbeHardwareAlarmService {
 		})
 	}
 
-	async addHardwareAlarm(mainboardId: string, alarm: FieldAlarm): Promise<void> {
+	async addHardwareAlarm(mainboardId: string, alarm: FieldAlarm, direct?: boolean): Promise<void> {
 		return this.handleModificationAlarm(
 			mainboardId,
 			alarm,
@@ -57,11 +57,12 @@ export class GrowbeHardwareAlarmService {
 				if (!moduleAlarm.alarms) { moduleAlarm.alarms = {}; }
 
 				moduleAlarm.alarms[alarm.property] = alarm;
-			}
+			},
+      direct,
 		);
 	}
 
-	async updateHardwareAlarm(mainboardId: string, alarm: FieldAlarm): Promise<void> {
+	async updateHardwareAlarm(mainboardId: string, alarm: FieldAlarm, direct?: boolean): Promise<void> {
 		return this.handleModificationAlarm(
 			mainboardId,
 			alarm,
@@ -75,11 +76,12 @@ export class GrowbeHardwareAlarmService {
 				}
 
 				moduleAlarm.alarms[alarm.property] = alarm;
-			}
+			},
+      direct
 		);
 	}
 
-	async removeHardwareAlarm(mainboardId: string, alarm: FieldAlarm): Promise<void>  {
+	async removeHardwareAlarm(mainboardId: string, alarm: FieldAlarm, direct?: boolean): Promise<void>  {
 		return this.handleModificationAlarm(
 			mainboardId,
 			alarm,
@@ -93,7 +95,8 @@ export class GrowbeHardwareAlarmService {
 					}
 
 					delete moduleAlarm.alarms[alarm.property];
-			}
+			},
+      direct
 		);
 	}
 
@@ -103,7 +106,8 @@ export class GrowbeHardwareAlarmService {
 		topic: string,
 		responseCode: any,
 		msg: string,
-		cb: (moduleAlarm: GrowbeHardwareAlarm) => void
+		cb: (moduleAlarm: GrowbeHardwareAlarm) => void,
+    direct?: boolean,
 	) {
 		let moduleAlarm = await this.alarmRepository.findOne({where: { moduleId: alarm.moduleId }})
 
@@ -117,7 +121,9 @@ export class GrowbeHardwareAlarmService {
 			mainboardId,
 			getTopic(mainboardId, topic),
 			FieldAlarm.encode(alarm).finish(),
-			{ waitingTime: 3000, responseCode}
+			{ waitingTime: 3000, responseCode},
+      undefined,
+      direct,
 		).toPromise()
 		.then(() => this.alarmRepository.update(moduleAlarm as GrowbeHardwareAlarm))
 		.then((data) => {

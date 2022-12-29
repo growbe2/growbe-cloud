@@ -31,14 +31,17 @@ export class GrowbeCalibrationService {
     async startCalibration(
         mainboardId: string,
         moduleId: string,
-        event: SOILCalibrationStart, 
+        event: SOILCalibrationStart,
+        direct: boolean,
     ) {
         return this.mqttService
             .sendWithResponse(
                 mainboardId,
                 getTopic(mainboardId, `/board/startCalibration/${moduleId}`),
                 "{}",
-                { waitingTime: 6000, responseCode: ActionCode.SYNC_REQUEST}
+                { waitingTime: 6000, responseCode: ActionCode.SYNC_REQUEST},
+                undefined,
+                direct,
             ).toPromise();
     }
 
@@ -46,6 +49,7 @@ export class GrowbeCalibrationService {
         mainboardId: string,
         moduleId: string,
         event: SOILCalibrationStep, 
+        direct: boolean,
     ) {
         const payload = SOILCalibrationStep.encode(event).finish();
         return this.mqttService
@@ -53,46 +57,57 @@ export class GrowbeCalibrationService {
                 mainboardId,
                 getTopic(mainboardId, `/board/setCalibration/${moduleId}`),
                 payload,
-                { waitingTime: 6000, responseCode: ActionCode.SYNC_REQUEST}
+                { waitingTime: 6000, responseCode: ActionCode.SYNC_REQUEST},
+                undefined,
+                direct,
             ).toPromise();
     }
 
     async statusCalibration(
         mainboardId: string,
         moduleId: string,
+        direct: boolean,
     ) {
         return this.mqttService
             .sendWithResponse(
                 mainboardId,
                 getTopic(mainboardId, `/board/statusCalibration/${moduleId}`),
                 "{}",
-                { waitingTime: 6000, responseCode: ActionCode.SYNC_REQUEST}
+                { waitingTime: 6000, responseCode: ActionCode.SYNC_REQUEST},
+                undefined,
+                direct,
             ).toPromise();
     }
 
     async confirmCalibration(
         mainboardId: string,
         moduleId: string,
+        direct: boolean,
     ) {
         return this.mqttService
             .sendWithResponse(
                 mainboardId,
                 getTopic(mainboardId, `/board/terminateCalibration/${moduleId}`),
                 "{}",
-                { waitingTime: 6000, responseCode: ActionCode.SYNC_REQUEST}
+                { waitingTime: 6000, responseCode: ActionCode.SYNC_REQUEST},
+                undefined,
+                direct,
             ).toPromise(); 
     }
 
     async cancelCalibration(
         mainboardId: string,
         moduleId: string,
+        direct: boolean,
     ) {
         return this.mqttService
             .sendWithResponse(
                 mainboardId,
                 getTopic(mainboardId, `/board/cancelCalibration/${moduleId}`),
                 "{}",
-                { waitingTime: 6000, responseCode: ActionCode.SYNC_REQUEST}
+                { waitingTime: 6000, responseCode: ActionCode.SYNC_REQUEST},
+                undefined,
+                direct,
             ).toPromise(); 
     }
 
