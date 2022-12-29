@@ -1,6 +1,5 @@
 
-import {inject, service} from '@loopback/core';
-import {Filter, Where} from '@loopback/filter';
+import {service} from '@loopback/core';
 import {
   param,
   patch,
@@ -9,15 +8,8 @@ import {
 
 import {
   GrowbeActionService,
-  GrowbeService,
 } from '../../services';
-import {
-  ModuleValueGraphService,
-} from '../../services/module-value-graph.service';
 import { authorizeGrowbe } from '../authorization';
-
-
-
 
 
 export class GrowbeMainboardActionController {
@@ -25,7 +17,6 @@ export class GrowbeMainboardActionController {
     @service(GrowbeActionService)
     private growbeActionService: GrowbeActionService,
   ) {}
-
 
   @patch('/growbe/{id}/config')
   @authorizeGrowbe({

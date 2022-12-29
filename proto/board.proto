@@ -3,9 +3,15 @@ syntax = "proto3";
 
 option java_package = "ca.berlingoqc.growbe_android_module.proto";
 
+enum CommandConnectionType {
+        MQTT = 0;
+        WS_PROXY = 1;
+}
 
 message GrowbeMainboardConfig {
     int32 hearthBeath = 1;
+    
+    CommandConnectionType preferedCommandConnection = 2;
 }
 
 message HostInformation {

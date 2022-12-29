@@ -19,9 +19,10 @@ export class EnvironmentControllerController {
     })
     createEnvironmentControllers(
       @param.path.string("id") growbeId: string,
+      @param.query.boolean("direct") direct: boolean,
       @requestBody() config: EnvironmentControllerConfiguration,
     ) {
-      return this.envControllerService.register(growbeId, config)
+      return this.envControllerService.register(growbeId, config, direct);
     }
 
     @del('/growbes/{id}/environmentControllerStates/config/{configId}')
@@ -31,8 +32,9 @@ export class EnvironmentControllerController {
     deleteEnvironmentControllers(
       @param.path.string("id") growbeId: string,
       @param.path.string("configId") configId: string,
+      @param.query.boolean("direct") direct: boolean,
     ) {
-      return this.envControllerService.unregister(growbeId, configId);
+      return this.envControllerService.unregister(growbeId, configId, direct);
     }
 
 }

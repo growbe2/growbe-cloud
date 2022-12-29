@@ -28,12 +28,13 @@ export class GrowbeActionService {
     private logsService: GrowbeLogsService,
   ) {}
 
+
   async updateConfig(growbeId: string, config: pb.GrowbeMainboardConfig, direct?: boolean) {
     return this.mqttService.sendWithResponse(
       growbeId,
       getTopic(growbeId, '/board/config'),
       pb.GrowbeMainboardConfig.encode(config).finish(),
-      {responseCode: pb.ActionCode.RTC_SET, waitingTime: 4000},
+      {responseCode: pb.ActionCode.SYNC_REQUEST, waitingTime: 4000},
       undefined,
       direct
     ).toPromise()

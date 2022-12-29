@@ -21,7 +21,8 @@ export class EnvironmentControllerService {
 
   async register(
     growbeId: string,
-    config: EnvironmentControllerConfiguration
+    config: EnvironmentControllerConfiguration,
+    direct?: boolean,
   ) {
     try {
       await this.ecsRepo.findById(config.id);
@@ -32,6 +33,7 @@ export class EnvironmentControllerService {
       growbeId,
       topic: "/board/aEnv",
       payload: EnvironmentControllerConfiguration.encode(config).finish(),
+      direct,
     });
 
     await this.ecsRepo.create(new EnvironmentControllerState({
@@ -44,12 +46,13 @@ export class EnvironmentControllerService {
     return response;
   }
 
-  async unregister(growbeId: string, id: string) {
+  async unregister(growbeId: string, id: string, direct?: boolean) {
     let state = await this.ecsRepo.findById(id);
     let response = await this.actionService.sendRequest({
       growbeId,
       topic: `/board/rEnv/${id}`,
       payload: '',
+      direct
     });
 
     state.state = false;
