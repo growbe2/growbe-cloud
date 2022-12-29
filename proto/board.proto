@@ -62,6 +62,11 @@ message RunningComboard {
     string addr = 2;
 }
 
+message GrowbeCommand {
+    string topic = 1;
+    bytes payload = 2;
+}
+
 message HttpServerConfig {
     string addr = 1;
     int32 port = 2;
