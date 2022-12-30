@@ -19,7 +19,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import { UntypedFormControl, FormGroup } from '@angular/forms';
-import { fuseAnimations } from '@berlingoqc/fuse';
+//import { fuseAnimations } from '@berlingoqc/fuse';
 import { AutoFormComponent, AutoFormData, AutoFormDialogService } from '@berlingoqc/ngx-autoform';
 import { notify } from '@berlingoqc/ngx-notification';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -192,7 +192,7 @@ export class ItemContentDirective implements OnInit {
     templateUrl: './dashboard-item.component.html',
     styleUrls: ['./dashboard-item.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    //animations: fuseAnimations,
 })
 export class DashboardItemComponent
     extends DashboardItemDirective

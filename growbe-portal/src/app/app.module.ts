@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { APP_INITIALIZER, ChangeDetectorRef, Injectable, Injector, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
+/*
 import {
     AppComponent,
     FaqModule,
@@ -12,6 +13,7 @@ import {
     TOOLBAR_NAVIGATION,
     FUSE_FULL_SCREEN_BACKGROUND_PATH,
 } from '@berlingoqc/fuse-extra';
+*/
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
@@ -28,11 +30,11 @@ import {
 import { navigation } from './fuse/navigation/navigation';
 import { PWAModule, PWA_CONFIG } from '@berlingoqc/ngx-pwa';
 import { NotificationModule, NotificationService } from '@berlingoqc/ngx-notification';
-import { FuseModule, FuseNavigationService } from '@berlingoqc/fuse';
-import { fuseConfig } from './fuse/fuse-config';
+//import { FuseModule, FuseNavigationService } from '@fuse';
+//import { fuseConfig } from './fuse/fuse-config';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxPermissionsModule, NgxPermissionsService } from 'ngx-permissions';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MAT_LEGACY_FORM_FIELD_DEFAULT_OPTIONS as MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/legacy-form-field';
 import { FAQS } from './fuse/faq';
 import { Router } from '@angular/router';
 import {
@@ -50,7 +52,7 @@ import {
 import { HomeComponent } from './home/home.component';
 
 import { GrowbeAuthModule } from './auth/auth.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
+//import { FlexLayoutModule } from '@angular/flex-layout';
 import { NavigationComponent } from './home/navigation.component';
 import { GrowbeDashboardAPI } from './growbe/api/growbe-dashboard';
 
@@ -90,14 +92,14 @@ export class NavigationWrapper {
         HttpClientModule,
         NgxPermissionsModule.forRoot(),
         PWAModule,
-        FuseModule.forRoot(fuseConfig),
-        LayoutModule,
-        FaqModule,
+        //FuseModule.forRoot(fuseConfig),
+        //LayoutModule,
+        //FaqModule,
         TranslateModule.forRoot(),
         ServiceWorkerModule.register('ngsw-worker.js', {
             enabled: environment.production,
         }),
-        FlexLayoutModule,
+//        FlexLayoutModule,
         AccountModule,
         AuthModule.forRoot(),
         NotificationModule.forRoot({} as any),
@@ -134,6 +136,7 @@ export class NavigationWrapper {
           provide: NavigateService,
           useClass: NavigationWrapper,
         },
+        /*
         {
             provide: TOOLBAR_NAVIGATION,
             useValue: navigation,
@@ -154,6 +157,7 @@ export class NavigationWrapper {
             provide: FUSE_FULL_SCREEN_BACKGROUND_PATH,
             useValue: '/assets/backimage.jpg',
         },
+        */
         {
             provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
             useValue: { appearance: 'outline' },
@@ -182,12 +186,12 @@ export class NavigationWrapper {
           useClass: GrowbeDashboardAPI,
         },*/
     ],
-    bootstrap: [AppComponent],
+    //bootstrap: [AppComponent],
 })
 export class AppModule {
     constructor(
         authService: AuthService,
-        layourService: LayoutEventService,
+        //layourService: LayoutEventService,
         navigationService: FuseNavigationService,
         injector: Injector,
         moduleService: DynamicModuleService,
@@ -203,7 +207,7 @@ export class AppModule {
       let subs: Subscription[] = [];
       const clearSubs = () => subs.forEach((s) => s.unsubscribe());
 
-      layourService.logoutSubject.subscribe(() => authService.logout());
+      //layourService.logoutSubject.subscribe(() => authService.logout());
 
       authService.loginEvents.asObservable().pipe(
           filter((event) => event === 'disconnected'),

@@ -4,7 +4,7 @@ import { GrowbeTableComponent } from './component/growbe-table/growbe-table.comp
 import { AutoTableModule } from '@berlingoqc/ngx-autotable';
 import { GrowbeStatusDotComponent } from './component/growbe-status-dot/growbe-status-dot.component';
 import { GrowbeStateComponent } from './component/growbe-state/growbe-state.component';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { RouterModule } from '@angular/router';
 import { ConfirmationModule } from '@berlingoqc/ngx-common';
 import { MatIconModule } from '@angular/material/icon';

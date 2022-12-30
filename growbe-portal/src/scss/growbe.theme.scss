@@ -1,5 +1,14 @@
 @use '@angular/material' as mat;
-@include mat.core();
+// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+//  you can delete this line and instead use:
+//    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
+@include mat.all-legacy-component-typographies();
+@include mat.legacy-core();
 
 $fuse-white: (
     500: white,
@@ -98,7 +107,7 @@ $theme: mat.define-light-theme(
     $default-warn-palette
 );
 
-@include mat.all-component-themes($theme);
+@include mat.all-legacy-component-themes($theme);
 
 @include fuse-color-classes($custom_palettes);
 
@@ -107,7 +116,7 @@ $theme: mat.define-light-theme(
 // -----------------------------------------------------------------------------------------------------
 
 // Angular Material typography
-$typography: mat.define-typography-config(
+$typography: mat.define-legacy-typography-config(
     $font-family: 'Muli, Helvetica Neue, Arial, sans-serif',
     $title: mat.define-typography-level(20px, 32px, 600),
     $body-2: mat.define-typography-level(14px, 24px, 600),
@@ -116,7 +125,7 @@ $typography: mat.define-typography-config(
 );
 
 // Setup the typography
-@include mat.all-component-typographies($typography);
+@include mat.all-legacy-component-typographies($typography);
 
 // -----------------------------------------------------------------------------------------------------
 // @ Component theming
@@ -133,7 +142,7 @@ $typography: mat.define-typography-config(
 // Class name must start with "theme-" !!!
 body.theme-growbe {
     // Create an Angular Material theme from the $theme map
-    @include mat.all-component-themes($theme);
+    @include mat.all-legacy-component-themes($theme);
 
     // Apply the theme to the Fuse Core
     @include fuse-core-theme($theme);

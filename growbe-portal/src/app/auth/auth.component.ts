@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { NavigationEnd, Router, RouterEvent } from "@angular/router";
-import { fuseAnimations, FuseConfigService } from "@berlingoqc/fuse";
+//import { fuseAnimations, FuseConfigService } from "@berlingoqc/fuse";
 import { unsubscriber } from "@berlingoqc/ngx-common";
 import { Subscriber, Subscription } from "rxjs";
 import { filter } from "rxjs/operators";
@@ -27,7 +27,7 @@ import { filter } from "rxjs/operators";
 
 </login-2>
   `,
-  animations: fuseAnimations,
+  //animations: fuseAnimations,
 })
 @unsubscriber
 export class AuthComponent {
@@ -35,10 +35,11 @@ export class AuthComponent {
   sub: Subscription;
 
   constructor(
-    private _fuseConfigService: FuseConfigService,
+    //private _fuseConfigService: FuseConfigService,
     private router: Router
   ) {
 
+    /*
     this.sub = router.events.pipe(filter(x => x instanceof NavigationEnd)).subscribe(() => {
             this._fuseConfigService.config = {
             layout: {
@@ -57,6 +58,7 @@ export class AuthComponent {
             }
         };
     })
+    */
   }
 
   ngOnDestroy() {

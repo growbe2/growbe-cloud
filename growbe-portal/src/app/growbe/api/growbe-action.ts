@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActionConfirmationDialogComponent, envConfig } from '@berlingoqc/ngx-common';
 import { NotificationD, notify, NotifyConfig } from '@berlingoqc/ngx-notification';
 import { GrowbeMainboard, GrowbeModule } from '@growbe2/ngx-cloud-api';

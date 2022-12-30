@@ -22,9 +22,9 @@ import { ActionConfirmationDialogComponent, OnDestroyMixin, TemplateContentData,
 import { getGrowbeActionTableColumns, growbeActionsSource } from 'src/app/growbe/growbe-action/growbe-action.table';
 import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs';
 import {GrowbeProcessConfigService} from '../../services/growbe-process-config.service';
 import {GrowbeImageConfigService} from '../../services/growbe-image-config.service';
 import {TerminalComponent} from 'src/app/shared/terminal/terminal/terminal.component';

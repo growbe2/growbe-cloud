@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { fuseAnimations } from '@berlingoqc/fuse';
+//import { fuseAnimations } from '@berlingoqc/fuse';
 import { unsubscriber } from '@berlingoqc/ngx-common';
 import { ProjectDashboard } from '../../dashboard.model';
 import { DashboardService } from '../../dashboard.service';
@@ -9,7 +9,7 @@ import { BaseDashboardComponent } from '../base-dashboard.component';
     selector: 'app-dashboard-project',
     templateUrl: './dashboard-project.component.html',
     styleUrls: ['./dashboard-project.component.scss'],
-    animations: fuseAnimations,
+    //animations: fuseAnimations,
 })
 @unsubscriber
 export class DashboardProjectComponent extends BaseDashboardComponent<ProjectDashboard> {

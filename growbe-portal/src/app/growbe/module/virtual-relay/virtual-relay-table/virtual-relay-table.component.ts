@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { TableColumn } from '@berlingoqc/ngx-autotable';
 import { ButtonsRowComponent, OnDestroyMixin, StateChange, untilComponentDestroyed } from '@berlingoqc/ngx-common';
 import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
