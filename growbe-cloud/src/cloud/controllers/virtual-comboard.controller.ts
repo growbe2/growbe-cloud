@@ -1,8 +1,9 @@
 import {service} from "@loopback/core";
 import {param, post, requestBody} from "@loopback/rest";
-import {VirtualComboardItem, VirtualComboardService} from "../../services";
+import {VirtualComboardService} from "../../services";
 import {authorizeGrowbe} from "../authorization";
 
+import pb from '@growbe2/growbe-pb';
 
 
 
@@ -19,7 +20,7 @@ export class VirtualComboardController {
   sendVirtualComboardItem(
     @param.path.string("id") growbeId: string,
     @param.query.boolean("direct") direct: boolean,
-    @requestBody() config: VirtualComboardItem[],
+    @requestBody() config: pb.VirtualScenarioItems,
   ) {
     return this.virtualComboardService.sendVirtualComboardItem(growbeId, config, direct);
   }
@@ -31,7 +32,7 @@ export class VirtualComboardController {
   sendVirtualComboardData(
     @param.path.string("id") growbeId: string,
     @param.query.boolean("direct") direct: boolean,
-    @requestBody() config: { item: VirtualComboardItem, data: any[] },
+    @requestBody() config: { item: pb.VirtualScenarioItem, data: any[] },
   ) {
     return this.virtualComboardService.sendVirtualComboardData(growbeId, config.item, config.data, direct);
   }

@@ -1,17 +1,6 @@
-import {ActionCode, SOILModuleData, THLModuleData} from "@growbe2/growbe-pb";
+import {ActionCode, SOILModuleData, THLModuleData, VirtualScenarioItem, VirtualScenarioItems} from "@growbe2/growbe-pb";
 import {BindingScope, injectable, service} from "@loopback/core";
 import {GrowbeActionService} from "./growbe-action.service";
-
-
-export class VirtualComboardItem {
-  event_type: 'value' | 'state';
-  port: number;
-  id: string;
-  state?: boolean;
-  buffer?: number[];
-  return_index?: number;
-  timeout?: number;
-}
 
 
 function from_aaa(aaa: THLModuleData) {
@@ -60,27 +49,28 @@ export class VirtualComboardService {
   ) {}
 
 
-  sendVirtualComboardData(growbeId: string, item: VirtualComboardItem, values: any[], direct?: boolean) {
-    let items = values.map(value => {
+  sendVirtualComboardData(growbeId: string, item: VirtualScenarioItem, values: any[], direct?: boolean) {
+    const data = new VirtualScenarioItems();
+    data.items = values.map(value => {
       let moduleType = item.id.substring(0, 3);
       let data = from_module_data(moduleType, value);
-      return {...item, buffer: data };
+      return new VirtualScenarioItem({...item, buffer: data });
     });
 
     return this.actionService.sendRequest({
       growbeId,
       topic: '/board/virt/item',
-      payload: JSON.stringify(items),
+      payload: VirtualScenarioItems.encode(data).finish(),
       responseCode: ActionCode.SYNC_REQUEST,
       direct,
     });
   }
 
-  sendVirtualComboardItem(growbeId: string, items: VirtualComboardItem[], direct?: boolean) {
+  sendVirtualComboardItem(growbeId: string, items: VirtualScenarioItems, direct?: boolean) {
     return this.actionService.sendRequest({
       growbeId,
       topic: '/board/virt/item',
-      payload: JSON.stringify(items),
+      payload: VirtualScenarioItems.encode(items).finish(),
       responseCode: ActionCode.SYNC_REQUEST,
       direct
     });

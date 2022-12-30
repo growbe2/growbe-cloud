@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+message VirtualScenarioItem {
+        string event_type = 1;
+        int32 port = 2;
+        string id = 3;
+        bool state = 4;
+        bytes buffer = 5;
+        int32 timeout = 6;
+}
+
+message VirtualScenarioItems {
+        repeated VirtualScenarioItem items = 1;
+}
