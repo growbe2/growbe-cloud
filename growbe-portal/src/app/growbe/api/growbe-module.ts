@@ -45,8 +45,8 @@ export class GrowbeModuleAPI extends Caching(
         super(httpClient, '/growbeModules');
     }
 
-    updateModuleConfig(boardId: string, id: string, config: any): Observable<any> {
-        return this.httpClient.post<any>(`${envConfig.growbeCloud}/growbes/${boardId}/modules/${id}/config`, config);
+    updateModuleConfig(boardId: string, id: string, config: any, direct?: boolean): Observable<any> {
+        return this.httpClient.post<any>(`${envConfig.growbeCloud}/growbes/${boardId}/modules/${id}/config?direct=${direct || false}`, config);
     }
 
 

@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { ActionConfirmationDialogComponent, envConfig } from '@berlingoqc/ngx-common';
 import { NotificationD, notify, NotifyConfig } from '@berlingoqc/ngx-notification';
 import { GrowbeMainboard, GrowbeModule } from '@growbe2/ngx-cloud-api';
@@ -25,6 +24,7 @@ export class GrowbeActionAPI {
         growbeId: string,
         data: any,
         notification: Partial<NotifyConfig> = {},
+        direct?: boolean,
     ): Observable<any> {
         return this.pipeValue(
           this.growbeAPI.getById(growbeId),
@@ -34,6 +34,7 @@ export class GrowbeActionAPI {
           null,
           data,
           notification,
+          direct,
         );
     }
 
@@ -43,6 +44,7 @@ export class GrowbeActionAPI {
       moduleId: string,
       data: any,
       notification: Partial<NotifyConfig> = {},
+      direct?: boolean,
     ): Observable<any> {
       return this.pipeValue(
         this.growbeModuleAPI.getById(moduleId),
@@ -52,18 +54,19 @@ export class GrowbeActionAPI {
         moduleId,
         data,
         notification,
+        direct,
       );
     }
 
-    private pipeValue(obs: Observable<any>, condition: (ressource) => boolean, action, id, moduleId, data, notification: Partial<NotifyConfig>) {
+    private pipeValue(obs: Observable<any>, condition: (ressource) => boolean, action, id, moduleId, data, notification: Partial<NotifyConfig>, direct?: boolean) {
       return obs.pipe(
         take(1),
         switchMap((ressource) => {
           if (condition(ressource)) {
             if (!moduleId)
-              return this[action](id, data);
+              return this[action](id, data, direct);
             else
-              return this[action](id, moduleId, data);
+              return this[action](id, moduleId, data, direct);
           }
           return throwError(new Error('ressource is not connected.'));
         }),
@@ -84,57 +87,57 @@ export class GrowbeActionAPI {
       )
     }
 
-    RTC_OFFSET(growbeId: string, data: any) {
+    RTC_OFFSET(growbeId: string, data: any, direct?: boolean) {
         return this.httpClient.patch<void>(
-            `${this.url}/growbe/${growbeId}/rtc`,
+            `${this.url}/growbe/${growbeId}/rtc?direct=${direct || false}`,
             data,
         );
     }
 
-    GROWBE_CONFIG_PROPERTY_UPDATE(growbeId: string, moduleId: string, data: any) {
+    GROWBE_CONFIG_PROPERTY_UPDATE(growbeId: string, moduleId: string, data: any, direct?: boolean) {
       return this.httpClient.post<void>(
-        `${this.url}/growbeModules/${moduleId}/config/${data.property}`,
+        `${this.url}/growbeModules/${moduleId}/config/${data.property}?direct=${direct || false}`,
         data.config
       ).pipe(tap(() => {
         this.growbeModuleAPI.requestFind.onModif(of(null)).subscribe();
       }))
     }
 
-    GROWBE_CONFIG_UPDATE(growbeId: string, moduleId: string, data: any) {
+    GROWBE_CONFIG_UPDATE(growbeId: string, moduleId: string, data: any, direct?: boolean) {
         return this.httpClient.post<void>(
-            `${this.url}/growbeModules/${moduleId}/config`,
+            `${this.url}/growbeModules/${moduleId}/config?direct=${direct || false}`,
             data,
         ).pipe(tap(() => {
           this.growbeModuleAPI.requestFind.onModif(of(null)).subscribe();
         }))
     }
 
-    DESYNC(growbeId: string, data: any) {
+    DESYNC(growbeId: string, data: any, direct?: boolean) {
         return this.httpClient.patch<void>(
-            `${this.url}/growbe/${growbeId}/sync`,
+            `${this.url}/growbe/${growbeId}/sync?direct=${direct || false}`,
             data,
         );
     }
 
-    LOCAL_CONNECTION(growbeId: string, data: any) {
-      return this.sendRequest(growbeId, "localconnection", data);
+    LOCAL_CONNECTION(growbeId: string, data: any, direct?: boolean) {
+      return this.sendRequest(growbeId, "localconnection", data, direct);
     }
 
-    HELLO_WORLD(growbeId: string, data: any) {
-      return this.sendRequest(growbeId, "helloworld", data);
+    HELLO_WORLD(growbeId: string, data: any, direct?: boolean) {
+      return this.sendRequest(growbeId, "helloworld", data, direct);
     }
 
-    RESTART(growbeId: string, data: any) {
-      return this.sendRequest(growbeId, "restart", data);
+    RESTART(growbeId: string, data: any, direct?: boolean) {
+      return this.sendRequest(growbeId, "restart", data, direct);
     }
 
-    REBOOT(growbeId: string, data: any) {
-      return this.sendRequest(growbeId, "reboot", data);
+    REBOOT(growbeId: string, data: any, direct?: boolean) {
+      return this.sendRequest(growbeId, "reboot", data, direct);
     }
 
-    private sendRequest(growbeId: string, pathName: string, data: any) {
+    private sendRequest(growbeId: string, pathName: string, data: any, direct?: boolean) {
         return this.httpClient.patch<void>(
-            `${this.url}/growbe/${growbeId}/${pathName}`,
+            `${this.url}/growbe/${growbeId}/${pathName}?direct=${direct || false}`,
             data,
         );
     }

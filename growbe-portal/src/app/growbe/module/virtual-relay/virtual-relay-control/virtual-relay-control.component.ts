@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { VirtualRelayWithRelations } from '@growbe2/ngx-cloud-api';
+import { GrowbeMainboardWithRelations, VirtualRelayWithRelations } from '@growbe2/ngx-cloud-api';
 import { BaseDashboardComponent } from '@growbe2/growbe-dashboard';
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { catchError, map, startWith, switchMap, take } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { GrowbeGraphService } from '../../graph/service/growbe-graph.service';
@@ -21,6 +21,8 @@ export class VirtualRelayControlComponent extends BaseDashboardComponent impleme
   control: RelayControl;
 
 
+  mainboard: GrowbeMainboardWithRelations;
+
   private vrRefresh: BehaviorSubject<void> = new BehaviorSubject(null);
 
   constructor(
@@ -36,8 +38,9 @@ export class VirtualRelayControlComponent extends BaseDashboardComponent impleme
       this.mainboardAPI.virtualRelays(this.growbeId).getById(this.vrId),
       this.getGrowbeModuleDataEventSource()
     ]);
+    this.mainboardAPI.getById(this.growbeId).pipe(take(1)).subscribe((x) => this.mainboard = x);
     this.control = {
-      changeManualState: (config) => this.mainboardAPI.virtualRelayUpdateConfig(this.growbeId, this.vrId, config),
+      changeManualState: (config) => this.mainboardAPI.virtualRelayUpdateConfig(this.growbeId, this.vrId, config, (this.mainboard?.growbeMainboardConfig?.config as any)?.preferedCommandConnnection == 1),
       getValues: () => this.vrRefresh.pipe(
         switchMap(() => obs_data),
         map(([vr, lastValue]: [any, any]) => {

@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { GrowbeModule, GrowbeSensorValue } from '@growbe2/ngx-cloud-api';
+import { GrowbeMainboardWithRelations, GrowbeModule, GrowbeSensorValue } from '@growbe2/ngx-cloud-api';
 import { BaseDashboardComponent } from 'projects/dashboard/src/public-api';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import { combineLatest, Observable, of, Subscription, from } from 'rxjs';
 import { catchError, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
+import {GrowbeMainboardAPI} from 'src/app/growbe/api/growbe-mainboard';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 import { mapTextForMode, RelayControl } from '../relay-base-control/relay-base-control.component';
@@ -25,6 +26,7 @@ export class RelayUnitControlComponent extends BaseDashboardComponent implements
   requestConfig: Subscription;
 
   constructor(
+    private growbeMainboardAPI: GrowbeMainboardAPI,
     private growbeModuleAPI: GrowbeModuleAPI,
     private growbeActionAPI: GrowbeActionAPI,
     private growbeEventService: GrowbeEventService,
@@ -40,13 +42,13 @@ export class RelayUnitControlComponent extends BaseDashboardComponent implements
 
     this.control = {
      changeManualState: (config) => {
-       return this.growbeActionAPI.executeActionModule('GROWBE_CONFIG_PROPERTY_UPDATE', this.mainboardId, this.moduleId, {
+       return this.growbeMainboardAPI.getById(this.mainboardId).pipe(switchMap((x: GrowbeMainboardWithRelations) => { return this.growbeActionAPI.executeActionModule('GROWBE_CONFIG_PROPERTY_UPDATE', this.mainboardId, this.moduleId, {
         property: this.field,
         config: config,
       }, {
         disableSuccess: config.mode === 0,
         title: (config.mode === 0) ? '' : mapTextForMode[config.mode].created,
-      })
+      }, (x.growbeMainboardConfig?.config as any)?.preferedCommandConnnection == 1);}))
       },
       getValues: () => combineLatest([
         this.growbeEventService.getModuleLive(this.mainboardId, this.moduleId),

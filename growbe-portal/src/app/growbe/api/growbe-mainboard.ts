@@ -141,8 +141,8 @@ export class GrowbeMainboardAPI extends Caching(
     }
 
 
-    virtualRelayUpdateConfig(growbeId: string, vrId: string, config: any) {
-      return this.httpClient.patch<void>(`${envConfig.growbeCloud}/growbes/${growbeId}/virtualRelays/${vrId}/config`, config);
+    virtualRelayUpdateConfig(growbeId: string, vrId: string, config: any, direct?: boolean) {
+      return this.httpClient.patch<void>(`${envConfig.growbeCloud}/growbes/${growbeId}/virtualRelays/${vrId}/config?direct=${direct || false}`, config);
     }
 
     updateProcessConfg(mainboadId: string, processConfig: any): Observable<void> {

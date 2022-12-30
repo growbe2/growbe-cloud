@@ -18,9 +18,10 @@ export class VirtualComboardController {
   })
   sendVirtualComboardItem(
     @param.path.string("id") growbeId: string,
+    @param.query.boolean("direct") direct: boolean,
     @requestBody() config: VirtualComboardItem[],
   ) {
-    return this.virtualComboardService.sendVirtualComboardItem(growbeId, config);
+    return this.virtualComboardService.sendVirtualComboardItem(growbeId, config, direct);
   }
 
   @post('/growbes/{id}/virtualComboard/data')
@@ -29,8 +30,9 @@ export class VirtualComboardController {
   })
   sendVirtualComboardData(
     @param.path.string("id") growbeId: string,
+    @param.query.boolean("direct") direct: boolean,
     @requestBody() config: { item: VirtualComboardItem, data: any[] },
   ) {
-    return this.virtualComboardService.sendVirtualComboardData(growbeId, config.item, config.data);
+    return this.virtualComboardService.sendVirtualComboardData(growbeId, config.item, config.data, direct);
   }
 }

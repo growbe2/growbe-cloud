@@ -144,7 +144,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
         this.log_type =
 
         this.actionsColumns = getGrowbeActionTableColumns(
-            () => this.id,
+            () => this.mainboard ? this.mainboard : {id: this.id},
             this.growbeEventService,
             this.growbeActionAPI,
             this.autoformDialog,
@@ -159,6 +159,8 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
             map((mainboard: GrowbeMainboardWithRelations) => {
                 this.id = mainboard.id;
                 this.mainboard = mainboard;
+
+                console.log('Mainboard' , this.mainboard);
 
                 this.imageConfigForm = this.imageConfigService.getGrowbeImageConfigForm(this.id);
                 this.processMainboardForm = this.processConfigService.getGrowbeProcessForm(mainboard);

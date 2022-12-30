@@ -60,7 +60,7 @@ export class VirtualComboardService {
   ) {}
 
 
-  sendVirtualComboardData(growbeId: string, item: VirtualComboardItem, values: any[]) {
+  sendVirtualComboardData(growbeId: string, item: VirtualComboardItem, values: any[], direct?: boolean) {
     let items = values.map(value => {
       let moduleType = item.id.substring(0, 3);
       let data = from_module_data(moduleType, value);
@@ -72,15 +72,17 @@ export class VirtualComboardService {
       topic: '/board/virt/item',
       payload: JSON.stringify(items),
       responseCode: ActionCode.SYNC_REQUEST,
+      direct,
     });
   }
 
-  sendVirtualComboardItem(growbeId: string, items: VirtualComboardItem[]) {
+  sendVirtualComboardItem(growbeId: string, items: VirtualComboardItem[], direct?: boolean) {
     return this.actionService.sendRequest({
       growbeId,
       topic: '/board/virt/item',
       payload: JSON.stringify(items),
       responseCode: ActionCode.SYNC_REQUEST,
+      direct
     });
 
   }

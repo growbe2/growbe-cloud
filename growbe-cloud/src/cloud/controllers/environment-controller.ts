@@ -1,6 +1,5 @@
 import { service } from "@loopback/core";
 import { del, param, post, requestBody } from "@loopback/rest";
-import {authenticate} from '@loopback/authentication';
 import {EnvironmentControllerService} from "../../services";
 import {authorizeGrowbe} from "../authorization";
 import {EnvironmentControllerConfiguration} from "@growbe2/growbe-pb";

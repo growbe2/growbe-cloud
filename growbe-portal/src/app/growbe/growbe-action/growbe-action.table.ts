@@ -3,6 +3,7 @@ import { AutoFormData, AutoFormDialogService } from "@berlingoqc/ngx-autoform";
 import { TableColumn } from "@berlingoqc/ngx-autotable";
 import { ButtonsRowComponent } from "@berlingoqc/ngx-common";
 import { StaticDataSource } from "@berlingoqc/ngx-loopback";
+import {GrowbeMainboard, GrowbeMainboardWithRelations} from "@growbe2/ngx-cloud-api";
 import { Observable, Subscriber } from "rxjs";
 import { filter, finalize, map } from "rxjs/operators";
 import { GrowbeActionAPI } from "src/app/growbe/api/growbe-action";
@@ -43,7 +44,7 @@ export const growbeActionsSource = new StaticDataSource([
   }
 ]);
 
-export const getGrowbeActionTableColumns = (getGrowbeId: () => string, eventService: GrowbeEventService, actionAPI: GrowbeActionAPI, autoformDialog: AutoFormDialogService): TableColumn[] => ([
+export const getGrowbeActionTableColumns = (getGrowbe: () => GrowbeMainboardWithRelations, eventService: GrowbeEventService, actionAPI: GrowbeActionAPI, autoformDialog: AutoFormDialogService): TableColumn[] => ([
   {
     id: 'name',
     title: 'Name',
@@ -69,7 +70,7 @@ export const getGrowbeActionTableColumns = (getGrowbeId: () => string, eventServ
                                         content: 'pending_actions',
                                     },
                                     style: 'mat-mini-fab',
-                                    disabled: eventService.getGrowbeLive(getGrowbeId()).pipe(map((mainboard) => mainboard.state === 'DISCONNECTED')),
+                                    disabled: eventService.getGrowbeLive(getGrowbe().id).pipe(map((mainboard) => mainboard.state === 'DISCONNECTED')),
                                     click: (
                                         router: Router,
                                         context: any,
@@ -87,10 +88,15 @@ export const getGrowbeActionTableColumns = (getGrowbeId: () => string, eventServ
                                                 data = action.formFuncTransform(
                                                     data,
                                                 );
+                                                const growbe = getGrowbe();
+                                                const mode = (growbe.growbeMainboardConfig?.config as any)?.preferedCommandConnnection;
+                                                console.log('Running ', mode);
                                                 return actionAPI.executeAction(
                                                     context.warningKeyId,
-                                                    getGrowbeId(),
+                                                    growbe.id,
                                                     data,
+                                                    {},
+                                                    mode == 1,
                                                 )
                                                 .pipe(
                                                   finalize(() => {
