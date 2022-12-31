@@ -1,0 +1,34 @@
+#! /bin/bash
+#
+#
+#
+#
+#
+#
+export SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+ProgName=$(basename $0)
+  
+sub_help(){
+    echo "Usage: $ProgName <subcommand> [options]\n"
+    echo "Subcommands:"
+    echo "    bar   Do bar"
+    echo "    baz   Run baz"
+    echo ""
+    echo "For help with each subcommand run:"
+    echo "$ProgName <subcommand> -h|--help"
+    echo ""
+}
+
+subcommand=$1
+case $subcommand in
+    "" | "help")
+        sub_help
+        ;;
+    "sync")
+        $SCRIPTPATH/pull_collection.sh
+        ;;
+    *)
+        $SCRIPTPATH/request.sh "$@"
+        ;;
+esac

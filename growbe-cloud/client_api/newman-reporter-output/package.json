@@ -1,0 +1,12 @@
+{
+  "name": "@growbe2/newman-reporter-output",
+  "version": "1.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "copylocal": "cp -r ../newman-reporter-output $HOME/.npm-packages/lib/node_modules/@growbe2/"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

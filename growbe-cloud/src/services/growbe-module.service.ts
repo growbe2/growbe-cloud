@@ -263,14 +263,22 @@ export class GrowbeModuleService {
     if (!module.config) module.config = {};
     module.config[property] = config;
     // remove property with null config
-    await this.moduleRepository.update(module);
     // NEED TO REMWORK TO USE SAME CODE AS UPDATED_CONFIG WITH THE MQTT SEND
-    return this.sendConfigToMainboard(module, direct);
+    const ret = this.sendConfigToMainboard(module, direct);
+
+    //await this.moduleRepository.update(module);
+
+    return ret;
   }
 
   async setModuleConfig(id: string, config: any, direct: boolean) {
-    const module = await this.updateModuleConfig(id, config);
-    return this.sendConfigToMainboard(module, direct);
+    let module = await this.getUpdateModuleConfig(id, config);
+
+    const ret = this.sendConfigToMainboard(module, direct);
+
+    //await this.updateModuleConfig(id, module);
+
+    return ret;
   }
 
   async syncModulesConfig(growbeId: string, connected?: boolean, direct?: boolean) {
@@ -323,7 +331,8 @@ export class GrowbeModuleService {
    
   }
 
-  private async updateModuleConfig(id: string, config: any) {
+  
+  private async getUpdateModuleConfig(id: string, config: any) {
     const module = await this.moduleRepository.findById(id);
     if (!module) {
       throw new HttpErrors[404]();
@@ -333,7 +342,12 @@ export class GrowbeModuleService {
       if (v === null || v === undefined) return;
       module.config[k] = v;
     });
-    // remove property with null config
+
+    return module;
+  }
+
+  private async updateModuleConfig(id: string, module: GrowbeModule) {
+   // remove property with null config
     
     await this.moduleRepository.update(module);
     await this.mqttService.send(

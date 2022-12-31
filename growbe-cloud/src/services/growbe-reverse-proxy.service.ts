@@ -5,6 +5,7 @@ import {WaitResponseOptions} from "./growbe-response.service";
 import { from } from 'rxjs';
 import axios from 'axios';
 import pb, {ActionResponse} from '@growbe2/growbe-pb';
+import {HttpErrors} from "@loopback/rest";
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class GrowbeReverseProxyService {
@@ -27,7 +28,17 @@ export class GrowbeReverseProxyService {
       headers: {
         'Content-Type': 'application/octet-stream'
       }
-    }).then(response => response.data as ActionResponse));
+    }).then(response => { 
+      const actionResponse = response.data as ActionResponse;
+
+      console.log(actionResponse);
+
+      if (actionResponse.status >= 400) {
+        throw new HttpErrors.BadRequest(actionResponse as any);
+      }
+
+      return actionResponse;
+    }));
   }
 }
 

@@ -621,6 +621,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -656,6 +663,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "operationId": "GrowbeMainboardActionController.sendHelloWorldRequest"
@@ -716,6 +730,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "operationId": "GrowbeMainboardActionController.sendLocalConnectionRequest"
@@ -741,6 +762,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           },
           {
             "name": "moduleid",
@@ -782,6 +810,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "operationId": "GrowbeModuleCalibrationController.confirmCalibration"
@@ -815,6 +850,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -825,7 +867,7 @@
               }
             }
           },
-          "x-parameter-index": 2
+          "x-parameter-index": 3
         },
         "operationId": "GrowbeModuleCalibrationController.setCalibration"
       }
@@ -858,6 +900,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -868,7 +917,7 @@
               }
             }
           },
-          "x-parameter-index": 2
+          "x-parameter-index": 3
         },
         "operationId": "GrowbeModuleCalibrationController.startCalibration"
       }
@@ -901,6 +950,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -911,7 +967,7 @@
               }
             }
           },
-          "x-parameter-index": 2
+          "x-parameter-index": 3
         },
         "operationId": "GrowbeModuleCalibrationController.statusCalibration"
       }
@@ -936,6 +992,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -971,6 +1034,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "operationId": "GrowbeMainboardActionController.sendRebootRequest"
@@ -1029,44 +1099,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "operationId": "GrowbeMainboardActionController.sendRestartRequest"
-      }
-    },
-    "/growbe/{id}/rtc": {
-      "patch": {
-        "x-controller-name": "GrowbeMainboardActionController",
-        "x-operation-name": "setGrowbeRTC",
-        "tags": [
-          "GrowbeMainboardActionController"
-        ],
-        "responses": {
-          "200": {
-            "description": "Return value of GrowbeMainboardActionController.setGrowbeRTC"
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object"
-              }
-            }
-          },
-          "x-parameter-index": 1
-        },
-        "operationId": "GrowbeMainboardActionController.setGrowbeRTC"
       }
     },
     "/growbe/{id}/sync": {
@@ -1089,6 +1131,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -1099,9 +1148,41 @@
               }
             }
           },
-          "x-parameter-index": 1
+          "x-parameter-index": 2
         },
         "operationId": "GrowbeMainboardActionController.setGrowbeSync"
+      }
+    },
+    "/growbe/{id}/update": {
+      "patch": {
+        "x-controller-name": "GrowbeMainboardActionController",
+        "x-operation-name": "sendUpdateRequest",
+        "tags": [
+          "GrowbeMainboardActionController"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return value of GrowbeMainboardActionController.sendUpdateRequest"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "operationId": "GrowbeMainboardActionController.sendUpdateRequest"
       }
     },
     "/growbe-mainboard/version": {
@@ -1214,6 +1295,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "operationId": "GrowbeModuleController.deleteConfig"
@@ -1247,6 +1335,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -1282,6 +1377,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -1299,12 +1401,12 @@
     },
     "/growbeModules/{id}/growbeSensorValues/count": {
       "get": {
-        "x-controller-name": "GrowbeModuleController",
+        "x-controller-name": "GrowbeModuleCountController",
         "x-operation-name": "countRelationModel",
         "tags": [
-          "GrowbeModuleController"
+          "GrowbeModuleCountController"
         ],
-        "description": "Get a filter list of GrowbeModule",
+        "description": "Get a filter list of GrowbeModuleCount",
         "responses": {
           "200": {
             "description": "",
@@ -1332,7 +1434,7 @@
             "required": true
           },
           {
-            "name": "where",
+            "name": "filter",
             "in": "query",
             "content": {
               "application/json": {
@@ -1344,7 +1446,7 @@
             }
           }
         ],
-        "operationId": "GrowbeModuleController.countRelationModel"
+        "operationId": "GrowbeModuleCountController.countRelationModel"
       }
     },
     "/growbeModules/{id}/growbeSensorValues/{fk}": {
@@ -1597,6 +1699,56 @@
           }
         ],
         "operationId": "GrowbeModuleController.findRelationModel"
+      }
+    },
+    "/growbeModules/{id}/moduleDef/count": {
+      "get": {
+        "x-controller-name": "GrowbeModuleCountController",
+        "x-operation-name": "countRelationModel",
+        "tags": [
+          "GrowbeModuleCountController"
+        ],
+        "description": "Get a filter list of GrowbeModuleCount",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GrowbeModuleDef"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        ],
+        "operationId": "GrowbeModuleCountController.countRelationModel"
       }
     },
     "/growbeModules/{id}/moduleDef/{fk}": {
@@ -2236,6 +2388,692 @@
         "operationId": "GrowbeMainboardController.findGrowbeUser"
       }
     },
+    "/growbes/{id}/deviceLogs/count": {
+      "get": {
+        "x-controller-name": "GrowbeMainboardCountController",
+        "x-operation-name": "countRelationModel",
+        "tags": [
+          "GrowbeMainboardCountController"
+        ],
+        "description": "Get a filter list of GrowbeMainboardCount",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceLogs"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        ],
+        "operationId": "GrowbeMainboardCountController.countRelationModel"
+      }
+    },
+    "/growbes/{id}/deviceLogs/{fk}": {
+      "put": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "putRelationModelById",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "description": "Replace a instance of GrowbeMainboard",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceLogs"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "fk",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceLogsPartial"
+              }
+            }
+          },
+          "x-parameter-index": 2
+        },
+        "operationId": "GrowbeMainboardController.putRelationModelById"
+      },
+      "get": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "getRelationModel",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "description": "Get a filter list of GrowbeMainboard",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceLogs"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "fk",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        ],
+        "operationId": "GrowbeMainboardController.getRelationModel"
+      },
+      "delete": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "delRelationModel",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "description": "Delete a instance of GrowbeMainboard",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceLogs"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "fk",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "operationId": "GrowbeMainboardController.delRelationModel"
+      }
+    },
+    "/growbes/{id}/deviceLogs": {
+      "post": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "createRelationModel",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "description": "Create a new instance of GrowbeMainboard",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceLogs"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceLogsPartialExcluding_id_"
+              }
+            }
+          },
+          "x-parameter-index": 1
+        },
+        "operationId": "GrowbeMainboardController.createRelationModel"
+      },
+      "get": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "findRelationModel",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "description": "Get a filter list of GrowbeMainboard",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceLogs"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        ],
+        "operationId": "GrowbeMainboardController.findRelationModel"
+      }
+    },
+    "/growbes/{id}/environmentControllerStates/config/{configId}": {
+      "delete": {
+        "x-controller-name": "EnvironmentControllerController",
+        "x-operation-name": "deleteEnvironmentControllers",
+        "tags": [
+          "EnvironmentControllerController"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return value of EnvironmentControllerController.deleteEnvironmentControllers"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "configId",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "operationId": "EnvironmentControllerController.deleteEnvironmentControllers"
+      }
+    },
+    "/growbes/{id}/environmentControllerStates/config": {
+      "post": {
+        "x-controller-name": "EnvironmentControllerController",
+        "x-operation-name": "createEnvironmentControllers",
+        "tags": [
+          "EnvironmentControllerController"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return value of EnvironmentControllerController.createEnvironmentControllers"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnvironmentControllerConfiguration"
+              }
+            }
+          },
+          "x-parameter-index": 2
+        },
+        "operationId": "EnvironmentControllerController.createEnvironmentControllers"
+      }
+    },
+    "/growbes/{id}/environmentControllerStates/count": {
+      "get": {
+        "x-controller-name": "GrowbeMainboardCountController",
+        "x-operation-name": "countRelationModel",
+        "tags": [
+          "GrowbeMainboardCountController"
+        ],
+        "description": "Get a filter list of GrowbeMainboardCount",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvironmentControllerState"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        ],
+        "operationId": "GrowbeMainboardCountController.countRelationModel"
+      }
+    },
+    "/growbes/{id}/environmentControllerStates/{fk}": {
+      "put": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "putRelationModelById",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "description": "Replace a instance of GrowbeMainboard",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvironmentControllerState"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "fk",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnvironmentControllerStatePartial"
+              }
+            }
+          },
+          "x-parameter-index": 2
+        },
+        "operationId": "GrowbeMainboardController.putRelationModelById"
+      },
+      "get": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "getRelationModel",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "description": "Get a filter list of GrowbeMainboard",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvironmentControllerState"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "fk",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        ],
+        "operationId": "GrowbeMainboardController.getRelationModel"
+      },
+      "delete": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "delRelationModel",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "description": "Delete a instance of GrowbeMainboard",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvironmentControllerState"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "fk",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "operationId": "GrowbeMainboardController.delRelationModel"
+      }
+    },
+    "/growbes/{id}/environmentControllerStates": {
+      "post": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "createRelationModel",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "description": "Create a new instance of GrowbeMainboard",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvironmentControllerState"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnvironmentControllerStatePartialExcluding_id_"
+              }
+            }
+          },
+          "x-parameter-index": 1
+        },
+        "operationId": "GrowbeMainboardController.createRelationModel"
+      },
+      "get": {
+        "x-controller-name": "GrowbeMainboardController",
+        "x-operation-name": "findRelationModel",
+        "tags": [
+          "GrowbeMainboardController"
+        ],
+        "description": "Get a filter list of GrowbeMainboard",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvironmentControllerState"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        ],
+        "operationId": "GrowbeMainboardController.findRelationModel"
+      }
+    },
     "/growbes/{id}/graph": {
       "post": {
         "x-controller-name": "GrowbeModuleGraphController",
@@ -2273,12 +3111,12 @@
     },
     "/growbes/{id}/growbeLogs/count": {
       "get": {
-        "x-controller-name": "GrowbeMainboardController",
+        "x-controller-name": "GrowbeMainboardCountController",
         "x-operation-name": "countRelationModel",
         "tags": [
-          "GrowbeMainboardController"
+          "GrowbeMainboardCountController"
         ],
-        "description": "Get a filter list of GrowbeMainboard",
+        "description": "Get a filter list of GrowbeMainboardCount",
         "responses": {
           "200": {
             "description": "",
@@ -2306,7 +3144,7 @@
             "required": true
           },
           {
-            "name": "where",
+            "name": "filter",
             "in": "query",
             "content": {
               "application/json": {
@@ -2318,7 +3156,7 @@
             }
           }
         ],
-        "operationId": "GrowbeMainboardController.countRelationModel"
+        "operationId": "GrowbeMainboardCountController.countRelationModel"
       }
     },
     "/growbes/{id}/growbeLogs/{fk}": {
@@ -2575,12 +3413,12 @@
     },
     "/growbes/{id}/growbeModules/count": {
       "get": {
-        "x-controller-name": "GrowbeMainboardController",
+        "x-controller-name": "GrowbeMainboardCountController",
         "x-operation-name": "countRelationModel",
         "tags": [
-          "GrowbeMainboardController"
+          "GrowbeMainboardCountController"
         ],
-        "description": "Get a filter list of GrowbeMainboard",
+        "description": "Get a filter list of GrowbeMainboardCount",
         "responses": {
           "200": {
             "description": "",
@@ -2608,7 +3446,7 @@
             "required": true
           },
           {
-            "name": "where",
+            "name": "filter",
             "in": "query",
             "content": {
               "application/json": {
@@ -2620,7 +3458,7 @@
             }
           }
         ],
-        "operationId": "GrowbeMainboardController.countRelationModel"
+        "operationId": "GrowbeMainboardCountController.countRelationModel"
       }
     },
     "/growbes/{id}/growbeModules/{fk}": {
@@ -2877,12 +3715,12 @@
     },
     "/growbes/{id}/growbeSensorValues/count": {
       "get": {
-        "x-controller-name": "GrowbeMainboardController",
+        "x-controller-name": "GrowbeMainboardCountController",
         "x-operation-name": "countRelationModel",
         "tags": [
-          "GrowbeMainboardController"
+          "GrowbeMainboardCountController"
         ],
-        "description": "Get a filter list of GrowbeMainboard",
+        "description": "Get a filter list of GrowbeMainboardCount",
         "responses": {
           "200": {
             "description": "",
@@ -2910,7 +3748,7 @@
             "required": true
           },
           {
-            "name": "where",
+            "name": "filter",
             "in": "query",
             "content": {
               "application/json": {
@@ -2922,7 +3760,7 @@
             }
           }
         ],
-        "operationId": "GrowbeMainboardController.countRelationModel"
+        "operationId": "GrowbeMainboardCountController.countRelationModel"
       }
     },
     "/growbes/{id}/growbeSensorValues/{fk}": {
@@ -3179,12 +4017,12 @@
     },
     "/growbes/{id}/growbeWarnings/count": {
       "get": {
-        "x-controller-name": "GrowbeMainboardController",
+        "x-controller-name": "GrowbeMainboardCountController",
         "x-operation-name": "countRelationModel",
         "tags": [
-          "GrowbeMainboardController"
+          "GrowbeMainboardCountController"
         ],
-        "description": "Get a filter list of GrowbeMainboard",
+        "description": "Get a filter list of GrowbeMainboardCount",
         "responses": {
           "200": {
             "description": "",
@@ -3212,7 +4050,7 @@
             "required": true
           },
           {
-            "name": "where",
+            "name": "filter",
             "in": "query",
             "content": {
               "application/json": {
@@ -3224,7 +4062,7 @@
             }
           }
         ],
-        "operationId": "GrowbeMainboardController.countRelationModel"
+        "operationId": "GrowbeMainboardCountController.countRelationModel"
       }
     },
     "/growbes/{id}/growbeWarnings/{fk}": {
@@ -3573,6 +4411,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -3583,7 +4428,7 @@
               }
             }
           },
-          "x-parameter-index": 1
+          "x-parameter-index": 2
         },
         "operationId": "GrowbeHardwareAlarmController.updateHardwareAlarm"
       },
@@ -3622,6 +4467,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "operationId": "GrowbeHardwareAlarmController.removeHardwareAlarm"
@@ -3647,6 +4499,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -3657,7 +4516,7 @@
               }
             }
           },
-          "x-parameter-index": 1
+          "x-parameter-index": 2
         },
         "operationId": "GrowbeHardwareAlarmController.addHardwareAlarm"
       },
@@ -3720,14 +4579,98 @@
         "operationId": "GrowbeModuleGraphController.getLastValue"
       }
     },
+    "/growbes/{id}/virtualComboard/data": {
+      "post": {
+        "x-controller-name": "VirtualComboardController",
+        "x-operation-name": "sendVirtualComboardData",
+        "tags": [
+          "VirtualComboardController"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return value of VirtualComboardController.sendVirtualComboardData"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          },
+          "x-parameter-index": 2
+        },
+        "operationId": "VirtualComboardController.sendVirtualComboardData"
+      }
+    },
+    "/growbes/{id}/virtualComboard/item": {
+      "post": {
+        "x-controller-name": "VirtualComboardController",
+        "x-operation-name": "sendVirtualComboardItem",
+        "tags": [
+          "VirtualComboardController"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return value of VirtualComboardController.sendVirtualComboardItem"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VirtualScenarioItems"
+              }
+            }
+          },
+          "x-parameter-index": 2
+        },
+        "operationId": "VirtualComboardController.sendVirtualComboardItem"
+      }
+    },
     "/growbes/{id}/virtualRelays/count": {
       "get": {
-        "x-controller-name": "GrowbeMainboardController",
+        "x-controller-name": "GrowbeMainboardCountController",
         "x-operation-name": "countRelationModel",
         "tags": [
-          "GrowbeMainboardController"
+          "GrowbeMainboardCountController"
         ],
-        "description": "Get a filter list of GrowbeMainboard",
+        "description": "Get a filter list of GrowbeMainboardCount",
         "responses": {
           "200": {
             "description": "",
@@ -3755,7 +4698,7 @@
             "required": true
           },
           {
-            "name": "where",
+            "name": "filter",
             "in": "query",
             "content": {
               "application/json": {
@@ -3767,7 +4710,65 @@
             }
           }
         ],
-        "operationId": "GrowbeMainboardController.countRelationModel"
+        "operationId": "GrowbeMainboardCountController.countRelationModel"
+      }
+    },
+    "/growbes/{id}/virtualRelays/{id_vr}/config/{property}": {
+      "patch": {
+        "x-controller-name": "VirtualRelayController",
+        "x-operation-name": "configVirtualRelayProperty",
+        "tags": [
+          "VirtualRelayController"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return value of VirtualRelayController.configVirtualRelayProperty"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "id_vr",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "property",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RelayOutletConfig"
+              }
+            }
+          },
+          "x-parameter-index": 4
+        },
+        "operationId": "VirtualRelayController.configVirtualRelayProperty"
       }
     },
     "/growbes/{id}/virtualRelays/{id_vr}/config": {
@@ -3798,6 +4799,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -3808,7 +4816,7 @@
               }
             }
           },
-          "x-parameter-index": 2
+          "x-parameter-index": 3
         },
         "operationId": "VirtualRelayController.configVirtualRelay"
       }
@@ -3833,6 +4841,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           },
           {
             "name": "id_vr",
@@ -4022,6 +5037,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -4032,7 +5054,7 @@
               }
             }
           },
-          "x-parameter-index": 1
+          "x-parameter-index": 2
         },
         "operationId": "VirtualRelayController.updateVirtualRelay"
       }
@@ -4057,6 +5079,13 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "name": "direct",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -4067,7 +5096,7 @@
               }
             }
           },
-          "x-parameter-index": 1
+          "x-parameter-index": 2
         },
         "operationId": "VirtualRelayController.createVirtualRelay"
       },
@@ -4623,6 +5652,15 @@
           },
           "cloudVersion": {
             "type": "string"
+          },
+          "boards": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "host": {
+            "type": "object"
           }
         },
         "additionalProperties": false
@@ -4653,6 +5691,15 @@
           },
           "cloudVersion": {
             "type": "string"
+          },
+          "boards": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "host": {
+            "type": "object"
           }
         },
         "additionalProperties": false,
@@ -4839,6 +5886,9 @@
         "description": "(tsType: UserWithRelations, schemaOptions: { includeRelations: true })",
         "properties": {
           "id": {
+            "type": "string"
+          },
+          "type": {
             "type": "string"
           },
           "email": {
@@ -5141,6 +6191,12 @@
           "atIndex": {
             "type": "number"
           },
+          "board": {
+            "type": "string"
+          },
+          "boardAddr": {
+            "type": "string"
+          },
           "updatedAt": {
             "type": "string",
             "format": "date-time"
@@ -5201,6 +6257,49 @@
         "additionalProperties": false,
         "x-typescript-type": "VirtualRelayWithRelations"
       },
+      "DeviceLogsWithRelations": {
+        "title": "DeviceLogsWithRelations",
+        "type": "object",
+        "description": "(tsType: DeviceLogsWithRelations, schemaOptions: { includeRelations: true })",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "mainboardId": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true,
+        "x-typescript-type": "DeviceLogsWithRelations"
+      },
+      "EnvironmentControllerStateWithRelations": {
+        "title": "EnvironmentControllerStateWithRelations",
+        "type": "object",
+        "description": "(tsType: EnvironmentControllerStateWithRelations, schemaOptions: { includeRelations: true })",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "state": {
+            "type": "boolean"
+          },
+          "config": {
+            "type": "object"
+          },
+          "growbeId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "x-typescript-type": "EnvironmentControllerStateWithRelations"
+      },
       "GrowbeMainboardWithRelations": {
         "title": "GrowbeMainboardWithRelations",
         "type": "object",
@@ -5230,6 +6329,15 @@
           },
           "cloudVersion": {
             "type": "string"
+          },
+          "boards": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "host": {
+            "type": "object"
           },
           "user": {
             "$ref": "#/components/schemas/UserWithRelations"
@@ -5275,6 +6383,18 @@
             "items": {
               "$ref": "#/components/schemas/VirtualRelayWithRelations"
             }
+          },
+          "deviceLogs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceLogsWithRelations"
+            }
+          },
+          "environmentControllerStates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EnvironmentControllerStateWithRelations"
+            }
           }
         },
         "additionalProperties": false,
@@ -5309,6 +6429,15 @@
           },
           "cloudVersion": {
             "type": "string"
+          },
+          "boards": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "host": {
+            "type": "object"
           }
         },
         "additionalProperties": false,
@@ -5340,10 +6469,138 @@
           },
           "cloudVersion": {
             "type": "string"
+          },
+          "boards": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "host": {
+            "type": "object"
           }
         },
         "additionalProperties": false,
         "x-typescript-type": "Omit<Partial<GrowbeMainboard>, 'id'>"
+      },
+      "DeviceLogs": {
+        "title": "DeviceLogs",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "mainboardId": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "DeviceLogsPartialExcluding_id_": {
+        "title": "DeviceLogsPartialExcluding_id_",
+        "type": "object",
+        "description": "(tsType: Omit<Partial<DeviceLogs>, 'id'>, schemaOptions: { title: '', partial: true, exclude: [ 'id' ] })",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "mainboardId": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true,
+        "x-typescript-type": "Omit<Partial<DeviceLogs>, 'id'>"
+      },
+      "DeviceLogsPartial": {
+        "title": "DeviceLogsPartial",
+        "type": "object",
+        "description": "(tsType: Omit<Partial<DeviceLogs>, >, schemaOptions: { title: '', partial: true, exclude: [] })",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "mainboardId": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true,
+        "x-typescript-type": "Omit<Partial<DeviceLogs>, >"
+      },
+      "EnvironmentControllerState": {
+        "title": "EnvironmentControllerState",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "state": {
+            "type": "boolean"
+          },
+          "config": {
+            "type": "object"
+          },
+          "growbeId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EnvironmentControllerStatePartialExcluding_id_": {
+        "title": "EnvironmentControllerStatePartialExcluding_id_",
+        "type": "object",
+        "description": "(tsType: Omit<Partial<EnvironmentControllerState>, 'id'>, schemaOptions: { title: '', partial: true, exclude: [ 'id' ] })",
+        "properties": {
+          "state": {
+            "type": "boolean"
+          },
+          "config": {
+            "type": "object"
+          },
+          "growbeId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "x-typescript-type": "Omit<Partial<EnvironmentControllerState>, 'id'>"
+      },
+      "EnvironmentControllerStatePartial": {
+        "title": "EnvironmentControllerStatePartial",
+        "type": "object",
+        "description": "(tsType: Omit<Partial<EnvironmentControllerState>, >, schemaOptions: { title: '', partial: true, exclude: [] })",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "state": {
+            "type": "boolean"
+          },
+          "config": {
+            "type": "object"
+          },
+          "growbeId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "x-typescript-type": "Omit<Partial<EnvironmentControllerState>, >"
       },
       "GrowbeWarning": {
         "title": "GrowbeWarning",
@@ -5446,6 +6703,12 @@
           "atIndex": {
             "type": "number"
           },
+          "board": {
+            "type": "string"
+          },
+          "boardAddr": {
+            "type": "string"
+          },
           "updatedAt": {
             "type": "string",
             "format": "date-time"
@@ -5472,6 +6735,12 @@
           },
           "atIndex": {
             "type": "number"
+          },
+          "board": {
+            "type": "string"
+          },
+          "boardAddr": {
+            "type": "string"
           },
           "updatedAt": {
             "type": "string",
@@ -5503,6 +6772,12 @@
           },
           "atIndex": {
             "type": "number"
+          },
+          "board": {
+            "type": "string"
+          },
+          "boardAddr": {
+            "type": "string"
           },
           "updatedAt": {
             "type": "string",
@@ -5881,6 +7156,12 @@
           },
           "atIndex": {
             "type": "number"
+          },
+          "board": {
+            "type": "string"
+          },
+          "boardAddr": {
+            "type": "string"
           },
           "updatedAt": {
             "type": "string",
@@ -6518,6 +7799,8 @@
         },
         "additionalProperties": true
       },
+      "EnvironmentControllerConfiguration": {},
+      "VirtualScenarioItems": {},
       "loopback.Count": {
         "type": "object",
         "title": "loopback.Count",
@@ -6789,6 +8072,12 @@
                   "atIndex": {
                     "type": "boolean"
                   },
+                  "board": {
+                    "type": "boolean"
+                  },
+                  "boardAddr": {
+                    "type": "boolean"
+                  },
                   "updatedAt": {
                     "type": "boolean"
                   }
@@ -6806,6 +8095,8 @@
                     "config",
                     "mainboardId",
                     "atIndex",
+                    "board",
+                    "boardAddr",
                     "updatedAt"
                   ],
                   "example": "id"
@@ -6891,6 +8182,12 @@
                   "atIndex": {
                     "type": "boolean"
                   },
+                  "board": {
+                    "type": "boolean"
+                  },
+                  "boardAddr": {
+                    "type": "boolean"
+                  },
                   "updatedAt": {
                     "type": "boolean"
                   }
@@ -6908,6 +8205,8 @@
                     "config",
                     "mainboardId",
                     "atIndex",
+                    "board",
+                    "boardAddr",
                     "updatedAt"
                   ],
                   "example": "id"
@@ -7071,6 +8370,12 @@
                   },
                   "cloudVersion": {
                     "type": "boolean"
+                  },
+                  "boards": {
+                    "type": "boolean"
+                  },
+                  "host": {
+                    "type": "boolean"
                   }
                 },
                 "additionalProperties": false
@@ -7087,7 +8392,9 @@
                     "organisationId",
                     "lastUpdateAt",
                     "version",
-                    "cloudVersion"
+                    "cloudVersion",
+                    "boards",
+                    "host"
                   ],
                   "example": "id"
                 },
@@ -7172,6 +8479,12 @@
                   },
                   "cloudVersion": {
                     "type": "boolean"
+                  },
+                  "boards": {
+                    "type": "boolean"
+                  },
+                  "host": {
+                    "type": "boolean"
                   }
                 },
                 "additionalProperties": false
@@ -7188,7 +8501,9 @@
                     "organisationId",
                     "lastUpdateAt",
                     "version",
-                    "cloudVersion"
+                    "cloudVersion",
+                    "boards",
+                    "host"
                   ],
                   "example": "id"
                 },
