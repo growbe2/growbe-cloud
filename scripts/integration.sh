@@ -2,6 +2,8 @@
 
 CONF="-f ./docker/cloud-dev.docker-compose.yml -f ./docker/integration.docker-compose.yml -p growbe_integration"
 
+CONF_CLOUD="-f ./docker/cloud-dev.docker-compose.yml -p growbe_cloud"
+
 function start() {
   docker-compose $CONF up -d pgsql broker mongo sso $1
 
@@ -20,14 +22,23 @@ function stop() {
     docker-compose $CONF rm -f
 }
 
+function start_backend() {
+  docker-compose -f ./docker/cloud-dev.docker-compose.yml -p growbe_cloud up -d pgsql broker mongo sso growbe-cloud growbe-cloud-watcher reverse-proxy
+
+}
+
 function test() {
   start && \
   cd growbe-cloud && npm ci && npm run build && node ./dist/migrate.js && (cd .. && ./transactional/configure_db.sh integration) && npm run test
 }
 
-case "$1" in
+command=$1; shift;
+case "$command" in
     "start") start growbe-cloud;;
     "start_dev") start growbe-cloud broker;;
+    "cloud") docker-compose $CONF_CLOUD up -d pgsql broker mongo sso growbe-cloud growbe-cloud-watcher reverse-proxy;;
+    "cloud_exec") docker-compose $CONF_CLOUD "$@";;
+    "cloud_stop") docker-compose $CONF_CLOUD down;;
     "stop") stop;;
     "test") test;;
     *) echo >&2 "Invalid option: $@"; exit 1;;

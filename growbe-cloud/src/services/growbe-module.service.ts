@@ -293,7 +293,9 @@ export class GrowbeModuleService {
   async receivedConfigFromMainboard(moduleId: string, dataConfig: any) {
     const model = pbDef[mapTypeConfig[moduleId.slice(0, 3)]];
     const config = model.decode(dataConfig);
-    return this.updateModuleConfig(moduleId, config)
+
+    let module = await this.getUpdateModuleConfig(moduleId, config)
+    return this.updateModuleConfig(moduleId, module);
   }
 
   async deleteModuleConfig(moduleId: string, direct?: boolean) {
@@ -352,7 +354,7 @@ export class GrowbeModuleService {
     await this.moduleRepository.update(module);
     await this.mqttService.send(
       getTopic(module.mainboardId, `/cloud/m/${module.id}/config`),
-      JSON.stringify(config),
+      JSON.stringify(module.config),
     );
 
     return module;

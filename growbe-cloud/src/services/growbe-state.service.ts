@@ -107,7 +107,7 @@ export class GrowbeStateService {
       await this.stateChange(
         _.omit(mainboard, 'growbeMainboardConfig')
       );
-      this.growbeActionService.sendSyncRequest(mainboard.id).then(() => {});
+      this.growbeActionService.sendSyncRequest(mainboard.id, true).then(() => {});
     }
     await this.notifyState(
       new GrowbeMainboard({
