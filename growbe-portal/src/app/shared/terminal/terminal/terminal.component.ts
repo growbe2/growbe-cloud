@@ -253,11 +253,13 @@ export class TerminalComponent extends OnDestroyMixin(BaseDashboardComponent) im
 
     private getRequest(req: any) {
         // TODO : fix librarire null valid in where failed
-        Object.keys(req.where).forEach(k => {
-          if (req.where[k] == null) {
-            delete req.where[k];
-          }
-        });
+        if (req?.where) {
+          Object.keys(req.where).forEach(k => {
+            if (req.where[k] == null) {
+              delete req.where[k];
+            }
+          });
+        }
         return (this.typeLog == 'cloud') ? this.mainboardAPI.growbeLogs(this.growbeId).get(req) : this.mainboardAPI.deviceLogs(this.growbeId).get(req);
     }
 

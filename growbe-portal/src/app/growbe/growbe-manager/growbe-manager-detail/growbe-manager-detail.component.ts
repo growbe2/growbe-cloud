@@ -38,13 +38,8 @@ let i = 1;
 })
 @unsubscriber
 export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) implements OnInit, AfterViewInit {
-    @ViewChild(AutoTableComponent) table: AutoTableComponent;
-    @ViewChild('tablemodules') tableModules: AutoTableComponent;
-    @ViewChild('tableactions') tableActions: AutoTableComponent;
-
 
     emitterMainboardChange: EventEmitter<GrowbeMainboard> = new EventEmitter();
-
 
     options: any[] = [
         {
