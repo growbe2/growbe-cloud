@@ -3,7 +3,7 @@ import { combineLatest, Observable, Subject } from 'rxjs';
 
 import { AsyncClient, connectAsync } from 'async-mqtt';
 import { envConfig } from '@berlingoqc/ngx-common';
-import { filter, map, startWith, switchMap } from 'rxjs/operators';
+import { filter, finalize, map, startWith, switchMap } from 'rxjs/operators';
 
 import { exec } from 'mqtt-pattern';
 import { GrowbeMainboardAPI } from '../api/growbe-mainboard';
@@ -16,11 +16,12 @@ export const getTopic = (growbeId: string, subtopic: string) =>
 
 @Injectable({ providedIn: 'root' })
 export class GrowbeEventService {
-    registerTopic = {};
-
     client: AsyncClient;
 
     subject: Subject<any> = new Subject();
+
+
+    subscription: {[topic: string]: number} = {};
 
     private connectPromise: Promise<AsyncClient>;
 
@@ -43,7 +44,22 @@ export class GrowbeEventService {
     }
 
     async addSubscription(topic: string) {
-        return this.client.subscribe(topic);
+        if (!this.subscription[topic]) {
+          this.subscription[topic] = 1;
+          console.log('Subscription to', topic);
+          return this.client.subscribe(topic);
+        }
+    }
+
+    async removeSubscriptipon(topic: string) {
+        if (this.subscription[topic]) {
+          this.subscription[topic] -= 1;
+          if (this.subscription[topic] <= 0) {
+              console.log('Unsubscribing to', topic);
+              delete this.subscription[topic];
+              return this.client.unsubscribe(topic);
+          }
+        }
     }
 
 
@@ -76,12 +92,7 @@ export class GrowbeEventService {
 
     getGrowbeEvent(id: string, subtopic: string, parse: (data) => any) {
         const topic = getTopic(id, subtopic);
-        if (!this.registerTopic[topic]) {
-            this.addSubscription(topic)
-                .then(() => console.log('Register to', topic))
-                .catch(() => console.warn('Failed to subscript to ', topic));
-            this.registerTopic[topic] = true;
-        }
+        this.addSubscription(topic).then(() => {});
         return this.subject
             .asObservable()
             .pipe(filter((value) => exec(topic, value.topic)))
@@ -93,6 +104,9 @@ export class GrowbeEventService {
                         return null;
                     }
                 }),
+                finalize(() => {
+                  this.removeSubscriptipon(topic).then(() => {});
+                })
             );
     }
 
