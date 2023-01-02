@@ -26,6 +26,7 @@ import {
   GrowbeMainboardImageController,
   EnvironmentControllerController,
   VirtualComboardController,
+  GrowbeFeatureController,
 } from './controllers';
 import {authenticate} from '@loopback/authentication';
 import {CRUD_CONTROLLERS} from './crud-controller';
@@ -94,6 +95,7 @@ export class CloudComponent implements Component {
     GrowbeMainboardImageController,
     EnvironmentControllerController,
     VirtualComboardController,
+    GrowbeFeatureController,
   ];
   bindings = [
     // Binding.bind(GrowbeMainboardBindings.WATCHERS).to(watchers)
