@@ -151,7 +151,7 @@
                 <app-terminal *ngIf="type_log === 'cloud'" [growbeId]="data.mainboard.id" typeLog="cloud"></app-terminal>
                 <app-terminal *ngIf="type_log === 'device'" [growbeId]="data.mainboard.id" typeLog="device"></app-terminal>
             </mat-tab>
-            <mat-tab>
+            <mat-tab *ngIf="mainboardAPI.hasFeature('nms')">
                 <ng-template mat-tab-label>
                     <ng-container *ngTemplateOutlet="headercontent; context: {i: 5}"></ng-container>
                 </ng-template>

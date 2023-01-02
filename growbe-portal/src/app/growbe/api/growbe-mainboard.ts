@@ -124,12 +124,22 @@ export class GrowbeMainboardAPI extends Caching(
       '/user',
     );
 
+
+    private features: {name: string}[] = [];
+
     get url() {
       return envConfig?.growbeCloud + '/growbes';
     }
 
     constructor(httpClient: HttpClient) {
         super(httpClient, '/growbes');
+
+        this.getFeatures().subscribe((features) => this.features = features);
+    }
+
+
+    hasFeature(name: string) {
+        return this.features.findIndex(x => x.name === name) > -1;
     }
 
     register(id: string) {
@@ -151,5 +161,9 @@ export class GrowbeMainboardAPI extends Caching(
           this.requestFind.onModif(of(null))
         })
       )
+    }
+
+    getFeatures(): Observable<{name: string}[]> {
+      throw "";
     }
 }
