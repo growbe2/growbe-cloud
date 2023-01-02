@@ -52,7 +52,6 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
         private graphService: GrowbeGraphService,
         private streamAPI: GrowbeStreamAPI,
     ) {
-        this.mainboardAPI.get({}).subscribe(() => {});
         [
             {
                 name: '',

@@ -31,7 +31,6 @@ export class ReleaseNoteComponent extends OnDestroyMixin(Object) implements OnIn
       let version: string = '';
       let type: string = '';
       if (data.current) {
-        console.log('CURRETN RELEASE')
         version = trimDevVersion(this.releaseService.getVersion());
         type = 'cloud';
       } else {

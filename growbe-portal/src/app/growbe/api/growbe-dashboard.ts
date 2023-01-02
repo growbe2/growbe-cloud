@@ -61,7 +61,7 @@ export class GrowbeDashboardAPI
         super(httpClient, '/dashboards');
     }
 
-    get = (filter?: Filter<any>) => super.get(filter).pipe(map(items => [...items, ...defaultDashboards]), tap(console.log));
+    get = (filter?: Filter<any>) => super.get(filter).pipe(map(items => [...items, ...defaultDashboards]));
 
     updateItemFromPanel(panel: PanelDashboardRef, item: DashboardItem & Style, index?: number): Observable<Dashboard> {
       return this.modifyDashboard(panel, (d) => {
@@ -126,7 +126,7 @@ export class GrowbeDashboardAPI
             where: {
                 userId: this.authService.profile.id,
             },
-        }) as Observable<Dashboard[]>).pipe(map((items) => [...items, ...defaultDashboards]), tap(console.log));
+        }) as Observable<Dashboard[]>).pipe(map((items) => [...items, ...defaultDashboards]));
     }
 
     getDashboard(id: string) {

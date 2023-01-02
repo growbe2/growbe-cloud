@@ -161,7 +161,6 @@ export class ItemContentDirective implements OnInit {
         // loading event if supported
         if (this.componentRef.instance[ItemContentDirective.LoadingOutputName]) {
           this.this.viewRef.element.nativeElement.parentElement.style.visibility = 'hidden';
-          console.log(this.templateLoading);
           this.this.templateLoading.classList.remove("notloading");
           this.this.templateLoading.classList.add("loading");
           this.componentRef.instance[ItemContentDirective.LoadingOutputName].pipe(take(1)).subscribe((value) => {

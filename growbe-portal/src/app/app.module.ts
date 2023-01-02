@@ -205,6 +205,8 @@ export class AppModule {
 
       layourService.logoutSubject.subscribe(() => authService.logout());
 
+      growbeAPI.loadCloudFeature();
+
       authService.loginEvents.asObservable().pipe(
           filter((event) => event === 'disconnected'),
       ).subscribe(() => clearSubs());
