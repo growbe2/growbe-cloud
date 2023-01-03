@@ -160,8 +160,16 @@ export class GrowbeMainboardAPI extends Caching(
       return this.httpClient.patch<void>(`${envConfig.growbeCloud}/growbes/${growbeId}/virtualRelays/${vrId}/config?direct=${direct || false}`, config);
     }
 
-    updateProcessConfg(mainboadId: string, processConfig: any): Observable<void> {
-      return this.httpClient.patch<void>(`${envConfig.growbeCloud}/growbe/${mainboadId}/processconfig`, processConfig).pipe(
+    updateProcessConfg(mainboadId: string, processConfig: any, direct?: boolean): Observable<void> {
+      return this.httpClient.patch<void>(`${envConfig.growbeCloud}/growbe/${mainboadId}/processconfig?direct=${false || false}`, processConfig).pipe(
+        tap(() => {
+          this.requestFind.onModif(of(null))
+        })
+      )
+    }
+
+    updateCloudConfig(mainboardId: string, cloudConfig: any): Observable<void> {
+      return this.httpClient.patch<void>(`${envConfig.growbeCloud}/growbe/${mainboardId}/config?direct=${cloudConfig.preferedCommandConnnection === 1}`, cloudConfig).pipe(
         tap(() => {
           this.requestFind.onModif(of(null))
         })
