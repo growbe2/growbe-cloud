@@ -133,7 +133,6 @@ export const getPhoneStreamingConfig: (
         event: {
           submit: (data) => {
             const d = data.object;
-            console.log(d);
             return growbeActionAPI.executeActionModule('GROWBE_CONFIG_UPDATE', mainboardId, moduleId, d);
           },
           initialData: () => of({object: config})

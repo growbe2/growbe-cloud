@@ -170,7 +170,9 @@ export class TerminalComponent extends OnDestroyMixin(BaseDashboardComponent) im
                         .subscribe((value) => {
                             this.resetSearch();
                             this.where = value;
-                            this.item.inputs.where = this.where;
+                            if (!this.item) {
+                              this.item.inputs.where = this.where;
+                            }
                             this.refreshLogs();
                         });
                 },
@@ -195,7 +197,9 @@ export class TerminalComponent extends OnDestroyMixin(BaseDashboardComponent) im
         this.logs = this.activatedRoute.data.pipe(
           untilComponentDestroyed(this),
           map((data) => {
-              this.growbeId = data.mainboard.id;
+              if (!this.growbeId && data.mainboard)  {
+                this.growbeId = data.mainboard.id;
+            }
               this.subjectOlderEntries = new BehaviorSubject([]);
               this.cacheEntries = [];
               return this.getRequestFilter();
@@ -248,6 +252,14 @@ export class TerminalComponent extends OnDestroyMixin(BaseDashboardComponent) im
 
 
     private getRequest(req: any) {
+        // TODO : fix librarire null valid in where failed
+        if (req?.where) {
+          Object.keys(req.where).forEach(k => {
+            if (req.where[k] == null) {
+              delete req.where[k];
+            }
+          });
+        }
         return (this.typeLog == 'cloud') ? this.mainboardAPI.growbeLogs(this.growbeId).get(req) : this.mainboardAPI.deviceLogs(this.growbeId).get(req);
     }
 

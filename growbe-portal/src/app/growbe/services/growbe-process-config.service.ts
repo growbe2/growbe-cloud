@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import {MatSidenavContainer} from '@angular/material/sidenav';
-import {AutoFormData, FormObject} from '@berlingoqc/ngx-autoform';
+import {ArrayProperty, AutoFormData, FormObject, IProperty} from '@berlingoqc/ngx-autoform';
 import {NotificationService, notify} from '@berlingoqc/ngx-notification';
 import {GrowbeMainboardWithRelations} from '@growbe2/ngx-cloud-api';
 import {Observable, of} from 'rxjs';
@@ -21,12 +20,11 @@ export class GrowbeProcessConfigService {
           type: 'simple',
           items: [
             {
-              name: 'comboard',
-              type: 'object',
-              templates: {
-                header: 'Comboard configuration'
-              },
-              properties: [
+              name: 'comboards',
+              type: 'array',
+              elementType: {
+                type: 'object',
+                properties: [
                 {
                   name: 'imple',
                   type: 'string'
@@ -34,9 +32,14 @@ export class GrowbeProcessConfigService {
                 {
                   name: 'config',
                   type: 'string',
-                },
-              ]
-            } as FormObject,
+                  required: false,
+                } as IProperty,
+                ]
+              } as FormObject,
+              templates: {
+                header: 'Comboard configuration'
+              },
+            } as ArrayProperty,
             {
               name: 'mqtt',
               type: 'object',
@@ -105,6 +108,7 @@ export class GrowbeProcessConfigService {
                   component: {
                     name: 'select',
                     type: 'mat',
+                    transformValue: (e) => e,
                     options: {
                       displayContent: (e) => e,
                       value: of(["dev", "prod"])
@@ -121,9 +125,36 @@ export class GrowbeProcessConfigService {
                 }
               ]
             } as FormObject,
+            {
+              name: 'api',
+              type: 'object',
+              templates: {
+                header: 'Cloud API Instance'
+              },
+              properties: [
+                {
+                  name: 'url',
+                  type: 'string'
+                }
+              ],
+            } as FormObject,
+            {
+              name: 'proxy',
+              type: 'object',
+              templates: {
+                header: 'Reverse Proxy'
+              },
+              properties: [
+                {
+                  name: 'url',
+                  type: 'string'
+                }
+              ],
+            } as FormObject
+
           ],
           event: {
-            submit: (data: any) => this.growbeAPI.updateProcessConfg(mainboard.id, data).pipe(
+            submit: (data: any) => this.growbeAPI.updateProcessConfg(mainboard.id, data, (mainboard.growbeMainboardConfig?.config as any).preferedCommandConnection == 1).pipe(
               notify({
                 title: 'Process configuration sended',
                 body: () => 'Your mainboard as rebooted with your new configuration',
@@ -132,7 +163,14 @@ export class GrowbeProcessConfigService {
                 this.growbeAPI.requestFind.items = {};
               })
             ),
-            initialData: of((mainboard.growbeMainboardConfig as any).processConfig),
+            initialData: of((mainboard.growbeMainboardConfig as any).processConfig).pipe(map((x: any) => {
+              // TODO: fix lib so that required is fine,
+              for (let c of x.comboards) {
+                if (!c.config) { c.config = ''; }
+              }
+
+              return x
+            })),
           }
         };
   }

@@ -137,6 +137,7 @@ export class GrowbeGraphService {
                 required: !optionalLastX,
                 component: {
                     name: 'select',
+                    transformValue: (e) => e,
                     options: {
                         displayTitle: 'Unit',
                         displayContent: (e) => e,

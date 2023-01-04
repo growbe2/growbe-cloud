@@ -16,9 +16,9 @@
     <fuseLayoutContent>
         <mat-tab-group #tabgroup [(selectedIndex)]="currentIndex" matTabsRouting>
             <mat-tab>
-                <ng-template mat-tab-label>
-                    <ng-container *ngTemplateOutlet="headercontent; context: {i: 0}"></ng-container>
-                </ng-template>
+              <ng-template mat-tab-label>
+                  <ng-container *ngTemplateOutlet="headercontent; context: {i: 0}"></ng-container>
+              </ng-template>
                 <mat-toolbar>
                     <h1>Modules</h1>
                     <div class="spacer"></div>
@@ -79,25 +79,36 @@
                 </ngx-autotable>
             </mat-tab>
             <mat-tab>
-                <ng-template mat-tab-label>
-                    <ng-container *ngTemplateOutlet="headercontent; context: {i: 1}"></ng-container>
-                </ng-template>
-                <mat-toolbar>
-                    <h1>Commandes</h1>
-                </mat-toolbar>
-                <ngx-autotable [updateEmitter]="emitterMainboardChange" [columns]="actionsColumns"
+              <ng-template mat-tab-label>
+                <ng-container *ngTemplateOutlet="headercontent; context: {i: 1}"></ng-container>
+              </ng-template>
+
+              <lazy-load-container>
+                <ng-template #body>
+                  <mat-toolbar>
+                      <h1>Commandes</h1>
+                  </mat-toolbar>
+                  <ngx-autotable [updateEmitter]="emitterMainboardChange" [columns]="actionsColumns"
                     [source]="actionsSource"></ngx-autotable>
+                </ng-template>
+              </lazy-load-container>
             </mat-tab>
             <mat-tab>
-                <ng-template mat-tab-label>
-                    <ng-container *ngTemplateOutlet="headercontent; context: {i: 2}"></ng-container>
+              <ng-template mat-tab-label>
+                  <ng-container *ngTemplateOutlet="headercontent; context: {i: 2}"></ng-container>
+              </ng-template>
+              <lazy-load-container>
+                <ng-template #body>
+                  <app-virtual-relay-dashboard [growbeId]="data.mainboard.id"></app-virtual-relay-dashboard>
                 </ng-template>
-                <app-virtual-relay-dashboard [growbeId]="data.mainboard.id"></app-virtual-relay-dashboard>
+              </lazy-load-container>
             </mat-tab>
             <mat-tab>
-                <ng-template mat-tab-label>
-                    <ng-container *ngTemplateOutlet="headercontent; context: {i: 3}"></ng-container>
-                </ng-template>
+              <ng-template mat-tab-label>
+                  <ng-container *ngTemplateOutlet="headercontent; context: {i: 3}"></ng-container>
+              </ng-template>
+              <lazy-load-container>
+              <ng-template #body>
                 <mat-toolbar>
                     <h1>Parameters</h1>
                 </mat-toolbar>
@@ -109,6 +120,14 @@
                         <mat-panel-description></mat-panel-description>
                       </mat-expansion-panel-header>
                       <autoform-form [formData]="detailMainboardForm">
+                      </autoform-form>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>Mainboard Cloud Configuration</mat-panel-title>
+                        <mat-panel-description></mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <autoform-form *ngIf="cloudMainboardForm" [formData]="cloudMainboardForm">
                       </autoform-form>
                     </mat-expansion-panel>
                     <mat-expansion-panel>
@@ -135,11 +154,16 @@
                     </mat-expansion-panel>
                   </mat-accordion>
                 </div>
+              </ng-template>
+              </lazy-load-container>
             </mat-tab>
             <mat-tab>
-                <ng-template mat-tab-label>
-                    <ng-container *ngTemplateOutlet="headercontent; context: {i: 4}"></ng-container>
-                </ng-template>
+              <ng-template mat-tab-label>
+                  <ng-container *ngTemplateOutlet="headercontent; context: {i: 4}"></ng-container>
+              </ng-template>
+
+              <lazy-load-container>
+              <ng-template #body>
                 <mat-toolbar>
                     <h1>Logs</h1>
                     <span class="spacer"></span>
@@ -150,12 +174,18 @@
                 </mat-toolbar>
                 <app-terminal *ngIf="type_log === 'cloud'" [growbeId]="data.mainboard.id" typeLog="cloud"></app-terminal>
                 <app-terminal *ngIf="type_log === 'device'" [growbeId]="data.mainboard.id" typeLog="device"></app-terminal>
+              </ng-template>
+              </lazy-load-container>
             </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    <ng-container *ngTemplateOutlet="headercontent; context: {i: 5}"></ng-container>
-                </ng-template>
+            <mat-tab *ngIf="mainboardAPI.hasFeature('nms')">
+              <ng-template mat-tab-label>
+                  <ng-container *ngTemplateOutlet="headercontent; context: {i: 5}"></ng-container>
+              </ng-template>
+              <lazy-load-container>
+              <ng-template #body>
                 <app-video-stream-page [growbeId]="data.mainboard.id"></app-video-stream-page>
+              </ng-template>
+              </lazy-load-container>
             </mat-tab>
         </mat-tab-group>
     </fuseLayoutContent>

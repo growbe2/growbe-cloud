@@ -36,6 +36,7 @@ export class GrowbeImageConfigService {
           name: 'environment',
           component: {
             name: 'select',
+            transformValue: (e) => e,
             options: {
               displayContent: (e) => e,
               value: of(["dev", "prod"])

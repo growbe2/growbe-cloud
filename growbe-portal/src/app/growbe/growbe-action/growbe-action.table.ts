@@ -90,7 +90,6 @@ export const getGrowbeActionTableColumns = (getGrowbe: () => GrowbeMainboardWith
                                                 );
                                                 const growbe = getGrowbe();
                                                 const mode = (growbe.growbeMainboardConfig?.config as any)?.preferedCommandConnnection;
-                                                console.log('Running ', mode);
                                                 return actionAPI.executeAction(
                                                     context.warningKeyId,
                                                     growbe.id,

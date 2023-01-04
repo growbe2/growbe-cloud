@@ -124,12 +124,27 @@ export class GrowbeMainboardAPI extends Caching(
       '/user',
     );
 
+
+    private features: {name: string}[] = [];
+
     get url() {
+      if (!envConfig) {
+        throw new Error('failed hwere');
+      }
       return envConfig?.growbeCloud + '/growbes';
     }
 
     constructor(httpClient: HttpClient) {
         super(httpClient, '/growbes');
+
+    }
+
+    loadCloudFeature() {
+        this.getFeatures().subscribe((features) => this.features = features);
+    }
+
+    hasFeature(name: string) {
+        return this.features.findIndex(x => x.name === name) > -1;
     }
 
     register(id: string) {
@@ -145,11 +160,23 @@ export class GrowbeMainboardAPI extends Caching(
       return this.httpClient.patch<void>(`${envConfig.growbeCloud}/growbes/${growbeId}/virtualRelays/${vrId}/config?direct=${direct || false}`, config);
     }
 
-    updateProcessConfg(mainboadId: string, processConfig: any): Observable<void> {
-      return this.httpClient.patch<void>(`${envConfig.growbeCloud}/growbe/${mainboadId}/processconfig`, processConfig).pipe(
+    updateProcessConfg(mainboadId: string, processConfig: any, direct?: boolean): Observable<void> {
+      return this.httpClient.patch<void>(`${envConfig.growbeCloud}/growbe/${mainboadId}/processconfig?direct=${false || false}`, processConfig).pipe(
         tap(() => {
           this.requestFind.onModif(of(null))
         })
       )
+    }
+
+    updateCloudConfig(mainboardId: string, cloudConfig: any): Observable<void> {
+      return this.httpClient.patch<void>(`${envConfig.growbeCloud}/growbe/${mainboardId}/config?direct=${cloudConfig.preferedCommandConnnection === 1}`, cloudConfig).pipe(
+        tap(() => {
+          this.requestFind.onModif(of(null))
+        })
+      )
+    }
+
+    getFeatures(): Observable<{name: string}[]> {
+      return of([]);
     }
 }

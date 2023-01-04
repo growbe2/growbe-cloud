@@ -62,6 +62,7 @@ export class GrowbeManagerDashboardComponent implements OnInit {
             component: {
                 name: 'select',
                 type: 'mat',
+                transformValue: (e) => e,
                 options: {
                     displayTitle: '',
                     displayContent: (e) => e.name,

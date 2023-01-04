@@ -184,6 +184,7 @@ export const getCopyDashboardForm = (
                         component: {
                             name: 'select',
                             type: 'mat',
+                            transformValue: (e) => e,
                             options: {
                                 displayTitle: 'Dashboard',
                                 displayContent: (e) => e.name,
@@ -199,6 +200,7 @@ export const getCopyDashboardForm = (
                         initialize: (mc:UntypedFormControl) => (moduleControl = mc),
                         component: {
                             name: 'select',
+                            transformValue: (e) => e,
                             type: 'mat',
                             options: {
                                 displayTitle: 'Panel',

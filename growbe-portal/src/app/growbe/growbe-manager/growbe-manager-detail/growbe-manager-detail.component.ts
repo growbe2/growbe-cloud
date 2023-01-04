@@ -11,7 +11,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { GrowbeMainboardAPI } from '../../api/growbe-mainboard';
 import { AutoTableComponent, AutoTableModule, TableColumn } from '@berlingoqc/ngx-autotable';
-import { AutoFormData, AutoFormDialogService, FormObject, InputProperty } from '@berlingoqc/ngx-autoform';
+import { AutoFormData, AutoFormDialogService, FormObject, InputProperty, SelectComponent } from '@berlingoqc/ngx-autoform';
 import { notify } from '@berlingoqc/ngx-notification';
 import { Observable, of, Subscription, timer } from 'rxjs';
 import { Filter, Include, StaticDataSource, Where } from '@berlingoqc/ngx-loopback';
@@ -20,7 +20,7 @@ import { fuseAnimations, FuseNavigationService, FuseSidebarService } from '@berl
 import { GrowbeEventService } from '../../services/growbe-event.service';
 import { ActionConfirmationDialogComponent, OnDestroyMixin, TemplateContentData, unsubscriber, untilComponentDestroyed } from '@berlingoqc/ngx-common';
 import { getGrowbeActionTableColumns, growbeActionsSource } from 'src/app/growbe/growbe-action/growbe-action.table';
-import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
 import { MatDialog } from '@angular/material/dialog';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
@@ -38,13 +38,8 @@ let i = 1;
 })
 @unsubscriber
 export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) implements OnInit, AfterViewInit {
-    @ViewChild(AutoTableComponent) table: AutoTableComponent;
-    @ViewChild('tablemodules') tableModules: AutoTableComponent;
-    @ViewChild('tableactions') tableActions: AutoTableComponent;
-
 
     emitterMainboardChange: EventEmitter<GrowbeMainboard> = new EventEmitter();
-
 
     options: any[] = [
         {
@@ -82,6 +77,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
 
     detailMainboardForm: AutoFormData;
     processMainboardForm: AutoFormData;
+    cloudMainboardForm: AutoFormData;
     imageConfigForm: AutoFormData;
 
     moduleWhere: Where<GrowbeModule>;
@@ -175,6 +171,49 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
                 };
             }),
             tap(() => {
+
+                this.cloudMainboardForm = {
+                    type: 'simple',
+                    items: [
+                        {
+                            name: 'hearthBeath',
+                            type: 'number'
+                        },
+                        {
+                            name: 'preferedCommandConnnection',
+                            type: 'string',
+                            required: true,
+                            component: {
+                              name: 'select',
+                              type: 'mat',
+                              transformValue: (e) => {
+                                return {mqtt: 0, proxy: 1}[e];
+                              },
+                              compareWith: (e,a) => {
+                                // TODO : not working for some reason
+                                return a ? (e === (['mqtt', 'proxy'][a])): false;
+                              },
+                              options: {
+                                displayContent: (e) => {
+                                  return e;
+                                },
+                                value: of(['mqtt', 'proxy']),
+                              }
+                            } as SelectComponent,
+                        }
+                    ],
+                    event: {
+                        initialData: () =>
+                            this.mainboardAPI.getById(this.id).pipe(take(1),map((x: GrowbeMainboardWithRelations) => x.growbeMainboardConfig.config)),
+                        submit: (d) => this.mainboardAPI.updateCloudConfig(this.id, d).pipe(
+                                notify({
+                                    title: 'Mainboard Cloud Config Updated',
+                                    body: () => `${this.id}`,
+                                }),
+                        ),
+                    },
+
+                };
 
                 this.detailMainboardForm = {
                     type: 'simple',
