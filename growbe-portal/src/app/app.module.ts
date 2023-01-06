@@ -210,10 +210,11 @@ export class AppModule {
       authService.loginEvents.asObservable().pipe(
           filter((event) => event === 'disconnected'),
       ).subscribe(() => clearSubs());
+
       authService.loginEvents.asObservable().pipe(
         filter((event) => event === 'connected'),
         switchMap(() => userPreference.get()),
-        switchMap(() => growbeAPI.userGrowbeMainboard(authService.profile.id).get())
+        switchMap(() => growbeAPI.userGrowbeMainboard(authService.profile.id).get({include: [{relation: "growbeMainboardConfig"}]}))
       ).subscribe((growbes) => {
           if (route.url === '/auth') {
               route.navigate(['/home']);
@@ -224,6 +225,7 @@ export class AppModule {
           navItemGrowbe.url = null;
           navItemGrowbe.children = growbes.map((growbe) => {
               // should be clean up on disconnect or on recall
+            growbeAPI.requestFind.defaultValueObs(growbe.id, growbe);
             subs[subs.length] = growbeAPI.getById(growbe.id, { include: [{relation: 'growbeMainboardConfig'}]}).subscribe((g: GrowbeMainboard) => {
                 const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
                 const indexItem = (navItemGrowbe.children as any[]).findIndex((x) => x.id == g.id);
