@@ -11,7 +11,7 @@ import { ModuleLastValueComponent } from './module-last-value/module-last-value.
 import { MatIconModule } from '@angular/material/icon';
 import { ModuleGraphBuilderComponent } from './module-graph-builder/module-graph-builder.component';
 import { GrowbeModuleModule } from '../growbe-module.module';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { TemplateContentModule } from '@berlingoqc/ngx-common';
 import { ModulePipeModule } from '../pipes/module-pipe.module';

@@ -32,7 +32,7 @@ import { FuseModule, FuseNavigationService } from '@berlingoqc/fuse';
 import { fuseConfig } from './fuse/fuse-config';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxPermissionsModule, NgxPermissionsService } from 'ngx-permissions';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MAT_LEGACY_FORM_FIELD_DEFAULT_OPTIONS as MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/legacy-form-field';
 import { FAQS } from './fuse/faq';
 import { Router } from '@angular/router';
 import {

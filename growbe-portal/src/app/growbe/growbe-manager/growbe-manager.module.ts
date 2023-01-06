@@ -12,25 +12,25 @@ import {
 import { GraphModule } from '../module/graph/graph.module';
 import { GrowbeManagerDetailComponent } from './growbe-manager-detail/growbe-manager-detail.component';
 import { FuseWidgetModule } from '@berlingoqc/fuse';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
 import { GrowbeModuleModule } from '../module/growbe-module.module';
 import { AutoTableModule } from '@berlingoqc/ngx-autotable';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { LoopbackRestPipeModule } from '@berlingoqc/ngx-loopback';
 import { TerminalModule } from 'src/app/shared/terminal/terminal.module';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { CommonPipeModule, MatTabsExtraModule } from '@berlingoqc/ngx-common';
 import { VideoStreamModule } from '../video-stream/video-stream.module';
 import { GrowbeModuleDashboardModule } from '../module/growbe-module-dashboard/growbe-module-dashboard.module';
 import { GrowbeWarningModule } from '../growbe-warning/growbe-warning.module';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { VirtualRelayModule } from '../module/virtual-relay/virtual-relay.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import {MatExpansionModule} from '@angular/material/expansion';
-import { MatChipsModule } from '@angular/material/chips';
+import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
 import {LazyLoadingModule} from 'src/app/shared/lazy-loading.full';
 
 @NgModule({

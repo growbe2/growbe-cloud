@@ -4,13 +4,13 @@ import { StreamPlayerComponent, VideoPlayerComponent } from './stream-player/str
 import { StreamPickerComponent } from './stream-picker/stream-picker.component';
 import { AutoTableModule } from '@berlingoqc/ngx-autotable';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { ButtonsRowModule } from '@berlingoqc/ngx-common';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { VideoStreamPageComponent } from './video-stream-page/video-stream-page.component';
 import { DashboardModule } from '@growbe2/growbe-dashboard';
-import { MatChipsModule } from '@angular/material/chips';
+import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({

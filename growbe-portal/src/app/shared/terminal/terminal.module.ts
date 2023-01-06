@@ -5,7 +5,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { DashboardModule } from '@growbe2/growbe-dashboard';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { HelpersModule } from 'src/app/helpers/helpers.module';
 
 @NgModule({
