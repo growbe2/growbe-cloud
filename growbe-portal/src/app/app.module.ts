@@ -4,7 +4,6 @@ import { APP_INITIALIZER, ChangeDetectorRef, Injectable, Injector, NgModule } fr
 import { AppRoutingModule } from './app-routing.module';
 import {
     AppComponent,
-    FaqModule,
     LayoutEventService,
     LayoutModule,
     SITE_LOGO,
@@ -33,7 +32,6 @@ import { fuseConfig } from './fuse/fuse-config';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxPermissionsModule, NgxPermissionsService } from 'ngx-permissions';
 import { MAT_LEGACY_FORM_FIELD_DEFAULT_OPTIONS as MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/legacy-form-field';
-import { FAQS } from './fuse/faq';
 import { Router } from '@angular/router';
 import {
     AuthModule,
@@ -50,7 +48,6 @@ import {
 import { HomeComponent } from './home/home.component';
 
 import { GrowbeAuthModule } from './auth/auth.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { NavigationComponent } from './home/navigation.component';
 import { GrowbeDashboardAPI } from './growbe/api/growbe-dashboard';
 
@@ -92,12 +89,10 @@ export class NavigationWrapper {
         PWAModule,
         FuseModule.forRoot(fuseConfig),
         LayoutModule,
-        FaqModule,
         TranslateModule.forRoot(),
         ServiceWorkerModule.register('ngsw-worker.js', {
             enabled: environment.production,
         }),
-        FlexLayoutModule,
         AccountModule,
         AuthModule.forRoot(),
         NotificationModule.forRoot({} as any),
@@ -163,10 +158,6 @@ export class NavigationWrapper {
             useValue: { autoUpdate: false },
         },
         {
-            provide: 'FAQResolver',
-            useValue: () => FAQS,
-        },
-        {
           provide: Actions,
           useValue: {
                 validate: '/account/validate/invitation',
@@ -225,8 +216,9 @@ export class AppModule {
           navItemGrowbe.url = null;
           navItemGrowbe.children = growbes.map((growbe) => {
               // should be clean up on disconnect or on recall
-            growbeAPI.requestFind.defaultValueObs(growbe.id, growbe);
-            subs[subs.length] = growbeAPI.getById(growbe.id, { include: [{relation: 'growbeMainboardConfig'}]}).subscribe((g: GrowbeMainboard) => {
+            //growbeAPI.getById(growbe.id, { include: [{relation: 'growbeMainboardConfig'}]});
+            subs[subs.length] = growbeAPI.getById(growbe.id, { include: [{relation: 'growbeMainboardConfig'}]}, growbe).subscribe((g: GrowbeMainboard) => {
+                console.log('DADADAD', g);
                 const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
                 const indexItem = (navItemGrowbe.children as any[]).findIndex((x) => x.id == g.id);
                 navItemGrowbe.children[indexItem].title = g.name ? g.name : g.id;

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '@berlingoqc/auth';
-import { FAQRoutes } from '@berlingoqc/fuse-extra';
 import { AuthComponent } from 'src/app/auth/auth.component';
 import { LoginComponent } from './auth/login/login.component';
 import { MqttConnectGuard } from './growbe/guard/mqtt-connect.guard';
@@ -79,7 +78,6 @@ const routes: Routes = [
         loadChildren: () => import('./releases/releases.module').then(m => m.ReleasesModule),
         canActivate: [AuthGuard],
     },
-    ...FAQRoutes,
 ];
 
 @NgModule({

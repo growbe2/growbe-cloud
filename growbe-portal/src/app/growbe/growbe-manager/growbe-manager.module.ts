@@ -26,7 +26,6 @@ import { GrowbeModuleDashboardModule } from '../module/growbe-module-dashboard/g
 import { GrowbeWarningModule } from '../growbe-warning/growbe-warning.module';
 import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { VirtualRelayModule } from '../module/virtual-relay/virtual-relay.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -53,8 +52,6 @@ import {LazyLoadingModule} from 'src/app/shared/lazy-loading.full';
         MatExpansionModule,
         MatDialogModule,
         MatTooltipModule,
-
-        FlexLayoutModule,
 
         GrowbeManagerRoutingModule,
         VideoStreamModule,
