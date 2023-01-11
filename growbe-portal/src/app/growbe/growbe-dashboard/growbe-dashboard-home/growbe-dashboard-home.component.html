@@ -1,14 +1,14 @@
 <!-- BOARDS -->
 <div
     id="boards"
-    class="fuse-navy"
+    class="fuse-navy fcol fstartcenter"
     fxLayout="column"
     fxLayoutAlign="start center"
     fxFlex
     fusePerfectScrollbar
 >
     <div
-        class="header pt-44 pt-md-88"
+        class="header pt-44 pt-md-88 frow fcentercenter f00auto"
         fxLayout="row"
         fxLayoutAlign="center center"
         fxFlex="0 0 auto"
@@ -19,7 +19,7 @@
 
     <!-- BOARD LIST -->
     <div
-        class="board-list"
+        class="board-list f00auto frow fwrap fcentercenter"
         fxFlex="0 0 auto"
         fxLayout="row wrap"
         fxLayoutAlign="center center"
@@ -27,7 +27,7 @@
     >
         <!-- BOARD -->
         <div
-            class="board-list-item"
+            class="board-list-item fcol fcentercenter"
             *ngFor="let board of data"
             [routerLink]="'/dashboard/' + board.id"
             fxLayout="column"
@@ -49,7 +49,7 @@
 
         <!-- NEW BOARD BUTTON -->
         <div
-            class="board-list-item add-new-board"
+            class="board-list-item add-new-board fcol fcentercenter"
             fxLayout="column"
             fxLayoutAlign="center center"
             [routerLink]="'/dashboard/new'"

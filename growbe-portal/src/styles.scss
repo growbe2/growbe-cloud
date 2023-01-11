@@ -2,6 +2,7 @@
 
 @import 'node_modules/@berlingoqc/fuse-extra/scss/portal';
 @import 'node_modules/@berlingoqc/fuse-extra/scss/splash';
+@import 'node_modules/@berlingoqc/fuse/scss/fuse';
 
 @import 'src/scss/growbe.theme';
 
@@ -184,4 +185,83 @@ alb-admin-page {
     max-width: 100% !important;
   }
 }
+
+
+// replacement for flex-layout
+
+.fhide {
+  display: none;
+}
+
+@include media-breakpoint('gt-md') {
+  .fhide-gt-md {
+    display: none;
+  }
+}
+
+.f {
+  display: flex;
+}
+
+.frow {
+  display: flex;
+  flex-direction: row;
+}
+
+.fcol {
+  display: flex;
+  flex-direction: column;
+}
+
+.fstartcenter {
+  justify-content: flex-start;
+  align-items: center;
+  align-content: center;
+}
+
+.fstartend {
+  justify-content: flex-end;
+  align-items: center;
+  align-content: center;
+}
+
+.fcentercenter {
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.ffull {
+  display: flex;
+  height: 100%;
+  min-height: 100%;
+  min-width: 100%;
+  width: 100%;
+}
+
+.fgrow {
+  flex-grow: 1;
+}
+
+.f01auto {
+  display: flex;
+  flex: 0 1 auto;
+}
+
+.f10auto {
+  display: flex;
+  flex: 1 0 auto;
+}
+
+.f00auto {
+  display: flex;
+  flex: 0 0 auto;
+}
+
+.fwrap {
+  flex-wrap: wrap;
+}
+
+
+
 
