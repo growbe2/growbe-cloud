@@ -66,6 +66,7 @@ export class RelayBaseControlComponent
 
     async ngOnInit() {
         // faut que j'aille chercher la config et l'etat de cette propriétés
+        console.log('init relay base');
         this.control
             .getValues()
             .pipe(untilComponentDestroyed(this))
@@ -135,14 +136,15 @@ export class RelayBaseControlComponent
     }
 
     private setForm() {
-        if (this.pendingConfig?.mode === 3) {
+        console.log('PENDING CONFIG CURRENT', this.pendingConfig);
+        if (this.pendingConfig?.mode === 3 || this.pendingConfig?.mode === "CYCLE" || this.pendingConfig?.cycle !== undefined) {
             this.formConfigProperty = {
                 type: 'simple',
                 items: [getCyclePropertie()],
                 actionsButtons: this.getActionButtons(),
                 event: this.getFormEvent(this.pendingConfig.mode),
             };
-        } else if (this.pendingConfig?.mode === 1) {
+        } else if (this.pendingConfig?.mode === 1 || this.pendingConfig?.mode === "ALARM" || this.pendingConfig?.alarm !== undefined) {
             this.formConfigProperty = {
                 type: 'simple',
                 items: [getAlarmPropertie()],

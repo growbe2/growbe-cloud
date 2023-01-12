@@ -292,9 +292,13 @@ export class GrowbeModuleService {
 
   async receivedConfigFromMainboard(moduleId: string, dataConfig: any) {
     const model = pbDef[mapTypeConfig[moduleId.slice(0, 3)]];
-    const config = model.decode(dataConfig);
+    const config = model.toObject(model.decode(dataConfig));
 
-    let module = await this.getUpdateModuleConfig(moduleId, config)
+    console.log('CONFIG decocded proto ', config);
+
+    let module = await this.getUpdateModuleConfig(moduleId, config);
+
+    console.log('UPDATED MODULE CONFIG', module);
     return this.updateModuleConfig(moduleId, module);
   }
 
