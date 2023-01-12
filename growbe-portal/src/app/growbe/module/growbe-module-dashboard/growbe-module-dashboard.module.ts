@@ -6,7 +6,7 @@ import { GraphModule } from '../graph/graph.module';
 import { UnitModule } from 'src/app/shared/unit/unit.module';
 import { GrowbeModuleModule } from '../growbe-module.module';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
+import { MatChipsModule } from '@angular/material/chips';
 import { TableLayoutModule } from 'src/app/shared/table-layout/table-layout.module';
 import { SvgModuleModule } from '../svg/svg-module.module';
 import { TerminalModule } from 'src/app/shared/terminal/terminal.module';

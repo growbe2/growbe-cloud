@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AutoTableComponent, AutoTableConfig, TableColumn } from '@berlingoqc/ngx-autotable';
 import { ActionConfirmationDialogComponent, ActionConfirmationService, ButtonsRowComponent, OnDestroyMixin, unsubscriber, untilComponentDestroyed } from '@berlingoqc/ngx-common';

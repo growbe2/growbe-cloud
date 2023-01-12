@@ -6,7 +6,7 @@ import {
     TemplateRef,
     ViewChild,
 } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { AutoTableComponent, TableColumn } from '@berlingoqc/ngx-autotable';
 import { ActionConfirmationDialogComponent } from '@berlingoqc/ngx-common';
 import {

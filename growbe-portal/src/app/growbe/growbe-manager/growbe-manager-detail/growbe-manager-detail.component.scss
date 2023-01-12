@@ -30,7 +30,7 @@ project-dashboard {
     display: none;
 }
 
-.mat-tab-header {
+.mat-mdc-tab-header {
     display: block;
 }
 
@@ -40,7 +40,7 @@ project-dashboard {
         padding: 5px;
     }
 
-    .mat-tab-header {
+    .mat-mdc-tab-header {
         display: none;
     }
 }
@@ -54,6 +54,6 @@ project-dashboard {
     padding-bottom: 10px;
 }
 
-::ng-deep .mat-tooltip {
+::ng-deep .mat-mdc-tooltip {
   font-family: 16px !important;
 }

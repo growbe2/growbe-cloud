@@ -5,30 +5,30 @@
         </h1>
         <span></span>
         <span class="spacer"></span>
-        <mat-chip-list class="flex align-center">
+        <mat-chip-listbox class="flex align-center">
             <ng-container *ngIf="moduleDashboardDef.type === 'observer'; else actor">
-                <mat-chip [selected]="currentChip == 'data'" (click)="setDataPanel()">
+                <mat-chip-option [selected]="currentChip == 'data'" (click)="setDataPanel()">
                     Data
-                </mat-chip>
-                <mat-chip [selected]="currentChip == 'graph'" *ngIf="moduleDashboardDef.haveGraph" (click)="setGraphPanel()">
+                </mat-chip-option>
+                <mat-chip-option [selected]="currentChip == 'graph'" *ngIf="moduleDashboardDef.haveGraph" (click)="setGraphPanel()">
                     Graph generator
-                </mat-chip>
-                <mat-chip [selected]="currentChip == 'alarm'" (click)="setAlarmPanel()">
+                </mat-chip-option>
+                <mat-chip-option [selected]="currentChip == 'alarm'" (click)="setAlarmPanel()">
                     Alarm
-                </mat-chip>
+                </mat-chip-option>
             </ng-container>
             <ng-template #actor>
-                <mat-chip [selected]="currentChip == 'control'" (click)="setControlPanel()">
+                <mat-chip-option [selected]="currentChip == 'control'" (click)="setControlPanel()">
                     Control
-                </mat-chip>
+                </mat-chip-option>
             </ng-template>
-           <mat-chip [selected]="currentChip == 'config'" (click)="setConfigPanel()">
+           <mat-chip-option [selected]="currentChip == 'config'" (click)="setConfigPanel()">
                 Configuration
-            </mat-chip>
-            <mat-chip [selected]="currentChip == 'logs'" (click)="setLogsPanel()">
+            </mat-chip-option>
+            <mat-chip-option [selected]="currentChip == 'logs'" (click)="setLogsPanel()">
                 Logs
-            </mat-chip>
-        </mat-chip-list>
+            </mat-chip-option>
+        </mat-chip-listbox>
     </div>
 
     <app-dashboard-panel

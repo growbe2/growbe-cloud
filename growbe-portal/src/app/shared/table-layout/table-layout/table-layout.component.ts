@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { AutoFormData, AutoFormDialogService } from '@berlingoqc/ngx-autoform';
 import { AutoTableComponent, TableColumn } from '@berlingoqc/ngx-autotable';
 import { ActionConfirmationDialogComponent, ButtonsRowComponent } from '@berlingoqc/ngx-common';

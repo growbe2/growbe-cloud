@@ -6,7 +6,7 @@
 //  If you specify typography styles for the components you use elsewhere, you should delete this line.
 //  If you don't need the default component typographies but still want the hierarchy styles,
 //  you can delete this line and instead use:
-//    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
+//    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
 @include mat.core();
 
 $fuse-white: (
@@ -119,12 +119,12 @@ $my-theme: mat.define-light-theme((
 // -----------------------------------------------------------------------------------------------------
 
 // Angular Material typography
-$typography: mat.define-legacy-typography-config(
+$typography: mat.define-typography-config(
     $font-family: 'Muli, Helvetica Neue, Arial, sans-serif',
-    $title: mat.define-typography-level(20px, 32px, 600),
-    $body-2: mat.define-typography-level(14px, 24px, 600),
+    $headline-6: mat.define-typography-level(20px, 32px, 600),
+    $subtitle-2: mat.define-typography-level(14px, 24px, 600),
     $button: mat.define-typography-level(14px, 14px, 600),
-    $input: mat.define-typography-level(16px, 1.125, 400),
+    $body-1: mat.define-typography-level(16px, 1.125, 400),
 );
 
 // Setup the typography

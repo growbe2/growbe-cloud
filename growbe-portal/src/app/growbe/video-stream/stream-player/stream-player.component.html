@@ -4,11 +4,11 @@
   </div>
   <ng-template #single>
     <div class="multi-stream-bar" *ngIf="streamsURL.length > 1">
-      <mat-chip-list>
-        <mat-chip *ngFor="let stream of streams; index as i" [selected]="i === currentIndex" (click)="currentIndex = i">
+      <mat-chip-listbox>
+        <mat-chip-option *ngFor="let stream of streams; index as i" [selected]="i === currentIndex" (click)="currentIndex = i">
           {{stream.streamName}}
-        </mat-chip>
-      </mat-chip-list>
+        </mat-chip-option>
+      </mat-chip-listbox>
     </div>
     <div class="video-container">
       <app-video-player [url]="streamsURL[currentIndex]" [mute]="mute"></app-video-player>

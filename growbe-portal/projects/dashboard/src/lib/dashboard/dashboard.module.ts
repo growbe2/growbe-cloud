@@ -16,18 +16,18 @@ import {
     LayoutDirectiveModule,
     ProjectDashboardModule,
 } from '@berlingoqc/fuse-extra';
-import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 import {
     DashboardRegistryService,
 } from './registry/dashboard-registry.service';
 import { DashboardProjectComponent } from './components/dashboard-project/dashboard-project.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { DashboardService } from './dashboard.service';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatCardModule } from '@angular/material/card';
 import { MatTabsExtraModule, TemplateContentModule } from '@berlingoqc/ngx-common';
 import { AddToDashboardDirective } from './add-dashboard.directive';
 import { DashboardFullComponent } from './components/dashboard-full/dashboard-full.component';

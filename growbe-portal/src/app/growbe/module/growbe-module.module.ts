@@ -6,7 +6,7 @@ import { AutoTableModule } from '@berlingoqc/ngx-autotable';
 import { ModuleStatusDotComponent } from './component/module-status-dot/module-status-dot.component';
 import { GrowbeModuleDataTableComponent } from './component/growbe-module-data-table/growbe-module-data-table.component';
 import { GrowbeModuleDefComponent } from './component/growbe-module-def/growbe-module-def.component';
-import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
+import { MatListModule } from '@angular/material/list';
 
 import { FuseWidgetModule } from '@berlingoqc/fuse';
 import { LoopbackRestPipeModule } from '@berlingoqc/ngx-loopback';
@@ -16,7 +16,7 @@ import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import { HardwareAlarmModule } from './hardware-alarm/hardware-alarm.module';
 import { ButtonsRowModule, ConfirmationModule } from '@berlingoqc/ngx-common';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 import { DatedValueModule } from 'src/app/shared/dated-value/dated-value.module';
 
 @NgModule({

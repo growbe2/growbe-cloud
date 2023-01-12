@@ -1,4 +1,4 @@
-import { MatLegacyDialogClose as MatDialogClose, MatLegacyDialogConfig as MatDialogConfig } from "@angular/material/legacy-dialog";
+import { MatDialogClose, MatDialogConfig } from "@angular/material/dialog";
 import { ArrayProperty, AutoFormData, DictionnayProperty, FormObject, InputProperty, SelectComponent } from "@berlingoqc/ngx-autoform";
 import { CRUDDataSource } from "@berlingoqc/ngx-loopback";
 import { GrowbeModuleWithRelations, VirtualRelayWithRelations } from "@growbe2/ngx-cloud-api";

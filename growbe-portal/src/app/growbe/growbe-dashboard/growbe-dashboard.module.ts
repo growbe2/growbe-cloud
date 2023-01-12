@@ -9,8 +9,8 @@ import {
 import { GrowbeDashboardRoutingModule } from './growbe-dashboard.routing';
 
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
-import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTabsModule } from '@angular/material/tabs';
 import { GraphModule } from '../module/graph/graph.module';
 import { FuseSharedModule, FuseWidgetModule } from '@berlingoqc/fuse';
 import { GrowbeDashboardFormComponent } from './growbe-dashboard-form/growbe-dashboard-form.component';

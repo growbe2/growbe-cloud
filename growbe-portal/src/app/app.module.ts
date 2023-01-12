@@ -31,7 +31,7 @@ import { FuseModule, FuseNavigationService } from '@berlingoqc/fuse';
 import { fuseConfig } from './fuse/fuse-config';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxPermissionsModule, NgxPermissionsService } from 'ngx-permissions';
-import { MAT_LEGACY_FORM_FIELD_DEFAULT_OPTIONS as MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/legacy-form-field';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { Router } from '@angular/router';
 import {
     AuthModule,
@@ -67,6 +67,7 @@ import { GrowbeMainboard } from '@growbe2/ngx-cloud-api';
 import { GrowbeEventService } from './growbe/services/growbe-event.service';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+ import {MatButtonModule} from '@angular/material/button';
 
 @Injectable({
     providedIn: 'root',
@@ -211,15 +212,24 @@ export class AppModule {
               route.navigate(['/home']);
           }
           clearSubs();
+
           const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
           navItemGrowbe.type = "group";
           navItemGrowbe.url = null;
-          navItemGrowbe.children = growbes.map((growbe) => {
-              // should be clean up on disconnect or on recall
-            //growbeAPI.getById(growbe.id, { include: [{relation: 'growbeMainboardConfig'}]});
-            subs[subs.length] = growbeAPI.getById(growbe.id, { include: [{relation: 'growbeMainboardConfig'}]}, growbe).subscribe((g: GrowbeMainboard) => {
+          navItemGrowbe.children = [];
+          growbes.forEach((growbe) => {
+
+            navItemGrowbe.children.push({
+                id: growbe.id,
+                title: growbe.name ? growbe.name : growbe.id,
+                type: 'item',
+                //icon: growbe.state === 'CONNECTED' ? 'link': 'linkoff',
+                url: '/growbe/' + growbe.id
+            });
+
+            let sub = growbeAPI.getById(growbe.id, { include: [{relation: 'growbeMainboardConfig'}]}, growbe).subscribe((g: GrowbeMainboard) => {
                 console.log('DADADAD', g);
-                const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
+                //const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
                 const indexItem = (navItemGrowbe.children as any[]).findIndex((x) => x.id == g.id);
                 navItemGrowbe.children[indexItem].title = g.name ? g.name : g.id;
                 navItemGrowbe.children[indexItem].icon = (g.state === 'CONNECTED') ? 'link': 'link_off';
@@ -227,7 +237,6 @@ export class AppModule {
 
                 let previous_state = undefined;
 
-                setTimeout(() => {
                     subs[subs.length] = growbeEventService.getGrowbeEvent(g.id, '/cloud/state', (d) => JSON.parse(d)).subscribe((g) => {
                         const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
                         const indexItem = (navItemGrowbe.children as any[]).findIndex((x) => x.id == g.id);
@@ -242,17 +251,8 @@ export class AppModule {
                         }
                         previous_state = g.state;
                     });
-                }, 1000);
             });
-
-
-            return {
-                id: growbe.id,
-                title: growbe.name ? growbe.name : growbe.id,
-                type: 'item',
-                //icon: growbe.state === 'CONNECTED' ? 'link': 'linkoff',
-                url: '/growbe/' + growbe.id
-            }
+            subs.push(sub);
           });
           navItemGrowbe.children.push({
               id: 'add_growbe',

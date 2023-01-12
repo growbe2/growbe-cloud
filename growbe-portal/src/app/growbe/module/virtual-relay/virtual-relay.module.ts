@@ -5,7 +5,7 @@ import { VirtualRelayTableComponent } from './virtual-relay-table/virtual-relay-
 import { VirtualRelayDashboardComponent } from './virtual-relay-dashboard/virtual-relay-dashboard.component';
 import { DashboardModule, DashboardRegistryService } from '@growbe2/growbe-dashboard';
 import { GrowbeDashboardRegistry } from '../../growbe-dashboard/items';
-import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RelayModule } from '../relay/relay.module';
