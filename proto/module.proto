@@ -6,9 +6,12 @@ enum ActorType {
     // Operation was executed by a end user manually
     // from the cloud app most likely
     MANUAL_USER_ACTOR = 0;
-    // When a property is control by a virtual relay
+    // Actor use by the system to restore state , so
+    // no actor validation and modication are perform
+    SYSTEM_USER_ACTOR = 1;
+    // When a property is control by a virtual device
     VIRTUAL_ACTOR = 3;
-    // Env controller
+    // When owned by a env controller
     ENV_CONTROLLER_ACTOR = 4;
 }
 

@@ -4,7 +4,6 @@ import { APP_INITIALIZER, ChangeDetectorRef, Injectable, Injector, NgModule } fr
 import { AppRoutingModule } from './app-routing.module';
 import {
     AppComponent,
-    FaqModule,
     LayoutEventService,
     LayoutModule,
     SITE_LOGO,
@@ -33,7 +32,6 @@ import { fuseConfig } from './fuse/fuse-config';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxPermissionsModule, NgxPermissionsService } from 'ngx-permissions';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { FAQS } from './fuse/faq';
 import { Router } from '@angular/router';
 import {
     AuthModule,
@@ -50,7 +48,6 @@ import {
 import { HomeComponent } from './home/home.component';
 
 import { GrowbeAuthModule } from './auth/auth.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { NavigationComponent } from './home/navigation.component';
 import { GrowbeDashboardAPI } from './growbe/api/growbe-dashboard';
 
@@ -70,6 +67,7 @@ import { GrowbeMainboard } from '@growbe2/ngx-cloud-api';
 import { GrowbeEventService } from './growbe/services/growbe-event.service';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+ import {MatButtonModule} from '@angular/material/button';
 
 @Injectable({
     providedIn: 'root',
@@ -92,12 +90,10 @@ export class NavigationWrapper {
         PWAModule,
         FuseModule.forRoot(fuseConfig),
         LayoutModule,
-        FaqModule,
         TranslateModule.forRoot(),
         ServiceWorkerModule.register('ngsw-worker.js', {
             enabled: environment.production,
         }),
-        FlexLayoutModule,
         AccountModule,
         AuthModule.forRoot(),
         NotificationModule.forRoot({} as any),
@@ -163,10 +159,6 @@ export class NavigationWrapper {
             useValue: { autoUpdate: false },
         },
         {
-            provide: 'FAQResolver',
-            useValue: () => FAQS,
-        },
-        {
           provide: Actions,
           useValue: {
                 validate: '/account/validate/invitation',
@@ -210,22 +202,34 @@ export class AppModule {
       authService.loginEvents.asObservable().pipe(
           filter((event) => event === 'disconnected'),
       ).subscribe(() => clearSubs());
+
       authService.loginEvents.asObservable().pipe(
         filter((event) => event === 'connected'),
         switchMap(() => userPreference.get()),
-        switchMap(() => growbeAPI.userGrowbeMainboard(authService.profile.id).get())
+        switchMap(() => growbeAPI.userGrowbeMainboard(authService.profile.id).get({include: [{relation: "growbeMainboardConfig"}]}))
       ).subscribe((growbes) => {
           if (route.url === '/auth') {
               route.navigate(['/home']);
           }
           clearSubs();
+
           const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
           navItemGrowbe.type = "group";
           navItemGrowbe.url = null;
-          navItemGrowbe.children = growbes.map((growbe) => {
-              // should be clean up on disconnect or on recall
-            subs[subs.length] = growbeAPI.getById(growbe.id, { include: [{relation: 'growbeMainboardConfig'}]}).subscribe((g: GrowbeMainboard) => {
-                const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
+          navItemGrowbe.children = [];
+          growbes.forEach((growbe) => {
+
+            navItemGrowbe.children.push({
+                id: growbe.id,
+                title: growbe.name ? growbe.name : growbe.id,
+                type: 'item',
+                //icon: growbe.state === 'CONNECTED' ? 'link': 'linkoff',
+                url: '/growbe/' + growbe.id
+            });
+
+            let sub = growbeAPI.getById(growbe.id, { include: [{relation: 'growbeMainboardConfig'}]}, growbe).subscribe((g: GrowbeMainboard) => {
+                console.log('DADADAD', g);
+                //const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
                 const indexItem = (navItemGrowbe.children as any[]).findIndex((x) => x.id == g.id);
                 navItemGrowbe.children[indexItem].title = g.name ? g.name : g.id;
                 navItemGrowbe.children[indexItem].icon = (g.state === 'CONNECTED') ? 'link': 'link_off';
@@ -233,7 +237,6 @@ export class AppModule {
 
                 let previous_state = undefined;
 
-                setTimeout(() => {
                     subs[subs.length] = growbeEventService.getGrowbeEvent(g.id, '/cloud/state', (d) => JSON.parse(d)).subscribe((g) => {
                         const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
                         const indexItem = (navItemGrowbe.children as any[]).findIndex((x) => x.id == g.id);
@@ -248,17 +251,8 @@ export class AppModule {
                         }
                         previous_state = g.state;
                     });
-                }, 1000);
             });
-
-
-            return {
-                id: growbe.id,
-                title: growbe.name ? growbe.name : growbe.id,
-                type: 'item',
-                //icon: growbe.state === 'CONNECTED' ? 'link': 'linkoff',
-                url: '/growbe/' + growbe.id
-            }
+            subs.push(sub);
           });
           navItemGrowbe.children.push({
               id: 'add_growbe',

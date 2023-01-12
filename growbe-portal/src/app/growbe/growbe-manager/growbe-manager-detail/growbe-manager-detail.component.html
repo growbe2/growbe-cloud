@@ -1,7 +1,7 @@
 <project-dashboard *ngIf="data$ | async as data">
     <fuseLayoutHeader>
         <div class="frow align-center wrap">
-            <span class="mat-display-1 my-0 my-sm-24 welcome-message"
+            <span class="mat-headline-4 my-0 my-sm-24 welcome-message"
                 [@animate]="{ value: '*', params: { x: '50px' } }">
                 {{ data.mainboard.name }}
             </span>
@@ -22,11 +22,11 @@
                 <mat-toolbar>
                     <h1>Modules</h1>
                     <div class="spacer"></div>
-                    <mat-chip-list>
-                      <mat-chip *ngFor="let board of mainboard.boards">
+                    <mat-chip-listbox>
+                      <mat-chip-option *ngFor="let board of mainboard.boards">
                         {{board.imple}}
-                      </mat-chip>
-                    </mat-chip-list>
+                      </mat-chip-option>
+                    </mat-chip-listbox>
                 </mat-toolbar>
                 <ng-template #status let-context="context">
                     <app-module-status-dot style="display: inline-block; width: fit-content" [matTooltip]="context.updatedAt | date: 'H:mm dd/LL'" [mainboardId]="data.mainboard.id" [module]="context"></app-module-status-dot>
@@ -167,10 +167,10 @@
                 <mat-toolbar>
                     <h1>Logs</h1>
                     <span class="spacer"></span>
-                    <mat-chip-list>
-                      <mat-chip [selected]="type_log == 'cloud'" (click)="type_log = 'cloud'">Cloud logs</mat-chip>
-                      <mat-chip [selected]="type_log == 'device'" (click)="type_log = 'device'">Device logs</mat-chip>
-                    </mat-chip-list>
+                    <mat-chip-listbox>
+                      <mat-chip-option [selected]="type_log == 'cloud'" (click)="type_log = 'cloud'">Cloud logs</mat-chip-option>
+                      <mat-chip-option [selected]="type_log == 'device'" (click)="type_log = 'device'">Device logs</mat-chip-option>
+                    </mat-chip-listbox>
                 </mat-toolbar>
                 <app-terminal *ngIf="type_log === 'cloud'" [growbeId]="data.mainboard.id" typeLog="cloud"></app-terminal>
                 <app-terminal *ngIf="type_log === 'device'" [growbeId]="data.mainboard.id" typeLog="device"></app-terminal>

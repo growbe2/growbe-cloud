@@ -99,7 +99,7 @@ export class GrowbeActionAPI {
         `${this.url}/growbeModules/${moduleId}/config/${data.property}?direct=${direct || false}`,
         data.config
       ).pipe(tap(() => {
-        this.growbeModuleAPI.requestFind.onModif(of(null)).subscribe();
+        //this.growbeModuleAPI.requestFind.onModif(of(null)).subscribe();
       }))
     }
 

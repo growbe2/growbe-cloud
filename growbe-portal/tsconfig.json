@@ -2,28 +2,32 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
-        "baseUrl": "./",
-        "paths": {
-            "@growbe2/growbe-dashboard": [
-                "dist/dashboard/dashboard",
-                "dist/dashboard"
-            ],
-            "@growbe2/growbe-greenhouse-module": [
-                "dist/greenhouse/greenhouse",
-                "dist/greenhouse"
-            ]
-        },
-        "outDir": "./dist/out-tsc",
-        "sourceMap": true,
-        "declaration": false,
-        "downlevelIteration": true,
-        "experimentalDecorators": true,
-        "resolveJsonModule": true,
-        "moduleResolution": "node",
-        "importHelpers": true,
-        "target": "es2020",
-        "module": "es2020",
-        "lib": ["es2020", "dom"]
+      "baseUrl": "./",
+      "paths": {
+        "@growbe2/growbe-dashboard": [
+          "dist/dashboard/dashboard",
+          "dist/dashboard"
+        ],
+        "@growbe2/growbe-greenhouse-module": [
+          "dist/greenhouse/greenhouse",
+          "dist/greenhouse"
+        ]
+      },
+      "outDir": "./dist/out-tsc",
+      "sourceMap": true,
+      "declaration": false,
+      "downlevelIteration": true,
+      "experimentalDecorators": true,
+      "resolveJsonModule": true,
+      "moduleResolution": "node",
+      "importHelpers": true,
+      "target": "ES2022",
+      "module": "es2020",
+      "lib": [
+        "es2020",
+        "dom"
+      ],
+      "useDefineForClassFields": false
     },
     "angularCompilerOptions": {
         "enableIvy": true

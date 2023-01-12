@@ -291,6 +291,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
                 this.sub = this.growbeEventService
                     .getGrowbeEvent(this.id, '/cloud/m/+/state', JSON.parse)
                     .subscribe((state) => {
+                        console.log('Module state change', state);
                         this.moduleAPI.requestGet.onModif(of(null)).subscribe(() => {});
                     });
             }),

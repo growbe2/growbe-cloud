@@ -2,9 +2,9 @@
         <h1>Streams</h1>
         <span></span>
         <span class="spacer"></span>
-        <mat-chip-list>
-            <mat-chip (click)="autoFormDialogService.open(newEditFormData)"> <mat-icon>add</mat-icon> </mat-chip>
-        </mat-chip-list>
+        <mat-chip-listbox>
+            <mat-chip-option (click)="autoFormDialogService.open(newEditFormData)"> <mat-icon>add</mat-icon> </mat-chip-option>
+        </mat-chip-listbox>
     </mat-toolbar>
 <ngx-autotable
     *ngIf="source"
