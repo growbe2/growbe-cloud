@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 
 import { AsyncClient, connectAsync } from 'async-mqtt';
 import { envConfig } from '@berlingoqc/ngx-common';
 import { filter, finalize, map, startWith, switchMap } from 'rxjs/operators';
 
 import { exec } from 'mqtt-pattern';
-import { GrowbeMainboardAPI } from '../api/growbe-mainboard';
-import { GrowbeMainboard, GrowbeModule } from '@growbe2/ngx-cloud-api';
-import { GrowbeModuleAPI } from '../api/growbe-module';
-import { GrowbeGraphService } from '../module/graph/service/growbe-graph.service';
+import {GrowbeMainboardAPI} from '../api/growbe-mainboard';
+import {GrowbeModuleAPI} from '../api/growbe-module';
 
 export const getTopic = (growbeId: string, subtopic: string) =>
     `/growbe/${growbeId}${subtopic}`;
@@ -22,17 +20,14 @@ export class GrowbeEventService {
 
 
     subscription: {[topic: string]: number} = {};
+    listeningMainboard: {[id: string]: () => void} = {};
 
     private connectPromise: Promise<AsyncClient>;
 
-
     constructor(
-      private growbeAPI: GrowbeMainboardAPI,
-      private growbeModuleAPI: GrowbeModuleAPI,
-      private graphService: GrowbeGraphService,
-    ) {
-
-    }
+      private mainboardAPI: GrowbeMainboardAPI,
+      private moduleAPI: GrowbeModuleAPI,
+    ) {}
 
     async connect() {
         if (this.client) { return; }
@@ -63,32 +58,61 @@ export class GrowbeEventService {
     }
 
 
-    getGrowbeLive(id: string): Observable<GrowbeMainboard> {
-      return this.growbeAPI.getById(id).pipe(
-        this.liveUpdateFromGrowbeEvent(id, `/cloud/state`)
-      );
+    startListenMainboard(id: string) {
+
+      let replaceValue = (requests, value, id, callback = undefined) => {
+            if (!callback) {
+              callback = () => value;
+            }
+            return Object.values(requests).forEach((ctx: any) => {
+              if (ctx.context == id) {
+                  ctx.subject.next({
+                    operation: 'callback',
+                    id: value.id,
+                    callback,
+                  });
+              }
+            });
+      };
+
+      if (!this.listeningMainboard[id]) {
+          let parse = (d) => Object.assign(JSON.parse(d), { createdAt: new Date()});
+          let subscriptionMainboardState = this.getGrowbeEvent(id, `/cloud/state`, parse).subscribe((value) => {
+            replaceValue(this.mainboardAPI.requestFind.items, value, value.id, (oldValue) => {
+              oldValue.state = value.state;
+              oldValue.lastUpdatedAt = value.lastUpdatedAt;
+              return oldValue;
+            });
+          });
+
+          let subscriptionModuleState = this.getGrowbeEvent(id, `/cloud/m/+/state`, parse).subscribe((value) => {
+            replaceValue(this.moduleAPI.requestFind.items, value.id, value);
+          });
+
+          let subscriptionModuleConfig = this.getGrowbeEventWithTopicData(id, `/cloud/m/+/config`, parse).subscribe(({message, topic}) => {
+            const items = topic.split('/');
+            const id = items[items.length - 2];
+            replaceValue(this.moduleAPI.requestFind.items, message, id, (oldValue) => {
+                console.log('Config updated', oldValue, message);
+                oldValue.config = message;
+                return oldValue;
+            });
+          });
+
+          this.listeningMainboard[id] = () => {
+              subscriptionModuleState.unsubscribe();
+              subscriptionMainboardState.unsubscribe();
+              subscriptionModuleConfig.unsubscribe();
+          };
+      }
     }
 
-    getModuleLive(id: string, moduleId: string): Observable<GrowbeModule> {
-      return this.growbeModuleAPI.getById(moduleId).pipe(
-        this.liveUpdateFromGrowbeEvent(id, `/cloud/m/${moduleId}/state`)
-      )
+    stopListenningMainboard(id: string) {
+      if (this.listeningMainboard[id]) {
+        this.listeningMainboard[id]();
+        delete this.listeningMainboard[id];
+      }
     }
-
-    getModuleDataLive(id: string, moduleId: string, properties: string[]): Observable<any> {
-      return this.graphService.getGraph(id, 'one', {
-        moduleId,
-        growbeId: id,
-        fields: properties,
-        liveUpdate: true,
-      }).pipe(
-        map((v) => v[0]),
-        this.liveUpdateFromGrowbeEvent(id, `/cloud/m/${moduleId}/data`, (d) => Object.assign(JSON.parse(d), { createdAt: new Date()})),
-      )
-    }
-
-
-    // GENERIC FUNCTION
 
     getGrowbeEvent(id: string, subtopic: string, parse: (data) => any) {
         const topic = getTopic(id, subtopic);
@@ -109,6 +133,28 @@ export class GrowbeEventService {
                 })
             );
     }
+
+    getGrowbeEventWithTopicData(id: string, subtopic: string, parse: (data) => any) {
+        const topic = getTopic(id, subtopic);
+        this.addSubscription(topic).then(() => {});
+        return this.subject
+            .asObservable()
+            .pipe(filter((value) => exec(topic, value.topic)))
+            .pipe(
+                map((value) => {
+                    try {
+                        return { message: parse(value.message), topic: value.topic };
+                    } catch (err) {
+                        return null;
+                    }
+                }),
+                finalize(() => {
+                  this.removeSubscriptipon(topic).then(() => {});
+                })
+            );
+    }
+
+
 
     liveUpdateFromGrowbeEvent<T>(
         id: string,

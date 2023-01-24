@@ -13,6 +13,7 @@ import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
 import {
   GraphModuleRequest,
   GrowbeModuleDefWithRelations,
+  GrowbeModuleWithRelations,
 } from '@growbe2/ngx-cloud-api';
 import { DecimalPipe } from '@angular/common';
 import { transformModuleValue } from '../../module.def';
@@ -56,7 +57,7 @@ export class ModuleLastValueComponent extends BaseDashboardComponent implements 
     connected: Observable<boolean>;
 
     constructor(
-        private topic: GrowbeEventService,
+        private eventService: GrowbeEventService,
         private graphService: GrowbeGraphService,
         private changeDetection: ChangeDetectorRef,
         private moduleAPI: GrowbeModuleAPI,
@@ -70,8 +71,8 @@ export class ModuleLastValueComponent extends BaseDashboardComponent implements 
             return;
         }
 
-        this.connected = this.topic.getModuleLive(this.graphDataConfig.growbeId, this.graphDataConfig.moduleId).pipe(
-          map((item) => item.connected)
+        this.connected = this.moduleAPI.getById(this.graphDataConfig.moduleId).pipe(
+          map((item: GrowbeModuleWithRelations) => item.connected)
         );
 
         // TODO : better fixe for this monstrosity
@@ -109,7 +110,7 @@ export class ModuleLastValueComponent extends BaseDashboardComponent implements 
                 this.changeDetection.markForCheck();
                 if (this.graphDataConfig.liveUpdate) {
                     this.sub = (
-                        await this.topic.getGrowbeEvent(
+                        await this.eventService.getGrowbeEvent(
                             this.graphDataConfig.growbeId,
                             `/cloud/m/${this.graphDataConfig.moduleId}/fdata`,
                             (d) =>

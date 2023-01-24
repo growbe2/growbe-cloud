@@ -70,7 +70,8 @@ export const getGrowbeActionTableColumns = (getGrowbe: () => GrowbeMainboardWith
                                         content: 'pending_actions',
                                     },
                                     style: 'mat-mini-fab',
-                                    disabled: eventService.getGrowbeLive(getGrowbe().id).pipe(map((mainboard) => mainboard.state === 'DISCONNECTED')),
+                                    // TODO: pass moduleApi
+                                    //disabled: eventService.getGrowbeLive(getGrowbe().id).pipe(map((mainboard) => mainboard.state === 'DISCONNECTED')),
                                     click: (
                                         router: Router,
                                         context: any,

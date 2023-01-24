@@ -39,6 +39,7 @@ export class VirtualRelayControlComponent extends BaseDashboardComponent impleme
       this.getGrowbeModuleDataEventSource()
     ]);
     this.mainboardAPI.getById(this.growbeId).pipe(take(1)).subscribe((x) => this.mainboard = x);
+    /*
     this.control = {
       changeManualState: (config) => this.mainboardAPI.virtualRelayUpdateConfig(this.growbeId, this.vrId, config, (this.mainboard?.growbeMainboardConfig?.config as any)?.preferedCommandConnnection == 1),
       getValues: () => this.vrRefresh.pipe(
@@ -53,6 +54,7 @@ export class VirtualRelayControlComponent extends BaseDashboardComponent impleme
         this.vrRefresh.next();
       }
     }
+    */
   }
 
   private getGrowbeModuleDataEventSource() {

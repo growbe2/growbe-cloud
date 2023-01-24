@@ -17,6 +17,10 @@ import {
 } from '../../form/relay-form';
 
 export interface RelayControl {
+    getConfig(): Observable<any>; // RelayOutletConfig
+    getValue(): Observable<any>; // RelayOutletData
+    getParentConnectionStatus(): Observable<boolean>;
+
     getValues(): Observable<[any, any, any, boolean]>;
     changeManualState(config: any): Observable<void>;
     refresh: () => void;
@@ -58,7 +62,6 @@ export class RelayBaseControlComponent
     subjectModuleState = new Subject<boolean>();
 
     constructor(
-        private growbeModuleAPI: GrowbeModuleAPI,
         private notificationService: NotificationService,
     ) {
         super();

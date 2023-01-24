@@ -11,6 +11,7 @@ import { envConfig } from '@berlingoqc/ngx-common';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap} from 'rxjs/operators';
 import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
+import {GrowbeEventService} from 'src/app/growbe/services/growbe-event.service';
 
 
 export const timeFieldComponent = {
@@ -75,6 +76,7 @@ export const timeFieldComponent = {
 export class GrowbeGraphService {
     constructor(
         private httpClient: HttpClient,
+        private growbeEventService: GrowbeEventService,
         private moduleAPI: GrowbeModuleAPI,
     ) {}
 
@@ -83,6 +85,18 @@ export class GrowbeGraphService {
             `${envConfig.growbeCloud}/growbes/${growbeId}/${mode}`,
             data,
         );
+    }
+
+    getModuleDataLive(id: string, moduleId: string, properties: string[]): Observable<any> {
+      return this.getGraph(id, 'one', {
+        moduleId,
+        growbeId: id,
+        fields: properties,
+        liveUpdate: true,
+      }).pipe(
+        map((v) => v[0]),
+        this.growbeEventService.liveUpdateFromGrowbeEvent(id, `/cloud/m/${moduleId}/data`, (d) => Object.assign(JSON.parse(d), { createdAt: new Date()})),
+      )
     }
 
     getPropertySelectFormElement(moduleId$: Observable<string>, name = '') {

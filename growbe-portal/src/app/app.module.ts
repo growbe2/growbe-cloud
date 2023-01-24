@@ -227,8 +227,10 @@ export class AppModule {
                 url: '/growbe/' + growbe.id
             });
 
+
+            growbeEventService.startListenMainboard(growbe.id);
+
             let sub = growbeAPI.getById(growbe.id, { include: [{relation: 'growbeMainboardConfig'}]}, growbe).subscribe((g: GrowbeMainboard) => {
-                console.log('DADADAD', g);
                 //const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
                 const indexItem = (navItemGrowbe.children as any[]).findIndex((x) => x.id == g.id);
                 navItemGrowbe.children[indexItem].title = g.name ? g.name : g.id;
