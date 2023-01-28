@@ -1,10 +1,9 @@
-import {HelloWord, LocalConnection} from '@growbe2/growbe-pb';
+import {HelloWord} from '@growbe2/growbe-pb';
 import {BindingScope, inject, injectable, service} from '@loopback/core';
 import * as _ from 'lodash';
-import {lastValueFrom, Subject} from 'rxjs';
-import {RTC_OFFSET_KEY} from '../data';
+import {Subject} from 'rxjs';
 import {GrowbeMainboardBindings} from '../keys';
-import {GrowbeMainboard, GrowbeMainboardWithRelations} from '../models';
+import {GrowbeMainboard, GrowbeMainboardConnectionInformation, GrowbeMainboardWithRelations} from '../models';
 import {
   GroupEnum,
   LogTypeEnum,
@@ -43,11 +42,11 @@ export class GrowbeStateService {
   async onAppRestart() {
     const one_minute_ago = new Date();
     one_minute_ago.setMinutes(one_minute_ago.getMinutes() - 1);
-    for (let x of (await this.growbeService.mainboardRepository.find())
-      .filter(x => isBefore(x.lastUpdateAt, one_minute_ago))) {
-        x.state = 'DISCONNECTED';
-        await this.stateChange(x);
-        await this.notifyState(x);
+    for (let x of (await this.growbeService.mainboardRepository.find({include: ['connectionInformation']}))
+      .filter(x => isBefore(x.connectionInformation.lastUpdateAt, one_minute_ago))) {
+        x.connectionInformation.state = 'DISCONNECTED';
+        await this.logStateChange(x.id, x.connectionInformation.state);
+        await this.notifyState(x, { connectionInformation: true });
         await this.growbeModuleService.onBoardDisconnect(x.id);
         GrowbeStateService.DEBUG("disconnecting on restart : " + x.id)
     }
@@ -63,60 +62,64 @@ export class GrowbeStateService {
     
     mainboard.cloudVersion = helloWorld.cloudVersion;
     mainboard.version = helloWorld.version;
-    mainboard.lastUpdateAt = new Date();
     mainboard.boards = helloWorld.boards;
     mainboard.host = helloWorld.host;
-    if (mainboard.state !== 'CONNECTED') {
-      mainboard.state = 'CONNECTED';
-      await this.stateChange(mainboard);
-    }
 
     this.cacheMainboard[id] = mainboard as GrowbeMainboardWithRelations;
+
     await this.notifyState(
-      new GrowbeMainboard(_.omit(mainboard, 'growbeMainboardConfig')),
+      new GrowbeMainboard(_.omit(mainboard, 'growbeMainboardConfig', 'connectionInformation')),
+      { mainboard: true }
     );
     
     return mainboard;
   }
 
   async onGrowbeDisconnectEvent(id: string) {
-     const mainboardNew = await this.growbeService.mainboardRepository.findById(
+        const mainboardNew = await this.growbeService.mainboardRepository.findById(
           id,
+          { include: ['connectionInformation']}
         );
         // na pas été update
         GrowbeStateService.DEBUG(`Growbe ${id} has send a disconnect event`);
-        mainboardNew.state = 'DISCONNECTED';
-        await this.stateChange(mainboardNew);
-        await this.notifyState(mainboardNew);
+        mainboardNew.connectionInformation.state = 'DISCONNECTED';
+        await this.logStateChange(mainboardNew.id, mainboardNew.connectionInformation.state);
+        await this.notifyState(mainboardNew, { connectionInformation: true });
         await this.growbeModuleService.onBoardDisconnect(id);
 
         delete this.cacheMainboard[id];
         delete this.watcherMainboard[id];
   }
 
+  // this is call on receiving most message
   async valideState(id: string) {
     let mainboard = await this.getMainboard(id);
     
     const hearthBeathRate = mainboard.growbeMainboardConfig.config.hearthBeath;
     const receiveAt = new Date();
     // Si on change d'état notify par MQTT
-    if (mainboard.state !== 'CONNECTED') {
-      GrowbeStateService.DEBUG(`Growbe ${id} connected`);
-      mainboard.state = 'CONNECTED';
-      this.cacheMainboard[mainboard.id] = mainboard as any;
-      await this.stateChange(
-        _.omit(mainboard, 'growbeMainboardConfig')
-      );
-      this.growbeActionService.sendSyncRequest(mainboard.id, true).then(() => {});
-    }
-    await this.notifyState(
-      new GrowbeMainboard({
-        id: mainboard.id,
-        state: mainboard.state,
-        lastUpdateAt: receiveAt,
-      }),
-    );
 
+    if (mainboard.connectionInformation.state !== 'CONNECTED') {
+      GrowbeStateService.DEBUG(`Growbe ${id} connected`);
+      mainboard.connectionInformation.state = 'CONNECTED';
+      this.cacheMainboard[mainboard.id] = mainboard as any;
+      await this.logStateChange(
+        mainboard.id,
+        mainboard.connectionInformation.state,
+      );
+      this.growbeActionService.sendSyncRequest(mainboard.id, mainboard.growbeMainboardConfig?.config?.preferedCommandConnection == 1)
+        .then(() => {})
+        .catch((e) => {
+          GrowbeStateService.DEBUG(`failed to send sync : ${JSON.stringify(e)}`)
+        });
+    }
+
+    mainboard.connectionInformation.lastUpdateAt = receiveAt;
+
+    await this.notifyState(
+      mainboard,
+      { connectionInformation: true, }
+    );
     // Démarre un timer pour regarder si on a recu un autre beath
     if (this.watcherMainboard[id]) {
       clearTimeout(this.watcherMainboard[id]);
@@ -125,19 +128,21 @@ export class GrowbeStateService {
     this.watcherMainboard[id] = setTimeout(() => {
       (async () => {
         // Regarde si on a été update depuis
-        const mainboardNew = await this.growbeService.mainboardRepository.findById(
-          mainboard.id,
-        );
+        const connectionInformationNew = await this.growbeService.connectionInformationRepo.findOne({where: {growbeMainboardId: id}});
+        if (!connectionInformationNew) {
+            return;
+        }
         // na pas été update
         GrowbeStateService.DEBUG(`Growbe ${id} lost connection`);
-        mainboardNew.state = 'DISCONNECTED';
-        await this.stateChange(mainboardNew);
-        await this.notifyState(mainboardNew);
-        await this.growbeModuleService.onBoardDisconnect(mainboardNew.id);
-        
-        mainboardNew.growbeMainboardConfig = this.cacheMainboard[mainboard.id].growbeMainboardConfig;
-        this.cacheMainboard[mainboard.id] = mainboardNew
+        connectionInformationNew.state = 'DISCONNECTED';
+        await this.logStateChange(id, connectionInformationNew.state);
+        await this.notifyState(new GrowbeMainboard({ id, connectionInformation: connectionInformationNew }), { connectionInformation: true });
+        await this.growbeModuleService.onBoardDisconnect(id);
 
+        if (this.cacheMainboard[id]) {
+          this.cacheMainboard[mainboard.id].connectionInformation = connectionInformationNew;
+        }
+        
         delete this.watcherMainboard[id];
       })().then(
         () => {},
@@ -148,22 +153,21 @@ export class GrowbeStateService {
 
 
   private async getMainboard(id: string): Promise<GrowbeMainboard> {
-    let mainboard: GrowbeMainboard;
     if (!this.cacheMainboard[id]) {
      this.cacheMainboard[id] = await this.growbeService.findOrCreate(id, {
-       include: ['growbeMainboardConfig'],
+       include: ['growbeMainboardConfig','connectionInformation'],
      }) as any;
     }
     return this.cacheMainboard[id];
   }
 
-  private stateChange(mainboard: any) {
+  private logStateChange(mainboardId: string, state: string) {
     return this.logsService.addLog({
-      growbeMainboardId: mainboard.id,
+      growbeMainboardId: mainboardId,
       group: GroupEnum.MAINBOARD,
       severity: SeverityEnum.HIGH,
       type: LogTypeEnum.CONNECTION_STATE_CHANGE,
-      message: `connected ${mainboard.state}`,
+      message: `connected ${state}`,
     });
   }
 
@@ -171,47 +175,23 @@ export class GrowbeStateService {
    * notify a state change for a Growbe (CONNECTED and DISCONNECTED)
    * @param mainboard
    */
-  private async notifyState(mainboard: GrowbeMainboard) {
-    await this.growbeService.mainboardRepository.updateById(
-      mainboard.id,
-      mainboard,
-    );
-    return this.mqttService.send(
-      getTopic(mainboard.id, '/cloud/state'),
-      JSON.stringify(new GrowbeMainboard(mainboard)),
-    );
-  }
-
-  /**
-   * valid if the RTC clock time is the same that
-   * the one in the computer and create a warning
-   * if different
-   * @param rtc of the mainboard
-   * @param mainboardId if of the mainboard
-   * @param configHearthBeath the hearthbeathRate config
-   */
-  private async validOffsetRTC(
-    rtc: string,
-    mainboardId: string,
-    configHearthBeath: number,
-  ) {
-    const rtcDate = new Date(rtc).getTime();
-    const currentDate = new Date().getTime();
-    const timeDiff = currentDate - rtcDate;
-    let state = undefined;
-    if (timeDiff < 0) {
-      state = 'advance';
-    } else if ((configHearthBeath + 5) * 1000 < timeDiff) {
-      state = 'late';
+  private async notifyState(mainboard: GrowbeMainboard, modifs: {[id: string]: boolean}) {
+    if (modifs.mainboard === true) {
+      await this.growbeService.mainboardRepository.updateById(
+        mainboard.id,
+        mainboard,
+      );
+      await this.mqttService.send(
+        getTopic(mainboard.id, '/cloud/state'),
+        JSON.stringify(new GrowbeMainboard(mainboard)),
+      );
     }
-    if (state) {
-      await this.warningService.addWarning({
-        growbeMainboardId: mainboardId,
-        warningKeyId: RTC_OFFSET_KEY,
-        data: {
-          state,
-        },
-      });
+    if (modifs.connectionInformation === true) {
+      await this.growbeService.connectionInformationRepo.update(mainboard.connectionInformation);
+      await this.mqttService.send(
+        getTopic(mainboard.id, '/cloud/connectionInformation'),
+        JSON.stringify(new GrowbeMainboardConnectionInformation(mainboard.connectionInformation))
+      );
     }
   }
 }

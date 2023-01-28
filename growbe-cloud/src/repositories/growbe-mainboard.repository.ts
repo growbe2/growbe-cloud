@@ -12,7 +12,7 @@ import {
   GrowbeWarning,
   GrowbeSensorValue,
   GrowbeModule,
-  GrowbeLogs, GrowbeModuleDef, VirtualRelay, EnvironmentControllerState} from '../models';
+  GrowbeLogs, GrowbeModuleDef, VirtualRelay, EnvironmentControllerState, GrowbeMainboardConnectionInformation} from '../models';
 import {PgsqlDataSource} from '../datasources';
 import {Getter, inject} from '@loopback/core';
 import {UserRepository, User} from '@berlingoqc/sso';
@@ -25,6 +25,7 @@ import {GrowbeModuleDefRepository} from './growbe-module-def.repository';
 import {VirtualRelayRepository} from './virtual-relay.repository';
 import { DeviceLogs, DeviceLogsRepository } from '../component/device-logs';
 import {EnvironmentControllerStateRepository} from './environment-controller-state.repository';
+import {GrowbeMainboardConnectionInformationRepository} from './growbe-mainboard-connection-information.repository';
 
 export class GrowbeMainboardRepository extends DefaultCrudRepository<
   GrowbeMainboard,
@@ -69,6 +70,8 @@ export class GrowbeMainboardRepository extends DefaultCrudRepository<
 
   public readonly environmentControllerStates: HasManyRepositoryFactory<EnvironmentControllerState, typeof GrowbeMainboard.prototype.id>;
 
+  public readonly connectionInformation: HasOneRepositoryFactory<GrowbeMainboardConnectionInformation, typeof GrowbeMainboard.prototype.id>;
+
   constructor(
     @inject('datasources.pgsql') dataSource: PgsqlDataSource,
     @repository.getter('repositories.UserRepository')
@@ -88,9 +91,11 @@ export class GrowbeMainboardRepository extends DefaultCrudRepository<
     @repository.getter('VirtualRelayRepository')
     protected virtualRelayRepositoryGetter: Getter<VirtualRelayRepository>,
     @repository.getter('DeviceLogsRepository')
-    protected deviceLogsRepositoryGetter: Getter<DeviceLogsRepository>, @repository.getter('EnvironmentControllerStateRepository') protected environmentControllerStateRepositoryGetter: Getter<EnvironmentControllerStateRepository>,
+    protected deviceLogsRepositoryGetter: Getter<DeviceLogsRepository>, @repository.getter('EnvironmentControllerStateRepository') protected environmentControllerStateRepositoryGetter: Getter<EnvironmentControllerStateRepository>, @repository.getter('GrowbeMainboardConnectionInformationRepository') protected growbeMainboardConnectionInformationRepositoryGetter: Getter<GrowbeMainboardConnectionInformationRepository>,
   ) {
     super(GrowbeMainboard, dataSource);
+    this.connectionInformation = this.createHasOneRepositoryFactoryFor('connectionInformation', growbeMainboardConnectionInformationRepositoryGetter);
+    this.registerInclusionResolver('connectionInformation', this.connectionInformation.inclusionResolver);
     this.environmentControllerStates = this.createHasManyRepositoryFactoryFor('environmentControllerStates', environmentControllerStateRepositoryGetter,);
     this.registerInclusionResolver('environmentControllerStates', this.environmentControllerStates.inclusionResolver);
     this.virtualRelays = this.createHasManyRepositoryFactoryFor('virtualRelays', virtualRelayRepositoryGetter,);
