@@ -571,6 +571,21 @@
         "operationId": "GrowbeDashboardController.findGrowbeOrganisation"
       }
     },
+    "/features": {
+      "get": {
+        "x-controller-name": "GrowbeFeatureController",
+        "x-operation-name": "getHardwareAlarmEvent",
+        "tags": [
+          "GrowbeFeatureController"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return value of GrowbeFeatureController.getHardwareAlarmEvent"
+          }
+        },
+        "operationId": "GrowbeFeatureController.getHardwareAlarmEvent"
+      }
+    },
     "/growbe/register": {
       "post": {
         "x-controller-name": "GrowbeMainboardController",
@@ -2158,6 +2173,40 @@
         "operationId": "GrowbeModuleController.find"
       }
     },
+    "/growbeStreams/{id}/live": {
+      "get": {
+        "x-controller-name": "GrowbeStreamController",
+        "x-operation-name": "getLiveStream",
+        "tags": [
+          "GrowbeStreamController"
+        ],
+        "responses": {
+          "200": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrowbeStream",
+                "definitions": {
+                  "GrowbeStream": {
+                    "$ref": "#/components/schemas/GrowbeStream"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "operationId": "GrowbeStreamController.getLiveStream"
+      }
+    },
     "/growbeStreams/{id}": {
       "delete": {
         "x-controller-name": "GrowbeStreamController",
@@ -2192,6 +2241,30 @@
           }
         ],
         "operationId": "GrowbeStreamController.deleteById"
+      }
+    },
+    "/growbeStreams": {
+      "post": {
+        "x-controller-name": "GrowbeStreamController",
+        "x-operation-name": "createStream",
+        "tags": [
+          "GrowbeStreamController"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return value of GrowbeStreamController.createStream"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrowbeStreamExcluding_id-active-expiredAt-key_"
+              }
+            }
+          }
+        },
+        "operationId": "GrowbeStreamController.createStream"
       }
     },
     "/growbes/count": {
@@ -5634,18 +5707,11 @@
           "name": {
             "type": "string"
           },
-          "state": {
-            "type": "string"
-          },
           "userId": {
             "type": "string"
           },
           "organisationId": {
             "type": "string"
-          },
-          "lastUpdateAt": {
-            "type": "string",
-            "format": "date-time"
           },
           "version": {
             "type": "string"
@@ -5673,18 +5739,11 @@
           "name": {
             "type": "string"
           },
-          "state": {
-            "type": "string"
-          },
           "userId": {
             "type": "string"
           },
           "organisationId": {
             "type": "string"
-          },
-          "lastUpdateAt": {
-            "type": "string",
-            "format": "date-time"
           },
           "version": {
             "type": "string"
@@ -6300,6 +6359,28 @@
         "additionalProperties": false,
         "x-typescript-type": "EnvironmentControllerStateWithRelations"
       },
+      "GrowbeMainboardConnectionInformationWithRelations": {
+        "title": "GrowbeMainboardConnectionInformationWithRelations",
+        "type": "object",
+        "description": "(tsType: GrowbeMainboardConnectionInformationWithRelations, schemaOptions: { includeRelations: true })",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "lastUpdateAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "state": {
+            "type": "string"
+          },
+          "growbeMainboardId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "x-typescript-type": "GrowbeMainboardConnectionInformationWithRelations"
+      },
       "GrowbeMainboardWithRelations": {
         "title": "GrowbeMainboardWithRelations",
         "type": "object",
@@ -6311,18 +6392,11 @@
           "name": {
             "type": "string"
           },
-          "state": {
-            "type": "string"
-          },
           "userId": {
             "type": "string"
           },
           "organisationId": {
             "type": "string"
-          },
-          "lastUpdateAt": {
-            "type": "string",
-            "format": "date-time"
           },
           "version": {
             "type": "string"
@@ -6395,6 +6469,9 @@
             "items": {
               "$ref": "#/components/schemas/EnvironmentControllerStateWithRelations"
             }
+          },
+          "connectionInformation": {
+            "$ref": "#/components/schemas/GrowbeMainboardConnectionInformationWithRelations"
           }
         },
         "additionalProperties": false,
@@ -6411,18 +6488,11 @@
           "name": {
             "type": "string"
           },
-          "state": {
-            "type": "string"
-          },
           "userId": {
             "type": "string"
           },
           "organisationId": {
             "type": "string"
-          },
-          "lastUpdateAt": {
-            "type": "string",
-            "format": "date-time"
           },
           "version": {
             "type": "string"
@@ -6451,18 +6521,11 @@
           "name": {
             "type": "string"
           },
-          "state": {
-            "type": "string"
-          },
           "userId": {
             "type": "string"
           },
           "organisationId": {
             "type": "string"
-          },
-          "lastUpdateAt": {
-            "type": "string",
-            "format": "date-time"
           },
           "version": {
             "type": "string"
@@ -7339,6 +7402,24 @@
         },
         "additionalProperties": true,
         "x-typescript-type": "Omit<Partial<GrowbeDashboard>, 'id'>"
+      },
+      "GrowbeStreamExcluding_id-active-expiredAt-key_": {
+        "title": "GrowbeStreamExcluding_id-active-expiredAt-key_",
+        "type": "object",
+        "description": "(tsType: Omit<GrowbeStream, 'id' | 'active' | 'expiredAt' | 'key'>, schemaOptions: { exclude: [ 'id', 'active', 'expiredAt', 'key' ] })",
+        "properties": {
+          "growbeMainboardId": {
+            "type": "string"
+          },
+          "streamName": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true,
+        "x-typescript-type": "Omit<GrowbeStream, 'id' | 'active' | 'expiredAt' | 'key'>"
       },
       "GrowbeRegisterResponse": {
         "title": "GrowbeRegisterResponse",
@@ -8234,6 +8315,31 @@
         "additionalProperties": false,
         "x-typescript-type": "@loopback/repository#Filter<GrowbeModule>"
       },
+      "GrowbeStream": {
+        "title": "GrowbeStream",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "growbeMainboardId": {
+            "type": "string"
+          },
+          "streamName": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "expiredAt": {
+            "type": "number"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
       "GrowbeMainboard.ScopeFilter": {
         "type": "object",
         "properties": {
@@ -8353,16 +8459,10 @@
                   "name": {
                     "type": "boolean"
                   },
-                  "state": {
-                    "type": "boolean"
-                  },
                   "userId": {
                     "type": "boolean"
                   },
                   "organisationId": {
-                    "type": "boolean"
-                  },
-                  "lastUpdateAt": {
                     "type": "boolean"
                   },
                   "version": {
@@ -8387,10 +8487,8 @@
                   "enum": [
                     "id",
                     "name",
-                    "state",
                     "userId",
                     "organisationId",
-                    "lastUpdateAt",
                     "version",
                     "cloudVersion",
                     "boards",
@@ -8462,16 +8560,10 @@
                   "name": {
                     "type": "boolean"
                   },
-                  "state": {
-                    "type": "boolean"
-                  },
                   "userId": {
                     "type": "boolean"
                   },
                   "organisationId": {
-                    "type": "boolean"
-                  },
-                  "lastUpdateAt": {
                     "type": "boolean"
                   },
                   "version": {
@@ -8496,10 +8588,8 @@
                   "enum": [
                     "id",
                     "name",
-                    "state",
                     "userId",
                     "organisationId",
-                    "lastUpdateAt",
                     "version",
                     "cloudVersion",
                     "boards",
