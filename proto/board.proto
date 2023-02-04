@@ -92,6 +92,10 @@ message ApiConfig {
     string url = 1;
 }
 
+message ReverseProxyConfig {
+    string url = 1;
+}
+
 message MainboardConfig {
     string id = 1;
     MQTTConfig mqtt = 2;
@@ -101,4 +105,5 @@ message MainboardConfig {
     LoggerConfig logger = 5;
     UpdaterConfig update = 6;
     ApiConfig api = 8;
+    ReverseProxyConfig proxy = 9;
 }

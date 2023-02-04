@@ -47,7 +47,7 @@ const watchers: DataSubject[] = [
   {
     func: (id, service: GrowbeService, processConfig: any) => service.updateProcessConfig(id, processConfig),
     model: MainboardConfig,
-    regexTopic: 'config',
+    regexTopic: 'config_process',
     service: GrowbeService,
   },
   {
@@ -112,7 +112,7 @@ const watchers: DataSubject[] = [
       });
     },
     model: UpdateExecute,
-    regexTopic: 'updated',
+    regexTopic: 'update_executed',
     service: GrowbeLogsService,
   },
   {

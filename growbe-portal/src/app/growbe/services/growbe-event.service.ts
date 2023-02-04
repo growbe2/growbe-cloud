@@ -21,7 +21,6 @@ export class GrowbeEventService {
 
     subscription: {[topic: string]: number} = {};
     listeningMainboard: {[id: string]: () => void} = {};
-
     private connectPromise: Promise<AsyncClient>;
 
     constructor(

@@ -1,0 +1,13 @@
+{
+  "configurations": {
+    "firefox": {
+      "adapter": "firefox",
+      "configuration": {
+        "request": "launch",
+        "url": "http://localhost:4200/",
+        "webRoot": "${workspaceRoot}/www",
+        "reAttach": true
+      }
+    }
+  }
+}
