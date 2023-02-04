@@ -1,9 +1,18 @@
-<ng-container *ngIf="_growbe">
+<ng-container *ngIf="growbe | async as g">
     <div class="frow align-center space">
-        <mat-icon class="state_icon">{{ growbe.state == 'CONNECTED' ? 'cloud_download' : 'cloud_off' }}</mat-icon>
-        <span class="space">{{ growbe.state == 'CONNECTED' ? 'connected to cloud' : 'disconnect from cloud' }}</span>
-        <div class="flex align-center" *ngIf="lastMessageDiff$ | async as diff">
+        <ng-container *ngIf="g.connectionInformation.state == 'CONNECTED'; else disconnected">
+          <mat-icon class="state_icon">cloud_download</mat-icon>
+          <span class="space">connected to cloud</span>
+          <div class="flex align-center" *ngIf="lastMessageDiff$ | async as diff">
             <mat-icon>network_ping</mat-icon> {{diff}}
-        </div>
+          </div>
+        </ng-container>
+        <ng-template #disconnected>
+          <mat-icon class="state_icon">cloud_off</mat-icon>
+          <span class="space">disconnect since </span>
+          <div class="flex align-center">
+            {{ g.connectionInformation.lastUpdateAt | date:'short' }}
+          </div>
+        </ng-template>
     </div>
 </ng-container>

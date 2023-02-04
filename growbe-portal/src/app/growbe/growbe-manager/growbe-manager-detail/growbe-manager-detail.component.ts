@@ -273,7 +273,7 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
                     ],
                     event: {
                         initialData: () =>
-                            this.mainboardAPI.getById(this.id),
+                            this.mainboardAPI.getById(this.id).pipe(take(1)),
                         submit: (d) =>
                             this.mainboardAPI.updateById(this.id, d).pipe(
                                 notify({

@@ -8,13 +8,14 @@ import {
     LoopbackRestClientMixin,
     Resolving,
     CachingRelation,
+    Filter,
 } from '@berlingoqc/ngx-loopback';
 import {
     GrowbeModuleWithRelations,
     GrowbeModuleDefWithRelations,
     GrowbeSensorValueWithRelations,
 } from '@growbe2/ngx-cloud-api';
-import { Observable, of } from 'rxjs';
+import { finalize, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 
 class ModuleDefRelation extends CachingRelation(LoopbackRelationClientMixin<GrowbeModuleDefWithRelations>()) {}
 class ModuleSensorValueRelation extends CachingRelation(LoopbackRelationClientMixin<GrowbeSensorValueWithRelations>()) {}
@@ -36,6 +37,8 @@ export class GrowbeModuleAPI extends Caching(
       'moduleDef',
       {}
     );
+
+    subscribtionModule: { [id: string]: { sub: Subscription, count: number }} = {};
 
     get url() {
       return envConfig?.growbeCloud + this.route;

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActionConfirmationDialogComponent, envConfig } from '@berlingoqc/ngx-common';
 import { NotificationD, notify, NotifyConfig } from '@berlingoqc/ngx-notification';
-import { GrowbeMainboard, GrowbeModule } from '@growbe2/ngx-cloud-api';
+import { GrowbeMainboard, GrowbeMainboardWithRelations, GrowbeModule } from '@growbe2/ngx-cloud-api';
 import { Observable, of, throwError } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { GrowbeMainboardAPI } from './growbe-mainboard';
@@ -28,7 +28,7 @@ export class GrowbeActionAPI {
     ): Observable<any> {
         return this.pipeValue(
           this.growbeAPI.getById(growbeId),
-          (mainboard: GrowbeMainboard) => mainboard.state === 'CONNECTED',
+          (mainboard: GrowbeMainboardWithRelations) => mainboard.connectionInformation.state === 'CONNECTED',
           action,
           growbeId,
           null,

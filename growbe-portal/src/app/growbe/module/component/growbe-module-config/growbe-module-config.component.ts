@@ -1,5 +1,6 @@
 import { Component, Injector, Input, OnInit } from '@angular/core';
 import { AutoFormData } from '@berlingoqc/ngx-autoform';
+import {OnDestroyMixin, untilComponentDestroyed} from '@berlingoqc/ngx-common';
 import { GrowbeModule } from '@growbe2/ngx-cloud-api';
 import { combineLatest, forkJoin, Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -13,7 +14,7 @@ import { getConfigForm } from '../../form';
     templateUrl: './growbe-module-config.component.html',
     styleUrls: ['./growbe-module-config.component.scss'],
 })
-export class GrowbeModuleConfigComponent implements OnInit {
+export class GrowbeModuleConfigComponent extends OnDestroyMixin(Object) implements OnInit {
     @Input() moduleId: string;
 
     configForm$: Observable<AutoFormData>;
@@ -22,13 +23,14 @@ export class GrowbeModuleConfigComponent implements OnInit {
         private growbeModuleAPI: GrowbeModuleAPI,
         private growbeActionAPI: GrowbeActionAPI,
         private injector: Injector,
-    ) {}
+    ) { super(); }
 
     ngOnInit(): void {
         this.configForm$ = combineLatest([
             this.growbeModuleAPI.getById(this.moduleId),
             this.growbeModuleAPI.moduleDef(this.moduleId).get(),
         ]).pipe(
+            untilComponentDestroyed(this),
             map(([module, moduleDef]: [any, any]) => {
                 const config = module.config;
                 const type = module.id.slice(0, 3);

@@ -6,7 +6,6 @@ import {
   property,
   hasOne,
   hasMany,
-  Model,
 } from '@loopback/repository';
 import {GrowbeMainboardConfig} from './growbe-mainboard-config.model';
 import {GrowbeWarning} from './growbe-warning.model';
@@ -15,9 +14,9 @@ import {GrowbeModule} from './growbe-module.model';
 import {GrowbeLogs} from './growbe-logs.model';
 import {GrowbeModuleDef} from './growbe-module-def.model';
 import {VirtualRelay} from './virtual-relay.model';
-import { HostInformation } from '@growbe2/growbe-pb';
 import { DeviceLogs } from '../component/device-logs';
 import {EnvironmentControllerState} from './environment-controller-state.model';
+import {GrowbeMainboardConnectionInformation} from './growbe-mainboard-connection-information.model';
 
 export type GrowbeState = 'CONNECTED' | 'DISCONNECTED';
 
@@ -29,17 +28,11 @@ export class GrowbeMainboard extends Entity {
   @property()
   name: string;
 
-  @property({type: 'string'})
-  state: GrowbeState;
-
   @belongsTo(() => User)
   userId?: string;
 
   @belongsTo(() => User)
   organisationId?: string;
-
-  @property()
-  lastUpdateAt: Date;
 
   @property()
   version: string;
@@ -80,6 +73,9 @@ export class GrowbeMainboard extends Entity {
 
   @hasMany(() => EnvironmentControllerState, {keyTo: 'growbeId'})
   environmentControllerStates: EnvironmentControllerState[];
+
+  @hasOne(() => GrowbeMainboardConnectionInformation)
+  connectionInformation: GrowbeMainboardConnectionInformation;
 
   constructor(data?: Partial<GrowbeMainboard>) {
     super(data);

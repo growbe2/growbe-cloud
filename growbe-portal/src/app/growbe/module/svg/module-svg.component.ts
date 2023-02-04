@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
 import { OnDestroyMixin } from "@berlingoqc/ngx-common";
 import { BaseDashboardComponent } from "@growbe2/growbe-dashboard";
+import {GrowbeModuleWithRelations} from "@growbe2/ngx-cloud-api";
 import { Observable } from "rxjs";
 import { catchError, map, switchMap, tap } from "rxjs/operators";
 import { isDateOutdated } from "src/app/shared/dated-value/outdated-value/outdated-value.component";
 import { GrowbeModuleAPI } from "../../api/growbe-module";
 import { GrowbeEventService } from "../../services/growbe-event.service";
+import {GrowbeGraphService} from "../graph/service/growbe-graph.service";
 
 
 @Component({
@@ -38,7 +40,7 @@ export class ModuleSVGComponent extends OnDestroyMixin(BaseDashboardComponent) i
 
   constructor(
     private moduleAPI: GrowbeModuleAPI,
-    private eventService: GrowbeEventService,
+    private graphService: GrowbeGraphService,
   ) {
     super();
   }
@@ -48,11 +50,11 @@ export class ModuleSVGComponent extends OnDestroyMixin(BaseDashboardComponent) i
       if (this.moduleId[2] === 'S') {
         this.extraProperties = ['valuetype'];
       }
-      this.connected = this.eventService.getModuleLive(this.mainboardId, this.moduleId).pipe(
-        map((m) => m.connected)
+      this.connected = this.moduleAPI.getById(this.moduleId).pipe(
+        map((m: GrowbeModuleWithRelations) => m.connected)
       );
       this.data = this.moduleAPI.moduleDef(this.moduleId).get().pipe(
-        switchMap((moduleDef: any) => this.eventService.getModuleDataLive(this.mainboardId, this.moduleId, [...Object.keys(moduleDef.properties), ...(this.extraProperties || [])])),
+        switchMap((moduleDef: any) => this.graphService.getModuleDataLive(this.mainboardId, this.moduleId, [...Object.keys(moduleDef.properties), ...(this.extraProperties || [])])),
         tap((data) => {
           this.loadingEvent.next(null);
           this.isOutdated = isDateOutdated(data.createdAt, 60 * 1000);

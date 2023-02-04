@@ -40,6 +40,8 @@ export class RelayUnitControlComponent extends BaseDashboardComponent implements
       this.growbeModuleAPI.requestGet.items[this.moduleId].subject.next(null);
     }
 
+
+    /*
     this.control = {
      changeManualState: (config) => {
        return this.growbeMainboardAPI.getById(this.mainboardId).pipe(switchMap((x: GrowbeMainboardWithRelations) => { return this.growbeActionAPI.executeActionModule('GROWBE_CONFIG_PROPERTY_UPDATE', this.mainboardId, this.moduleId, {
@@ -51,9 +53,9 @@ export class RelayUnitControlComponent extends BaseDashboardComponent implements
       }, (x.growbeMainboardConfig?.config as any)?.preferedCommandConnnection == 1);}))
       },
       getValues: () => combineLatest([
-        this.growbeEventService.getModuleLive(this.mainboardId, this.moduleId),
-        this.growbeModuleAPI.moduleDef(this.moduleId).get(),
-        this.getGrowbeModuleDataEventSource(),
+        this.growbeEventService.getModuleLive(this.mainboardId, this.moduleId).pipe(tap(() => console.log('from module live'))),
+        this.growbeModuleAPI.moduleDef(this.moduleId).get().pipe(tap(() => console.log('from module def'))),
+        this.getGrowbeModuleDataEventSource().pipe(tap(() => console.log('from event data'))),
       ]).pipe(
         map(([module, moduleDef, lastValue]: any) => {
           this.loadingEvent.next(null);
@@ -70,6 +72,7 @@ export class RelayUnitControlComponent extends BaseDashboardComponent implements
             .subscribe();
       }
     };
+    */
   }
 
   private getGrowbeModuleDataEventSource() {

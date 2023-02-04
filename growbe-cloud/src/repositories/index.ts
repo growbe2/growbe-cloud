@@ -13,3 +13,4 @@ export * from './virtual-relay.repository';
 export * from './growbe-hardware-alarm.repository';
 export * from './growbe-hardware-alarm-event.repository';
 export * from './environment-controller-state.repository';
+export * from './growbe-mainboard-connection-information.repository';

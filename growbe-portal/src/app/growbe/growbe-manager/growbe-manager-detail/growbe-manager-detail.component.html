@@ -9,7 +9,7 @@
             <div style="flex-grow: 2"></div>
 
             <div fxHide.gt-md>
-                <app-growbe-state [growbe]="data.mainboard"></app-growbe-state>
+                <app-growbe-state [growbeId]="data.mainboard.id"></app-growbe-state>
             </div>
         </div>
     </fuseLayoutHeader>
@@ -195,7 +195,7 @@
         <fuse-widget [@animate]="{ value: '*', params: { y: '100%' } }" class="pb-0">
             <div class="fuse-widget-front">
                 <div>
-                    <app-growbe-state [growbe]="data.mainboard"></app-growbe-state>
+                    <app-growbe-state [growbeId]="data.mainboard.id"></app-growbe-state>
                 </div>
             </div>
         </fuse-widget>

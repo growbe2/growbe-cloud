@@ -18,7 +18,7 @@ import {
   SeverityEnum,
 } from '../models/growbe-logs.model';
 import {GrowbeMainboardConfig} from '../models/growbe-mainboard-config.model';
-import {GrowbeMainboardRepository} from '../repositories';
+import {GrowbeMainboardConnectionInformationRepository, GrowbeMainboardRepository} from '../repositories';
 import {GrowbeMainboardConfigRepository} from '../repositories/growbe-mainboard-config.repository';
 import {GrowbeLogsService} from './growbe-logs.service';
 import {getTopic, MQTTService} from './mqtt.service';
@@ -52,6 +52,8 @@ export class GrowbeRegisterRequest {
 export class GrowbeService {
   static DEBUG = require('debug')('growbe:service:growbe');
   constructor(
+    @repository(GrowbeMainboardConnectionInformationRepository)
+    public connectionInformationRepo: GrowbeMainboardConnectionInformationRepository,
     @repository(GrowbeMainboardRepository)
     public mainboardRepository: GrowbeMainboardRepository,
     @repository(GrowbeMainboardConfigRepository)
@@ -205,6 +207,10 @@ export class GrowbeService {
     const mainboard = await this.mainboardRepository.create({id, name});
     mainboard.growbeMainboardConfig = await this.mainboardConfigRepository.create(
       {config: this.defaultConfig, growbeMainboardId: mainboard.id},
+    );
+
+    mainboard.connectionInformation = await this.connectionInformationRepo.create(
+      {growbeMainboardId: id}
     );
 
     return mainboard;
