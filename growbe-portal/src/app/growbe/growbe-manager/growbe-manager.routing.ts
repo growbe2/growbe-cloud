@@ -14,7 +14,8 @@ const routes: Routes = [
         runGuardsAndResolvers: 'always',
         data: {
             include: [
-                "growbeMainboardConfig"
+                "growbeMainboardConfig",
+                "connectionInformation"
             ],
         },
         resolve: {

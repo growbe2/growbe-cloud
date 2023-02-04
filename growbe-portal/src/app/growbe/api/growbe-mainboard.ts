@@ -61,6 +61,9 @@ export class HardwareAlarmRelation extends LoopbackRelationClientMixin<any>() {
 
 }
 
+
+export const DEFAULT_RELATIONS = [{relation: "growbeMainboardConfig"}, {relation: "connectionInformation"}];
+
 @Injectable({ providedIn: 'root' })
 export class GrowbeMainboardAPI extends Caching(
     Resolving(LoopbackRestClientMixin<GrowbeMainboardWithRelations>()),

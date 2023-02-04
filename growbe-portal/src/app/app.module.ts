@@ -63,7 +63,7 @@ import { UserPreferenceService } from './service/user-preference.service';
 import { GrowbeDashboardRegistry } from './growbe/growbe-dashboard/items';
 import { GrowbeMainboardAPI } from './growbe/api/growbe-mainboard';
 import { Subscription, timer } from 'rxjs';
-import { GrowbeMainboard } from '@growbe2/ngx-cloud-api';
+import { GrowbeMainboard, GrowbeMainboardWithRelations } from '@growbe2/ngx-cloud-api';
 import { GrowbeEventService } from './growbe/services/growbe-event.service';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -206,8 +206,8 @@ export class AppModule {
       authService.loginEvents.asObservable().pipe(
         filter((event) => event === 'connected'),
         switchMap(() => userPreference.get()),
-        switchMap(() => growbeAPI.userGrowbeMainboard(authService.profile.id).get({include: [{relation: "growbeMainboardConfig"}]}))
-      ).subscribe((growbes) => {
+        switchMap(() => growbeAPI.userGrowbeMainboard(authService.profile.id).get({include: [{relation: "growbeMainboardConfig"},{relation: "connectionInformation"}]}))
+      ).subscribe((growbes: GrowbeMainboardWithRelations[]) => {
           if (route.url === '/auth') {
               route.navigate(['/home']);
           }
@@ -223,18 +223,18 @@ export class AppModule {
                 id: growbe.id,
                 title: growbe.name ? growbe.name : growbe.id,
                 type: 'item',
-                //icon: growbe.state === 'CONNECTED' ? 'link': 'linkoff',
+                icon: growbe.connectionInformation.state === 'CONNECTED' ? 'link': 'linkoff',
                 url: '/growbe/' + growbe.id
             });
 
 
             growbeEventService.startListenMainboard(growbe.id);
 
-            let sub = growbeAPI.getById(growbe.id, { include: [{relation: 'growbeMainboardConfig'}]}, growbe).subscribe((g: GrowbeMainboard) => {
+            let sub = growbeAPI.getById(growbe.id, { include: [{relation: 'growbeMainboardConfig'}, {relation: 'connectionInformation'}]}, growbe).subscribe((g: GrowbeMainboardWithRelations) => {
                 //const navItemGrowbe = fuseNavService.getNavigationItem("growbe");
                 const indexItem = (navItemGrowbe.children as any[]).findIndex((x) => x.id == g.id);
                 navItemGrowbe.children[indexItem].title = g.name ? g.name : g.id;
-                navItemGrowbe.children[indexItem].icon = (g.state === 'CONNECTED') ? 'link': 'link_off';
+                navItemGrowbe.children[indexItem].icon = (g.connectionInformation.state === 'CONNECTED') ? 'link': 'link_off';
                 fuseNavService.updateNavigationItem("growbe", navItemGrowbe);
 
                 let previous_state = undefined;
@@ -265,18 +265,5 @@ export class AppModule {
           });
           fuseNavService.updateNavigationItem("growbe", navItemGrowbe);
       })
-        /*moduleService.loadModuleSystemJS(
-            {
-                path: '/assets/umd.js',
-                location: '/assets/greenhouse.umd.js',
-                moduleName: '/assets/umd.js',
-                description: '123',
-                modules: {
-                    '@growbe2/growbe-dashboard': Dashboard,
-                },
-            },
-            injector,
-        );
-        console.log('SERVICE', service);*/
     }
 }

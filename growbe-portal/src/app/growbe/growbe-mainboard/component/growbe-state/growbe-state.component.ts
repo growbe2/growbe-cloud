@@ -7,11 +7,12 @@ import {
 } from '@angular/core';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 
-import { map, take } from 'rxjs/operators';
-import { GrowbeMainboard } from '@growbe2/ngx-cloud-api';
-import { interval, Observable, Subscription } from 'rxjs';
+import { map, take, tap } from 'rxjs/operators';
+import { GrowbeMainboard, GrowbeMainboardWithRelations } from '@growbe2/ngx-cloud-api';
+import { interval, Observable, Subscription, timer } from 'rxjs';
 import { OnDestroyMixin, untilComponentDestroyed } from '@berlingoqc/ngx-common';
 import { DatePipe } from '@angular/common';
+import {DEFAULT_RELATIONS, GrowbeMainboardAPI} from 'src/app/growbe/api/growbe-mainboard';
 
 
 
@@ -30,37 +31,31 @@ export class GrowbeStateComponent extends OnDestroyMixin(Object) implements OnIn
 
     lastMessageAt: number;
 
-
     lastMessageDiff$: Observable<string>;
 
-    @Input() set growbe(g: GrowbeMainboard) {
-        this._growbe = g;
-        this.lastMessageAt = lastReceiveMainboard[this._growbe.id] || new Date(this._growbe.lastUpdateAt).getTime();
-        lastReceiveMainboard[this._growbe.id] = this.lastMessageAt;
+    @Input() growbeId: string;
 
-        if (this.subEvent) { this.subEvent.unsubscribe(); }
-
-        this.subEvent = this.growbeEventService.getGrowbeEvent(g.id, '/cloud/state', (d) => JSON.parse(d))
-            .pipe(untilComponentDestroyed(this))
-            .subscribe((g) => {
-                this._growbe = g;
-                this.lastMessageAt = Date.now();
-            });
-    }
-    get growbe() { return this._growbe; }
-    _growbe: GrowbeMainboard;
-
-    subEvent: Subscription;
+    growbe: Observable<GrowbeMainboardWithRelations>;
 
     constructor(
         private growbeEventService: GrowbeEventService,
+        private growbeApi: GrowbeMainboardAPI,
         private datePipe: DatePipe,
     ) {
         super();
     }
 
     ngOnInit(): void {
-        this.lastMessageDiff$ = interval(1000).pipe(
+        if (!this.growbeId) {
+          console.error("app-growbe-state missing required growbeId");
+          return;
+        }
+        this.growbe = this.growbeApi.getById(this.growbeId).pipe(
+          tap((growbe: GrowbeMainboardWithRelations) => {
+            this.lastMessageAt = new Date(growbe.connectionInformation.lastUpdateAt).getTime();
+          })
+        );
+        this.lastMessageDiff$ = timer(0, 1000).pipe(
             untilComponentDestroyed(this),
             map(() => {
                 const diff = Date.now() - this.lastMessageAt;

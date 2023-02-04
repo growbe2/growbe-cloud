@@ -8,7 +8,7 @@ function start() {
   docker-compose $CONF up -d pgsql broker mongo sso $1
 
   echo "Waiting for migration to be over"
-  sleep 30
+  sleep 15
 
   . ./docker/envs/local.sh
         
@@ -35,7 +35,7 @@ function test() {
 command=$1; shift;
 case "$command" in
     "start") start growbe-cloud;;
-    "start_dev") start growbe-cloud broker;;
+    "start_dev") start growbe-cloud broker reverse-proxy;;
     "cloud") docker-compose $CONF_CLOUD up -d pgsql broker mongo sso growbe-cloud growbe-cloud-watcher reverse-proxy;;
     "cloud_exec") docker-compose $CONF_CLOUD "$@";;
     "cloud_stop") docker-compose $CONF_CLOUD down;;

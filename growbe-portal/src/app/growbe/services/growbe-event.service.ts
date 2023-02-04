@@ -60,6 +60,10 @@ export class GrowbeEventService {
 
     startListenMainboard(id: string) {
 
+      (async () => {
+
+        await this.connect();
+
       let replaceValue = (requests, value, id, callback = undefined) => {
             if (!callback) {
               callback = () => value;
@@ -85,6 +89,14 @@ export class GrowbeEventService {
             });
           });
 
+          let subscriptionConnectionInformation = this.getGrowbeEvent(id, `/cloud/connectionInformation`, parse).subscribe(value => {
+            replaceValue(this.mainboardAPI.requestFind.items, value, value.growbeMainboardId, (oldValue) => {
+              oldValue.connectionInformation = value;
+              console.log('Replaceing', oldValue);
+              return oldValue;
+            });
+          });
+
           let subscriptionModuleState = this.getGrowbeEvent(id, `/cloud/m/+/state`, parse).subscribe((value) => {
             replaceValue(this.moduleAPI.requestFind.items, value.id, value);
           });
@@ -103,8 +115,11 @@ export class GrowbeEventService {
               subscriptionModuleState.unsubscribe();
               subscriptionMainboardState.unsubscribe();
               subscriptionModuleConfig.unsubscribe();
+              subscriptionConnectionInformation.unsubscribe();
           };
       }
+      })();
+
     }
 
     stopListenningMainboard(id: string) {
