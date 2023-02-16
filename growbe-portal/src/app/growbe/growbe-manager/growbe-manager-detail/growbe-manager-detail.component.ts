@@ -156,8 +156,6 @@ export class GrowbeManagerDetailComponent extends OnDestroyMixin(Object) impleme
                 this.id = mainboard.id;
                 this.mainboard = mainboard;
 
-                console.log('Mainboard' , this.mainboard);
-
                 this.imageConfigForm = this.imageConfigService.getGrowbeImageConfigForm(this.id);
                 this.processMainboardForm = this.processConfigService.getGrowbeProcessForm(mainboard);
                 if (subEventState) { subEventState.unsubscribe();}

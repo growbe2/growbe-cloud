@@ -40,7 +40,7 @@ export class GrowbeEventService {
     async addSubscription(topic: string) {
         if (!this.subscription[topic]) {
           this.subscription[topic] = 1;
-          console.log('Subscription to', topic);
+          //console.log('Subscription to', topic);
           return this.client.subscribe(topic);
         }
     }
@@ -49,7 +49,7 @@ export class GrowbeEventService {
         if (this.subscription[topic]) {
           this.subscription[topic] -= 1;
           if (this.subscription[topic] <= 0) {
-              console.log('Unsubscribing to', topic);
+              //console.log('Unsubscribing to', topic);
               delete this.subscription[topic];
               return this.client.unsubscribe(topic);
           }
@@ -91,7 +91,6 @@ export class GrowbeEventService {
           let subscriptionConnectionInformation = this.getGrowbeEvent(id, `/cloud/connectionInformation`, parse).subscribe(value => {
             replaceValue(this.mainboardAPI.requestFind.items, value, value.growbeMainboardId, (oldValue) => {
               oldValue.connectionInformation = value;
-              console.log('Replaceing', oldValue);
               return oldValue;
             });
           });
@@ -104,7 +103,6 @@ export class GrowbeEventService {
             const items = topic.split('/');
             const id = items[items.length - 2];
             replaceValue(this.moduleAPI.requestFind.items, message, id, (oldValue) => {
-                console.log('Config updated', oldValue, message);
                 oldValue.config = message;
                 return oldValue;
             });

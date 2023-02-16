@@ -1,6 +1,6 @@
 {
-    "growbeCloud": "http://192.168.2.11:3000",
-    "broker": "http://192.168.2.11:9001",
-    "sso": "http://192.168.2.11:3001/api",
+    "growbeCloud": "https://api.growbe.ca",
+    "broker": "wss://broker.growbe.ca",
+    "sso": "https://auth.growbe.ca/api/",
     "nms": "https://stream.growbe.ca"
 }

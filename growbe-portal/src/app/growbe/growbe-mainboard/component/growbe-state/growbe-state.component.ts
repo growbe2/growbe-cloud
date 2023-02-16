@@ -7,16 +7,14 @@ import {
 } from '@angular/core';
 import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
 
-import { map, take, tap } from 'rxjs/operators';
-import { GrowbeMainboard, GrowbeMainboardWithRelations } from '@growbe2/ngx-cloud-api';
-import { interval, Observable, Subscription, timer } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { GrowbeMainboardWithRelations } from '@growbe2/ngx-cloud-api';
+import { Observable, timer } from 'rxjs';
 import { OnDestroyMixin, untilComponentDestroyed } from '@berlingoqc/ngx-common';
 import { DatePipe } from '@angular/common';
-import {DEFAULT_RELATIONS, GrowbeMainboardAPI} from 'src/app/growbe/api/growbe-mainboard';
+import { GrowbeMainboardAPI } from 'src/app/growbe/api/growbe-mainboard';
+import { ChangeReload, OnChangeReload } from 'src/app/helpers/onchangereload';
 
-
-
-const lastReceiveMainboard: {[id: string]: any} = {};
 
 @Component({
     selector: 'app-growbe-state',
@@ -27,25 +25,24 @@ const lastReceiveMainboard: {[id: string]: any} = {};
         DatePipe,
     ]
 })
-export class GrowbeStateComponent extends OnDestroyMixin(Object) implements OnInit {
+export class GrowbeStateComponent extends OnDestroyMixin(Object) implements OnChangeReload {
 
     lastMessageAt: number;
 
     lastMessageDiff$: Observable<string>;
 
-    @Input() growbeId: string;
+    @Input() @ChangeReload() growbeId: string;
 
     growbe: Observable<GrowbeMainboardWithRelations>;
 
     constructor(
-        private growbeEventService: GrowbeEventService,
         private growbeApi: GrowbeMainboardAPI,
         private datePipe: DatePipe,
     ) {
         super();
     }
 
-    ngOnInit(): void {
+    reload(): void {
         if (!this.growbeId) {
           console.error("app-growbe-state missing required growbeId");
           return;
@@ -53,17 +50,20 @@ export class GrowbeStateComponent extends OnDestroyMixin(Object) implements OnIn
         this.growbe = this.growbeApi.getById(this.growbeId).pipe(
           tap((growbe: GrowbeMainboardWithRelations) => {
             this.lastMessageAt = new Date(growbe.connectionInformation.lastUpdateAt).getTime();
-          })
-        );
-        this.lastMessageDiff$ = timer(0, 1000).pipe(
-            untilComponentDestroyed(this),
-            map(() => {
+
+            if (this.lastMessageDiff$) return;
+            this.lastMessageDiff$ = timer(0, 1000).pipe(
+              untilComponentDestroyed(this),
+              map(() => {
                 const diff = Date.now() - this.lastMessageAt;
                 const date = new Date(0, 0, 0);
                 date.setSeconds(diff / 1000);
                 return this.datePipe.transform(date, 'mm:ss');
-            })
-        )
+              })
+            )
+
+          })
+        );
     }
 
 }
