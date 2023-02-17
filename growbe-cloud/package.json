@@ -50,7 +50,7 @@
   "dependencies": {
     "@berlingoqc/lb-extensions": "^1.2.0",
     "@berlingoqc/sso": "^1.1.5",
-    "@growbe2/growbe-pb": "^1.3.0-SNAPSHOT-12",
+    "@growbe2/growbe-pb": "^1.3.0-SNAPSHOT-13",
     "@loopback/authentication": "^9.0.2",
     "@loopback/authorization": "^0.12.2",
     "@loopback/boot": "^5.0.2",

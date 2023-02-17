@@ -2,6 +2,8 @@ syntax = "proto3";
 
 option java_package = "ca.berlingoqc.growbe_android_module.proto";
 
+import "sync.proto";
+
 enum AlarmZone {
 	UNKNOW = 0;
 	MIDDLE = 1;
@@ -23,6 +25,9 @@ message FieldAlarm {
 	AlarmZoneValue low = 4;
 	AlarmZoneValue high = 5;
 	AlarmZoneValue veryHigh = 6;
+
+
+    SyncInfo sync = 20;
 }
 
 

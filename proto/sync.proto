@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+message SyncInfo {
+    string hash = 1;
+    uint32 updatedAt = 2;
+}
+
+
+// This object contain a map with the list of all sync item
+message GlobalSyncInformation {
+    map<string, SyncInfo> syncItems = 1;
+}
+
+message OutOfSyncItem {
+   string ressource = 1;
+   SyncInfo mainboard = 2;
+   SyncInfo cloud = 3;
+}
+
+
+// Response and Request to check if cloud and mainboard are sync
+ 
+message OutOfSyncResponse {
+    map<string, OutOfSyncItem> unsyncItems = 1;
+}
+
+message OutOfSyncRequest {
+
+}
+
+
+// Response and Request to sync items between cloud and mainboard
+
+message SyncItem {
+    string ressource = 1;
+}
+
+message SyncRequest {
+    map<string, SyncItem> toSyncItems = 1;
+}

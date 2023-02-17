@@ -3,6 +3,8 @@ syntax = "proto3";
 
 option java_package = "ca.berlingoqc.growbe_android_module.proto";
 
+import "sync.proto";
+
 enum CommandConnectionType {
         MQTT = 0;
         WS_PROXY = 1;
@@ -12,6 +14,9 @@ message GrowbeMainboardConfig {
     int32 hearthBeath = 1;
     
     CommandConnectionType preferedCommandConnection = 2;
+
+
+    SyncInfo sync = 20;
 }
 
 message HostInformation {
@@ -106,4 +111,7 @@ message MainboardConfig {
     UpdaterConfig update = 6;
     ApiConfig api = 8;
     ReverseProxyConfig proxy = 9;
+
+
+    SyncInfo sync = 20;
 }

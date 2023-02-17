@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "module.proto";
+import "sync.proto";
 
 enum RessourceType {
         ACTOR_MODULE = 0;
@@ -49,6 +50,9 @@ message EnvironmentControllerConfiguration {
                 StaticControllerImplementation static = 10;
                 ProgressiveControlerImplementation progressive = 15;
         }
+
+
+        SyncInfo sync = 20;
 }
 
 enum EnvironmentControllerState {
@@ -65,4 +69,7 @@ message EnvironmentControllerEvent {
         bool running = 2;
         EnvironmentControllerState state = 3;
         string message = 4;
+
+
+        uint32 at = 20;
 }
