@@ -1,4 +1,3 @@
-{{connected}}
 <ng-container *ngIf="connected !== undefined && value != undefined">
   <mat-chip-listbox [disabled]="pendingConfig?.mode == 2" aria-label="Fish selection">
     <mat-chip-option (click)="onModeChange(0)" [selected]="pendingConfig?.mode === 0 || pendingConfig?.mode === undefined">
@@ -38,10 +37,15 @@
         </div>
       </ng-container>
     </div>
-    <div class="flex justify-center align-center value">
+    <div class="flex justify-center align-center value fcol">
       <mat-icon>
         {{value.state ? 'power' : 'power_off'}}
       </mat-icon>
+      <div style="height: 20px">
+        <ng-container *ngIf="value.timestamp > 0">
+          {{ (value.timestamp * 1000) | date:'mediumTime'}}
+        </ng-container>
+      </div>
     </div>
   </div>
 
