@@ -96,7 +96,7 @@ export class GrowbeEventService {
           });
 
           let subscriptionModuleState = this.getGrowbeEvent(id, `/cloud/m/+/state`, parse).subscribe((value) => {
-            replaceValue(this.moduleAPI.requestFind.items, value.id, value);
+            replaceValue(this.moduleAPI.requestFind.items, value, value.id);
           });
 
           let subscriptionModuleConfig = this.getGrowbeEventWithTopicData(id, `/cloud/m/+/config`, parse).subscribe(({message, topic}) => {

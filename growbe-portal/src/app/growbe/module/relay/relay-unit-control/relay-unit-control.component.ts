@@ -1,13 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { GrowbeMainboardWithRelations, GrowbeModule, GrowbeSensorValue } from '@growbe2/ngx-cloud-api';
-import { BaseDashboardComponent } from 'projects/dashboard/src/public-api';
-import { combineLatest, Observable, of, Subscription, from } from 'rxjs';
-import { catchError, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { GrowbeActionAPI } from 'src/app/growbe/api/growbe-action';
+import {Component, Input, OnInit} from '@angular/core';
+import {GrowbeMainboardWithRelations, GrowbeModule, GrowbeModuleWithRelations, GrowbeSensorValue} from '@growbe2/ngx-cloud-api';
+import {BaseDashboardComponent} from 'projects/dashboard/src/public-api';
+import {combineLatest, Observable, of, Subscription, from} from 'rxjs';
+import {catchError, map, startWith, switchMap, take} from 'rxjs/operators';
+import {GrowbeActionAPI} from 'src/app/growbe/api/growbe-action';
 import {GrowbeMainboardAPI} from 'src/app/growbe/api/growbe-mainboard';
-import { GrowbeModuleAPI } from 'src/app/growbe/api/growbe-module';
-import { GrowbeEventService } from 'src/app/growbe/services/growbe-event.service';
-import { mapTextForMode, RelayControl } from '../relay-base-control/relay-base-control.component';
+import {GrowbeModuleAPI} from 'src/app/growbe/api/growbe-module';
+import {GrowbeEventService} from 'src/app/growbe/services/growbe-event.service';
+import {mapTextForMode, RelayControl} from '../relay-base-control/relay-base-control.component';
 
 @Component({
   selector: 'app-relay-unit-control',
@@ -35,10 +35,42 @@ export class RelayUnitControlComponent extends BaseDashboardComponent implements
     this.growbeModuleAPI.flushSensorValue(this.moduleId);
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     if (this.growbeModuleAPI.requestGet.items[this.moduleId]) {
       this.growbeModuleAPI.requestGet.items[this.moduleId].subject.next(null);
     }
+
+    this.control = {
+      getConfig: () => {
+        return this.growbeModuleAPI.getById(this.moduleId).pipe(
+          map((modu: GrowbeModuleWithRelations) => modu.config[this.field])
+        );
+      },
+      getParentConnectionStatus: () => {
+        return this.growbeModuleAPI.getById(this.moduleId).pipe(
+          map((modu: GrowbeModuleWithRelations) => modu.connected)
+        )
+      },
+      getValue: () => {
+        return this.getGrowbeModuleDataEventSource().pipe(
+          map((moduleValue: any) => moduleValue[this.field])
+        );
+      },
+      changeManualState: (config) => {
+        return this.growbeMainboardAPI.getById(this.mainboardId).pipe(take(1), switchMap((x: GrowbeMainboardWithRelations) => {
+          return this.growbeActionAPI.executeActionModule('GROWBE_CONFIG_PROPERTY_UPDATE', this.mainboardId, this.moduleId, {
+            property: this.field,
+            config: config,
+          }, {
+            disableSuccess: config.mode === 0,
+            title: (config.mode === 0) ? '' : mapTextForMode[config.mode].created,
+          }, (x.growbeMainboardConfig?.config as any)?.preferedCommandConnnection == 1);
+        }))
+      },
+
+    };
+
+    this.loadingEvent.next(null);
 
 
     /*
@@ -73,25 +105,26 @@ export class RelayUnitControlComponent extends BaseDashboardComponent implements
       }
     };
     */
+
   }
 
   private getGrowbeModuleDataEventSource() {
-     return this.growbeModuleAPI.growbeSensorValues(this.moduleId).get({
-       limit: 1,
-       order: ['createdAt DESC']
-     }).pipe(
-       switchMap((currentValue: GrowbeSensorValue) => {
-          return this.growbeEventService.getGrowbeEvent(
-              this.mainboardId,
-              `/cloud/m/${this.moduleId}/data`,
-              (d) => {
-                return Object.assign(JSON.parse(d), { endingdAt: new Date()})
-              },
-          ).pipe(
-            startWith(currentValue[0].values)
-          )
-       })
-     )
+    return this.growbeModuleAPI.growbeSensorValues(this.moduleId).get({
+      limit: 1,
+      order: ['createdAt DESC']
+    }).pipe(
+      switchMap((currentValue: GrowbeSensorValue) => {
+        return this.growbeEventService.getGrowbeEvent(
+          this.mainboardId,
+          `/cloud/m/${this.moduleId}/data`,
+          (d) => {
+            return Object.assign(JSON.parse(d), {endingdAt: new Date()})
+          },
+        ).pipe(
+          startWith(currentValue[0].values)
+        )
+      })
+    )
   }
 
 }

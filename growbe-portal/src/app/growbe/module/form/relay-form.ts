@@ -116,6 +116,8 @@ export const transformFieldSubmit = (property: string, data: any) => {
 
 export function transformRelayTimeToString(relay_time: {hour: number, minute: number}) {
     if (!relay_time) { return ""; }
+    if (relay_time.hour == undefined) { relay_time.hour = 0; }
+    if (relay_time.minute == undefined) { relay_time.minute = 0; }
     const hour_str = relay_time.hour + "";
     const minute_str = relay_time.minute + "";
     return ((hour_str.length == 1) ? '0' + hour_str : hour_str) + ':' + ((minute_str.length === 1) ? '0' + minute_str : minute_str);

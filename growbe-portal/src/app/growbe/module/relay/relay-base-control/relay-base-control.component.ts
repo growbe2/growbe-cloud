@@ -20,10 +20,10 @@ export interface RelayControl {
     getConfig(): Observable<any>; // RelayOutletConfig
     getValue(): Observable<any>; // RelayOutletData
     getParentConnectionStatus(): Observable<boolean>;
+    changeManualState(config: any): Observable<void>; // RelayOutletConfig
 
-    getValues(): Observable<[any, any, any, boolean]>;
-    changeManualState(config: any): Observable<void>;
-    refresh: () => void;
+    //getValues(): Observable<[any, any, any, boolean]>;
+    //refresh: () => void;
 }
 
 export const mapTextForMode = {
@@ -69,28 +69,39 @@ export class RelayBaseControlComponent
 
     async ngOnInit() {
         // faut que j'aille chercher la config et l'etat de cette propriétés
-        console.log('init relay base');
-        this.control
-            .getValues()
-            .pipe(untilComponentDestroyed(this))
-            .subscribe((value) => {
-                this.config = value[0];
-                this.value = value[1];
-                this.endingAt = value[2];
-                this.connected = value[3];
+        if (!this.control) {
+            console.error(`failed to initialize relay-unit-control missing control`);
+            return;
+        }
 
-                //this.loadingEvent.next(null);
+        this.control.getConfig()
+          .pipe(untilComponentDestroyed(this))
+          .subscribe((config) => {
+              this.config = config;
+              console.log('receive new config');
+              if (!this.pendingConfig) {
+                  this.pendingConfig = { ...this.config };
 
-                this.subjectModuleState.next(this.connected);
+                  if (this.pendingConfig?.mode) {
+                      this.setForm();
+                   }
+              }
+          });
 
-                if (!this.pendingConfig) {
-                    this.pendingConfig = { ...this.config };
+        this.control.getValue()
+          .pipe(untilComponentDestroyed(this))
+          .subscribe((value) => {
+              this.value = value;
+              console.log('value', this.value);
+          });
 
-                    if (this.pendingConfig?.mode) {
-                        this.setForm();
-                    }
-                }
-            });
+        this.control.getParentConnectionStatus()
+          .pipe(untilComponentDestroyed(this))
+          .subscribe((connected) => {
+              this.connected = connected;
+              this.subjectModuleState.next(this.connected);
+          });
+
     }
 
     onModeChange(mode: number) {
@@ -130,7 +141,6 @@ export class RelayBaseControlComponent
                     this.notifyRelayConfigChange();
                     this.requestConfig = null;
                     this.pendingConfig = undefined;
-                    this.control.refresh();
                 },
                 (error) => {
                     // return the state of the slide to the previous one
@@ -158,14 +168,14 @@ export class RelayBaseControlComponent
                         return {
                             alarm: {
                                 begining: {
-                                    hour: +config.alarm.begining.split(':')[0],
-                                    minute: +config.alarm.begining.split(
+                                    hour: (+config.alarm.begining.split(':')[0]) || 0,
+                                    minute: (+config.alarm.begining.split(
                                         ':',
-                                    )[1],
+                                    )[1]) || 0,
                                 },
                                 end: {
-                                    hour: +config.alarm.end.split(':')[0],
-                                    minute: +config.alarm.end.split(':')[1],
+                                    hour: (+config.alarm.end.split(':')[0]) || 0,
+                                    minute: (+config.alarm.end.split(':')[1]) || 0,
                                 },
                             },
                         };
@@ -209,7 +219,7 @@ export class RelayBaseControlComponent
                 return this.control.changeManualState({ mode, ...config }).pipe(
                     tap(() => {
                         this.notifyRelayConfigChange();
-                        this.control.refresh();
+                        //this.control.refresh();
                         this.config = { mode, ...config };
                         this.pendingConfig = this.config;
                     }),
