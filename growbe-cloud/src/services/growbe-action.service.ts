@@ -123,6 +123,21 @@ export class GrowbeActionService {
     });
   }
 
+  async sendRestartComboardRequest(growbeId: string, direct?: boolean) {
+    return this.sendRequest({
+        growbeId,
+        topic: '/board/restartComboard',
+        waitingTime: 3000,
+        log: () => ({
+            type: 'request',
+            message: 'request restartComboard',
+        }),
+        direct,
+    });
+  }
+
+
+
   public async sendRequest(data: {growbeId: string, topic: string, payload?: any, responseCode?: any, waitingTime?: number,  log?: (d: any) => any, direct?: boolean}) {
     let growbeId = data.growbeId;
     let topic = data.topic;

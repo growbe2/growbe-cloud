@@ -85,6 +85,17 @@ export class GrowbeMainboardActionController {
     return this.growbeActionService.sendHelloWorldRequest(id, direct);
   }
 
+  @patch("/growbe/{id}/restartComboard")
+  @authorizeGrowbe({
+    growbeIdIndex: 0
+  })
+  sendRestartComboard(
+    @param.path.string('id') id: string,
+    @param.query.boolean('direct') direct: boolean,
+  ) {
+    return this.growbeActionService.sendRestartComboardRequest(id, direct);
+  }
+
   @patch('/growbe/{id}/sync')
   @authorizeGrowbe({
     growbeIdIndex: 0,

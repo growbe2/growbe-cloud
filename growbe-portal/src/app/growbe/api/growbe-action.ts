@@ -135,6 +135,10 @@ export class GrowbeActionAPI {
       return this.sendRequest(growbeId, "reboot", data, direct);
     }
 
+    RESTART_COMBOARD(growbeId: string, data: any, direct?: boolean) {
+      return this.sendRequest(growbeId, "restartComboard", data, direct);
+    }
+
     private sendRequest(growbeId: string, pathName: string, data: any, direct?: boolean) {
         return this.httpClient.patch<void>(
             `${this.url}/growbe/${growbeId}/${pathName}?direct=${direct || false}`,

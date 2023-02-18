@@ -36,4 +36,5 @@ export const growbeActions = {
     HELLO_WORLD: defaultConfig("Hello World"),
     RESTART: defaultConfig("Restart"),
     REBOOT: defaultConfig("Reboot"),
+    RESTART_COMBOARD: defaultConfig("Restart Comboard"),
 };

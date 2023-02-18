@@ -41,6 +41,11 @@ export const growbeActionsSource = new StaticDataSource([
     name: 'Reboot',
     description: "Ask the mainboard to reboot the pi",
     warningKeyId: "REBOOT",
+  },
+  {
+    name: 'Restart Comboard',
+    description: "Shutdown the comboard for 100ms and start it back",
+    warningKeyId: "RESTART_COMBOARD",
   }
 ]);
 
