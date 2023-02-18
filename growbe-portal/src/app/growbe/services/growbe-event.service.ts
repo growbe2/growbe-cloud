@@ -128,7 +128,9 @@ export class GrowbeEventService {
 
     getGrowbeEvent(id: string, subtopic: string, parse: (data) => any) {
         const topic = getTopic(id, subtopic);
-        this.addSubscription(topic).then(() => {});
+        this.connect().then(() => {
+          this.addSubscription(topic).then(() => {});
+        });
         return this.subject
             .asObservable()
             .pipe(filter((value) => exec(topic, value.topic)))
