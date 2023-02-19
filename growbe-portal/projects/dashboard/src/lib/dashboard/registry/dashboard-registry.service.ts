@@ -18,4 +18,8 @@ export class DashboardRegistryService {
     getItem(component: string) {
         return items[component];
     }
+
+    getRegistryItems(): DashboardRegistryItem[] {
+      return Object.values(items);
+    }
 }

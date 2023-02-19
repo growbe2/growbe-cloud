@@ -34,6 +34,7 @@ import { DashboardFullComponent } from './components/dashboard-full/dashboard-fu
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DashboardOneComponent } from './components/dashboard-one/dashboard-one.component';
 import { ErrorComponent } from './components/error/error.component';
+import {RegisteryStoreModule} from './registery-store/registery-store.module';
 
 @NgModule({
     declarations: [
@@ -64,6 +65,9 @@ import { ErrorComponent } from './components/error/error.component';
         MatTabsExtraModule,
         MatIconModule,
         MatButtonModule,
+
+
+        RegisteryStoreModule,
     ],
     exports: [
         DashboardPanelComponent,

@@ -200,6 +200,10 @@ export class GrowbeDashboardRegistry implements DashboardRegistryService {
         return this.items[component];
     }
 
+    getRegistryItems(): DashboardRegistryItem[] {
+        return Object.values(this.items);
+    }
+
     private getVideoStreamInput() {
         const mainboard = this.getDashboardAndModuleProperty(
             false,
