@@ -6,6 +6,7 @@ import { MatSlideToggle, MatSlideToggleModule } from '@angular/material/slide-to
 import { RelayBaseControlComponent } from './relay-base-control/relay-base-control.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
+import {DatedValueModule} from 'src/app/shared/dated-value/dated-value.module';
 
 
 @NgModule({
@@ -21,7 +22,9 @@ import { AutoFormModule } from '@berlingoqc/ngx-autoform';
     MatChipsModule,
     MatIconModule,
 
-    MatSlideToggleModule
+    MatSlideToggleModule,
+
+    DatedValueModule,
   ],
   exports: [
     RelayUnitControlComponent,

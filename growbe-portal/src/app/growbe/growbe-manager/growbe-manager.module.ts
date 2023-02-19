@@ -31,6 +31,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import {LazyLoadingModule} from 'src/app/shared/lazy-loading.full';
+import {DatedValueModule} from 'src/app/shared/dated-value/dated-value.module';
 
 @NgModule({
     declarations: [
@@ -83,6 +84,8 @@ import {LazyLoadingModule} from 'src/app/shared/lazy-loading.full';
         TerminalModule,
 
         LazyLoadingModule,
+
+        DatedValueModule,
     ],
 })
 export class GrowbeManagerModule {}
