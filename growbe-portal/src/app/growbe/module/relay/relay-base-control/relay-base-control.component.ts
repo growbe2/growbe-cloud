@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { AutoFormData } from '@berlingoqc/ngx-autoform';
 import {
@@ -15,6 +16,7 @@ import {
     getCyclePropertie,
     transformRelayTimeToString,
 } from '../../form/relay-form';
+import {RelayHistoricComponent} from '../relay-historic/relay-historic.component';
 
 export interface RelayControl {
     getConfig(): Observable<any>; // RelayOutletConfig
@@ -46,6 +48,8 @@ export class RelayBaseControlComponent
     extends OnDestroyMixin(BaseDashboardComponent)
     implements OnInit {
     @Input() control: RelayControl;
+    @Input() moduleId: string;
+    @Input() property: string;
     @Input() mainboardId: string;
 
     previousConfig: { [id: number]: any } = {};
@@ -63,6 +67,7 @@ export class RelayBaseControlComponent
 
     constructor(
         private notificationService: NotificationService,
+        private matDialog: MatDialog,
     ) {
         super();
     }
@@ -146,6 +151,15 @@ export class RelayBaseControlComponent
                     // return the state of the slide to the previous one
                 },
             );
+    }
+
+    showHistoricDialog() {
+      this.matDialog.open(RelayHistoricComponent, {
+        data: {
+          moduleId: this.moduleId,
+          property: this.property,
+        },
+      });
     }
 
     private setForm() {

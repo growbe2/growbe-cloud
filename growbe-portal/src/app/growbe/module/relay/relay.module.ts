@@ -7,20 +7,28 @@ import { RelayBaseControlComponent } from './relay-base-control/relay-base-contr
 import { MatChipsModule } from '@angular/material/chips';
 import { AutoFormModule } from '@berlingoqc/ngx-autoform';
 import {DatedValueModule} from 'src/app/shared/dated-value/dated-value.module';
+import { RelayHistoricComponent } from './relay-historic/relay-historic.component';
+import {AutoTableModule} from '@berlingoqc/ngx-autotable';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
   declarations: [
     RelayUnitControlComponent,
-    RelayBaseControlComponent
+    RelayBaseControlComponent,
+    RelayHistoricComponent
   ],
   imports: [
     CommonModule,
 
+    AutoTableModule,
     AutoFormModule,
 
     MatChipsModule,
     MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
 
     MatSlideToggleModule,
 

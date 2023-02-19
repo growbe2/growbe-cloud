@@ -1,0 +1,9 @@
+<ng-container *ngIf="source$ | async as source">
+  <ngx-autotable
+    *ngIf="source"
+    [disablePaginator]="true"
+    [columns]="columns"
+    [source]="source"
+  ></ngx-autotable>
+</ng-container>
+

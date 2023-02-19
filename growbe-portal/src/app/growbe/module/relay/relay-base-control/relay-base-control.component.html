@@ -46,6 +46,11 @@
           {{ (value.timestamp * 1000) | timestamp}}
         </ng-container>
       </div>
+      <div>
+        <button mat-icon-button (click)="showHistoricDialog()">
+          <mat-icon>view_timeline</mat-icon>
+        </button>
+      </div>
     </div>
   </div>
 
