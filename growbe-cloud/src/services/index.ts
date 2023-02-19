@@ -16,3 +16,4 @@ export * from './growbe-mainboard-image-config.service';
 export * from './environment-controller.service';
 export * from './virtual-comboard.service';
 export * from './growbe-cloud-features.service';
+export * from './relay-historic.service';
