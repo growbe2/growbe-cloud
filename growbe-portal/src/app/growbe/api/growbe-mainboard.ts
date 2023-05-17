@@ -25,6 +25,7 @@ import {
     GrowbeRegisterResponse,
     GrowbeMainboard,
     VirtualRelayWithRelations,
+    EnvironmentControllerStateWithRelations,
 } from '@growbe2/ngx-cloud-api';
 import {Observable, of} from 'rxjs';
 import {tap} from 'rxjs/operators';
@@ -97,6 +98,13 @@ export class GrowbeMainboardAPI extends Caching(
         this,
         LoopbackRelationClientMixin<any>(),
         'deviceLogs',
+        {}
+    );
+
+    environmentControllers = addLoopbackRelation(
+        this,
+        LoopbackRelationClientMixin<EnvironmentControllerStateWithRelations>(),
+        'environmentControllerStates',
         {}
     );
 
