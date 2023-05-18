@@ -4,7 +4,6 @@ import {
   RevisionRepository,
   SSOAuthBindings,
 } from '@berlingoqc/lb-extensions';
-import {OrganisationRepository, UserRepository} from '@berlingoqc/sso';
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig, Component, Constructor} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
@@ -15,6 +14,8 @@ import {GrowbeMainboardBindings, MQTTBindings, ReverseProxyBindings} from './key
 import { GrowbeDataSubjectObserver } from './observers';
 
 import { GrowbeMetricsComponent } from './component/metrics/metrics.component';
+import { UserRepository } from '@berlingoqc/sso/src/repositories/user.repository';
+import { OrganisationRepository } from '@berlingoqc/sso/src/repositories/organisation.repository';
 
 export {ApplicationConfig};
 

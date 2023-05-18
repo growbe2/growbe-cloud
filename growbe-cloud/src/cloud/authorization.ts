@@ -1,8 +1,8 @@
 import {chain} from '@berlingoqc/lb-extensions';
-import {OrganisationRepository, UserWithRelations} from '@berlingoqc/sso';
+import {OrganisationRepository} from '@berlingoqc/sso/src/repositories/organisation.repository';
+import { UserWithRelations } from '@berlingoqc/sso/src/models';
 import {authenticate} from '@loopback/authentication';
 import {authorize, AuthorizationDecision, AuthorizationContext, AuthorizationMetadata} from '@loopback/authorization';
-import e from 'express';
 import {GrowbeMainboardWithRelations} from '../models';
 import {GrowbeMainboardRepository, GrowbeModuleDefRepository, GrowbeModuleRepository} from '../repositories';
 
@@ -127,7 +127,7 @@ export const getVoterMainboardUserOrOrganisation =
 
     let decision: AuthorizationDecision;
     
-    if (user.roles.findIndex(r => r.role === 'ADMIN') > -1) {
+    if (user.roles.findIndex((r: any) => r.role === 'ADMIN') > -1) {
           decision = AuthorizationDecision.ALLOW;
     } else if (userId && userId === user.id) {
       decision = AuthorizationDecision.ALLOW;
@@ -143,7 +143,7 @@ export const getVoterMainboardUserOrOrganisation =
       } else {
         if (!growbeIdIndex) {
           // valide que je suis dans l'organisation
-          const indexOrg = user?.organisations ? user.organisations.findIndex(org => org.id === orgId) : -1;
+          const indexOrg = user?.organisations ? user.organisations.findIndex((org: any) => org.id === orgId) : -1;
           if (indexOrg > -1) {
             decision = AuthorizationDecision.ALLOW;
           } else {
@@ -162,7 +162,7 @@ export const getVoterMainboardUserOrOrganisation =
       }
     } else {
       if (growbeId) {
-        const mainboard = await getFunc(ctx, growbeId, { id: growbeId, or: [{userId: user.id},{organisationId: { inq: user.organisations?.map(o => o?.id)}}]});
+        const mainboard = await getFunc(ctx, growbeId, { id: growbeId, or: [{userId: user.id},{organisationId: { inq: user.organisations?.map((o: any) => o?.id)}}]});
         if (mainboard) {
           decision = AuthorizationDecision.ALLOW;
         } else {

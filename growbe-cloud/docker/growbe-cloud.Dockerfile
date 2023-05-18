@@ -1,5 +1,5 @@
 # Check out https://hub.docker.com/_/node to select a new base image
-FROM node:14-slim
+FROM node:16-slim
 
 ARG GITHUB_ACCESS_TOKEN
 

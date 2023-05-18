@@ -5,7 +5,7 @@ import { cache, getVoterMainboardUserOrOrganisation } from "../../cloud/authoriz
 import { setupApplication } from "../fixtures/app";
 import { boardId, orgId, userId } from "../fixtures/data";
 import { GrowbeMainboardRepository } from "../../repositories";
-import { OrganisationRepository, sleep } from "@berlingoqc/sso";
+import { OrganisationRepository } from "@berlingoqc/sso/src/repositories/organisation.repository";
 
 describe('authorization growbe', () => {
 

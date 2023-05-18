@@ -1,4 +1,4 @@
-import {User} from '@berlingoqc/sso';
+import {User} from '@berlingoqc/sso/src/models/user.model';
 import {
   belongsTo,
   Entity,
