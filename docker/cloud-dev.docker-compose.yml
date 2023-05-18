@@ -63,7 +63,7 @@ services:
       MQTT_URL: 'mqtt://broker:1883'
       REVERSE_PROXY_URL: 'http://reverseproxy:3008'
       DEBUG: 'growbe:*'
-    command: node dist/growbe-cloud.js
+    command: node dist/migrate.js && node dist/growbe-cloud.js
   growbe-cloud-watcher:
     image: ghcr.io/growbe2/growbe-cloud/growbe-cloud:${VERSION}
     networks:
@@ -84,7 +84,7 @@ services:
       MONGO_URL: 'mongodb://doadmin:test@mongo:27018/growbe?authSource=admin'
       MQTT_URL: 'mqtt://broker:1883'
       DEBUG: 'growbe:*'
-    command: node dist/growbe-watcher.js
+    command: node dist/migrate.js && node dist/growbe-watcher.js
   reverseproxy:
     image: ghcr.io/growbe2/growbe-cloud/growbe-cloud:${VERSION}
     networks:

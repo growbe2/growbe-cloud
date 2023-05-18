@@ -4,11 +4,16 @@ CONF="-f ./docker/cloud-dev.docker-compose.yml -f ./docker/integration.docker-co
 
 CONF_CLOUD="-f ./docker/cloud-dev.docker-compose.yml -p growbe_cloud"
 
+if [ -z "$VERSION" ]
+then
+  export VERSION=$(curl https://api.growbe.ca/explorer/openapi.json -s | jq '.info.version' -r)
+fi
+
 function start() {
-  docker-compose $CONF up -d pgsql broker mongo sso $1
+  docker-compose $CONF up -d pgsql broker mongo sso $@
 
   echo "Waiting for migration to be over"
-  sleep 15
+  sleep 5
 
   . ./docker/envs/local.sh
         
@@ -20,6 +25,10 @@ function start() {
 function stop() {
     docker-compose $CONF down -v
     docker-compose $CONF rm -f
+}
+
+function stop_dev() {
+    docker-compose $CONF down
 }
 
 function start_backend() {
@@ -35,11 +44,12 @@ function test() {
 command=$1; shift;
 case "$command" in
     "start") start growbe-cloud;;
-    "start_dev") start growbe-cloud broker reverse-proxy;;
-    "cloud") docker-compose $CONF_CLOUD up -d pgsql broker mongo sso growbe-cloud growbe-cloud-watcher reverse-proxy;;
+    "start_dev") start growbe-cloud reverseproxy "$@";;
+    "cloud") docker-compose $CONF_CLOUD up -d pgsql broker mongo sso growbe-cloud growbe-cloud-watcher reverseproxy;;
     "cloud_exec") docker-compose $CONF_CLOUD "$@";;
     "cloud_stop") docker-compose $CONF_CLOUD down;;
     "stop") stop;;
+    "stop_dev") stop_dev;;
     "test") test;;
     *) echo >&2 "Invalid option: $@"; exit 1;;
 esac
