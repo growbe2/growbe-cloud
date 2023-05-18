@@ -14,8 +14,8 @@ import {GrowbeMainboardBindings, MQTTBindings, ReverseProxyBindings} from './key
 import { GrowbeDataSubjectObserver } from './observers';
 
 import { GrowbeMetricsComponent } from './component/metrics/metrics.component';
-import { UserRepository } from '@berlingoqc/sso/src/repositories/user.repository';
-import { OrganisationRepository } from '@berlingoqc/sso/src/repositories/organisation.repository';
+import { UserRepository } from '@berlingoqc/sso/dist/repositories/user.repository';
+import { OrganisationRepository } from '@berlingoqc/sso/dist/repositories/organisation.repository';
 
 export {ApplicationConfig};
 

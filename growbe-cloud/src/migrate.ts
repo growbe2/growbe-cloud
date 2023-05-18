@@ -1,7 +1,5 @@
 import {ApplicationConfig, GrowbeCloudApplication} from './application';
 import { CloudComponent } from './cloud';
-import {GrowbeSensorValueRepository} from './repositories';
-import {WatcherComponent} from './watcher/watcher.component';
 
 export async function migrate(args: string[]) {
   const existingSchema = args.includes('--rebuild') ? 'drop' : 'alter';

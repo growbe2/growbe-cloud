@@ -1,4 +1,4 @@
-import { User } from '@berlingoqc/sso/src/models/user.model';
+import { User } from '@berlingoqc/sso/dist/models/user.model';
 import {belongsTo, Entity, model, property} from '@loopback/repository';
 
 @model({settings: {strict: false}})

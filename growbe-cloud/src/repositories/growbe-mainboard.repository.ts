@@ -15,8 +15,8 @@ import {
   GrowbeLogs, GrowbeModuleDef, VirtualRelay, EnvironmentControllerState, GrowbeMainboardConnectionInformation} from '../models';
 import {PgsqlDataSource} from '../datasources';
 import {Getter, inject} from '@loopback/core';
-import {UserRepository} from '@berlingoqc/sso/src/repositories/user.repository';
-import {User} from '@berlingoqc/sso/src/models/user.model';
+import {UserRepository} from '@berlingoqc/sso/dist/repositories';
+import {User} from '@berlingoqc/sso/dist/models/user.model';
 import {GrowbeMainboardConfigRepository} from './growbe-mainboard-config.repository';
 import {GrowbeWarningRepository} from './growbe-warning.repository';
 import {GrowbeSensorValueRepository} from './growbe-sensor-value.repository';

@@ -1,6 +1,6 @@
 import {chain} from '@berlingoqc/lb-extensions';
-import {OrganisationRepository} from '@berlingoqc/sso/src/repositories/organisation.repository';
-import { UserWithRelations } from '@berlingoqc/sso/src/models';
+import {OrganisationRepository} from '@berlingoqc/sso/dist/repositories/organisation.repository';
+import { UserWithRelations } from '@berlingoqc/sso/dist/models';
 import {authenticate} from '@loopback/authentication';
 import {authorize, AuthorizationDecision, AuthorizationContext, AuthorizationMetadata} from '@loopback/authorization';
 import {GrowbeMainboardWithRelations} from '../models';
