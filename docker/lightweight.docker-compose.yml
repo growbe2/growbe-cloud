@@ -1,5 +1,18 @@
 version: '3'
 services:
+  pgsql:
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=defaultdb
+      - POSTGRES_HOST_AUTH_METHOD=md5
+    networks:
+      - net
+    volumes:
+      - pgsql:/var/lib/postgresql/data
+    ports:
+      - '0.0.0.0:5432:5432'
   mongo:
     image: mongo
     restart: always
@@ -26,29 +39,25 @@ services:
         source: './mosquito/mosquito.conf'
         target: '/mosquitto/config/mosquitto.conf'
   growbe-cloud:
-    image: ghcr.io/growbe2/growbe-cloud/growbe-cloud:${VERSION}
+    image: docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud:${VERSION}
+    #image: ghcr.io/growbe2/growbe-cloud/growbe-cloud:${VERSION}
     networks:
       - net
     depends_on:
         - pgsql
         - mongo
         - broker
-        - sso
     ports:
       - '0.0.0.0:3000:3000'
+      - '0.0.0.0:3008:3008'
     expose:
       - '3000'
+      - '3008'
     environment:
       PORT: 3000
-      NMS_TOKEN: '12345678'
-      NMS_API_USERNAME: 'testadmin'
-      NMS_API_PASSWORD: '12345678'
-      NMS_API_URL: http://nms:8000
-      SSO_URL: 'http://sso:3001'
       DB_URL: 'postgres://test:test@pgsql:5432/defaultdb'
       MONGO_URL: 'mongodb://doadmin:test@mongo:27018/growbe?authSource=admin'
       MQTT_URL: 'mqtt://broker:1883'
-      REVERSE_PROXY_URL: 'http://reverseproxy:3008'
       DEBUG: 'growbe:*'
       # sso settings
       SSO_SETTINGS: '{"publicCreation":true,"multiFactor":false,"accountValidation":true, "defaultRoles": []}'
@@ -62,10 +71,11 @@ services:
       OTP_SECRET: '12445431'
       JWT_SECRET: '2342tf'
       JWT_TTL: 9600
-    command: node dist/migrate.js && node dist/growbe-cloud-full.js
-
+    command: node dist/growbe-cloud-full.js
 volumes:
   mongo:
+    driver: local
+  pgsql:
     driver: local
 
 networks:

@@ -98,6 +98,9 @@ export async function main(
   options.dirname = __dirname;
   const app = new GrowbeCloudApplication(components, options);
   await app.boot();
+  if (options.migrate) {
+    await app.migrateSchema({existingSchema: 'alter'});
+  }
   await app.start();
 
   const url = app.restServer.url;

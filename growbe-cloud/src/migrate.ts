@@ -1,5 +1,7 @@
+import { SSOApplicationComponent } from '@berlingoqc/sso/dist/component';
 import {ApplicationConfig, GrowbeCloudApplication} from './application';
 import { CloudComponent } from './cloud';
+import { WatcherComponent } from './watcher/watcher.component';
 
 export async function migrate(args: string[]) {
   const existingSchema = args.includes('--rebuild') ? 'drop' : 'alter';
@@ -9,7 +11,7 @@ export async function migrate(args: string[]) {
   options.strategy = 'remote';
   options.pkg = require('../package.json');
   options.dirname = __dirname;
-  const app = new GrowbeCloudApplication([CloudComponent], options);
+  const app = new GrowbeCloudApplication([CloudComponent, SSOApplicationComponent, WatcherComponent], options);
   await app.boot();
   await app.migrateSchema({existingSchema});
 
