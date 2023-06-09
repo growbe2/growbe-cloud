@@ -65,6 +65,7 @@ services:
       EMAIL_USER: 'apikey'
       EMAIL_PASSWORD: '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'
       EMAIL_REDIRECT: https://cloud.dev.growbe.ca
+      REVERSE_PROXY_URL: 'http://localhost:3008'
       SMS_SID: ''
       SMS_TOKEN: ''
       SMS_NUMBER: ''
