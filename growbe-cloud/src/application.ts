@@ -25,12 +25,17 @@ export class GrowbeCloudApplication extends BootMixin(
 
   static DEBUG = require('debug')('growbe:app');
   constructor(
-    component: Constructor<Component>,
+    components: Constructor<Component>[],
     options: ApplicationConfig = {},
   ) {
     super(options);
 
-    if (component) this.component(component);
+    if (components && components.length > 0) {
+      for (const component of components) {
+        this.component(component);
+      }
+    }
+
     this.setupSSOBindings();
     this.setupAuditz();
     this.addUserAndOrganisation();
@@ -83,13 +88,15 @@ export class GrowbeCloudApplication extends BootMixin(
 }
 
 export async function main(
-  component: Constructor<Component>,
+  components: Constructor<Component>[],
   options: ApplicationConfig = {},
 ) {
-  options.strategy = 'remote';
+  if (!options.strategy) {
+    options.strategy = 'remote';
+  }
   options.pkg = require('../package.json');
   options.dirname = __dirname;
-  const app = new GrowbeCloudApplication(component, options);
+  const app = new GrowbeCloudApplication(components, options);
   await app.boot();
   await app.start();
 
@@ -99,7 +106,7 @@ export async function main(
   return app;
 }
 
-export function start(component: Constructor<Component>) {
+export function start(components: Constructor<Component>[], options?: any) {
   // Run the application
   const config = {
     rest: {
@@ -118,7 +125,7 @@ export function start(component: Constructor<Component>) {
     },
   };
   try {
-    main(component, config).catch(err => {
+    main(components, Object.assign(options || {}, config)).catch(err => {
       GrowbeCloudApplication.DEBUG("cannot start the application", err)
       process.exit(1);
     });

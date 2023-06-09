@@ -7,7 +7,7 @@ export async function version(args: string[]) {
   options.strategy = 'remote';
   options.pkg = require('../package.json');
   options.dirname = __dirname;
-  const app = new GrowbeCloudApplication(WatcherComponent, options);
+  const app = new GrowbeCloudApplication([WatcherComponent], options);
   await app.boot();
   const mqtt = (await app.get('services.MQTTService')) as MQTTService;
   await mqtt.connect();

@@ -9,7 +9,7 @@ export async function migrate(args: string[]) {
   options.strategy = 'remote';
   options.pkg = require('../package.json');
   options.dirname = __dirname;
-  const app = new GrowbeCloudApplication(CloudComponent, options);
+  const app = new GrowbeCloudApplication([CloudComponent], options);
   await app.boot();
   await app.migrateSchema({existingSchema});
 
