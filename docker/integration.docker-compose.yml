@@ -1,10 +1,7 @@
 version: '3'
 services:
-  growbe-cloud:
-     command: node dist/migrate.js
-  sso:
+   sso:
      command: bash -c "npm run migrate && npm run start"
-  mongo:
-     volumes: []
-  pgsql:
-     volumes: []
+   frontend_dev:
+      volumes:
+      - ${PWD}/docker/config/config.json:/usr/share/nginx/html/growbe-portal/assets/config/config.json

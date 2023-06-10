@@ -1,0 +1,84 @@
+version: '3'
+services:
+  pgsql:
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=defaultdb
+      - POSTGRES_HOST_AUTH_METHOD=md5
+    networks:
+      - net
+    volumes:
+      - pgsql:/var/lib/postgresql/data
+    ports:
+      - '0.0.0.0:5432:5432'
+  mongo:
+    image: mongo
+    restart: always
+    networks:
+      - net
+    ports:
+      - '0.0.0.0:27018:27018'
+    volumes:
+      - mongo:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: "growbe"
+      MONGO_INITDB_ROOT_USERNAME: doadmin
+      MONGO_INITDB_ROOT_PASSWORD: test
+    command: mongod --port 27018
+  broker:
+    image: eclipse-mosquitto
+    networks:
+      - net
+    ports:
+      - '0.0.0.0:1883:1883'
+      - '0.0.0.0:9001:9001'
+    volumes:
+      - type: bind
+        source: './mosquito/mosquito.conf'
+        target: '/mosquitto/config/mosquitto.conf'
+  growbe-cloud:
+    image: docker.pkg.github.com/growbe2/growbe-cloud/growbe-cloud:${VERSION}
+    #image: ghcr.io/growbe2/growbe-cloud/growbe-cloud:${VERSION}
+    networks:
+      - net
+    depends_on:
+        - pgsql
+        - mongo
+        - broker
+    ports:
+      - '0.0.0.0:3000:3000'
+      - '0.0.0.0:3008:3008'
+    expose:
+      - '3000'
+      - '3008'
+    environment:
+      PORT: 3000
+      DB_URL: 'postgres://test:test@pgsql:5432/defaultdb'
+      MONGO_URL: 'mongodb://doadmin:test@mongo:27018/growbe?authSource=admin'
+      MQTT_URL: 'mqtt://broker:1883'
+      DEBUG: 'growbe:*'
+      # sso settings
+      SSO_SETTINGS: '{"publicCreation":true,"multiFactor":false,"accountValidation":true, "defaultRoles": []}'
+      EMAIL_FROM: '"Growbe Cloud" <robot@growbe.ca>'
+      EMAIL_USER: 'apikey'
+      EMAIL_PASSWORD: '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'
+      EMAIL_REDIRECT: https://cloud.dev.growbe.ca
+      REVERSE_PROXY_URL: 'http://localhost:3008'
+      SMS_SID: ''
+      SMS_TOKEN: ''
+      SMS_NUMBER: ''
+      OTP_SECRET: '12445431'
+      JWT_SECRET: '2342tf'
+      JWT_TTL: 9600
+    command: node dist/growbe-cloud-full.js
+volumes:
+  mongo:
+    driver: local
+  pgsql:
+    driver: local
+
+networks:
+  net:
+    driver: bridge

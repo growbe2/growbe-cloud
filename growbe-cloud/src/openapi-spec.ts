@@ -17,7 +17,7 @@ async function exportOpenApiSpec(): Promise<void> {
   config.strategy = 'remote';
   config.pkg = require('../package.json');
   config.dirname = __dirname;
-  const app = new GrowbeCloudApplication(CloudComponent, config);
+  const app = new GrowbeCloudApplication([CloudComponent], config);
   await app.boot();
   await app.exportOpenApiSpec(outFile);
 }

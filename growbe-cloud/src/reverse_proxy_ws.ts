@@ -131,7 +131,7 @@ export class ReverseProxy {
   }
 
   private config(): void {
-    this.port = process.env.PORT || ReverseProxy.PORT;
+    this.port = process.env.PROXY_PORT || ReverseProxy.PORT;
   }
 
   private sockets(): void {
