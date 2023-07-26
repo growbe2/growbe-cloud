@@ -6,6 +6,7 @@ import { catchError, finalize, mergeMap, retry, retryWhen, switchMap, take, time
 import {MQTTBindings} from '../keys';
 import { GrowbeActionReponseService, WaitResponseOptions } from './growbe-response.service';
 import {GrowbeReverseProxyService} from './growbe-reverse-proxy.service';
+import { repository } from '@loopback/repository';
 
 export const getTopic = (growbeId: string, subtopic: string) => {
   return `/growbe/${growbeId}${subtopic}`;
