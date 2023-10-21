@@ -5,7 +5,7 @@ growbe-cloud-chart:
   cloud:
     env: prod
     basePath: growbe.ca
-    externalIP: 138.197.174.249
+    externalIP: 84.145.234.106
     http:
       certSecret: growbe-ingress-cert
     broker:
@@ -16,7 +16,7 @@ growbe-cloud-chart:
       port: 30050
 
     prometheus:
-      enable: true
+      enable: false
     
     backup:
       enabled: true
@@ -26,5 +26,5 @@ growbe-cloud-chart:
     sso:
       email:
         from: '"Growbe Cloud" <robot@growbe.ca>'
-        redirect: https://cloud.dev.growbe.ca
+        redirect: https://cloud.growbe.ca
       settings: '{"publicCreation":true,"multiFactor":false,"accountValidation":true, "defaultRoles": []}'
